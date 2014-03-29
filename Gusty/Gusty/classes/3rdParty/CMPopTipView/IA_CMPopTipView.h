@@ -98,14 +98,6 @@ typedef enum {
 
 
 @interface IA_CMPopTipView : UIView {
-	UIColor					*backgroundColor;
-	id<IA_CMPopTipViewDelegate>	delegate;
-	NSString				*message;
-	id						targetObject;
-	UIColor					*textColor;
-	UIFont					*textFont;
-    IA_CMPopTipAnimation animation;
-
 	@private
 	CGSize					bubbleSize;
 	BOOL					highlight;
@@ -113,21 +105,21 @@ typedef enum {
 	CGPoint					targetPoint;
 }
 
-@property (nonatomic, retain)			UIColor					*backgroundColor;
-@property (nonatomic, assign)		id<IA_CMPopTipViewDelegate>	delegate;
-@property (nonatomic, assign)			BOOL					disableTapToDismiss;
-@property (nonatomic, retain)			NSString				*message;
-@property (nonatomic, retain)           UIView	                *customView;
-@property (nonatomic, retain, readonly)	id						targetObject;
-@property (nonatomic, retain)			UIColor					*textColor;
-@property (nonatomic, retain)			UIFont					*textFont;
-@property (nonatomic, assign)			UITextAlignment			textAlignment;
-@property (nonatomic, assign)           IA_CMPopTipAnimation animation;
-@property (nonatomic, assign)           CGFloat                 maxWidth;
-@property (nonatomic, assign)           CGFloat					sidePadding;
-@property (nonatomic, assign)           CGFloat					topMargin;
-@property (nonatomic, assign)           CGFloat					cornerRadius;
-@property (nonatomic, assign)           CGFloat					pointerSize;
+@property (nonatomic, copy)			    UIColor					*backgroundColor;
+@property (nonatomic, weak)		        id<IA_CMPopTipViewDelegate>	delegate;
+@property (nonatomic)			        BOOL					disableTapToDismiss;
+@property (nonatomic, strong)			NSString				*message;
+@property (nonatomic, strong)           UIView	                *customView;
+@property (nonatomic, strong, readonly)	id						targetObject;
+@property (nonatomic, strong)			UIColor					*textColor;
+@property (nonatomic, strong)			UIFont					*textFont;
+@property (nonatomic)			        UITextAlignment			textAlignment;
+@property (nonatomic)                   IA_CMPopTipAnimation animation;
+@property (nonatomic)                   CGFloat                 maxWidth;
+@property (nonatomic)                   CGFloat					sidePadding;
+@property (nonatomic)                   CGFloat					topMargin;
+@property (nonatomic)                   CGFloat					cornerRadius;
+@property (nonatomic)                   CGFloat					pointerSize;
 
 /* Contents can be either a message or a UIView */
 - (id)initWithMessage:(NSString *)messageToShow;

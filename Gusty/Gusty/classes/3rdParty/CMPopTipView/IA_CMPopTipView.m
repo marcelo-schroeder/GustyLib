@@ -32,22 +32,6 @@
 
 @implementation IA_CMPopTipView
 
-@synthesize backgroundColor;
-@synthesize delegate;
-@synthesize message;
-@synthesize customView;
-@synthesize targetObject;
-@synthesize textColor;
-@synthesize textFont;
-@synthesize textAlignment;
-@synthesize animation;
-@synthesize maxWidth;
-@synthesize disableTapToDismiss;
-@synthesize cornerRadius;
-@synthesize topMargin;
-@synthesize pointerSize;
-@synthesize sidePadding;
-
 - (CGRect)bubbleFrame {
 	CGRect bubbleFrame;
 	if (pointDirection == IA_CMPointDirectionUp) {
@@ -164,8 +148,8 @@
 	CGFloat green;
 	CGFloat blue;
 	CGFloat alpha;
-	int numComponents = CGColorGetNumberOfComponents([backgroundColor CGColor]);
-	const CGFloat *components = CGColorGetComponents([backgroundColor CGColor]);
+	int numComponents = CGColorGetNumberOfComponents([self.backgroundColor CGColor]);
+	const CGFloat *components = CGColorGetComponents([self.backgroundColor CGColor]);
 	if (numComponents == 2) {
 		red = components[0];
 		green = components[0];
@@ -207,10 +191,10 @@
 	// Draw text
 	
 	if (self.message) {
-		[textColor set];
+		[self.textColor set];
 		CGRect textFrame = [self contentFrame];
         [self.message drawInRect:textFrame
-                        withFont:textFont
+                        withFont:self.textFont
                    lineBreakMode:UILineBreakModeWordWrap
                        alignment:UITextAlignmentCenter];
     }
@@ -230,9 +214,9 @@
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         // iPad
-        if (maxWidth) {
-            if (maxWidth < l_containerViewFrame.size.width) {
-                rectWidth = maxWidth;
+        if (self.maxWidth) {
+            if (self.maxWidth < l_containerViewFrame.size.width) {
+                rectWidth = self.maxWidth;
             }
             else {
                 rectWidth = l_containerViewFrame.size.width - 20;
@@ -244,9 +228,9 @@
     }
     else {
         // iPhone
-        if (maxWidth) {
-            if (maxWidth < l_containerViewFrame.size.width) {
-                rectWidth = maxWidth;
+        if (self.maxWidth) {
+            if (self.maxWidth < l_containerViewFrame.size.width) {
+                rectWidth = self.maxWidth;
             }
             else {
                 rectWidth = l_containerViewFrame.size.width - 10;
@@ -260,7 +244,7 @@
 	CGSize textSize = CGSizeZero;
     
     if (self.message!=nil) {
-        textSize= [self.message sizeWithFont:textFont
+        textSize= [self.message sizeWithFont:self.textFont
                            constrainedToSize:CGSizeMake(rectWidth, 99999.0)
                                lineBreakMode:UILineBreakModeWordWrap];
     }
@@ -355,13 +339,13 @@
     CGRect finalFrame = [self finalFramePointingAtView:targetView inView:containerView shouldInvertLandscapeFrame:a_shouldInvertLandscapeFrame];
    	
 	if (animated) {
-        if (animation == IA_CMPopTipAnimationSlide) {
+        if (self.animation == IA_CMPopTipAnimationSlide) {
             self.alpha = 0.0;
             CGRect startFrame = finalFrame;
             startFrame.origin.y += 10;
             self.frame = startFrame;
         }
-		else if (animation == IA_CMPopTipAnimationPop) {
+		else if (self.animation == IA_CMPopTipAnimationPop) {
             self.frame = finalFrame;
             self.alpha = 0.5;
             
@@ -380,7 +364,7 @@
 		
 		[self setNeedsDisplay];
 		
-		if (animation == IA_CMPopTipAnimationSlide) {
+		if (self.animation == IA_CMPopTipAnimationSlide) {
 			[UIView beginAnimations:nil context:nil];
 			self.alpha = 1.0;
 			self.frame = finalFrame;
@@ -453,8 +437,8 @@
 	
 	[self dismissAnimated:YES];
 	
-	if (delegate && [delegate respondsToSelector:@selector(popTipViewWasDismissedByUser:)]) {
-		[delegate popTipViewWasDismissedByUser:self];
+	if (self.delegate && [self.delegate respondsToSelector:@selector(popTipViewWasDismissedByUser:)]) {
+		[self.delegate popTipViewWasDismissedByUser:self];
 	}
 
 }
@@ -516,17 +500,5 @@
 	}
 	return self;
 }
-
-- (void)dealloc {
-	[backgroundColor release];
-    [customView release];
-	[message release];
-	[targetObject release];
-	[textColor release];
-	[textFont release];
-	
-    [super dealloc];
-}
-
 
 @end

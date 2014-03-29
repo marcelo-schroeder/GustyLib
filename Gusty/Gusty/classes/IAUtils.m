@@ -55,17 +55,18 @@
 	return [[@"set" stringByAppendingString:[propertyName capitalizedString]] stringByAppendingString:@":"];
 }
 
+//wip: need to review the usage of CLS_LOG below - can we check at runtime if it exists? or even compilation time??
 + (void) handleUnrecoverableError:(NSError *)anErrorContainer{
 	//TODO: are we losing important info here?
-	CLS_LOG(@"Unrecoverable error - description: %@", [anErrorContainer localizedDescription]);
-	CLS_LOG(@"Unrecoverable error - failure reason: %@", [anErrorContainer localizedFailureReason]);
+//	CLS_LOG(@"Unrecoverable error - description: %@", [anErrorContainer localizedDescription]);
+//	CLS_LOG(@"Unrecoverable error - failure reason: %@", [anErrorContainer localizedFailureReason]);
     NSArray* detailedErrors = [[anErrorContainer userInfo] objectForKey:NSDetailedErrorsKey];
     if(detailedErrors != nil && [detailedErrors count] > 0) {
 		for(NSError* detailedError in detailedErrors) {
-			CLS_LOG(@"Unrecoverable error - user info from detailed errors: %@", [detailedError userInfo]);
+//			CLS_LOG(@"Unrecoverable error - user info from detailed errors: %@", [detailedError userInfo]);
 		}
     }else{
-		CLS_LOG(@"Unrecoverable error - user info: %@", [anErrorContainer userInfo]);
+//		CLS_LOG(@"Unrecoverable error - user info: %@", [anErrorContainer userInfo]);
     }
     NSAssert(NO, @"Unrecoverable Error: %@", [anErrorContainer localizedDescription]);
 }
@@ -227,8 +228,9 @@
     return l_uuid;
 }
 
+//wip: need to review the usage of CLS_LOG below - can we check at runtime if it exists? or even compilation time??
 +(void)m_forceCrash{
-    CLS_LOG(@"About to force a crash...");
+//    CLS_LOG(@"About to force a crash...");
     NSAssert(NO, @"Forced crash!");
 }
 
