@@ -27,7 +27,7 @@
 @property (strong) NSOperation *p_operation;
 @property (strong) IAUIWorkInProgressModalViewManager *p_wipViewManager;
 @property (strong) id p_callbackObject;
-@property (strong) MBProgressHUD *p_hud;
+@property (strong) IA_MBProgressHUD *p_hud;
 @property (strong) NSString *p_nonModalProgressIndicatorOwnerUuid;
 @property (strong) NSString *p_cancelAllBlocksRequestOwnerUuid;
 
@@ -120,11 +120,11 @@
     @synchronized(self){
 //        NSLog(@"m_showNonModalProgressIndicatorForOwner in view: %@", [a_view description]);
         if (!self.p_hud) {
-            self.p_hud = [[MBProgressHUD alloc] initWithView:a_view];
+            self.p_hud = [[IA_MBProgressHUD alloc] initWithView:a_view];
             self.p_hud.opacity = 0.2;
             self.p_hud.removeFromSuperViewOnHide = YES;
-            self.p_hud.animationType = MBProgressHUDAnimationFade;
-            self.p_hud.mode = MBProgressHUDModeIndeterminate;
+            self.p_hud.animationType = IA_MBProgressHUDAnimationFade;
+            self.p_hud.mode = IA_MBProgressHUDModeIndeterminate;
             self.p_hud.userInteractionEnabled = NO;
             [a_view addSubview:self.p_hud];
             [self.p_hud show:YES];

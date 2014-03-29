@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>D36763FE-5DE8-4630-A395-CF82EC735435</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Gusty</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>7070403F-6959-4B85-B5BC-9EE64583AFE1</key>
+		<string>https://bitbucket.org/marcelo_schroeder/gusty.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Gusty.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>7070403F-6959-4B85-B5BC-9EE64583AFE1</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bitbucket.org/marcelo_schroeder/gusty.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>7070403F-6959-4B85-B5BC-9EE64583AFE1</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>7070403F-6959-4B85-B5BC-9EE64583AFE1</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Gusty_development</string>
+		</dict>
+	</array>
+</dict>
+</plist>

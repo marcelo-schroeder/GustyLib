@@ -18,9 +18,9 @@
 //  limitations under the License.
 //
 
-#import "CMPopTipView.h"
+#import "IA_CMPopTipView.h"
 
-@interface IAUIHelpPopTipView : CMPopTipView <CMPopTipViewDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate>
+@interface IAUIHelpPopTipView : IA_CMPopTipView <IA_CMPopTipViewDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate>
 
 @property (atomic) BOOL p_presentationRequestInProgress;
 @property (atomic) BOOL p_maximised;

@@ -73,7 +73,7 @@
 @property (nonatomic, strong) UIButton *p_cancelButton;
 @property (nonatomic, strong) UIView *p_screenHelpButtonProxyView;  // Used to point the help pop tip at
 @property (nonatomic, strong) UIButton *p_screenHelpButton;
-@property (nonatomic, strong) MBProgressHUD *p_helpModeInstructionsHud;
+@property (nonatomic, strong) IA_MBProgressHUD *p_helpModeInstructionsHud;
 @property (nonatomic, strong) NSTimer *p_helpModeInstructionsTimer;
 @property (nonatomic, strong) NSString *p_savedTitle;
 @property (nonatomic, strong) UITapGestureRecognizer *p_simpleHelpBackgroundGestureRecogniser;

@@ -202,7 +202,7 @@
 
 #pragma mark - HPGrowingTextViewDelegate
 
-- (void)growingTextView:(HPGrowingTextView *)growingTextView didChangeHeight:(float)height {
+- (void)growingTextView:(IA_HPGrowingTextView *)growingTextView didChangeHeight:(float)height {
     [self m_updateScrollViewContentSize];
     [self m_scrollToCaret];
 }

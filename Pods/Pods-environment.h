@@ -6,18 +6,6 @@
 // project.
 
 
-// CMPopTipView
-#define COCOAPODS_POD_AVAILABLE_CMPopTipView
-#define COCOAPODS_VERSION_MAJOR_CMPopTipView 2
-#define COCOAPODS_VERSION_MINOR_CMPopTipView 1
-#define COCOAPODS_VERSION_PATCH_CMPopTipView 0
-
-// CrashlyticsFramework
-#define COCOAPODS_POD_AVAILABLE_CrashlyticsFramework
-#define COCOAPODS_VERSION_MAJOR_CrashlyticsFramework 2
-#define COCOAPODS_VERSION_MINOR_CrashlyticsFramework 1
-#define COCOAPODS_VERSION_PATCH_CrashlyticsFramework 7
-
 // DTFoundation
 #define COCOAPODS_POD_AVAILABLE_DTFoundation
 #define COCOAPODS_VERSION_MAJOR_DTFoundation 1
@@ -96,12 +84,6 @@
 #define COCOAPODS_VERSION_MINOR_DTFoundation_UIKit_BlocksAdditions 6
 #define COCOAPODS_VERSION_PATCH_DTFoundation_UIKit_BlocksAdditions 2
 
-// ECSlidingViewController
-#define COCOAPODS_POD_AVAILABLE_ECSlidingViewController
-#define COCOAPODS_VERSION_MAJOR_ECSlidingViewController 2
-#define COCOAPODS_VERSION_MINOR_ECSlidingViewController 0
-#define COCOAPODS_VERSION_PATCH_ECSlidingViewController 1
-
 // FlurrySDK
 #define COCOAPODS_POD_AVAILABLE_FlurrySDK
 #define COCOAPODS_VERSION_MAJOR_FlurrySDK 4
@@ -119,24 +101,6 @@
 #define COCOAPODS_VERSION_MAJOR_Google_AdMob_Ads_SDK 6
 #define COCOAPODS_VERSION_MINOR_Google_AdMob_Ads_SDK 8
 #define COCOAPODS_VERSION_PATCH_Google_AdMob_Ads_SDK 0
-
-// HPGrowingTextView
-#define COCOAPODS_POD_AVAILABLE_HPGrowingTextView
-#define COCOAPODS_VERSION_MAJOR_HPGrowingTextView 1
-#define COCOAPODS_VERSION_MINOR_HPGrowingTextView 1
-#define COCOAPODS_VERSION_PATCH_HPGrowingTextView 0
-
-// KNSemiModalViewController
-#define COCOAPODS_POD_AVAILABLE_KNSemiModalViewController
-#define COCOAPODS_VERSION_MAJOR_KNSemiModalViewController 0
-#define COCOAPODS_VERSION_MINOR_KNSemiModalViewController 3
-#define COCOAPODS_VERSION_PATCH_KNSemiModalViewController 0
-
-// MBProgressHUD
-#define COCOAPODS_POD_AVAILABLE_MBProgressHUD
-#define COCOAPODS_VERSION_MAJOR_MBProgressHUD 0
-#define COCOAPODS_VERSION_MINOR_MBProgressHUD 8
-#define COCOAPODS_VERSION_PATCH_MBProgressHUD 0
 
 // MTStatusBarOverlay
 #define COCOAPODS_POD_AVAILABLE_MTStatusBarOverlay
@@ -185,10 +149,4 @@
 #define COCOAPODS_VERSION_MAJOR_ODRefreshControl 1
 #define COCOAPODS_VERSION_MINOR_ODRefreshControl 1
 #define COCOAPODS_VERSION_PATCH_ODRefreshControl 0
-
-// SVWebViewController
-#define COCOAPODS_POD_AVAILABLE_SVWebViewController
-#define COCOAPODS_VERSION_MAJOR_SVWebViewController 1
-#define COCOAPODS_VERSION_MINOR_SVWebViewController 0
-#define COCOAPODS_VERSION_PATCH_SVWebViewController 0
 

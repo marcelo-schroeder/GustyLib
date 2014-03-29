@@ -19,7 +19,7 @@
 //
 
 @class IAUIMenuViewController;
-@class MBProgressHUD;
+@class IA_MBProgressHUD;
 
 @interface IAUIUtils : NSObject {
 
@@ -77,10 +77,10 @@
 + (NSString*)stringValueForBoolean:(BOOL)aBoolean;
 + (NSString*)onOffStringValueForBoolean:(BOOL)aBoolean;
 
-+(MBProgressHUD*)showHudWithText:(NSString*)a_text;
-+(MBProgressHUD*)showHudWithText:(NSString*)a_text inView:(UIView*)a_view animated:(BOOL)a_animated;
-+(void)hideHud:(MBProgressHUD*)a_hud;
-+(void)hideHud:(MBProgressHUD*)a_hud animated:(BOOL)a_animated;
++(IA_MBProgressHUD *)showHudWithText:(NSString*)a_text;
++(IA_MBProgressHUD *)showHudWithText:(NSString*)a_text inView:(UIView*)a_view animated:(BOOL)a_animated;
++(void)hideHud:(IA_MBProgressHUD *)a_hud;
++(void)hideHud:(IA_MBProgressHUD *)a_hud animated:(BOOL)a_animated;
 + (void)showAndHideUserActionConfirmationHudWithText:(NSString*)a_text;
 + (void)showAndHideModeToggleConfirmationHudWithText:(NSString*)a_text on:(BOOL)a_on;
 +(UIView*)nonModalHudContainerView;

@@ -206,7 +206,7 @@
 
 #pragma mark - CMPopTipViewDelegate protocol
 
-- (void)popTipViewWasDismissedByUser:(CMPopTipView *)popTipView{
+- (void)popTipViewWasDismissedByUser:(IA_CMPopTipView *)popTipView{
     [[IAHelpManager m_instance] m_removeHelpTargetSelectionWithAnimation:YES dismissPopTipView:NO];
 }
 

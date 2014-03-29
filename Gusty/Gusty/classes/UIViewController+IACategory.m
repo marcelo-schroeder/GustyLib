@@ -164,7 +164,7 @@ static char c_fetchedResultsControllerKey;
 }
 
 -(void)m_onSlidingMenuButtonAction:(UIBarButtonItem*)a_button{
-    [self.slidingViewController anchorTopViewTo:ECRight];
+    [self.slidingViewController anchorTopViewTo:IA_ECRight];
 }
 
 -(void)m_releaseViewForController:(UIViewController*)a_viewController{

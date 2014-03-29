@@ -4,7 +4,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SVWebViewController.h"
+#import "IA_SVWebViewController.h"
 
 @protocol IAUIInternalWebBrowserViewControllerDelegate <NSObject>
 
@@ -15,6 +15,6 @@
 - (UIBarButtonItem *)m_newRefreshBarButtonItem;
 
 @end
-@interface IAUIInternalWebBrowserViewController : SVWebViewController <IAUIInternalWebBrowserViewControllerDelegate>
+@interface IAUIInternalWebBrowserViewController : IA_SVWebViewController <IAUIInternalWebBrowserViewControllerDelegate>
 @property(nonatomic, weak) id<IAUIInternalWebBrowserViewControllerDelegate> p_delegate;
 @end

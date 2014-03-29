@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-@class MBProgressHUD;
+@class IA_MBProgressHUD;
 
 @interface IAUIWorkInProgressModalViewManager : NSObject
 
@@ -46,7 +46,7 @@
 - (void)m_showViewForView:(UIView*)a_view animate:(BOOL)a_animate;
 
 - (void)m_showViewForView:(UIView *)a_view animate:(BOOL)a_animate
-    hudConfigurationBlock:(void (^)(MBProgressHUD *))a_hudConfigurationBlock;
+    hudConfigurationBlock:(void (^)(IA_MBProgressHUD *))a_hudConfigurationBlock;
 
 - (void)m_removeView;
 - (void)m_removeViewWithAnimation:(BOOL)a_animate;

@@ -146,6 +146,15 @@
 		F76861A918E6F6EB00BD9618 /* NSStringTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F768619F18E6F6EB00BD9618 /* NSStringTests.m */; };
 		F76861AA18E6F6EB00BD9618 /* TempTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F76861A118E6F6EB00BD9618 /* TempTest.m */; };
 		F76861AB18E6F6EB00BD9618 /* XCTestCase+IACategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F76861A318E6F6EB00BD9618 /* XCTestCase+IACategory.m */; };
+		F76861DB18E775EC00BD9618 /* IA_ECSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F76861C918E775EC00BD9618 /* IA_ECSlidingViewController.m */; };
+		F76861DC18E775EC00BD9618 /* UIImage+IA_ECImageWithUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = F76861CC18E775EC00BD9618 /* UIImage+IA_ECImageWithUIView.m */; };
+		F76861DD18E775EC00BD9618 /* IA_HPGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F76861CF18E775EC00BD9618 /* IA_HPGrowingTextView.m */; };
+		F76861DE18E775EC00BD9618 /* IA_HPTextViewInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = F76861D118E775EC00BD9618 /* IA_HPTextViewInternal.m */; };
+		F76861DF18E775EC00BD9618 /* UIViewController+IA_KNSemiModal.m in Sources */ = {isa = PBXBuildFile; fileRef = F76861D718E775EC00BD9618 /* UIViewController+IA_KNSemiModal.m */; };
+		F76861E018E775EC00BD9618 /* IA_MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = F76861DA18E775EC00BD9618 /* IA_MBProgressHUD.m */; };
+		F76861E418E778F400BD9618 /* IA_CMPopTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = F76861E318E778F400BD9618 /* IA_CMPopTipView.m */; };
+		F76861EC18E77AA000BD9618 /* IA_SVModalWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F76861E918E77AA000BD9618 /* IA_SVModalWebViewController.m */; };
+		F76861ED18E77AA000BD9618 /* IA_SVWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F76861EB18E77AA000BD9618 /* IA_SVWebViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -481,6 +490,30 @@
 		F76861A118E6F6EB00BD9618 /* TempTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempTest.m; sourceTree = "<group>"; };
 		F76861A218E6F6EB00BD9618 /* XCTestCase+IACategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestCase+IACategory.h"; sourceTree = "<group>"; };
 		F76861A318E6F6EB00BD9618 /* XCTestCase+IACategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestCase+IACategory.m"; sourceTree = "<group>"; };
+		F76861C818E775EC00BD9618 /* IA_ECSlidingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IA_ECSlidingViewController.h; sourceTree = "<group>"; };
+		F76861C918E775EC00BD9618 /* IA_ECSlidingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IA_ECSlidingViewController.m; sourceTree = "<group>"; };
+		F76861CA18E775EC00BD9618 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		F76861CB18E775EC00BD9618 /* UIImage+IA_ECImageWithUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+IA_ECImageWithUIView.h"; sourceTree = "<group>"; };
+		F76861CC18E775EC00BD9618 /* UIImage+IA_ECImageWithUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+IA_ECImageWithUIView.m"; sourceTree = "<group>"; };
+		F76861CE18E775EC00BD9618 /* IA_HPGrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IA_HPGrowingTextView.h; sourceTree = "<group>"; };
+		F76861CF18E775EC00BD9618 /* IA_HPGrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IA_HPGrowingTextView.m; sourceTree = "<group>"; };
+		F76861D018E775EC00BD9618 /* IA_HPTextViewInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IA_HPTextViewInternal.h; sourceTree = "<group>"; };
+		F76861D118E775EC00BD9618 /* IA_HPTextViewInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IA_HPTextViewInternal.m; sourceTree = "<group>"; };
+		F76861D218E775EC00BD9618 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		F76861D318E775EC00BD9618 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		F76861D518E775EC00BD9618 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		F76861D618E775EC00BD9618 /* UIViewController+IA_KNSemiModal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+IA_KNSemiModal.h"; sourceTree = "<group>"; };
+		F76861D718E775EC00BD9618 /* UIViewController+IA_KNSemiModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+IA_KNSemiModal.m"; sourceTree = "<group>"; };
+		F76861D918E775EC00BD9618 /* IA_MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IA_MBProgressHUD.h; sourceTree = "<group>"; };
+		F76861DA18E775EC00BD9618 /* IA_MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IA_MBProgressHUD.m; sourceTree = "<group>"; };
+		F76861E218E778F400BD9618 /* IA_CMPopTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IA_CMPopTipView.h; sourceTree = "<group>"; };
+		F76861E318E778F400BD9618 /* IA_CMPopTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IA_CMPopTipView.m; sourceTree = "<group>"; };
+		F76861E618E77AA000BD9618 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		F76861E718E77AA000BD9618 /* README.textile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.textile; sourceTree = "<group>"; };
+		F76861E818E77AA000BD9618 /* IA_SVModalWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IA_SVModalWebViewController.h; sourceTree = "<group>"; };
+		F76861E918E77AA000BD9618 /* IA_SVModalWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IA_SVModalWebViewController.m; sourceTree = "<group>"; };
+		F76861EA18E77AA000BD9618 /* IA_SVWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IA_SVWebViewController.h; sourceTree = "<group>"; };
+		F76861EB18E77AA000BD9618 /* IA_SVWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IA_SVWebViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -578,6 +611,7 @@
 		F7685FF718E6F6D400BD9618 /* classes */ = {
 			isa = PBXGroup;
 			children = (
+				F76861C618E775EC00BD9618 /* 3rdParty */,
 				F7685FF818E6F6D400BD9618 /* IAAboutInfoModel.h */,
 				F7685FF918E6F6D400BD9618 /* IAAboutInfoModel.m */,
 				F7685FFA18E6F6D400BD9618 /* IAAnalyticsUtils.h */,
@@ -927,6 +961,85 @@
 			path = classes;
 			sourceTree = "<group>";
 		};
+		F76861C618E775EC00BD9618 /* 3rdParty */ = {
+			isa = PBXGroup;
+			children = (
+				F76861E518E77AA000BD9618 /* SVWebViewController */,
+				F76861E118E778F400BD9618 /* CMPopTipView */,
+				F76861C718E775EC00BD9618 /* ECSlidingViewController */,
+				F76861CD18E775EC00BD9618 /* HPGrowingTextView */,
+				F76861D418E775EC00BD9618 /* KNSemiModal */,
+				F76861D818E775EC00BD9618 /* MBProgressHUD */,
+			);
+			path = 3rdParty;
+			sourceTree = "<group>";
+		};
+		F76861C718E775EC00BD9618 /* ECSlidingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				F76861C818E775EC00BD9618 /* IA_ECSlidingViewController.h */,
+				F76861C918E775EC00BD9618 /* IA_ECSlidingViewController.m */,
+				F76861CA18E775EC00BD9618 /* README.md */,
+				F76861CB18E775EC00BD9618 /* UIImage+IA_ECImageWithUIView.h */,
+				F76861CC18E775EC00BD9618 /* UIImage+IA_ECImageWithUIView.m */,
+			);
+			path = ECSlidingViewController;
+			sourceTree = "<group>";
+		};
+		F76861CD18E775EC00BD9618 /* HPGrowingTextView */ = {
+			isa = PBXGroup;
+			children = (
+				F76861CE18E775EC00BD9618 /* IA_HPGrowingTextView.h */,
+				F76861CF18E775EC00BD9618 /* IA_HPGrowingTextView.m */,
+				F76861D018E775EC00BD9618 /* IA_HPTextViewInternal.h */,
+				F76861D118E775EC00BD9618 /* IA_HPTextViewInternal.m */,
+				F76861D218E775EC00BD9618 /* LICENSE.txt */,
+				F76861D318E775EC00BD9618 /* README.md */,
+			);
+			path = HPGrowingTextView;
+			sourceTree = "<group>";
+		};
+		F76861D418E775EC00BD9618 /* KNSemiModal */ = {
+			isa = PBXGroup;
+			children = (
+				F76861D518E775EC00BD9618 /* README.md */,
+				F76861D618E775EC00BD9618 /* UIViewController+IA_KNSemiModal.h */,
+				F76861D718E775EC00BD9618 /* UIViewController+IA_KNSemiModal.m */,
+			);
+			path = KNSemiModal;
+			sourceTree = "<group>";
+		};
+		F76861D818E775EC00BD9618 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				F76861D918E775EC00BD9618 /* IA_MBProgressHUD.h */,
+				F76861DA18E775EC00BD9618 /* IA_MBProgressHUD.m */,
+			);
+			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		F76861E118E778F400BD9618 /* CMPopTipView */ = {
+			isa = PBXGroup;
+			children = (
+				F76861E218E778F400BD9618 /* IA_CMPopTipView.h */,
+				F76861E318E778F400BD9618 /* IA_CMPopTipView.m */,
+			);
+			path = CMPopTipView;
+			sourceTree = "<group>";
+		};
+		F76861E518E77AA000BD9618 /* SVWebViewController */ = {
+			isa = PBXGroup;
+			children = (
+				F76861E618E77AA000BD9618 /* LICENSE.txt */,
+				F76861E718E77AA000BD9618 /* README.textile */,
+				F76861E818E77AA000BD9618 /* IA_SVModalWebViewController.h */,
+				F76861E918E77AA000BD9618 /* IA_SVModalWebViewController.m */,
+				F76861EA18E77AA000BD9618 /* IA_SVWebViewController.h */,
+				F76861EB18E77AA000BD9618 /* IA_SVWebViewController.m */,
+			);
+			path = SVWebViewController;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1068,6 +1181,7 @@
 				F768612518E6F6D400BD9618 /* IADynamicCache.m in Sources */,
 				F768615718E6F6D400BD9618 /* IAUIMenuViewController.m in Sources */,
 				F768616E18E6F6D400BD9618 /* IAUITableCellSelectedBackgroundView.m in Sources */,
+				F76861DB18E775EC00BD9618 /* IA_ECSlidingViewController.m in Sources */,
 				F768616318E6F6D400BD9618 /* IAUISegmentedControlTableViewCell.m in Sources */,
 				F768617718E6F6D400BD9618 /* IAUIView.m in Sources */,
 				F768617B18E6F6D400BD9618 /* IAUtils.m in Sources */,
@@ -1093,6 +1207,7 @@
 				F768612D18E6F6D400BD9618 /* IAMapAnnotation.m in Sources */,
 				F768619018E6F6D400BD9618 /* UITableView+IACategory.m in Sources */,
 				F768611D18E6F6D400BD9618 /* IAApplicationLog.m in Sources */,
+				F76861DD18E775EC00BD9618 /* IA_HPGrowingTextView.m in Sources */,
 				F768615318E6F6D400BD9618 /* IAUIInternalWebBrowserViewController.m in Sources */,
 				F768614418E6F6D400BD9618 /* IAUICustomLayoutSupport.m in Sources */,
 				F768614718E6F6D400BD9618 /* IAUIDynamicPagingContainerViewController.m in Sources */,
@@ -1114,6 +1229,7 @@
 				F768615F18E6F6D400BD9618 /* IAUIPickerViewController.m in Sources */,
 				F768615418E6F6D400BD9618 /* IAUIListViewController.m in Sources */,
 				F768612A18E6F6D400BD9618 /* IAHelpManager.m in Sources */,
+				F76861E018E775EC00BD9618 /* IA_MBProgressHUD.m in Sources */,
 				F768612E18E6F6D400BD9618 /* IAOperation.m in Sources */,
 				F768614818E6F6D400BD9618 /* IAUIExternalWebBrowserActivity.m in Sources */,
 				F768613318E6F6D400BD9618 /* IASemaphoreManager.m in Sources */,
@@ -1122,11 +1238,15 @@
 				F768612018E6F6D400BD9618 /* IAAsynchronousWorkManager.m in Sources */,
 				F768611B18E6F6D400BD9618 /* IAAnalyticsUtils.m in Sources */,
 				F768618118E6F6D400BD9618 /* NSManagedObject+IACategory.m in Sources */,
+				F76861ED18E77AA000BD9618 /* IA_SVWebViewController.m in Sources */,
 				F768618918E6F6D400BD9618 /* UIButton+IACategory.m in Sources */,
 				F768617618E6F6D400BD9618 /* IAUIUtils.m in Sources */,
+				F76861E418E778F400BD9618 /* IA_CMPopTipView.m in Sources */,
 				F768618718E6F6D400BD9618 /* UIBarButtonItem+IACategory.m in Sources */,
 				F768613618E6F6D400BD9618 /* IAUIAbstractAppearanceTheme.m in Sources */,
+				F76861DF18E775EC00BD9618 /* UIViewController+IA_KNSemiModal.m in Sources */,
 				F768616918E6F6D400BD9618 /* IAUISplitViewController.m in Sources */,
+				F76861DC18E775EC00BD9618 /* UIImage+IA_ECImageWithUIView.m in Sources */,
 				F768613F18E6F6D400BD9618 /* IAUICollectionViewCell.m in Sources */,
 				F768611F18E6F6D400BD9618 /* IAAssertionUtils.m in Sources */,
 				F768613518E6F6D400BD9618 /* IAUIAboutViewController.m in Sources */,
@@ -1141,7 +1261,9 @@
 				F768616D18E6F6D400BD9618 /* IAUITabBarController.m in Sources */,
 				F768612418E6F6D400BD9618 /* IADirectionsManager.m in Sources */,
 				F768611C18E6F6D400BD9618 /* IAApplicationLog+IACategory.m in Sources */,
+				F76861DE18E775EC00BD9618 /* IA_HPTextViewInternal.m in Sources */,
 				F768615218E6F6D400BD9618 /* IAUIInternalWebBrowserActivity.m in Sources */,
+				F76861EC18E77AA000BD9618 /* IA_SVModalWebViewController.m in Sources */,
 				F768615118E6F6D400BD9618 /* IAUIHelpTargetView.m in Sources */,
 				F768614218E6F6D400BD9618 /* IAUICollectionViewFlowLayout.m in Sources */,
 				F768616F18E6F6D400BD9618 /* IAUITableSectionHeaderView.m in Sources */,

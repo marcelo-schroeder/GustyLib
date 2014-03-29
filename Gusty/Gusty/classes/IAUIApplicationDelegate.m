@@ -188,6 +188,8 @@
     
 }
 
+//wip: need to re-enable CL with a runtime dependency only
+/*
 -(void)m_configureCrashReportingWithUserInfo:(NSDictionary*)a_userInfo{
     
 //    NSLog(@"m_configureCrashReportingWithUserInfo: %@", [a_userInfo description]);
@@ -222,6 +224,7 @@
     NSLog(@"Crash reporting configured");
     
 }
+*/
 
 -(void)m_configureAnalytics{
 
