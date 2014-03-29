@@ -1,0 +1,93 @@
+PODS:
+  - CMPopTipView (2.1.0)
+  - CrashlyticsFramework (2.1.7)
+  - DTFoundation (1.6.2):
+    - DTFoundation/AppKit
+    - DTFoundation/Core
+    - DTFoundation/DTASN1
+    - DTFoundation/DTAWS
+    - DTFoundation/DTHTMLParser
+    - DTFoundation/DTReachability
+    - DTFoundation/DTSidePanel
+    - DTFoundation/DTSQLite
+    - DTFoundation/DTUTI
+    - DTFoundation/DTZipArchive
+    - DTFoundation/UIKit
+    - DTFoundation/UIKit_BlocksAdditions
+  - DTFoundation/Core (1.6.2)
+  - DTFoundation/DTASN1 (1.6.2):
+    - DTFoundation/Core
+  - DTFoundation/DTAWS (1.6.2):
+    - DTFoundation/Core
+  - DTFoundation/DTHTMLParser (1.6.2):
+    - DTFoundation/Core
+  - DTFoundation/DTReachability (1.6.2)
+  - DTFoundation/DTSidePanel (1.6.2):
+    - DTFoundation/UIKit
+  - DTFoundation/DTSQLite (1.6.2)
+  - DTFoundation/DTUTI (1.6.2)
+  - DTFoundation/DTZipArchive (1.6.2):
+    - DTFoundation/DTZipArchive/Minizip
+  - DTFoundation/DTZipArchive/Minizip (1.6.2)
+  - DTFoundation/UIKit (1.6.2):
+    - DTFoundation/Core
+  - DTFoundation/UIKit_BlocksAdditions (1.6.2):
+    - DTFoundation/Core
+  - ECSlidingViewController (2.0.1)
+  - FlurrySDK (4.3.2):
+    - FlurrySDK/FlurrySDK
+  - FlurrySDK/FlurrySDK (4.3.2)
+  - Google-AdMob-Ads-SDK (6.8.0)
+  - HPGrowingTextView (1.1)
+  - KNSemiModalViewController (0.3)
+  - MBProgressHUD (0.8)
+  - MTStatusBarOverlay (0.9.1)
+  - MWFeedParser (1.0.1):
+    - MWFeedParser/FeedParser
+    - MWFeedParser/NSDate+InternetDateTime
+    - MWFeedParser/NSString+HTML
+  - MWFeedParser/FeedParser (1.0.1):
+    - MWFeedParser/NSDate+InternetDateTime
+    - MWFeedParser/NSString+HTML
+  - MWFeedParser/NSDate+InternetDateTime (1.0.1)
+  - MWFeedParser/NSString+HTML (1.0.1)
+  - OCHamcrest (3.0.1)
+  - OCMock (2.2.3)
+  - ODRefreshControl (1.1.0)
+  - SVWebViewController (1.0)
+
+DEPENDENCIES:
+  - CMPopTipView
+  - CrashlyticsFramework
+  - DTFoundation
+  - ECSlidingViewController
+  - FlurrySDK
+  - Google-AdMob-Ads-SDK
+  - HPGrowingTextView
+  - KNSemiModalViewController
+  - MBProgressHUD
+  - MTStatusBarOverlay
+  - MWFeedParser
+  - OCHamcrest
+  - OCMock
+  - ODRefreshControl
+  - SVWebViewController
+
+SPEC CHECKSUMS:
+  CMPopTipView: de01c6c169c24726356c46ae339ce3498ae9a41d
+  CrashlyticsFramework: 569d2b1c71922aa480bfdc55df4c86aedf7b215c
+  DTFoundation: 7c69990fa3cb7655cafa95ab59c3fcea014460f0
+  ECSlidingViewController: d7bb96ee5bbe261ed80ee16a513f94b9fd3c9767
+  FlurrySDK: 0ba42379fd272d69246ae06386a2c5688516ffd8
+  Google-AdMob-Ads-SDK: 21f95435d06b4f70c1806aaabb5e4281b22a8282
+  HPGrowingTextView: 4318f557b33c19def1c53ec275d6e2a2d6589cd0
+  KNSemiModalViewController: 976b739f57aa595359a2cfdf6aadde991ada8f99
+  MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
+  MTStatusBarOverlay: 2cee705996e4e307191d423bf49e583b9b2c14ac
+  MWFeedParser: c747d7e43ad365a7f18e84924496665944228e86
+  OCHamcrest: 782c52ae8c673e5d6060a65005cfd26d20d519ba
+  OCMock: 74e4ddbcef134170dcc844f91c691f13868075d7
+  ODRefreshControl: 886e323a7c25114b9e5c397a9eefbebc034224a9
+  SVWebViewController: e576371f7015bce92c97c304c32336700064847b
+
+COCOAPODS: 0.29.0
