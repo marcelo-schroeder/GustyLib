@@ -32,16 +32,20 @@
 /*************/
 /* 3rd party */
 /*************/
+// Crashlytics
+#import <Crashlytics/Crashlytics.h>
 // MBProgressHUD
-#import "IA_MBProgressHUD.h"
+#import "MBProgressHUD.h"
 // CMPopTipView
 //#import "CMPopTipView.h"
+// CLTickerView
+#import "CLTickerView.h"
 // KNSemiModal
-#import "UIViewController+IA_KNSemiModal.h"
+#import "UIViewController+KNSemiModal.h"
 // ECSlidingViewController
-#import "IA_ECSlidingViewController.h"
+#import "ECSlidingViewController.h"
 // SVWebViewController
-#import "IA_SVWebViewController.h"
+#import "SVWebViewController.h"
 // AdMob
 #import "GADBannerView.h"
 #import "GADAdMobExtras.h"
@@ -52,7 +56,7 @@
 // Flurry
 #import "Flurry.h"
 // GrowingTextView
-#import "IA_HPGrowingTextView.h"
+#import "HPGrowingTextView.h"
 
 // Main
 #import "IAConstants.h"

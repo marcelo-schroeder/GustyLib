@@ -136,6 +136,16 @@ static char c_appearanceIdKey;
     return l_constraints;
 }
 
+-(NSArray *)m_addLayoutConstraintsToFillSuperviewHorizontally{
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    return [self m_addLayoutConstraintsToFillSuperviewForOrientation:k_layoutConstraintVisualFormatOrientationHorizontal];
+}
+
+-(NSArray *)m_addLayoutConstraintsToFillSuperviewVertically{
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    return [self m_addLayoutConstraintsToFillSuperviewForOrientation:k_layoutConstraintVisualFormatOrientationVertical];
+}
+
 -(NSArray *)m_addLayoutConstraintsToCenterInSuperview{
     self.translatesAutoresizingMaskIntoConstraints = NO;
     NSMutableArray *l_constraints = [@[] mutableCopy];

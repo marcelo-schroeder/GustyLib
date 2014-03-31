@@ -6,17 +6,17 @@
 //
 //  https://github.com/samvermette/SVWebViewController
 
-#import "IA_SVModalWebViewController.h"
-#import "IA_SVWebViewController.h"
+#import "SVModalWebViewController.h"
+#import "SVWebViewController.h"
 
-@interface IA_SVModalWebViewController ()
+@interface SVModalWebViewController ()
 
-@property (nonatomic, strong) IA_SVWebViewController *webViewController;
+@property (nonatomic, strong) SVWebViewController *webViewController;
 
 @end
 
 
-@implementation IA_SVModalWebViewController
+@implementation SVModalWebViewController
 
 @synthesize barsTintColor, availableActions, webViewController;
 
@@ -32,7 +32,7 @@
 }
 
 - (id)initWithURL:(NSURL*)url completionBlock:(void(^)(void))a_completionBlock {
-    self.webViewController = [[IA_SVWebViewController alloc] initWithURL:url completionBlock:a_completionBlock];
+    self.webViewController = [[SVWebViewController alloc] initWithURL:url completionBlock:a_completionBlock];
     if (self = [super initWithRootViewController:self.webViewController]) {
         // Made the change below to allow the button to be styled via the appearance proxy
         //        self.webViewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:webViewController action:@selector(doneButtonClicked:)];
@@ -49,7 +49,7 @@
     }
 }
 
-- (void)setAvailableActions:(IA_SVWebViewControllerAvailableActions)newAvailableActions {
+- (void)setAvailableActions:(SVWebViewControllerAvailableActions)newAvailableActions {
     self.webViewController.availableActions = newAvailableActions;
 }
 

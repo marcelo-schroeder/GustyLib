@@ -4,10 +4,10 @@
 // Created by Matej Bukovinski on 2.4.09.
 //
 
-#import "IA_MBProgressHUD.h"
+#import "MBProgressHUD.h"
 #import <objc/message.h>    // added so I could use objc_msgSend to get rid of ARC compiler warnings for performSelector method calls
 
-@interface IA_MBProgressHUD ()
+@interface MBProgressHUD ()
 
 - (void)hideUsingAnimation:(BOOL)animated;
 - (void)showUsingAnimation:(BOOL)animated;
@@ -35,7 +35,7 @@
 @end
 
 
-@implementation IA_MBProgressHUD
+@implementation MBProgressHUD
 
 #pragma mark -
 #pragma mark Accessors
@@ -73,7 +73,7 @@
 
 -(void)setModeInternal:(NSNumber*)l_modeNumber{
     // Dont change mode if it wasn't actually changed to prevent flickering
-    IA_MBProgressHUDMode newMode = [l_modeNumber unsignedIntegerValue];
+    MBProgressHUDMode newMode = [l_modeNumber unsignedIntegerValue];
     if (mode && (mode == newMode)) {
         return;
     }
@@ -91,7 +91,7 @@
 //	}
 }
 
-- (void)setMode:(IA_MBProgressHUDMode)newMode {
+- (void)setMode:(MBProgressHUDMode)newMode {
     NSNumber *l_modeNumber = [NSNumber numberWithUnsignedInteger:newMode];
 	if ([NSThread isMainThread]) {
         [self setModeInternal:l_modeNumber];
@@ -100,7 +100,7 @@
 	}
 }
 
-- (IA_MBProgressHUDMode)mode {
+- (MBProgressHUDMode)mode {
 	return mode;
 }
 
@@ -156,7 +156,7 @@
     progress = [l_progressNumber floatValue];
 	
     // Update display ony if showing the determinate progress view
-    if (mode == IA_MBProgressHUDModeDeterminate) {
+    if (mode == MBProgressHUDModeDeterminate) {
 //		if ([NSThread isMainThread]) {
 			[self updateProgress];
 //			[self setNeedsDisplay];
@@ -196,7 +196,7 @@
 }
 
 - (void)updateProgress {
-    [(IA_MBRoundProgressView *)indicator setProgress:progress];
+    [(MBRoundProgressView *)indicator setProgress:progress];
 }
 
 - (void)updateIndicators {
@@ -204,10 +204,10 @@
         [indicator removeFromSuperview];
     }
 	
-    if (mode == IA_MBProgressHUDModeDeterminate) {
-        self.indicator = [[IA_MBRoundProgressView alloc] init];
+    if (mode == MBProgressHUDModeDeterminate) {
+        self.indicator = [[MBRoundProgressView alloc] init];
     }
-    else if (mode == IA_MBProgressHUDModeCustomView){
+    else if (mode == MBProgressHUDModeCustomView){
         self.indicator = self.customView;
     } else {
 		self.indicator = [[UIActivityIndicatorView alloc]
@@ -232,8 +232,8 @@
 #pragma mark -
 #pragma mark Class methods
 
-+ (IA_MBProgressHUD *)showHUDAddedTo:(UIView *)view animated:(BOOL)animated {
-	IA_MBProgressHUD *hud = [[IA_MBProgressHUD alloc] initWithView:view];
++ (MBProgressHUD *)showHUDAddedTo:(UIView *)view animated:(BOOL)animated {
+	MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:view];
 	[view addSubview:hud];
 	[hud show:animated];
 	return hud;
@@ -242,12 +242,12 @@
 + (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated {
 	UIView *viewToRemove = nil;
 	for (UIView *v in [view subviews]) {
-		if ([v isKindOfClass:[IA_MBProgressHUD class]]) {
+		if ([v isKindOfClass:[MBProgressHUD class]]) {
 			viewToRemove = v;
 		}
 	}
 	if (viewToRemove != nil) {
-		IA_MBProgressHUD *HUD = (IA_MBProgressHUD *)viewToRemove;
+		MBProgressHUD *HUD = (MBProgressHUD *)viewToRemove;
 		HUD.removeFromSuperViewOnHide = YES;
 		[HUD hide:animated];
 		return YES;
@@ -287,8 +287,8 @@
     self = [super initWithFrame:frame];
 	if (self) {
         // Set default values for properties
-        self.animationType = IA_MBProgressHUDAnimationFade;
-        self.mode = IA_MBProgressHUDModeIndeterminate;
+        self.animationType = MBProgressHUDAnimationFade;
+        self.mode = MBProgressHUDModeIndeterminate;
         self.labelText = nil;
         self.detailsLabelText = nil;
         self.opacity = 0.8f;
@@ -573,7 +573,7 @@
 
 - (void)showUsingAnimation:(BOOL)animated {
     self.alpha = 0.0f;
-    if (animated && animationType == IA_MBProgressHUDAnimationZoom) {
+    if (animated && animationType == MBProgressHUDAnimationZoom) {
         self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(1.5f, 1.5f));
     }
     
@@ -583,7 +583,7 @@
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:0.30];
         self.alpha = 1.0f;
-        if (animationType == IA_MBProgressHUDAnimationZoom) {
+        if (animationType == MBProgressHUDAnimationZoom) {
             self.transform = rotationTransform;
         }
         [UIView commitAnimations];
@@ -602,7 +602,7 @@
         [UIView setAnimationDidStopSelector:@selector(animationFinished: finished: context:)];
         // 0.02 prevents the hud from passing through touches during the animation the hud will get completely hidden
         // in the done method
-        if (animationType == IA_MBProgressHUDAnimationZoom) {
+        if (animationType == MBProgressHUDAnimationZoom) {
             self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(0.5f, 0.5f));
         }
         self.alpha = 0.02f;
@@ -673,9 +673,9 @@
 	if (!self.superview) {
 		return;
 	}
-	if ([self.superview isKindOfClass:[UIWindow class]]) {
+//	if ([self.superview isKindOfClass:[UIWindow class]]) {
 		[self setTransformForCurrentOrientation:YES];
-	}
+//	}
 }
 
 - (void)setTransformForCurrentOrientation:(BOOL)animated {
@@ -687,17 +687,19 @@
 		self.bounds = self.superview.bounds;
 		[self setNeedsDisplay];
 	}
-	
-	if (UIInterfaceOrientationIsLandscape(orientation)) {
-		if (orientation == UIInterfaceOrientationLandscapeLeft) { degrees = -90; } 
-		else { degrees = 90; }
-		// Window coordinates differ!
-		self.bounds = CGRectMake(0, 0, self.bounds.size.height, self.bounds.size.width);
-	} else {
-		if (orientation == UIInterfaceOrientationPortraitUpsideDown) { degrees = 180; } 
-		else { degrees = 0; }
-	}
-	
+
+	if (!self.superview || [self.superview isKindOfClass:[UIWindow class]]) {
+        if (UIInterfaceOrientationIsLandscape(orientation)) {
+            if (orientation == UIInterfaceOrientationLandscapeLeft) { degrees = -90; }
+            else { degrees = 90; }
+            // Window coordinates differ!
+            self.bounds = CGRectMake(0, 0, self.bounds.size.height, self.bounds.size.width);
+        } else {
+            if (orientation == UIInterfaceOrientationPortraitUpsideDown) { degrees = 180; }
+            else { degrees = 0; }
+        }
+    }
+
 	rotationTransform = CGAffineTransformMakeRotation(RADIANS(degrees));
 
 	if (animated) {
@@ -713,7 +715,7 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-@implementation IA_MBRoundProgressView
+@implementation MBRoundProgressView
 
 #pragma mark -
 #pragma mark Accessors

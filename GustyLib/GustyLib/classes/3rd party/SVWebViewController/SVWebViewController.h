@@ -7,13 +7,13 @@
 //  https://github.com/samvermette/SVWebViewController
 
 #import "IAUIViewController.h"
-#import "IA_SVModalWebViewController.h"
+#import "SVModalWebViewController.h"
 
-@interface IA_SVWebViewController : IAUIViewController <UIWebViewDelegate>
+@interface SVWebViewController : IAUIViewController <UIWebViewDelegate>
 
 @property (nonatomic) BOOL iphoneUiForAllIdioms;
 @property (nonatomic, strong) UIWebView *mainWebView;
-@property (nonatomic, readwrite) IA_SVWebViewControllerAvailableActions availableActions;
+@property (nonatomic, readwrite) SVWebViewControllerAvailableActions availableActions;
 
 @property(nonatomic) NSUInteger p_urlLoadCount;
 

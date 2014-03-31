@@ -33,30 +33,30 @@
 	#define NSTextAlignment UITextAlignment
 #endif
 
-@class IA_HPGrowingTextView;
-@class IA_HPTextViewInternal;
+@class HPGrowingTextView;
+@class HPTextViewInternal;
 
-@protocol IA_HPGrowingTextViewDelegate
+@protocol HPGrowingTextViewDelegate
 
 @optional
-- (BOOL)growingTextViewShouldBeginEditing:(IA_HPGrowingTextView *)growingTextView;
-- (BOOL)growingTextViewShouldEndEditing:(IA_HPGrowingTextView *)growingTextView;
+- (BOOL)growingTextViewShouldBeginEditing:(HPGrowingTextView *)growingTextView;
+- (BOOL)growingTextViewShouldEndEditing:(HPGrowingTextView *)growingTextView;
 
-- (void)growingTextViewDidBeginEditing:(IA_HPGrowingTextView *)growingTextView;
-- (void)growingTextViewDidEndEditing:(IA_HPGrowingTextView *)growingTextView;
+- (void)growingTextViewDidBeginEditing:(HPGrowingTextView *)growingTextView;
+- (void)growingTextViewDidEndEditing:(HPGrowingTextView *)growingTextView;
 
-- (BOOL)growingTextView:(IA_HPGrowingTextView *)growingTextView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text;
-- (void)growingTextViewDidChange:(IA_HPGrowingTextView *)growingTextView;
+- (BOOL)growingTextView:(HPGrowingTextView *)growingTextView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text;
+- (void)growingTextViewDidChange:(HPGrowingTextView *)growingTextView;
 
-- (void)growingTextView:(IA_HPGrowingTextView *)growingTextView willChangeHeight:(float)height;
-- (void)growingTextView:(IA_HPGrowingTextView *)growingTextView didChangeHeight:(float)height;
+- (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height;
+- (void)growingTextView:(HPGrowingTextView *)growingTextView didChangeHeight:(float)height;
 
-- (void)growingTextViewDidChangeSelection:(IA_HPGrowingTextView *)growingTextView;
-- (BOOL)growingTextViewShouldReturn:(IA_HPGrowingTextView *)growingTextView;
+- (void)growingTextViewDidChangeSelection:(HPGrowingTextView *)growingTextView;
+- (BOOL)growingTextViewShouldReturn:(HPGrowingTextView *)growingTextView;
 @end
 
-@interface IA_HPGrowingTextView : UIView <UITextViewDelegate> {
-	IA_HPTextViewInternal *internalTextView;
+@interface HPGrowingTextView : UIView <UITextViewDelegate> {
+	HPTextViewInternal *internalTextView;	
 	
 	int minHeight;
 	int maxHeight;
@@ -69,7 +69,7 @@
     NSTimeInterval animationDuration;
 	
 	//uitextview properties
-	NSObject <IA_HPGrowingTextViewDelegate> *__unsafe_unretained delegate;
+	NSObject <HPGrowingTextViewDelegate> *__unsafe_unretained delegate;
 	NSTextAlignment textAlignment;
 	NSRange selectedRange;
 	BOOL editable;
@@ -92,7 +92,7 @@
 
 
 //uitextview properties
-@property(unsafe_unretained) NSObject<IA_HPGrowingTextViewDelegate> *delegate;
+@property(unsafe_unretained) NSObject<HPGrowingTextViewDelegate> *delegate;
 @property(nonatomic,strong) NSString *text;
 @property(nonatomic,strong) UIFont *font;
 @property(nonatomic,strong) UIColor *textColor;

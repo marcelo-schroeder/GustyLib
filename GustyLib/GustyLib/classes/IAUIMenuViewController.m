@@ -196,7 +196,7 @@
                                                    object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(onSlidingViewTopDidResetNotification:)
-                                                     name:IA_ECSlidingViewTopDidReset
+                                                     name:ECSlidingViewTopDidReset
                                                    object:nil];
     }
 

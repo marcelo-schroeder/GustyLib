@@ -33,4 +33,6 @@
 -(IAUIColorScheme*)m_colorScheme;
 -(UIColor*)m_colorWithIndex:(NSUInteger)a_colorIndex;
 
++ (UIColor *)m_splitViewControllerDividerColour;
+
 @end

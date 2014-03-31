@@ -18,9 +18,9 @@
 //  limitations under the License.
 //
 
-#import "IA_ECSlidingViewController.h"
+#import "ECSlidingViewController.h"
 
-@interface IAUISlidingViewController : IA_ECSlidingViewController
+@interface IAUISlidingViewController : ECSlidingViewController
 
 @property (nonatomic, strong) NSString *p_placeholderViewControllerStoryboardId;
 

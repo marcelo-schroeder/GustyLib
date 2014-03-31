@@ -19,6 +19,7 @@
 //
 
 #import "IAUIInternalWebBrowserViewController.h"
+#import "IAUIMasterDetailViewController.h"
 
 @interface IAUIAbstractAppearanceTheme()
 
@@ -235,6 +236,11 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         if (l_tableViewController.tableView.style==UITableViewStyleGrouped) {
             l_tableViewController.tableView.separatorColor = [self m_colorForInfoPlistKey:@"IAUIThemeGroupedTableSeparatorColor"];
         }
+    }else if([a_viewController isKindOfClass:[IAUIMasterDetailViewController class]]) {
+
+        IAUIMasterDetailViewController *l_viewController = (IAUIMasterDetailViewController *) a_viewController;
+        l_viewController.p_separatorView.backgroundColor = [self.class m_splitViewControllerDividerColour];
+
     }
 }
 
@@ -673,6 +679,11 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
     return [[self m_colorScheme] m_colorAtIndex:a_colorIndex];
 }
+
++ (UIColor *)m_splitViewControllerDividerColour {
+    return [UIColor m_colorWithRed:191 green:191 blue:191];
+}
+
 
 #pragma mark - Overrides
 

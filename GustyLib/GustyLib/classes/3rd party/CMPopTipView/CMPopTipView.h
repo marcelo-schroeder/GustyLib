@@ -84,42 +84,50 @@
 #import <UIKit/UIKit.h>
 
 typedef enum {
-	IA_CMPointDirectionUp = 0,
-    IA_CMPointDirectionDown
-} IA_CMPointDirection;
+	PointDirectionUp = 0,
+	PointDirectionDown
+} PointDirection;
 
 typedef enum {
-    IA_CMPopTipAnimationSlide = 0,
-    IA_CMPopTipAnimationPop
-} IA_CMPopTipAnimation;
+    CMPopTipAnimationSlide = 0,
+    CMPopTipAnimationPop
+} CMPopTipAnimation;
 
 
-@protocol IA_CMPopTipViewDelegate;
+@protocol CMPopTipViewDelegate;
 
 
-@interface IA_CMPopTipView : UIView {
+@interface CMPopTipView : UIView {
+	UIColor					*backgroundColor;
+	id<CMPopTipViewDelegate>	delegate;
+	NSString				*message;
+	id						targetObject;
+	UIColor					*textColor;
+	UIFont					*textFont;
+    CMPopTipAnimation       animation;
+
 	@private
 	CGSize					bubbleSize;
 	BOOL					highlight;
-	IA_CMPointDirection pointDirection;
+	PointDirection			pointDirection;
 	CGPoint					targetPoint;
 }
 
-@property (nonatomic, copy)			    UIColor					*backgroundColor;
-@property (nonatomic, weak)		        id<IA_CMPopTipViewDelegate>	delegate;
-@property (nonatomic)			        BOOL					disableTapToDismiss;
-@property (nonatomic, strong)			NSString				*message;
-@property (nonatomic, strong)           UIView	                *customView;
-@property (nonatomic, strong, readonly)	id						targetObject;
-@property (nonatomic, strong)			UIColor					*textColor;
-@property (nonatomic, strong)			UIFont					*textFont;
-@property (nonatomic)			        UITextAlignment			textAlignment;
-@property (nonatomic)                   IA_CMPopTipAnimation animation;
-@property (nonatomic)                   CGFloat                 maxWidth;
-@property (nonatomic)                   CGFloat					sidePadding;
-@property (nonatomic)                   CGFloat					topMargin;
-@property (nonatomic)                   CGFloat					cornerRadius;
-@property (nonatomic)                   CGFloat					pointerSize;
+@property (nonatomic, retain)			UIColor					*backgroundColor;
+@property (nonatomic, assign)		id<CMPopTipViewDelegate>	delegate;
+@property (nonatomic, assign)			BOOL					disableTapToDismiss;
+@property (nonatomic, retain)			NSString				*message;
+@property (nonatomic, retain)           UIView	                *customView;
+@property (nonatomic, retain, readonly)	id						targetObject;
+@property (nonatomic, retain)			UIColor					*textColor;
+@property (nonatomic, retain)			UIFont					*textFont;
+@property (nonatomic, assign)			UITextAlignment			textAlignment;
+@property (nonatomic, assign)           CMPopTipAnimation       animation;
+@property (nonatomic, assign)           CGFloat                 maxWidth;
+@property (nonatomic, assign)           CGFloat					sidePadding;
+@property (nonatomic, assign)           CGFloat					topMargin;
+@property (nonatomic, assign)           CGFloat					cornerRadius;
+@property (nonatomic, assign)           CGFloat					pointerSize;
 
 /* Contents can be either a message or a UIView */
 - (id)initWithMessage:(NSString *)messageToShow;
@@ -133,11 +141,11 @@ typedef enum {
 - (void)dismissAnimated:(BOOL)animated;
 - (void)onUserDismissal;
 
-- (IA_CMPointDirection) getPointDirection;
+- (PointDirection) getPointDirection;
 
 @end
 
 
-@protocol IA_CMPopTipViewDelegate <NSObject>
-- (void)popTipViewWasDismissedByUser:(IA_CMPopTipView *)popTipView;
+@protocol CMPopTipViewDelegate <NSObject>
+- (void)popTipViewWasDismissedByUser:(CMPopTipView *)popTipView;
 @end

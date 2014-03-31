@@ -8,7 +8,7 @@
 
 #define kSemiModalAnimationDuration   0.3
 
-@interface UIViewController (IA_KNSemiModal)
+@interface UIViewController (KNSemiModal)
 
 @property (nonatomic, readonly) BOOL p_presentingSemiModal;
 @property (nonatomic, readonly) BOOL p_presentedAsSemiModal;

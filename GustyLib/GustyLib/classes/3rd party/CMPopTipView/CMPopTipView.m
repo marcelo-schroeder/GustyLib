@@ -23,18 +23,34 @@
 //  THE SOFTWARE.
 //
 
-#import "IA_CMPopTipView.h"
+#import "CMPopTipView.h"
 
-@interface IA_CMPopTipView ()
+@interface CMPopTipView ()
 @property (nonatomic, retain, readwrite)	id	targetObject;
 @end
 
 
-@implementation IA_CMPopTipView
+@implementation CMPopTipView
+
+@synthesize backgroundColor;
+@synthesize delegate;
+@synthesize message;
+@synthesize customView;
+@synthesize targetObject;
+@synthesize textColor;
+@synthesize textFont;
+@synthesize textAlignment;
+@synthesize animation;
+@synthesize maxWidth;
+@synthesize disableTapToDismiss;
+@synthesize cornerRadius;
+@synthesize topMargin;
+@synthesize pointerSize;
+@synthesize sidePadding;
 
 - (CGRect)bubbleFrame {
 	CGRect bubbleFrame;
-	if (pointDirection == IA_CMPointDirectionUp) {
+	if (pointDirection == PointDirectionUp) {
 		bubbleFrame = CGRectMake(2.0, targetPoint.y+self.pointerSize, bubbleSize.width, bubbleSize.height);
 	}
 	else {
@@ -71,7 +87,7 @@
     
 	CGMutablePathRef bubblePath = CGPathCreateMutable();
 	
-	if (pointDirection == IA_CMPointDirectionUp) {
+	if (pointDirection == PointDirectionUp) {
 		CGPathMoveToPoint(bubblePath, NULL, targetPoint.x, targetPoint.y);
 		CGPathAddLineToPoint(bubblePath, NULL, targetPoint.x+self.pointerSize, targetPoint.y+self.pointerSize);
 		
@@ -148,8 +164,8 @@
 	CGFloat green;
 	CGFloat blue;
 	CGFloat alpha;
-	int numComponents = CGColorGetNumberOfComponents([self.backgroundColor CGColor]);
-	const CGFloat *components = CGColorGetComponents([self.backgroundColor CGColor]);
+	int numComponents = CGColorGetNumberOfComponents([backgroundColor CGColor]);
+	const CGFloat *components = CGColorGetComponents([backgroundColor CGColor]);
 	if (numComponents == 2) {
 		red = components[0];
 		green = components[0];
@@ -191,10 +207,10 @@
 	// Draw text
 	
 	if (self.message) {
-		[self.textColor set];
+		[textColor set];
 		CGRect textFrame = [self contentFrame];
         [self.message drawInRect:textFrame
-                        withFont:self.textFont
+                        withFont:textFont
                    lineBreakMode:UILineBreakModeWordWrap
                        alignment:UITextAlignmentCenter];
     }
@@ -214,9 +230,9 @@
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         // iPad
-        if (self.maxWidth) {
-            if (self.maxWidth < l_containerViewFrame.size.width) {
-                rectWidth = self.maxWidth;
+        if (maxWidth) {
+            if (maxWidth < l_containerViewFrame.size.width) {
+                rectWidth = maxWidth;
             }
             else {
                 rectWidth = l_containerViewFrame.size.width - 20;
@@ -228,9 +244,9 @@
     }
     else {
         // iPhone
-        if (self.maxWidth) {
-            if (self.maxWidth < l_containerViewFrame.size.width) {
-                rectWidth = self.maxWidth;
+        if (maxWidth) {
+            if (maxWidth < l_containerViewFrame.size.width) {
+                rectWidth = maxWidth;
             }
             else {
                 rectWidth = l_containerViewFrame.size.width - 10;
@@ -244,7 +260,7 @@
 	CGSize textSize = CGSizeZero;
     
     if (self.message!=nil) {
-        textSize= [self.message sizeWithFont:self.textFont
+        textSize= [self.message sizeWithFont:textFont
                            constrainedToSize:CGSizeMake(rectWidth, 99999.0)
                                lineBreakMode:UILineBreakModeWordWrap];
     }
@@ -268,22 +284,22 @@
     //    NSLog(@"targetView.bounds.size: %@", NSStringFromCGSize(targetView.bounds.size));
 	if (targetRelativeOrigin.y+targetView.bounds.size.height < containerRelativeOrigin.y) {
 		pointerY = 0.0;
-		pointDirection = IA_CMPointDirectionUp;
+		pointDirection = PointDirectionUp;
 	}
 	else if (targetRelativeOrigin.y > containerRelativeOrigin.y+containerView.bounds.size.height) {
 		pointerY = containerView.bounds.size.height;
-		pointDirection = IA_CMPointDirectionDown;
+		pointDirection = PointDirectionDown;
 	}
 	else {
 		CGPoint targetOriginInContainer = [targetView convertPoint:CGPointMake(0.0, 0.0) toView:containerView];
 		CGFloat sizeBelow = containerView.bounds.size.height - targetOriginInContainer.y;
 		if (sizeBelow > targetOriginInContainer.y) {
 			pointerY = targetOriginInContainer.y + targetView.bounds.size.height;
-			pointDirection = IA_CMPointDirectionUp;
+			pointDirection = PointDirectionUp;
 		}
 		else {
 			pointerY = targetOriginInContainer.y;
-			pointDirection = IA_CMPointDirectionDown;
+			pointDirection = PointDirectionDown;
 		}
 	}
 	
@@ -307,7 +323,7 @@
 	
 	CGFloat fullHeight = bubbleSize.height + self.pointerSize + 10.0;
 	CGFloat y_b;
-	if (pointDirection == IA_CMPointDirectionUp) {
+	if (pointDirection == PointDirectionUp) {
 		y_b = self.topMargin + pointerY;
 		targetPoint = CGPointMake(x_p-x_b+2, 0);
 	}
@@ -339,13 +355,13 @@
     CGRect finalFrame = [self finalFramePointingAtView:targetView inView:containerView shouldInvertLandscapeFrame:a_shouldInvertLandscapeFrame];
    	
 	if (animated) {
-        if (self.animation == IA_CMPopTipAnimationSlide) {
+        if (animation == CMPopTipAnimationSlide) {
             self.alpha = 0.0;
             CGRect startFrame = finalFrame;
             startFrame.origin.y += 10;
             self.frame = startFrame;
         }
-		else if (self.animation == IA_CMPopTipAnimationPop) {
+		else if (animation == CMPopTipAnimationPop) {
             self.frame = finalFrame;
             self.alpha = 0.5;
             
@@ -364,7 +380,7 @@
 		
 		[self setNeedsDisplay];
 		
-		if (self.animation == IA_CMPopTipAnimationSlide) {
+		if (animation == CMPopTipAnimationSlide) {
 			[UIView beginAnimations:nil context:nil];
 			self.alpha = 1.0;
 			self.frame = finalFrame;
@@ -437,8 +453,8 @@
 	
 	[self dismissAnimated:YES];
 	
-	if (self.delegate && [self.delegate respondsToSelector:@selector(popTipViewWasDismissedByUser:)]) {
-		[self.delegate popTipViewWasDismissedByUser:self];
+	if (delegate && [delegate respondsToSelector:@selector(popTipViewWasDismissedByUser:)]) {
+		[delegate popTipViewWasDismissedByUser:self];
 	}
 
 }
@@ -473,12 +489,12 @@
 		self.textColor = [UIColor whiteColor];
 		self.textAlignment = UITextAlignmentCenter;
 		self.backgroundColor = [UIColor colorWithRed:62.0/255.0 green:60.0/255.0 blue:154.0/255.0 alpha:1.0];
-        self.animation = IA_CMPopTipAnimationSlide;
+        self.animation = CMPopTipAnimationSlide;
     }
     return self;
 }
 
-- (IA_CMPointDirection) getPointDirection {
+- (PointDirection) getPointDirection {
   return pointDirection;
 }
 
@@ -500,5 +516,17 @@
 	}
 	return self;
 }
+
+- (void)dealloc {
+	[backgroundColor release];
+    [customView release];
+	[message release];
+	[targetObject release];
+	[textColor release];
+	[textFont release];
+	
+    [super dealloc];
+}
+
 
 @end

@@ -6,9 +6,9 @@
 //
 //  https://github.com/samvermette/SVWebViewController
 
-#import "IA_SVWebViewController.h"
+#import "SVWebViewController.h"
 
-@interface IA_SVWebViewController () <UIWebViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate>
+@interface SVWebViewController () <UIWebViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong, readonly) UIBarButtonItem *backBarButtonItem;
 @property (nonatomic, strong, readonly) UIBarButtonItem *forwardBarButtonItem;
@@ -37,7 +37,7 @@
 @end
 
 
-@implementation IA_SVWebViewController
+@implementation SVWebViewController
 
 @synthesize availableActions;
 
@@ -101,13 +101,13 @@
                         destructiveButtonTitle:nil   
                         otherButtonTitles:nil]; 
 
-        if((self.availableActions & IA_SVWebViewControllerAvailableActionsCopyLink) == IA_SVWebViewControllerAvailableActionsCopyLink)
+        if((self.availableActions & SVWebViewControllerAvailableActionsCopyLink) == SVWebViewControllerAvailableActionsCopyLink)
             [pageActionSheet addButtonWithTitle:NSLocalizedString(@"Copy link", @"")];
         
-        if((self.availableActions & IA_SVWebViewControllerAvailableActionsOpenInSafari) == IA_SVWebViewControllerAvailableActionsOpenInSafari)
+        if((self.availableActions & SVWebViewControllerAvailableActionsOpenInSafari) == SVWebViewControllerAvailableActionsOpenInSafari)
             [pageActionSheet addButtonWithTitle:NSLocalizedString(@"Open in Safari", @"")];
         
-        if([MFMailComposeViewController canSendMail] && (self.availableActions & IA_SVWebViewControllerAvailableActionsMailLink) == IA_SVWebViewControllerAvailableActionsMailLink)
+        if([MFMailComposeViewController canSendMail] && (self.availableActions & SVWebViewControllerAvailableActionsMailLink) == SVWebViewControllerAvailableActionsMailLink)
             [pageActionSheet addButtonWithTitle:NSLocalizedString(@"Mail link to this page", @"")];
         
         [pageActionSheet addButtonWithTitle:NSLocalizedString(@"Cancel", @"")];
@@ -141,7 +141,7 @@
     if(self = [super init]) {
         self.URL = url;
         self.p_completionBlock = a_completionBlock;
-        self.availableActions = IA_SVWebViewControllerAvailableActionsOpenInSafari | IA_SVWebViewControllerAvailableActionsMailLink;
+        self.availableActions = SVWebViewControllerAvailableActionsOpenInSafari | SVWebViewControllerAvailableActionsMailLink;
     }
     
     return self;

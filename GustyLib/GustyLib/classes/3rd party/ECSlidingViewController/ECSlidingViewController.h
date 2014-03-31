@@ -7,54 +7,54 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UIImage+IA_ECImageWithUIView.h"
+#import "UIImage+ImageWithUIView.h"
 #import "IAUIViewController.h"
 
 /** Notification that gets posted when the underRight view will appear */
-extern NSString *const IA_ECSlidingViewUnderRightWillAppear;
+extern NSString *const ECSlidingViewUnderRightWillAppear;
 
 /** Notification that gets posted when the underLeft view will appear */
-extern NSString *const IA_ECSlidingViewUnderLeftWillAppear;
+extern NSString *const ECSlidingViewUnderLeftWillAppear;
 
 /** Notification that gets posted when the top view is anchored to the left side of the screen */
-extern NSString *const IA_ECSlidingViewTopDidAnchorLeft;
+extern NSString *const ECSlidingViewTopDidAnchorLeft;
 
 /** Notification that gets posted when the top view is anchored to the right side of the screen */
-extern NSString *const IA_ECSlidingViewTopDidAnchorRight;
+extern NSString *const ECSlidingViewTopDidAnchorRight;
 
 /** Notification that gets posted when the top view is centered on the screen */
-extern NSString *const IA_ECSlidingViewTopDidReset;
+extern NSString *const ECSlidingViewTopDidReset;
 
 /** @constant ECViewWidthLayout width of under views */
 typedef enum {
   /** Under view will take up the full width of the screen */
-  IA_ECFullWidth,
+  ECFullWidth,
   /** Under view will have a fixed width equal to anchorRightRevealAmount or anchorLeftRevealAmount. */
-  IA_ECFixedRevealWidth,
+  ECFixedRevealWidth,
   /** Under view will have a variable width depending on rotation equal to the screen's width - anchorRightPeekAmount or anchorLeftPeekAmount. */
-  IA_ECVariableRevealWidth
-} IA_ECViewWidthLayout;
+  ECVariableRevealWidth
+} ECViewWidthLayout;
 
 /** @constant ECSide side of screen */
 typedef enum {
   /** Left side of screen */
-  IA_ECLeft,
+  ECLeft,
   /** Right side of screen */
-  IA_ECRight
-} IA_ECSide;
+  ECRight
+} ECSide;
 
 /** @constant ECResetStrategy top view behavior while anchored. */
 typedef enum {
   /** No reset strategy will be used */
-  IA_ECNone = 0,
+  ECNone = 0,
   /** Tapping the top view will reset it */
-  IA_ECTapping = 1 << 0,
+  ECTapping = 1 << 0,
   /** Panning will be enabled on the top view. If it is panned and released towards the reset position it will reset, otherwise it will slide towards the anchored position. */
-  IA_ECPanning = 1 << 1
-} IA_ECResetStrategy;
+  ECPanning = 1 << 1
+} ECResetStrategy;
 
 /** ECSlidingViewController is a view controller container that presents its child view controllers in two layers. The top layer can be panned to reveal the layers below it. */
-@interface IA_ECSlidingViewController : IAUIViewController{
+@interface ECSlidingViewController : IAUIViewController{
   CGPoint startTouchPosition;
   BOOL topViewHasFocus;
 }
@@ -119,13 +119,13 @@ typedef enum {
  
  By default, this is set to ECFullWidth
  */
-@property (nonatomic, unsafe_unretained) IA_ECViewWidthLayout underLeftWidthLayout;
+@property (nonatomic, unsafe_unretained) ECViewWidthLayout underLeftWidthLayout;
 
 /** Specifies the behavior for the under right width
  
  By default, this is set to ECFullWidth
  */
-@property (nonatomic, unsafe_unretained) IA_ECViewWidthLayout underRightWidthLayout;
+@property (nonatomic, unsafe_unretained) ECViewWidthLayout underRightWidthLayout;
 
 /** Returns the strategy for resetting the top view when it is anchored.
  
@@ -133,7 +133,7 @@ typedef enum {
  
  If this is set to ECNone, then there must be a custom way to reset the top view otherwise it will stay anchored.
  */
-@property (nonatomic, unsafe_unretained) IA_ECResetStrategy resetStrategy;
+@property (nonatomic, unsafe_unretained) ECResetStrategy resetStrategy;
 
 /** Returns a horizontal panning gesture for moving the top view.
  
@@ -147,7 +147,7 @@ typedef enum {
  
  @param side The side for the top view to slide towards.
  */
-- (void)anchorTopViewTo:(IA_ECSide)side;
+- (void)anchorTopViewTo:(ECSide)side;
 
 /** Slides the top view in the direction of the specified side.
  
@@ -157,13 +157,13 @@ typedef enum {
  @param animations Perform changes to properties that will be animated while top view is moved off screen. Can be nil.
  @param onComplete Executed after the animation is completed. Can be nil.
  */
-- (void)anchorTopViewTo:(IA_ECSide)side animations:(void(^)())animations onComplete:(void(^)())complete;
+- (void)anchorTopViewTo:(ECSide)side animations:(void(^)())animations onComplete:(void(^)())complete;
 
 /** Slides the top view off of the screen in the direction of the specified side.
  
  @param side The side for the top view to slide off the screen towards.
  */
-- (void)anchorTopViewOffScreenTo:(IA_ECSide)side;
+- (void)anchorTopViewOffScreenTo:(ECSide)side;
 
 /** Slides the top view off of the screen in the direction of the specified side.
  
@@ -171,7 +171,7 @@ typedef enum {
  @param animations Perform changes to properties that will be animated while top view is moved off screen. Can be nil.
  @param onComplete Executed after the animation is completed. Can be nil.
  */
-- (void)anchorTopViewOffScreenTo:(IA_ECSide)side animations:(void(^)())animations onComplete:(void(^)())complete;
+- (void)anchorTopViewOffScreenTo:(ECSide)side animations:(void(^)())animations onComplete:(void(^)())complete;
 
 /** Slides the top view back to the center. */
 - (void)resetTopView;
@@ -195,7 +195,7 @@ typedef enum {
 @end
 
 /** UIViewController extension */
-@interface UIViewController(IA_ECSlidingViewExtension)
+@interface UIViewController(SlidingViewExtension)
 /** Convience method for getting access to the ECSlidingViewController instance */
-- (IA_ECSlidingViewController *)slidingViewController;
+- (ECSlidingViewController *)slidingViewController;
 @end

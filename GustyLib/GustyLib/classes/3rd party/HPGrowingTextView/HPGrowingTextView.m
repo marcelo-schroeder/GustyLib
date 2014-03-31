@@ -25,16 +25,16 @@
 //	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //	THE SOFTWARE.
 
-#import "IA_HPGrowingTextView.h"
-#import "IA_HPTextViewInternal.h"
+#import "HPGrowingTextView.h"
+#import "HPTextViewInternal.h"
 
-@interface IA_HPGrowingTextView (private)
+@interface HPGrowingTextView(private)
 -(void)commonInitialiser;
 -(void)resizeTextView:(NSInteger)newSizeH;
 -(void)growDidStop;
 @end
 
-@implementation IA_HPGrowingTextView
+@implementation HPGrowingTextView
 @synthesize internalTextView;
 @synthesize delegate;
 @synthesize maxHeight;
@@ -73,7 +73,7 @@
     CGRect r = self.frame;
     r.origin.y = 0;
     r.origin.x = 0;
-    internalTextView = [[IA_HPTextViewInternal alloc] initWithFrame:r];
+    internalTextView = [[HPTextViewInternal alloc] initWithFrame:r];
     internalTextView.delegate = self;
     internalTextView.scrollEnabled = NO;
     internalTextView.font = [UIFont fontWithName:@"Helvetica" size:13]; 

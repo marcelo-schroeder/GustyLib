@@ -31,7 +31,7 @@
 @property (nonatomic, strong, readonly) NSMutableArray *p_savedToolbarItemEnabledStates;
 @property (nonatomic, strong) dispatch_block_t p_refreshAndReloadDataAsyncBlock;
 @property (nonatomic) BOOL p_refreshAndReloadDataAsyncRequested;
-@property (nonatomic, strong) IA_MBProgressHUD *p_hud;
+@property (nonatomic, strong) MBProgressHUD *p_hud;
 
 @end
 

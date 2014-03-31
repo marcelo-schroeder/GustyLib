@@ -164,7 +164,7 @@ static char c_fetchedResultsControllerKey;
 }
 
 -(void)m_onSlidingMenuButtonAction:(UIBarButtonItem*)a_button{
-    [self.slidingViewController anchorTopViewTo:IA_ECRight];
+    [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
 -(void)m_releaseViewForController:(UIViewController*)a_viewController{
@@ -1353,6 +1353,19 @@ static char c_fetchedResultsControllerKey;
     UIActivityViewController *l_activityVC = [[UIActivityViewController alloc] initWithActivityItems:l_activityItems applicationActivities:l_applicationActivities];
     l_activityVC.p_presenter = self;
     [self m_presentModalSelectionViewController:l_activityVC fromBarButtonItem:a_barButtonItem];
+}
+
+- (void)m_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView {
+    [self addChildViewController:a_childViewController];
+    [a_parentView addSubview:a_childViewController.view];
+    [a_childViewController.view m_addLayoutConstraintsToFillSuperview];
+    [a_childViewController didMoveToParentViewController:self];
+}
+
+- (void)m_removeFromParentViewController{
+    [self willMoveToParentViewController:nil];
+    [self.view removeFromSuperview];
+    [self removeFromParentViewController];
 }
 
 + (instancetype)m_instantiateFromStoryboard {

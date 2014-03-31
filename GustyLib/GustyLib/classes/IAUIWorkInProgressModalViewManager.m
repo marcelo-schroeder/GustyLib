@@ -28,7 +28,7 @@
     SEL v_cancellationCallbackSelector;
     id v_cancellationCallbackArgument;
     NSString *v_message;
-    IA_MBProgressHUD *v_hud;
+    MBProgressHUD *v_hud;
     
 }
 
@@ -36,7 +36,7 @@
 
 - (void)onCancelTap:(id)aSender{
     [self m_removeGestureRecogniser];
-    v_hud.mode = IA_MBProgressHUDModeIndeterminate;
+    v_hud.mode = MBProgressHUDModeIndeterminate;
     v_hud.labelText = @"Cancelling...";
     v_hud.detailsLabelText = @"";
     self.p_hasBeenCancelled = YES;
@@ -72,11 +72,11 @@
 #pragma mark - Public
 
 -(void)setP_determinateProgress:(BOOL)p_determinateProgress{
-    v_hud.mode = p_determinateProgress ? IA_MBProgressHUDModeDeterminate : IA_MBProgressHUDModeIndeterminate;
+    v_hud.mode = p_determinateProgress ? MBProgressHUDModeDeterminate : MBProgressHUDModeIndeterminate;
 }
 
 -(BOOL)p_determinateProgress{
-    return v_hud.mode == IA_MBProgressHUDModeDeterminate;
+    return v_hud.mode == MBProgressHUDModeDeterminate;
 }
 
 -(void)setP_determinateProgressPercentage:(float)p_determinateProgressPercentage{
@@ -150,20 +150,20 @@
       hudConfigurationBlock:nil];
 }
 
-- (void)m_showViewForView:(UIView*)a_view animate:(BOOL)a_animate hudConfigurationBlock:(void(^)(IA_MBProgressHUD *))a_hudConfigurationBlock{
+- (void)m_showViewForView:(UIView*)a_view animate:(BOOL)a_animate hudConfigurationBlock:(void(^)(MBProgressHUD *))a_hudConfigurationBlock{
 
     self.p_hasBeenCancelled = NO;
 
     // Instantiate HUD
-    v_hud = [[IA_MBProgressHUD alloc] initWithView:a_view];
+    v_hud = [[MBProgressHUD alloc] initWithView:a_view];
     
     // Configure HUD
     v_hud.opacity = 0.6;
     v_hud.labelText = self.p_progressMessage;
     v_hud.removeFromSuperViewOnHide = YES;
-    v_hud.animationType = IA_MBProgressHUDAnimationFade;
+    v_hud.animationType = MBProgressHUDAnimationFade;
     v_hud.dimBackground = YES;
-    v_hud.mode = IA_MBProgressHUDModeIndeterminate;
+    v_hud.mode = MBProgressHUDModeIndeterminate;
     
     // Allow cancellation if required
     if (v_cancellationCallbackReceiver || self.p_cancelationCompletionBlock) {

@@ -54,6 +54,20 @@
 @property (nonatomic, readonly) BOOL p_doneButtonSaves;
 @property (nonatomic, weak) UIViewController *p_previousVisibleViewController;
 
+/**
+* Adds a child view controller to self.
+* It also adds auto layout constraints so that the child view controller's view has the same size as the parent view.
+*
+* @param a_childViewController Child view controller to add to self.
+* @param a_parentView Parent view to add the child view controller's view as a subview of.
+*/
+- (void)m_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView;
+
+/**
+* Removes this view controller from its parent.
+*/
+- (void)m_removeFromParentViewController;
+
 + (instancetype)m_instantiateFromStoryboard;
 
 + (instancetype)m_instantiateFromStoryboardWithViewControllerIdentifier:(NSString *)a_viewControllerIdentifier;

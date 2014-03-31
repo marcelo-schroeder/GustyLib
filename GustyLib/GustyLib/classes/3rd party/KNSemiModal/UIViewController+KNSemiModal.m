@@ -6,13 +6,13 @@
 //  Copyright (c) 2012 Kent Nguyen. All rights reserved.
 //
 
-#import "UIViewController+IA_KNSemiModal.h"
+#import "UIViewController+KNSemiModal.h"
 #import <QuartzCore/QuartzCore.h>
 
 static char c_presentingSemiModalKey;
 static char c_presentedAsSemiModalKey;
 
-@interface UIViewController (IA_KNSemiModalInternal)
+@interface UIViewController (KNSemiModalInternal)
 
 @property (nonatomic) BOOL p_presentingSemiModal;
 @property (nonatomic) BOOL p_presentedAsSemiModal;
@@ -22,7 +22,7 @@ static char c_presentedAsSemiModalKey;
 
 @end
 
-@implementation UIViewController (IA_KNSemiModal)
+@implementation UIViewController (KNSemiModal)
 
 #pragma mark - Private
 

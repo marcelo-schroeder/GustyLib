@@ -51,6 +51,10 @@
 
 - (NSArray *)m_addLayoutConstraintsToFillSuperview;
 
+- (NSArray *)m_addLayoutConstraintsToFillSuperviewHorizontally;
+
+- (NSArray *)m_addLayoutConstraintsToFillSuperviewVertically;
+
 - (NSArray *)m_addLayoutConstraintsToCenterInSuperview;
 
 - (NSLayoutConstraint *)m_addLayoutConstraintToCenterInSuperviewHorizontally;

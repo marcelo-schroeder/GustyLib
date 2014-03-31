@@ -25,10 +25,10 @@
 //	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //	THE SOFTWARE.
 
-#import "IA_HPTextViewInternal.h"
+#import "HPTextViewInternal.h"
 
 
-@implementation IA_HPTextViewInternal
+@implementation HPTextViewInternal
 
 @synthesize placeholder;
 @synthesize placeholderColor;

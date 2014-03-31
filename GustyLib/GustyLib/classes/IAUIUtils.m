@@ -24,10 +24,10 @@ static UIImage *c_menuBarButtonItemImage = nil;
 
 #pragma mark - Private
 
-+(IA_MBProgressHUD *)hudWithText:(NSString*)a_text animation:(IA_MBProgressHUDAnimation)a_animationType inView:(UIView*)a_view{
-    IA_MBProgressHUD *l_hud = [[IA_MBProgressHUD alloc] initWithView:a_view];
++(MBProgressHUD*)hudWithText:(NSString*)a_text animation:(MBProgressHUDAnimation)a_animationType inView:(UIView*)a_view{
+    MBProgressHUD *l_hud = [[MBProgressHUD alloc] initWithView:a_view];
     l_hud.customView = nil;
-    l_hud.mode = IA_MBProgressHUDModeCustomView;
+    l_hud.mode = MBProgressHUDModeCustomView;
     l_hud.opacity = 0.6;
     l_hud.userInteractionEnabled = NO;
     l_hud.removeFromSuperViewOnHide = YES;
@@ -36,12 +36,12 @@ static UIImage *c_menuBarButtonItemImage = nil;
     return l_hud;
 }
 
-+(IA_MBProgressHUD *)showHudWithText:(NSString*)a_text animation:(IA_MBProgressHUDAnimation)a_animationType inView:(UIView*)a_view animate:(BOOL)a_animated{
++(MBProgressHUD*)showHudWithText:(NSString*)a_text animation:(MBProgressHUDAnimation)a_animationType inView:(UIView*)a_view animate:(BOOL)a_animated{
     UIView *l_view = a_view;
     if (!l_view) {
         l_view = [IAUIUtils nonModalHudContainerView];
     }
-    IA_MBProgressHUD *l_hud = [self hudWithText:a_text animation:a_animationType inView:l_view];
+    MBProgressHUD *l_hud = [self hudWithText:a_text animation:a_animationType inView:l_view];
     [l_view addSubview:l_hud];
     [l_hud show:a_animated];
     return l_hud;
@@ -97,7 +97,7 @@ static UIImage *c_menuBarButtonItemImage = nil;
     }else {
         
         // The check below is to avoid going deeper into Apple's private implementations and other class kinds that could cause issues
-        if ([a_view isKindOfClass:[UIDatePicker class]] || [a_view isKindOfClass:[UIPickerView class]] || [a_view isKindOfClass:[IA_MBProgressHUD class]]) {
+        if ([a_view isKindOfClass:[UIDatePicker class]] || [a_view isKindOfClass:[UIPickerView class]] || [a_view isKindOfClass:[MBProgressHUD class]]) {
             return;
         }
         
@@ -413,25 +413,24 @@ static UIImage *c_menuBarButtonItemImage = nil;
     return aBoolean ? @"on" : @"off";
 }
 
-+(IA_MBProgressHUD *)showHudWithText:(NSString*)a_text{
++(MBProgressHUD*)showHudWithText:(NSString*)a_text{
     return [self showHudWithText:a_text inView:nil animated:YES];
 }
 
-+(IA_MBProgressHUD *)showHudWithText:(NSString*)a_text inView:(UIView*)a_view animated:(BOOL)a_animated{
-    return [self showHudWithText:a_text animation:IA_MBProgressHUDAnimationZoom inView:a_view animate:a_animated];
++(MBProgressHUD*)showHudWithText:(NSString*)a_text inView:(UIView*)a_view animated:(BOOL)a_animated{
+    return [self showHudWithText:a_text animation:MBProgressHUDAnimationZoom inView:a_view animate:a_animated];
 }
 
-+(void)hideHud:(IA_MBProgressHUD *)a_hud animated:(BOOL)a_animated{
++(void)hideHud:(MBProgressHUD*)a_hud animated:(BOOL)a_animated{
     [a_hud hide:a_animated];
 }
 
-+(void)hideHud:(IA_MBProgressHUD *)a_hud{
++(void)hideHud:(MBProgressHUD*)a_hud{
     [self hideHud:a_hud animated:YES];
 }
 
 + (void)showAndHideUserActionConfirmationHudWithText:(NSString*)a_text{
-    IA_MBProgressHUD *l_hud = [self showHudWithText:a_text animation:IA_MBProgressHUDAnimationFade inView:nil
-                                            animate:YES];
+    MBProgressHUD *l_hud = [self showHudWithText:a_text animation:MBProgressHUDAnimationFade inView:nil animate:YES];
     l_hud.minShowTime = 1;
     [self hideHud:l_hud];
 }

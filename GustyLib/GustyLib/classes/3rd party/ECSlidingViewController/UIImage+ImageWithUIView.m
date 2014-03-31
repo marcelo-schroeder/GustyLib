@@ -2,9 +2,9 @@
 //  UIImage+ImageWithUIView.m
 //
 
-#import "UIImage+IA_ECImageWithUIView.h"
+#import "UIImage+ImageWithUIView.h"
 
-@implementation UIImage (IA_ECImageWithUIView)
+@implementation UIImage (ImageWithUIView)
 #pragma mark -
 #pragma mark TakeScreenShot
 

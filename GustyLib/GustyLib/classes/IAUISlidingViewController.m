@@ -38,7 +38,7 @@
 
     UIViewController *l_storyboardMenuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"menu"];
     [self setAnchorRightRevealAmount:280.0f];
-    self.underLeftWidthLayout = IA_ECFixedRevealWidth;
+    self.underLeftWidthLayout = ECFixedRevealWidth;
     self.underLeftViewController = l_storyboardMenuViewController;
 
     // Configure placeholder view controller
