@@ -1,0 +1,29 @@
+@charset "UTF-8";
+/* CSS Document */
+
+html {
+    -webkit-text-size-adjust: none; /* Never autoresize text */
+}
+
+body, table {
+    font-family: 'HelveticaNeue';
+    font-size: 14;
+}
+
+body {
+    margin-top:0;
+    margin-bottom:0;
+    margin-right:9;
+    margin-left:9;
+    padding: 0;
+}
+
+table {
+    border-collapse:collapse;
+    text-align:left;
+}
+
+table, th, td {
+    border: 1px solid black;
+    padding:2pt;
+}
