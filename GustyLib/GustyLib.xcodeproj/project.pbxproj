@@ -1,0 +1,420 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F7D4D83718EA00E600ABF401 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4D83618EA00E600ABF401 /* Foundation.framework */; };
+		F7D4D83C18EA00E600ABF401 /* GustyLib.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F7D4D83B18EA00E600ABF401 /* GustyLib.h */; };
+		F7D4D83E18EA00E600ABF401 /* GustyLib.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4D83D18EA00E600ABF401 /* GustyLib.m */; };
+		F7D4D84518EA00E600ABF401 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4D84418EA00E600ABF401 /* XCTest.framework */; };
+		F7D4D84618EA00E600ABF401 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4D83618EA00E600ABF401 /* Foundation.framework */; };
+		F7D4D84818EA00E600ABF401 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4D84718EA00E600ABF401 /* UIKit.framework */; };
+		F7D4D84B18EA00E600ABF401 /* libGustyLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4D83318EA00E600ABF401 /* libGustyLib.a */; };
+		F7D4D85118EA00E600ABF401 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F7D4D84F18EA00E600ABF401 /* InfoPlist.strings */; };
+		F7D4D85318EA00E600ABF401 /* GustyLibTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4D85218EA00E600ABF401 /* GustyLibTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F7D4D84918EA00E600ABF401 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F7D4D82B18EA00E600ABF401 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F7D4D83218EA00E600ABF401;
+			remoteInfo = GustyLib;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F7D4D83118EA00E600ABF401 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				F7D4D83C18EA00E600ABF401 /* GustyLib.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F7D4D83318EA00E600ABF401 /* libGustyLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGustyLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7D4D83618EA00E600ABF401 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		F7D4D83A18EA00E600ABF401 /* GustyLib-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GustyLib-Prefix.pch"; sourceTree = "<group>"; };
+		F7D4D83B18EA00E600ABF401 /* GustyLib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GustyLib.h; sourceTree = "<group>"; };
+		F7D4D83D18EA00E600ABF401 /* GustyLib.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GustyLib.m; sourceTree = "<group>"; };
+		F7D4D84318EA00E600ABF401 /* GustyLibTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GustyLibTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7D4D84418EA00E600ABF401 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		F7D4D84718EA00E600ABF401 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		F7D4D84E18EA00E600ABF401 /* GustyLibTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GustyLibTests-Info.plist"; sourceTree = "<group>"; };
+		F7D4D85018EA00E600ABF401 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F7D4D85218EA00E600ABF401 /* GustyLibTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GustyLibTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F7D4D83018EA00E600ABF401 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7D4D83718EA00E600ABF401 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7D4D84018EA00E600ABF401 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7D4D84518EA00E600ABF401 /* XCTest.framework in Frameworks */,
+				F7D4D84818EA00E600ABF401 /* UIKit.framework in Frameworks */,
+				F7D4D84B18EA00E600ABF401 /* libGustyLib.a in Frameworks */,
+				F7D4D84618EA00E600ABF401 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F7D4D82A18EA00E600ABF401 = {
+			isa = PBXGroup;
+			children = (
+				F7D4D83818EA00E600ABF401 /* GustyLib */,
+				F7D4D84C18EA00E600ABF401 /* GustyLibTests */,
+				F7D4D83518EA00E600ABF401 /* Frameworks */,
+				F7D4D83418EA00E600ABF401 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F7D4D83418EA00E600ABF401 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F7D4D83318EA00E600ABF401 /* libGustyLib.a */,
+				F7D4D84318EA00E600ABF401 /* GustyLibTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F7D4D83518EA00E600ABF401 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F7D4D83618EA00E600ABF401 /* Foundation.framework */,
+				F7D4D84418EA00E600ABF401 /* XCTest.framework */,
+				F7D4D84718EA00E600ABF401 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F7D4D83818EA00E600ABF401 /* GustyLib */ = {
+			isa = PBXGroup;
+			children = (
+				F7D4D83B18EA00E600ABF401 /* GustyLib.h */,
+				F7D4D83D18EA00E600ABF401 /* GustyLib.m */,
+				F7D4D83918EA00E600ABF401 /* Supporting Files */,
+			);
+			path = GustyLib;
+			sourceTree = "<group>";
+		};
+		F7D4D83918EA00E600ABF401 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F7D4D83A18EA00E600ABF401 /* GustyLib-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F7D4D84C18EA00E600ABF401 /* GustyLibTests */ = {
+			isa = PBXGroup;
+			children = (
+				F7D4D85218EA00E600ABF401 /* GustyLibTests.m */,
+				F7D4D84D18EA00E600ABF401 /* Supporting Files */,
+			);
+			path = GustyLibTests;
+			sourceTree = "<group>";
+		};
+		F7D4D84D18EA00E600ABF401 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F7D4D84E18EA00E600ABF401 /* GustyLibTests-Info.plist */,
+				F7D4D84F18EA00E600ABF401 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F7D4D83218EA00E600ABF401 /* GustyLib */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F7D4D85618EA00E600ABF401 /* Build configuration list for PBXNativeTarget "GustyLib" */;
+			buildPhases = (
+				F7D4D82F18EA00E600ABF401 /* Sources */,
+				F7D4D83018EA00E600ABF401 /* Frameworks */,
+				F7D4D83118EA00E600ABF401 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GustyLib;
+			productName = GustyLib;
+			productReference = F7D4D83318EA00E600ABF401 /* libGustyLib.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		F7D4D84218EA00E600ABF401 /* GustyLibTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F7D4D85918EA00E600ABF401 /* Build configuration list for PBXNativeTarget "GustyLibTests" */;
+			buildPhases = (
+				F7D4D83F18EA00E600ABF401 /* Sources */,
+				F7D4D84018EA00E600ABF401 /* Frameworks */,
+				F7D4D84118EA00E600ABF401 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F7D4D84A18EA00E600ABF401 /* PBXTargetDependency */,
+			);
+			name = GustyLibTests;
+			productName = GustyLibTests;
+			productReference = F7D4D84318EA00E600ABF401 /* GustyLibTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F7D4D82B18EA00E600ABF401 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = InfoAccent;
+			};
+			buildConfigurationList = F7D4D82E18EA00E600ABF401 /* Build configuration list for PBXProject "GustyLib" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F7D4D82A18EA00E600ABF401;
+			productRefGroup = F7D4D83418EA00E600ABF401 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F7D4D83218EA00E600ABF401 /* GustyLib */,
+				F7D4D84218EA00E600ABF401 /* GustyLibTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F7D4D84118EA00E600ABF401 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7D4D85118EA00E600ABF401 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F7D4D82F18EA00E600ABF401 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7D4D83E18EA00E600ABF401 /* GustyLib.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7D4D83F18EA00E600ABF401 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7D4D85318EA00E600ABF401 /* GustyLibTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F7D4D84A18EA00E600ABF401 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F7D4D83218EA00E600ABF401 /* GustyLib */;
+			targetProxy = F7D4D84918EA00E600ABF401 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F7D4D84F18EA00E600ABF401 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F7D4D85018EA00E600ABF401 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F7D4D85418EA00E600ABF401 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F7D4D85518EA00E600ABF401 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F7D4D85718EA00E600ABF401 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/GustyLib.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GustyLib/GustyLib-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F7D4D85818EA00E600ABF401 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/GustyLib.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GustyLib/GustyLib-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		F7D4D85A18EA00E600ABF401 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GustyLib/GustyLib-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "GustyLibTests/GustyLibTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		F7D4D85B18EA00E600ABF401 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GustyLib/GustyLib-Prefix.pch";
+				INFOPLIST_FILE = "GustyLibTests/GustyLibTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F7D4D82E18EA00E600ABF401 /* Build configuration list for PBXProject "GustyLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F7D4D85418EA00E600ABF401 /* Debug */,
+				F7D4D85518EA00E600ABF401 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F7D4D85618EA00E600ABF401 /* Build configuration list for PBXNativeTarget "GustyLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F7D4D85718EA00E600ABF401 /* Debug */,
+				F7D4D85818EA00E600ABF401 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		F7D4D85918EA00E600ABF401 /* Build configuration list for PBXNativeTarget "GustyLibTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F7D4D85A18EA00E600ABF401 /* Debug */,
+				F7D4D85B18EA00E600ABF401 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F7D4D82B18EA00E600ABF401 /* Project object */;
+}
