@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#import "IACommon.h"
+
 @interface IAUIApplicationDelegate ()
 
 @property (nonatomic, strong) id<IAUIAppearanceTheme> p_appearanceTheme;
@@ -188,6 +190,8 @@
     
 }
 
+//wip: need to review the use of Crashlytics - can it be a runtime dependency instead?
+/*
 -(void)m_configureCrashReportingWithUserInfo:(NSDictionary*)a_userInfo{
     
 //    NSLog(@"m_configureCrashReportingWithUserInfo: %@", [a_userInfo description]);
@@ -222,6 +226,7 @@
     NSLog(@"Crash reporting configured");
     
 }
+*/
 
 -(void)m_configureAnalytics{
 

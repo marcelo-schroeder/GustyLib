@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "IAUIWebViewController.h"
+#import "IACommon.h"
 
 @interface IAUIWebViewController ()
 

@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "IAHtmlDocument.h"
+#import "IACommon.h"
 
 @implementation IAHtmlDocument{
     

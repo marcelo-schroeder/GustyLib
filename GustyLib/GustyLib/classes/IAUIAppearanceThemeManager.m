@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#import "IACommon.h"
+
 @interface IAUIAppearanceThemeManager()
 
 @property (nonatomic, strong) id<IAUIAppearanceTheme> p_loadedAppearanceTheme;

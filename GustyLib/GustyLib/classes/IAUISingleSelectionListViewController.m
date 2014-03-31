@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#import "IACommon.h"
+
 @interface IAUISingleSelectionListViewController ()
 
 @property (nonatomic) BOOL p_hasInitialLoadBeenDone;

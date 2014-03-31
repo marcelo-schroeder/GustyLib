@@ -494,6 +494,7 @@
 		F7D4DB6518EA0E6400ABF401 /* IAUITableSectionHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IAUITableSectionHeaderView.xib; sourceTree = "<group>"; };
 		F7D4DB6618EA0E6400ABF401 /* textViewBorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textViewBorder.png; sourceTree = "<group>"; };
 		F7D4DB6718EA0E6400ABF401 /* textViewBorder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "textViewBorder@2x.png"; sourceTree = "<group>"; };
+		F7D4DBED18EA11E100ABF401 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		FF387BE31CA84C679F50890D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -544,6 +545,7 @@
 		F7D4D83518EA00E600ABF401 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F7D4DBED18EA11E100ABF401 /* MapKit.framework */,
 				F7D4D83618EA00E600ABF401 /* Foundation.framework */,
 				F7D4D84418EA00E600ABF401 /* XCTest.framework */,
 				F7D4D84718EA00E600ABF401 /* UIKit.framework */,
@@ -1314,7 +1316,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -1345,7 +1347,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1353,6 +1355,7 @@
 		};
 		F7D4D85718EA00E600ABF401 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A03BC960480144A4ABDD6917 /* Pods.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/GustyLib.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1365,6 +1368,7 @@
 		};
 		F7D4D85818EA00E600ABF401 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A03BC960480144A4ABDD6917 /* Pods.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/GustyLib.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

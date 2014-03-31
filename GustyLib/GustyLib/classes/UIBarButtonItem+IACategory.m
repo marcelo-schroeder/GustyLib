@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#import "IACommon.h"
+
 static char c_buttonKey;
 
 @interface UIBarButtonItem (IACategory_Private)

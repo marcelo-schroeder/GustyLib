@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "IAUIHelpModeOverlayView.h"
+#import "IACommon.h"
 
 @interface IAUIHelpModeOverlaySpotlightMaskView : UIView
 
@@ -33,7 +33,6 @@
 @property (nonatomic) CGRect p_spotlightRect;
 
 @property (nonatomic, strong) IAUIHelpModeOverlaySpotlightMaskView *p_spotlightMask;
-@property (nonatomic, strong) CLTickerView *p_ticker;
 
 @end
 
@@ -174,26 +173,6 @@
     self.p_removeSpotlightWithAnimation = a_animate;
     [self setNeedsDisplay];
     
-}
-
--(void)m_showTicker{
-    if (!self.p_ticker) {
-        self.p_ticker = [[CLTickerView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 30, self.frame.size.width, 30)];
-        self.p_ticker.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
-        self.p_ticker.marqueeStr = @"Help mode on. Single tap on anything for help. Double tap on title bar to exit help mode.";
-        self.p_ticker.marqueeFont = [UIFont boldSystemFontOfSize:16];
-        self.p_ticker.alpha = 0.5;
-        self.p_ticker.scrollview.userInteractionEnabled = NO;
-        [self addSubview:self.p_ticker];
-    }
-    [self.p_ticker resetScrolling];
-    self.p_ticker.hidden = NO;
-    [self.p_ticker startScrolling];
-}
-
--(void)m_hideTicker{
-    self.p_ticker.hidden = YES;
-    [self.p_ticker stopScrolling];
 }
 
 @end

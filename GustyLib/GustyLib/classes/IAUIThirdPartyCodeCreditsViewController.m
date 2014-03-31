@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#import "IACommon.h"
+
 @interface IAUIThirdPartyCodeCreditsViewController ()
 
 @property (nonatomic, strong) NSArray *p_credits;

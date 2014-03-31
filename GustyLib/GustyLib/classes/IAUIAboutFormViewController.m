@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "IAUIAboutFormViewController.h"
+#import "IACommon.h"
 
 @interface IAUIAboutFormViewController ()
 

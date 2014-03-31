@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#import "IACommon.h"
+
 @implementation IAUIAboutViewController{
     
     @private

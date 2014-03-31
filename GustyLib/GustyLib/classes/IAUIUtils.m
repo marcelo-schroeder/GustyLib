@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#import "IACommon.h"
+
 static UIImage *c_menuBarButtonItemImage = nil;
 
 @implementation IAUIUtils

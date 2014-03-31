@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "IAUICollectionViewCell.h"
+#import "IACommon.h"
 
 @interface IAUITableViewController(){
     @private

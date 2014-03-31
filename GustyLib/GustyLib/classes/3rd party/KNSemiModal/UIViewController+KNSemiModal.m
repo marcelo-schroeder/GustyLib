@@ -8,6 +8,7 @@
 
 #import "UIViewController+KNSemiModal.h"
 #import <QuartzCore/QuartzCore.h>
+#import "IACommon.h"
 
 static char c_presentingSemiModalKey;
 static char c_presentedAsSemiModalKey;

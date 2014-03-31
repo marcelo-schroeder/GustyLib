@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#import "IACommon.h"
+
 enum {
 	
     ACTION_SHEET_TAG_SELECT_NONE	= 100,

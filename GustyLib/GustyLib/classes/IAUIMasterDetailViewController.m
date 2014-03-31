@@ -3,8 +3,8 @@
 // Copyright (c) 2014 InfoAccent Pty Limited. All rights reserved.
 //
 
+#import "IACommon.h"
 #import "IAUIMasterDetailViewController.h"
-
 
 @interface IAUIMasterDetailViewController ()
 @property (strong, nonatomic, readwrite) UIView *p_masterContainerView;

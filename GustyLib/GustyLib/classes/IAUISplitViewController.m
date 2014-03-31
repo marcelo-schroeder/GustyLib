@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "IAUISplitViewController.h"
+#import "IACommon.h"
 
 @interface IAUISplitViewController ()
 

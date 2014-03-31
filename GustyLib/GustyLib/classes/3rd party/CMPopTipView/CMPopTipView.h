@@ -96,16 +96,8 @@ typedef enum {
 
 @protocol CMPopTipViewDelegate;
 
-
+//wip: review changes in this class - focused on getting the source to compile at this stage
 @interface CMPopTipView : UIView {
-	UIColor					*backgroundColor;
-	id<CMPopTipViewDelegate>	delegate;
-	NSString				*message;
-	id						targetObject;
-	UIColor					*textColor;
-	UIFont					*textFont;
-    CMPopTipAnimation       animation;
-
 	@private
 	CGSize					bubbleSize;
 	BOOL					highlight;
@@ -114,7 +106,7 @@ typedef enum {
 }
 
 @property (nonatomic, retain)			UIColor					*backgroundColor;
-@property (nonatomic, assign)		id<CMPopTipViewDelegate>	delegate;
+@property (nonatomic, weak)		id<CMPopTipViewDelegate>	delegate;
 @property (nonatomic, assign)			BOOL					disableTapToDismiss;
 @property (nonatomic, retain)			NSString				*message;
 @property (nonatomic, retain)           UIView	                *customView;

@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "IAUILongTextEditorViewController.h"
+#import "IACommon.h"
 
 @interface IAUILongTextEditorViewController ()
 

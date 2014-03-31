@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#import "IACommon.h"
+
 @interface IAPreferencesManager()
 
 @property (nonatomic, strong) NSManagedObjectID *p_preferencesManagedObjectId;

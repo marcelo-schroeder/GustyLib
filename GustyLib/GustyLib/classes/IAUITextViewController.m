@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 InfoAccent Pty Limited. All rights reserved.
 //
 
+#import "IACommon.h"
 #import "UIScrollView+IACategory.h"
 
 @interface IAUITextViewController ()

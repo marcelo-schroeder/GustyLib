@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "IAHelpManager.h"
+#import "IACommon.h"
 
 @interface IAUIBarButtonItemSavedState : NSObject
 

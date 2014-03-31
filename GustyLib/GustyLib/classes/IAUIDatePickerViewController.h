@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#import "IAUIAbstractFieldEditorViewController.h"
+
 @interface IAUIDatePickerViewController : IAUIAbstractFieldEditorViewController
 
 @property (nonatomic) UIDatePickerMode p_datePickerMode;

@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 InfoAccent Pty Limited. All rights reserved.
 //
 
-#import "IAUIFetchedResultsTableViewController.h"
+#import "IACommon.h"
 
 @interface IAUIFetchedResultsTableViewController ()
 

@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "IAUISlidingViewController.h"
+#import "IACommon.h"
 
 @interface IAUISlidingViewController ()
 

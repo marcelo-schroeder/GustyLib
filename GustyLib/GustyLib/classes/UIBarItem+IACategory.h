@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import <UIKit/UIKit.h>
+#import "IAHelpManager.h"
 
 @interface UIBarItem (IACategory) <IAHelpTarget>
 

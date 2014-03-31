@@ -3,7 +3,7 @@
 // Copyright (c) 2014 InfoAccent Pty Limited. All rights reserved.
 //
 
-#import "NSNumberFormatter+IACategory.h"
+#import "IACommon.h"
 
 
 @implementation NSNumberFormatter (IACategory)

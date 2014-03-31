@@ -3,8 +3,8 @@
 // Copyright (c) 2014 InfoAccent Pty Limited. All rights reserved.
 //
 
+#import "IACommon.h"
 #import "IAExternalUrlManager.h"
-
 
 @interface IAExternalUrlManager ()
 @property(nonatomic, strong) NSURL *p_urlToOpen;

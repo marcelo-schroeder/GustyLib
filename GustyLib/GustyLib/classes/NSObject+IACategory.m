@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "NSObject+IACategory.h"
+#import "IACommon.h"
 
 @implementation NSObject (IACategory)
 

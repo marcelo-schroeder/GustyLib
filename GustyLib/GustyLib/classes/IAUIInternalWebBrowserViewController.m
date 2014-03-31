@@ -4,6 +4,7 @@
 //
 //
 
+#import "IACommon.h"
 #import "IAUIInternalWebBrowserViewController.h"
 
 @interface IAUIInternalWebBrowserViewController ()

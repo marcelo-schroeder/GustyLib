@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#import "IACommon.h"
+
 @interface IAUIAbstractSelectionListViewController ()
 @property(nonatomic, strong, readwrite) NSManagedObject *p_managedObject;
 @property(nonatomic, strong, readwrite) NSString *p_propertyName;

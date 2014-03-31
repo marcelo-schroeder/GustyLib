@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "IAUICollectionViewController.h"
+#import "IACommon.h"
 
 @interface IAUICollectionViewController ()
 

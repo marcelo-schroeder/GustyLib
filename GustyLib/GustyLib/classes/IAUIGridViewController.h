@@ -3,7 +3,7 @@
 // Copyright (c) 2014 InfoAccent Pty Limited. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "IAUICollectionViewController.h"
 
 @protocol IAUIGridViewDataSource;
 @protocol IAUIGridViewDelegate;

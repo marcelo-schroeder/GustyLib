@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "IAUIHelpPopTipView.h"
+#import "IACommon.h"
 
 @interface IAUIHelpPopTipView ()
 

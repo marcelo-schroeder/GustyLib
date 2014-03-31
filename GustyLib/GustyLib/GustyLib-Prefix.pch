@@ -6,4 +6,13 @@
 
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+    #import <CoreData/CoreData.h>
+    #import <CoreText/CoreText.h>
+    #import <QuartzCore/QuartzCore.h>
+    #import <MapKit/MapKit.h>
+    #import <MessageUI/MessageUI.h>
+    #import <GLKit/GLKit.h>
+    #import <AdSupport/AdSupport.h>
+    #import <objc/message.h>    // added so I could use objc_msgSend to get rid of ARC compiler warnings for performSelector method calls
 #endif

@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "IAUIPageViewController.h"
+#import "IACommon.h"
 
 @interface IAUIPageViewController ()
 

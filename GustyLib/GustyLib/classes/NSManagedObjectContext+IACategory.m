@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 InfoAccent Pty Limited. All rights reserved.
 //
 
-#import "NSManagedObjectContext+IACategory.h"
+#import "IACommon.h"
 
 static char c_isCurrentManagedObjectDirtyKey;
 

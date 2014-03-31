@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="CIDR_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$/.idea">
+      <sourceFolder url="file://$MODULE_DIR$/.idea" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/GustyLib">
+      <sourceFolder url="file://$MODULE_DIR$/GustyLib" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/GustyLib.xcworkspace">
+      <sourceFolder url="file://$MODULE_DIR$/GustyLib.xcworkspace" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/GustyLib/GustyLib.xcodeproj">
+      <sourceFolder url="file://$MODULE_DIR$/GustyLib/GustyLib.xcodeproj" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/Podfile">
+      <sourceFolder url="file://$MODULE_DIR$/Podfile" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/Pods">
+      <sourceFolder url="file://$MODULE_DIR$/Pods" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
+

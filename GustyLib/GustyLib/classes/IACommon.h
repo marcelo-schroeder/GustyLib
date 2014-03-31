@@ -18,28 +18,13 @@
 //  limitations under the License.
 //
 
-// Frameworks
-#import <UIKit/UIKit.h>
-#import <CoreData/CoreData.h>
-#import <CoreText/CoreText.h>
-#import <QuartzCore/QuartzCore.h>
-#import <MapKit/MapKit.h>
-#import <MessageUI/MessageUI.h>
-#import <GLKit/GLKit.h>
-#import <AdSupport/AdSupport.h>
-#import <objc/message.h>    // added so I could use objc_msgSend to get rid of ARC compiler warnings for performSelector method calls
-
 /*************/
 /* 3rd party */
 /*************/
-// Crashlytics
-#import <Crashlytics/Crashlytics.h>
 // MBProgressHUD
 #import "MBProgressHUD.h"
 // CMPopTipView
 //#import "CMPopTipView.h"
-// CLTickerView
-#import "CLTickerView.h"
 // KNSemiModal
 #import "UIViewController+KNSemiModal.h"
 // ECSlidingViewController

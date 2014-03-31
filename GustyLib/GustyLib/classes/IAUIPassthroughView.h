@@ -3,7 +3,7 @@
 // Copyright (c) 2014 InfoAccent Pty Limited. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "IAUIView.h"
 
 // This view can be used to detect hits and, for instance, hide the keyboard when a UIView that conforms to UITextInput is hit.
 @interface IAUIPassthroughView : IAUIView

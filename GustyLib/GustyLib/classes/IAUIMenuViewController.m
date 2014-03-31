@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#import "IACommon.h"
+
 @interface IAUIMenuViewController ()
 
 @property (nonatomic, strong) UIViewController *p_previousViewController;

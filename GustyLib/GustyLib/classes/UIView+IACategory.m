@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "UIView+IACategory.h"
+#import "IACommon.h"
 
 static NSString *const k_layoutConstraintVisualFormatOrientationHorizontal = @"H";
 static NSString *const k_layoutConstraintVisualFormatOrientationVertical = @"V";
