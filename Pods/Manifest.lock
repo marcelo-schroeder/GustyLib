@@ -1,0 +1,76 @@
+PODS:
+  - DTFoundation (1.6.2):
+    - DTFoundation/AppKit
+    - DTFoundation/Core
+    - DTFoundation/DTASN1
+    - DTFoundation/DTAWS
+    - DTFoundation/DTHTMLParser
+    - DTFoundation/DTReachability
+    - DTFoundation/DTSidePanel
+    - DTFoundation/DTSQLite
+    - DTFoundation/DTUTI
+    - DTFoundation/DTZipArchive
+    - DTFoundation/UIKit
+    - DTFoundation/UIKit_BlocksAdditions
+  - DTFoundation/Core (1.6.2)
+  - DTFoundation/DTASN1 (1.6.2):
+    - DTFoundation/Core
+  - DTFoundation/DTAWS (1.6.2):
+    - DTFoundation/Core
+  - DTFoundation/DTHTMLParser (1.6.2):
+    - DTFoundation/Core
+  - DTFoundation/DTReachability (1.6.2)
+  - DTFoundation/DTSidePanel (1.6.2):
+    - DTFoundation/UIKit
+  - DTFoundation/DTSQLite (1.6.2)
+  - DTFoundation/DTUTI (1.6.2)
+  - DTFoundation/DTZipArchive (1.6.2):
+    - DTFoundation/DTZipArchive/Minizip
+  - DTFoundation/DTZipArchive/Minizip (1.6.2)
+  - DTFoundation/UIKit (1.6.2):
+    - DTFoundation/Core
+  - DTFoundation/UIKit_BlocksAdditions (1.6.2):
+    - DTFoundation/Core
+  - FlurrySDK (4.4.0):
+    - FlurrySDK/FlurrySDK
+  - FlurrySDK/FlurrySDK (4.4.0)
+  - Google-AdMob-Ads-SDK (6.8.0)
+  - MTStatusBarOverlay (0.9.1)
+  - MWFeedParser (1.0.1):
+    - MWFeedParser/FeedParser
+    - MWFeedParser/NSDate+InternetDateTime
+    - MWFeedParser/NSString+HTML
+  - MWFeedParser/FeedParser (1.0.1):
+    - MWFeedParser/NSDate+InternetDateTime
+    - MWFeedParser/NSString+HTML
+  - MWFeedParser/NSDate+InternetDateTime (1.0.1)
+  - MWFeedParser/NSString+HTML (1.0.1)
+  - OCHamcrest (3.0.1)
+  - OCMock (2.2.3)
+  - ODRefreshControl (1.1.0)
+
+DEPENDENCIES:
+  - DTFoundation
+  - FlurrySDK
+  - Google-AdMob-Ads-SDK (from `/Users/mschroeder/myfiles/projects/GitHub/CocoaPods/Specs/Google-AdMob-Ads-SDK/6.8.0/Google-AdMob-Ads-SDK.podspec`)
+  - MTStatusBarOverlay
+  - MWFeedParser
+  - OCHamcrest
+  - OCMock
+  - ODRefreshControl
+
+EXTERNAL SOURCES:
+  Google-AdMob-Ads-SDK:
+    :podspec: /Users/mschroeder/myfiles/projects/GitHub/CocoaPods/Specs/Google-AdMob-Ads-SDK/6.8.0/Google-AdMob-Ads-SDK.podspec
+
+SPEC CHECKSUMS:
+  DTFoundation: 7c69990fa3cb7655cafa95ab59c3fcea014460f0
+  FlurrySDK: df5cf4b02b1124952722e9f199b58f7aba4ae9c3
+  Google-AdMob-Ads-SDK: 714777cbc9a4e088394de65ce0db2230bd77e1b2
+  MTStatusBarOverlay: 2cee705996e4e307191d423bf49e583b9b2c14ac
+  MWFeedParser: c747d7e43ad365a7f18e84924496665944228e86
+  OCHamcrest: 782c52ae8c673e5d6060a65005cfd26d20d519ba
+  OCMock: 74e4ddbcef134170dcc844f91c691f13868075d7
+  ODRefreshControl: 886e323a7c25114b9e5c397a9eefbebc034224a9
+
+COCOAPODS: 0.31.0

@@ -1,0 +1,13 @@
+platform :ios, '7.0'
+workspace 'GustyLib'
+xcodeproj 'GustyLib/GustyLib.xcodeproj'
+link_with 'GustyLibTests'
+
+pod 'DTFoundation'
+pod 'Google-AdMob-Ads-SDK', :podspec => '/Users/mschroeder/myfiles/projects/GitHub/CocoaPods/Specs/Google-AdMob-Ads-SDK/6.8.0/Google-AdMob-Ads-SDK.podspec'
+pod 'FlurrySDK'
+pod 'MTStatusBarOverlay'
+pod 'OCHamcrest'
+pod 'OCMock'
+pod 'ODRefreshControl'
+pod 'MWFeedParser'
