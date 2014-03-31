@@ -14,7 +14,6 @@
 		F7D4D84818EA00E600ABF401 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4D84718EA00E600ABF401 /* UIKit.framework */; };
 		F7D4D84B18EA00E600ABF401 /* libGustyLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4D83318EA00E600ABF401 /* libGustyLib.a */; };
 		F7D4D85118EA00E600ABF401 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F7D4D84F18EA00E600ABF401 /* InfoPlist.strings */; };
-		F7D4D85318EA00E600ABF401 /* GustyLibTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4D85218EA00E600ABF401 /* GustyLibTests.m */; };
 		F7D4DB6818EA0E6400ABF401 /* CMPopTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DA2818EA0E6300ABF401 /* CMPopTipView.m */; };
 		F7D4DB6918EA0E6400ABF401 /* ECSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DA2B18EA0E6300ABF401 /* ECSlidingViewController.m */; };
 		F7D4DB6A18EA0E6400ABF401 /* UIImage+ImageWithUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DA2E18EA0E6300ABF401 /* UIImage+ImageWithUIView.m */; };
@@ -148,6 +147,14 @@
 		F7D4DBEA18EA0E6400ABF401 /* UIView+IACategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DB3C18EA0E6400ABF401 /* UIView+IACategory.m */; };
 		F7D4DBEB18EA0E6400ABF401 /* UIViewController+IACategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DB3E18EA0E6400ABF401 /* UIViewController+IACategory.m */; };
 		F7D4DBEC18EA0E6400ABF401 /* UIWebView+IACategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DB4018EA0E6400ABF401 /* UIWebView+IACategory.m */; };
+		F7D4DBFE18EA195900ABF401 /* IADateRangeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DBF218EA195900ABF401 /* IADateRangeTest.m */; };
+		F7D4DBFF18EA195900ABF401 /* IAHtmlParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DBF318EA195900ABF401 /* IAHtmlParserTests.m */; };
+		F7D4DC0018EA195900ABF401 /* IAUIColorSchemeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DBF518EA195900ABF401 /* IAUIColorSchemeTest.m */; };
+		F7D4DC0118EA195900ABF401 /* NSDateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DBF718EA195900ABF401 /* NSDateTest.m */; };
+		F7D4DC0218EA195900ABF401 /* NSNumberFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DBF818EA195900ABF401 /* NSNumberFormatterTests.m */; };
+		F7D4DC0318EA195900ABF401 /* NSStringTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DBF918EA195900ABF401 /* NSStringTests.m */; };
+		F7D4DC0418EA195900ABF401 /* TempTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DBFB18EA195900ABF401 /* TempTest.m */; };
+		F7D4DC0518EA195900ABF401 /* XCTestCase+IACategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DBFD18EA195900ABF401 /* XCTestCase+IACategory.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -182,7 +189,6 @@
 		F7D4D84718EA00E600ABF401 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		F7D4D84E18EA00E600ABF401 /* GustyLibTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GustyLibTests-Info.plist"; sourceTree = "<group>"; };
 		F7D4D85018EA00E600ABF401 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F7D4D85218EA00E600ABF401 /* GustyLibTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GustyLibTests.m; sourceTree = "<group>"; };
 		F7D4DA2718EA0E6300ABF401 /* CMPopTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMPopTipView.h; sourceTree = "<group>"; };
 		F7D4DA2818EA0E6300ABF401 /* CMPopTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMPopTipView.m; sourceTree = "<group>"; };
 		F7D4DA2A18EA0E6300ABF401 /* ECSlidingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSlidingViewController.h; sourceTree = "<group>"; };
@@ -495,6 +501,20 @@
 		F7D4DB6618EA0E6400ABF401 /* textViewBorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textViewBorder.png; sourceTree = "<group>"; };
 		F7D4DB6718EA0E6400ABF401 /* textViewBorder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "textViewBorder@2x.png"; sourceTree = "<group>"; };
 		F7D4DBED18EA11E100ABF401 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		F7D4DBF018EA195900ABF401 /* IACommonTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IACommonTests.h; sourceTree = "<group>"; };
+		F7D4DBF118EA195900ABF401 /* IADateRangeTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IADateRangeTest.h; sourceTree = "<group>"; };
+		F7D4DBF218EA195900ABF401 /* IADateRangeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IADateRangeTest.m; sourceTree = "<group>"; };
+		F7D4DBF318EA195900ABF401 /* IAHtmlParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAHtmlParserTests.m; sourceTree = "<group>"; };
+		F7D4DBF418EA195900ABF401 /* IAUIColorSchemeTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAUIColorSchemeTest.h; sourceTree = "<group>"; };
+		F7D4DBF518EA195900ABF401 /* IAUIColorSchemeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAUIColorSchemeTest.m; sourceTree = "<group>"; };
+		F7D4DBF618EA195900ABF401 /* NSDateTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDateTest.h; sourceTree = "<group>"; };
+		F7D4DBF718EA195900ABF401 /* NSDateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDateTest.m; sourceTree = "<group>"; };
+		F7D4DBF818EA195900ABF401 /* NSNumberFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSNumberFormatterTests.m; sourceTree = "<group>"; };
+		F7D4DBF918EA195900ABF401 /* NSStringTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringTests.m; sourceTree = "<group>"; };
+		F7D4DBFA18EA195900ABF401 /* TempTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempTest.h; sourceTree = "<group>"; };
+		F7D4DBFB18EA195900ABF401 /* TempTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempTest.m; sourceTree = "<group>"; };
+		F7D4DBFC18EA195900ABF401 /* XCTestCase+IACategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestCase+IACategory.h"; sourceTree = "<group>"; };
+		F7D4DBFD18EA195900ABF401 /* XCTestCase+IACategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestCase+IACategory.m"; sourceTree = "<group>"; };
 		FF387BE31CA84C679F50890D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -575,7 +595,7 @@
 		F7D4D84C18EA00E600ABF401 /* GustyLibTests */ = {
 			isa = PBXGroup;
 			children = (
-				F7D4D85218EA00E600ABF401 /* GustyLibTests.m */,
+				F7D4DBEF18EA195900ABF401 /* classes */,
 				F7D4D84D18EA00E600ABF401 /* Supporting Files */,
 			);
 			path = GustyLibTests;
@@ -1003,6 +1023,27 @@
 			path = SVWebViewController;
 			sourceTree = "<group>";
 		};
+		F7D4DBEF18EA195900ABF401 /* classes */ = {
+			isa = PBXGroup;
+			children = (
+				F7D4DBF018EA195900ABF401 /* IACommonTests.h */,
+				F7D4DBF118EA195900ABF401 /* IADateRangeTest.h */,
+				F7D4DBF218EA195900ABF401 /* IADateRangeTest.m */,
+				F7D4DBF318EA195900ABF401 /* IAHtmlParserTests.m */,
+				F7D4DBF418EA195900ABF401 /* IAUIColorSchemeTest.h */,
+				F7D4DBF518EA195900ABF401 /* IAUIColorSchemeTest.m */,
+				F7D4DBF618EA195900ABF401 /* NSDateTest.h */,
+				F7D4DBF718EA195900ABF401 /* NSDateTest.m */,
+				F7D4DBF818EA195900ABF401 /* NSNumberFormatterTests.m */,
+				F7D4DBF918EA195900ABF401 /* NSStringTests.m */,
+				F7D4DBFA18EA195900ABF401 /* TempTest.h */,
+				F7D4DBFB18EA195900ABF401 /* TempTest.m */,
+				F7D4DBFC18EA195900ABF401 /* XCTestCase+IACategory.h */,
+				F7D4DBFD18EA195900ABF401 /* XCTestCase+IACategory.m */,
+			);
+			path = classes;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1259,7 +1300,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7D4D85318EA00E600ABF401 /* GustyLibTests.m in Sources */,
+				F7D4DC0118EA195900ABF401 /* NSDateTest.m in Sources */,
+				F7D4DC0318EA195900ABF401 /* NSStringTests.m in Sources */,
+				F7D4DC0018EA195900ABF401 /* IAUIColorSchemeTest.m in Sources */,
+				F7D4DC0418EA195900ABF401 /* TempTest.m in Sources */,
+				F7D4DC0218EA195900ABF401 /* NSNumberFormatterTests.m in Sources */,
+				F7D4DC0518EA195900ABF401 /* XCTestCase+IACategory.m in Sources */,
+				F7D4DBFF18EA195900ABF401 /* IAHtmlParserTests.m in Sources */,
+				F7D4DBFE18EA195900ABF401 /* IADateRangeTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
