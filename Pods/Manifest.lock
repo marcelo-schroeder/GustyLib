@@ -52,21 +52,17 @@ PODS:
 DEPENDENCIES:
   - DTFoundation
   - FlurrySDK
-  - Google-AdMob-Ads-SDK (from `/Users/mschroeder/myfiles/projects/GitHub/CocoaPods/Specs/Google-AdMob-Ads-SDK/6.8.0/Google-AdMob-Ads-SDK.podspec`)
+  - Google-AdMob-Ads-SDK
   - MTStatusBarOverlay
   - MWFeedParser
   - OCHamcrest
   - OCMock
   - ODRefreshControl
 
-EXTERNAL SOURCES:
-  Google-AdMob-Ads-SDK:
-    :podspec: /Users/mschroeder/myfiles/projects/GitHub/CocoaPods/Specs/Google-AdMob-Ads-SDK/6.8.0/Google-AdMob-Ads-SDK.podspec
-
 SPEC CHECKSUMS:
   DTFoundation: 7c69990fa3cb7655cafa95ab59c3fcea014460f0
   FlurrySDK: df5cf4b02b1124952722e9f199b58f7aba4ae9c3
-  Google-AdMob-Ads-SDK: 714777cbc9a4e088394de65ce0db2230bd77e1b2
+  Google-AdMob-Ads-SDK: 21f95435d06b4f70c1806aaabb5e4281b22a8282
   MTStatusBarOverlay: 2cee705996e4e307191d423bf49e583b9b2c14ac
   MWFeedParser: c747d7e43ad365a7f18e84924496665944228e86
   OCHamcrest: 782c52ae8c673e5d6060a65005cfd26d20d519ba
