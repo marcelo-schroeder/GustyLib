@@ -128,10 +128,10 @@ Pod::Spec.new do |s|
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   # s.dependency "JSONKit", "~> 1.4"
     s.dependency 'DTFoundation', '1.6.2'
-    s.dependency 'Google-AdMob-Ads-SDK', :s.dependencyspec => '/Users/mschroeder/myfiles/projects/GitHub/CocoaPods/Specs/Google-AdMob-Ads-SDK/6.8.0/Google-AdMob-Ads-SDK.podspec'
-    s.dependency 'FlurrySDK', '1.6.2'
-    s.dependency 'MTStatusBarOverlay', '1.6.2'
-    s.dependency 'ODRefreshControl', '1.6.2'
-    s.dependency 'MWFeedParser', '1.6.2'
+    s.dependency 'Google-AdMob-Ads-SDK'
+    s.dependency 'FlurrySDK'
+    s.dependency 'MTStatusBarOverlay', '0.9.1'
+    s.dependency 'ODRefreshControl', '1.1.0'
+    s.dependency 'MWFeedParser', '1.0.1'
 
 end
