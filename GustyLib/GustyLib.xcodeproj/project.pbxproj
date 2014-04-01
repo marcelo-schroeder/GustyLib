@@ -180,6 +180,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		107389702B3AABA978647365 /* GustyLib.podspec */ = {isa = PBXFileReference; lastKnownFileType = file.podspec; path = GustyLib.podspec; sourceTree = "<group>"; };
 		A03BC960480144A4ABDD6917 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		F7D4D83318EA00E600ABF401 /* libGustyLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGustyLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7D4D83618EA00E600ABF401 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -550,6 +551,7 @@
 				F7D4D83518EA00E600ABF401 /* Frameworks */,
 				F7D4D83418EA00E600ABF401 /* Products */,
 				A03BC960480144A4ABDD6917 /* Pods.xcconfig */,
+				107389702B3AABA978647365 /* GustyLib.podspec */,
 			);
 			sourceTree = "<group>";
 		};
