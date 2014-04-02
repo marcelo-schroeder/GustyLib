@@ -4,7 +4,6 @@
 //
 
 #import "IACommon.h"
-#import "IAExternalUrlManager.h"
 
 @interface IAExternalUrlManager ()
 @property(nonatomic, strong) NSURL *p_urlToOpen;

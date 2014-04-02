@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		3C07EA814F2645A5BD5C2174 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF387BE31CA84C679F50890D /* libPods.a */; };
+		F766D2FE18ECA3A700B3B590 /* IAPagingStateManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F766D2FD18ECA3A700B3B590 /* IAPagingStateManagerTests.m */; };
+		F766D30118ECA3DC00B3B590 /* IAPagingStateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F766D30018ECA3DC00B3B590 /* IAPagingStateManager.m */; };
+		F766D33E18ECA71000B3B590 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F766D33D18ECA71000B3B590 /* CoreLocation.framework */; };
+		F766D33F18ECA7D700B3B590 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4DBED18EA11E100ABF401 /* MapKit.framework */; };
+		F766D34118ECADCE00B3B590 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F766D34018ECADCE00B3B590 /* GLKit.framework */; };
 		F7D4D83718EA00E600ABF401 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4D83618EA00E600ABF401 /* Foundation.framework */; };
 		F7D4D84518EA00E600ABF401 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4D84418EA00E600ABF401 /* XCTest.framework */; };
 		F7D4D84618EA00E600ABF401 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4D83618EA00E600ABF401 /* Foundation.framework */; };
@@ -182,6 +187,11 @@
 /* Begin PBXFileReference section */
 		107389702B3AABA978647365 /* GustyLib.podspec */ = {isa = PBXFileReference; lastKnownFileType = file.podspec; path = GustyLib.podspec; sourceTree = "<group>"; };
 		A03BC960480144A4ABDD6917 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		F766D2FD18ECA3A700B3B590 /* IAPagingStateManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPagingStateManagerTests.m; sourceTree = "<group>"; };
+		F766D2FF18ECA3DC00B3B590 /* IAPagingStateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPagingStateManager.h; sourceTree = "<group>"; };
+		F766D30018ECA3DC00B3B590 /* IAPagingStateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPagingStateManager.m; sourceTree = "<group>"; };
+		F766D33D18ECA71000B3B590 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		F766D34018ECADCE00B3B590 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		F7D4D83318EA00E600ABF401 /* libGustyLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGustyLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7D4D83618EA00E600ABF401 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F7D4D83A18EA00E600ABF401 /* GustyLib-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GustyLib-Prefix.pch"; sourceTree = "<group>"; };
@@ -524,6 +534,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F766D34118ECADCE00B3B590 /* GLKit.framework in Frameworks */,
+				F766D33F18ECA7D700B3B590 /* MapKit.framework in Frameworks */,
+				F766D33E18ECA71000B3B590 /* CoreLocation.framework in Frameworks */,
 				F7D4D83718EA00E600ABF401 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -567,6 +580,8 @@
 		F7D4D83518EA00E600ABF401 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F766D34018ECADCE00B3B590 /* GLKit.framework */,
+				F766D33D18ECA71000B3B590 /* CoreLocation.framework */,
 				F7D4DBED18EA11E100ABF401 /* MapKit.framework */,
 				F7D4D83618EA00E600ABF401 /* Foundation.framework */,
 				F7D4D84418EA00E600ABF401 /* XCTest.framework */,
@@ -615,6 +630,8 @@
 		F7D4DA2418EA0E6300ABF401 /* classes */ = {
 			isa = PBXGroup;
 			children = (
+				F766D2FF18ECA3DC00B3B590 /* IAPagingStateManager.h */,
+				F766D30018ECA3DC00B3B590 /* IAPagingStateManager.m */,
 				F7D4DA2518EA0E6300ABF401 /* 3rd party */,
 				F7D4DA4418EA0E6300ABF401 /* IAAboutInfoModel.h */,
 				F7D4DA4518EA0E6300ABF401 /* IAAboutInfoModel.m */,
@@ -1028,6 +1045,7 @@
 		F7D4DBEF18EA195900ABF401 /* classes */ = {
 			isa = PBXGroup;
 			children = (
+				F766D2FD18ECA3A700B3B590 /* IAPagingStateManagerTests.m */,
 				F7D4DBF018EA195900ABF401 /* IACommonTests.h */,
 				F7D4DBF118EA195900ABF401 /* IADateRangeTest.h */,
 				F7D4DBF218EA195900ABF401 /* IADateRangeTest.m */,
@@ -1199,6 +1217,7 @@
 				F7D4DBDD18EA0E6400ABF401 /* NSString+IACategory.m in Sources */,
 				F7D4DBB718EA0E6400ABF401 /* IAUIPickerViewController.m in Sources */,
 				F7D4DBD018EA0E6400ABF401 /* IAUIViewController.m in Sources */,
+				F766D30118ECA3DC00B3B590 /* IAPagingStateManager.m in Sources */,
 				F7D4DBD318EA0E6400ABF401 /* IAUtils.m in Sources */,
 				F7D4DB6818EA0E6400ABF401 /* CMPopTipView.m in Sources */,
 				F7D4DB7818EA0E6400ABF401 /* IAConstants.m in Sources */,
@@ -1307,6 +1326,7 @@
 				F7D4DC0018EA195900ABF401 /* IAUIColorSchemeTest.m in Sources */,
 				F7D4DC0418EA195900ABF401 /* TempTest.m in Sources */,
 				F7D4DC0218EA195900ABF401 /* NSNumberFormatterTests.m in Sources */,
+				F766D2FE18ECA3A700B3B590 /* IAPagingStateManagerTests.m in Sources */,
 				F7D4DC0518EA195900ABF401 /* XCTestCase+IACategory.m in Sources */,
 				F7D4DBFF18EA195900ABF401 /* IAHtmlParserTests.m in Sources */,
 				F7D4DBFE18EA195900ABF401 /* IADateRangeTest.m in Sources */,

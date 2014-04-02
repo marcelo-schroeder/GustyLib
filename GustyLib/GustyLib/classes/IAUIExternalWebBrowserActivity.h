@@ -3,7 +3,7 @@
 // Copyright (c) 2014 InfoAccent Pty Limited. All rights reserved.
 //
 
-#import "IAUIAbstractWebBrowserActivity.h"
+#import <Foundation/Foundation.h>
 
 
 @interface IAUIExternalWebBrowserActivity : IAUIAbstractWebBrowserActivity

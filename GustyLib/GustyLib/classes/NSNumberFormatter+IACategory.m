@@ -5,7 +5,6 @@
 
 #import "IACommon.h"
 
-
 @implementation NSNumberFormatter (IACategory)
 
 static NSNumberFormatter *c_australianPhoneNumberFormatterLandLineWithoutAreaCode = nil;

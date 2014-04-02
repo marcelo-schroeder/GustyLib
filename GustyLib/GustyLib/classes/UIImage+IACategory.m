@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import <Accelerate/Accelerate.h>
+#import "IACommon.h"
 
 @implementation UIImage (IACategory)
 

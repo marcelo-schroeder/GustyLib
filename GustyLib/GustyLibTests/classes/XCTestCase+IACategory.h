@@ -5,7 +5,7 @@
 // To change the template use AppCode | Preferences | File Templates.
 //
 
-
+//wip: this will have to be shared as pod as well so that other projects can use it
 @interface XCTestCase (IACategory)
 - (void)m_assertThatControl:(UIControl *)a_control hasTapEventConfiguredWithTarget:(id)a_target action:(SEL)a_action;
 

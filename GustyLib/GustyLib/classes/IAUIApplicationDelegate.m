@@ -191,9 +191,9 @@
 }
 
 //wip: need to review the use of Crashlytics - can it be a runtime dependency instead?
-/*
 -(void)m_configureCrashReportingWithUserInfo:(NSDictionary*)a_userInfo{
-    
+/*
+
 //    NSLog(@"m_configureCrashReportingWithUserInfo: %@", [a_userInfo description]);
     
     NSLog(@"Configuring crash reporting...");
@@ -225,8 +225,8 @@
     
     NSLog(@"Crash reporting configured");
     
-}
 */
+}
 
 -(void)m_configureAnalytics{
 

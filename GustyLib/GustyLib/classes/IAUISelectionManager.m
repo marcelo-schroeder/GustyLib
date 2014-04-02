@@ -20,15 +20,7 @@
 
 #import "IACommon.h"
 
-
 @implementation IAUISelectionManager
-
-
-#pragma mark - Private
-
--(BOOL)isSelectedForIndexPath:(NSIndexPath*)a_indexPath{
-    return [self.p_selectedIndexPaths containsObject:a_indexPath];
-}
 
 #pragma mark - Public
 
@@ -74,10 +66,17 @@
         if ([self.p_selectedIndexPaths count]==0 || ![l_previousSelectedIndexPath isEqual:a_indexPath]) {
             l_selectedObject = [v_delegate selectionManagerObjectForIndexPath:a_indexPath];
         }
+        if (self.p_disallowDeselection && [l_previousSelectedIndexPath compare:a_indexPath] == NSOrderedSame) {
+            // Run delegate's handler
+            [v_delegate onSelection:l_selectedObject deselectedObject:l_previousSelectedObject indexPath:a_indexPath userInfo:a_userInfo];
+            // Deselect row (UITableView's default visual indication only)
+            [[v_delegate selectionTableView] deselectRowAtIndexPath:a_indexPath animated:YES];
+            return;
+        }
     }
 //    NSLog(@"l_previousSelectedObject: %@", [l_previousSelectedObject description]);
 //    NSLog(@"l_selectedObject: %@", [l_selectedObject description]);
-    
+
     // Old cell
 	if (l_previousSelectedObject) {
 //        NSLog(@"l_previousSelectedIndex: %u", l_previousSelectedIndex);
@@ -86,10 +85,10 @@
 		UITableViewCell *oldCell = [[v_delegate selectionTableView] cellForRowAtIndexPath:oldIndexPath];
 		[v_delegate decorateSelectionForCell:oldCell selected:NO targetObject:l_previousSelectedObject];
 	}
-	
+
 	// New cell
 	if (l_selectedObject) {
-		UITableViewCell *newCell = [[v_delegate selectionTableView] cellForRowAtIndexPath:a_indexPath]; 
+		UITableViewCell *newCell = [[v_delegate selectionTableView] cellForRowAtIndexPath:a_indexPath];
 		[v_delegate decorateSelectionForCell:newCell selected:YES targetObject:l_selectedObject];
         [self.p_selectedObjects addObject:[v_delegate selectionManagerObjectForIndexPath:a_indexPath]];
 	}

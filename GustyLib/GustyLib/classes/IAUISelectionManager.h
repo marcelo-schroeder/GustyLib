@@ -29,6 +29,8 @@
 @property (weak, nonatomic, readonly) NSArray *p_selectedIndexPaths;
 @property (nonatomic) BOOL p_allowMultipleSelection;
 
+@property(nonatomic) BOOL p_disallowDeselection;
+
 - (void)handleSelectionForIndexPath:(NSIndexPath*)a_indexPath;
 - (void)handleSelectionForIndexPath:(NSIndexPath*)a_indexPath userInfo:(NSDictionary*)a_userInfo;
 - (void)deselectAll;

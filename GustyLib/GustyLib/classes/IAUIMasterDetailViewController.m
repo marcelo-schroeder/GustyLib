@@ -4,7 +4,6 @@
 //
 
 #import "IACommon.h"
-#import "IAUIMasterDetailViewController.h"
 
 @interface IAUIMasterDetailViewController ()
 @property (strong, nonatomic, readwrite) UIView *p_masterContainerView;

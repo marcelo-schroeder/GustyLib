@@ -30,5 +30,6 @@
 
 @property (nonatomic, strong) UIImage *p_selectedIconImageNormal;
 @property (nonatomic, strong) UIImage *p_selectedIconImageHighlighted;
+@property(nonatomic) BOOL p_disallowDeselection;
 
 @end

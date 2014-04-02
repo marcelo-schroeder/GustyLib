@@ -5,7 +5,6 @@
 //
 
 #import "IACommon.h"
-#import "IAUIInternalWebBrowserViewController.h"
 
 @interface IAUIInternalWebBrowserViewController ()
 @property(nonatomic, strong) UIBarButtonItem *p_actionBarButtonItem;
@@ -14,6 +13,8 @@
 @property(nonatomic, strong) UIBarButtonItem *p_stopBarButtonItem;
 @property(nonatomic, strong) UIBarButtonItem *p_refreshBarButtonItem;
 @property(nonatomic, strong) UIBarButtonItem *p_refreshStopBarButtonItem;
+@property(nonatomic, strong) UIActivityIndicatorView *p_activityIndicatorView;
+@property(nonatomic, strong) UIBarButtonItem *p_activityIndicatorBarButtonItem;
 
 @end
 
@@ -21,6 +22,16 @@
 
 }
 #pragma mark - Private
+
+- (UIActivityIndicatorView *)p_activityIndicatorView {
+    if (!_p_activityIndicatorView) {
+        _p_activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        _p_activityIndicatorView.color = [UIColor blackColor];
+        [_p_activityIndicatorView sizeToFit];
+        [_p_activityIndicatorView startAnimating];
+    }
+    return _p_activityIndicatorView;
+}
 
 -(void)m_onActionBarButtonTap:(UIBarButtonItem*)a_button{
     [self m_presentActivityViewControllerFromBarButtonItem:a_button webView:self.mainWebView];
@@ -47,6 +58,9 @@
     self.p_refreshBarButtonItem = [self.p_delegate m_newRefreshBarButtonItem];
     self.p_refreshBarButtonItem.target = self;
     self.p_refreshBarButtonItem.action = @selector(reloadClicked:);
+
+    self.p_activityIndicatorBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.p_activityIndicatorView];
+    self.p_activityIndicatorBarButtonItem.width = self.p_activityIndicatorView.frame.size.width;
 
 }
 
@@ -81,15 +95,28 @@
     self.p_nextBarButtonItem.enabled = self.mainWebView.canGoForward;
     [self m_removeRightBarButtonItem:self.p_refreshStopBarButtonItem];
     self.p_refreshStopBarButtonItem = self.p_urlLoadCount ? self.p_stopBarButtonItem : self.p_refreshBarButtonItem;
-    [self m_insertRightBarButtonItem:self.p_actionBarButtonItem atIndex:0];
-    [self m_insertRightBarButtonItem:self.p_nextBarButtonItem atIndex:1];
-    [self m_insertRightBarButtonItem:self.p_previousBarButtonItem atIndex:2];
-    [self m_insertRightBarButtonItem:self.p_refreshStopBarButtonItem atIndex:3];
+    NSUInteger i = 0;
+    [self m_insertRightBarButtonItem:self.p_actionBarButtonItem atIndex:i++];
+    [self m_insertRightBarButtonItem:self.p_nextBarButtonItem atIndex:i++];
+    [self m_insertRightBarButtonItem:self.p_previousBarButtonItem atIndex:i++];
+    [self m_insertRightBarButtonItem:self.p_refreshStopBarButtonItem atIndex:i++];
+    [self m_insertRightBarButtonItem:self.p_activityIndicatorBarButtonItem atIndex:i];
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    [super webViewDidStartLoad:webView];
+    [self.p_activityIndicatorView startAnimating];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [super webViewDidFinishLoad:webView];
     self.navigationItem.title = nil;
+    [self.p_activityIndicatorView stopAnimating];
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    [super webView:webView didFailLoadWithError:error];
+    [self.p_activityIndicatorView stopAnimating];
 }
 
 #pragma mark - IAUIInternalWebBrowserViewControllerDelegate

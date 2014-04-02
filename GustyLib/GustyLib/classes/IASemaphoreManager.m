@@ -4,7 +4,6 @@
 //
 
 #import "IACommon.h"
-#import "IASemaphoreManager.h"
 
 @interface IASemaphoreManager ()
 

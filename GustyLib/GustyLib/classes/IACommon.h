@@ -18,13 +18,26 @@
 //  limitations under the License.
 //
 
+// Frameworks
+#import <CoreData/CoreData.h>
+#import <CoreText/CoreText.h>
+#import <CoreLocation/CoreLocation.h>
+#import <QuartzCore/QuartzCore.h>
+#import <MapKit/MapKit.h>
+#import <MessageUI/MessageUI.h>
+#import <GLKit/GLKit.h>
+#import <AdSupport/AdSupport.h>
+#import <objc/message.h>    // added so I could use objc_msgSend to get rid of ARC compiler warnings for performSelector method calls
+#import <Accelerate/Accelerate.h>
+
+// Had to add the below to make Google-AdMob-Ads-SDK work via Cocoapods
+#import <StoreKit/StoreKit.h>
+
 /*************/
 /* 3rd party */
 /*************/
 // MBProgressHUD
 #import "MBProgressHUD.h"
-// CMPopTipView
-//#import "CMPopTipView.h"
 // KNSemiModal
 #import "UIViewController+KNSemiModal.h"
 // ECSlidingViewController
@@ -74,6 +87,10 @@
 #import "IAUICollectionViewFlowLayout.h"
 #import "IAAnalyticsUtils.h"
 #import "IAUICollectionViewFetchedResultsControllerDelegate.h"
+#import "IACurrentLocationManager.h"
+#import "IASemaphoreManager.h"
+#import "IAExternalUrlManager.h"
+#import "IAUIExternalWebBrowserActivity.h"
 
 // Persistence
 #import "IAPersistenceManager.h"
@@ -140,6 +157,8 @@
 #import "IAUICollectionViewController.h"
 #import "IAUIFetchedResultsTableViewController.h"
 #import "IAUITextViewController.h"
+#import "IAUIMasterDetailViewController.h"
+#import "IAUIInternalWebBrowserViewController.h"
 
 // Categories
 #import "NSObject+IACategory.h"
@@ -163,6 +182,7 @@
 #import "UIButton+IACategory.h"
 #import "NSAttributedString+IACategory.h"
 #import "UITableViewCell+IACategory.h"
+#import "UIScrollView+IACategory.h"
 
 // Model - non-gen
 #import "IAMapAnnotation.h"

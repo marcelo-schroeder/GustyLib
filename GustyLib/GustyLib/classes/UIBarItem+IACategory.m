@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "UIBarItem+IACategory.h"
+#import "IACommon.h"
 
 static char c_helpTargetIdKey;
 

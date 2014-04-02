@@ -7,7 +7,6 @@
 //
 
 #import "IACommon.h"
-#import "UIScrollView+IACategory.h"
 
 @interface IAUITextViewController ()
 

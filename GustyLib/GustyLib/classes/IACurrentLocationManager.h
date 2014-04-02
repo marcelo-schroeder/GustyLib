@@ -3,8 +3,7 @@
 // Copyright (c) 2013 InfoAccent Pty Limited. All rights reserved.
 //
 
-
-#import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 static CLLocationAccuracy const k_DefaultCurrentLocationHorizontalAccuracyThreshold = 1000.0; //metres
 static NSTimeInterval  const k_DefaultCurrentLocationAgeThreshold = 60.0; //seconds

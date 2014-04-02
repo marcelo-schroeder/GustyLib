@@ -152,6 +152,11 @@
     return l_formName;
 }
 
+- (void)setP_disallowDeselection:(BOOL)p_disallowDeselection {
+    _p_disallowDeselection = p_disallowDeselection;
+    selectionManager.p_disallowDeselection = self.p_disallowDeselection;
+}
+
 #pragma mark - IAUIPresenter protocol
 
 - (void)m_didDismissViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade

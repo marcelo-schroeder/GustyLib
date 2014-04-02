@@ -3,8 +3,7 @@
 // Copyright (c) 2014 InfoAccent Pty Limited. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
+#import <MapKit/MapKit.h>
 
 @interface IADirectionsManager : NSObject
 

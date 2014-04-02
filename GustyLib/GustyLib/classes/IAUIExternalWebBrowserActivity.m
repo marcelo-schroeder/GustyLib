@@ -3,9 +3,7 @@
 // Copyright (c) 2014 InfoAccent Pty Limited. All rights reserved.
 //
 
-#import "IAUIExternalWebBrowserActivity.h"
-#import "IAExternalUrlManager.h"
-
+#import "IACommon.h"
 
 @implementation IAUIExternalWebBrowserActivity {
 

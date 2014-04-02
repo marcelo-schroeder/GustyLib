@@ -6,7 +6,7 @@
 //
 //  https://github.com/samvermette/SVWebViewController
 
-#import "SVWebViewController.h"
+#import "IACommon.h"
 
 @interface SVWebViewController () <UIWebViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate>
 
