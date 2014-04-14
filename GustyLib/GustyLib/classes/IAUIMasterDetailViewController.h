@@ -6,7 +6,6 @@
 #import <Foundation/Foundation.h>
 #import "IAUIViewController.h"
 
-//wip: add sliding panel functionality
 @interface IAUIMasterDetailViewController : IAUIViewController
 @property (strong, nonatomic) UIViewController *p_masterViewController;
 @property (strong, nonatomic) UIViewController *p_detailViewController;

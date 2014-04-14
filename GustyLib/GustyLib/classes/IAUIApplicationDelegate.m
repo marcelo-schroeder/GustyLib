@@ -190,12 +190,18 @@
     
 }
 
-//wip: need to review the use of Crashlytics - can it be a runtime dependency instead?
--(void)m_configureCrashReportingWithUserInfo:(NSDictionary*)a_userInfo{
-/*
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "UnresolvedMessage"
+-(BOOL)m_configureCrashReportingWithUserInfo:(NSDictionary*)a_userInfo{
 
 //    NSLog(@"m_configureCrashReportingWithUserInfo: %@", [a_userInfo description]);
-    
+
+    Class l_crashlyticsClass = NSClassFromString(@"Crashlytics");
+    if (!l_crashlyticsClass) {
+        NSLog(@"Crashlytics not available at runtime. Crash reporting configured skipped.");
+        return NO;
+    }
+
     NSLog(@"Configuring crash reporting...");
     
     NSString *l_apiKey = [[IAUtils infoPList] valueForKey:@"IACrashlyticsApiKey"];
@@ -204,29 +210,39 @@
     NSString *l_vendorDeviceId = [UIDevice currentDevice].identifierForVendor.UUIDString;
     
     // Configure crash reporting API
-    [Crashlytics startWithAPIKey:l_apiKey];
-    [Crashlytics setUserIdentifier:l_vendorDeviceId];
-    
+//    [Crashlytics startWithAPIKey:l_apiKey];
+    [l_crashlyticsClass performSelector:@selector(startWithAPIKey:) withObject:l_apiKey];
+//    [Crashlytics setUserIdentifier:l_vendorDeviceId];
+    [l_crashlyticsClass performSelector:@selector(setUserIdentifier:) withObject:l_vendorDeviceId];
+
     // Bundle version
     // Crashlytics should derive this automatically from the app bundle, but it is not at the moment. I'm adding this info here so it does not get lost.
     NSString *l_bundleVersion = [IAUtils infoPList][@"CFBundleVersion"];
-    [Crashlytics setObjectValue:l_bundleVersion forKey:@"IA_bundle_version"];
-    
+//    [Crashlytics setObjectValue:l_bundleVersion forKey:@"IA_bundle_version"];
+    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:l_bundleVersion withObject:@"IA_bundle_version"];
+
     // Locale info
-    [Crashlytics setObjectValue:[self m_formatCrashReportValue:l_vendorDeviceId] forKey:@"IA_vendor_Device_Id"];
-    [Crashlytics setObjectValue:[self m_formatCrashReportValue:[NSLocale systemLocale]] forKey:@"IA_system_Locale"];
-    [Crashlytics setObjectValue:[self m_formatCrashReportValue:[NSLocale currentLocale]] forKey:@"IA_current_Locale"];
-    [Crashlytics setObjectValue:[self m_formatCrashReportValue:[NSLocale preferredLanguages]] forKey:@"IA_preferred_Languages"];
-    
+//    [Crashlytics setObjectValue:[self m_formatCrashReportValue:l_vendorDeviceId] forKey:@"IA_vendor_Device_Id"];
+    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:[self m_formatCrashReportValue:l_vendorDeviceId] withObject:@"IA_vendor_Device_Id"];
+//    [Crashlytics setObjectValue:[self m_formatCrashReportValue:[NSLocale systemLocale]] forKey:@"IA_system_Locale"];
+    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:[self m_formatCrashReportValue:[NSLocale systemLocale]] withObject:@"IA_system_Locale"];
+//    [Crashlytics setObjectValue:[self m_formatCrashReportValue:[NSLocale currentLocale]] forKey:@"IA_current_Locale"];
+    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:[self m_formatCrashReportValue:[NSLocale currentLocale]] withObject:@"IA_current_Locale"];
+//    [Crashlytics setObjectValue:[self m_formatCrashReportValue:[NSLocale preferredLanguages]] forKey:@"IA_preferred_Languages"];
+    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:[self m_formatCrashReportValue:[NSLocale preferredLanguages]] withObject:@"IA_preferred_Languages"];
+
     // User info
     for (NSString *l_key in a_userInfo.allKeys) {
-        [Crashlytics setObjectValue:a_userInfo[l_key] forKey:l_key];
+//        [Crashlytics setObjectValue:a_userInfo[l_key] forKey:l_key];
+        [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:a_userInfo[l_key] withObject:l_key];
     }
     
     NSLog(@"Crash reporting configured");
+
+    return YES;
     
-*/
 }
+#pragma clang diagnostic pop
 
 -(void)m_configureAnalytics{
 
