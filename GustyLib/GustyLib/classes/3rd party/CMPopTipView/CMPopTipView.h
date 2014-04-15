@@ -96,7 +96,7 @@ typedef enum {
 
 @protocol CMPopTipViewDelegate;
 
-//wip: review changes in this class - focused on getting the source to compile at this stage
+//todo: when converting Gusty to GustyLib, I had to make changes in this class to make it compile - some thorough testing is needed at some stage
 @interface CMPopTipView : UIView {
 	@private
 	CGSize					bubbleSize;
