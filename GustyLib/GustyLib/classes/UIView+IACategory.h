@@ -65,5 +65,9 @@
 
 - (UIImage *)m_snapshotImage;
 
+- (UIImage *)m_snapshotImageFromRect:(CGRect)a_rectToSnapshot;
+
 - (BOOL)m_frameIntersectsWithView:(UIView *)a_theOtherView;
+
+- (void)m_traverseViewHierarchyWithBlock:(void (^) (UIView*))a_block;
 @end

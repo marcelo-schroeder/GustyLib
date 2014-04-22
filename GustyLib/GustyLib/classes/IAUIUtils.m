@@ -564,4 +564,13 @@ static UIImage *c_menuBarButtonItemImage = nil;
     [IAUIUtils showAlertWithMessage:l_message title:l_title delegate:a_alertViewDelegate];
 }
 
++ (CGFloat)m_heightForWidth:(CGFloat)a_width aspectRatio:(CGFloat)a_aspectRatio {
+    return a_width / a_aspectRatio;
+}
+
++ (CGFloat)m_widthForHeight:(CGFloat)a_height aspectRatio:(CGFloat)a_aspectRatio {
+    return a_height * a_aspectRatio;
+}
+
+
 @end

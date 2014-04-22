@@ -19,6 +19,7 @@
 //
 
 #import "IACommon.h"
+#import <Accelerate/Accelerate.h>
 
 @implementation UIImage (IACategory)
 
@@ -70,6 +71,94 @@
 
 }
 
+- (UIImage *)m_imageWithOrientationUp {
+    // No-op if the orientation is already correct
+    if (self.imageOrientation == UIImageOrientationUp) return self;
+
+//    NSLog(@"original orientation: %d", self.imageOrientation);
+
+    // We need to calculate the proper transformation to make the image upright.
+    // We do it in 2 steps: Rotate if Left/Right/Down, and then flip if Mirrored.
+    CGAffineTransform transform = CGAffineTransformIdentity;
+
+    switch (self.imageOrientation)
+    {
+        case UIImageOrientationDown:
+        case UIImageOrientationDownMirrored:
+            transform = CGAffineTransformTranslate(transform, self.size.width, self.size.height);
+            transform = CGAffineTransformRotate(transform, (CGFloat) M_PI);
+            break;
+
+        case UIImageOrientationLeft:
+        case UIImageOrientationLeftMirrored:
+            transform = CGAffineTransformTranslate(transform, self.size.width, 0);
+            transform = CGAffineTransformRotate(transform, (CGFloat) M_PI_2);
+            break;
+
+        case UIImageOrientationRight:
+        case UIImageOrientationRightMirrored:
+            transform = CGAffineTransformTranslate(transform, 0, self.size.height);
+            transform = CGAffineTransformRotate(transform, (CGFloat) -M_PI_2);
+            break;
+
+        case UIImageOrientationUp:
+        case UIImageOrientationUpMirrored:
+            break;
+    }
+
+    switch (self.imageOrientation) {
+        case UIImageOrientationUpMirrored:
+        case UIImageOrientationDownMirrored:
+            transform = CGAffineTransformTranslate(transform, self.size.width, 0);
+            transform = CGAffineTransformScale(transform, -1, 1);
+            break;
+
+        case UIImageOrientationLeftMirrored:
+        case UIImageOrientationRightMirrored:
+            transform = CGAffineTransformTranslate(transform, self.size.height, 0);
+            transform = CGAffineTransformScale(transform, -1, 1);
+            break;
+
+        case UIImageOrientationUp:
+        case UIImageOrientationDown:
+        case UIImageOrientationLeft:
+        case UIImageOrientationRight:
+            break;
+    }
+
+    // Now we draw the underlying CGImage into a new context, applying the transform
+    // calculated above.
+    CGContextRef ctx = CGBitmapContextCreate(NULL, (size_t) self.size.width, (size_t) self.size.height,
+            CGImageGetBitsPerComponent(self.CGImage), 0,
+            CGImageGetColorSpace(self.CGImage),
+            CGImageGetBitmapInfo(self.CGImage));
+    CGContextConcatCTM(ctx, transform);
+    switch (self.imageOrientation) {
+        case UIImageOrientationLeft:
+        case UIImageOrientationLeftMirrored:
+        case UIImageOrientationRight:
+        case UIImageOrientationRightMirrored:
+            // Grr...
+            CGContextDrawImage(ctx, CGRectMake(0,0,self.size.height,self.size.width), self.CGImage);
+            break;
+
+        default:
+            CGContextDrawImage(ctx, CGRectMake(0,0,self.size.width,self.size.height), self.CGImage);
+            break;
+    }
+
+    // And now we just create a new UIImage from the drawing context
+    CGImageRef cgimg = CGBitmapContextCreateImage(ctx);
+    UIImage *img = [UIImage imageWithCGImage:cgimg];
+    CGContextRelease(ctx);
+    CGImageRelease(cgimg);
+    return img;
+}
+
+- (CGFloat)m_aspectRatio {
+    return self.size.width / self.size.height;
+}
+
 +(UIImage*)m_imageWithColor:(UIColor*)a_color rect:(CGRect)a_rect{
     UIGraphicsBeginImageContext(a_rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -84,28 +173,28 @@
     return [self m_imageWithColor:a_color rect:CGRectMake(0, 0, 1, 1)];
 }
 
-- (UIImage *)m_applyLightEffect
+- (UIImage *)m_applyLightBlurEffect
 {
     UIColor *tintColor = [UIColor colorWithWhite:1.0 alpha:0.3];
-    return [self m_applyBlurWithRadius:30 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
+    return [self m_applyBlurEffectWithRadius:30 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
 }
 
 
-- (UIImage *)m_applyExtraLightEffect
+- (UIImage *)m_applyExtraLightBlurEffect
 {
     UIColor *tintColor = [UIColor colorWithWhite:0.97 alpha:0.82];
-    return [self m_applyBlurWithRadius:20 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
+    return [self m_applyBlurEffectWithRadius:20 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
 }
 
 
-- (UIImage *)m_applyDarkEffect
+- (UIImage *)m_applyDarkBlurEffect
 {
     UIColor *tintColor = [UIColor colorWithWhite:0.11 alpha:0.73];
-    return [self m_applyBlurWithRadius:20 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
+    return [self m_applyBlurEffectWithRadius:20 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
 }
 
 
-- (UIImage *)m_applyTintEffectWithColor:(UIColor *)tintColor
+- (UIImage *)m_applyTintBlurEffectWithColor:(UIColor *)tintColor
 {
     const CGFloat EffectColorAlpha = 0.6;
     UIColor *effectColor = tintColor;
@@ -122,11 +211,11 @@
             effectColor = [UIColor colorWithRed:r green:g blue:b alpha:EffectColorAlpha];
         }
     }
-    return [self m_applyBlurWithRadius:10 tintColor:effectColor saturationDeltaFactor:-1.0 maskImage:nil];
+    return [self m_applyBlurEffectWithRadius:10 tintColor:effectColor saturationDeltaFactor:-1.0 maskImage:nil];
 }
 
-- (UIImage *)m_applyBlurWithRadius:(CGFloat)blurRadius tintColor:(UIColor *)tintColor
-             saturationDeltaFactor:(CGFloat)saturationDeltaFactor maskImage:(UIImage *)maskImage
+- (UIImage *)m_applyBlurEffectWithRadius:(CGFloat)blurRadius tintColor:(UIColor *)tintColor
+                   saturationDeltaFactor:(CGFloat)saturationDeltaFactor maskImage:(UIImage *)maskImage
 {
     // Check pre-conditions.
     if (self.size.width < 1 || self.size.height < 1) {
@@ -182,7 +271,7 @@
             // ... if d is odd, use three box-blurs of size 'd', centered on the output pixel.
             //
             CGFloat inputRadius = blurRadius * [[UIScreen mainScreen] scale];
-            NSUInteger radius = floor(inputRadius * 3. * sqrt(2 * M_PI) / 4 + 0.5);
+            NSUInteger radius = (NSUInteger) floor(inputRadius * 3. * sqrt(2 * M_PI) / 4 + 0.5);
             if (radius % 2 != 1) {
                 radius += 1; // force radius to be odd so that the three box-blur methodology works.
             }

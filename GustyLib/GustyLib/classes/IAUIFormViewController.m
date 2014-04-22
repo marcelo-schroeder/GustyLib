@@ -417,32 +417,6 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 }
 
--(void)m_onKeyboardNotification:(NSNotification*)a_notification{
-    
-//    NSLog(@"m_onKeyboardNotification");
-    
-    if ([a_notification.name isEqualToString:UIKeyboardDidShowNotification]) {
-        
-        [IAUtils m_dispatchAsyncMainThreadBlock:^{
-            [self.tableView flashScrollIndicators];
-
-        }];
-        
-    }else if ([a_notification.name isEqualToString:UIKeyboardDidHideNotification]) {
-        
-        if (self.p_activePopoverController && !self.p_activePopoverControllerBarButtonItem) {
-            
-            CGRect l_fromPopoverRect = [self m_fromPopoverRectForIndexPath:self.p_indexPathForPopoverController];
-            [self m_presentPopoverController:self.p_activePopoverController fromRect:l_fromPopoverRect inView:self.tableView];
-            
-        }
-        
-    }else{
-        NSAssert(NO, @"Unexpected notification name: %@", a_notification.name);
-    }
-
-}
-
 -(void)m_onTextFieldNotification:(NSNotification*)a_notification{
 //    NSLog(@"m_onTextFieldNotification: %@", a_notification.name);
     if ([a_notification.name isEqualToString:UITextFieldTextDidBeginEditingNotification] || [a_notification.name isEqualToString:UITextFieldTextDidEndEditingNotification]) {
@@ -455,7 +429,7 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     }
 }
 
--(UITableViewCell*)m_updateEditingStateForCell:(UITableViewCell*)a_cell indexPath:()a_indexPath{
+-(UITableViewCell*)m_updateEditingStateForCell:(UITableViewCell*)a_cell indexPath:(NSIndexPath *)a_indexPath{
     if ([a_cell isKindOfClass:[IAUIFormTextFieldTableViewCell class]]) {
         IAUIFormTextFieldTableViewCell *l_textFieldCell = (IAUIFormTextFieldTableViewCell*)a_cell;
 //        NSLog(@"a_cell: %@, a_indexPath: %@", [a_cell description], [a_indexPath description]);
@@ -1232,14 +1206,6 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(m_onKeyboardNotification:)
-                                                 name:UIKeyboardDidShowNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(m_onKeyboardNotification:)
-                                                 name:UIKeyboardDidHideNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(m_onTextFieldNotification:) 
                                                  name:UITextFieldTextDidBeginEditingNotification 
                                                object:nil];
@@ -1291,8 +1257,6 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     [v_uiControlsWithTargets removeAllObjects];
     
     // Remove observers
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidBeginEditingNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidEndEditingNotification object:nil];
@@ -1347,6 +1311,34 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 -(void)setP_contextSwitchRequestRequired:(BOOL)a_contextSwitchRequestRequired{
     [super setP_contextSwitchRequestRequired:v_isManagedObject ? a_contextSwitchRequestRequired : NO];
+}
+
+-(void)m_onKeyboardNotification:(NSNotification*)a_notification{
+
+    [super m_onKeyboardNotification:a_notification];
+
+//    NSLog(@"m_onKeyboardNotification");
+
+    if ([a_notification.name isEqualToString:UIKeyboardDidShowNotification]) {
+
+        [IAUtils m_dispatchAsyncMainThreadBlock:^{
+            [self.tableView flashScrollIndicators];
+
+        }];
+
+    }else if ([a_notification.name isEqualToString:UIKeyboardDidHideNotification]) {
+
+        if (self.p_activePopoverController && !self.p_activePopoverControllerBarButtonItem) {
+
+            CGRect l_fromPopoverRect = [self m_fromPopoverRectForIndexPath:self.p_indexPathForPopoverController];
+            [self m_presentPopoverController:self.p_activePopoverController fromRect:l_fromPopoverRect inView:self.tableView];
+
+        }
+
+    }else{
+        NSAssert(NO, @"Unexpected notification name: %@", a_notification.name);
+    }
+
 }
 
 @end

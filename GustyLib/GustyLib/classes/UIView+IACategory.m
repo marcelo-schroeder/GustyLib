@@ -174,15 +174,13 @@ static char c_appearanceIdKey;
 }
 
 - (UIImage *)m_snapshotImage {
-    UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, 0.0);
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "UnavailableInDeploymentTarget"
-    if ([self respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
-        [self drawViewHierarchyInRect:self.bounds afterScreenUpdates:NO];
-    }else{
-        [self.layer renderInContext:UIGraphicsGetCurrentContext()];
-    }
-#pragma clang diagnostic pop
+    CGRect l_rectToSnapshot = self.bounds;
+    return [self m_snapshotImageFromRect:l_rectToSnapshot];
+}
+
+- (UIImage *)m_snapshotImageFromRect:(CGRect)a_rectToSnapshot {
+    UIGraphicsBeginImageContextWithOptions(a_rectToSnapshot.size, YES, 0.0);
+    [self drawViewHierarchyInRect:a_rectToSnapshot afterScreenUpdates:NO];
     UIImage *l_snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return l_snapshotImage;
@@ -192,6 +190,10 @@ static char c_appearanceIdKey;
     CGRect l_frame1 = [self.superview convertRect:self.frame toView:nil];
     CGRect l_frame2 = [a_theOtherView.superview convertRect:a_theOtherView.frame toView:nil];
     return CGRectIntersectsRect(l_frame1, l_frame2);
+}
+
+- (void)m_traverseViewHierarchyWithBlock:(void (^) (UIView *))a_block {
+    [IAUIUtils m_traverseHierarchyForView:self withBlock:a_block];
 }
 
 #pragma mark - IAHelpTarget protocol

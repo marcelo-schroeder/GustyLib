@@ -114,4 +114,19 @@
 
 + (void)m_showServerErrorAlertViewForNetworkReachable:(BOOL)a_networkReachable
                                     alertViewDelegate:(id <UIAlertViewDelegate>)a_alertViewDelegate;
+
+/**
+* Calculates height given width and aspect ratio.
+* @param a_width Width to calculate height for.
+* @param a_aspectRatio Aspect ratio (width divided by height)
+*/
++ (CGFloat)m_heightForWidth:(CGFloat)a_width aspectRatio:(CGFloat)a_aspectRatio;
+
+/**
+* Calculates width given height and aspect ratio.
+* @param a_height Height to calculate width for.
+* @param a_aspectRatio Aspect ratio (width divided by height)
+*/
++ (CGFloat)m_widthForHeight:(CGFloat)a_height aspectRatio:(CGFloat)a_aspectRatio;
+
 @end

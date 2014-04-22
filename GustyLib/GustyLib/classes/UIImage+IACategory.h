@@ -26,16 +26,23 @@
 -(UIImage*)m_imageWithHue:(CGFloat)a_hue;
 -(UIImage*)m_imageWithHueInDegrees:(CGFloat)a_hueInDegrees;
 
-- (UIImage *)m_applyLightEffect;
+- (UIImage *)m_applyLightBlurEffect;
 
-- (UIImage *)m_applyExtraLightEffect;
+- (UIImage *)m_applyExtraLightBlurEffect;
 
-- (UIImage *)m_applyDarkEffect;
+- (UIImage *)m_applyDarkBlurEffect;
 
-- (UIImage *)m_applyTintEffectWithColor:(UIColor *)tintColor;
+- (UIImage *)m_applyTintBlurEffectWithColor:(UIColor *)tintColor;
 
-- (UIImage *)m_applyBlurWithRadius:(CGFloat)blurRadius tintColor:(UIColor *)tintColor
-                                           saturationDeltaFactor:(CGFloat)saturationDeltaFactor maskImage:(UIImage *)maskImage;
+- (UIImage *)m_applyBlurEffectWithRadius:(CGFloat)blurRadius tintColor:(UIColor *)tintColor
+                   saturationDeltaFactor:(CGFloat)saturationDeltaFactor maskImage:(UIImage *)maskImage;
+
+- (UIImage *)m_imageWithOrientationUp;
+
+/**
+* @returns Image's aspect ratio (width divided by height)
+*/
+- (CGFloat)m_aspectRatio;
 
 +(UIImage*)m_imageWithColor:(UIColor*)a_color rect:(CGRect)a_rect;
 +(UIImage*)m_imageWithColor:(UIColor*)a_color;

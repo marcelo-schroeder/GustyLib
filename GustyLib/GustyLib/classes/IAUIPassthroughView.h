@@ -9,5 +9,7 @@
 @interface IAUIPassthroughView : IAUIView
 
 @property (nonatomic, strong) void(^p_hitTestBlock)(CGPoint a_point, UIEvent *a_event, UIView *a_view);
+@property (nonatomic) BOOL p_shouldDismissKeyboardOnNonTextInputInteractions;
 
+- (void)m_commonInit;
 @end

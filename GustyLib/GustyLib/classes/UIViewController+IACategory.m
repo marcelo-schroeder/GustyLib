@@ -18,13 +18,12 @@
 //  limitations under the License.
 //
 
-#import <UIKit/UIKit.h>
-#import <Foundation/Foundation.h>
 #import "IACommon.h"
 #import "UIStoryboard+IACategory.h"
 #import "IAExternalUrlManager.h"
 #import "IAUISubjectActivityItem.h"
 #import "IAUIExternalWebBrowserActivity.h"
+#import "IAUIPassthroughView.h"
 
 //static UIPopoverArrowDirection  const k_arrowDirectionWithoutKeyboard   = UIPopoverArrowDirectionAny;
 static UIPopoverArrowDirection  const k_arrowDirectionWithoutKeyboard   = UIPopoverArrowDirectionUp | UIPopoverArrowDirectionDown;
@@ -45,6 +44,8 @@ static char c_helpBarButtonItemKey;
 static char c_adContainerViewKey;
 static char c_refreshControlKey;
 static char c_fetchedResultsControllerKey;
+static char c_keyboardPassthroughViewKey;
+static char c_shouldUseKeyboardPassthroughViewKey;
 
 @interface UIViewController (IACategory_Private)
 
@@ -54,6 +55,7 @@ static char c_fetchedResultsControllerKey;
 @property (nonatomic, strong) UIBarButtonItem *p_helpBarButtonItem;
 @property (nonatomic) BOOL p_changesMadeByPresentedViewController;
 @property (nonatomic, strong) NSFetchedResultsController *p_fetchedResultsController;
+@property (nonatomic, strong) IAUIPassthroughView *p_keyboardPassthroughView;
 
 @end
 
@@ -310,6 +312,10 @@ static char c_fetchedResultsControllerKey;
     return l_shouldPresentingViewControllerBeSplitViewControllerDetail ? self.splitViewController.viewControllers[1] : self;
 }
 
+- (void)m_removeKeyboardPassthroughView {
+    [self.p_keyboardPassthroughView removeFromSuperview];
+}
+
 #pragma mark - Public
 
 -(void)setP_presenter:(id<IAUIPresenter>)a_presenter{
@@ -358,6 +364,28 @@ static char c_fetchedResultsControllerKey;
 
 -(void)setP_refreshControl:(ODRefreshControl*)a_refreshControl{
     objc_setAssociatedObject(self, &c_refreshControlKey, a_refreshControl, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+-(BOOL)p_shouldUseKeyboardPassthroughView{
+    return ((NSNumber*)objc_getAssociatedObject(self, &c_shouldUseKeyboardPassthroughViewKey)).boolValue;
+}
+
+-(void)setP_shouldUseKeyboardPassthroughView:(BOOL)a_shouldUseKeyboardPassthroughView{
+    objc_setAssociatedObject(self, &c_shouldUseKeyboardPassthroughViewKey, @(a_shouldUseKeyboardPassthroughView), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+-(IAUIPassthroughView*)p_keyboardPassthroughView{
+    IAUIPassthroughView *l_obj = objc_getAssociatedObject(self, &c_keyboardPassthroughViewKey);
+    if (!l_obj) {
+        l_obj = [IAUIPassthroughView new];
+        l_obj.p_shouldDismissKeyboardOnNonTextInputInteractions = YES;
+        self.p_keyboardPassthroughView = l_obj;
+    }
+    return l_obj;
+}
+
+-(void)setP_keyboardPassthroughView:(IAUIPassthroughView*)a_keyboardPassthroughView{
+    objc_setAssociatedObject(self, &c_keyboardPassthroughViewKey, a_keyboardPassthroughView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 -(UIBarButtonItem*)p_helpBarButtonItem{
@@ -820,6 +848,10 @@ static char c_fetchedResultsControllerKey;
 - (void)m_onApplicationWillResignActiveNotification:(NSNotification*)aNotification{
 }
 
+// To be overriden by subclasses
+- (void)m_onApplicationDidEnterBackgroundNotification:(NSNotification*)aNotification{
+}
+
 - (void)m_onAdsSuspendRequest:(NSNotification*)aNotification{
     [self m_stopAdRequests];
 }
@@ -835,7 +867,10 @@ static char c_fetchedResultsControllerKey;
     // Remove observers
     [[NSNotificationCenter defaultCenter] removeObserver:self name:IA_NOTIFICATION_MENU_BAR_BUTTON_ITEM_INVALIDATED object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+
 }
 
 // To be overriden by subclasses
@@ -898,9 +933,26 @@ static char c_fetchedResultsControllerKey;
                                              selector:@selector(m_onApplicationWillEnterForegroundNotification:)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(m_onApplicationDidBecomeActiveNotification:)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(m_onApplicationWillResignActiveNotification:)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(m_onApplicationDidEnterBackgroundNotification:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+
     // Configure fetched results controller and perform fetch
     [self m_configureFetchedResultsControllerAndPerformFetch];
+
+    // Configure keyboard passthrough view
+    if (self.p_shouldUseKeyboardPassthroughView) {
+        self.p_keyboardPassthroughView.p_shouldDismissKeyboardOnNonTextInputInteractions = YES;
+    }
 
 }
 
@@ -911,6 +963,9 @@ static char c_fetchedResultsControllerKey;
     // Remove observers
     [[NSNotificationCenter defaultCenter] removeObserver:self name:IA_NOTIFICATION_MENU_BAR_BUTTON_ITEM_INVALIDATED object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
 
     self.p_fetchedResultsController = nil;
 
@@ -935,14 +990,6 @@ static char c_fetchedResultsControllerKey;
     
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(m_onApplicationDidBecomeActiveNotification:)
-                                                 name:UIApplicationDidBecomeActiveNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(m_onApplicationWillResignActiveNotification:)
-                                                 name:UIApplicationWillResignActiveNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(m_onAdsSuspendRequest:)
                                                  name:IA_NOTIFICATION_ADS_SUSPEND_REQUEST
                                                object:nil];
@@ -950,7 +997,23 @@ static char c_fetchedResultsControllerKey;
                                              selector:@selector(m_onAdsResumeRequest:)
                                                  name:IA_NOTIFICATION_ADS_RESUME_REQUEST
                                                object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(m_onKeyboardNotification:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(m_onKeyboardNotification:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(m_onKeyboardNotification:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(m_onKeyboardNotification:)
+                                                 name:UIKeyboardDidHideNotification
+                                               object:nil];
+
     if (self.p_manageToolbar && [self.navigationController.viewControllers count]==1 && ![self m_isReturningVisibleViewController]) {
         //            NSLog(@"About to call m_updateToolbarForMode in m_viewWillAppear...");
         [self m_updateToolbarForMode:self.editing animated:NO];
@@ -1010,11 +1073,13 @@ static char c_fetchedResultsControllerKey;
 //    NSLog(@"m_viewDidDisappear: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
         
     // Remove observers
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:IA_NOTIFICATION_ADS_SUSPEND_REQUEST object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:IA_NOTIFICATION_ADS_RESUME_REQUEST object:nil];
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
+
     if (self.p_manageToolbar && [self.toolbarItems count]>0) {
         self.toolbarItems = @[];
     }
@@ -1023,7 +1088,12 @@ static char c_fetchedResultsControllerKey;
     if ([self m_shouldEnableAds]) {
         [self m_stopAdRequests];
     }
-    
+
+    // Remove keyboard passthrough view if required
+    if (self.p_shouldUseKeyboardPassthroughView) {
+        [self m_removeKeyboardPassthroughView]; // Keyboard dismissal is doing this already - this is just a safety net in case of any unforeseen scenarios out there.
+    }
+
 //    [self m_simulateMemoryWarning];
     
 }
@@ -1356,9 +1426,16 @@ static char c_fetchedResultsControllerKey;
 }
 
 - (void)m_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView {
+    [self m_addChildViewController:a_childViewController parentView:a_parentView
+               shouldFillSuperview:YES];
+}
+
+- (void)m_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView shouldFillSuperview:(BOOL)a_shouldFillParentView {
     [self addChildViewController:a_childViewController];
     [a_parentView addSubview:a_childViewController.view];
-    [a_childViewController.view m_addLayoutConstraintsToFillSuperview];
+    if (a_shouldFillParentView) {
+        [a_childViewController.view m_addLayoutConstraintsToFillSuperview];
+    }
     [a_childViewController didMoveToParentViewController:self];
 }
 
@@ -1368,6 +1445,17 @@ static char c_fetchedResultsControllerKey;
     [self removeFromParentViewController];
 }
 
+-(void)m_onKeyboardNotification:(NSNotification*)a_notification {
+    if (self.p_shouldUseKeyboardPassthroughView) {
+        if ([a_notification.name isEqualToString:UIKeyboardDidShowNotification]) {
+            [self.navigationController.view addSubview:self.p_keyboardPassthroughView];
+            [self.p_keyboardPassthroughView m_addLayoutConstraintsToFillSuperview];
+        } else if ([a_notification.name isEqualToString:UIKeyboardDidHideNotification]) {
+            [self m_removeKeyboardPassthroughView];
+        }
+    }
+}
+
 + (instancetype)m_instantiateFromStoryboard {
     NSString *l_storyboardName = [self m_storyboardName];
     id l_viewController = [UIStoryboard m_instantiateInitialViewControllerFromStoryboardNamed:l_storyboardName];
@@ -1375,7 +1463,7 @@ static char c_fetchedResultsControllerKey;
     return l_viewController;
 }
 
-+ (instancetype)m_instantiateFromStoryboardWithViewControllerIdentifier:(NSString *)a_viewControllerIdentifier {
++ (id)m_instantiateFromStoryboardWithViewControllerIdentifier:(NSString *)a_viewControllerIdentifier {
     NSString *l_storyboardName = [self m_storyboardName];
     id l_viewController = [UIStoryboard m_instantiateViewControllerWithIdentifier:a_viewControllerIdentifier
                                                               fromStoryboardNamed:l_storyboardName];

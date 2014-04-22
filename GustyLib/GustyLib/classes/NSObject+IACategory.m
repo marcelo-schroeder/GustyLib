@@ -24,6 +24,10 @@
 
 #pragma mark - Public
 
+- (void)m_commonInit {
+    // Subclasses can override this.
+}
+
 - (id)propertyValueForIndexPath:(NSIndexPath*)anIndexPath inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
     //	return [self performSelector:NSSelectorFromString([self propertyNameForIndexPath:anIndexPath inForm:aFormName])];
 	return objc_msgSend(self, NSSelectorFromString([self propertyNameForIndexPath:anIndexPath inForm:aFormName createMode:aCreateMode]));

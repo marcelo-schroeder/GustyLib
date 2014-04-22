@@ -13,6 +13,10 @@
 		F766D33E18ECA71000B3B590 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F766D33D18ECA71000B3B590 /* CoreLocation.framework */; };
 		F766D33F18ECA7D700B3B590 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4DBED18EA11E100ABF401 /* MapKit.framework */; };
 		F766D34118ECADCE00B3B590 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F766D34018ECADCE00B3B590 /* GLKit.framework */; };
+		F7D14FD9190715BE00F5124C /* IASlidingFrostedGlassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D14FD4190715BE00F5124C /* IASlidingFrostedGlassViewController.m */; };
+		F7D14FDA190715BE00F5124C /* NSIndexPath+IACategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D14FD6190715BE00F5124C /* NSIndexPath+IACategory.m */; };
+		F7D14FDB190715BE00F5124C /* UITableViewController+IADynamicCellHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D14FD8190715BE00F5124C /* UITableViewController+IADynamicCellHeight.m */; };
+		F7D14FDD190715CD00F5124C /* NSIndexPathTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D14FDC190715CD00F5124C /* NSIndexPathTests.m */; };
 		F7D4D83718EA00E600ABF401 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4D83618EA00E600ABF401 /* Foundation.framework */; };
 		F7D4D84518EA00E600ABF401 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4D84418EA00E600ABF401 /* XCTest.framework */; };
 		F7D4D84618EA00E600ABF401 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4D83618EA00E600ABF401 /* Foundation.framework */; };
@@ -192,6 +196,13 @@
 		F766D30018ECA3DC00B3B590 /* IAPagingStateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPagingStateManager.m; sourceTree = "<group>"; };
 		F766D33D18ECA71000B3B590 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		F766D34018ECADCE00B3B590 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		F7D14FD3190715BE00F5124C /* IASlidingFrostedGlassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IASlidingFrostedGlassViewController.h; sourceTree = "<group>"; };
+		F7D14FD4190715BE00F5124C /* IASlidingFrostedGlassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IASlidingFrostedGlassViewController.m; sourceTree = "<group>"; };
+		F7D14FD5190715BE00F5124C /* NSIndexPath+IACategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexPath+IACategory.h"; sourceTree = "<group>"; };
+		F7D14FD6190715BE00F5124C /* NSIndexPath+IACategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexPath+IACategory.m"; sourceTree = "<group>"; };
+		F7D14FD7190715BE00F5124C /* UITableViewController+IADynamicCellHeight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewController+IADynamicCellHeight.h"; sourceTree = "<group>"; };
+		F7D14FD8190715BE00F5124C /* UITableViewController+IADynamicCellHeight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewController+IADynamicCellHeight.m"; sourceTree = "<group>"; };
+		F7D14FDC190715CD00F5124C /* NSIndexPathTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSIndexPathTests.m; sourceTree = "<group>"; };
 		F7D4D83318EA00E600ABF401 /* libGustyLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGustyLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7D4D83618EA00E600ABF401 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F7D4D83A18EA00E600ABF401 /* GustyLib-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GustyLib-Prefix.pch"; sourceTree = "<group>"; };
@@ -630,6 +641,12 @@
 		F7D4DA2418EA0E6300ABF401 /* classes */ = {
 			isa = PBXGroup;
 			children = (
+				F7D14FD3190715BE00F5124C /* IASlidingFrostedGlassViewController.h */,
+				F7D14FD4190715BE00F5124C /* IASlidingFrostedGlassViewController.m */,
+				F7D14FD5190715BE00F5124C /* NSIndexPath+IACategory.h */,
+				F7D14FD6190715BE00F5124C /* NSIndexPath+IACategory.m */,
+				F7D14FD7190715BE00F5124C /* UITableViewController+IADynamicCellHeight.h */,
+				F7D14FD8190715BE00F5124C /* UITableViewController+IADynamicCellHeight.m */,
 				F766D2FF18ECA3DC00B3B590 /* IAPagingStateManager.h */,
 				F766D30018ECA3DC00B3B590 /* IAPagingStateManager.m */,
 				F7D4DA2518EA0E6300ABF401 /* 3rd party */,
@@ -1045,6 +1062,7 @@
 		F7D4DBEF18EA195900ABF401 /* classes */ = {
 			isa = PBXGroup;
 			children = (
+				F7D14FDC190715CD00F5124C /* NSIndexPathTests.m */,
 				F766D2FD18ECA3A700B3B590 /* IAPagingStateManagerTests.m */,
 				F7D4DBF018EA195900ABF401 /* IACommonTests.h */,
 				F7D4DBF118EA195900ABF401 /* IADateRangeTest.h */,
@@ -1250,11 +1268,14 @@
 				F7D4DBDB18EA0E6400ABF401 /* NSNumberFormatter+IACategory.m in Sources */,
 				F7D4DBBB18EA0E6400ABF401 /* IAUISegmentedControlTableViewCell.m in Sources */,
 				F7D4DBCA18EA0E6400ABF401 /* IAUITextField.m in Sources */,
+				F7D14FDB190715BE00F5124C /* UITableViewController+IADynamicCellHeight.m in Sources */,
 				F7D4DBBE18EA0E6400ABF401 /* IAUISingleSelectionManager.m in Sources */,
 				F7D4DB8218EA0E6400ABF401 /* IAHtmlDocument.m in Sources */,
 				F7D4DBB418EA0E6400ABF401 /* IAUINavigationListViewController.m in Sources */,
+				F7D14FD9190715BE00F5124C /* IASlidingFrostedGlassViewController.m in Sources */,
 				F7D4DB7A18EA0E6400ABF401 /* IADateRange.m in Sources */,
 				F7D4DB9418EA0E6400ABF401 /* IAUIApplicationDelegate.m in Sources */,
+				F7D14FDA190715BE00F5124C /* NSIndexPath+IACategory.m in Sources */,
 				F7D4DBAD18EA0E6400ABF401 /* IAUIManagedFormViewController.m in Sources */,
 				F7D4DBB018EA0E6400ABF401 /* IAUIModalViewController.m in Sources */,
 				F7D4DBC118EA0E6400ABF401 /* IAUISplitViewController.m in Sources */,
@@ -1329,6 +1350,7 @@
 				F766D2FE18ECA3A700B3B590 /* IAPagingStateManagerTests.m in Sources */,
 				F7D4DC0518EA195900ABF401 /* XCTestCase+IACategory.m in Sources */,
 				F7D4DBFF18EA195900ABF401 /* IAHtmlParserTests.m in Sources */,
+				F7D14FDD190715CD00F5124C /* NSIndexPathTests.m in Sources */,
 				F7D4DBFE18EA195900ABF401 /* IADateRangeTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

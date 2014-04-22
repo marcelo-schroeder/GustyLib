@@ -12,6 +12,7 @@
 
 @property (nonatomic, weak) id<IAUIGridViewDataSource> p_gridViewDataSource;
 @property (nonatomic, weak) id<IAUIGridViewDelegate> p_gridViewDelegate;
+@property (nonatomic, strong, readonly) UICollectionViewFlowLayout *p_layout;
 
 @end
 
@@ -27,11 +28,30 @@
 // Used to set the collection view's content inset
 - (UIEdgeInsets)m_contentInset;
 
+// Used to set the collection view's section inset
+- (UIEdgeInsets)m_sectionInset;
+
 // Used in size calculations only to reserve space for bars, revealing collection items partially, inter page spacing, etc
 - (UIEdgeInsets)m_reservedEdgeSpace;
 
 - (BOOL)m_shouldAdjustLastColumnWidth;
 - (BOOL)m_shouldAdjustLastRowHeight;
+
+/**
+* Implement this method to force the item width calculation to be based on the item height.
+* When this method is implemented, implementing m_shouldAdjustLastColumnWidth will have no effect.
+*
+* @returns Number that multiplied by the item height will result in the item width. Returning zero will have no effect.
+*/
+- (CGFloat)m_itemHeightMultiplierForItemWidth;
+
+/**
+* Implement this method to force the item height calculation to be based on the item width.
+* When this method is implemented, implementing m_shouldAdjustLastRowHeight will have no effect.
+*
+* @returns Number that multiplied by the item width will result in the item height. Returning zero will have no effect.
+*/
+- (CGFloat)m_itemWidthMultiplierForItemHeight;
 
 @end
 

@@ -18,7 +18,16 @@
 //  limitations under the License.
 //
 
+@class NSPropertyDescription;
+
 @interface NSObject (IACategory)
+
+/**
+* Used for common initialisation.
+* To be called by init methods.
+* Subclasses can override this.
+*/
+- (void)m_commonInit;
 
 - (id)propertyValueForIndexPath:(NSIndexPath*)anIndexPath inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;
 - (NSString*)propertyNameForIndexPath:(NSIndexPath*)anIndexPath inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;

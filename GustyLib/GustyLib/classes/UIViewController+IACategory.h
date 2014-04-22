@@ -28,6 +28,7 @@
 @class ODRefreshControl;
 
 @protocol IAUIAppearanceTheme;
+@class IAUIPassthroughView;
 
 @interface UIViewController (IACategory) <IAHelpTargetContainer, IAUIPresenter, GADBannerViewDelegate, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate>
 
@@ -48,6 +49,7 @@
 @property (nonatomic, strong) UIView *p_adContainerView;
 @property (nonatomic, strong) ODRefreshControl *p_refreshControl;
 @property (nonatomic, strong, readonly) NSFetchedResultsController *p_fetchedResultsController;
+@property (nonatomic) BOOL p_shouldUseKeyboardPassthroughView;
 
 // to be overriden by subclasses
 @property (nonatomic, readonly) BOOL p_manageToolbar;
@@ -63,6 +65,9 @@
 */
 - (void)m_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView;
 
+- (void)m_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView
+                                                                  shouldFillSuperview:(BOOL)a_shouldFillParentView;
+
 /**
 * Removes this view controller from its parent.
 */
@@ -70,7 +75,7 @@
 
 + (instancetype)m_instantiateFromStoryboard;
 
-+ (instancetype)m_instantiateFromStoryboardWithViewControllerIdentifier:(NSString *)a_viewControllerIdentifier;
++ (id)m_instantiateFromStoryboardWithViewControllerIdentifier:(NSString *)a_viewControllerIdentifier;
 
 + (NSString *)m_storyboardName;
 
@@ -79,6 +84,8 @@
 + (NSString *)m_storyboardNameIPadSuffix;
 
 + (BOOL)m_isStoryboardDeviceSpecific;
+
+- (void)m_onKeyboardNotification:(NSNotification *)a_notification;
 
 -(NSString*)m_helpTargetIdForName:(NSString*)a_name;
 
@@ -189,6 +196,8 @@
 - (void)m_onApplicationWillEnterForegroundNotification:(NSNotification*)aNotification;
 - (void)m_onApplicationDidBecomeActiveNotification:(NSNotification*)aNotification;
 - (void)m_onApplicationWillResignActiveNotification:(NSNotification*)aNotification;
+- (void)m_onApplicationDidEnterBackgroundNotification:(NSNotification *)aNotification;
+
 - (void)m_dealloc;
 -(UIView*)m_nonAdContainerView;
 -(BOOL)m_shouldEnableAds;

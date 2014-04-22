@@ -7,6 +7,7 @@
 //
 
 #import "IACommon.h"
+#import "UIScrollView+IACategory.h"
 
 @interface IAUITextViewController ()
 
@@ -41,11 +42,6 @@
 
 }
 
-- (void)m_updateGrowingTextViewMinimumHeight {
-//    self.p_growingTextView.minHeight = (int) (self.p_scrollView.frame.size.height - self.p_scrollView.contentInset.top - self.p_scrollView.contentInset.bottom - self.p_growingTextView.frame.origin.y);
-//    [self.p_growingTextView refreshHeight];
-}
-
 - (void)m_onKeyboardWillHideNotification:(NSNotification *)aNotification{
 
     UIEdgeInsets l_newContentInset = self.p_scrollView.contentInset;
@@ -53,6 +49,11 @@
     self.p_scrollView.contentInset = l_newContentInset;
     self.p_scrollView.scrollIndicatorInsets = l_newContentInset;
 
+}
+
+- (void)m_updateGrowingTextViewMinimumHeight {
+//    self.p_growingTextView.minHeight = (int) (self.p_scrollView.frame.size.height - self.p_scrollView.contentInset.top - self.p_scrollView.contentInset.bottom - self.p_growingTextView.frame.origin.y);
+//    [self.p_growingTextView refreshHeight];
 }
 
 -(void)m_updateScrollViewContentSize {
@@ -160,18 +161,6 @@
 
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-	[super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(m_onKeyboardDidShowNotification:)
-                                                 name:UIKeyboardDidShowNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(m_onKeyboardWillHideNotification:)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
-}
-
 -(void)viewDidAppear:(BOOL)animated{
     
     [super viewDidAppear:animated];
@@ -190,14 +179,12 @@
     
 }
 
-- (void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIKeyboardDidShowNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIKeyboardWillHideNotification
-                                                  object:nil];
+-(void)m_onKeyboardNotification:(NSNotification*)a_notification {
+    if ([a_notification.name isEqualToString:UIKeyboardDidShowNotification]) {
+        [self m_onKeyboardDidShowNotification:a_notification];
+    } else if ([a_notification.name isEqualToString:UIKeyboardWillHideNotification]) {
+        [self m_onKeyboardWillHideNotification:a_notification];
+    }
 }
 
 #pragma mark - HPGrowingTextViewDelegate

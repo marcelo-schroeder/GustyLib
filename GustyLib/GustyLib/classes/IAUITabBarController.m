@@ -49,6 +49,7 @@
 }
 
 -(void)m_onApplicationDidEnterBackgroundNotification:(NSNotification *)aNotification{
+    [super m_onApplicationDidEnterBackgroundNotification:aNotification];
     [self m_releaseMemory];
 }
 
@@ -131,11 +132,7 @@
                                              selector:@selector(oncontextSwitchRequestGrantedNotification:)
                                                  name:IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST_GRANTED
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(m_onApplicationDidEnterBackgroundNotification:)
-                                                 name:UIApplicationDidEnterBackgroundNotification
-                                               object:nil];
-    
+
     return self;
 }
 
@@ -143,8 +140,7 @@
     
     // Remove observers
     [[NSNotificationCenter defaultCenter] removeObserver:self name:IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST_GRANTED object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
-    
+
 }
 
 -(void)viewDidLoad{
