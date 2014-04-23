@@ -1,9 +1,6 @@
 //
-//  IACommonTests.h
-//  Gusty
-//
-//  Created by Marcelo Schroeder on 30/07/10.
-//  Copyright 2010 InfoAccent Pty Limited. All rights reserved.
+// Created by Marcelo Schroeder on 16/04/2014.
+// Copyright (c) 2014 InfoAccent Pty Ltd. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -18,10 +15,8 @@
 //  limitations under the License.
 //
 
-#import "IACommon.h"
 #import <XCTest/XCTest.h>
-#import <XCTest/XCTest.h>
-#import "XCTestCase+IACategory.h"
+#import "XCTestCase+IFACategory.h"
 
 /*************/
 /* 3rd party */

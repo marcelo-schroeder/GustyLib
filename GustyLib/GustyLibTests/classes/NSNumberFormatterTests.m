@@ -17,7 +17,7 @@
 //  limitations under the License.
 //
 
-#import "IACommonTests.h"
+#import "IFACommonTests.h"
 #import "NSNumberFormatter+IACategory.h"
 
 @interface NSNumberFormatterTests : XCTestCase

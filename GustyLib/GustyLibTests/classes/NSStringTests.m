@@ -17,7 +17,8 @@
 //  limitations under the License.
 //
 
-#import "IACommonTests.h"
+#import "IFACommonTests.h"
+#import "NSString+IACategory.h"
 
 @interface NSStringTests : XCTestCase
 @end

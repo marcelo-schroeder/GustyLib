@@ -1,6 +1,6 @@
 //
-// Created by Marcelo Schroeder on 16/08/13.
-// Copyright (c) 2013 IAG. All rights reserved.
+// Created by Marcelo Schroeder on 16/04/2014.
+// Copyright (c) 2014 InfoAccent Pty Ltd. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -15,9 +15,10 @@
 //  limitations under the License.
 //
 
-#import "IACommonTests.h"
+#import <UIKit/UIKit.h>
+#import "IFACommonTests.h"
 
-@implementation XCTestCase (IACategory)
+@implementation XCTestCase (IFACategory)
 
 #pragma mark - Private
 

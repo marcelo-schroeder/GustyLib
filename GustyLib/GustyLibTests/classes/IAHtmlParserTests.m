@@ -17,7 +17,7 @@
 //  limitations under the License.
 //
 
-#import "IACommonTests.h"
+#import "IFACommonTests.h"
 #import "IAHtmlParser.h"
 
 typedef void (^HtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes);

@@ -102,6 +102,12 @@
 #define COCOAPODS_VERSION_MINOR_Google_AdMob_Ads_SDK 8
 #define COCOAPODS_VERSION_PATCH_Google_AdMob_Ads_SDK 0
 
+// IFATestingSupport
+#define COCOAPODS_POD_AVAILABLE_IFATestingSupport
+#define COCOAPODS_VERSION_MAJOR_IFATestingSupport 0
+#define COCOAPODS_VERSION_MINOR_IFATestingSupport 1
+#define COCOAPODS_VERSION_PATCH_IFATestingSupport 0
+
 // MTStatusBarOverlay
 #define COCOAPODS_POD_AVAILABLE_MTStatusBarOverlay
 #define COCOAPODS_VERSION_MAJOR_MTStatusBarOverlay 0

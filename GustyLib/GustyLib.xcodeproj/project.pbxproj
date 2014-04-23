@@ -163,7 +163,6 @@
 		F7D4DC0218EA195900ABF401 /* NSNumberFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DBF818EA195900ABF401 /* NSNumberFormatterTests.m */; };
 		F7D4DC0318EA195900ABF401 /* NSStringTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DBF918EA195900ABF401 /* NSStringTests.m */; };
 		F7D4DC0418EA195900ABF401 /* TempTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DBFB18EA195900ABF401 /* TempTest.m */; };
-		F7D4DC0518EA195900ABF401 /* XCTestCase+IACategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DBFD18EA195900ABF401 /* XCTestCase+IACategory.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -524,7 +523,6 @@
 		F7D4DB6618EA0E6400ABF401 /* textViewBorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textViewBorder.png; sourceTree = "<group>"; };
 		F7D4DB6718EA0E6400ABF401 /* textViewBorder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "textViewBorder@2x.png"; sourceTree = "<group>"; };
 		F7D4DBED18EA11E100ABF401 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		F7D4DBF018EA195900ABF401 /* IACommonTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IACommonTests.h; sourceTree = "<group>"; };
 		F7D4DBF118EA195900ABF401 /* IADateRangeTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IADateRangeTest.h; sourceTree = "<group>"; };
 		F7D4DBF218EA195900ABF401 /* IADateRangeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IADateRangeTest.m; sourceTree = "<group>"; };
 		F7D4DBF318EA195900ABF401 /* IAHtmlParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAHtmlParserTests.m; sourceTree = "<group>"; };
@@ -536,8 +534,6 @@
 		F7D4DBF918EA195900ABF401 /* NSStringTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringTests.m; sourceTree = "<group>"; };
 		F7D4DBFA18EA195900ABF401 /* TempTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempTest.h; sourceTree = "<group>"; };
 		F7D4DBFB18EA195900ABF401 /* TempTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempTest.m; sourceTree = "<group>"; };
-		F7D4DBFC18EA195900ABF401 /* XCTestCase+IACategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestCase+IACategory.h"; sourceTree = "<group>"; };
-		F7D4DBFD18EA195900ABF401 /* XCTestCase+IACategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestCase+IACategory.m"; sourceTree = "<group>"; };
 		FF387BE31CA84C679F50890D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -1066,7 +1062,6 @@
 			children = (
 				F7D14FDC190715CD00F5124C /* NSIndexPathTests.m */,
 				F766D2FD18ECA3A700B3B590 /* IAPagingStateManagerTests.m */,
-				F7D4DBF018EA195900ABF401 /* IACommonTests.h */,
 				F7D4DBF118EA195900ABF401 /* IADateRangeTest.h */,
 				F7D4DBF218EA195900ABF401 /* IADateRangeTest.m */,
 				F7D4DBF318EA195900ABF401 /* IAHtmlParserTests.m */,
@@ -1078,8 +1073,6 @@
 				F7D4DBF918EA195900ABF401 /* NSStringTests.m */,
 				F7D4DBFA18EA195900ABF401 /* TempTest.h */,
 				F7D4DBFB18EA195900ABF401 /* TempTest.m */,
-				F7D4DBFC18EA195900ABF401 /* XCTestCase+IACategory.h */,
-				F7D4DBFD18EA195900ABF401 /* XCTestCase+IACategory.m */,
 			);
 			path = classes;
 			sourceTree = "<group>";
@@ -1350,7 +1343,6 @@
 				F7D4DC0418EA195900ABF401 /* TempTest.m in Sources */,
 				F7D4DC0218EA195900ABF401 /* NSNumberFormatterTests.m in Sources */,
 				F766D2FE18ECA3A700B3B590 /* IAPagingStateManagerTests.m in Sources */,
-				F7D4DC0518EA195900ABF401 /* XCTestCase+IACategory.m in Sources */,
 				F7D4DBFF18EA195900ABF401 /* IAHtmlParserTests.m in Sources */,
 				F7D14FDD190715CD00F5124C /* NSIndexPathTests.m in Sources */,
 				F7D4DBFE18EA195900ABF401 /* IADateRangeTest.m in Sources */,

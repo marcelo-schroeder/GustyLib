@@ -1,6 +1,6 @@
 //
-// Created by Marcelo Schroeder on 16/08/13.
-// Copyright (c) 2013 IAG. All rights reserved.
+// Created by Marcelo Schroeder on 16/04/2014.
+// Copyright (c) 2014 InfoAccent Pty Ltd. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -15,7 +15,11 @@
 //  limitations under the License.
 //
 
-@interface XCTestCase (IACategory)
+
+@class UIControl;
+@class UIBarButtonItem;
+
+@interface XCTestCase (IFACategory)
 - (void)m_assertThatControl:(UIControl *)a_control hasTapEventConfiguredWithTarget:(id)a_target action:(SEL)a_action;
 
 - (void)m_assertThatControl:(UIControl *)a_control hasValueChangedEventConfiguredWithTarget:(id)a_target
