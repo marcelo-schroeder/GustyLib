@@ -189,6 +189,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1073868E997C32E0EB51E2A6 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		A03BC960480144A4ABDD6917 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		F7446BD119085FA9008345FA /* GustyLib.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = GustyLib.podspec; path = ../GustyLib.podspec; sourceTree = "<group>"; };
 		F766D2FD18ECA3A700B3B590 /* IAPagingStateManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPagingStateManagerTests.m; sourceTree = "<group>"; };
@@ -576,6 +577,7 @@
 				F7D4D83418EA00E600ABF401 /* Products */,
 				A03BC960480144A4ABDD6917 /* Pods.xcconfig */,
 				F7446BD119085FA9008345FA /* GustyLib.podspec */,
+				1073868E997C32E0EB51E2A6 /* LICENSE */,
 			);
 			sourceTree = "<group>";
 		};

@@ -16,6 +16,9 @@
     <content url="file://$MODULE_DIR$/GustyLib/GustyLib.xcodeproj">
       <sourceFolder url="file://$MODULE_DIR$/GustyLib/GustyLib.xcodeproj" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/LICENSE">
+      <sourceFolder url="file://$MODULE_DIR$/LICENSE" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/Podfile">
       <sourceFolder url="file://$MODULE_DIR$/Podfile" isTestSource="false" />
     </content>
