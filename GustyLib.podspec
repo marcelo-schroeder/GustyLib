@@ -28,11 +28,11 @@ Pod::Spec.new do |s|
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
-  s.source_files  = "GustyLib/classes/**/*.{h,m}"
+  s.source_files  = "GustyLib/GustyLib/classes/**/*.{h,m}"
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
-  s.resource  = "GustyLib/resources/**/*.*"
+  s.resource  = "GustyLib/GustyLib/resources/**/*.*"
 
   # ――― Project Linking ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
