@@ -7,6 +7,9 @@
     <content url="file://$MODULE_DIR$/GustyLib">
       <sourceFolder url="file://$MODULE_DIR$/GustyLib" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/GustyLib.podspec">
+      <sourceFolder url="file://$MODULE_DIR$/GustyLib.podspec" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/GustyLib.xcworkspace">
       <sourceFolder url="file://$MODULE_DIR$/GustyLib.xcworkspace" isTestSource="false" />
     </content>
