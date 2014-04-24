@@ -453,9 +453,11 @@ otherButtonTitlesArray:(NSArray *)otherTitlesArray iPadWidth:(CGFloat)iPadWidth 
 
 - (void)buttonClicked:(IBActionSheetButton *)button {
     
-    [self.delegate actionSheet:self clickedButtonAtIndex:button.index];
     self.shouldCancelOnTouch = YES;
-    [self removeFromView];
+    __weak __typeof(self) l_weakSelf = self;
+    [self removeFromViewWithAnimationCompletionBlock:^(BOOL finished) {
+        [l_weakSelf.delegate actionSheet:l_weakSelf clickedButtonAtIndex:button.index];
+    }];
 }
 
 - (void)dismissWithClickedButtonIndex:(NSInteger)buttonIndex animated:(BOOL)animated {
@@ -466,8 +468,10 @@ otherButtonTitlesArray:(NSArray *)otherTitlesArray iPadWidth:(CGFloat)iPadWidth 
         self.visible = NO;
         [self.delegate actionSheet:self clickedButtonAtIndex:buttonIndex];
     } else {
-        [self removeFromView];
-        [self.delegate actionSheet:self clickedButtonAtIndex:buttonIndex];
+        __weak __typeof(self) l_weakSelf = self;
+        [self removeFromViewWithAnimationCompletionBlock:^(BOOL finished) {
+            [l_weakSelf.delegate actionSheet:l_weakSelf clickedButtonAtIndex:buttonIndex];
+        }];
     }
 }
 
@@ -528,6 +532,10 @@ otherButtonTitlesArray:(NSArray *)otherTitlesArray iPadWidth:(CGFloat)iPadWidth 
 }
 
 - (void)removeFromView {
+    [self removeFromViewWithAnimationCompletionBlock:nil];
+}
+
+- (void)removeFromViewWithAnimationCompletionBlock:(void (^)(BOOL finished))animationCompletionBlock {
     
     if (self.shouldCancelOnTouch) {
         
@@ -544,6 +552,9 @@ otherButtonTitlesArray:(NSArray *)otherTitlesArray iPadWidth:(CGFloat)iPadWidth 
                                  [self.transparentView removeFromSuperview];
                                  [self removeFromSuperview];
                                  self.visible = NO;
+                                if (animationCompletionBlock) {
+                                    animationCompletionBlock(finished);
+                                }
                              }];
         } else {
             
@@ -560,7 +571,10 @@ otherButtonTitlesArray:(NSArray *)otherTitlesArray iPadWidth:(CGFloat)iPadWidth 
                                  [self.transparentView removeFromSuperview];
                                  [self removeFromSuperview];
                                  self.visible = NO;
-                             }];
+                                if (animationCompletionBlock) {
+                                    animationCompletionBlock(finished);
+                                }
+            }];
         }
         
     }
