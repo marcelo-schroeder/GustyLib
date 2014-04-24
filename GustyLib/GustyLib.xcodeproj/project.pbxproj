@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10738B2F77E76E5157F7127C /* IBActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073880E22DD848DC3C2AF53 /* IBActionSheet.m */; };
 		3C07EA814F2645A5BD5C2174 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF387BE31CA84C679F50890D /* libPods.a */; };
 		F766D2FE18ECA3A700B3B590 /* IAPagingStateManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F766D2FD18ECA3A700B3B590 /* IAPagingStateManagerTests.m */; };
 		F766D30118ECA3DC00B3B590 /* IAPagingStateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F766D30018ECA3DC00B3B590 /* IAPagingStateManager.m */; };
@@ -188,7 +189,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		107384BCE8C5B3029968D0A2 /* IBActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IBActionSheet.h; sourceTree = "<group>"; };
 		1073868E997C32E0EB51E2A6 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		1073880E22DD848DC3C2AF53 /* IBActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IBActionSheet.m; sourceTree = "<group>"; };
 		A03BC960480144A4ABDD6917 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		F7446BD119085FA9008345FA /* GustyLib.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = GustyLib.podspec; path = ../GustyLib.podspec; sourceTree = "<group>"; };
 		F766D2FD18ECA3A700B3B590 /* IAPagingStateManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPagingStateManagerTests.m; sourceTree = "<group>"; };
@@ -564,6 +567,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		10738CA2DE9D0DF5DD5E526F /* IBActionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				107384BCE8C5B3029968D0A2 /* IBActionSheet.h */,
+				1073880E22DD848DC3C2AF53 /* IBActionSheet.m */,
+			);
+			path = IBActionSheet;
+			sourceTree = "<group>";
+		};
 		F7D4D82A18EA00E600ABF401 = {
 			isa = PBXGroup;
 			children = (
@@ -914,6 +926,7 @@
 				F7D4DA3618EA0E6300ABF401 /* KNSemiModal */,
 				F7D4DA3A18EA0E6300ABF401 /* MBProgressHUD */,
 				F7D4DA3D18EA0E6300ABF401 /* SVWebViewController */,
+				10738CA2DE9D0DF5DD5E526F /* IBActionSheet */,
 			);
 			path = "3rd party";
 			sourceTree = "<group>";
@@ -1330,6 +1343,7 @@
 				F7D4DB7E18EA0E6400ABF401 /* IAEntityConfig.m in Sources */,
 				F7D4DBC018EA0E6400ABF401 /* IAUISlidingViewController.m in Sources */,
 				F7D4DB9618EA0E6400ABF401 /* IAUICollectionViewCell.m in Sources */,
+				10738B2F77E76E5157F7127C /* IBActionSheet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
