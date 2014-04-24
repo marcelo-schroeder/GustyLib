@@ -68,14 +68,15 @@ otherButtonTitlesArray:(NSArray *)otherTitlesArray iPadWidth:(CGFloat)iPadWidth 
     }
     
     // set up cancel button
-    if (cancelTitle) {
+    BOOL l_isIPad = [IAUIUtils m_isIPad];
+    if (cancelTitle && !l_isIPad) {
         IBActionSheetButton *cancelButton = [[IBActionSheetButton alloc] initWithAllCornersRoundedAndMaximumActionSheetWidth:[self maximumActionSheetWidth]];
         cancelButton.titleLabel.font = [UIFont boldSystemFontOfSize:21];
         [cancelButton setTitle:cancelTitle forState:UIControlStateAll];
         [self.buttons addObject:cancelButton];
         self.hasCancelButton = YES;
     } else {
-        self.shouldCancelOnTouch = NO;
+        self.shouldCancelOnTouch = l_isIPad;
         self.hasCancelButton = NO;
     }
     
