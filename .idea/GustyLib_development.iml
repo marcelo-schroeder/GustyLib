@@ -19,6 +19,9 @@
     <content url="file://$MODULE_DIR$/LICENSE">
       <sourceFolder url="file://$MODULE_DIR$/LICENSE" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/LICENSE.txt">
+      <sourceFolder url="file://$MODULE_DIR$/LICENSE.txt" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/Podfile">
       <sourceFolder url="file://$MODULE_DIR$/Podfile" isTestSource="false" />
     </content>
