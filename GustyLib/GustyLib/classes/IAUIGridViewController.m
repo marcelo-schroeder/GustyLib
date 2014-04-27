@@ -125,7 +125,7 @@
     }
 
     CGFloat l_verticalSpace = self.view.frame.size.height;
-    CGFloat l_verticalSpaceUnavailable = (l_layout.minimumLineSpacing * (l_numberOfRows - 1)) + l_reservedEdgeSpace.top + l_reservedEdgeSpace.bottom + self.topLayoutGuide.length + self.bottomLayoutGuide.length;
+    CGFloat l_verticalSpaceUnavailable = (l_layout.minimumLineSpacing * (l_numberOfRows - 1)) + l_reservedEdgeSpace.top + l_reservedEdgeSpace.bottom;
     CGFloat l_verticalSpaceAvailable = l_verticalSpace - l_verticalSpaceUnavailable;
 
 //    NSLog(@"  l_verticalSpace: %f", l_verticalSpace);
