@@ -278,7 +278,7 @@
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     [webView.scrollView flashScrollIndicators];
     
-    self.navigationItem.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+//    self.navigationItem.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
     [self updateToolbarItems];
 }
 

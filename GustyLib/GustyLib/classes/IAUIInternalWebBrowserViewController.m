@@ -90,10 +90,12 @@
     self.p_delegate = self;
     [self m_configureBrowserButtons];
     [super viewDidLoad];
-    self.navigationItem.leftBarButtonItems = nil;
-    [self m_addLeftBarButtonItem:[[self m_appearanceTheme] m_doneBarButtonItemWithTarget:self
-                                                                                  action:@selector(doneButtonClicked:)
-                                                                          viewController:self]];
+    if (self.p_presentedAsModal) {
+        self.navigationItem.leftBarButtonItems = nil;
+        [self m_addLeftBarButtonItem:[[self m_appearanceTheme] m_doneBarButtonItemWithTarget:self
+                                                                                      action:@selector(doneButtonClicked:)
+                                                                              viewController:self]];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -122,7 +124,7 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [super webViewDidFinishLoad:webView];
-    self.navigationItem.title = nil;
+//    self.navigationItem.title = nil;
     [self.p_activityIndicatorView stopAnimating];
 }
 
