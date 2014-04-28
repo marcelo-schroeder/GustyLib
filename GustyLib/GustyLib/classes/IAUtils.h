@@ -77,4 +77,9 @@
 +(BOOL)m_isProductionAps;
 
 + (BOOL)m_isIOS7OrGreater;
+
++ (NSString *)m_hardwareType;
+
++ (NSString *)m_encodeForUrlByAddingPercentEscapesWithOriginalString:(NSString *)a_originalString;
++ (NSString *)m_encodeForUrlByAddingPercentEscapesIncludingReservedCharactersWithOriginalString:(NSString *)a_originalString;
 @end

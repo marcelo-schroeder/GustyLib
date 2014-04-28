@@ -18,12 +18,17 @@
 //  limitations under the License.
 //
 
+#import "IAHtmlDocument.h"
+
 @class IAUIMenuViewController;
 @class MBProgressHUD;
 
 @interface IAUIUtils : NSObject {
 
 }
+
+// Size limit for UIWebView to be able to display images in iOS 7 and above (i.e. no devices have less than 256Mb of RAM)
+extern const CGFloat k_IAMaximumImageSizeInPixels;
 
 + (void) showAlertWithMessage:(NSString*)aMessage title:(NSString*)aTitle;
 + (void) showAlertWithMessage:(NSString*)aMessage title:(NSString*)aTitle buttonLabel:(NSString*)aButtonLabel;
@@ -108,6 +113,8 @@
 +(void)adjustImageInsetsForBarButtonItem:(UIBarButtonItem*)a_barButtonItem insetValue:(CGFloat)a_insetValue;
 
 +(UIColor*)m_colorForInfoPlistKey:(NSString*)a_infoPlistKey;
+
++ (BOOL)m_isImageWithinSafeMemoryThresholdForSizeInPixels:(CGSize)a_imageSizeInPixels;
 
 // mimic iOS default separator inset
 + (UIEdgeInsets)m_tableViewCellDefaultSeparatorInset;

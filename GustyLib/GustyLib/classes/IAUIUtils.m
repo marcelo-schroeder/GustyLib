@@ -22,6 +22,11 @@
 
 static UIImage *c_menuBarButtonItemImage = nil;
 
+// 5Mb seems to be limit for UIWebView to be able to display images in iOS 7 (i.e. no devices have less than 256Mb of RAM)
+// Based on the "Know iOS Resource Limits" section at https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html
+// JPEG's have a higher limit, but I have not taken that into consideration yet.
+const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
+
 @implementation IAUIUtils
 
 #pragma mark - Private
@@ -542,6 +547,12 @@ static UIImage *c_menuBarButtonItemImage = nil;
         l_color = [UIColor m_colorWithRed:l_red green:l_green blue:l_blue alpha:l_alpha];
     }
     return l_color;
+}
+
++ (BOOL)m_isImageWithinSafeMemoryThresholdForSizeInPixels:(CGSize)a_imageSizeInPixels {
+    CGFloat l_imageSizeInPixels = a_imageSizeInPixels.width * a_imageSizeInPixels.height;
+    BOOL l_ok = l_imageSizeInPixels <= k_IAMaximumImageSizeInPixels;
+    return l_ok;
 }
 
 + (UIEdgeInsets)m_tableViewCellDefaultSeparatorInset{

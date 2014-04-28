@@ -18,6 +18,7 @@
 //  limitations under the License.
 //
 
+#import <sys/utsname.h>
 #import "IACommon.h"
 
 @implementation IAUtils{
@@ -325,5 +326,25 @@
 + (BOOL)m_isIOS7OrGreater{
     return !(floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1);
 }
+
++ (NSString *)m_hardwareType{
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    NSString *l_hardwareType = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+    return l_hardwareType;
+}
+
++ (NSString *)m_encodeForUrlByAddingPercentEscapesWithOriginalString:(NSString *)a_originalString {
+    NSString *l_encodedString = CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+            (__bridge CFStringRef)(a_originalString), NULL, CFSTR(""), kCFStringEncodingUTF8));
+    return l_encodedString;
+}
+
++ (NSString *)m_encodeForUrlByAddingPercentEscapesIncludingReservedCharactersWithOriginalString:(NSString *)a_originalString {
+    NSString *l_encodedString = CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+            (__bridge CFStringRef)(a_originalString), NULL, CFSTR(":/?#[]@!$&'()*+,;="), kCFStringEncodingUTF8));
+    return l_encodedString;
+}
+
 
 @end
