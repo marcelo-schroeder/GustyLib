@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
     s.source        = { :git => 'https://bitbucket.org/marcelo_schroeder/gustylib.git', :tag => '0.1.0' }
     s.source_files  = 'GustyLib/GustyLib/classes/**/*.{h,m}'
     s.resource      = 'GustyLib/GustyLib/resources/**/*.*'
-    s.frameworks    = 'CoreData', 'CoreText', 'CoreLocation', 'QuartzCore', 'MapKit', 'MessageUI', 'GLKit', 'AdSupport', 'StoreKit', 'GLKit', 'Accelerate'
+    s.frameworks    = 'CoreData', 'CoreText', 'CoreLocation', 'QuartzCore', 'MapKit', 'MessageUI', 'GLKit', 'AdSupport', 'StoreKit', 'GLKit', 'Accelerate', 'CoreGraphics'
     s.requires_arc  = true
     s.dependency 'DTFoundation', '1.6.2'
     s.dependency 'Google-AdMob-Ads-SDK'
