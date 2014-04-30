@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		107388484ACBBFDCEEEDDA5B /* IAUICircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073880F8FF005725200AB57 /* IAUICircleView.m */; };
 		10738B2F77E76E5157F7127C /* IBActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073880E22DD848DC3C2AF53 /* IBActionSheet.m */; };
 		3C07EA814F2645A5BD5C2174 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF387BE31CA84C679F50890D /* libPods.a */; };
 		F766D2FE18ECA3A700B3B590 /* IAPagingStateManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F766D2FD18ECA3A700B3B590 /* IAPagingStateManagerTests.m */; };
@@ -189,8 +190,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		107382DCB3B30E1E7A8DFC15 /* IAUICircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAUICircleView.h; sourceTree = "<group>"; };
 		107384BCE8C5B3029968D0A2 /* IBActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IBActionSheet.h; sourceTree = "<group>"; };
 		1073880E22DD848DC3C2AF53 /* IBActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IBActionSheet.m; sourceTree = "<group>"; };
+		1073880F8FF005725200AB57 /* IAUICircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAUICircleView.m; sourceTree = "<group>"; };
 		10738CF5078176436AA71336 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		A03BC960480144A4ABDD6917 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		F7446BD119085FA9008345FA /* GustyLib.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = GustyLib.podspec; path = ../GustyLib.podspec; sourceTree = "<group>"; };
@@ -913,6 +916,8 @@
 				F7D4DB3E18EA0E6400ABF401 /* UIViewController+IACategory.m */,
 				F7D4DB3F18EA0E6400ABF401 /* UIWebView+IACategory.h */,
 				F7D4DB4018EA0E6400ABF401 /* UIWebView+IACategory.m */,
+				1073880F8FF005725200AB57 /* IAUICircleView.m */,
+				107382DCB3B30E1E7A8DFC15 /* IAUICircleView.h */,
 			);
 			path = classes;
 			sourceTree = "<group>";
@@ -1344,6 +1349,7 @@
 				F7D4DBC018EA0E6400ABF401 /* IAUISlidingViewController.m in Sources */,
 				F7D4DB9618EA0E6400ABF401 /* IAUICollectionViewCell.m in Sources */,
 				10738B2F77E76E5157F7127C /* IBActionSheet.m in Sources */,
+				107388484ACBBFDCEEEDDA5B /* IAUICircleView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
