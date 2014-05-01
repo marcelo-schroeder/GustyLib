@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		107381D9C57977A1D2826BC0 /* NSURL+IACategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 10738024FB9342CAE57C3A9B /* NSURL+IACategory.m */; };
+		1073879C9EAD555138113DCD /* NSDictionary+IACategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 107386CA4F3B88BE45BA7193 /* NSDictionary+IACategory.m */; };
 		107388484ACBBFDCEEEDDA5B /* IAUICircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073880F8FF005725200AB57 /* IAUICircleView.m */; };
 		10738B2F77E76E5157F7127C /* IBActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073880E22DD848DC3C2AF53 /* IBActionSheet.m */; };
 		3C07EA814F2645A5BD5C2174 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF387BE31CA84C679F50890D /* libPods.a */; };
@@ -16,6 +17,7 @@
 		F766D33E18ECA71000B3B590 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F766D33D18ECA71000B3B590 /* CoreLocation.framework */; };
 		F766D33F18ECA7D700B3B590 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4DBED18EA11E100ABF401 /* MapKit.framework */; };
 		F766D34118ECADCE00B3B590 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F766D34018ECADCE00B3B590 /* GLKit.framework */; };
+		F7C021BF1911DDAA0087FCD5 /* NSDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F7C021BE1911DDAA0087FCD5 /* NSDictionaryTests.m */; };
 		F7D14FD9190715BE00F5124C /* IASlidingFrostedGlassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D14FD4190715BE00F5124C /* IASlidingFrostedGlassViewController.m */; };
 		F7D14FDA190715BE00F5124C /* NSIndexPath+IACategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D14FD6190715BE00F5124C /* NSIndexPath+IACategory.m */; };
 		F7D14FDB190715BE00F5124C /* UITableViewController+IADynamicCellHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D14FD8190715BE00F5124C /* UITableViewController+IADynamicCellHeight.m */; };
@@ -193,7 +195,9 @@
 /* Begin PBXFileReference section */
 		10738024FB9342CAE57C3A9B /* NSURL+IACategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+IACategory.m"; sourceTree = "<group>"; };
 		107382DCB3B30E1E7A8DFC15 /* IAUICircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAUICircleView.h; sourceTree = "<group>"; };
+		10738379DEAE400C04D07EF5 /* NSDictionary+IACategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+IACategory.h"; sourceTree = "<group>"; };
 		107384BCE8C5B3029968D0A2 /* IBActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IBActionSheet.h; sourceTree = "<group>"; };
+		107386CA4F3B88BE45BA7193 /* NSDictionary+IACategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+IACategory.m"; sourceTree = "<group>"; };
 		1073880E22DD848DC3C2AF53 /* IBActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IBActionSheet.m; sourceTree = "<group>"; };
 		1073880F8FF005725200AB57 /* IAUICircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAUICircleView.m; sourceTree = "<group>"; };
 		10738AFB0A6D95B36D4863FD /* NSURL+IACategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+IACategory.h"; sourceTree = "<group>"; };
@@ -205,6 +209,7 @@
 		F766D30018ECA3DC00B3B590 /* IAPagingStateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPagingStateManager.m; sourceTree = "<group>"; };
 		F766D33D18ECA71000B3B590 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		F766D34018ECADCE00B3B590 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		F7C021BE1911DDAA0087FCD5 /* NSDictionaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDictionaryTests.m; sourceTree = "<group>"; };
 		F7D14FD3190715BE00F5124C /* IASlidingFrostedGlassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IASlidingFrostedGlassViewController.h; sourceTree = "<group>"; };
 		F7D14FD4190715BE00F5124C /* IASlidingFrostedGlassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IASlidingFrostedGlassViewController.m; sourceTree = "<group>"; };
 		F7D14FD5190715BE00F5124C /* NSIndexPath+IACategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexPath+IACategory.h"; sourceTree = "<group>"; };
@@ -923,6 +928,8 @@
 				107382DCB3B30E1E7A8DFC15 /* IAUICircleView.h */,
 				10738024FB9342CAE57C3A9B /* NSURL+IACategory.m */,
 				10738AFB0A6D95B36D4863FD /* NSURL+IACategory.h */,
+				107386CA4F3B88BE45BA7193 /* NSDictionary+IACategory.m */,
+				10738379DEAE400C04D07EF5 /* NSDictionary+IACategory.h */,
 			);
 			path = classes;
 			sourceTree = "<group>";
@@ -1096,6 +1103,7 @@
 				F7D4DBF918EA195900ABF401 /* NSStringTests.m */,
 				F7D4DBFA18EA195900ABF401 /* TempTest.h */,
 				F7D4DBFB18EA195900ABF401 /* TempTest.m */,
+				F7C021BE1911DDAA0087FCD5 /* NSDictionaryTests.m */,
 			);
 			path = classes;
 			sourceTree = "<group>";
@@ -1356,6 +1364,7 @@
 				10738B2F77E76E5157F7127C /* IBActionSheet.m in Sources */,
 				107388484ACBBFDCEEEDDA5B /* IAUICircleView.m in Sources */,
 				107381D9C57977A1D2826BC0 /* NSURL+IACategory.m in Sources */,
+				1073879C9EAD555138113DCD /* NSDictionary+IACategory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1363,6 +1372,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7C021BF1911DDAA0087FCD5 /* NSDictionaryTests.m in Sources */,
 				F7D4DC0118EA195900ABF401 /* NSDateTest.m in Sources */,
 				F7D4DC0318EA195900ABF401 /* NSStringTests.m in Sources */,
 				F7D4DC0018EA195900ABF401 /* IAUIColorSchemeTest.m in Sources */,
