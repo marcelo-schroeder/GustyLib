@@ -51,7 +51,7 @@
     return self;
 }
 
--(UIColor*)m_colorAtIndex:(NSUInteger)a_index{
+-(UIColor*)colorAtIndex:(NSUInteger)a_index{
     return [self.p_colors objectAtIndex:a_index];
 }
 

@@ -75,7 +75,7 @@
         l_titleView.frame = CGRectMake(0, 0, l_greatestMaxWidth, l_titleView.frame.size.height);
         
         // Set it in the navigation item
-        [self m_titleViewNavigationItemForViewViewController:a_viewController].titleView = l_titleView;
+        [self titleViewNavigationItemForViewViewController:a_viewController].titleView = l_titleView;
         
     }
 }
@@ -108,7 +108,7 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 #pragma mark - IAUIAppearanceTheme
 
--(void)m_setAppearance{
+-(void)setAppearance {
     
     // Navigation bar
     {
@@ -135,10 +135,10 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }
     
     // Bar button item
-    [self m_setAppearanceForToolbarButtonItem:self.p_toolbarButtonItemAppearance];
+    [self setAppearanceForToolbarButtonItem:self.p_toolbarButtonItemAppearance];
     
     // Bar button item
-    [self m_setAppearanceForBarButtonItem:self.p_barButtonItemAppearance viewController:nil important:NO ];
+    [self setAppearanceForBarButtonItem:self.p_barButtonItemAppearance viewController:nil important:NO ];
     
     // Back Bar button item
     {
@@ -226,10 +226,12 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 }
 
--(void)m_setAppearanceOnViewDidLoadForViewController:(UIViewController*)a_viewController{
-    a_viewController.p_titleViewDefault = [self m_navigationItemTitleViewForViewController:a_viewController barMetrics:UIBarMetricsDefault];
-    a_viewController.p_titleViewLandscapePhone = [self m_navigationItemTitleViewForViewController:a_viewController barMetrics:UIBarMetricsLandscapePhone];
-    [self m_setOrientationDependentBackgroundImagesForViewController:a_viewController];
+-(void)setAppearanceOnViewDidLoadForViewController:(UIViewController*)a_viewController{
+    a_viewController.p_titleViewDefault = [self navigationItemTitleViewForViewController:a_viewController
+                                                                              barMetrics:UIBarMetricsDefault];
+    a_viewController.p_titleViewLandscapePhone = [self navigationItemTitleViewForViewController:a_viewController
+                                                                                     barMetrics:UIBarMetricsLandscapePhone];
+    [self setOrientationDependentBackgroundImagesForViewController:a_viewController];
     if ([a_viewController isKindOfClass:[UITableViewController class]]) {
         UITableViewController *l_tableViewController = (UITableViewController*)a_viewController;
         if (l_tableViewController.tableView.style==UITableViewStyleGrouped) {
@@ -238,12 +240,12 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }else if([a_viewController isKindOfClass:[IAUIMasterDetailViewController class]]) {
 
         IAUIMasterDetailViewController *l_viewController = (IAUIMasterDetailViewController *) a_viewController;
-        l_viewController.p_separatorView.backgroundColor = [self.class m_splitViewControllerDividerColour];
+        l_viewController.p_separatorView.backgroundColor = [self.class splitViewControllerDividerColour];
 
     }
 }
 
--(void)m_setAppearanceOnViewWillAppearForViewController:(UIViewController*)a_viewController{
+-(void)setAppearanceOnViewWillAppearForViewController:(UIViewController*)a_viewController{
     
     // Navigation item title view titles and subtitle, if applicable
     a_viewController.p_titleViewDefault.p_titleLabel.text = a_viewController.title;
@@ -262,34 +264,34 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 }
 
--(void)m_setAppearanceOnWillRotateForViewController:(UIViewController*)a_viewController toInterfaceOrientation:(UIInterfaceOrientation)a_toInterfaceOrientation{
+-(void)setAppearanceOnWillRotateForViewController:(UIViewController *)a_viewController toInterfaceOrientation:(UIInterfaceOrientation)a_toInterfaceOrientation{
     [self m_setNavigationItemTitleViewForViewController:a_viewController interfaceOrientation:a_toInterfaceOrientation];
 }
 
--(void)m_setAppearanceOnWillAnimateRotationForViewController:(UIViewController *)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_toInterfaceOrientation{
-    [self m_setOrientationDependentBackgroundImagesForViewController:a_viewController];
+-(void)setAppearanceOnWillAnimateRotationForViewController:(UIViewController *)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_toInterfaceOrientation{
+    [self setOrientationDependentBackgroundImagesForViewController:a_viewController];
 }
 
--(void)m_setAppearanceOnInitForView:(UIView*)a_view{
+-(void)setAppearanceOnInitForView:(UIView*)a_view{
 }
 
-- (void)m_setAppearanceOnSetHighlightedForCell:(UITableViewCell *)a_cell animated:(BOOL)a_shouldAnimate {
+- (void)setAppearanceOnSetHighlightedForCell:(UITableViewCell *)a_cell animated:(BOOL)a_shouldAnimate {
 }
 
-- (void)m_setAppearanceOnSetSelectedForCell:(UITableViewCell *)a_cell animated:(BOOL)a_shouldAnimate {
+- (void)setAppearanceOnSetSelectedForCell:(UITableViewCell *)a_cell animated:(BOOL)a_shouldAnimate {
 }
 
--(void)m_setAppearanceOnAwakeFromNibForView:(UIView*)a_view{
+-(void)setAppearanceOnAwakeFromNibForView:(UIView*)a_view{
     if ([a_view isKindOfClass:[UITableViewCell class]]) {
-        [self m_setLabelTextStyleForChildrenOfView:((UITableViewCell*)a_view).contentView];
+        [self setLabelTextStyleForChildrenOfView:((UITableViewCell *) a_view).contentView];
     }
 }
 
--(void)m_setAppearanceOnInitReusableCellForViewController:(UITableViewController*)a_tableViewController cell:(UITableViewCell*)a_cell{
+-(void)setAppearanceOnInitReusableCellForViewController:(UITableViewController *)a_tableViewController cell:(UITableViewCell*)a_cell{
 
     // Custom disclosure indicator
     if (![a_tableViewController isKindOfClass:[IAUIMenuViewController class]] && ![a_tableViewController isKindOfClass:[IAUIFormViewController class]]){
-        [self m_setCustomDisclosureIndicatorForCell:a_cell tableViewController:a_tableViewController];
+        [self setCustomDisclosureIndicatorForCell:a_cell tableViewController:a_tableViewController];
     }
     
     // Cell background color
@@ -298,7 +300,7 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }
     
     // Label text color
-    [self m_setLabelTextStyleForChildrenOfView:a_cell.contentView];
+    [self setLabelTextStyleForChildrenOfView:a_cell.contentView];
     if ([a_tableViewController isKindOfClass:[IAUIFormViewController class]]) {
         if (a_cell.detailTextLabel) {   // Is it a cell style that has text and detail?
             // textLabel here in this context refers to the form field label
@@ -309,7 +311,8 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     
 }
 
--(void)m_setAppearanceOnWillDisplayCell:(UITableViewCell*)a_cell forRowAtIndexPath:(NSIndexPath*)a_indexPath viewController:(IAUITableViewController*)a_tableViewController{
+-(void)setAppearanceOnWillDisplayCell:(UITableViewCell *)a_cell forRowAtIndexPath:(NSIndexPath *)a_indexPath
+                       viewController:(IAUITableViewController*)a_tableViewController{
     
     // Table cell text color
     if (![a_tableViewController isKindOfClass:[IAUIFormViewController class]]) {
@@ -331,7 +334,7 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     // Custom disclosure indicator
     if ([a_tableViewController isKindOfClass:[IAUIMenuViewController class]]){
         if ( ! ([a_tableViewController isKindOfClass:[IAUIMenuViewController class]] && [a_tableViewController tableView:a_tableViewController.tableView heightForRowAtIndexPath:a_indexPath]==0) ) {   // This check is to avoid showing the custom disclose indicator for non-supported menu items
-            [self m_setCustomDisclosureIndicatorForCell:a_cell tableViewController:a_tableViewController];
+            [self setCustomDisclosureIndicatorForCell:a_cell tableViewController:a_tableViewController];
         }
     }
     
@@ -341,7 +344,7 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }
     
     // Set selected table cell background color
-    UIColor *l_selectedTableCellBackgroundColor = [self m_selectedTableCellBackgroundColor];
+    UIColor *l_selectedTableCellBackgroundColor = [self selectedTableCellBackgroundColor];
     if (l_selectedTableCellBackgroundColor) {
         // Set the appropriate selected background view according to the cell position
         IAUITableCellSelectedBackgroundView *l_selectedBackgroundView = [[IAUITableCellSelectedBackgroundView alloc] initWithFrame:a_cell.frame];
@@ -354,14 +357,15 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 }
 
--(void)m_setAppearanceForView:(UIView*)a_view{
+-(void)setAppearanceForView:(UIView*)a_view{
 }
 
--(void)m_setAppearanceForBarButtonItem:(UIBarButtonItem*)a_barButtonItem{
-    [self m_setAppearanceForBarButtonItem:a_barButtonItem viewController:nil important:NO ];
+-(void)setAppearanceForBarButtonItem:(UIBarButtonItem*)a_barButtonItem{
+    [self setAppearanceForBarButtonItem:a_barButtonItem viewController:nil important:NO ];
 }
 
-- (void)m_setAppearanceForBarButtonItem:(UIBarButtonItem *)a_barButtonItem viewController:(UIViewController *)a_viewController important:(BOOL)a_important {
+- (void)setAppearanceForBarButtonItem:(UIBarButtonItem *)a_barButtonItem
+                       viewController:(UIViewController *)a_viewController important:(BOOL)a_important {
 
     // Set background images if required
     NSString *l_imageNameDefault = nil;
@@ -384,7 +388,7 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 }
 
--(void)m_setAppearanceForToolbarButtonItem:(UIBarButtonItem*)a_barButtonItem{
+-(void)setAppearanceForToolbarButtonItem:(UIBarButtonItem*)a_barButtonItem{
     NSNumber *l_backgroundVerticalPositionAdjustmentDefault = [[IAUtils infoPList] objectForKey:@"IAUIThemeBarButtonItemBackgroundVerticalPositionAdjustmentDefault"];
     if (l_backgroundVerticalPositionAdjustmentDefault) {
         [a_barButtonItem setBackgroundVerticalPositionAdjustment:l_backgroundVerticalPositionAdjustmentDefault.floatValue forBarMetrics:UIBarMetricsDefault];
@@ -395,7 +399,7 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }
 }
 
--(void)m_setAppearanceForPopoverController:(UIPopoverController*)a_popoverController{
+-(void)setAppearanceForPopoverController:(UIPopoverController*)a_popoverController{
     if ([a_popoverController.contentViewController isKindOfClass:[UINavigationController class]]) {
         Class l_backgroundViewClass = NSClassFromString([IAUtils infoPList][@"IAUIPopoverControllerBackgroundViewClass"]);
         if (l_backgroundViewClass) {
@@ -404,50 +408,50 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }
 }
 
-- (void)m_setAppearanceOnPrepareForReuseForCell:(UITableViewCell *)a_cell {
+- (void)setAppearanceOnPrepareForReuseForCell:(UITableViewCell *)a_cell {
     // to be implemented by subclasses, if required
 }
 
--(NSString *)m_themeName{
+-(NSString *)themeName {
     return [[self.class description] substringToIndex:[[self.class description] rangeOfString:@"AppearanceTheme"].location];
 }
 
 // To be overriden by subclasses
--(NSString*)m_fallbackThemeName{
+-(NSString*)fallbackThemeName {
     return nil;
 }
 
--(NSBundle*)m_bundle{
-    NSString *l_themeName = [self m_themeName];
-    return [IAUIAppearanceThemeManager m_bundleForThemeNamed:l_themeName];
+-(NSBundle*)bundle {
+    NSString *l_themeName = [self themeName];
+    return [IAUIAppearanceThemeManager bundleForThemeNamed:l_themeName];
 }
 
--(NSString*)m_storyboardName{
-    return [[IAUIApplicationDelegate m_instance] m_storyboardName];
+-(NSString*)storyboardName {
+    return [[IAUIApplicationDelegate sharedInstance] storyboardName];
 }
 
--(UIStoryboard*)m_storyboard{
-    return [UIStoryboard storyboardWithName:[self m_storyboardName] bundle:[self m_bundle]];
+-(UIStoryboard*)storyboard {
+    return [UIStoryboard storyboardWithName:[self storyboardName] bundle:[self bundle]];
 }
 
--(UIColor*)m_barButtonItemTintColor{
+-(UIColor*)barButtonItemTintColor {
     return nil;
 }
 
--(UIColor*)m_importantBarButtonItemTintColor{
+-(UIColor*)importantBarButtonItemTintColor {
     return nil;
 }
 
--(UIColor*)m_tableCellTextColor{
+-(UIColor*)tableCellTextColor {
     return [self m_colorForInfoPlistKey:@"IAUIThemeTableCellTextColor"];
 }
 
 // To be implemented by subclasses
--(UIFont*)m_tableCellTextFont{
+-(UIFont*)tableCellTextFont {
     return nil;
 }
 
--(UIButton*)m_newDetailDisclosureButton{
+-(UIButton*)newDetailDisclosureButton {
     UIButton *l_button = nil;
     NSString *l_imageNameNormal = [[IAUtils infoPList] objectForKey:@"IAUIThemeDetailDisclosureButtonImageNormal"];
     if (l_imageNameNormal) {
@@ -461,7 +465,7 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     return l_button;
 }
 
--(UIView*)m_newDisclosureIndicatorView{
+-(UIView*)newDisclosureIndicatorView {
     UIImageView *l_view = nil;
     NSString *l_imageNameNormal = [[IAUtils infoPList] objectForKey:@"IAUIThemeDisclosureIndicatorImageNormal"];
     if (l_imageNameNormal) {
@@ -471,7 +475,7 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     return l_view;
 }
 
--(UIImage*)m_backgroundImageForViewController:(UIViewController*)a_viewController{
+-(UIImage*)backgroundImageForViewController:(UIViewController*)a_viewController{
     
     // Determine the info plist's key
     NSString *l_infoPlistKey = nil;
@@ -488,20 +492,20 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 }
 
--(void)m_setLabelTextStyleForChildrenOfView:(UIView*)a_view{
+-(void)setLabelTextStyleForChildrenOfView:(UIView*)a_view{
     for (UIView *l_subView in a_view.subviews) {
         //            NSLog(@"  l_subView: %@", [l_subView description]);
         if ([l_subView isKindOfClass:[UILabel class]]) {
             UILabel *l_label = (UILabel*)l_subView;
-            l_label.textColor = [self m_tableCellTextColor];
-            UIFont *l_font = [self m_tableCellTextFont];
+            l_label.textColor = [self tableCellTextColor];
+            UIFont *l_font = [self tableCellTextFont];
             if (l_font) {
                 l_label.font = l_font;
             }
         }else if ([l_subView isKindOfClass:[UITextField class]]){
             UITextField *l_textField = (UITextField*)l_subView;
-            l_textField.textColor = [self m_tableCellTextColor];
-            UIFont *l_font = [self m_tableCellTextFont];
+            l_textField.textColor = [self tableCellTextColor];
+            UIFont *l_font = [self tableCellTextFont];
             if (l_font) {
                 l_textField.font = l_font;
             }
@@ -510,80 +514,80 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 // To be overriden by subclasses
--(NSDictionary*)m_gadAdditionalParameters{
+-(NSDictionary*)gadAdditionalParameters {
     return nil;
 }
 
--(UIColor*)m_selectedTableCellBackgroundColor{
+-(UIColor*)selectedTableCellBackgroundColor {
     return [self m_colorForInfoPlistKey:@"IAUIThemeSelectedTableCellBackgroundColor"];
 }
 
--(UIBarButtonItem*)m_backBarButtonItem{
-    return [self m_backBarButtonItemForViewController:nil];
+-(UIBarButtonItem*)backBarButtonItem {
+    return [self backBarButtonItemForViewController:nil];
 }
 
--(UIBarButtonItem*)m_backBarButtonItemForViewController:(UIViewController *)a_viewController{
+-(UIBarButtonItem*)backBarButtonItemForViewController:(UIViewController *)a_viewController{
     return nil;
 }
 
--(UIBarButtonItem*)m_splitViewControllerBarButtonItem{
+-(UIBarButtonItem*)splitViewControllerBarButtonItem {
     return nil;
 }
 
-- (UIBarButtonItem *)m_slidingMenuBarButtonItem {
-    return [self m_slidingMenuBarButtonItemForViewController:nil];
+- (UIBarButtonItem *)slidingMenuBarButtonItem {
+    return [self slidingMenuBarButtonItemForViewController:nil];
 }
 
--(UIBarButtonItem*)m_slidingMenuBarButtonItemForViewController:(UIViewController *)a_viewController{
+-(UIBarButtonItem*)slidingMenuBarButtonItemForViewController:(UIViewController *)a_viewController{
     return nil;
 }
 
--(BOOL)m_shouldAutomateBarButtonItemSpacingForViewController:(UIViewController*)a_viewController{
+-(BOOL)shouldAutomateBarButtonItemSpacingForViewController:(UIViewController*)a_viewController{
     return NO;
 }
 
--(UIBarButtonItem*)m_spacingBarButtonItemForType:(IAUISpacingBarButtonItemType)a_type viewController:(UIViewController*)a_viewController{
+-(UIBarButtonItem*)spacingBarButtonItemForType:(IAUISpacingBarButtonItemType)a_type viewController:(UIViewController*)a_viewController{
     return nil;
 }
 
-- (UIBarButtonItem *)m_doneBarButtonItemWithTarget:(id)a_target action:(SEL)a_action
-                                    viewController:(UIViewController *)a_viewController {
+- (UIBarButtonItem *)doneBarButtonItemWithTarget:(id)a_target action:(SEL)a_action
+                                  viewController:(UIViewController *)a_viewController {
     return [IAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_ITEM_DONE target:a_target action:a_action];
 }
 
-- (UIBarButtonItem *)m_cancelBarButtonItemWithTarget:(id)a_target
-                                              action:(SEL)a_action {
-    return [self m_cancelBarButtonItemWithTarget:a_target action:a_action
-                                  viewController:nil];
+- (UIBarButtonItem *)cancelBarButtonItemWithTarget:(id)a_target
+                                            action:(SEL)a_action {
+    return [self cancelBarButtonItemWithTarget:a_target action:a_action
+                                viewController:nil];
 }
 
-- (UIBarButtonItem *)m_cancelBarButtonItemWithTarget:(id)a_target
-                                              action:(SEL)a_action
-                                      viewController:(UIViewController *)a_viewController {
+- (UIBarButtonItem *)cancelBarButtonItemWithTarget:(id)a_target
+                                            action:(SEL)a_action
+                                    viewController:(UIViewController *)a_viewController {
     return nil;
 }
 
-- (UIViewController *)m_newInternalWebBrowserViewControllerWithUrl:(NSURL *)a_url{
-    return [self m_newInternalWebBrowserViewControllerWithUrl:a_url completionBlock:nil];
+- (UIViewController *)newInternalWebBrowserViewControllerWithUrl:(NSURL *)a_url{
+    return [self newInternalWebBrowserViewControllerWithUrl:a_url completionBlock:nil];
 }
 
-- (UIViewController *)m_newInternalWebBrowserViewControllerWithUrl:(NSURL *)a_url completionBlock:(void(^)(void))a_completionBlock{
+- (UIViewController *)newInternalWebBrowserViewControllerWithUrl:(NSURL *)a_url completionBlock:(void(^)(void))a_completionBlock{
     IAUIInternalWebBrowserViewController *l_viewController = [[IAUIInternalWebBrowserViewController alloc] initWithURL:a_url completionBlock:a_completionBlock];
     return l_viewController;
 }
 
-- (Class)m_navigationControllerClass {
+- (Class)navigationControllerClass {
     return [IAUINavigationController class];
 }
 
 #pragma mark - Public
 
--(void)m_setOrientationDependentBackgroundImagesForViewController:(UIViewController*)a_viewController{
+-(void)setOrientationDependentBackgroundImagesForViewController:(UIViewController*)a_viewController{
     
     if ([a_viewController isKindOfClass:[UITableViewController class]]) {
         
         // Determine the image name
-        UIImage *l_image = [self m_backgroundImageForViewController:a_viewController];
+        UIImage *l_image = [self backgroundImageForViewController:a_viewController];
 
         // Set the background image in the table view controller
         if (l_image) {
@@ -596,21 +600,21 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 }
 
--(IAUINavigationItemTitleView*)m_navigationItemTitleViewForViewController:(UIViewController*)a_viewController barMetrics:(UIBarMetrics)a_barMetrics{
+-(IAUINavigationItemTitleView*)navigationItemTitleViewForViewController:(UIViewController *)a_viewController barMetrics:(UIBarMetrics)a_barMetrics{
     return nil;
 }
 
--(UINavigationItem*)m_titleViewNavigationItemForViewViewController:(UIViewController*)a_viewController{
+-(UINavigationItem*)titleViewNavigationItemForViewViewController:(UIViewController*)a_viewController{
     return a_viewController.navigationItem;
 }
 
--(UIImage*)m_imageNamed:(NSString*)a_imageName{
-    UIImage *l_image = [UIImage imageNamed:[self m_nameSpacedResourceName:a_imageName]];
+-(UIImage*)imageNamed:(NSString*)a_imageName{
+    UIImage *l_image = [UIImage imageNamed:[self nameSpacedResourceName:a_imageName]];
     return l_image;
 }
 
--(NSString*)m_nameSpacedResourceName:(NSString*)a_resourceName{
-    NSString *l_themeName = [self m_themeName];
+-(NSString*)nameSpacedResourceName:(NSString*)a_resourceName{
+    NSString *l_themeName = [self themeName];
     if ([l_themeName isEqualToString:@""]) {
         return a_resourceName;
     }else{
@@ -618,24 +622,24 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }
 }
 
-- (void)m_setCustomDisclosureIndicatorForCell:(UITableViewCell *)a_cell
-                          tableViewController:(UITableViewController *)a_tableViewController {
+- (void)setCustomDisclosureIndicatorForCell:(UITableViewCell *)a_cell
+                        tableViewController:(UITableViewController *)a_tableViewController {
     if (a_cell.accessoryType==UITableViewCellAccessoryDisclosureIndicator && a_cell.accessoryView==nil) {
-        a_cell.accessoryView = [self m_newDisclosureIndicatorView];
+        a_cell.accessoryView = [self newDisclosureIndicatorView];
     }
     if (a_cell.editingAccessoryType==UITableViewCellAccessoryDisclosureIndicator && a_cell.editingAccessoryView==nil) {
-        a_cell.editingAccessoryView = [self m_newDisclosureIndicatorView];
+        a_cell.editingAccessoryView = [self newDisclosureIndicatorView];
     }
 }
 
--(IAUIColorScheme*)m_colorScheme{
-    if (![self.p_colorScheme isEqual:[[IAUIApplicationDelegate m_instance] m_colorScheme]]) {
-        self.p_colorScheme = [[IAUIApplicationDelegate m_instance] m_colorScheme];
+-(IAUIColorScheme*)colorScheme {
+    if (![self.p_colorScheme isEqual:[[IAUIApplicationDelegate sharedInstance] colorScheme]]) {
+        self.p_colorScheme = [[IAUIApplicationDelegate sharedInstance] colorScheme];
     }
     return self.p_colorScheme;
 }
 
--(UIColor*)m_colorWithIndex:(NSUInteger)a_colorIndex{
+-(UIColor*)colorWithIndex:(NSUInteger)a_colorIndex{
 
     // The code block below is used only during DEVELOPMENT
     /*
@@ -676,10 +680,10 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }
     */
 
-    return [[self m_colorScheme] m_colorAtIndex:a_colorIndex];
+    return [[self colorScheme] colorAtIndex:a_colorIndex];
 }
 
-+ (UIColor *)m_splitViewControllerDividerColour {
++ (UIColor *)splitViewControllerDividerColour {
     return [UIColor m_colorWithRed:191 green:191 blue:191];
 }
 
@@ -689,22 +693,22 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 - (id)init{
     self = [super init];
     if (self) {
-        self.p_navigationBarAppearance = [UINavigationBar appearanceWhenContainedIn:[self m_navigationControllerClass], nil];
-        self.p_popoverNavigationBarAppearance = [UINavigationBar appearanceWhenContainedIn:[UIPopoverController class], [self m_navigationControllerClass], nil];
-        self.p_barButtonItemAppearance = [UIBarButtonItem appearanceWhenContainedIn:[self m_navigationControllerClass], nil];
-        self.p_navigationBarButtonItemAppearance = [UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], [self m_navigationControllerClass], nil];
-        self.p_toolbarButtonItemAppearance = [UIBarButtonItem appearanceWhenContainedIn:[UIToolbar class], [self m_navigationControllerClass], nil];
-        self.p_toolbarAppearance = [UIToolbar appearanceWhenContainedIn:[self m_navigationControllerClass], nil];
-        self.p_popoverToolbarAppearance = [UIToolbar appearanceWhenContainedIn:[UIPopoverController class], [self m_navigationControllerClass], nil];
-        self.p_tabBarAppearance = [UITabBar appearanceWhenContainedIn:[self m_navigationControllerClass], nil];
-        self.p_tabBarItemAppearance = [UITabBarItem appearanceWhenContainedIn:[self m_navigationControllerClass], nil];
-        self.p_searchBarAppearance = [UISearchBar appearanceWhenContainedIn:[self m_navigationControllerClass], nil];
-        self.p_barSegmentedControlAppearance = [UISegmentedControl appearanceWhenContainedIn:[UIToolbar class], [self m_navigationControllerClass], nil];
-        self.p_segmentedControlAppearance = [UISegmentedControl appearanceWhenContainedIn:[self m_navigationControllerClass], nil];
-        self.p_switchAppearance = [UISwitch appearanceWhenContainedIn:[self m_navigationControllerClass], nil];
-        self.p_sliderAppearance = [UISlider appearanceWhenContainedIn:[self m_navigationControllerClass], nil];
-        self.p_activityIndicatorView = [UIActivityIndicatorView appearanceWhenContainedIn:[self m_navigationControllerClass], nil];
-        self.p_pageControlAppearance = [UIPageControl appearanceWhenContainedIn:[self m_navigationControllerClass], nil];
+        self.p_navigationBarAppearance = [UINavigationBar appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.p_popoverNavigationBarAppearance = [UINavigationBar appearanceWhenContainedIn:[UIPopoverController class], [self navigationControllerClass], nil];
+        self.p_barButtonItemAppearance = [UIBarButtonItem appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.p_navigationBarButtonItemAppearance = [UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], [self navigationControllerClass], nil];
+        self.p_toolbarButtonItemAppearance = [UIBarButtonItem appearanceWhenContainedIn:[UIToolbar class], [self navigationControllerClass], nil];
+        self.p_toolbarAppearance = [UIToolbar appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.p_popoverToolbarAppearance = [UIToolbar appearanceWhenContainedIn:[UIPopoverController class], [self navigationControllerClass], nil];
+        self.p_tabBarAppearance = [UITabBar appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.p_tabBarItemAppearance = [UITabBarItem appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.p_searchBarAppearance = [UISearchBar appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.p_barSegmentedControlAppearance = [UISegmentedControl appearanceWhenContainedIn:[UIToolbar class], [self navigationControllerClass], nil];
+        self.p_segmentedControlAppearance = [UISegmentedControl appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.p_switchAppearance = [UISwitch appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.p_sliderAppearance = [UISlider appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.p_activityIndicatorView = [UIActivityIndicatorView appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.p_pageControlAppearance = [UIPageControl appearanceWhenContainedIn:[self navigationControllerClass], nil];
         self.p_shadow = [NSShadow new];
     }
     return self;

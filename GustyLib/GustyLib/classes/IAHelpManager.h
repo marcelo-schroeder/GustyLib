@@ -22,14 +22,14 @@
 
 @protocol IAHelpTargetContainer <NSObject>
 
--(NSArray*)m_helpTargets;
--(UINavigationBar*)m_helpModeToggleView;
--(UIView*)m_view;
+-(NSArray*)helpTargets;
+-(UINavigationBar*)helpModeToggleView;
+-(UIView*)targetView;
 @optional
--(void)m_willEnterHelpMode;
--(void)m_didEnterHelpMode;
--(void)m_willExitHelpMode;
--(void)m_didExitHelpMode;
+-(void)willEnterHelpMode;
+-(void)didEnterHelpMode;
+-(void)willExitHelpMode;
+-(void)didExitHelpMode;
 
 @end
 
@@ -45,28 +45,28 @@
 @property (nonatomic, readonly) BOOL p_helpMode;
 @property (nonatomic, weak) id<IAHelpTargetContainer> p_observedHelpTargetContainer;
 
--(void)m_observeHelpTargetContainer:(id<IAHelpTargetContainer>)a_helpTargetContainer;
-- (void)m_helpRequestedForTabBarItemIndex:(NSUInteger)a_index helpTargetId:(NSString*)a_helpTargetId title:(NSString*)a_title;
+-(void)observeHelpTargetContainer:(id<IAHelpTargetContainer>)a_helpTargetContainer;
+- (void)helpRequestedForTabBarItemIndex:(NSUInteger)a_index helpTargetId:(NSString *)a_helpTargetId title:(NSString*)a_title;
 
--(void)m_addHelpTarget:(id<IAHelpTarget>)a_helpTarget;
--(void)m_removeHelpTarget:(id<IAHelpTarget>)a_helpTarget;
+-(void)addHelpTarget:(id<IAHelpTarget>)a_helpTarget;
+-(void)removeHelpTarget:(id<IAHelpTarget>)a_helpTarget;
 
--(void)m_refreshHelpTargets;
+-(void)refreshHelpTargets;
 
--(void)m_removeHelpTargetSelectionWithAnimation:(BOOL)a_animate dismissPopTipView:(BOOL)a_dismissPopTipView;
--(void)m_resetUi;
+-(void)removeHelpTargetSelectionWithAnimation:(BOOL)a_animate dismissPopTipView:(BOOL)a_dismissPopTipView;
+-(void)resetUi;
 
--(void)m_toggleHelpMode;
+-(void)toggleHelpMode;
 
--(UIBarButtonItem*)m_newHelpBarButtonItem;
--(BOOL)m_isHelpEnabledForViewController:(UIViewController*)a_viewController;
+-(UIBarButtonItem*)newHelpBarButtonItem;
+-(BOOL)isHelpEnabledForViewController:(UIViewController*)a_viewController;
 
--(void)m_observedViewControllerDidRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation;
--(void)m_observedViewControllerWillRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration;
+-(void)observedViewControllerDidRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation;
+-(void)observedViewControllerWillRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration;
 
--(NSString*)m_accessibilityLabelForKeyPath:(NSString*)a_keyPath;
+-(NSString*)accessibilityLabelForKeyPath:(NSString*)a_keyPath;
 
-+ (IAHelpManager*)m_instance;
-+ (NSString*)m_helpTargetIdForPropertyName:(NSString*)a_propertyName inObject:(NSObject*)a_object;
++ (IAHelpManager*)sharedInstance;
++ (NSString*)helpTargetIdForPropertyName:(NSString *)a_propertyName inObject:(NSObject*)a_object;
 
 @end

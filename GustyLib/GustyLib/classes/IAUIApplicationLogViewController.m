@@ -28,9 +28,9 @@
 
 - (void)onAction:(id)a_sender{
     if (a_sender==v_deleteAllButton) {
-        [[IAPersistenceManager instance] deleteAllForEntityAndSave:self.entityName];
+        [[IAPersistenceManager sharedInstance] deleteAllForEntityAndSave:self.entityName];
     }
-    [self m_refreshAndReloadDataAsync];
+    [self refreshAndReloadDataAsync];
 }
 
 #pragma mark -
@@ -46,7 +46,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *l_cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    [[self m_appearanceTheme] m_setAppearanceForView:l_cell.detailTextLabel];
+    [[self m_appearanceTheme] setAppearanceForView:l_cell.detailTextLabel];
     IAApplicationLog *l_logEntry = [self.p_entities objectAtIndex:indexPath.row];
     l_cell.detailTextLabel.text = l_logEntry.message;
     return l_cell;

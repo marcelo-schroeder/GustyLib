@@ -75,11 +75,11 @@
 
 - (void)m_onNavigationEventNotification:(NSNotification*)aNotification{
 //    NSLog(@"IA_NOTIFICATION_NAVIGATION_EVENT received");
-    [self m_cancelAllSerialBlocks];
+    [self cancelAllSerialBlocks];
 }
 
--(void)m_cancelAllSerialBlocks{
-    [self m_hideNonModalProgressIndicatorWithAnimation:NO];
+-(void)cancelAllSerialBlocks {
+    [self hideNonModalProgressIndicatorWithAnimation:NO];
     self.p_areAllBlocksCancelled = YES;
     self.p_cancelAllBlocksRequestOwnerUuid = nil;
 //    NSLog(@"   ###   p_areAllBlocksCancelled = YES");
@@ -116,7 +116,7 @@
 #pragma mark -
 #pragma mark Public
 
--(void)m_showNonModalProgressIndicatorInView:(UIView*)a_view{
+-(void)showNonModalProgressIndicatorInView:(UIView*)a_view{
     @synchronized(self){
 //        NSLog(@"m_showNonModalProgressIndicatorForOwner in view: %@", [a_view description]);
         if (!self.p_hud) {
@@ -133,11 +133,11 @@
     }
 }
 
--(void)m_showNonModalProgressIndicator{
-    [self m_showNonModalProgressIndicatorInView:[IAUIUtils nonModalHudContainerView]];
+-(void)showNonModalProgressIndicator {
+    [self showNonModalProgressIndicatorInView:[IAUIUtils nonModalHudContainerView]];
 }
 
--(void)m_hideNonModalProgressIndicatorWithAnimation:(BOOL)a_animate{
+-(void)hideNonModalProgressIndicatorWithAnimation:(BOOL)a_animate{
     @synchronized(self){
         //        NSLog(@"m_hideNonModalProgressIndicatorForOwner");
         if (self.p_hud) {
@@ -148,15 +148,17 @@
     }
 }
 
--(void)m_dispatchOperation:(NSOperation*)a_operation{
-    [self m_dispatchOperation:a_operation showProgressIndicator:YES callbackObject:nil callbackSelector:NULL];
+-(void)dispatchOperation:(NSOperation*)a_operation{
+    [self dispatchOperation:a_operation showProgressIndicator:YES callbackObject:nil callbackSelector:NULL];
 }
 
--(void)m_dispatchOperation:(NSOperation*)a_operation callbackObject:(id)a_callbackObject callbackSelector:(SEL)a_callbackSelector{
-    [self m_dispatchOperation:a_operation showProgressIndicator:YES callbackObject:a_callbackObject callbackSelector:a_callbackSelector];
+-(void)dispatchOperation:(NSOperation *)a_operation callbackObject:(id)a_callbackObject callbackSelector:(SEL)a_callbackSelector{
+    [self dispatchOperation:a_operation showProgressIndicator:YES callbackObject:a_callbackObject
+           callbackSelector:a_callbackSelector];
 }
 
--(void)m_dispatchOperation:(NSOperation*)a_operation showProgressIndicator:(BOOL)a_showProgressIndicator callbackObject:(id)a_callbackObject callbackSelector:(SEL)a_callbackSelector{
+-(void)dispatchOperation:(NSOperation *)a_operation showProgressIndicator:(BOOL)a_showProgressIndicator
+          callbackObject:(id)a_callbackObject callbackSelector:(SEL)a_callbackSelector{
     
     // Store arguments
     self.p_operation = a_operation;
@@ -187,7 +189,7 @@
         }
         if (l_allowCancellation) {
             self.p_wipViewManager = [[IAUIWorkInProgressModalViewManager alloc] initWithCancellationCallbackReceiver:self
-                                                                                        cancellationCallbackSelector:@selector(m_cancelAllOperations)
+                                                                                        cancellationCallbackSelector:@selector(cancelAllOperations)
                                                                                         cancellationCallbackArgument:nil
                                                                                                              message:l_message];
         }else{
@@ -201,32 +203,39 @@
 
 }
 
--(void)m_cancelAllOperations{
+-(void)cancelAllOperations {
 //    NSLog(@"Cancelling all operations in the queue...");
     [self.p_operationQueue cancelAllOperations];
 }
 
--(void)m_dispatchSerialBlock:(dispatch_block_t)a_block{
-    [self m_dispatchSerialBlock:a_block showProgressIndicator:NO cancelPreviousBlocks:NO];
+-(void)dispatchSerialBlock:(dispatch_block_t)a_block{
+    [self dispatchSerialBlock:a_block showProgressIndicator:NO cancelPreviousBlocks:NO];
 }
     
--(void)m_dispatchSerialBlock:(dispatch_block_t)a_block cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks{
-    [self m_dispatchSerialBlock:a_block showProgressIndicator:NO cancelPreviousBlocks:a_cancelPreviousBlocks];
+-(void)dispatchSerialBlock:(dispatch_block_t)a_block cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks{
+    [self dispatchSerialBlock:a_block showProgressIndicator:NO cancelPreviousBlocks:a_cancelPreviousBlocks];
 }
 
--(void)m_dispatchSerialBlock:(dispatch_block_t)a_block showProgressIndicator:(BOOL)a_showProgressIndicator{
-    [self m_dispatchSerialBlock:a_block showProgressIndicator:a_showProgressIndicator cancelPreviousBlocks:NO];
+-(void)dispatchSerialBlock:(dispatch_block_t)a_block showProgressIndicator:(BOOL)a_showProgressIndicator{
+    [self dispatchSerialBlock:a_block showProgressIndicator:a_showProgressIndicator cancelPreviousBlocks:NO];
 }
     
--(void)m_dispatchSerialBlock:(dispatch_block_t)a_block showProgressIndicator:(BOOL)a_showProgressIndicator cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks{
-    [self m_dispatchSerialBlock:a_block progressIndicatorContainerView:a_showProgressIndicator?[IAUIUtils nonModalHudContainerView]:nil cancelPreviousBlocks:a_cancelPreviousBlocks];
+-(void)dispatchSerialBlock:(dispatch_block_t)a_block showProgressIndicator:(BOOL)a_showProgressIndicator
+      cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks{
+    [self  dispatchSerialBlock:a_block
+progressIndicatorContainerView:a_showProgressIndicator ? [IAUIUtils nonModalHudContainerView] : nil
+          cancelPreviousBlocks:a_cancelPreviousBlocks];
 }
 
--(void)m_dispatchSerialBlock:(dispatch_block_t)a_block progressIndicatorContainerView:(UIView*)a_progressIndicatorContainerView cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks{
-    [self m_dispatchSerialBlock:a_block progressIndicatorContainerView:a_progressIndicatorContainerView cancelPreviousBlocks:a_cancelPreviousBlocks usePrivateManagedObjectContext:YES];
+-(void)    dispatchSerialBlock:(dispatch_block_t)a_block
+progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks{
+    [self dispatchSerialBlock:a_block progressIndicatorContainerView:a_progressIndicatorContainerView
+         cancelPreviousBlocks:a_cancelPreviousBlocks usePrivateManagedObjectContext:YES];
 }
 
--(void)m_dispatchSerialBlock:(dispatch_block_t)a_block progressIndicatorContainerView:(UIView*)a_progressIndicatorContainerView cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks usePrivateManagedObjectContext:(BOOL)a_usePrivateManagedObjectContext{
+-(void)    dispatchSerialBlock:(dispatch_block_t)a_block
+progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView
+          cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks usePrivateManagedObjectContext:(BOOL)a_usePrivateManagedObjectContext{
     
     // Generate a UUID to identify this block
     NSString *l_blockUuid = [IAUtils generateUuid];
@@ -241,7 +250,7 @@
     if (a_progressIndicatorContainerView) {
         self.p_nonModalProgressIndicatorOwnerUuid = l_blockUuid;
 //        NSLog(@"self.p_nonModalProgressIndicatorOwnerUuid set to %@", self.p_nonModalProgressIndicatorOwnerUuid);
-        [self m_showNonModalProgressIndicatorInView:a_progressIndicatorContainerView];
+        [self showNonModalProgressIndicatorInView:a_progressIndicatorContainerView];
     }
     
     dispatch_block_t l_block = [^{
@@ -275,7 +284,8 @@
 
         // Hide progress indicator if required
         if (a_progressIndicatorContainerView && [self.p_nonModalProgressIndicatorOwnerUuid isEqualToString:l_blockUuid]) {
-            [IAUtils m_dispatchAsyncMainThreadBlock:^{[self m_hideNonModalProgressIndicatorWithAnimation:YES];}];
+            [IAUtils m_dispatchAsyncMainThreadBlock:^{
+                [self hideNonModalProgressIndicatorWithAnimation:YES];}];
 //            NSLog(@"m_hideNonModalProgressIndicator scheduled for UUID %@", l_blockUuid);
         }
 
@@ -288,11 +298,12 @@
 
 }
 
--(void)m_dispatchSerialBlock:(dispatch_block_t)a_block usePrivateManagedObjectContext:(BOOL)a_usePrivateManagedObjectContext{
-    [self m_dispatchSerialBlock:a_block progressIndicatorContainerView:nil cancelPreviousBlocks:NO usePrivateManagedObjectContext:a_usePrivateManagedObjectContext];
+-(void)dispatchSerialBlock:(dispatch_block_t)a_block usePrivateManagedObjectContext:(BOOL)a_usePrivateManagedObjectContext{
+    [self  dispatchSerialBlock:a_block progressIndicatorContainerView:nil cancelPreviousBlocks:NO
+usePrivateManagedObjectContext:a_usePrivateManagedObjectContext];
 }
 
--(void)m_dispatchConcurrentBackgroundBlock:(dispatch_block_t)a_block{
+-(void)dispatchConcurrentBackgroundBlock:(dispatch_block_t)a_block{
     [self m_dispatchConcurrentBlock:a_block priority:DISPATCH_QUEUE_PRIORITY_BACKGROUND];
 }
 
@@ -342,7 +353,7 @@
         self.p_mainSerialDispatchQueue = dispatch_queue_create([l_mainSerialDispatchQueueId UTF8String], DISPATCH_QUEUE_SERIAL);
         
         // Set default managed object context for this work manager's threads
-        self.p_managedObjectContext = [IAPersistenceManager instance].privateQueueManagedObjectContext;
+        self.p_managedObjectContext = [IAPersistenceManager sharedInstance].privateQueueManagedObjectContext;
 
     }
 

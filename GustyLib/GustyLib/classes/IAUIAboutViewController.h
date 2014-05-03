@@ -33,9 +33,9 @@
 @property (strong, nonatomic) IBOutlet UIButton *p_forceCrashButton;
 @property (strong, nonatomic) IBOutlet UIButton *p_thirdPartyCreditsButton;
 
-- (IBAction)m_bugReportButtonTap:(id)sender;
-- (IBAction)m_feedbackButtonTap:(id)sender;
-- (IBAction)m_forceCrashButtonTap:(id)sender;
-- (IBAction)m_thirdPartyCreditsButtonTap:(id)sender;
+- (IBAction)bugReportButtonTap:(id)sender;
+- (IBAction)feedbackButtonTap:(id)sender;
+- (IBAction)forceCrashButtonTap:(id)sender;
+- (IBAction)thirdPartyCreditsButtonTap:(id)sender;
 
 @end

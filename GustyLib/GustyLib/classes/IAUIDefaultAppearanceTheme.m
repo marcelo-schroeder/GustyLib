@@ -104,9 +104,9 @@
     return self;
 }
 
--(void)m_setAppearance{
-    
-    [super m_setAppearance];
+-(void)setAppearance {
+
+    [super setAppearance];
     
     // Status bar
     [UIApplication sharedApplication].statusBarStyle = self.p_statusBarStyle;

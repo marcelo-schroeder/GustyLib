@@ -72,7 +72,7 @@
     return self;
 }
 
--(NSString*)m_htmlString{
+-(NSString*)htmlString {
     NSString *l_htmlMetaString = self.p_htmlMetaString;
     if (!l_htmlMetaString) {
         l_htmlMetaString = [NSString stringWithFormat:@"<meta name=\"viewport\" content=\"width=%@, initial-scale=1.0, maximum-scale=1.0\">", self.p_viewportWidth>0 ? [@(self.p_viewportWidth) description] : @"device-width"];
@@ -88,12 +88,12 @@
     return l_htmlString;
 }
 
--(NSString*)m_htmlStringWithBody:(NSString*)a_body{
+-(NSString*)htmlStringWithBody:(NSString*)a_body{
     self.p_htmlBodyString = a_body;
-    return [self m_htmlString];
+    return [self htmlString];
 }
 
-+ (NSArray *)m_classNamesFromClassAttributeValue:(NSString *)a_classAttributeValue {
++ (NSArray *)classNamesFromClassAttributeValue:(NSString *)a_classAttributeValue {
     return [a_classAttributeValue componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 

@@ -19,12 +19,12 @@
 
 @interface IADirectionsManager : NSObject
 
-- (void)m_directionsFrom:(MKMapItem *)a_fromMapItem to:(MKMapItem *)a_toMapItem
- requestsAlternateRoutes:(BOOL)a_shouldRequestAlternateRoutes
-         completionBlock:(MKDirectionsHandler)a_completionBlock;
+- (void) directionsFrom:(MKMapItem *)a_fromMapItem to:(MKMapItem *)a_toMapItem
+requestsAlternateRoutes:(BOOL)a_shouldRequestAlternateRoutes
+        completionBlock:(MKDirectionsHandler)a_completionBlock;
 
-- (void)      m_etaFrom:(MKMapItem *)a_fromMapItem to:(MKMapItem *)a_toMapItem
+- (void)etaFrom:(MKMapItem *)a_fromMapItem to:(MKMapItem *)a_toMapItem
 requestsAlternateRoutes:(BOOL)a_shouldRequestAlternateRoutes completionBlock:(MKETAHandler)a_completionBlock;
 
-+ (IADirectionsManager *)m_instance;
++ (IADirectionsManager *)sharedInstance;
 @end

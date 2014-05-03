@@ -41,25 +41,25 @@
 @property(nonatomic) CGRect p_keyboardFrame;
 
 // to be overriden by subclasses
--(Class)m_appearanceThemeClass;
--(IAUIColorScheme*)m_colorScheme;
--(NSString*)m_gadUnitId;
--(GADAdMobExtras*)m_gadExtras;
+-(Class)appearanceThemeClass;
+-(IAUIColorScheme*)colorScheme;
+-(NSString*)gadUnitId;
+-(GADAdMobExtras*)gadExtras;
 
--(GADBannerView*)m_gadBannerView;
+-(GADBannerView*)gadBannerView;
 
--(id<IAUIAppearanceTheme>)m_appearanceTheme;
+-(id<IAUIAppearanceTheme>)appearanceTheme;
 
--(NSString*)m_storyboardName;
+-(NSString*)storyboardName;
 
-- (NSString *)m_storyboardFileName;
+- (NSString *)storyboardFileName;
 
--(NSString*)m_storyboardInitialViewControllerId;
--(UIStoryboard*)m_storyboard;
--(UIViewController*)m_initialViewController;
--(void)m_configureWindowRootViewController;
+-(NSString*)storyboardInitialViewControllerId;
+-(UIStoryboard*)storyboard;
+-(UIViewController*)initialViewController;
+-(void)configureWindowRootViewController;
 
--(NSString*)m_formatCrashReportValue:(id)a_value;
+-(NSString*)formatCrashReportValue:(id)a_value;
 
 /**
 * Configure crash reporting using the Crashlytics framework, if available at runtime.
@@ -68,10 +68,10 @@
 *
 * @returns YES if it succeeded configuring crash reporting. NO if it has failed (e.g. Crashlytics framework not available at runtime).
 */
--(BOOL)m_configureCrashReportingWithUserInfo:(NSDictionary*)a_userInfo;
+-(BOOL)configureCrashReportingWithUserInfo:(NSDictionary*)a_userInfo;
 
--(void)m_configureAnalytics;
+-(void)configureAnalytics;
 
-+(IAUIApplicationDelegate*)m_instance;
++(IAUIApplicationDelegate*)sharedInstance;
 
 @end

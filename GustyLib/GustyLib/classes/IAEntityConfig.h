@@ -118,7 +118,7 @@
 
 - (BOOL)shouldShowAddButtonInSelectionForEntity:(NSString*)anEntityName;
 
-//+ (IAEntityConfig*)instance;
+//+ (IAEntityConfig*)sharedInstance;
 
 - (BOOL)shouldShowSelectNoneButtonInSelectionForEntity:(NSString *)anEntityName;
 @end

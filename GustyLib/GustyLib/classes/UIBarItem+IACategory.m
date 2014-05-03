@@ -28,7 +28,7 @@ static char c_helpTargetIdKey;
 
 -(void)setP_helpTargetId:(NSString *)a_helpTargetId{
     objc_setAssociatedObject(self, &c_helpTargetIdKey, a_helpTargetId, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    NSString *l_accessibilityLabel = [[IAHelpManager m_instance] m_accessibilityLabelForKeyPath:a_helpTargetId];
+    NSString *l_accessibilityLabel = [[IAHelpManager sharedInstance] accessibilityLabelForKeyPath:a_helpTargetId];
     if (l_accessibilityLabel) {
         self.accessibilityLabel = l_accessibilityLabel;
     }

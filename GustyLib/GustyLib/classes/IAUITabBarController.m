@@ -60,7 +60,7 @@
     //    NSLog(@"shouldSelectViewController: %@", [viewController description]);
     
     // Check if we are in help mode first
-    if ([IAHelpManager m_instance].p_helpMode) {
+    if ([IAHelpManager sharedInstance].p_helpMode) {
         NSUInteger l_selectedViewControllerIndex = [self.viewControllers indexOfObject:viewController];
         UITabBarItem *l_tabBarItem = ((UITabBarItem*)[tabBarController.tabBar.items objectAtIndex:l_selectedViewControllerIndex]);
         NSString *l_title = l_tabBarItem.title;
@@ -71,7 +71,8 @@
             l_title = l_rootViewController.title;
         }
         l_title = [NSString stringWithFormat:@"%@ Tab", l_title];
-        [[IAHelpManager m_instance] m_helpRequestedForTabBarItemIndex:l_selectedViewControllerIndex helpTargetId:l_tabBarItem.p_helpTargetId title:l_title];
+        [[IAHelpManager sharedInstance] helpRequestedForTabBarItemIndex:l_selectedViewControllerIndex
+                                                       helpTargetId:l_tabBarItem.p_helpTargetId title:l_title];
         return NO;
     }
     

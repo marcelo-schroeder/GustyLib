@@ -31,7 +31,7 @@
 -(id)m_init{
     self.readOnlyMode = NO;
     self.createMode = NO;
-    self.p_object = [[IAPreferencesManager m_instance] m_preferences];
+    self.p_object = [[IAPreferencesManager sharedInstance] preferences];
     self.formName = IA_ENTITY_CONFIG_FORM_NAME_DEFAULT;
     self.isSubForm = NO;
     return self;

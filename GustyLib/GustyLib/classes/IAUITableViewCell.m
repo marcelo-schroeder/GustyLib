@@ -68,12 +68,12 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-    [[self m_appearanceTheme] m_setAppearanceOnSetSelectedForCell:self animated:animated];
+    [[self m_appearanceTheme] setAppearanceOnSetSelectedForCell:self animated:animated];
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
     [super setHighlighted:highlighted animated:animated];
-    [[self m_appearanceTheme] m_setAppearanceOnSetHighlightedForCell:self animated:animated];
+    [[self m_appearanceTheme] setAppearanceOnSetHighlightedForCell:self animated:animated];
 }
 
 @end

@@ -124,7 +124,7 @@
  Update the cancel button frame based on the help button frame
  */
 -(void)m_updateCancelButtonFrame{
-    UIView *l_view = [self.p_observedHelpTargetContainer m_view];
+    UIView *l_view = [self.p_observedHelpTargetContainer targetView];
     CGRect l_helpButtonFrame = self.p_helpButton.frame;
     CGRect l_convertedHelpButtonFrame = [self.p_helpButton.superview convertRect:l_helpButtonFrame toView:l_view];
     self.p_cancelButton.frame = l_convertedHelpButtonFrame;
@@ -159,7 +159,7 @@
         self.p_helpModeOverlayView.frame = CGRectMake(0, 0, l_size.width, l_size.height);
     }
 
-    UIView *l_view = [self.p_observedHelpTargetContainer m_view];
+    UIView *l_view = [self.p_observedHelpTargetContainer targetView];
     if (a_helpMode) {
         self.p_helpButton = (UIButton*)[l_view viewWithTag:IA_UIVIEW_TAG_HELP_BUTTON];
         [self m_updateScreenHelpButtonFrame];
@@ -218,9 +218,9 @@
         }
         [IAUtils m_dispatchAsyncMainThreadBlock:^{
             if (a_helpMode) {
-                [self.p_observedHelpTargetContainer m_didEnterHelpMode];
+                [self.p_observedHelpTargetContainer didEnterHelpMode];
             }else{
-                [self.p_observedHelpTargetContainer m_didExitHelpMode];
+                [self.p_observedHelpTargetContainer didExitHelpMode];
             }
         }];
     }];
@@ -229,7 +229,7 @@
 
 /*
 - (void)m_onHelpModeToggle:(id)aSender{
-    [self m_toggleHelpMode];
+    [self toggleHelpMode];
 }
  */
 
@@ -240,7 +240,7 @@
 -(void)m_removeHelpTargetSelectionWithAnimation:(BOOL)a_animate dismissPopTipView:(BOOL)a_dismissPopTipView animatePopTipViewDismissal:(BOOL)a_animatePopTipViewDismissal{
     
     // Remove spotlight
-    [self.p_helpModeOverlayView m_removeSpotlightWithAnimation:a_animate];
+    [self.p_helpModeOverlayView removeSpotlightWithAnimation:a_animate];
     
     // Remove help target proxy view
     [self.p_helpTargetProxyView removeFromSuperview];
@@ -268,7 +268,7 @@
 
 }
 
--(void)m_removeHelpTargetSelectionWithAnimation:(BOOL)a_animate dismissPopTipView:(BOOL)a_dismissPopTipView{
+-(void)removeHelpTargetSelectionWithAnimation:(BOOL)a_animate dismissPopTipView:(BOOL)a_dismissPopTipView{
     [self m_removeHelpTargetSelectionWithAnimation:a_animate dismissPopTipView:a_dismissPopTipView animatePopTipViewDismissal:NO];
 }
 
@@ -280,7 +280,7 @@
     [self m_hideHelpModeInstructions];
 
     // Remove previous selection from UI
-    [self m_removeHelpTargetSelectionWithAnimation:NO dismissPopTipView:YES];
+    [self removeHelpTargetSelectionWithAnimation:NO dismissPopTipView:YES];
     
     // Hide help overlay ticker
 //    [IAUtils m_dispatchAsyncMainThreadBlock:^{
@@ -312,7 +312,7 @@
         [self.p_helpModeOverlayView addSubview:self.p_helpTargetProxyView];
         
         // Spotlight selection
-        [self.p_helpModeOverlayView m_spotlightAtRect:self.p_helpTargetProxyView.frame];
+        [self.p_helpModeOverlayView spotlightAtRect:self.p_helpTargetProxyView.frame];
         
         l_pointingAtView = self.p_helpTargetProxyView;
         
@@ -321,8 +321,9 @@
     // Present the help pop tip
     self.p_activePopTipView = [IAUIHelpPopTipView new];
     self.p_activePopTipView.p_maximised = a_view==self.p_screenHelpButton;
-    UIView *l_containerView = [self.p_observedHelpTargetContainer m_view];
-    [self.p_activePopTipView m_presentWithTitle:a_title description:a_description pointingAtView:l_pointingAtView inView:l_containerView completionBlock:^{
+    UIView *l_containerView = [self.p_observedHelpTargetContainer targetView];
+    [self.p_activePopTipView presentWithTitle:a_title description:a_description pointingAtView:l_pointingAtView
+                                       inView:l_containerView completionBlock:^{
         // Remove user interaction blocker
         [self.p_userInteractionBlockingView removeFromSuperview];
     }];
@@ -413,7 +414,7 @@
             return;
         }
     }
-    [self m_resetUi];
+    [self resetUi];
     [IAUIUtils showAndHideUserActionConfirmationHudWithText:@"No help available for selection"];
 }
 
@@ -443,18 +444,18 @@
 
 -(void)m_addHelpTargets{
     
-    NSArray *l_helpTargets = [self.p_observedHelpTargetContainer m_helpTargets];
+    NSArray *l_helpTargets = [self.p_observedHelpTargetContainer helpTargets];
     //        NSLog(@"l_helpTargets: %@", [l_helpTargets description]);
     for (id<IAHelpTarget> l_helpTarget in l_helpTargets) {
-        [self m_addHelpTarget:l_helpTarget];
+        [self addHelpTarget:l_helpTarget];
     }
     
-    [IAUIUtils m_traverseHierarchyForView:[self.p_observedHelpTargetContainer m_view] withBlock:^(UIView *a_view) {
-        [self m_addHelpTarget:a_view];
+    [IAUIUtils m_traverseHierarchyForView:[self.p_observedHelpTargetContainer targetView] withBlock:^(UIView *a_view) {
+        [self addHelpTarget:a_view];
         if ([a_view conformsToProtocol:@protocol(IAHelpTargetContainer)]) {
             id<IAHelpTargetContainer> l_helpTargetContainer = (id<IAHelpTargetContainer>)a_view;
-            for (UIView *l_view in [l_helpTargetContainer m_helpTargets]) {
-                [self m_addHelpTarget:l_view];
+            for (UIView *l_view in [l_helpTargetContainer helpTargets]) {
+                [self addHelpTarget:l_view];
             }
         }
     }];
@@ -471,7 +472,7 @@
     
     // Now remove the remaining help targets
     for (id<IAHelpTarget> l_helpTarget in [self.p_helpTargets copy]) {
-        [self m_removeHelpTarget:l_helpTarget];
+        [self removeHelpTarget:l_helpTarget];
     }
     
 }
@@ -516,12 +517,12 @@
         [self m_presentPopTipViewWithTitle:nil description:l_description pointingAtView:a_button];
 
     }else{  // Help Mode
-        [self m_toggleHelpMode];
+        [self toggleHelpMode];
     }
 }
 
 -(void)m_onCancelButtonTap:(UIButton*)a_button{
-    [self m_toggleHelpMode];
+    [self toggleHelpMode];
 }
 
 -(void)m_onScreenHelpButtonTap:(UIButton*)a_button{
@@ -553,7 +554,7 @@
 
 #pragma mark - Public
 
--(void)m_observeHelpTargetContainer:(id<IAHelpTargetContainer>)a_helpTargetContainer{
+-(void)observeHelpTargetContainer:(id<IAHelpTargetContainer>)a_helpTargetContainer{
     
     // Store view controller to be observed
     self.p_observedHelpTargetContainer = a_helpTargetContainer;
@@ -565,14 +566,14 @@
 
 }
 
-- (void)m_helpRequestedForTabBarItemIndex:(NSUInteger)a_index helpTargetId:(NSString*)a_helpTargetId title:(NSString*)a_title{
+- (void)helpRequestedForTabBarItemIndex:(NSUInteger)a_index helpTargetId:(NSString *)a_helpTargetId title:(NSString*)a_title{
     NSLog(@"m_helpRequestedForTabBarItemIndex: %@", a_helpTargetId);
     [self m_presentPopTipViewWithTitle:a_title description:[self m_helpDescriptionForKeyPath:a_helpTargetId] pointingAtView:[self.p_tabBarItemProxyViews objectAtIndex:a_index]];
 }
 
--(void)m_addHelpTarget:(id<IAHelpTarget>)a_helpTarget{
+-(void)addHelpTarget:(id<IAHelpTarget>)a_helpTarget{
     
-//    NSLog(@"m_addHelpTarget: %@", [a_helpTarget description]);
+//    NSLog(@"addHelpTarget: %@", [a_helpTarget description]);
     
     // Get a special case out of the way first: UITabBar
     if([a_helpTarget isKindOfClass:[UITabBar class]]){
@@ -678,7 +679,7 @@
     
 }
 
--(void)m_removeHelpTarget:(id<IAHelpTarget>)a_helpTarget{
+-(void)removeHelpTarget:(id<IAHelpTarget>)a_helpTarget{
     
     NSUInteger l_index = [self.p_helpTargets indexOfObject:a_helpTarget];
 
@@ -719,21 +720,21 @@
 
 }
 
--(void)m_refreshHelpTargets{
+-(void)refreshHelpTargets {
     [self m_removeHelpTargets];
     [self m_addHelpTargets];
 }
 
 -(void)m_removeHelpTargetSelection{
-    [self m_removeHelpTargetSelectionWithAnimation:NO dismissPopTipView:YES];
+    [self removeHelpTargetSelectionWithAnimation:NO dismissPopTipView:YES];
 }
 
--(void)m_toggleHelpMode{
+-(void)toggleHelpMode {
     
     if (self.p_helpMode) {
-        [self.p_observedHelpTargetContainer m_willExitHelpMode];
+        [self.p_observedHelpTargetContainer willExitHelpMode];
     }else{
-        [self.p_observedHelpTargetContainer m_willEnterHelpMode];
+        [self.p_observedHelpTargetContainer willEnterHelpMode];
     }
     
     self.p_helpMode=!self.p_helpMode;
@@ -743,14 +744,14 @@
         [self m_transitionUiForHelpMode:self.p_helpMode];
         
         [self m_addHelpTargets];
-        
-        [IAAnalyticsUtils m_logEntryForScreenName:@"Help"];
+
+        [IAAnalyticsUtils logEntryForScreenName:@"Help"];
         
     }else{
         
         [self m_cancelHelpModeInstructions];
-        
-        [self m_removeHelpTargetSelectionWithAnimation:NO dismissPopTipView:YES];
+
+        [self removeHelpTargetSelectionWithAnimation:NO dismissPopTipView:YES];
         
         [self m_removeHelpTargets];
         
@@ -760,7 +761,7 @@
     
 }
 
--(UIBarButtonItem*)m_newHelpBarButtonItem{
+-(UIBarButtonItem*)newHelpBarButtonItem {
     
     // Configure image
     UIImage *l_helpButtonImage = [UIImage imageNamed:@"248-QuestionCircleAlt"];
@@ -769,7 +770,7 @@
     UIButton *l_helpButton = [UIButton buttonWithType:UIButtonTypeCustom];
     l_helpButton.tag = IA_UIVIEW_TAG_HELP_BUTTON;
     l_helpButton.frame = CGRectMake(0, 0, 20, 44);
-    l_helpButton.accessibilityLabel = [self m_accessibilityLabelForKeyPath:[IAUIUtils m_helpTargetIdForName:@"helpButton"]];
+    l_helpButton.accessibilityLabel = [self accessibilityLabelForKeyPath:[IAUIUtils m_helpTargetIdForName:@"helpButton"]];
 //    l_helpButton.backgroundColor = [UIColor redColor];
     [l_helpButton setImage:l_helpButtonImage forState:UIControlStateNormal];
     [l_helpButton addTarget:self action:@selector(m_onHelpButtonTap:) forControlEvents:UIControlEventTouchUpInside];
@@ -782,29 +783,29 @@
     
 }
 
--(BOOL)m_isHelpEnabledForViewController:(UIViewController*)a_viewController{
+-(BOOL)isHelpEnabledForViewController:(UIViewController*)a_viewController{
     NSArray *l_helpEnabledViewControllerClassNames = [[IAUtils infoPList] objectForKey:@"IAHelpEnabledViewControllers"];
     return [l_helpEnabledViewControllerClassNames containsObject:[a_viewController.class description]];
 }
 
--(void)m_resetUi{
-    [self m_removeHelpTargetSelectionWithAnimation:NO dismissPopTipView:YES];
+-(void)resetUi {
+    [self removeHelpTargetSelectionWithAnimation:NO dismissPopTipView:YES];
     [self m_hideHelpModeInstructions];
     [self m_cancelHelpModeInstructions];
     [self m_scheduleHelpModeInstructions];
 }
 
--(void)m_observedViewControllerDidRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+-(void)observedViewControllerDidRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     [self m_updateScreenHelpButtonFrame];
     [self m_updateCancelButtonFrame];
-    [self m_refreshHelpTargets];
+    [self refreshHelpTargets];
 }
 
--(void)m_observedViewControllerWillRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+-(void)observedViewControllerWillRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     [self m_removeHelpTargetSelection];
 }
 
--(NSString *)m_accessibilityLabelForKeyPath:(NSString *)a_keyPath{
+-(NSString *)accessibilityLabelForKeyPath:(NSString *)a_keyPath{
     NSString *l_accessibilityLabel = [self m_helpLabelForKeyPath:a_keyPath];
     if (!l_accessibilityLabel) {
         l_accessibilityLabel = [self m_helpTitleForKeyPath:a_keyPath];
@@ -812,7 +813,7 @@
     return l_accessibilityLabel;
 }
 
-+ (IAHelpManager*)m_instance {
++ (IAHelpManager*)sharedInstance {
     static dispatch_once_t c_dispatchOncePredicate;
     static IAHelpManager *c_instance = nil;
     dispatch_once(&c_dispatchOncePredicate, ^{
@@ -821,7 +822,7 @@
     return c_instance;
 }
 
-+ (NSString*)m_helpTargetIdForPropertyName:(NSString*)a_propertyName inObject:(NSObject*)a_object{
++ (NSString*)helpTargetIdForPropertyName:(NSString *)a_propertyName inObject:(NSObject*)a_object{
     return [NSString stringWithFormat:@"entities.%@.%@", [a_object entityName], a_propertyName];
 }
 
@@ -840,7 +841,7 @@
         UIImage *l_cancelButtonImage = [UIImage imageNamed:@"277-MultiplyCircle-white"];
         self.p_cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.p_cancelButton.frame = CGRectZero;
-        self.p_cancelButton.accessibilityLabel = [self m_accessibilityLabelForKeyPath:[IAUIUtils m_helpTargetIdForName:@"closeHelpButton"]];
+        self.p_cancelButton.accessibilityLabel = [self accessibilityLabelForKeyPath:[IAUIUtils m_helpTargetIdForName:@"closeHelpButton"]];
         [self.p_cancelButton setImage:l_cancelButtonImage forState:UIControlStateNormal];
         [self.p_cancelButton addTarget:self action:@selector(m_onCancelButtonTap:) forControlEvents:UIControlEventTouchUpInside];
         
@@ -848,7 +849,7 @@
         UIImage *l_screenHelpButtonImage = [UIImage imageNamed:@"248-QuestionCircleAlt"];
         self.p_screenHelpButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.p_screenHelpButton.frame = CGRectZero;
-        self.p_screenHelpButton.accessibilityLabel = [self m_accessibilityLabelForKeyPath:[IAUIUtils m_helpTargetIdForName:@"screenHelpButton"]];
+        self.p_screenHelpButton.accessibilityLabel = [self accessibilityLabelForKeyPath:[IAUIUtils m_helpTargetIdForName:@"screenHelpButton"]];
         [self.p_screenHelpButton setImage:l_screenHelpButtonImage forState:UIControlStateNormal];
         [self.p_screenHelpButton addTarget:self action:@selector(m_onScreenHelpButtonTap:) forControlEvents:UIControlEventTouchUpInside];
 //        self.p_screenHelpButton.backgroundColor = [UIColor redColor];

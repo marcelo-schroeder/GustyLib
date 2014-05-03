@@ -34,7 +34,7 @@
 }
 
 - (NSString*)propertyNameForIndexPath:(NSIndexPath*)anIndexPath inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
-	return [[IAPersistenceManager instance].entityConfig nameForIndexPath:anIndexPath inObject:self inForm:aFormName createMode:aCreateMode];
+	return [[IAPersistenceManager sharedInstance].entityConfig nameForIndexPath:anIndexPath inObject:self inForm:aFormName createMode:aCreateMode];
 }
 
 - (NSString*)propertyStringValueForName:(NSString*)a_propertyName calendar:(NSCalendar*)a_calendar{
@@ -43,7 +43,7 @@
 
 - (NSString *)stringValueForNumberPropertyNamed:(NSString *)a_propertyName a_calendar:(NSCalendar *)a_calendar a_value:(id)a_value {
     NSString *l_stringValue = nil;
-    NSUInteger dataType = [[IAPersistenceManager instance].entityConfig dataTypeForProperty:a_propertyName inObject:self];
+    NSUInteger dataType = [[IAPersistenceManager sharedInstance].entityConfig dataTypeForProperty:a_propertyName inObject:self];
     if (dataType==IA_DATA_TYPE_TIME_INTERVAL) {
         l_stringValue = [IADateRange durationStringForInterval:[a_value doubleValue] format:IA_DURATION_FORMAT_HOURS_MINUTES_LONG calendar:a_calendar];
     }else {
@@ -57,14 +57,14 @@
     if (l_propertyDescription) {
         if ([l_propertyDescription isKindOfClass:[NSRelationshipDescription class]]) {
             if (a_value && [a_value isKindOfClass:[NSManagedObject class]]){
-                NSString *l_displayValueProperty = [[[IAPersistenceManager instance] entityConfig] displayValuePropertyForEntityProperty:a_propertyName inObject:self];
+                NSString *l_displayValueProperty = [[[IAPersistenceManager sharedInstance] entityConfig] displayValuePropertyForEntityProperty:a_propertyName inObject:self];
                 if (l_displayValueProperty) {
                     return [a_value valueForKey:l_displayValueProperty];
                 }
             }
             return [IAUIUtils stringValueForObject:a_value];
-        }else if([[IAPersistenceManager instance].entityConfig isEnumerationForProperty:a_propertyName inObject:self]){
-            NSString *l_enumerationSource = [[IAPersistenceManager instance].entityConfig enumerationSourceForProperty:a_propertyName inObject:self];
+        }else if([[IAPersistenceManager sharedInstance].entityConfig isEnumerationForProperty:a_propertyName inObject:self]){
+            NSString *l_enumerationSource = [[IAPersistenceManager sharedInstance].entityConfig enumerationSourceForProperty:a_propertyName inObject:self];
             return [IAEnumerationEntity enumerationEntityForId:a_value entities:[self valueForKey:l_enumerationSource]].p_name;
         }else if([l_propertyDescription isKindOfClass:[NSAttributeDescription class]]){
             NSAttributeDescription *l_attributeDescription = (NSAttributeDescription*)l_propertyDescription;
@@ -128,14 +128,14 @@
 }
 
 - (NSString*)entityLabel{
-	return [[IAPersistenceManager instance].entityConfig labelForEntity:[[self class] description]];
+	return [[IAPersistenceManager sharedInstance].entityConfig labelForEntity:[[self class] description]];
 }
 
 - (void) setValue:(id)aValue forProperty:(NSString *)aKey{
 	id oldValue = [self valueForKey:aKey];
 	if (![aValue isEqual:oldValue]) {
 		[self setValue:aValue forKey:aKey];
-		[IAPersistenceManager instance].isCurrentManagedObjectDirty = YES;
+        [IAPersistenceManager sharedInstance].isCurrentManagedObjectDirty = YES;
 	}
 }
 
@@ -144,15 +144,15 @@
 }
 
 - (NSPropertyDescription*)descriptionForProperty:(NSString*)aPropertyName{
-	return [[IAPersistenceManager instance].entityConfig descriptionForProperty:aPropertyName inObject:self];
+	return [[IAPersistenceManager sharedInstance].entityConfig descriptionForProperty:aPropertyName inObject:self];
 }
 
 - (NSString*)labelForProperty:(NSString*)aPropertyName{
-	return [[IAPersistenceManager instance].entityConfig labelForProperty:aPropertyName inObject:self];
+	return [[IAPersistenceManager sharedInstance].entityConfig labelForProperty:aPropertyName inObject:self];
 }
 
 - (NSUInteger)fractionDigitsForProperty:(NSString*)aPropertyName{
-	return [[IAPersistenceManager instance].entityConfig fractionDigitsForProperty:aPropertyName inObject:self];
+	return [[IAPersistenceManager sharedInstance].entityConfig fractionDigitsForProperty:aPropertyName inObject:self];
 }
 
 - (NSNumberFormatter*)numberFormatterForProperty:(NSString*)aPropertyName{
@@ -175,7 +175,7 @@
 }
 
 + (NSString*)displayValueForNil{
-    return [NSString stringWithFormat:@"(no %@)", [[[IAPersistenceManager instance].entityConfig labelForEntity:[self entityName]] lowercaseString]];
+    return [NSString stringWithFormat:@"(no %@)", [[[IAPersistenceManager sharedInstance].entityConfig labelForEntity:[self entityName]] lowercaseString]];
 }
 
 @end

@@ -41,12 +41,16 @@
 
 - (void)m_ReportBugButtonTap:(id)sender{
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nPlease fix the following bug I have found in %@:", [IAUtils appFullName]];
-    [self.p_emailManager m_composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Bug Report", [IAUtils appNameAndEdition]] recipient:[self m_supportEmailAddress] body:l_body];
+    [self.p_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Bug Report",
+                                                                            [IAUtils appNameAndEdition]]
+                                       recipient:[self m_supportEmailAddress] body:l_body];
 }
 
 - (void)m_ProvideFeedbackButtonTap:(id)sender{
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nI have the following feedback to provide for %@:", [IAUtils appFullName]];
-    [self.p_emailManager m_composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Feedback", [IAUtils appNameAndEdition]] recipient:[self m_supportEmailAddress] body:l_body];
+    [self.p_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Feedback",
+                                                                            [IAUtils appNameAndEdition]]
+                                       recipient:[self m_supportEmailAddress] body:l_body];
 }
 
 - (void)m_ForceCrashButtonTap:(id)sender{
@@ -122,7 +126,7 @@
     UITableViewCell *l_cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     if ([[self nameForIndexPath:indexPath] isEqualToString:@"appName"]) {
         [l_cell.contentView addSubview:self.p_customView];
-        [[self m_appearanceTheme] m_setLabelTextStyleForChildrenOfView:self.p_customView];
+        [[self m_appearanceTheme] setLabelTextStyleForChildrenOfView:self.p_customView];
     }
     return l_cell;
 }

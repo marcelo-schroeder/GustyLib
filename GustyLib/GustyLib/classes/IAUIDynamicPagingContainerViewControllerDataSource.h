@@ -27,7 +27,7 @@
  The method is called once for each page represented in the IAUIScrollPage enum, with the exception of IA_UISCROLL_PAGE_LEFT_FAR and IA_UISCROLL_PAGE_RIGHT_FAR.
  Those pages never fully appear so their titles do not appear either.
  */
--(NSString*)m_titleForPage:(IAUIScrollPage)a_page;
+-(NSString*)titleForPage:(IAUIScrollPage)a_page;
 
 /* 
  This method is called so the container view controller can obtain an instance of a child view controller for each page.
@@ -36,6 +36,6 @@
     data generated relative to the centre page's child view controller.
  To indicate the left or right boundaries just return a nil value;
  */
--(UITableViewController*)m_childViewControlerForPage:(IAUIScrollPage)a_page;
+-(UITableViewController*)childViewControlerForPage:(IAUIScrollPage)a_page;
 
 @end

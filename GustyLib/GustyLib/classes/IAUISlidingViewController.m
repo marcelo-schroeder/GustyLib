@@ -57,7 +57,7 @@
         if ([l_masterViewController isKindOfClass:[UINavigationController class]]) {
             UIViewController *l_masterRootViewController = ((UINavigationController*)l_masterViewController).viewControllers[0];
             if ([l_masterRootViewController isKindOfClass:[IAUIMenuViewController class]]) {
-                [((IAUIMenuViewController*)l_masterRootViewController) m_selectMenuItemAtIndex:0];
+                [((IAUIMenuViewController *) l_masterRootViewController) selectMenuItemAtIndex:0];
             }
         }
         self.p_hasInitialLoadBeenDone = YES;

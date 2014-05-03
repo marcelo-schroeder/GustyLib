@@ -28,7 +28,7 @@
 }
 
 - (void)performActivity {
-    [[IAExternalUrlManager m_instance] m_openUrl:self.p_url];
+    [[IAExternalUrlManager sharedInstance] openUrl:self.p_url];
     [self activityDidFinish:YES];
 }
 

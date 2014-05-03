@@ -22,8 +22,8 @@
 
 @interface IAPreferencesManager : NSObject
 
-+ (IAPreferencesManager*)m_instance;
++ (IAPreferencesManager*)sharedInstance;
 
--(id)m_preferences;
+-(id)preferences;
 
 @end

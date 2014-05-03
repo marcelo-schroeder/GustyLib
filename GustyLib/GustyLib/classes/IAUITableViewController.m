@@ -46,7 +46,7 @@
 #pragma mark - Public
 
 -(UIView*)m_newTableViewCellAccessoryView{
-    UIButton *l_button = [[self m_appearanceTheme] m_newDetailDisclosureButton];
+    UIButton *l_button = [[self m_appearanceTheme] newDetailDisclosureButton];
     l_button.frame = CGRectMake(l_button.frame.origin.x, l_button.frame.origin.y, IA_MINIMUM_TAP_AREA_DIMENSION, IA_MINIMUM_TAP_AREA_DIMENSION);
     [l_button addTarget:self action:@selector(m_onTableViewCellAccessoryButtonTap:withEvent:) forControlEvents:UIControlEventTouchUpInside];
     return l_button;
@@ -145,7 +145,8 @@
         l_cell.p_helpTargetId = [self m_helpTargetIdForName:@"tableCell"];
        
         // Set appearance
-        [[[IAUIAppearanceThemeManager m_instance] m_activeAppearanceTheme] m_setAppearanceOnInitReusableCellForViewController:self cell:l_cell];
+        [[[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
+                                                                                                                       cell:l_cell];
         
     }
     
@@ -334,7 +335,7 @@
 
 -(void)viewDidLoad{
 
-    self.p_tableCellTextColor = [[self m_appearanceTheme] m_tableCellTextColor];
+    self.p_tableCellTextColor = [[self m_appearanceTheme] tableCellTextColor];
     [super viewDidLoad];
     [self m_viewDidLoad];
     self.tableView.delegate = self;
@@ -358,7 +359,8 @@
 //        [super m_updateEditButtonItemAccessibilityLabel];
         
         // Set edit button's appearance
-        [[self m_appearanceTheme] m_setAppearanceForBarButtonItem:self.editButtonItem viewController:nil important:editing];
+        [[self m_appearanceTheme] setAppearanceForBarButtonItem:self.editButtonItem viewController:nil
+                                                      important:editing];
         
         if (self.p_sectionHeaderView) {
             [UIView animateWithDuration:IA_UI_ANIMATION_DURATION animations:^{
@@ -443,38 +445,40 @@
 #pragma mark - UITableViewDataSource protocol
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
-    return ![IAHelpManager m_instance].p_helpMode;
+    return ![IAHelpManager sharedInstance].p_helpMode;
 }
 
 #pragma mark - UITableViewDelegate protocol
 
 -(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    return [IAHelpManager m_instance].p_helpMode ? nil : indexPath;
+    return [IAHelpManager sharedInstance].p_helpMode ? nil : indexPath;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    [[[IAUIAppearanceThemeManager m_instance] m_activeAppearanceTheme] m_setAppearanceOnWillDisplayCell:cell forRowAtIndexPath:indexPath viewController:self];
+    [[[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnWillDisplayCell:cell
+                                                                                    forRowAtIndexPath:indexPath
+                                                                                       viewController:self];
 }
 
 #pragma mark - UIScrollViewDelegate protocol
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    if ([IAHelpManager m_instance].p_helpMode) {
-        [[IAHelpManager m_instance] m_refreshHelpTargets];
+    if ([IAHelpManager sharedInstance].p_helpMode) {
+        [[IAHelpManager sharedInstance] refreshHelpTargets];
     }
 }
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
     if (!decelerate) {
-        if ([IAHelpManager m_instance].p_helpMode) {
-            [[IAHelpManager m_instance] m_refreshHelpTargets];
+        if ([IAHelpManager sharedInstance].p_helpMode) {
+            [[IAHelpManager sharedInstance] refreshHelpTargets];
         }
     }
 }
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-    if ([IAHelpManager m_instance].p_helpMode) {
-        [[IAHelpManager m_instance] m_resetUi];
+    if ([IAHelpManager sharedInstance].p_helpMode) {
+        [[IAHelpManager sharedInstance] resetUi];
     }
 }
 

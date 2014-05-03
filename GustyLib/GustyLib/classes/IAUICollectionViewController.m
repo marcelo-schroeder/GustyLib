@@ -30,11 +30,14 @@
 
 #pragma mark - Public
 
--(void)m_updateCollectionView:(UICollectionView*)a_collectionView oldDataArrayCount:(NSUInteger)a_oldDataArrayCount newDataArrayCount:(NSUInteger)a_newDataArrayCount{
-    [self m_updateCollectionView:a_collectionView oldDataArrayCount:a_oldDataArrayCount newDataArrayCount:a_newDataArrayCount completionBlock:nil];
+-(void)updateCollectionView:(UICollectionView *)a_collectionView oldDataArrayCount:(NSUInteger)a_oldDataArrayCount
+          newDataArrayCount:(NSUInteger)a_newDataArrayCount{
+    [self updateCollectionView:a_collectionView oldDataArrayCount:a_oldDataArrayCount
+             newDataArrayCount:a_newDataArrayCount completionBlock:nil];
 };
 
--(void)m_updateCollectionView:(UICollectionView*)a_collectionView oldDataArrayCount:(NSUInteger)a_oldDataArrayCount newDataArrayCount:(NSUInteger)a_newDataArrayCount completionBlock:(void (^)(BOOL finished))a_completionBlock{
+-(void)updateCollectionView:(UICollectionView *)a_collectionView oldDataArrayCount:(NSUInteger)a_oldDataArrayCount
+          newDataArrayCount:(NSUInteger)a_newDataArrayCount completionBlock:(void (^)(BOOL finished))a_completionBlock{
 
     [self.collectionView performBatchUpdates:^{
 

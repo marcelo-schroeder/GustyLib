@@ -57,7 +57,7 @@ static char c_appearanceIdKey;
 -(id)m_init{
     
     // Set appearance
-    [[[IAUIAppearanceThemeManager m_instance] m_activeAppearanceTheme] m_setAppearanceOnInitForView:self];
+    [[[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitForView:self];
 
     return self;
 
@@ -66,7 +66,7 @@ static char c_appearanceIdKey;
 -(void)m_awakeFromNib{
     
     // Set appearance
-    [[[IAUIAppearanceThemeManager m_instance] m_activeAppearanceTheme] m_setAppearanceOnAwakeFromNibForView:self];
+    [[[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnAwakeFromNibForView:self];
     
 }
 
@@ -115,7 +115,7 @@ static char c_appearanceIdKey;
 }
 
 - (id <IAUIAppearanceTheme>)m_appearanceTheme {
-    return [[IAUIAppearanceThemeManager m_instance] m_activeAppearanceTheme];
+    return [[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme];
 }
 
 -(void)setP_appearanceId:(NSString *)a_appearanceId{
@@ -201,7 +201,7 @@ static char c_appearanceIdKey;
 -(void)setP_helpTargetId:(NSString *)a_helpTargetId{
     objc_setAssociatedObject(self, &c_helpTargetIdKey, a_helpTargetId, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     if ([self isKindOfClass:[UIButton class]]) {
-        NSString *l_accessibilityLabel = [[IAHelpManager m_instance] m_accessibilityLabelForKeyPath:a_helpTargetId];
+        NSString *l_accessibilityLabel = [[IAHelpManager sharedInstance] accessibilityLabelForKeyPath:a_helpTargetId];
         if (l_accessibilityLabel) {
             self.accessibilityLabel = l_accessibilityLabel;
         }

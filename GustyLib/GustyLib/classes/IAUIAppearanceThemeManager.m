@@ -33,10 +33,10 @@
 #pragma mark - Private
 
 - (void)m_setThemeAppearanceIfRequired {
-    NSString *l_themeName = [self.p_loadedAppearanceTheme m_themeName];
+    NSString *l_themeName = [self.p_loadedAppearanceTheme themeName];
     if (![self.p_alreadyLoadedThemeNames containsObject:l_themeName]) {
 //        NSLog(@"Setting appearance theme: %@", l_themeName);
-        [self.p_loadedAppearanceTheme m_setAppearance];
+        [self.p_loadedAppearanceTheme setAppearance];
         [self.p_alreadyLoadedThemeNames addObject:l_themeName];
     }
 }
@@ -53,7 +53,7 @@
                     animations:^(void) {
                         BOOL oldState = [UIView areAnimationsEnabled];
                         [UIView setAnimationsEnabled:NO];
-                        l_window.rootViewController = [[self.p_loadedAppearanceTheme m_storyboard] instantiateInitialViewController];
+                        l_window.rootViewController = [[self.p_loadedAppearanceTheme storyboard] instantiateInitialViewController];
                         [UIView setAnimationsEnabled:oldState];
                     }
                     completion:^(BOOL finished) {
@@ -80,22 +80,22 @@
 
 #pragma mark - Public
 
-- (void)m_reloadUiWithNoTransitionAnimation{
-    [self m_applyAppearanceTheme];
+- (void)reloadUiWithNoTransitionAnimation {
+    [self applyAppearanceTheme];
     UIWindow *l_window = [self m_window];
-    UIViewController *l_newViewController = [[self.p_loadedAppearanceTheme m_storyboard] instantiateInitialViewController];
+    UIViewController *l_newViewController = [[self.p_loadedAppearanceTheme storyboard] instantiateInitialViewController];
     l_window.rootViewController = l_newViewController;
 }
 
--(void)m_reloadUiWithAnimationOptions:(UIViewAnimationOptions)a_animationOptions{
-    [self m_reloadUiWithAnimationDuration:IA_UI_ANIMATION_DURATION animationOptions:a_animationOptions
-                          completionBlock:nil];
+-(void)reloadUiWithAnimationOptions:(UIViewAnimationOptions)a_animationOptions{
+    [self reloadUiWithAnimationDuration:IA_UI_ANIMATION_DURATION animationOptions:a_animationOptions
+                        completionBlock:nil];
 }
 
-- (void)m_reloadUiWithAnimationDuration:(NSTimeInterval)a_animationDuration
-                       animationOptions:(UIViewAnimationOptions)a_animationOptions
-                        completionBlock:(void (^)(BOOL finished))a_completionBlock {
-    [self m_applyAppearanceTheme];
+- (void)reloadUiWithAnimationDuration:(NSTimeInterval)a_animationDuration
+                     animationOptions:(UIViewAnimationOptions)a_animationOptions
+                      completionBlock:(void (^)(BOOL finished))a_completionBlock {
+    [self applyAppearanceTheme];
     [self m_transitionViewsWithAnimationDuration:a_animationDuration animationOptions:a_animationOptions completionBlock:a_completionBlock];
 }
 
@@ -108,7 +108,7 @@
 /*
 -(void)m_reloadUiWithTransitionAnimation:(SMUiReloadTransitionAnimation)a_transitionAnimation completionBlock:(void (^)(BOOL finished))a_completionBlock{
 
-    [self m_applyAppearanceTheme];
+    [self applyAppearanceTheme];
 
     // Configuration transition animation
     BOOL l_isPush = a_transitionAnimation == SM_UI_RELOAD_TRANSITION_ANIMATION_PUSH;
@@ -143,15 +143,15 @@
 }
 */
 
--(id<IAUIAppearanceTheme>)m_activeAppearanceTheme{
+-(id<IAUIAppearanceTheme>)activeAppearanceTheme {
     id<IAUIAppearanceTheme> l_appearanceTheme = self.p_loadedAppearanceTheme;
     if (!l_appearanceTheme) {
-        l_appearanceTheme = [[IAUIApplicationDelegate m_instance] m_appearanceTheme];
+        l_appearanceTheme = [[IAUIApplicationDelegate sharedInstance] appearanceTheme];
     }
     return l_appearanceTheme;
 }
 
-+ (IAUIAppearanceThemeManager*)m_instance {
++ (IAUIAppearanceThemeManager*)sharedInstance {
     static dispatch_once_t c_dispatchOncePredicate;
     static IAUIAppearanceThemeManager *c_instance = nil;
     dispatch_once(&c_dispatchOncePredicate, ^{
@@ -160,7 +160,7 @@
     return c_instance;
 }
 
-+(NSBundle*)m_bundleForThemeNamed:(NSString*)a_themeName{
++(NSBundle*)bundleForThemeNamed:(NSString*)a_themeName{
     if ([a_themeName isEqualToString:@""]) {
         return nil;
     }else{
@@ -171,19 +171,19 @@
     }
 }
 
--(void)m_applyAppearanceTheme{
+-(void)applyAppearanceTheme {
 
     // Obtain and save the appearance theme & color scheme
-    self.p_loadedAppearanceTheme = [[IAUIApplicationDelegate m_instance] m_appearanceTheme];
-    self.p_loadedColorScheme = [[IAUIApplicationDelegate m_instance] m_colorScheme];
+    self.p_loadedAppearanceTheme = [[IAUIApplicationDelegate sharedInstance] appearanceTheme];
+    self.p_loadedColorScheme = [[IAUIApplicationDelegate sharedInstance] colorScheme];
 
     // Notify theme we're about to reload the UI
-    if ([self.p_loadedAppearanceTheme respondsToSelector:@selector(m_willReloadUi)]) {
-        [self.p_loadedAppearanceTheme m_willReloadUi];
+    if ([self.p_loadedAppearanceTheme respondsToSelector:@selector(willReloadUi)]) {
+        [self.p_loadedAppearanceTheme willReloadUi];
     }
 
     // Dismiss activity view controller popover
-    [[IAUIApplicationDelegate m_instance].p_popoverControllerPresenter m_dismissModalViewControllerWithChangesMade:NO
+    [[IAUIApplicationDelegate sharedInstance].p_popoverControllerPresenter m_dismissModalViewControllerWithChangesMade:NO
                                                                                                               data:nil ];
 
     // Dismiss popover menu if using the custom split view controller

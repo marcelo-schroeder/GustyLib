@@ -24,6 +24,6 @@
 
 -(id)initWithColors:(NSArray*)a_colors;
 
--(UIColor*)m_colorAtIndex:(NSUInteger)a_index;
+-(UIColor*)colorAtIndex:(NSUInteger)a_index;
 
 @end

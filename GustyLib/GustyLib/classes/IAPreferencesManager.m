@@ -32,7 +32,7 @@
 
 #pragma mark - Public
 
--(id)m_preferences{
+-(id)preferences {
 
     NSString *l_preferencesClassName = [[IAUtils infoPList] valueForKey:IA_INFOPLIST_PREFERENCES_CLASS_NAME];
     Class l_preferencesClass = NSClassFromString(l_preferencesClassName);
@@ -40,15 +40,15 @@
 
         if (self.p_preferencesManagedObjectId) {    // ID is known, so load by ID
 
-            return [[IAPersistenceManager instance] findById:self.p_preferencesManagedObjectId];
+            return [[IAPersistenceManager sharedInstance] findById:self.p_preferencesManagedObjectId];
 
         }else{  // ID is not known
 
-            NSManagedObject *l_mo = [[IAPersistenceManager instance] fetchSingleForEntity:l_preferencesClassName];
+            NSManagedObject *l_mo = [[IAPersistenceManager sharedInstance] fetchSingleForEntity:l_preferencesClassName];
             if (l_mo) { // Preferences record already exists, so make a note of the ID for later use
                 self.p_preferencesManagedObjectId = l_mo.objectID;
             }else{  // Preferences record does not exist, so create it and make a note of the ID for later use
-                self.p_preferencesManagedObjectId = [[IAPersistenceManager instance] m_instantiate:l_preferencesClassName].objectID;
+                self.p_preferencesManagedObjectId = [[IAPersistenceManager sharedInstance] instantiate:l_preferencesClassName].objectID;
             }
             return l_mo;
 
@@ -62,7 +62,7 @@
 
 }
 
-+ (IAPreferencesManager*)m_instance {
++ (IAPreferencesManager*)sharedInstance {
     static dispatch_once_t c_dispatchOncePredicate;
     static IAPreferencesManager *c_instance = nil;
     dispatch_once(&c_dispatchOncePredicate, ^{

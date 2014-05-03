@@ -31,13 +31,13 @@
 @property (nonatomic) NSUInteger p_childViewDidAppearCount;
 @property (nonatomic, readonly) NSUInteger p_newChildViewControllerCount;
 
--(void)m_updateContentLayout;
--(CGRect)m_visibleRectForPage:(NSUInteger)a_pageIndex;
--(void)m_scrollToPage:(NSUInteger)a_pageIndex animated:(BOOL)a_animated;
--(void)m_refreshAndReloadChildData;
--(NSArray*)m_dataLoadPageIndexes;
--(NSUInteger)m_calculateSelectedPageIndex;
+-(void)updateContentLayout;
+-(CGRect)visibleRectForPage:(NSUInteger)a_pageIndex;
+-(void)scrollToPage:(NSUInteger)a_pageIndex animated:(BOOL)a_animated;
+-(void)refreshAndReloadChildData;
+-(NSArray*)dataLoadPageIndexes;
+-(NSUInteger)calculateSelectedPageIndex;
 
--(void)m_addChildViewControllers:(NSArray*)a_childViewControllers;
+-(void)addChildViewControllers:(NSArray*)a_childViewControllers;
 
 @end

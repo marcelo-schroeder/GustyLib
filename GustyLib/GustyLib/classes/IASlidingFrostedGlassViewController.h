@@ -59,12 +59,12 @@ typedef UIImage *(^IASlidingFrostedGlassViewControllerSnapshotEffectBlock)(UIIma
 - (id)initWithChildViewController:(UIViewController *)a_childViewController
          slidingAnimationDuration:(NSTimeInterval)a_slidingAnimationDuration;
 
-- (UIImage *)m_newBlurredSnapshotImageFrom:(UIView *)a_viewToSnapshot;
+- (UIImage *)newBlurredSnapshotImageFrom:(UIView *)a_viewToSnapshot;
 @end
 
 @protocol IASlidingFrostedGlassViewControllerDelegate <NSObject>
 
 @optional
-- (CGFloat)m_frostedGlassViewHeight;
+- (CGFloat)frostedGlassViewHeight;
 
 @end

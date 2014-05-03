@@ -78,16 +78,16 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
         
         self.p_pickerView = [self newPickerView];
         
-        self.p_isEnumeration = [[IAPersistenceManager instance].entityConfig isEnumerationForProperty:aPropertyName inObject:anObject];
-        NSString *l_entityName = [[IAPersistenceManager instance].entityConfig entityNameForProperty:aPropertyName inObject:anObject];
+        self.p_isEnumeration = [[IAPersistenceManager sharedInstance].entityConfig isEnumerationForProperty:aPropertyName inObject:anObject];
+        NSString *l_entityName = [[IAPersistenceManager sharedInstance].entityConfig entityNameForProperty:aPropertyName inObject:anObject];
         //    NSLog(@"parent managed object name: %@", [aManagedObject entityName]);
         if (self.p_isEnumeration) {
-            NSString *l_enumerationSource = [[IAPersistenceManager instance].entityConfig enumerationSourceForProperty:aPropertyName inObject:anObject];
+            NSString *l_enumerationSource = [[IAPersistenceManager sharedInstance].entityConfig enumerationSourceForProperty:aPropertyName inObject:anObject];
 //            NSLog(@"enumeration entity! source: %@", l_enumerationSource);
             self.p_entities = [anObject valueForKey:l_enumerationSource];
         }else{
 //            NSLog(@"persistent entity!");
-            self.p_entities = [[IAPersistenceManager instance] findAllForEntity:l_entityName];
+            self.p_entities = [[IAPersistenceManager sharedInstance] findAllForEntity:l_entityName];
         }
 //        NSLog(@"entities: %@", self.p_entities);
         
@@ -109,7 +109,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
     
 }
 
--(id)m_editedValue{
+-(id)editedValue {
     if (self.p_isEnumeration) {
         return ((IAEnumerationEntity*)self.p_selectedObject).p_id;
     }else{
@@ -139,7 +139,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
 
 - (void) pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     self.p_selectedObject = [self.p_entities objectAtIndex:row];
-    [self m_updateModel];
+    [self updateModel];
 }
 
 #pragma mark - UITableViewDataSource

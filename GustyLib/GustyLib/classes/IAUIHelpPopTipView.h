@@ -26,6 +26,7 @@
 @property (atomic) BOOL p_maximised;
 @property (atomic) BOOL p_isTitlePositionFixed;
 
--(void)m_presentWithTitle:(NSString*)a_title description:(NSString*)a_description pointingAtView:(UIView *)a_viewPointedAt inView:(UIView *)a_viewPresentedIn completionBlock:(void (^)(void))a_completionBlock;
+-(void)presentWithTitle:(NSString *)a_title description:(NSString *)a_description
+         pointingAtView:(UIView *)a_viewPointedAt inView:(UIView *)a_viewPresentedIn completionBlock:(void (^)(void))a_completionBlock;
 
 @end

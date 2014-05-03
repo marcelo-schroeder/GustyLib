@@ -35,11 +35,11 @@
 #pragma mark Private
 
 - (NSDictionary*)entityConfigDictionary{
-    NSMutableDictionary *l_dictionary = [[IADynamicCache instance] objectForKey:(IA_CACHE_KEY_ENTITY_CONFIG_DICTIONARY)];
+    NSMutableDictionary *l_dictionary = [[IADynamicCache sharedInstance] objectForKey:(IA_CACHE_KEY_ENTITY_CONFIG_DICTIONARY)];
 	if(!l_dictionary){
         l_dictionary = [NSMutableDictionary dictionaryWithDictionary:[IAUtils getPlistAsDictionary:@"IAEntityConfig"]];
         [l_dictionary addEntriesFromDictionary:[IAUtils getPlistAsDictionary:@"EntityConfig"]];
-		[[IADynamicCache instance] setObject:l_dictionary forKey:IA_CACHE_KEY_ENTITY_CONFIG_DICTIONARY];
+		[[IADynamicCache sharedInstance] setObject:l_dictionary forKey:IA_CACHE_KEY_ENTITY_CONFIG_DICTIONARY];
 	}
 	return l_dictionary;
 }
@@ -504,10 +504,10 @@
 }
 
 - (void)setDefaultValuesFromBackingPreferencesForObject:(NSObject*)anObject{
-    for (NSString *l_propertyWithBackingPreferencesProperty in [[IAPersistenceManager instance].entityConfig propertiesWithBackingPreferencesForObject:anObject]) {
+    for (NSString *l_propertyWithBackingPreferencesProperty in [[IAPersistenceManager sharedInstance].entityConfig propertiesWithBackingPreferencesForObject:anObject]) {
         //        NSLog(@"l_propertyWithBackingPreferencesProperty: %@", l_propertyWithBackingPreferencesProperty);
-        NSString *l_backingPreferencesProperty = [[IAPersistenceManager instance].entityConfig backingPreferencesPropertyForProperty:l_propertyWithBackingPreferencesProperty inObject:anObject];
-        id l_preferencesValue = [[[IAPreferencesManager m_instance] m_preferences] valueForKey:l_backingPreferencesProperty];
+        NSString *l_backingPreferencesProperty = [[IAPersistenceManager sharedInstance].entityConfig backingPreferencesPropertyForProperty:l_propertyWithBackingPreferencesProperty inObject:anObject];
+        id l_preferencesValue = [[[IAPreferencesManager sharedInstance] preferences] valueForKey:l_backingPreferencesProperty];
         [anObject setValue:l_preferencesValue forKey:l_propertyWithBackingPreferencesProperty];
     }
 }
@@ -534,7 +534,7 @@
     return l_boolObj ? l_boolObj.boolValue : YES;   // Default value is YES.
 }
 
-//+ (IAEntityConfig*)instance {
+//+ (IAEntityConfig*)sharedInstance {
 //    static dispatch_once_t c_dispatchOncePredicate;
 //    static IAEntityConfig *c_instance = nil;
 //    dispatch_once(&c_dispatchOncePredicate, ^{

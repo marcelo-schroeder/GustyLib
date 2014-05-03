@@ -25,14 +25,14 @@
 
 @interface IAUIAbstractAppearanceTheme : NSObject <IAUIAppearanceTheme>
 
--(void)m_setOrientationDependentBackgroundImagesForViewController:(UIViewController*)a_viewController;
--(IAUINavigationItemTitleView*)m_navigationItemTitleViewForViewController:(UIViewController*)a_viewController barMetrics:(UIBarMetrics)a_barMetrics;
--(UINavigationItem*)m_titleViewNavigationItemForViewViewController:(UIViewController*)a_viewController;
-- (void)m_setCustomDisclosureIndicatorForCell:(UITableViewCell *)a_cell
-                          tableViewController:(UITableViewController *)a_tableViewController;
--(IAUIColorScheme*)m_colorScheme;
--(UIColor*)m_colorWithIndex:(NSUInteger)a_colorIndex;
+-(void)setOrientationDependentBackgroundImagesForViewController:(UIViewController*)a_viewController;
+-(IAUINavigationItemTitleView*)navigationItemTitleViewForViewController:(UIViewController *)a_viewController barMetrics:(UIBarMetrics)a_barMetrics;
+-(UINavigationItem*)titleViewNavigationItemForViewViewController:(UIViewController*)a_viewController;
+- (void)setCustomDisclosureIndicatorForCell:(UITableViewCell *)a_cell
+                        tableViewController:(UITableViewController *)a_tableViewController;
+-(IAUIColorScheme*)colorScheme;
+-(UIColor*)colorWithIndex:(NSUInteger)a_colorIndex;
 
-+ (UIColor *)m_splitViewControllerDividerColour;
++ (UIColor *)splitViewControllerDividerColour;
 
 @end

@@ -40,14 +40,14 @@
 #pragma mark - UITableViewDelegate Protocol
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (![[[IAPersistenceManager instance] entityConfig] disallowDetailDisclosureForEntity:self.entityName]) {
+    if (![[[IAPersistenceManager sharedInstance] entityConfig] disallowDetailDisclosureForEntity:self.entityName]) {
         [self tableView:tableView accessoryButtonTappedForRowWithIndexPath:indexPath];
         [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:NO];
     }
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
-    if (![IAHelpManager m_instance].p_helpMode) {
+    if (![IAHelpManager sharedInstance].p_helpMode) {
         [self showEditFormForManagedObject:(NSManagedObject*)[self m_objectForIndexPath:indexPath]];
     }
 }
@@ -60,7 +60,7 @@
         
         // Persist deletion
 		NSManagedObject	*mo = (NSManagedObject*)[self m_objectForIndexPath:indexPath];
-		if (![[IAPersistenceManager instance] m_deleteAndSave:mo]) {
+		if (![[IAPersistenceManager sharedInstance] deleteAndSaveObject:mo]) {
 			return;
 		}
 
@@ -100,7 +100,7 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
-	return [IAHelpManager m_instance].p_helpMode ? NO : [[IAPersistenceManager instance].entityConfig listReorderAllowedForEntity:self.entityName];
+	return [IAHelpManager sharedInstance].p_helpMode ? NO : [[IAPersistenceManager sharedInstance].entityConfig listReorderAllowedForEntity:self.entityName];
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath{
@@ -125,7 +125,7 @@
         [fromManagedObject setValue:@(seq) forKey:@"seq"];
         
         // Save changes
-        [[IAPersistenceManager instance] save:fromManagedObject];
+        [[IAPersistenceManager sharedInstance] saveObject:fromManagedObject];
         
         // Re-order backing entity array
         //    NSLog(@"entities BEFORE sorting: %@", [self.p_entities description]);
@@ -147,14 +147,14 @@
 
 -(UITableViewCell *)m_initReusableCellWithIdentifier:(NSString *)a_reuseIdentifier atIndexPath:(NSIndexPath *)a_indexPath{
 	UITableViewCell *l_cell = [super m_initReusableCellWithIdentifier:a_reuseIdentifier atIndexPath:a_indexPath];
-    if ([[[IAPersistenceManager instance] entityConfig] disallowDetailDisclosureForEntity:self.entityName]) {
+    if ([[[IAPersistenceManager sharedInstance] entityConfig] disallowDetailDisclosureForEntity:self.entityName]) {
         l_cell.accessoryType = UITableViewCellAccessoryNone;
         l_cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }else {
         l_cell.accessoryType = [self m_tableViewCellAccessoryType];
     }
 	l_cell.showsReorderControl = YES;
-    [[self m_appearanceTheme] m_setAppearanceForView:l_cell.textLabel];
+    [[self m_appearanceTheme] setAppearanceForView:l_cell.textLabel];
 	return l_cell;
 }
 
@@ -162,7 +162,7 @@
 
     [super viewDidLoad];
 	
-    if (![[[IAPersistenceManager instance] entityConfig] disallowUserAdditionForEntity:self.entityName]) {
+    if (![[[IAPersistenceManager sharedInstance] entityConfig] disallowUserAdditionForEntity:self.entityName]) {
         self.p_addBarButtonItem = [IAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_ITEM_ADD target:self action:@selector(onAddButtonTap:)];
     }
 
@@ -183,8 +183,8 @@
 //    l_helpButton.enabled = !editing;
 }
 
--(void)m_didRefreshAndReloadDataAsync{
-    [super m_didRefreshAndReloadDataAsync];
+-(void)didRefreshAndReloadDataAsync {
+    [super didRefreshAndReloadDataAsync];
     if (![self m_isReturningVisibleViewController] && self.editing) { // If it was left editing previously, reset it to non-editing mode.
         [self quitEditing];
     }else{
@@ -195,7 +195,7 @@
 -(void)m_reset{
     [super m_reset];
     // If it was left editing previously, reset it to non-editing mode.
-    if (![self m_isReturningVisibleViewController] && self.editing && !self.p_staleData) {  // If it's stale data, then quitEditing will be performed by the m_didRefreshAndReloadDataAsync method
+    if (![self m_isReturningVisibleViewController] && self.editing && !self.p_staleData) {  // If it's stale data, then quitEditing will be performed by the didRefreshAndReloadDataAsync method
         [self quitEditing];
     }
 }

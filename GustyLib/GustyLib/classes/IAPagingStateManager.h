@@ -37,11 +37,11 @@ static const NSUInteger k_IAPagingPageSizeAll = 0;
 
 - (id)initWithPageSize:(NSUInteger)a_pageSize;
 
-- (IAPagingCriteria *)m_pagingCriteriaForEvent:(IAPagingStateManagerEvent)a_event;
+- (IAPagingCriteria *)pagingCriteriaForEvent:(IAPagingStateManagerEvent)a_event;
 
-- (void)m_updatePagingStateWithResultsAtPageIndex:(NSUInteger)a_pageIndex
-                                 pageResultsCount:(NSUInteger)a_pageResultsCount
-                                totalResultsCount:(NSUInteger)a_totalResultsCount;
+- (void)updatePagingStateWithResultsAtPageIndex:(NSUInteger)a_pageIndex
+                               pageResultsCount:(NSUInteger)a_pageResultsCount
+                              totalResultsCount:(NSUInteger)a_totalResultsCount;
 
 @end
 

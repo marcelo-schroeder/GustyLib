@@ -68,7 +68,8 @@
     return v_maximised;
 }
 
--(void)m_presentWithTitle:(NSString*)a_title description:(NSString*)a_description pointingAtView:(UIView *)a_viewPointedAt inView:(UIView *)a_viewPresentedIn completionBlock:(void (^)(void))a_completionBlock{
+-(void)presentWithTitle:(NSString *)a_title description:(NSString *)a_description
+         pointingAtView:(UIView *)a_viewPointedAt inView:(UIView *)a_viewPresentedIn completionBlock:(void (^)(void))a_completionBlock{
     
     self.p_presentationRequestInProgress = YES;
     
@@ -88,7 +89,7 @@
     }else{
         l_htmlBody = a_description;
     }
-    NSString  *l_htmlString = [self.p_htmlDocument m_htmlStringWithBody:l_htmlBody];
+    NSString  *l_htmlString = [self.p_htmlDocument htmlStringWithBody:l_htmlBody];
     [self.p_webView loadHTMLString:l_htmlString baseURL:nil];
 
     // Add the web view to the container view provided temporarily so its size can be recalculated automatically once the contents load
@@ -170,7 +171,7 @@
     [self addSubview:self.customView];
     
     BOOL l_shouldInvertLandscapeFrame = YES;
-    if ([[IAHelpManager m_instance].p_observedHelpTargetContainer isKindOfClass:[IAUIAbstractFieldEditorViewController class]]) { // Simple Help
+    if ([[IAHelpManager sharedInstance].p_observedHelpTargetContainer isKindOfClass:[IAUIAbstractFieldEditorViewController class]]) { // Simple Help
         l_shouldInvertLandscapeFrame = NO;
     }
     
@@ -207,7 +208,7 @@
 #pragma mark - CMPopTipViewDelegate protocol
 
 - (void)popTipViewWasDismissedByUser:(CMPopTipView *)popTipView{
-    [[IAHelpManager m_instance] m_removeHelpTargetSelectionWithAnimation:YES dismissPopTipView:NO];
+    [[IAHelpManager sharedInstance] removeHelpTargetSelectionWithAnimation:YES dismissPopTipView:NO];
 }
 
 #pragma mark - UIGestureRecognizerDelegate

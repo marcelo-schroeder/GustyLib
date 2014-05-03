@@ -38,7 +38,7 @@
     self.navigationBar.barStyle = UIBarStyleBlack;
 
     // Set appearance
-    [[[IAUIAppearanceThemeManager m_instance] m_activeAppearanceTheme] m_setAppearanceOnViewDidLoadForViewController:self];
+    [[[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnViewDidLoadForViewController:self];
 
 }
 

@@ -25,7 +25,7 @@
 
 @property (nonatomic, weak) IAUIFormViewController *p_formViewController;
 
--(CGFloat)m_calculateFieldX;
--(CGFloat)m_calculateFieldWidth;
+-(CGFloat)calculateFieldX;
+-(CGFloat)calculateFieldWidth;
 
 @end

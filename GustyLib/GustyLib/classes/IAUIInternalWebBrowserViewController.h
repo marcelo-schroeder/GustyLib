@@ -20,11 +20,11 @@
 
 @protocol IAUIInternalWebBrowserViewControllerDelegate <NSObject>
 
-- (UIBarButtonItem *)m_newActionBarButtonItem;
-- (UIBarButtonItem *)m_newPreviousBarButtonItem;
-- (UIBarButtonItem *)m_newNextBarButtonItem;
-- (UIBarButtonItem *)m_newStopBarButtonItem;
-- (UIBarButtonItem *)m_newRefreshBarButtonItem;
+- (UIBarButtonItem *)newActionBarButtonItem;
+- (UIBarButtonItem *)newPreviousBarButtonItem;
+- (UIBarButtonItem *)newNextBarButtonItem;
+- (UIBarButtonItem *)newStopBarButtonItem;
+- (UIBarButtonItem *)newRefreshBarButtonItem;
 
 @end
 @interface IAUIInternalWebBrowserViewController : SVWebViewController <IAUIInternalWebBrowserViewControllerDelegate>

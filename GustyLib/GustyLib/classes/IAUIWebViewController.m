@@ -45,7 +45,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.p_webView loadHTMLString:[self.p_htmlDocument m_htmlString] baseURL:nil];
+    [self.p_webView loadHTMLString:[self.p_htmlDocument htmlString] baseURL:nil];
 }
 
 #pragma mark - UIWebViewDelegate protocol

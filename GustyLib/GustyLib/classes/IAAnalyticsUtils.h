@@ -22,6 +22,6 @@
 
 @interface IAAnalyticsUtils : NSObject
 
-+(void)m_logEntryForScreenName:(NSString*)a_screenName;
++(void)logEntryForScreenName:(NSString*)a_screenName;
 
 @end

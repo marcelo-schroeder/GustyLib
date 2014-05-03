@@ -127,7 +127,7 @@ enum {
 		// Re-order array with inserted objects
 		if(!v_isJoinEntity){
 			// Re-order array of selected managed objects
-			NSArray *l_sortDescriptors = [[IAPersistenceManager instance] listSortDescriptorsForEntity:v_destinationEntityName];
+			NSArray *l_sortDescriptors = [[IAPersistenceManager sharedInstance] listSortDescriptorsForEntity:v_destinationEntityName];
 			NSArray *sortedArray = [v_selectedDestinationEntities sortedArrayUsingDescriptors:l_sortDescriptors];
 			NSMutableArray *l_newSelectedDestinationEntities = [NSMutableArray arrayWithArray:sortedArray];
 			v_selectedDestinationEntities = l_newSelectedDestinationEntities;
@@ -139,7 +139,7 @@ enum {
 		[v_selectedDestinationEntities removeObjectsInArray:a_managedObjects];
 		
 		// Re-order array with inserted objects
-		NSArray *l_sortDescriptors = [[IAPersistenceManager instance] listSortDescriptorsForEntity:v_destinationEntityName];
+		NSArray *l_sortDescriptors = [[IAPersistenceManager sharedInstance] listSortDescriptorsForEntity:v_destinationEntityName];
 		NSArray *sortedArray = [v_unselectedDestinationEntities sortedArrayUsingDescriptors:l_sortDescriptors];
 		NSMutableArray *l_newUnselectedDestinationEntities = [NSMutableArray arrayWithArray:sortedArray];
 		v_unselectedDestinationEntities = l_newUnselectedDestinationEntities;
@@ -215,13 +215,13 @@ enum {
             [l_managedObject m_delete];
         }
         
-        //            NSLog(@"hasChanges1: %u", [IAPersistenceManager instance].managedObjectContext.hasChanges);
+        //            NSLog(@"hasChanges1: %u", [IAPersistenceManager sharedInstance].managedObjectContext.hasChanges);
         
         // Secondly, add the managed objects in the new set
         [v_originalSortedEntities removeAllObjects];
         NSUInteger l_seq = 0;
         for (NSManagedObject *l_selectedDestinationManagedObject in v_selectedDestinationEntities) {
-            NSManagedObject *l_managedObject = [[IAPersistenceManager instance] m_instantiate:self.entityName];
+            NSManagedObject *l_managedObject = [[IAPersistenceManager sharedInstance] instantiate:self.entityName];
             [l_managedObject setValue:self.p_managedObject forKey:v_originRelationshipName];
             [l_managedObject setValue:l_selectedDestinationManagedObject forKey:v_destinationRelationshipName];
             [l_managedObject setValue:[NSNumber numberWithInt:l_seq++] forKey:@"seq"];
@@ -230,9 +230,9 @@ enum {
         }
         
         // Mark object being edited as dirty
-        [IAPersistenceManager instance].isCurrentManagedObjectDirty = YES;
+        [IAPersistenceManager sharedInstance].isCurrentManagedObjectDirty = YES;
         
-        //            NSLog(@"hasChanges2: %u", [IAPersistenceManager instance].managedObjectContext.hasChanges);
+        //            NSLog(@"hasChanges2: %u", [IAPersistenceManager sharedInstance].managedObjectContext.hasChanges);
         
     }else {
         
@@ -247,7 +247,7 @@ enum {
         [l_set addObjectsFromArray:v_selectedDestinationEntities];
         
         // Mark object being edited as dirty
-        [IAPersistenceManager instance].isCurrentManagedObjectDirty = YES;
+        [IAPersistenceManager sharedInstance].isCurrentManagedObjectDirty = YES;
         
     }
     
@@ -263,14 +263,14 @@ enum {
 	if((self=[super initWithManagedObject:aManagedObject propertyName:aPropertyName])){
 		
 		// First determine whether this controller is managing a pure many-to-many relationship or one which uses a join table
-		NSDictionary *l_parentRelationshipDictionary = [[IAPersistenceManager instance].entityConfig relationshipDictionaryForEntity:[self.p_managedObject entityName]];
+		NSDictionary *l_parentRelationshipDictionary = [[IAPersistenceManager sharedInstance].entityConfig relationshipDictionaryForEntity:[self.p_managedObject entityName]];
 		NSRelationshipDescription *l_parentRelationship = [l_parentRelationshipDictionary valueForKey:self.p_propertyName];
 		v_isJoinEntity = ! [[l_parentRelationship inverseRelationship] isToMany];
 
 		if (v_isJoinEntity) {
 			
 			// Determine destination entity in the many-to-many relationship
-			NSDictionary *l_relationshipDictionary = [[IAPersistenceManager instance].entityConfig relationshipDictionaryForEntity:self.entityName];
+			NSDictionary *l_relationshipDictionary = [[IAPersistenceManager sharedInstance].entityConfig relationshipDictionaryForEntity:self.entityName];
 			NSArray *l_relationshipNames = [l_relationshipDictionary allKeys];
 			for (NSString *l_relationshipName in l_relationshipNames) {
 				@autoreleasepool {
@@ -295,14 +295,14 @@ enum {
 		}
 		
 		// Retrieve destination entity instances
-		v_destinationEntities = [[IAPersistenceManager instance] findAllForEntity:v_destinationEntityName];
+		v_destinationEntities = [[IAPersistenceManager sharedInstance] findAllForEntity:v_destinationEntityName];
 		
 		// All destination entity instances become unselected instances to start with
 		v_unselectedDestinationEntities = [NSMutableArray arrayWithArray:v_destinationEntities];
 		v_selectedDestinationEntities = [NSMutableArray array];
 		
 		// Now load the selected entity instances
-		NSArray *l_sortDescriptors = [[IAPersistenceManager instance] listSortDescriptorsForEntity:self.entityName];
+		NSArray *l_sortDescriptors = [[IAPersistenceManager sharedInstance] listSortDescriptorsForEntity:self.entityName];
 		v_originalSortedEntities = [NSMutableArray arrayWithArray:[[((NSSet*) [self.p_managedObject valueForKey:self.p_propertyName]) allObjects] sortedArrayUsingDescriptors:l_sortDescriptors]];
 		for (NSManagedObject *l_managedObject in v_originalSortedEntities) {
 			@autoreleasepool {
@@ -327,7 +327,7 @@ enum {
 	
 }
 
-- (UITableViewStyle) m_tableViewStyle {
+- (UITableViewStyle)tableViewStyle {
 	return UITableViewStylePlain;
 	
 }
@@ -348,7 +348,7 @@ enum {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:k_cellId];
 
         // See cell appearance
-        [[self m_appearanceTheme] m_setAppearanceForView:cell.textLabel];
+        [[self m_appearanceTheme] setAppearanceForView:cell.textLabel];
 
         // Add custom delete button (hidden for now)
         UIButton *l_deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];

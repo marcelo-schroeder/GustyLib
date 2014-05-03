@@ -20,7 +20,7 @@
 
 @interface IAUIHelpModeOverlayView : UIView
 
--(void)m_spotlightAtRect:(CGRect)a_rect;
--(void)m_removeSpotlightWithAnimation:(BOOL)a_animate;
+-(void)spotlightAtRect:(CGRect)a_rect;
+-(void)removeSpotlightWithAnimation:(BOOL)a_animate;
 
 @end

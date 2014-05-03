@@ -220,11 +220,11 @@
 
 - (void)m_updateNonAdContainerViewFrameWithAdBannerViewHeight:(CGFloat)a_adBannerViewHeight;
 
--(NSArray*)m_helpTargets;
--(UIView*)m_helpModeToggleView;
--(UIView*)m_view;
--(void)m_didEnterHelpMode;
--(void)m_willExitHelpMode;
+-(NSArray*)helpTargets;
+-(UIView*)helpModeToggleView;
+-(UIView*)targetView;
+-(void)didEnterHelpMode;
+-(void)willExitHelpMode;
 
 // Analytics
 -(void)m_logAnalyticsScreenEntry;

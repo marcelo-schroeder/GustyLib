@@ -36,11 +36,11 @@
     //    NSLog(@"onStepperValueChange: %f", v_stepper.value);
     NSNumber *l_value = @(self.p_stepper.value);
     [self.p_object setValue:l_value forProperty:self.p_propertyName];
-    [self m_reloadData];
+    [self reloadData];
 }
 
 -(void)m_onTextFieldDidChangeNotification:(NSNotification*)a_notification{
-    NSNumber *l_value = [self m_parsedValue];
+    NSNumber *l_value = [self parsedValue];
     self.p_slider.value = [l_value floatValue];
     self.p_stepper.value = [l_value doubleValue];
 }
@@ -61,7 +61,7 @@
         }
     }
     [self.p_object setValue:l_value forProperty:self.p_propertyName];
-    [self m_reloadData];
+    [self reloadData];
 }
 
 #pragma mark - Overrides
@@ -70,7 +70,7 @@
     
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier object:a_object propertyName:a_propertyName indexPath:a_indexPath];
     
-    NSDictionary *l_options = [[IAPersistenceManager instance].entityConfig optionsForProperty:self.p_propertyName inObject:self.p_object];
+    NSDictionary *l_options = [[IAPersistenceManager sharedInstance].entityConfig optionsForProperty:self.p_propertyName inObject:self.p_object];
     self.p_roundingIncrement = [l_options valueForKey:@"roundingIncrement"];
     self.p_sliderIncrement = [l_options valueForKey:@"sliderIncrement"];
     
@@ -120,7 +120,7 @@
     
 }
 
--(id)m_parsedValue{
+-(id)parsedValue {
 
     NSNumberFormatter *l_numberFormatter = [self.p_object numberFormatterForProperty:self.p_propertyName];
     [l_numberFormatter setRoundingIncrement:self.p_roundingIncrement];
@@ -147,8 +147,8 @@
     
 }
 
--(void)m_reloadData{
-    [super m_reloadData];
+-(void)reloadData {
+    [super reloadData];
     NSNumber *l_value = [self.p_object valueForKey:self.p_propertyName];
     self.p_stepper.value = [l_value doubleValue];
     self.p_slider.value = [l_value floatValue];
@@ -175,10 +175,10 @@
 
     }else {
         
-        if ([self m_parsedValue]) {
+        if ([self parsedValue]) {
             return YES;
         }else {
-            NSString *l_propertyLabel = [[IAPersistenceManager instance].entityConfig labelForProperty:self.p_propertyName inObject:self.p_object];
+            NSString *l_propertyLabel = [[IAPersistenceManager sharedInstance].entityConfig labelForProperty:self.p_propertyName inObject:self.p_object];
             [IAUIUtils showAlertWithMessage:[NSString stringWithFormat:@"Invalid number entered for %@.", l_propertyLabel] title:@"Validation Error"];
             return NO;
         }

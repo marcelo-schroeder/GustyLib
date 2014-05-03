@@ -43,7 +43,7 @@
 @property (nonatomic, strong) NSMutableArray *p_childViewControllers;
 @property (nonatomic, strong, readonly) NSDate *p_lastFullChildViewControllerUpdate;
 
--(void)m_updateChildViewControllersForSelectedPage:(IAUIScrollPage)a_selectedPage;
--(UIViewController*)m_visibleChildViewController;
+-(void)updateChildViewControllersForSelectedPage:(IAUIScrollPage)a_selectedPage;
+-(UIViewController*)visibleChildViewController;
 
 @end

@@ -69,44 +69,44 @@
 #pragma mark - Public
 
 // to be overriden by subclasses
--(Class)m_appearanceThemeClass{
+-(Class)appearanceThemeClass {
     return nil;
 }
 
 // to be overriden by subclasses
--(IAUIColorScheme*)m_colorScheme{
+-(IAUIColorScheme*)colorScheme {
     return nil;
 }
 
 // to be overriden by subclasses
-- (NSString*)m_gadUnitId{
+- (NSString*)gadUnitId {
     return nil;
 }
 
 // to be overriden by subclasses
--(GADAdMobExtras*)m_gadExtras{
+-(GADAdMobExtras*)gadExtras {
     return nil;
 }
 
--(GADBannerView*)m_gadBannerView{
+-(GADBannerView*)gadBannerView {
     if (!self.p_gadBannerView) {
         self.p_gadBannerView = [GADBannerView new];
         self.p_gadBannerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        [[self m_appearanceTheme] m_setAppearanceForAdBannerView:self.p_gadBannerView];
+        [[self appearanceTheme] setAppearanceForAdBannerView:self.p_gadBannerView];
     }
-    self.p_gadBannerView.adUnitID = [self m_gadUnitId];
+    self.p_gadBannerView.adUnitID = [self gadUnitId];
     return self.p_gadBannerView;
 }
 
--(id<IAUIAppearanceTheme>)m_appearanceTheme{
-    Class l_appearanceThemeClass = [self m_appearanceThemeClass];
+-(id<IAUIAppearanceTheme>)appearanceTheme {
+    Class l_appearanceThemeClass = [self appearanceThemeClass];
     if (!self.p_appearanceTheme || ![self.p_appearanceTheme isMemberOfClass:l_appearanceThemeClass]) {
         self.p_appearanceTheme = [l_appearanceThemeClass new];
     }
     return self.p_appearanceTheme;
 }
 
-+(IAUIApplicationDelegate*)m_instance{
++(IAUIApplicationDelegate*)sharedInstance {
     return (IAUIApplicationDelegate*)[UIApplication sharedApplication].delegate;
 }
 
@@ -114,26 +114,26 @@
 // The "~" (tilde) as a device modifier works for the initial load, but it has issues when view controllers attempt to access
 //  the storyboard via self.storyboard. For some reason the device modifier is not taken into consideration in those cases
 // By loading the storyboard using the device modifier explicitly in the name avoids any problems.
--(NSString*)m_storyboardName{
-    return [NSString stringWithFormat:@"%@%@", [self m_storyboardFileName],
+-(NSString*)storyboardName {
+    return [NSString stringWithFormat:@"%@%@", [self storyboardFileName],
                                       self.p_useDeviceAgnosticMainStoryboard ? @"" : [IAUIUtils m_resourceNameDeviceModifier]];
 }
 
-- (NSString *)m_storyboardFileName {
+- (NSString *)storyboardFileName {
     return @"MainStoryboard";
 }
 
--(NSString*)m_storyboardInitialViewControllerId{
+-(NSString*)storyboardInitialViewControllerId {
     return [NSString stringWithFormat:@"%@InitialController", [IAUIUtils m_isIPad]?@"ipad":@"iphone"];
 }
 
--(UIStoryboard*)m_storyboard{
-    return [UIStoryboard storyboardWithName:[self m_storyboardName] bundle:nil];
+-(UIStoryboard*)storyboard {
+    return [UIStoryboard storyboardWithName:[self storyboardName] bundle:nil];
 }
 
--(UIViewController*)m_initialViewController{
-    UIStoryboard *l_storyboard = [self m_storyboard];
-    NSString *l_storyboardInitialViewControllerId = [self m_storyboardInitialViewControllerId];
+-(UIViewController*)initialViewController {
+    UIStoryboard *l_storyboard = [self storyboard];
+    NSString *l_storyboardInitialViewControllerId = [self storyboardInitialViewControllerId];
     UIViewController *l_initialViewController = nil;
     if (l_storyboardInitialViewControllerId) {
         l_initialViewController = [l_storyboard instantiateViewControllerWithIdentifier:l_storyboardInitialViewControllerId];
@@ -144,13 +144,13 @@
     return l_initialViewController;
 }
 
--(void)m_configureWindowRootViewController{
-    self.window.rootViewController = [self m_initialViewController];
+-(void)configureWindowRootViewController {
+    self.window.rootViewController = [self initialViewController];
 }
 
--(NSString*)m_formatCrashReportValue:(id)a_value{
+-(NSString*)formatCrashReportValue:(id)a_value{
     
-//    NSLog(@"m_formatCrashReportValue: %@", [a_value description]);
+//    NSLog(@"formatCrashReportValue: %@", [a_value description]);
     
     if (a_value) {
         
@@ -192,9 +192,9 @@
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "UnresolvedMessage"
--(BOOL)m_configureCrashReportingWithUserInfo:(NSDictionary*)a_userInfo{
+-(BOOL)configureCrashReportingWithUserInfo:(NSDictionary*)a_userInfo{
 
-//    NSLog(@"m_configureCrashReportingWithUserInfo: %@", [a_userInfo description]);
+//    NSLog(@"configureCrashReportingWithUserInfo: %@", [a_userInfo description]);
 
     Class l_crashlyticsClass = NSClassFromString(@"Crashlytics");
     if (!l_crashlyticsClass) {
@@ -223,13 +223,13 @@
 
     // Locale info
 //    [Crashlytics setObjectValue:[self m_formatCrashReportValue:l_vendorDeviceId] forKey:@"IA_vendor_Device_Id"];
-    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:[self m_formatCrashReportValue:l_vendorDeviceId] withObject:@"IA_vendor_Device_Id"];
-//    [Crashlytics setObjectValue:[self m_formatCrashReportValue:[NSLocale systemLocale]] forKey:@"IA_system_Locale"];
-    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:[self m_formatCrashReportValue:[NSLocale systemLocale]] withObject:@"IA_system_Locale"];
-//    [Crashlytics setObjectValue:[self m_formatCrashReportValue:[NSLocale currentLocale]] forKey:@"IA_current_Locale"];
-    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:[self m_formatCrashReportValue:[NSLocale currentLocale]] withObject:@"IA_current_Locale"];
-//    [Crashlytics setObjectValue:[self m_formatCrashReportValue:[NSLocale preferredLanguages]] forKey:@"IA_preferred_Languages"];
-    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:[self m_formatCrashReportValue:[NSLocale preferredLanguages]] withObject:@"IA_preferred_Languages"];
+    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:[self formatCrashReportValue:l_vendorDeviceId] withObject:@"IA_vendor_Device_Id"];
+//    [Crashlytics setObjectValue:[self formatCrashReportValue:[NSLocale systemLocale]] forKey:@"IA_system_Locale"];
+    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:[self formatCrashReportValue:[NSLocale systemLocale]] withObject:@"IA_system_Locale"];
+//    [Crashlytics setObjectValue:[self formatCrashReportValue:[NSLocale currentLocale]] forKey:@"IA_current_Locale"];
+    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:[self formatCrashReportValue:[NSLocale currentLocale]] withObject:@"IA_current_Locale"];
+//    [Crashlytics setObjectValue:[self formatCrashReportValue:[NSLocale preferredLanguages]] forKey:@"IA_preferred_Languages"];
+    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:[self formatCrashReportValue:[NSLocale preferredLanguages]] withObject:@"IA_preferred_Languages"];
 
     // User info
     for (NSString *l_key in a_userInfo.allKeys) {
@@ -244,7 +244,7 @@
 }
 #pragma clang diagnostic pop
 
--(void)m_configureAnalytics{
+-(void)configureAnalytics {
 
     NSLog(@"Configuring analytics...");
     
@@ -289,21 +289,21 @@
     }
 
     // Make sure to initialise the appearance theme
-    [self m_appearanceTheme];
+    [self appearanceTheme];
 
     // Apply appearance using the appearance manager
-    [[IAUIAppearanceThemeManager m_instance] m_applyAppearanceTheme];
+    [[IAUIAppearanceThemeManager sharedInstance] applyAppearanceTheme];
 
     // Configure the window's root view controller
     if (!self.p_skipWindowSetup && !self.p_skipWindowRootViewControllerSetup) {
 
         // Configure the window's root view controller
-        [self m_configureWindowRootViewController];
+        [self configureWindowRootViewController];
 
     }
     
     // Configure help
-    [IAHelpManager m_instance].p_helpEnabled = [[[IAUtils infoPList] objectForKey:@"IAHelpEnabled"] boolValue];
+    [IAHelpManager sharedInstance].p_helpEnabled = [[[IAUtils infoPList] objectForKey:@"IAHelpEnabled"] boolValue];
     
     return YES;
 	
@@ -371,7 +371,7 @@
 	//  And removing the removeAllObjects lines below does not do anything if a memory warning is received (probably because it's hard to test
 	//	under normal memory circumstances)
     //	NSLog(@"*** applicationDidReceiveMemoryWarning ***");
-	[[IADynamicCache instance] removeAllObjects];
+	[[IADynamicCache sharedInstance] removeAllObjects];
 }
 
 #pragma mark - CLLocationManagerDelegate

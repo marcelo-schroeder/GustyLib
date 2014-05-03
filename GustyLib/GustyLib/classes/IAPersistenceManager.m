@@ -507,17 +507,17 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 }
 
 - (BOOL) systemDbTablesLoaded{
-	return [(NSString*)[[IAPersistenceManager instance] metadataValueForKey:METADATA_KEY_SYSTEM_DB_TABLES_LOADED] isEqualToString:METADATA_VALUE_SYSTEM_DB_TABLES_LOADED];
+	return [(NSString*)[[IAPersistenceManager sharedInstance] metadataValueForKey:METADATA_KEY_SYSTEM_DB_TABLES_LOADED] isEqualToString:METADATA_VALUE_SYSTEM_DB_TABLES_LOADED];
 }
 
 - (NSUInteger) systemDbTablesVersion{
-    id l_value = [[IAPersistenceManager instance] metadataValueForKey:METADATA_KEY_SYSTEM_DB_TABLES_VERSION];
+    id l_value = [[IAPersistenceManager sharedInstance] metadataValueForKey:METADATA_KEY_SYSTEM_DB_TABLES_VERSION];
     return l_value ? [(NSNumber*)l_value integerValue] : 0;
 }
 
 - (void) setSystemDbTablesVersion:(NSUInteger)a_version{
-	[[IAPersistenceManager instance] setMetadataValue:METADATA_VALUE_SYSTEM_DB_TABLES_LOADED forKey:METADATA_KEY_SYSTEM_DB_TABLES_LOADED];
-	[[IAPersistenceManager instance] setMetadataValue:@(a_version) forKey:METADATA_KEY_SYSTEM_DB_TABLES_VERSION];
+	[[IAPersistenceManager sharedInstance] setMetadataValue:METADATA_VALUE_SYSTEM_DB_TABLES_LOADED forKey:METADATA_KEY_SYSTEM_DB_TABLES_LOADED];
+	[[IAPersistenceManager sharedInstance] setMetadataValue:@(a_version) forKey:METADATA_KEY_SYSTEM_DB_TABLES_VERSION];
 }
 
 -(NSManagedObjectContext*)m_privateQueueManagedObjectContext{
@@ -564,9 +564,9 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     return [self saveManagedObjectContext:self.managedObjectContext];
 }
 
-- (BOOL) save:(NSManagedObject *)aManagedObject{
+- (BOOL)saveObject:(NSManagedObject *)aManagedObject{
 	
-	if([self m_validateForSave:aManagedObject]){
+	if([self validateForSave:aManagedObject]){
         
 		// Manage sequence if this entity's list can be reordered by the user
 		if ([self.entityConfig listReorderAllowedForObject:aManagedObject]) {
@@ -586,7 +586,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 /**
  Delete a managed object.
  */
-- (BOOL) m_delete:(NSManagedObject *)aManagedObject{
+- (BOOL)deleteObject:(NSManagedObject *)aManagedObject{
     
 	if([self validateForDelete:aManagedObject]){
         
@@ -614,7 +614,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 /**
  Delete a managed object and save.
  */
-- (BOOL) m_deleteAndSave:(NSManagedObject *)aManagedObject{
+- (BOOL)deleteAndSaveObject:(NSManagedObject *)aManagedObject{
     
 	if([self validateForDelete:aManagedObject]){
         
@@ -668,10 +668,10 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 /**
  Return new managed object instance
  */
-- (NSManagedObject *) m_instantiate:(NSString *)entityName{
+- (NSManagedObject *)instantiate:(NSString *)entityName{
     NSManagedObject *l_mo = [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:[self currentManagedObjectContext]];
     NSError *l_error;
-    if(![[[IAPersistenceManager instance] currentManagedObjectContext] obtainPermanentIDsForObjects:@[l_mo] error:&l_error]){
+    if(![[[IAPersistenceManager sharedInstance] currentManagedObjectContext] obtainPermanentIDsForObjects:@[l_mo] error:&l_error]){
         [IAUtils handleUnrecoverableError:l_error];
     };
 	return l_mo;
@@ -1055,7 +1055,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     self.entityConfig = [[IAEntityConfig alloc] initWithManagedObjectContext:self.managedObjectContext];
     
     // Force creation of the preferences record
-    [[IAPreferencesManager m_instance] m_preferences];
+    [[IAPreferencesManager sharedInstance] preferences];
     
 }
 
@@ -1083,7 +1083,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
                     NSLog(@"Row: %@", [l_row description]);
                     NSNumber *l_systemEntityId = [l_row valueForKey:@"systemEntityId"];
                     NSLog(@"  Checking if system entity instance with id %u already exists...", [l_systemEntityId unsignedIntegerValue]);
-                    S_SystemEntity *l_systemEntity = (S_SystemEntity*)[[IAPersistenceManager instance] findSystemEntityById:[l_systemEntityId unsignedIntegerValue] entity:l_entityName];
+                    S_SystemEntity *l_systemEntity = (S_SystemEntity*)[[IAPersistenceManager sharedInstance] findSystemEntityById:[l_systemEntityId unsignedIntegerValue] entity:l_entityName];
                     NSNumber *l_activeIndicator = [l_row objectForKey:@"active"];
                     BOOL l_isActive = l_activeIndicator ? [l_activeIndicator boolValue] : YES;
                     if (l_systemEntity) {
@@ -1098,7 +1098,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
                         NSLog(@"  Entity instance does NOT exist");
                         if (l_isActive) {
                             NSLog(@"    Entity instance will be created");
-                            l_systemEntity = (S_SystemEntity*)[[IAPersistenceManager instance] m_instantiate:l_entityName];
+                            l_systemEntity = (S_SystemEntity*) [[IAPersistenceManager sharedInstance] instantiate:l_entityName];
                         }else{
                             NSLog(@"    Entity instance will NOT be created (not active)");
                         }
@@ -1122,7 +1122,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
         a_block(l_oldSystemEntitiesVersion, l_newSystemEntitiesVersion);
 
 		[self setSystemDbTablesVersion:l_newSystemEntitiesVersion];
-		[[IAPersistenceManager instance] save];
+		[[IAPersistenceManager sharedInstance] save];
 
         NSLog(@"System tables loaded");
 
@@ -1132,7 +1132,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     
 }
 
-- (BOOL) m_validateForSave:(NSManagedObject *)aManagedObject{
+- (BOOL)validateForSave:(NSManagedObject *)aManagedObject{
 	NSError *error;
 	BOOL coreDataValidationOk;
 	if([aManagedObject isInserted]){
@@ -1258,7 +1258,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     
 }
 
-+ (IAPersistenceManager*)instance {
++ (IAPersistenceManager*)sharedInstance {
     static dispatch_once_t c_dispatchOncePredicate;
     static IAPersistenceManager *c_instance = nil;
     dispatch_once(&c_dispatchOncePredicate, ^{

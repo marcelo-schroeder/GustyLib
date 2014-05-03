@@ -26,30 +26,35 @@
 
 + (IAAsynchronousWorkManager*)instance;
 
--(void)m_showNonModalProgressIndicatorInView:(UIView*)a_view;
--(void)m_showNonModalProgressIndicator;
--(void)m_hideNonModalProgressIndicatorWithAnimation:(BOOL)a_animate;
+-(void)showNonModalProgressIndicatorInView:(UIView*)a_view;
+-(void)showNonModalProgressIndicator;
+-(void)hideNonModalProgressIndicatorWithAnimation:(BOOL)a_animate;
 
 /* the methods below are based on NSOperation */
 
--(void)m_dispatchOperation:(NSOperation*)a_operation;
--(void)m_dispatchOperation:(NSOperation*)a_operation callbackObject:(id)a_callbackObject callbackSelector:(SEL)a_callbackSelector;
--(void)m_dispatchOperation:(NSOperation*)a_operation showProgressIndicator:(BOOL)a_showProgressIndicator callbackObject:(id)a_callbackObject callbackSelector:(SEL)a_callbackSelector;
--(void)m_cancelAllOperations;
+-(void)dispatchOperation:(NSOperation*)a_operation;
+-(void)dispatchOperation:(NSOperation *)a_operation callbackObject:(id)a_callbackObject callbackSelector:(SEL)a_callbackSelector;
+-(void)dispatchOperation:(NSOperation *)a_operation showProgressIndicator:(BOOL)a_showProgressIndicator
+          callbackObject:(id)a_callbackObject callbackSelector:(SEL)a_callbackSelector;
+-(void)cancelAllOperations;
 
 /* the methods below are based on GCD serial dispatch queues */
 
--(void)m_dispatchSerialBlock:(dispatch_block_t)a_block;
--(void)m_dispatchSerialBlock:(dispatch_block_t)a_block cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks;
--(void)m_dispatchSerialBlock:(dispatch_block_t)a_block showProgressIndicator:(BOOL)a_showProgressIndicator;
--(void)m_dispatchSerialBlock:(dispatch_block_t)a_block showProgressIndicator:(BOOL)a_showProgressIndicator cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks;
--(void)m_dispatchSerialBlock:(dispatch_block_t)a_block progressIndicatorContainerView:(UIView*)a_progressIndicatorContainerView cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks;
--(void)m_dispatchSerialBlock:(dispatch_block_t)a_block progressIndicatorContainerView:(UIView*)a_progressIndicatorContainerView cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks usePrivateManagedObjectContext:(BOOL)a_usePrivateManagedObjectContext;
--(void)m_dispatchSerialBlock:(dispatch_block_t)a_block usePrivateManagedObjectContext:(BOOL)a_usePrivateManagedObjectContext;
--(void)m_cancelAllSerialBlocks;
+-(void)dispatchSerialBlock:(dispatch_block_t)a_block;
+-(void)dispatchSerialBlock:(dispatch_block_t)a_block cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks;
+-(void)dispatchSerialBlock:(dispatch_block_t)a_block showProgressIndicator:(BOOL)a_showProgressIndicator;
+-(void)dispatchSerialBlock:(dispatch_block_t)a_block showProgressIndicator:(BOOL)a_showProgressIndicator
+      cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks;
+-(void)    dispatchSerialBlock:(dispatch_block_t)a_block
+progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks;
+-(void)    dispatchSerialBlock:(dispatch_block_t)a_block
+progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView
+          cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks usePrivateManagedObjectContext:(BOOL)a_usePrivateManagedObjectContext;
+-(void)dispatchSerialBlock:(dispatch_block_t)a_block usePrivateManagedObjectContext:(BOOL)a_usePrivateManagedObjectContext;
+-(void)cancelAllSerialBlocks;
 
 /* the methods below are based on GCD global concurrent dispatch queues */
 
--(void)m_dispatchConcurrentBackgroundBlock:(dispatch_block_t)a_block;
+-(void)dispatchConcurrentBackgroundBlock:(dispatch_block_t)a_block;
 
 @end

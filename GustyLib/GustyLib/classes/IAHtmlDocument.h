@@ -37,9 +37,9 @@
 -(id)initWithHtmlTemplateResourceName:(NSString*)a_htmlTemplateResourceName htmlStyleResourceName:(NSString*)a_htmlStyleResourceName;
 -(id)initWithHtmlTemplateResourceName:(NSString*)a_htmlTemplateResourceName htmlStyleResourceName:(NSString*)a_htmlStyleResourceName htmlBody:(NSString*)a_htmlBody;
 
-+ (NSArray *)m_classNamesFromClassAttributeValue:(NSString *)a_classAttributeValue;
++ (NSArray *)classNamesFromClassAttributeValue:(NSString *)a_classAttributeValue;
 
--(NSString*)m_htmlString;
--(NSString*)m_htmlStringWithBody:(NSString*)a_body;
+-(NSString*)htmlString;
+-(NSString*)htmlStringWithBody:(NSString*)a_body;
 
 @end

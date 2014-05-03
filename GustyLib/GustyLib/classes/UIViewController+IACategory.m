@@ -67,7 +67,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 //    NSLog(@"m_presentModalSelectionViewController: %@", [a_viewController description]);
 
-    UIViewController *l_viewController = [a_viewController isKindOfClass:[UIActivityViewController class]] ? a_viewController : [[[[self m_appearanceTheme] m_navigationControllerClass] alloc] initWithRootViewController:a_viewController];
+    UIViewController *l_viewController = [a_viewController isKindOfClass:[UIActivityViewController class]] ? a_viewController : [[[[self m_appearanceTheme] navigationControllerClass] alloc] initWithRootViewController:a_viewController];
 //    NSLog(@"  l_viewController: %@", [l_viewController description]);
 
     if ([a_viewController m_hasFixedSize]) {
@@ -145,7 +145,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 //    NSLog(@"a_popoverController.popoverContentSize: %@", NSStringFromCGSize(a_popoverController.popoverContentSize));
 //    NSLog(@"a_popoverController.contentViewController.view.frame.size: %@", NSStringFromCGSize(a_popoverController.contentViewController.view.frame.size));
     self.p_activePopoverController = a_popoverController;
-    [IAUIApplicationDelegate m_instance].p_popoverControllerPresenter = a_presenter;
+    [IAUIApplicationDelegate sharedInstance].p_popoverControllerPresenter = a_presenter;
     self.p_activePopoverControllerBarButtonItem = a_barButtonItem;
 }
 
@@ -198,7 +198,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 -(GADBannerView *)m_gadBannerView{
-    return [[IAUIApplicationDelegate m_instance] m_gadBannerView];
+    return [[IAUIApplicationDelegate sharedInstance] gadBannerView];
 }
 
 -(void)m_popViewController{
@@ -207,7 +207,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 -(void)m_spaceBarButtonItems:(NSMutableArray*)a_items firstItemSpacingType:(IAUISpacingBarButtonItemType)a_firstItemSpacingType{
     
-    if (![[self m_appearanceTheme] m_shouldAutomateBarButtonItemSpacingForViewController:self]) {
+    if (![[self m_appearanceTheme] shouldAutomateBarButtonItemSpacingForViewController:self]) {
         return;
     }
     
@@ -216,9 +216,11 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     for (int i=0; i<l_items.count; i++) {
         UIBarButtonItem *l_spacingBarButtonItem;
         if (i==0) {
-            l_spacingBarButtonItem = [[self m_appearanceTheme] m_spacingBarButtonItemForType:a_firstItemSpacingType viewController:self];
+            l_spacingBarButtonItem = [[self m_appearanceTheme] spacingBarButtonItemForType:a_firstItemSpacingType
+                                                                            viewController:self];
         }else{
-            l_spacingBarButtonItem = [[self m_appearanceTheme] m_spacingBarButtonItemForType:IAUISpacingBarButtonItemTypeMiddle viewController:self];
+            l_spacingBarButtonItem = [[self m_appearanceTheme] spacingBarButtonItemForType:IAUISpacingBarButtonItemTypeMiddle
+                                                                            viewController:self];
         }
         if (l_spacingBarButtonItem) {
             [a_items addObject:l_spacingBarButtonItem];
@@ -230,7 +232,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 -(void)m_removeAutomatedSpacingFromBarButtonItemArray:(NSMutableArray*)a_items{
     
-    if (![[self m_appearanceTheme] m_shouldAutomateBarButtonItemSpacingForViewController:self]) {
+    if (![[self m_appearanceTheme] shouldAutomateBarButtonItemSpacingForViewController:self]) {
         return;
     }
     
@@ -255,7 +257,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
             BOOL l_shouldShowMenuButton = self.navigationController.topViewController==[self.navigationController.viewControllers objectAtIndex:0];
             if (l_shouldShowMenuButton) {
                 if (!self.p_slidingMenuBarButtonItem) {
-                    self.p_slidingMenuBarButtonItem = [[self m_appearanceTheme] m_slidingMenuBarButtonItemForViewController:self];
+                    self.p_slidingMenuBarButtonItem = [[self m_appearanceTheme] slidingMenuBarButtonItemForViewController:self];
                     self.p_slidingMenuBarButtonItem.target = self;
                     self.p_slidingMenuBarButtonItem.action = @selector(m_onSlidingMenuButtonAction:);
                     self.p_slidingMenuBarButtonItem.tag = IA_UIBAR_ITEM_TAG_LEFT_SLIDING_PANE_BUTTON;
@@ -624,7 +626,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 -(BOOL)p_presentedAsModal{
     //    NSLog(@"presentingViewController: %@, presentedViewController: %@, self: %@, topViewController: %@, visibleViewController: %@, viewController[0]: %@, navigationController.parentViewController: %@, parentViewController: %@, presentedAsSemiModal: %u", [self.presentingViewController description], [self.presentedViewController description], [self description], self.navigationController.topViewController, self.navigationController.visibleViewController, [self.navigationController.viewControllers objectAtIndex:0], self.navigationController.parentViewController, self.parentViewController, self.p_presentedAsSemiModal);
-    return [IAUIApplicationDelegate m_instance].p_popoverControllerPresenter.p_activePopoverController.contentViewController==self.navigationController || ( self.navigationController.presentingViewController!=nil && [self.navigationController.viewControllers objectAtIndex:0]==self) || self.parentViewController.p_presentedAsSemiModal || [[IAUIApplicationDelegate m_instance].p_popoverControllerPresenter.p_activePopoverController.contentViewController isKindOfClass:[UIActivityViewController class]];
+    return [IAUIApplicationDelegate sharedInstance].p_popoverControllerPresenter.p_activePopoverController.contentViewController==self.navigationController || ( self.navigationController.presentingViewController!=nil && [self.navigationController.viewControllers objectAtIndex:0]==self) || self.parentViewController.p_presentedAsSemiModal || [[IAUIApplicationDelegate sharedInstance].p_popoverControllerPresenter.p_activePopoverController.contentViewController isKindOfClass:[UIActivityViewController class]];
 }
 
 - (void)m_updateToolbarForMode:(BOOL)anEditModeFlag animated:(BOOL)anAnimatedFlag{
@@ -721,14 +723,14 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     if ([l_presentingViewController conformsToProtocol:@protocol(IAUIPresenter)]) {
         a_viewController.p_presenter = (id <IAUIPresenter>) l_presentingViewController;
         if (a_shouldAddDoneButton) {
-            UIBarButtonItem *l_barButtonItem = [[l_presentingViewController m_appearanceTheme] m_doneBarButtonItemWithTarget:a_viewController
-                                                                                                                      action:@selector(m_onDoneButtonTap:)
-                                                                                                              viewController:a_viewController];
+            UIBarButtonItem *l_barButtonItem = [[l_presentingViewController m_appearanceTheme] doneBarButtonItemWithTarget:a_viewController
+                                                                                                                    action:@selector(m_onDoneButtonTap:)
+                                                                                                            viewController:a_viewController];
             [a_viewController m_addLeftBarButtonItem:l_barButtonItem];
         }
     }
     id <IAUIAppearanceTheme> l_appearanceTheme = [self m_appearanceTheme];
-    Class l_navigationControllerClass = [l_appearanceTheme m_navigationControllerClass];
+    Class l_navigationControllerClass = [l_appearanceTheme navigationControllerClass];
     IAUINavigationController *l_navigationController = [[l_navigationControllerClass alloc] initWithRootViewController:a_viewController];
     l_navigationController.modalPresentationStyle = a_presentationStyle;
     l_navigationController.modalTransitionStyle = a_transitionStyle;
@@ -792,7 +794,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 -(id<IAUIAppearanceTheme>)m_appearanceTheme{
-    return [[IAUIAppearanceThemeManager m_instance] m_activeAppearanceTheme];
+    return [[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme];
 }
 
 // To be overriden by subclasses
@@ -886,7 +888,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 -(UIBarButtonItem*)m_editBarButtonItem{
     if ([self isKindOfClass:[IAUIDynamicPagingContainerViewController class]]) {
         IAUIDynamicPagingContainerViewController *l_containerViewController = (IAUIDynamicPagingContainerViewController*)self;
-        return [l_containerViewController m_visibleChildViewController].editButtonItem;
+        return [l_containerViewController visibleChildViewController].editButtonItem;
     }else{
         return self.editButtonItem;
     }
@@ -904,7 +906,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
     UINavigationItem *l_navigationItem = [self m_navigationItem];
     l_navigationItem.leftItemsSupplementBackButton = YES;
-    UIBarButtonItem *l_backBarButtonItem = [[self m_appearanceTheme] m_backBarButtonItemForViewController:self];
+    UIBarButtonItem *l_backBarButtonItem = [[self m_appearanceTheme] backBarButtonItemForViewController:self];
     l_navigationItem.backBarButtonItem = l_backBarButtonItem;
     if (l_backBarButtonItem.customView && self.navigationController.topViewController==self && self.navigationController.viewControllers.count>1) {
         l_navigationItem.hidesBackButton = YES;
@@ -915,14 +917,14 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     }
 
     // Configure help button
-    if ([[IAHelpManager m_instance] m_isHelpEnabledForViewController:self]) {
-        self.p_helpBarButtonItem = [[IAHelpManager m_instance] m_newHelpBarButtonItem];
+    if ([[IAHelpManager sharedInstance] isHelpEnabledForViewController:self]) {
+        self.p_helpBarButtonItem = [[IAHelpManager sharedInstance] newHelpBarButtonItem];
     }else{
         self.p_helpBarButtonItem = nil;
     }
     
     // Set appearance
-    [[[IAUIAppearanceThemeManager m_instance] m_activeAppearanceTheme] m_setAppearanceOnViewDidLoadForViewController:self];
+    [[[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnViewDidLoadForViewController:self];
     
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self 
@@ -1023,7 +1025,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     [self m_showLeftSlidingPaneButtonIfRequired];
 
     // Set appearance
-    [[[IAUIAppearanceThemeManager m_instance] m_activeAppearanceTheme] m_setAppearanceOnViewWillAppearForViewController:self];
+    [[[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnViewWillAppearForViewController:self];
 
     // Configure help target
     [self m_registerForHelp];
@@ -1133,8 +1135,8 @@ static char c_shouldUseKeyboardPassthroughViewKey;
         l_shouldAutorotate = toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
     }
     if (l_shouldAutorotate) {
-        if ([IAUIApplicationDelegate m_instance].p_semiModalViewController) {
-            l_shouldAutorotate = UIInterfaceOrientationIsLandscape(toInterfaceOrientation) == UIInterfaceOrientationIsLandscape([IAUIApplicationDelegate m_instance].p_semiModalInterfaceOrientation);
+        if ([IAUIApplicationDelegate sharedInstance].p_semiModalViewController) {
+            l_shouldAutorotate = UIInterfaceOrientationIsLandscape(toInterfaceOrientation) == UIInterfaceOrientationIsLandscape([IAUIApplicationDelegate sharedInstance].p_semiModalInterfaceOrientation);
         }
     }
     return l_shouldAutorotate;
@@ -1142,8 +1144,8 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 // iOS 6 or greater (the previous method is for iOS 5)
 -(NSUInteger)m_supportedInterfaceOrientations{
-    if ([IAUIApplicationDelegate m_instance].p_semiModalViewController) {
-        if (UIInterfaceOrientationIsLandscape([IAUIApplicationDelegate m_instance].p_semiModalInterfaceOrientation)) {
+    if ([IAUIApplicationDelegate sharedInstance].p_semiModalViewController) {
+        if (UIInterfaceOrientationIsLandscape([IAUIApplicationDelegate sharedInstance].p_semiModalInterfaceOrientation)) {
             return UIInterfaceOrientationMaskLandscape;
         }else{
             return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown : UIInterfaceOrientationMaskPortrait;
@@ -1160,17 +1162,20 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 -(void)m_willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     
     // Tell help manager about the interface orientation change
-    if (self.p_helpMode && [IAHelpManager m_instance].p_observedHelpTargetContainer==self) {
-        [[IAHelpManager m_instance] m_observedViewControllerWillRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    if (self.p_helpMode && [IAHelpManager sharedInstance].p_observedHelpTargetContainer==self) {
+        [[IAHelpManager sharedInstance] observedViewControllerWillRotateToInterfaceOrientation:toInterfaceOrientation
+                                                                                  duration:duration];
     }
 
-    [[[IAUIAppearanceThemeManager m_instance] m_activeAppearanceTheme] m_setAppearanceOnWillRotateForViewController:self toInterfaceOrientation:toInterfaceOrientation];
+    [[[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnWillRotateForViewController:self
+                                                                                           toInterfaceOrientation:toInterfaceOrientation];
 
 }
 
 - (void)m_willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration{
 
-    [[[IAUIAppearanceThemeManager m_instance] m_activeAppearanceTheme] m_setAppearanceOnWillAnimateRotationForViewController:self interfaceOrientation:interfaceOrientation];
+    [[[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnWillAnimateRotationForViewController:self
+                                                                                                      interfaceOrientation:interfaceOrientation];
 
     if ([self m_shouldEnableAds]) {
         [self m_stopAdRequests];
@@ -1181,8 +1186,8 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 -(void)m_didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     
     // Tell help manager about the interface orientation change
-    if (self.p_helpMode && [IAHelpManager m_instance].p_observedHelpTargetContainer==self) {
-        [[IAHelpManager m_instance] m_observedViewControllerDidRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    if (self.p_helpMode && [IAHelpManager sharedInstance].p_observedHelpTargetContainer==self) {
+        [[IAHelpManager sharedInstance] observedViewControllerDidRotateFromInterfaceOrientation:fromInterfaceOrientation];
     }
     
     if (self.p_activePopoverController && self.p_activePopoverControllerBarButtonItem) {
@@ -1207,12 +1212,12 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 -(BOOL)p_helpMode{
-    return [IAHelpManager m_instance].p_helpMode;
+    return [IAHelpManager sharedInstance].p_helpMode;
 }
 
 -(UIStoryboard*)m_commonStoryboard{
     static NSString * const k_storyboardName = @"CommonStoryboard";
-    return [UIStoryboard storyboardWithName:k_storyboardName bundle:[[self m_appearanceTheme] m_bundle]];
+    return [UIStoryboard storyboardWithName:k_storyboardName bundle:[[self m_appearanceTheme] bundle]];
 }
 
 -(void)m_reset{
@@ -1229,8 +1234,8 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 -(void)m_registerForHelp{
     if (![self.parentViewController isKindOfClass:[IAUIAbstractPagingContainerViewController class]]) {
-        UIViewController *l_helpTargetViewController = [[IAHelpManager m_instance] m_isHelpEnabledForViewController:self] ? self : nil;
-        [[IAHelpManager m_instance] m_observeHelpTargetContainer:l_helpTargetViewController];
+        UIViewController *l_helpTargetViewController = [[IAHelpManager sharedInstance] isHelpEnabledForViewController:self] ? self : nil;
+        [[IAHelpManager sharedInstance] observeHelpTargetContainer:l_helpTargetViewController];
     }
 }
 
@@ -1240,7 +1245,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
         BOOL l_doneButtonSaves = self.p_doneButtonSaves;
         if ([self isKindOfClass:[IAUIDynamicPagingContainerViewController class]]) {
             IAUIDynamicPagingContainerViewController *l_pagingContainerViewController = (IAUIDynamicPagingContainerViewController*)self;
-            l_doneButtonSaves = [l_pagingContainerViewController m_visibleChildViewController].p_doneButtonSaves;
+            l_doneButtonSaves = [l_pagingContainerViewController visibleChildViewController].p_doneButtonSaves;
         }
         if (l_doneButtonSaves) {
             l_helpTargetId = [IAUIUtils m_helpTargetIdForName:@"saveButton"];
@@ -1254,7 +1259,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 -(void)m_openUrl:(NSURL*)a_url{
-    [[IAExternalUrlManager m_instance] m_openUrl:a_url];
+    [[IAExternalUrlManager sharedInstance] openUrl:a_url];
 }
 
 -(void)m_releaseView{
@@ -1262,7 +1267,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 -(NSString*)m_accessibilityLabelForKeyPath:(NSString*)a_keyPath{
-    return [[IAHelpManager m_instance] m_accessibilityLabelForKeyPath:a_keyPath];
+    return [[IAHelpManager sharedInstance] accessibilityLabelForKeyPath:a_keyPath];
 }
 
 -(NSString*)m_accessibilityLabelForName:(NSString*)a_name{
@@ -1290,7 +1295,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 -(UIPopoverController*)m_newPopoverControllerWithContentViewController:(UIViewController*)a_contentViewController{
     UIPopoverController *l_popoverController = [[UIPopoverController alloc] initWithContentViewController:a_contentViewController];
-    [[self m_appearanceTheme] m_setAppearanceForPopoverController:l_popoverController];
+    [[self m_appearanceTheme] setAppearanceForPopoverController:l_popoverController];
     return l_popoverController;
 }
 
@@ -1319,11 +1324,11 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     [self.p_adContainerView addSubview:[self m_gadBannerView]];
     
     // Make a note of the owner view controller
-    [IAUIApplicationDelegate m_instance].p_adsOwnerViewController = self;
+    [IAUIApplicationDelegate sharedInstance].p_adsOwnerViewController = self;
 
     // Configure request Google ad request
     GADRequest *l_gadRequest = [GADRequest request];
-    GADAdMobExtras *l_gadExtras = [[IAUIApplicationDelegate m_instance] m_gadExtras];
+    GADAdMobExtras *l_gadExtras = [[IAUIApplicationDelegate sharedInstance] gadExtras];
     if (l_gadExtras) {
         [l_gadRequest registerAdNetworkExtras:l_gadExtras];
     }
@@ -1357,7 +1362,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     [self m_gadBannerView].delegate = nil;
     [self m_gadBannerView].rootViewController = nil;
 
-    [IAUIApplicationDelegate m_instance].p_adsOwnerViewController = self;
+    [IAUIApplicationDelegate sharedInstance].p_adsOwnerViewController = self;
     
 }
 
@@ -1404,7 +1409,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 - (UIPopoverArrowDirection)m_permittedPopoverArrowDirectionForViewController:(UIViewController *)a_viewController {
-    return [IAUIApplicationDelegate m_instance].p_isKeyboardVisible ? k_arrowDirectionWithKeyboard : k_arrowDirectionWithoutKeyboard;
+    return [IAUIApplicationDelegate sharedInstance].p_isKeyboardVisible ? k_arrowDirectionWithKeyboard : k_arrowDirectionWithoutKeyboard;
 }
 
 - (void)m_presentActivityViewControllerFromBarButtonItem:(UIBarButtonItem *)a_barButtonItem
@@ -1508,7 +1513,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 #pragma mark - IAHelpTargetContainer
 
--(NSArray*)m_helpTargets{
+-(NSArray*)helpTargets {
 
     NSMutableArray *l_helpTargets = [NSMutableArray new];
 
@@ -1551,33 +1556,33 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 }
 
--(UIView*)m_helpModeToggleView{
+-(UIView*)helpModeToggleView {
     return self.navigationController.navigationBar;
 }
 
--(UIView*)m_view{
+-(UIView*)targetView {
     return [self m_mainViewController].view;
 }
 
--(void)m_willEnterHelpMode{
+-(void)willEnterHelpMode {
     // does nothing
 }
 
--(void)m_didEnterHelpMode{
+-(void)didEnterHelpMode {
     // does nothing
 }
 
--(void)m_willExitHelpMode{
+-(void)willExitHelpMode {
     // does nothing
 }
 
--(void)m_didExitHelpMode{
+-(void)didExitHelpMode {
     // does nothing
 }
 
 -(void)m_logAnalyticsScreenEntry{
     if (![self m_isReturningVisibleViewController]) {
-        [IAAnalyticsUtils m_logEntryForScreenName:self.navigationItem.title];
+        [IAAnalyticsUtils logEntryForScreenName:self.navigationItem.title];
     }
 }
 
@@ -1615,7 +1620,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     
     if ([self m_shouldEnableAds]) {
         
-        if (![IAUIApplicationDelegate m_instance].p_adsSuspended) {
+        if (![IAUIApplicationDelegate sharedInstance].p_adsSuspended) {
             UIView *l_adContainerView = self.p_adContainerView;
             if (l_adContainerView.hidden) {
                 [UIView animateWithDuration:0.2 animations:^{

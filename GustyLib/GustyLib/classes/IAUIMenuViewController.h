@@ -25,14 +25,14 @@
 @property (nonatomic, strong, readonly) NSMutableDictionary *p_indexPathToViewControllerDictionary;
 @property (nonatomic, strong) NSIndexPath *p_selectedIndexPath;
 
--(void)m_highlightCurrentSelection;
--(void)m_restoreCurrentSelection;
--(UIViewController*)m_newViewControllerForIndexPath:(NSIndexPath*)a_indexPath;
--(UIResponder*)m_firstResponder;
--(UIViewController*)m_viewControllerForIndexPath:(NSIndexPath*)a_indexPath;
--(void)m_commitSelectionForIndexPath:(NSIndexPath*)a_indexPath;
--(void)m_selectMenuItemAtIndex:(NSUInteger)a_index;
+-(void)highlightCurrentSelection;
+-(void)restoreCurrentSelection;
+-(UIViewController*)newViewControllerForIndexPath:(NSIndexPath*)a_indexPath;
+-(UIResponder*)firstResponder;
+-(UIViewController*)viewControllerForIndexPath:(NSIndexPath*)a_indexPath;
+-(void)commitSelectionForIndexPath:(NSIndexPath*)a_indexPath;
+-(void)selectMenuItemAtIndex:(NSUInteger)a_index;
 
-+(IAUIMenuViewController*)m_mainMenuViewController;
++(IAUIMenuViewController*)mainMenuViewController;
 
 @end

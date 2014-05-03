@@ -70,7 +70,9 @@ static char c_buttonKey;
         self.target = a_target;
         self.action = a_action;
         // Style it
-        [[[IAUIAppearanceThemeManager m_instance] m_activeAppearanceTheme] m_setAppearanceForBarButtonItem:self viewController:a_viewController important:NO];
+        [[[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceForBarButtonItem:self
+                                                                                          viewController:a_viewController
+                                                                                               important:NO];
     }
 
     return self;

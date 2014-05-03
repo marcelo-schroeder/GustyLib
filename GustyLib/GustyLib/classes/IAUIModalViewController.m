@@ -33,9 +33,9 @@
 
 -(void)awakeFromNib{
     [super awakeFromNib];
-    UIBarButtonItem *l_barButtonItem = [[self m_appearanceTheme] m_doneBarButtonItemWithTarget:self
-                                                                                        action:@selector(onDoneButtonTap:)
-                                                                                viewController:self];
+    UIBarButtonItem *l_barButtonItem = [[self m_appearanceTheme] doneBarButtonItemWithTarget:self
+                                                                                      action:@selector(onDoneButtonTap:)
+                                                                              viewController:self];
     [self m_addRightBarButtonItem:l_barButtonItem];
 }
 

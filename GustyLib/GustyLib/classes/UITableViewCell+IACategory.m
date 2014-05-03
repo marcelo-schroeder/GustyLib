@@ -22,7 +22,7 @@
 #pragma mark - Public
 
 - (void)m_prepareForReuse {
-    [[self m_appearanceTheme] m_setAppearanceOnPrepareForReuseForCell:self];
+    [[self m_appearanceTheme] setAppearanceOnPrepareForReuseForCell:self];
 }
 
 @end

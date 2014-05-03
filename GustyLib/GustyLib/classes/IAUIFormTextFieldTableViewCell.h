@@ -26,8 +26,8 @@
 
 @property (strong, nonatomic) IAUITextField *p_textField;
 
--(void)m_reloadData;
--(BOOL)m_valueChanged;
--(id)m_parsedValue;
+-(void)reloadData;
+-(BOOL)valueChanged;
+-(id)parsedValue;
 
 @end

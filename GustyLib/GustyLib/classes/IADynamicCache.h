@@ -22,7 +22,7 @@
 
 }
 
-+ (IADynamicCache*)instance;
++ (IADynamicCache*)sharedInstance;
 
 //- (BOOL)containsObjectForKey:(id)key;
 

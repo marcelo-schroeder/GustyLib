@@ -45,7 +45,7 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
 //@property(nonatomic) BOOL p_isInBody;
 //@property(nonatomic, strong) HtmlDocumentPosition *p_topLevelTagStartPosition;
 @property(nonatomic, strong) IAHtmlDocumentPosition *p_currentPosition;
-@property(nonatomic, strong) HtmlParserEndElementBlock p_endElementBlock;
+@property(nonatomic, strong) IAHtmlParserEndElementBlock p_endElementBlock;
 @property(nonatomic) HtmlParserEvent p_lastParsingEvent;
 @property(nonatomic, strong) NSString *p_unparsedHtmlString;
 //@property(nonatomic) NSUInteger p_bodyElementLevel;
@@ -133,8 +133,8 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
 //    }
 
     // Save element current position
-    self.p_currentPosition = [IAHtmlDocumentPosition m_positionWithLine:(NSUInteger) parser.lineNumber
-                                                                 column:(NSUInteger) parser.columnNumber];
+    self.p_currentPosition = [IAHtmlDocumentPosition positionWithLine:(NSUInteger) parser.lineNumber
+                                                               column:(NSUInteger) parser.columnNumber];
 
     // Save last parsing event
     self.p_lastParsingEvent = HtmlParserEventElementStarted;
@@ -146,8 +146,8 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
 //    NSLog(@"didEndElement: %@", elementName);
 //    NSLog(@"  line: %u, column: %u", parser.lineNumber, parser.columnNumber);
 
-    self.p_currentPosition = [IAHtmlDocumentPosition m_positionWithLine:(NSUInteger) parser.lineNumber
-                                                                 column:(NSUInteger) parser.columnNumber];
+    self.p_currentPosition = [IAHtmlDocumentPosition positionWithLine:(NSUInteger) parser.lineNumber
+                                                               column:(NSUInteger) parser.columnNumber];
 
     NSString *l_elementName = [self.p_elementNameStack lastObject];
     NSAssert([elementName isEqualToString:l_elementName], @"Element names do not match: %@ | %@", elementName, l_elementName);
@@ -160,8 +160,8 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
     IAHtmlDocumentPosition *l_startPosition = [self.p_elementStartPositionStack lastObject];
     [self.p_elementStartPositionStack removeLastObject];
 
-    NSString *l_stringRepresentation = [self m_stringForStartPosition:l_startPosition
-                                                          endPosition:self.p_currentPosition];
+    NSString *l_stringRepresentation = [self stringForStartPosition:l_startPosition
+                                                        endPosition:self.p_currentPosition];
 
     IAHtmlElementParsingMetadata *l_elementMetadata = [[IAHtmlElementParsingMetadata alloc] initWithName:elementName
                                                                                 stringRepresentation:l_stringRepresentation
@@ -191,7 +191,7 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
 
 #pragma mark - Public
 
-- (NSString *)m_parseHtmlString:(NSString *)a_htmlString endElementBlock:(HtmlParserEndElementBlock)a_endElementBlock {
+- (NSString *)parseHtmlString:(NSString *)a_htmlString endElementBlock:(IAHtmlParserEndElementBlock)a_endElementBlock {
 
     self.p_unparsedHtmlStringLines = [a_htmlString componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     NSUInteger l_accumulatedLength = 0;
@@ -215,12 +215,12 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
     return self.p_mutableHtmlString;
 
 }
-- (void)m_replaceMarkupString:(NSString *)a_markupStringToBeReplaced withMarkupString:(NSString *)a_newMarkupString {
-    [self.class m_replaceMarkupString:a_markupStringToBeReplaced
-                     withMarkupString:a_newMarkupString inHtmlString:self.p_mutableHtmlString];
+- (void)replaceMarkupString:(NSString *)a_markupStringToBeReplaced withMarkupString:(NSString *)a_newMarkupString {
+    [self.class replaceMarkupString:a_markupStringToBeReplaced
+                   withMarkupString:a_newMarkupString inHtmlString:self.p_mutableHtmlString];
 }
 
-- (NSString *)m_stringForStartPosition:(IAHtmlDocumentPosition *)a_startPosition endPosition:(IAHtmlDocumentPosition *)a_endPosition {
+- (NSString *)stringForStartPosition:(IAHtmlDocumentPosition *)a_startPosition endPosition:(IAHtmlDocumentPosition *)a_endPosition {
 //    NSLog(@"m_stringForStartPosition: %@, endPosition: %@", [a_startPosition description], [a_endPosition description]);
 
     NSUInteger l_startLine = a_startPosition.p_line;
@@ -271,11 +271,11 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
     return l_string;
 }
 
-+ (NSString *)m_markupStringForTag:(NSString *)a_tagName attributes:(NSDictionary *)a_attributes {
-    return [self m_markupStringForTag:a_tagName attributes:a_attributes shouldClose:YES];
++ (NSString *)markupStringForTag:(NSString *)a_tagName attributes:(NSDictionary *)a_attributes {
+    return [self markupStringForTag:a_tagName attributes:a_attributes shouldClose:YES];
 }
 
-+ (NSString *)m_markupStringForTag:(NSString *)a_tagName attributes:(NSDictionary *)a_attributes shouldClose:(BOOL)a_shouldClose {
++ (NSString *)markupStringForTag:(NSString *)a_tagName attributes:(NSDictionary *)a_attributes shouldClose:(BOOL)a_shouldClose {
     NSMutableString *l_markupString = [NSMutableString stringWithString:@"<"];
     [l_markupString appendString:a_tagName];
     for (NSString *l_key in a_attributes.allKeys) {
@@ -295,7 +295,8 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
     return l_markupString;
 }
 
-+ (void)m_replaceMarkupString:(NSString *)a_markupStringToBeReplaced withMarkupString:(NSString *)a_newMarkupString inHtmlString:(NSMutableString *)a_htmlString {
++ (void)replaceMarkupString:(NSString *)a_markupStringToBeReplaced withMarkupString:(NSString *)a_newMarkupString
+               inHtmlString:(NSMutableString *)a_htmlString {
 //    NSLog(@"m_replaceMarkupString");
 //    NSLog(@"  a_markupStringToBeReplaced: %@", a_markupStringToBeReplaced);
 //    NSLog(@"  a_newMarkupString: %@", a_newMarkupString);
@@ -305,7 +306,7 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
     }
 }
 
-+ (NSDictionary *)m_attributesFromStyleAttributeValue:(NSString *)a_styleAttributeValue {
++ (NSDictionary *)attributesFromStyleAttributeValue:(NSString *)a_styleAttributeValue {
     NSMutableDictionary *l_attributes = [@{} mutableCopy];
     NSArray *l_keyValuePairStrings = [a_styleAttributeValue componentsSeparatedByString:k_styleAttributeKeyValuePairSeparator];
     for (NSString *l_keyValuePairString in l_keyValuePairStrings) {
@@ -319,7 +320,7 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
     return l_attributes;
 }
 
-+ (NSString *)m_styleAttributeValueFromAttributes:(NSDictionary *)a_attributes {
++ (NSString *)styleAttributeValueFromAttributes:(NSDictionary *)a_attributes {
     NSMutableArray *l_keyValuePairStrings = [@[] mutableCopy];
     NSArray *l_keys = [a_attributes.allKeys sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     for (NSString *l_key in l_keys) {
@@ -335,7 +336,7 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
     return l_styleAttributeValue;
 }
 
-+ (NSString *)m_charactersBetweenOpenAndCloseTagsForStringRepresentation:(NSString *)a_stringRepresentation{
++ (NSString *)charactersBetweenOpenAndCloseTagsForStringRepresentation:(NSString *)a_stringRepresentation{
     NSRange l_openTagEndRange = [a_stringRepresentation rangeOfString:@">"];
     NSRange l_closeTagStartRange = [a_stringRepresentation rangeOfString:@"<"
                                                                  options:NSBackwardsSearch];
@@ -364,7 +365,7 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
     return self;
 }
 
-+ (IAHtmlDocumentPosition *)m_positionWithLine:(NSUInteger)a_line column:(NSUInteger)a_column {
++ (IAHtmlDocumentPosition *)positionWithLine:(NSUInteger)a_line column:(NSUInteger)a_column {
     return [[self alloc] initWithLine:a_line column:a_column];
 }
 

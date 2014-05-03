@@ -38,11 +38,12 @@
     return self;
 }
 
--(void)m_composeEmailWithSubject:(NSString *)a_subject recipient:(NSString *)a_recipient body:(NSString *)a_body{
-    [self m_composeEmailWithSubject:a_subject recipient:a_recipient body:a_body attachmentUrl:nil attachmentMimeType:nil];
+-(void)composeEmailWithSubject:(NSString *)a_subject recipient:(NSString *)a_recipient body:(NSString *)a_body{
+    [self composeEmailWithSubject:a_subject recipient:a_recipient body:a_body attachmentUrl:nil attachmentMimeType:nil];
 }
 
--(void)m_composeEmailWithSubject:(NSString*)a_subject recipient:(NSString*)a_recipient body:(NSString*)a_body attachmentUrl:(NSURL*)a_attachmentUrl attachmentMimeType:(NSString*)a_attachmentMimeType{
+-(void)composeEmailWithSubject:(NSString *)a_subject recipient:(NSString *)a_recipient body:(NSString *)a_body
+                 attachmentUrl:(NSURL *)a_attachmentUrl attachmentMimeType:(NSString*)a_attachmentMimeType{
     
     if ([MFMailComposeViewController canSendMail]){
 

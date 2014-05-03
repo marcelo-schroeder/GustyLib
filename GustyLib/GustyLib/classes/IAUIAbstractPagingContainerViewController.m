@@ -40,7 +40,7 @@
     return [self.childViewControllers objectAtIndex:self.p_selectedPageIndex];
 }
 
--(void)m_updateContentLayout{
+-(void)updateContentLayout {
     NSUInteger l_contentWidth = 0;
     for (int i=0; i<[self.childViewControllers count]; i++) {
         UIViewController *l_viewController = [self.childViewControllers objectAtIndex:i];
@@ -54,7 +54,7 @@
     self.p_scrollView.contentSize = CGSizeMake(l_contentWidth, self.view.frame.size.height);
 }
 
--(CGRect)m_visibleRectForPage:(NSUInteger)a_pageIndex{
+-(CGRect)visibleRectForPage:(NSUInteger)a_pageIndex{
 
     CGRect l_rect = self.view.frame;
     l_rect.origin.x = l_rect.size.width * a_pageIndex;
@@ -65,11 +65,11 @@
 
 }
 
--(void)m_scrollToPage:(NSUInteger)a_pageIndex animated:(BOOL)a_animated{
+-(void)scrollToPage:(NSUInteger)a_pageIndex animated:(BOOL)a_animated{
     
 //    NSLog(@"m_scrollToPage: %u", a_pageIndex);
     
-    [self.p_scrollView scrollRectToVisible:[self m_visibleRectForPage:a_pageIndex] animated:a_animated];
+    [self.p_scrollView scrollRectToVisible:[self visibleRectForPage:a_pageIndex] animated:a_animated];
 //    NSLog(@"m_scrollToPage - frame: %@", NSStringFromCGRect(self.p_scrollView.frame));
 //    NSLog(@"m_scrollToPage - bounds: %@", NSStringFromCGRect(self.p_scrollView.bounds));
     
@@ -79,7 +79,7 @@
     
 }
 
--(NSArray*)m_dataLoadPageIndexes{
+-(NSArray*)dataLoadPageIndexes {
     NSMutableArray *l_pageIndexes = [NSMutableArray new];
     for (int i=0; i<[self.childViewControllers count]; i++) {
         [l_pageIndexes addObject:@(i)];
@@ -87,10 +87,10 @@
     return l_pageIndexes;
 }
 
--(void)m_refreshAndReloadChildData{
-    //    NSLog(@"m_refreshAndReloadChildData - START");
+-(void)refreshAndReloadChildData {
+    //    NSLog(@"refreshAndReloadChildData - START");
     BOOL l_firstChildViewController = YES;
-    for (NSNumber *l_pageIndex in [self m_dataLoadPageIndexes]) {
+    for (NSNumber *l_pageIndex in [self dataLoadPageIndexes]) {
         NSUInteger i = [l_pageIndex unsignedIntegerValue];
         UIViewController *l_viewController = [self.childViewControllers objectAtIndex:i];
         if ([l_viewController isKindOfClass:[IAUIListViewController class]]) {
@@ -100,31 +100,33 @@
                 BOOL l_shouldShowProgressIndicator = l_firstChildViewController && l_childListViewController==self.p_selectedViewController;
                 //                NSLog(@"    l_shouldShowProgressIndicator: %u", l_shouldShowProgressIndicator);
                 //                NSLog(@"    l_childViewController.p_refreshAndReloadDataAsyncBlock: %@", [l_childViewController.p_refreshAndReloadDataAsyncBlock description]);
-                [self.p_aom m_dispatchSerialBlock:l_childListViewController.p_refreshAndReloadDataAsyncBlock showProgressIndicator:l_shouldShowProgressIndicator cancelPreviousBlocks:l_firstChildViewController];
+                [self.p_aom dispatchSerialBlock:l_childListViewController.p_refreshAndReloadDataAsyncBlock
+                          showProgressIndicator:l_shouldShowProgressIndicator
+                           cancelPreviousBlocks:l_firstChildViewController];
                 l_firstChildViewController = NO;
             }
         }
     }    
-    //    NSLog(@"m_refreshAndReloadChildData - END");
+    //    NSLog(@"refreshAndReloadChildData - END");
 }
 
 -(IAUITableViewController*)p_mainChildViewController{
     return [self.childViewControllers objectAtIndex:0];
 }
 
--(NSUInteger)m_calculateSelectedPageIndex{
+-(NSUInteger)calculateSelectedPageIndex {
     CGFloat l_contentWidth = self.view.frame.size.width;
     IAUIScrollPage l_selectedPageIndex = floor((self.p_scrollView.contentOffset.x - l_contentWidth / 2) / l_contentWidth) + 1;
     return l_selectedPageIndex;
 }
 
--(void)m_addChildViewControllers:(NSArray*)a_childViewControllers{
+-(void)addChildViewControllers:(NSArray*)a_childViewControllers{
     for (UIViewController *l_viewController in a_childViewControllers) {
         [self addChildViewController:l_viewController]; // conform to the container view controller pattern
         [self.view addSubview:l_viewController.view];
         [l_viewController didMoveToParentViewController:self]; // conform to the container view controller pattern
     }
-    [self m_updateContentLayout];
+    [self updateContentLayout];
 }
 
 #pragma mark - Overrides
@@ -186,7 +188,7 @@
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
 //    NSLog(@"willAnimateRotationToInterfaceOrientation in %@", [self description]);
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-//    [self m_updateContentLayout];
+//    [self updateContentLayout];
 }
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
@@ -206,7 +208,7 @@
         return;
     }
     
-    IAUIScrollPage l_newSelectedPageIndex = [self m_calculateSelectedPageIndex];
+    IAUIScrollPage l_newSelectedPageIndex = [self calculateSelectedPageIndex];
     if (self.p_selectedPageIndex!=l_newSelectedPageIndex) {
         self.p_selectedPageIndex = l_newSelectedPageIndex;
         [self m_updateScreenDecorationState];

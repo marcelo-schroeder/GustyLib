@@ -25,7 +25,8 @@
 
 -(id)initWithParentViewController:(UIViewController*)a_parentViewController;
 -(id)initWithParentViewController:(UIViewController*)a_parentViewController completionBlock:(void (^)(void))a_completionBlock;
--(void)m_composeEmailWithSubject:(NSString*)a_subject recipient:(NSString*)a_recipient body:(NSString*)a_body;
--(void)m_composeEmailWithSubject:(NSString*)a_subject recipient:(NSString*)a_recipient body:(NSString*)a_body attachmentUrl:(NSURL*)a_attachmentUrl attachmentMimeType:(NSString*)a_attachmentMimeType;
+-(void)composeEmailWithSubject:(NSString *)a_subject recipient:(NSString *)a_recipient body:(NSString*)a_body;
+-(void)composeEmailWithSubject:(NSString *)a_subject recipient:(NSString *)a_recipient body:(NSString *)a_body
+                 attachmentUrl:(NSURL *)a_attachmentUrl attachmentMimeType:(NSString*)a_attachmentMimeType;
 
 @end

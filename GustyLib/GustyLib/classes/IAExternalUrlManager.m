@@ -36,7 +36,7 @@
 
 #pragma mark - Public
 
--(void)m_openUrl:(NSURL*)a_url{
+-(void)openUrl:(NSURL*)a_url{
     self.p_urlToOpen = a_url;
     NSString *l_message = [NSString stringWithFormat:@"You will now leave the %@ app", [IAUtils appName]];
     UIAlertView *l_alert = [[UIAlertView alloc] initWithTitle:nil message:l_message
@@ -46,7 +46,7 @@
     [l_alert show];
 }
 
-+ (IAExternalUrlManager*)m_instance {
++ (IAExternalUrlManager*)sharedInstance {
     static dispatch_once_t c_dispatchOncePredicate;
     static IAExternalUrlManager *c_instance = nil;
     dispatch_once(&c_dispatchOncePredicate, ^{

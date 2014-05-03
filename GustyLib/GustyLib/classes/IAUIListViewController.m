@@ -51,14 +51,14 @@
     void (^l_completionBlock)(NSMutableArray*) = ^(NSMutableArray* a_managedObjectIds){
 //        NSLog(@"completion block - start for %@", [l_weakSelf description]);
         @synchronized(l_weakSelf){
-            l_weakSelf.p_entities = [[IAPersistenceManager instance] managedObjectsForIds:a_managedObjectIds];
+            l_weakSelf.p_entities = [[IAPersistenceManager sharedInstance] managedObjectsForIds:a_managedObjectIds];
             if (l_weakSelf.p_pagingContainerViewController || [l_weakSelf.p_entities count]>0) {
                 l_weakSelf.p_staleData = NO;
             }
         }
-        [l_weakSelf m_refreshSectionsWithRows];
+        [l_weakSelf refreshSectionsWithRows];
         [l_weakSelf reloadData];
-        [l_weakSelf m_didRefreshAndReloadDataAsync];
+        [l_weakSelf didRefreshAndReloadDataAsync];
 //        NSLog(@"completion block - end");
     };
     
@@ -73,14 +73,14 @@
 //        NSLog(@"going to sleep...");
 //        [NSThread sleepForTimeInterval:5];
 //        NSLog(@"woke up!");
-//        if ([IAAsynchronousOperationManager instance].p_areAllBlocksCancelled) {
+//        if ([IAAsynchronousOperationManager sharedInstance].p_areAllBlocksCancelled) {
 //            NSLog(@"all blocks cancelled - exiting block - after sleeping!");
 //            return;
 //        }
         
         __block NSMutableArray *l_entities = [NSMutableArray new];
-        [[IAPersistenceManager instance] performBlockInPrivateQueueAndWait:^{
-            l_entities = [IAPersistenceManager idsForManagedObjects:[[NSMutableArray alloc] initWithArray:[l_weakSelf m_findEntities]]];
+        [[IAPersistenceManager sharedInstance] performBlockInPrivateQueueAndWait:^{
+            l_entities = [IAPersistenceManager idsForManagedObjects:[[NSMutableArray alloc] initWithArray:[l_weakSelf findEntities]]];
         }];
         //        NSLog(@"find done");
         
@@ -103,15 +103,15 @@
 //        NSLog(@"  self.p_pagingContainerViewController.p_newChildViewControllerCount: %u", self.p_pagingContainerViewController.p_newChildViewControllerCount);
 //        NSLog(@"  self.p_pagingContainerViewController.p_childViewDidAppearCount: %u", self.p_pagingContainerViewController.p_childViewDidAppearCount);
         if (self.p_pagingContainerViewController.p_newChildViewControllerCount==self.p_pagingContainerViewController.p_childViewDidAppearCount) {
-//            NSLog(@"  => calling m_refreshAndReloadChildData on container...");
-            [self.p_pagingContainerViewController m_refreshAndReloadChildData];
+//            NSLog(@"  => calling refreshAndReloadChildData on container...");
+            [self.p_pagingContainerViewController refreshAndReloadChildData];
         }
         
     }else{
         
 //        NSLog(@"block dispatched for %@", [self description]);
-        
-        [self.p_aom m_dispatchSerialBlock:l_block progressIndicatorContainerView:self.view cancelPreviousBlocks:YES];
+
+        [self.p_aom dispatchSerialBlock:l_block progressIndicatorContainerView:self.view cancelPreviousBlocks:YES];
         
     }
     
@@ -133,7 +133,7 @@
 
 - (id)initWithEntityName:(NSString *)anEntityName{
 
-    if ((self = [super initWithStyle:[self m_tableViewStyle]])) {
+    if ((self = [super initWithStyle:[self tableViewStyle]])) {
 
 		self.entityName = anEntityName;
 
@@ -143,27 +143,27 @@
 
 }
 
-- (NSArray*) m_findEntities{
-	return [[IAPersistenceManager instance] findAllForEntity:self.entityName];
+- (NSArray*)findEntities {
+	return [[IAPersistenceManager sharedInstance] findAllForEntity:self.entityName];
 }
 
-- (void)m_refreshAndReloadDataAsync{
-    [self m_willRefreshAndReloadDataAsync];
+- (void)refreshAndReloadDataAsync {
+    [self willRefreshAndReloadDataAsync];
     [self m_refreshAndReloadDataAsyncWithContainerCoordination:NO];
 }
 
-- (UITableViewStyle) m_tableViewStyle {
+- (UITableViewStyle)tableViewStyle {
 	return UITableViewStylePlain;
 	
 }
 
-- (UITableViewCell*) m_cellForTableView:(UITableView*)a_tableView{
+- (UITableViewCell*)cellForTableView:(UITableView*)a_tableView{
     static NSString *CellIdentifier = @"Cell";
     return [self m_dequeueAndInitReusableCellWithIdentifier:CellIdentifier atIndexPath:nil];
 }
 
 // to be overriden by subclasses
-- (void)m_willRefreshAndReloadDataAsync{
+- (void)willRefreshAndReloadDataAsync {
 //    NSLog(@"Disabling user interaction in %@", [self description]);
     // Disable user interaction while data is being refreshed asynchronously
     self.tableView.allowsSelection = NO;
@@ -172,7 +172,7 @@
 }
 
 // to be overriden by subclasses
-- (void)m_didRefreshAndReloadDataAsync{
+- (void)didRefreshAndReloadDataAsync {
 
     //    NSLog(@"Restoring user interaction in %@", [self description]);
 
@@ -191,8 +191,8 @@
 
 -(NSString*)tipTextForEditing:(BOOL)a_editing{
     NSString *l_textTemplate = @"Tap the '+' button to add %@ %@.";
-    NSString *l_indefiniteArticle = [[IAPersistenceManager instance].entityConfig indefiniteArticleForEntity:self.entityName];
-    NSString *l_entityName = [[IAPersistenceManager instance].entityConfig labelForEntity:self.entityName];
+    NSString *l_indefiniteArticle = [[IAPersistenceManager sharedInstance].entityConfig indefiniteArticleForEntity:self.entityName];
+    NSString *l_entityName = [[IAPersistenceManager sharedInstance].entityConfig labelForEntity:self.entityName];
     return [NSString stringWithFormat:l_textTemplate, l_indefiniteArticle, l_entityName];
 }
 
@@ -211,7 +211,7 @@
     }
 }
 
-- (NSIndexPath*)m_indexPathForObject:(NSObject*)a_object{
+- (NSIndexPath*)indexPathForObject:(NSObject*)a_object{
     for (NSUInteger l_section=0; l_section<[self.p_sectionsWithRows count]; l_section++) {
         NSUInteger l_row = [[self.p_sectionsWithRows objectAtIndex:l_section] indexOfObject:a_object];
         if(l_row!=NSNotFound){
@@ -221,7 +221,7 @@
     return nil;
 }
 
--(void)m_refreshSectionsWithRows{
+-(void)refreshSectionsWithRows {
     
     [self.p_sectionHeaderTitles removeAllObjects];
     [self.p_sectionsWithRows removeAllObjects];
@@ -259,7 +259,7 @@
 }
 
 - (IAUIFormViewController*)formViewControllerForManagedObject:(NSManagedObject *)aManagedObject createMode:(BOOL)aCreateMode{
-    Class l_formViewControllerClass = [[IAPersistenceManager instance].entityConfig formViewControllerClassForEntity:[aManagedObject entityName]];
+    Class l_formViewControllerClass = [[IAPersistenceManager sharedInstance].entityConfig formViewControllerClassForEntity:[aManagedObject entityName]];
     if (!l_formViewControllerClass) {
         l_formViewControllerClass = NSClassFromString(@"IAUIFormViewController");
     }
@@ -273,7 +273,7 @@
     BOOL l_isCreateMode = aManagedObject==nil;
     self.p_editedManagedObjectId = aManagedObject.objectID;
     
-    IAPersistenceManager *l_pm = [IAPersistenceManager instance];
+    IAPersistenceManager *l_pm = [IAPersistenceManager sharedInstance];
     
     // Push new child managed object context
     [l_pm pushChildManagedObjectContext];
@@ -304,7 +304,7 @@
 }
 
 - (NSManagedObject*)newManagedobject{
-	return [[IAPersistenceManager instance] m_instantiate:self.entityName];
+	return [[IAPersistenceManager sharedInstance] instantiate:self.entityName];
 }
 
 - (void)onAddButtonTap:(id)sender {
@@ -332,7 +332,7 @@
 
 //    NSLog(@"self.entityName: %@", self.entityName);
     if (!self.title) {
-        self.title = [[IAPersistenceManager instance].entityConfig listLabelForEntity:self.entityName];
+        self.title = [[IAPersistenceManager sharedInstance].entityConfig listLabelForEntity:self.entityName];
     }
 
     self.p_staleData = YES;
@@ -346,7 +346,7 @@
     v_sectionDataBlock = ^(NSString *a_sectionGroupedBy, NSObject *a_sectionObject, NSArray *a_sectionRows, NSMutableArray *a_sectionHeaderTitles, NSMutableArray *a_sectionsWithRows){
         NSString *l_sectionHeaderTitle = nil;
         if (a_sectionObject == [NSNull null]) {
-            NSString *l_relatedEntityName = [[IAPersistenceManager instance].entityConfig entityNameForProperty:a_sectionGroupedBy inEntity:l_entityName];
+            NSString *l_relatedEntityName = [[IAPersistenceManager sharedInstance].entityConfig entityNameForProperty:a_sectionGroupedBy inEntity:l_entityName];
             l_sectionHeaderTitle = [NSClassFromString(l_relatedEntityName) displayValueForNil];
         }else{
             l_sectionHeaderTitle = [a_sectionObject longDisplayValue];
@@ -355,7 +355,7 @@
         [a_sectionsWithRows addObject:a_sectionRows];
     };
     
-    self.p_listGroupedBy = [[[IAPersistenceManager instance] entityConfig] listGroupedByForEntity:self.entityName];
+    self.p_listGroupedBy = [[[IAPersistenceManager sharedInstance] entityConfig] listGroupedByForEntity:self.entityName];
     
     // Observe persistence notifications
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -372,7 +372,7 @@
     [super viewWillAppear:animated];
     
     if( !self.p_fetchedResultsController && self.p_staleData && ![self m_isReturningVisibleViewController] ){
-        [self m_willRefreshAndReloadDataAsync];
+        [self willRefreshAndReloadDataAsync];
     }
 
 }
@@ -416,7 +416,7 @@
     // It is returning from an edit form
     if (self.p_editedManagedObjectId) {
 
-        IAPersistenceManager *l_pm = [IAPersistenceManager instance];
+        IAPersistenceManager *l_pm = [IAPersistenceManager sharedInstance];
         if (a_changesMade) {
 
             // Save changes in the main managed object context
@@ -431,11 +431,11 @@
 
     if (!self.p_fetchedResultsController && a_changesMade) {
         if (self.p_pagingContainerViewController) {
-//            NSLog(@"  => calling m_refreshAndReloadChildData on container FOR SESSION COMPLETE...");
-            [self.p_pagingContainerViewController m_refreshAndReloadChildData];
+//            NSLog(@"  => calling refreshAndReloadChildData on container FOR SESSION COMPLETE...");
+            [self.p_pagingContainerViewController refreshAndReloadChildData];
         }else {
-//            NSLog(@"  => calling m_refreshAndReloadDataAsync on child FOR SESSION COMPLETE...");
-            [self m_refreshAndReloadDataAsync];
+//            NSLog(@"  => calling refreshAndReloadDataAsync on child FOR SESSION COMPLETE...");
+            [self refreshAndReloadDataAsync];
         }
     }
 
@@ -479,9 +479,9 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [self m_cellForTableView:tableView];
+    UITableViewCell *cell = [self cellForTableView:tableView];
 	cell.textLabel.text = self.p_listGroupedBy ? [[self m_objectForIndexPath:indexPath] displayValue] : [[self m_objectForIndexPath:indexPath] longDisplayValue];
-    [[self m_appearanceTheme] m_setAppearanceForView:cell.textLabel];
+    [[self m_appearanceTheme] setAppearanceForView:cell.textLabel];
     return cell;
 }
 
@@ -512,7 +512,7 @@
 }
 
 - (NSIndexPath*)selectionManagerIndexPathForObject:(NSObject*)a_object{
-    return [self m_indexPathForObject:a_object];
+    return [self indexPathForObject:a_object];
 }
 
 - (UITableView*)selectionTableView{

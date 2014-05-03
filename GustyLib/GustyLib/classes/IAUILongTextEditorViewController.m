@@ -58,7 +58,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
     [self.p_textView becomeFirstResponder];
 }
 
--(id)m_editedValue{
+-(id)editedValue {
     return self.p_textView.text;
 }
 
@@ -66,9 +66,9 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
     return NO;
 }
 
-- (BOOL)m_hasValueChanged {
+- (BOOL)hasValueChanged {
 	NSString* l_oldText = self.p_originalValue;
-	NSString* l_newText = [self m_editedValue];
+	NSString* l_newText = [self editedValue];
     return ( l_oldText==nil && [l_newText isEqualToString:@""] ? NO : ![l_newText isEqualToString:l_oldText] );
 }
 

@@ -22,7 +22,9 @@
 
 @interface IAUICollectionViewController : UICollectionViewController
 
--(void)m_updateCollectionView:(UICollectionView*)a_collectionView oldDataArrayCount:(NSUInteger)a_oldDataArrayCount newDataArrayCount:(NSUInteger)a_newDataArrayCount;
--(void)m_updateCollectionView:(UICollectionView*)a_collectionView oldDataArrayCount:(NSUInteger)a_oldDataArrayCount newDataArrayCount:(NSUInteger)a_newDataArrayCount completionBlock:(void (^)(BOOL finished))a_completionBlock;
+-(void)updateCollectionView:(UICollectionView *)a_collectionView oldDataArrayCount:(NSUInteger)a_oldDataArrayCount
+          newDataArrayCount:(NSUInteger)a_newDataArrayCount;
+-(void)updateCollectionView:(UICollectionView *)a_collectionView oldDataArrayCount:(NSUInteger)a_oldDataArrayCount
+          newDataArrayCount:(NSUInteger)a_newDataArrayCount completionBlock:(void (^)(BOOL finished))a_completionBlock;
 
 @end

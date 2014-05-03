@@ -39,7 +39,7 @@
     return self;
 }
 
-- (IAPagingCriteria *)m_pagingCriteriaForEvent:(IAPagingStateManagerEvent)a_event {
+- (IAPagingCriteria *)pagingCriteriaForEvent:(IAPagingStateManagerEvent)a_event {
     NSUInteger l_pageIndex = 0, l_pageSize = 0;
     switch (a_event) {
         case IAPagingStateManagerEventShowFirstPage:
@@ -63,9 +63,9 @@
     return l_pagingCriteria;
 }
 
-- (void)m_updatePagingStateWithResultsAtPageIndex:(NSUInteger)a_pageIndex
-                                 pageResultsCount:(NSUInteger)a_pageResultsCount
-                                totalResultsCount:(NSUInteger)a_totalResultsCount {
+- (void)updatePagingStateWithResultsAtPageIndex:(NSUInteger)a_pageIndex
+                               pageResultsCount:(NSUInteger)a_pageResultsCount
+                              totalResultsCount:(NSUInteger)a_totalResultsCount {
     self.p_currentPageIndex = a_pageIndex;
     self.p_resultsCountShowing = (a_pageIndex * self.p_pageSize) + a_pageResultsCount;
     self.p_resultsCountTotal = a_totalResultsCount;

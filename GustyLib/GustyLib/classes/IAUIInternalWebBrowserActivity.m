@@ -34,12 +34,12 @@
 
 - (UIViewController *)p_internalWebBrowserViewController {
     if (!_p_internalWebBrowserViewController) {
-        id <IAUIAppearanceTheme> l_appearanceTheme = [[IAUIAppearanceThemeManager m_instance] m_activeAppearanceTheme];
-        UIViewController *l_viewController = [l_appearanceTheme m_newInternalWebBrowserViewControllerWithUrl:self.p_url
-                                                                                             completionBlock:^{
-                                                                                                 [self activityDidFinish:YES];
-                                                                                             }];
-        IAUINavigationController *l_navigationController = [[[l_appearanceTheme m_navigationControllerClass] alloc] initWithRootViewController:l_viewController];
+        id <IAUIAppearanceTheme> l_appearanceTheme = [[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme];
+        UIViewController *l_viewController = [l_appearanceTheme newInternalWebBrowserViewControllerWithUrl:self.p_url
+                                                                                           completionBlock:^{
+                                                                                               [self activityDidFinish:YES];
+                                                                                           }];
+        IAUINavigationController *l_navigationController = [[[l_appearanceTheme navigationControllerClass] alloc] initWithRootViewController:l_viewController];
         l_navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
         l_navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
         _p_internalWebBrowserViewController = l_navigationController;

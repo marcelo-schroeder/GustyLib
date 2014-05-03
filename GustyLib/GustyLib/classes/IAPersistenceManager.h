@@ -43,17 +43,17 @@
 - (BOOL)validateValue:(id *)aValue forProperty:(NSString *)aPropertyName inManagedObject:aManagedObject alertDelegate:(id)anAlertDelegate;
 - (BOOL)saveManagedObjectContext:(NSManagedObjectContext*)a_moc;
 - (BOOL)saveMainManagedObjectContext;
-- (BOOL)save:(NSManagedObject *)aManagedObject;
+- (BOOL)saveObject:(NSManagedObject *)aManagedObject;
 - (BOOL)save;
-- (BOOL)m_delete:(NSManagedObject *)aManagedObject;
-- (BOOL)m_deleteAndSave:(NSManagedObject *)aManagedObject;
+- (BOOL)deleteObject:(NSManagedObject *)aManagedObject;
+- (BOOL)deleteAndSaveObject:(NSManagedObject *)aManagedObject;
 - (void)rollback;
 //- (void)undo;
 - (NSUInteger) countEntity:(NSString*)anEntityName;
 - (NSUInteger) countEntity:(NSString*)anEntityName keysAndValues:(NSDictionary*)aDictionary;
-- (BOOL) m_validateForSave:(NSManagedObject *)aManagedObject;
+- (BOOL)validateForSave:(NSManagedObject *)aManagedObject;
 
-- (NSManagedObject *) m_instantiate:(NSString *)entityName;
+- (NSManagedObject *)instantiate:(NSString *)entityName;
 - (NSMutableArray *) findAllForEntity:(NSString *)entityName;
 - (NSMutableArray *) findAllForEntity:(NSString *)entityName includePendingChanges:(BOOL)a_includePendingChanges;
 - (NSMutableArray *) findAllForEntity:(NSString *)entityName includePendingChanges:(BOOL)a_includePendingChanges includeSubentities:(BOOL)a_includeSubentities;
@@ -153,7 +153,7 @@
                                         limit:(NSUInteger)aLimit
                                     countOnly:(BOOL)aCountOnlyFlag;
 
-+ (IAPersistenceManager*)instance;
++ (IAPersistenceManager*)sharedInstance;
 + (BOOL)setValidationError:(NSError**)anError withMessage:(NSString*)anErrorMessage;
 + (NSMutableArray*)idsForManagedObjects:(NSArray*)a_managedObjects;
 

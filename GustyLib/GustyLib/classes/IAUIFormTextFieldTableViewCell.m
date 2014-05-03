@@ -29,11 +29,11 @@
 
 #pragma mark - Public
 
--(void)m_reloadData{
+-(void)reloadData {
     self.p_textField.text = [self.p_object propertyStringValueForName:self.p_propertyName calendar:[NSCalendar m_threadSafeCalendar]];
 }
 
--(BOOL)m_valueChanged{
+-(BOOL)valueChanged {
     
 	// Old text
 	NSString* l_oldText = [self.p_object propertyStringValueForName:self.p_propertyName calendar:[NSCalendar m_threadSafeCalendar]];
@@ -47,7 +47,7 @@
 
 }
 
--(id)m_parsedValue{
+-(id)parsedValue {
 
     NSString *l_trimmedValue = [self.p_textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     id l_value;
@@ -78,7 +78,7 @@
 //    self.p_textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     self.p_textField.hidden = YES;
     self.p_textField.delegate = self;
-    self.p_textField.placeholder = [[[IAPersistenceManager instance] entityConfig] editorTipTextForProperty:self.p_propertyName inObject:self.p_object];
+    self.p_textField.placeholder = [[[IAPersistenceManager sharedInstance] entityConfig] editorTipTextForProperty:self.p_propertyName inObject:self.p_object];
 //    self.p_textField.p_textPaddingEnabled = YES;
 //    self.p_textField.p_leftTextPadding = 7;
 //    self.p_textField.p_topTextPadding = 3;
@@ -103,7 +103,7 @@
     [super layoutSubviews];
 
     // Set the text field's frame in relation to the standard text label
-    self.p_textField.frame = CGRectMake([self m_calculateFieldX], 8, [self m_calculateFieldWidth], 27);
+    self.p_textField.frame = CGRectMake([self calculateFieldX], 8, [self calculateFieldWidth], 27);
     
 }
 
@@ -113,9 +113,9 @@
 
 //    NSLog(@"textFieldDidEndEditing: %@", [textField description]);
 
-    if (!self.p_formViewController.p_textFieldCommitSuspended && [self m_valueChanged]) {
+    if (!self.p_formViewController.p_textFieldCommitSuspended && [self valueChanged]) {
         
-        [self.p_object setValue:[self m_parsedValue] forProperty:self.p_propertyName];
+        [self.p_object setValue:[self parsedValue] forProperty:self.p_propertyName];
 //        NSLog(@"  value set: %@", [self.p_object valueForKey:self.p_propertyName]);
 
     }

@@ -140,7 +140,7 @@
 
 #pragma mark - Public
 
--(void)m_spotlightAtRect:(CGRect)a_rect{
+-(void)spotlightAtRect:(CGRect)a_rect{
     
     // Correct the rect provided to compensate for shapes that are much wider than they are taller
     //  (i.e. the ellipse drawn here looks better when corrected this way)
@@ -166,7 +166,7 @@
     
 }
 
--(void)m_removeSpotlightWithAnimation:(BOOL)a_animate{
+-(void)removeSpotlightWithAnimation:(BOOL)a_animate{
     
     self.p_shouldSpotlight = NO;
     self.p_finalDrawing = NO;

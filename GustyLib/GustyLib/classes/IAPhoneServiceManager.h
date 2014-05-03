@@ -19,7 +19,7 @@
 
 
 @interface IAPhoneServiceManager : NSObject
-+ (IAPhoneServiceManager *)m_instance;
++ (IAPhoneServiceManager *)sharedInstance;
 
-- (void)m_dialPhoneNumber:(NSString *)a_phoneNumber;
+- (void)dialPhoneNumber:(NSString *)a_phoneNumber;
 @end

@@ -19,7 +19,7 @@
 
 
 @interface IAExternalUrlManager : NSObject <UIAlertViewDelegate>
-- (void)m_openUrl:(NSURL *)a_url;
+- (void)openUrl:(NSURL *)a_url;
 
-+ (IAExternalUrlManager *)m_instance;
++ (IAExternalUrlManager *)sharedInstance;
 @end

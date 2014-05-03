@@ -34,23 +34,23 @@ typedef enum {
 @property (nonatomic, strong, readonly) id<IAUIAppearanceTheme> p_loadedAppearanceTheme;
 @property (nonatomic, strong, readonly) IAUIColorScheme *p_loadedColorScheme;
 
-- (void)m_reloadUiWithNoTransitionAnimation;
+- (void)reloadUiWithNoTransitionAnimation;
 
-- (void)m_reloadUiWithAnimationOptions:(UIViewAnimationOptions)a_animationOptions;
-- (void)m_reloadUiWithAnimationDuration:(NSTimeInterval)a_animationDuration
-                       animationOptions:(UIViewAnimationOptions)a_animationOptions
-                        completionBlock:(void (^)(BOOL finished))a_completionBlock;
+- (void)reloadUiWithAnimationOptions:(UIViewAnimationOptions)a_animationOptions;
+- (void)reloadUiWithAnimationDuration:(NSTimeInterval)a_animationDuration
+                     animationOptions:(UIViewAnimationOptions)a_animationOptions
+                      completionBlock:(void (^)(BOOL finished))a_completionBlock;
 
 //-(void)m_reloadUiWithTransitionAnimation:(SMUiReloadTransitionAnimation)a_transitionAnimation;
 //-(void)m_reloadUiWithTransitionAnimation:(SMUiReloadTransitionAnimation)a_transitionAnimation completionBlock:(void (^)(BOOL finished))a_completionBlock;
 
 // This returns the loaded appearance theme (i.e. loaded by this manager) if it has been loaded,
 //  otherwise it returns the appearance theme set by the delegate (i.e. in the case this manager is not used)
--(id<IAUIAppearanceTheme>)m_activeAppearanceTheme;
+-(id<IAUIAppearanceTheme>)activeAppearanceTheme;
 
-- (void)m_applyAppearanceTheme;
+- (void)applyAppearanceTheme;
 
-+ (IAUIAppearanceThemeManager*)m_instance;
-+(NSBundle*)m_bundleForThemeNamed:(NSString*)a_themeName;
++ (IAUIAppearanceThemeManager*)sharedInstance;
++(NSBundle*)bundleForThemeNamed:(NSString*)a_themeName;
 
 @end

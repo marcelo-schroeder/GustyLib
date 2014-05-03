@@ -32,7 +32,7 @@
         self.detailTextLabel.hidden = YES;
 //        self.selectionStyle = UITableViewCellEditingStyleNone;
         [[NSBundle mainBundle] loadNibNamed:@"IAUISliderView" owner:self options:nil];
-//        NSDictionary *l_options = [[IAPersistenceManager instance].entityConfig optionsForProperty:a_propertyName inManagedObject:a_managedObject];
+//        NSDictionary *l_options = [[IAPersistenceManager sharedInstance].entityConfig optionsForProperty:a_propertyName inManagedObject:a_managedObject];
 //        self.p_minLabel.text = [l_options valueForKey:@"minimumValueLabel"];
 //        self.p_maxLabel.text = [l_options valueForKey:@"maximumValueLabel"];
 //        self.p_slider.minimumValue = [[l_options valueForKey:@"minimumValue"] floatValue];

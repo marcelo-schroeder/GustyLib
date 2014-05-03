@@ -39,7 +39,7 @@
 
 #pragma mark - Public
 
-- (void)m_dialPhoneNumber:(NSString *)a_phoneNumber {
+- (void)dialPhoneNumber:(NSString *)a_phoneNumber {
     if ([self m_isPhoneServiceAvailable]) {
         NSURL *l_url = [self m_buildTelURL:a_phoneNumber];
         UIApplication *l_sharedApplication = [UIApplication sharedApplication];
@@ -54,7 +54,7 @@
     }
 }
 
-+ (IAPhoneServiceManager *)m_instance {
++ (IAPhoneServiceManager *)sharedInstance {
     static dispatch_once_t c_dispatchOncePredicate;
     static IAPhoneServiceManager *c_instance;
     void (^instanceBlock)(void) = ^(void) {

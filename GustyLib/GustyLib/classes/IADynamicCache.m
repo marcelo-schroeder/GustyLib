@@ -80,7 +80,7 @@
 
 #pragma mark - Singleton functions
 
-+ (IADynamicCache*)instance {
++ (IADynamicCache*)sharedInstance {
     static dispatch_once_t c_dispatchOncePredicate;
     static IADynamicCache *c_instance = nil;
     dispatch_once(&c_dispatchOncePredicate, ^{

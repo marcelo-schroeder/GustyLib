@@ -26,7 +26,7 @@
 
 #pragma mark - Public
 
-+(void)m_logEntryForScreenName:(NSString*)a_screenName{
++(void)logEntryForScreenName:(NSString*)a_screenName{
     [Flurry logEvent:@"screenEntry" withParameters:@{@"name":a_screenName}];
 }
 

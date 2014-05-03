@@ -56,7 +56,7 @@ static NSString *const k_LocationServiceDisableAlertMessage = @" Location Servic
 }
 
 + (void)m_showLocationServicesAlert {
-    if ([self m_performLocationServicesChecks]) {
+    if ([self performLocationServicesChecks]) {
         [self m_showLocationServicesAlertWithMessageSuffix:@""];
     }
 }
@@ -96,20 +96,20 @@ static NSString *const k_LocationServiceDisableAlertMessage = @" Location Servic
 
 #pragma mark - Public
 
-- (void)m_currentLocationWithCompletionBlock:(CurrentLocationBlock)a_completionBlock {
-    [self m_currentLocationWithHorizontalAccuracy:k_DefaultCurrentLocationHorizontalAccuracyThreshold
-                             locationAgeThreshold:k_DefaultCurrentLocationAgeThreshold
-                  locationUpdatesTimeoutThreshold:k_DefaultCurrentLocationUpdatesTimeoutThreshold
-                                  completionBlock:a_completionBlock];
+- (void)currentLocationWithCompletionBlock:(CurrentLocationBlock)a_completionBlock {
+    [self currentLocationWithHorizontalAccuracy:k_DefaultCurrentLocationHorizontalAccuracyThreshold
+                           locationAgeThreshold:k_DefaultCurrentLocationAgeThreshold
+                locationUpdatesTimeoutThreshold:k_DefaultCurrentLocationUpdatesTimeoutThreshold
+                                completionBlock:a_completionBlock];
 }
 
-- (void)m_currentLocationWithHorizontalAccuracy:(CLLocationAccuracy)horizontalAccuracy
-                           locationAgeThreshold:(NSTimeInterval)locationAgeThreshold
-                locationUpdatesTimeoutThreshold:(NSTimeInterval)locationUpdatesTimeoutThreshold
-                                completionBlock:(CurrentLocationBlock)a_completionBlock {
+- (void)currentLocationWithHorizontalAccuracy:(CLLocationAccuracy)horizontalAccuracy
+                         locationAgeThreshold:(NSTimeInterval)locationAgeThreshold
+              locationUpdatesTimeoutThreshold:(NSTimeInterval)locationUpdatesTimeoutThreshold
+                              completionBlock:(CurrentLocationBlock)a_completionBlock {
 
     self.p_completionBlock = a_completionBlock;
-    if ([self.class m_performLocationServicesChecks]) {
+    if ([self.class performLocationServicesChecks]) {
         self.p_pendingCurrentLocationRequest = YES;
         self.p_horizontalAccuracy = horizontalAccuracy;
         self.p_locationAgeThreshold = locationAgeThreshold;
@@ -125,7 +125,7 @@ static NSString *const k_LocationServiceDisableAlertMessage = @" Location Servic
     }
 }
 
-+ (BOOL)m_performLocationServicesChecks {
++ (BOOL)performLocationServicesChecks {
     if (![CLLocationManager locationServicesEnabled]) {
         NSString *l_messageSuffix = [NSString stringWithFormat:@" Location Services are currently disabled. Please enable them in the Privacy section in the Settings app."];
         [self m_showLocationServicesAlertWithMessageSuffix:l_messageSuffix];

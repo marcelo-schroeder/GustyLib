@@ -53,7 +53,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
 		
 		self.editing = YES;
         
-        self.title = [[IAPersistenceManager instance].entityConfig labelForProperty:self.p_propertyName inObject:self.p_object];
+        self.title = [[IAPersistenceManager sharedInstance].entityConfig labelForProperty:self.p_propertyName inObject:self.p_object];
         
         self.modalInPopover = self.p_useButtonForDismissal;
         
@@ -63,22 +63,22 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
     
 }
 
--(void)m_updateModel{
-    [self.p_object setValue:[self m_editedValue] forProperty:self.p_propertyName];
+-(void)updateModel {
+    [self.p_object setValue:[self editedValue] forProperty:self.p_propertyName];
     [self.p_presenter m_changesMadeByViewController:self];
 }
 
-- (BOOL)m_hasValueChanged {
-//    NSLog(@"m_hasValueChanged - old: %@, new: %@", [self.p_originalValue description], [[self m_editedValue] description]);
-    return ![self.p_originalValue isEqual:[self m_editedValue]];
+- (BOOL)hasValueChanged {
+//    NSLog(@"hasValueChanged - old: %@, new: %@", [self.p_originalValue description], [[self editedValue] description]);
+    return ![self.p_originalValue isEqual:[self editedValue]];
 }
 
--(void)m_done{
-    [self m_notifySessionCompletionWithChangesMade:[self m_hasValueChanged] data:nil ];
+-(void)done {
+    [self m_notifySessionCompletionWithChangesMade:[self hasValueChanged] data:nil ];
 }
 
 // To be overriden by subclasses
--(id)m_editedValue{
+-(id)editedValue {
     return nil;
 }
 
@@ -99,17 +99,17 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated{
 	if(editing){
 		[super setEditing:editing animated:animated];
-        [[self m_appearanceTheme] m_setAppearanceForBarButtonItem:self.editButtonItem viewController:nil important:YES ];
+        [[self m_appearanceTheme] setAppearanceForBarButtonItem:self.editButtonItem viewController:nil important:YES ];
 //		self.navigationItem.rightBarButtonItem.accessibilityLabel = self.navigationItem.rightBarButtonItem.title;
 	}else{
-        [self m_done];
+        [self done];
 	}
 }
 
 #pragma mark - UIPopoverControllerDelegate
 
 -(void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
-    [self m_done];
+    [self done];
 }
 
 @end

@@ -115,7 +115,7 @@
                  error:(NSError*)a_error 
              showAlert:(BOOL)a_showAlert{
 //    NSLog(@"%@ - %@", a_title, a_message);
-    IAApplicationLog *dbLogEntry = (IAApplicationLog*)[[IAPersistenceManager instance] m_instantiate:@"IAApplicationLog"];
+    IAApplicationLog *dbLogEntry = (IAApplicationLog*) [[IAPersistenceManager sharedInstance] instantiate:@"IAApplicationLog"];
     dbLogEntry.date = [NSDate date];
     dbLogEntry.title = a_title;
     dbLogEntry.message = a_message;
@@ -134,7 +134,7 @@
     }else{
         dbLogEntry.isError = @(NO);
     }
-    [[IAPersistenceManager instance] save];
+    [[IAPersistenceManager sharedInstance] save];
     if (a_showAlert) {
         if ([UIApplication sharedApplication].applicationState==UIApplicationStateActive) {
             [IAUIUtils showAlertWithMessage:a_message title:a_title];

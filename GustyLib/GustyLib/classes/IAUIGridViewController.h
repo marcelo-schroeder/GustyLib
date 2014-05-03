@@ -30,24 +30,24 @@
 
 @protocol IAUIGridViewDataSource <NSObject>
 
-- (NSUInteger)m_numberOfRows;
-- (NSUInteger)m_numberOfColumns;
-- (CGFloat)m_interTileSpace;
-- (UICollectionViewScrollDirection)m_scrollDirection;
+- (NSUInteger)numberOfRows;
+- (NSUInteger)numberOfColumns;
+- (CGFloat)interTileSpace;
+- (UICollectionViewScrollDirection)scrollDirection;
 
 @optional
 
 // Used to set the collection view's content inset
-- (UIEdgeInsets)m_contentInset;
+- (UIEdgeInsets)contentInset;
 
 // Used to set the collection view's section inset
-- (UIEdgeInsets)m_sectionInset;
+- (UIEdgeInsets)sectionInset;
 
 // Used in size calculations only to reserve space for bars, revealing collection items partially, inter page spacing, etc
-- (UIEdgeInsets)m_reservedEdgeSpace;
+- (UIEdgeInsets)reservedEdgeSpace;
 
-- (BOOL)m_shouldAdjustLastColumnWidth;
-- (BOOL)m_shouldAdjustLastRowHeight;
+- (BOOL)shouldAdjustLastColumnWidth;
+- (BOOL)shouldAdjustLastRowHeight;
 
 /**
 * Implement this method to force the item width calculation to be based on the item height.
@@ -55,7 +55,7 @@
 *
 * @returns Number that multiplied by the item height will result in the item width. Returning zero will have no effect.
 */
-- (CGFloat)m_itemHeightMultiplierForItemWidth;
+- (CGFloat)itemHeightMultiplierForItemWidth;
 
 /**
 * Implement this method to force the item height calculation to be based on the item width.
@@ -63,7 +63,7 @@
 *
 * @returns Number that multiplied by the item width will result in the item height. Returning zero will have no effect.
 */
-- (CGFloat)m_itemWidthMultiplierForItemHeight;
+- (CGFloat)itemWidthMultiplierForItemHeight;
 
 @end
 
@@ -73,6 +73,6 @@
 
 // Called at various life cycle phases when the view layout needs to be updated (if required)
 // Extra configuration can be done here
-- (void)m_didUpdateCollectionViewFlowLayout:(UICollectionViewFlowLayout *)a_collectionViewFlowLayout;
+- (void)didUpdateCollectionViewFlowLayout:(UICollectionViewFlowLayout *)a_collectionViewFlowLayout;
 
 @end

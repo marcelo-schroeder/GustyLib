@@ -71,7 +71,7 @@
         if ([l_masterViewController isKindOfClass:[UINavigationController class]]) {
             UIViewController *l_masterRootViewController = ((UINavigationController*)l_masterViewController).viewControllers[0];
             if ([l_masterRootViewController isKindOfClass:[IAUIMenuViewController class]]) {
-                [((IAUIMenuViewController*)l_masterRootViewController) m_selectMenuItemAtIndex:0];
+                [((IAUIMenuViewController *) l_masterRootViewController) selectMenuItemAtIndex:0];
                 self.p_firstLoadDone = YES;
             }
         }
@@ -87,7 +87,7 @@
 //    NSLog(@"willHideViewController");
     
     // Configure bar button item to get back to the master view controller
-    UIBarButtonItem *l_barButtonItem = [[self m_appearanceTheme] m_splitViewControllerBarButtonItem];
+    UIBarButtonItem *l_barButtonItem = [[self m_appearanceTheme] splitViewControllerBarButtonItem];
     if (l_barButtonItem) {
         l_barButtonItem.target = barButtonItem.target;
         l_barButtonItem.action = barButtonItem.action;

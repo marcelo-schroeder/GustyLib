@@ -33,14 +33,14 @@
 #pragma mark - Private
 
 -(void)m_updateBackingPreference{
-    IAPersistenceManager *l_pm = [IAPersistenceManager instance];
+    IAPersistenceManager *l_pm = [IAPersistenceManager sharedInstance];
     NSString *l_backingPreferencesProperty = [l_pm.entityConfig backingPreferencesPropertyForEntity:self.entityName];
 //    NSLog(@"l_backingPreferencesProperty: %@", l_backingPreferencesProperty);
     if (l_backingPreferencesProperty) {
         NSManagedObjectID *l_selectedMoId = ((NSManagedObject*)[selectionManager selectedObject]).objectID;
         [l_pm pushChildManagedObjectContext];
         NSManagedObject *l_selectedMo = [l_pm findById:l_selectedMoId];
-        id l_preferences = [[IAPreferencesManager m_instance] m_preferences];
+        id l_preferences = [[IAPreferencesManager sharedInstance] preferences];
         [l_preferences setValue:l_selectedMo forKey:l_backingPreferencesProperty];
         [l_pm save];
         [l_pm saveMainManagedObjectContext];
@@ -124,14 +124,14 @@
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-    if ([[IAPersistenceManager instance].entityConfig shouldShowAddButtonInSelectionForEntity:self.entityName]) {
+    if ([[IAPersistenceManager sharedInstance].entityConfig shouldShowAddButtonInSelectionForEntity:self.entityName]) {
         self.p_addBarButtonItem = [IAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_ITEM_ADD target:self action:@selector(onAddButtonTap:)];
         [self m_addLeftBarButtonItem:self.p_addBarButtonItem];
     }
 }
 
--(void)m_didRefreshAndReloadDataAsync{
-    [super m_didRefreshAndReloadDataAsync];
+-(void)didRefreshAndReloadDataAsync {
+    [super didRefreshAndReloadDataAsync];
     if (self.p_hasInitialLoadBeenDone) {
         [self showTipForEditing:NO];
     }else{
@@ -145,7 +145,7 @@
 -(NSString *)editFormNameForCreateMode:(BOOL)aCreateMode{
     NSString *l_formName = [super editFormNameForCreateMode:aCreateMode];
     if (aCreateMode) {
-        if ([[IAPersistenceManager instance].entityConfig containsForm:IA_ENTITY_CONFIG_FORM_NAME_CREATION_SHORTCUT forEntity:self.entityName]) {
+        if ([[IAPersistenceManager sharedInstance].entityConfig containsForm:IA_ENTITY_CONFIG_FORM_NAME_CREATION_SHORTCUT forEntity:self.entityName]) {
             l_formName = IA_ENTITY_CONFIG_FORM_NAME_CREATION_SHORTCUT;
         }
     }
@@ -172,13 +172,13 @@
         __weak IAUISingleSelectionListViewController *l_weakSelf = self;
         
         // Using the serial queue here will guarantee that the data would have been loaded by the main thread
-        [self.p_aom m_dispatchSerialBlock:^{
-            
+        [self.p_aom dispatchSerialBlock:^{
+
             [IAUtils m_dispatchAsyncMainThreadBlock:^{
-                
-                NSManagedObject *l_mo = [[IAPersistenceManager instance] findById:l_editedManagedObjectId];
+
+                NSManagedObject *l_mo = [[IAPersistenceManager sharedInstance] findById:l_editedManagedObjectId];
                 if (l_mo) { // If nil, it means the object has been discarded
-                    
+
                     NSUInteger l_selectedSection = NSNotFound;
                     NSUInteger l_selectedRow = NSNotFound;
                     NSUInteger l_section = 0;
@@ -190,16 +190,18 @@
                         }
                         l_section++;
                     }
-                    NSAssert(l_selectedSection!=NSNotFound, @"l_selectedSection is NSNotFound");
-                    NSAssert(l_selectedRow!=NSNotFound, @"l_selectedRow is NSNotFound");
-                    NSIndexPath *l_selectedIndexPath = [NSIndexPath indexPathForRow:l_selectedRow inSection:l_selectedSection];
-                    [l_weakSelf.tableView selectRowAtIndexPath:l_selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+                    NSAssert(l_selectedSection != NSNotFound, @"l_selectedSection is NSNotFound");
+                    NSAssert(l_selectedRow != NSNotFound, @"l_selectedRow is NSNotFound");
+                    NSIndexPath *l_selectedIndexPath = [NSIndexPath indexPathForRow:l_selectedRow
+                                                                          inSection:l_selectedSection];
+                    [l_weakSelf.tableView selectRowAtIndexPath:l_selectedIndexPath animated:NO
+                                                scrollPosition:UITableViewScrollPositionNone];
                     [selectionManager handleSelectionForIndexPath:l_selectedIndexPath];
 
                 }
-                
+
             }];
-            
+
         }];
         
     }

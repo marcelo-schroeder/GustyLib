@@ -35,51 +35,51 @@
 
 - (void)oncontextSwitchRequestGrantedNotification:(NSNotification*)aNotification{
 //    NSLog(@"IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST_GRANTED received by %@", [self description]);
-    [self m_commitSelectionForIndexPath:aNotification.object];
+    [self commitSelectionForIndexPath:aNotification.object];
 }
 
 - (void)oncontextSwitchRequestDeniedNotification:(NSNotification*)aNotification{
 //    NSLog(@"IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST_DENIED received by %@", [self description]);
-    [self m_restoreCurrentSelection];
+    [self restoreCurrentSelection];
 }
 
 -(void)onSlidingViewTopDidResetNotification:(NSNotification*)a_notification{
-    [[self m_firstResponder] resignFirstResponder];
+    [[self firstResponder] resignFirstResponder];
 }
 
 #pragma mark - Public
 
--(void)m_restoreCurrentSelection{
-    
-    [self m_highlightCurrentSelection];
+-(void)restoreCurrentSelection {
+
+    [self highlightCurrentSelection];
     
     // Dismiss the popover controller if a split view controller is used
     [self m_dismissMenuPopoverController];
     
 }
 
--(void)m_highlightCurrentSelection{
+-(void)highlightCurrentSelection {
 //    NSLog(@"t: %@, p: %@, = %u", [self.tableView.indexPathForSelectedRow description], [self.p_selectedIndexPath description], [self.tableView.indexPathForSelectedRow isEqual:self.p_selectedIndexPath]);
     [self.tableView selectRowAtIndexPath:self.p_selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
 }
 
--(UIViewController*)m_newViewControllerForIndexPath:(NSIndexPath*)a_indexPath{
+-(UIViewController*)newViewControllerForIndexPath:(NSIndexPath*)a_indexPath{
     UITableViewCell *l_cell = [self tableView:self.tableView cellForRowAtIndexPath:a_indexPath];
-    BOOL l_useDeviceAgnosticMainStoryboard = [IAUIApplicationDelegate m_instance].p_useDeviceAgnosticMainStoryboard;
+    BOOL l_useDeviceAgnosticMainStoryboard = [IAUIApplicationDelegate sharedInstance].p_useDeviceAgnosticMainStoryboard;
     UIStoryboard *l_storyboard = l_useDeviceAgnosticMainStoryboard ? self.storyboard : [self m_commonStoryboard];
     UIViewController *l_viewController = [l_storyboard instantiateViewControllerWithIdentifier:l_cell.reuseIdentifier];
     if ((self.splitViewController || self.slidingViewController) && ![l_viewController isKindOfClass:[UINavigationController class]]) {
         // Automatically add a navigation controller as the parent
-        l_viewController = [[[[self m_appearanceTheme] m_navigationControllerClass] alloc] initWithRootViewController:l_viewController];
+        l_viewController = [[[[self m_appearanceTheme] navigationControllerClass] alloc] initWithRootViewController:l_viewController];
     }
     return l_viewController;
 }
 
--(UIResponder *)m_firstResponder{
+-(UIResponder *)firstResponder {
     return nil;
 }
 
--(UIViewController*)m_viewControllerForIndexPath:(NSIndexPath*)a_indexPath{
+-(UIViewController*)viewControllerForIndexPath:(NSIndexPath*)a_indexPath{
     UIViewController *l_viewController = [self.p_indexPathToViewControllerDictionary objectForKey:a_indexPath];
     if (l_viewController) { // A view controller is cached
         //        NSLog(@"   view controller is cached: %@", [l_viewController description]);
@@ -87,7 +87,7 @@
         [l_viewController m_reset];
     }else{
         // Configure a new view controller
-        l_viewController = [self m_newViewControllerForIndexPath:a_indexPath];
+        l_viewController = [self newViewControllerForIndexPath:a_indexPath];
         l_viewController.p_presenter = self;
         [self.p_indexPathToViewControllerDictionary setObject:l_viewController forKey:a_indexPath];
         //        NSLog(@"   p_indexPathToViewControllerDictionary: %@", [self.p_indexPathToViewControllerDictionary description]);
@@ -95,11 +95,11 @@
     return l_viewController;
 }
 
--(void)m_commitSelectionForIndexPath:(NSIndexPath*)a_indexPath{
+-(void)commitSelectionForIndexPath:(NSIndexPath*)a_indexPath{
     
-    //    NSLog(@"m_commitSelectionForIndexPath: %@", [a_indexPath description]);
+    //    NSLog(@"commitSelectionForIndexPath: %@", [a_indexPath description]);
     
-    UIViewController *l_viewController = [self m_viewControllerForIndexPath:a_indexPath];
+    UIViewController *l_viewController = [self viewControllerForIndexPath:a_indexPath];
     if (self.splitViewController) {
         self.splitViewController.viewControllers = @[[self.splitViewController.viewControllers objectAtIndex:0], l_viewController];
     }else if(self.slidingViewController){
@@ -142,7 +142,7 @@
     
 }
 
--(void)m_selectMenuItemAtIndex:(NSUInteger)a_index{
+-(void)selectMenuItemAtIndex:(NSUInteger)a_index{
     if ([self tableView:self.tableView numberOfRowsInSection:0]) {
         NSIndexPath *l_selectedIndexPath = [NSIndexPath indexPathForRow:a_index inSection:0];
         [self.tableView selectRowAtIndexPath:l_selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionTop];
@@ -150,7 +150,7 @@
     }
 }
 
-+(IAUIMenuViewController*)m_mainMenuViewController{
++(IAUIMenuViewController*)mainMenuViewController {
     IAUIMenuViewController *l_menuViewController = nil;
     UIViewController *l_rootViewController = [[UIApplication sharedApplication].delegate.window rootViewController];
     if ([l_rootViewController isKindOfClass:[UISplitViewController class]] || [l_rootViewController isKindOfClass:[IAUISlidingViewController class]]) {
@@ -168,11 +168,11 @@
 }
 
 -(NSMutableDictionary *)p_indexPathToViewControllerDictionary{
-    id l_obj = [[IADynamicCache instance] objectForKey:IA_CACHE_KEY_MENU_VIEW_CONTROLLERS_DICTIONARY];
+    id l_obj = [[IADynamicCache sharedInstance] objectForKey:IA_CACHE_KEY_MENU_VIEW_CONTROLLERS_DICTIONARY];
     if (!l_obj) {
 //        NSLog(@"Menu view controllers dictionary not in the cache. Creating a new one...");
         l_obj = [NSMutableDictionary new];
-        [[IADynamicCache instance] setObject:l_obj forKey:IA_CACHE_KEY_MENU_VIEW_CONTROLLERS_DICTIONARY];
+        [[IADynamicCache sharedInstance] setObject:l_obj forKey:IA_CACHE_KEY_MENU_VIEW_CONTROLLERS_DICTIONARY];
     }
     return l_obj;
 }
@@ -216,14 +216,14 @@
     [super viewWillAppear:animated];
 
     if (self.splitViewController || self.slidingViewController) {
-        [self m_highlightCurrentSelection];
+        [self highlightCurrentSelection];
     }
 
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
-    [[self m_firstResponder] resignFirstResponder];
+    [[self firstResponder] resignFirstResponder];
 }
 
 #pragma mark - UITableViewDelegate Protocol
@@ -232,7 +232,7 @@
     
 //    NSLog(@"didSelectRowAtIndexPath: %@", [indexPath description]);
     
-    [[self m_firstResponder] resignFirstResponder];
+    [[self firstResponder] resignFirstResponder];
     
     UIViewController *l_selectedViewController = nil;
     if (self.splitViewController || self.slidingViewController) {
@@ -252,7 +252,7 @@
         }
     }
 
-    [self m_commitSelectionForIndexPath:indexPath];
+    [self commitSelectionForIndexPath:indexPath];
 
 }
 

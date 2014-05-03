@@ -52,10 +52,10 @@
 - (CGFloat)m_calculateHorizontalSpaceAvailable {
 
     UICollectionViewFlowLayout *l_layout = self.p_layout;
-    CGFloat l_numberOfColumns = [self.p_gridViewDataSource m_numberOfColumns];
+    CGFloat l_numberOfColumns = [self.p_gridViewDataSource numberOfColumns];
     UIEdgeInsets l_reservedEdgeSpace = UIEdgeInsetsZero;
-    if ([self.p_gridViewDataSource respondsToSelector:@selector(m_reservedEdgeSpace)]) {
-        l_reservedEdgeSpace = [self.p_gridViewDataSource m_reservedEdgeSpace];
+    if ([self.p_gridViewDataSource respondsToSelector:@selector(reservedEdgeSpace)]) {
+        l_reservedEdgeSpace = [self.p_gridViewDataSource reservedEdgeSpace];
     }
 
     CGFloat l_horizontalSpace = self.view.frame.size.width;
@@ -72,8 +72,8 @@
 
 - (CGFloat)m_calculateCollectionItemWidthForIndexPath:(NSIndexPath *)a_indexPath{
 
-    if ([self.p_gridViewDataSource respondsToSelector:@selector(m_itemHeightMultiplierForItemWidth)]) {
-        CGFloat l_multiplier = [self.p_gridViewDataSource m_itemHeightMultiplierForItemWidth];
+    if ([self.p_gridViewDataSource respondsToSelector:@selector(itemHeightMultiplierForItemWidth)]) {
+        CGFloat l_multiplier = [self.p_gridViewDataSource itemHeightMultiplierForItemWidth];
         if (l_multiplier) {
             // Item width is based on the item height
             return [self m_calculateCollectionItemHeightForIndexPath:a_indexPath] * l_multiplier;
@@ -81,8 +81,8 @@
     }
 
     UICollectionViewFlowLayout *l_layout = self.p_layout;
-    CGFloat l_numberOfColumns = [self.p_gridViewDataSource m_numberOfColumns];
-    CGFloat l_numberOfRows = [self.p_gridViewDataSource m_numberOfRows];
+    CGFloat l_numberOfColumns = [self.p_gridViewDataSource numberOfColumns];
+    CGFloat l_numberOfRows = [self.p_gridViewDataSource numberOfRows];
     CGFloat l_numberOfTiles = l_numberOfColumns * l_numberOfRows;
     CGFloat l_horizontalSpaceAvailable = [self m_calculateHorizontalSpaceAvailable];
     CGFloat l_itemWidth = (CGFloat) floor(l_horizontalSpaceAvailable / l_numberOfColumns);
@@ -91,8 +91,8 @@
 
         CGFloat l_lastColumnTileWidthAdjustment = 0;
         BOOL l_shouldAdjustLastColumnWidth = NO;
-        if ([self.p_gridViewDataSource respondsToSelector:@selector(m_shouldAdjustLastColumnWidth)]) {
-            l_shouldAdjustLastColumnWidth = [self.p_gridViewDataSource m_shouldAdjustLastColumnWidth];
+        if ([self.p_gridViewDataSource respondsToSelector:@selector(shouldAdjustLastColumnWidth)]) {
+            l_shouldAdjustLastColumnWidth = [self.p_gridViewDataSource shouldAdjustLastColumnWidth];
         }
         if (l_shouldAdjustLastColumnWidth) {
             BOOL l_isLastColumn;
@@ -118,10 +118,10 @@
 - (CGFloat)m_calculateVerticalSpaceAvailable {
 
     UICollectionViewFlowLayout *l_layout = self.p_layout;
-    CGFloat l_numberOfRows = [self.p_gridViewDataSource m_numberOfRows];
+    CGFloat l_numberOfRows = [self.p_gridViewDataSource numberOfRows];
     UIEdgeInsets l_reservedEdgeSpace = UIEdgeInsetsZero;
-    if ([self.p_gridViewDataSource respondsToSelector:@selector(m_reservedEdgeSpace)]) {
-        l_reservedEdgeSpace = [self.p_gridViewDataSource m_reservedEdgeSpace];
+    if ([self.p_gridViewDataSource respondsToSelector:@selector(reservedEdgeSpace)]) {
+        l_reservedEdgeSpace = [self.p_gridViewDataSource reservedEdgeSpace];
     }
 
     CGFloat l_verticalSpace = self.view.frame.size.height;
@@ -138,8 +138,8 @@
 
 - (CGFloat)m_calculateCollectionItemHeightForIndexPath:(NSIndexPath *)a_indexPath{
 
-    if ([self.p_gridViewDataSource respondsToSelector:@selector(m_itemWidthMultiplierForItemHeight)]) {
-        CGFloat l_multiplier = [self.p_gridViewDataSource m_itemWidthMultiplierForItemHeight];
+    if ([self.p_gridViewDataSource respondsToSelector:@selector(itemWidthMultiplierForItemHeight)]) {
+        CGFloat l_multiplier = [self.p_gridViewDataSource itemWidthMultiplierForItemHeight];
         if (l_multiplier) {
             // Item height is based on the item width
             return [self m_calculateCollectionItemWidthForIndexPath:a_indexPath] * l_multiplier;
@@ -147,8 +147,8 @@
     }
 
     UICollectionViewFlowLayout *l_layout = self.p_layout;
-    CGFloat l_numberOfColumns = [self.p_gridViewDataSource m_numberOfColumns];
-    CGFloat l_numberOfRows = [self.p_gridViewDataSource m_numberOfRows];
+    CGFloat l_numberOfColumns = [self.p_gridViewDataSource numberOfColumns];
+    CGFloat l_numberOfRows = [self.p_gridViewDataSource numberOfRows];
     CGFloat l_numberOfTiles = l_numberOfColumns * l_numberOfRows;
     CGFloat l_verticalSpaceAvailable = [self m_calculateVerticalSpaceAvailable];
     CGFloat l_itemHeight = (CGFloat) floor(l_verticalSpaceAvailable / l_numberOfRows);
@@ -157,8 +157,8 @@
 
         CGFloat l_lastRowTileHeightAdjustment = 0;
         BOOL l_shouldAdjustLastRowHeight = NO;
-        if ([self.p_gridViewDataSource respondsToSelector:@selector(m_shouldAdjustLastRowHeight)]) {
-            l_shouldAdjustLastRowHeight = [self.p_gridViewDataSource m_shouldAdjustLastRowHeight];
+        if ([self.p_gridViewDataSource respondsToSelector:@selector(shouldAdjustLastRowHeight)]) {
+            l_shouldAdjustLastRowHeight = [self.p_gridViewDataSource shouldAdjustLastRowHeight];
         }
         if (l_shouldAdjustLastRowHeight) {
             BOOL l_isLastRow;
@@ -192,23 +192,23 @@
 
 - (void)m_updateCollectionViewLayout {
 
-    CGFloat l_interTileSpace = [self.p_gridViewDataSource m_interTileSpace];
+    CGFloat l_interTileSpace = [self.p_gridViewDataSource interTileSpace];
 
     UICollectionViewFlowLayout *l_layout = self.p_layout;
     l_layout.minimumInteritemSpacing = l_interTileSpace;
     l_layout.minimumLineSpacing = l_interTileSpace;
-    l_layout.scrollDirection = [self.p_gridViewDataSource m_scrollDirection];
+    l_layout.scrollDirection = [self.p_gridViewDataSource scrollDirection];
 
-    if ([self.p_gridViewDataSource respondsToSelector:@selector(m_sectionInset)]) {
-        l_layout.sectionInset = [self.p_gridViewDataSource m_sectionInset];
+    if ([self.p_gridViewDataSource respondsToSelector:@selector(sectionInset)]) {
+        l_layout.sectionInset = [self.p_gridViewDataSource sectionInset];
     }
 
-    if ([self.p_gridViewDataSource respondsToSelector:@selector(m_contentInset)]) {
-        self.collectionView.contentInset = [self.p_gridViewDataSource m_contentInset];
+    if ([self.p_gridViewDataSource respondsToSelector:@selector(contentInset)]) {
+        self.collectionView.contentInset = [self.p_gridViewDataSource contentInset];
     }
 
-    if ([self.p_gridViewDelegate respondsToSelector:@selector(m_didUpdateCollectionViewFlowLayout:)]) {
-        [self.p_gridViewDelegate m_didUpdateCollectionViewFlowLayout:l_layout];
+    if ([self.p_gridViewDelegate respondsToSelector:@selector(didUpdateCollectionViewFlowLayout:)]) {
+        [self.p_gridViewDelegate didUpdateCollectionViewFlowLayout:l_layout];
     }
 
 }

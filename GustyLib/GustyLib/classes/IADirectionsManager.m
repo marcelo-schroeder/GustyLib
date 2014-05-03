@@ -26,10 +26,10 @@
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "UnavailableInDeploymentTarget"
-- (void)m_directionsFrom:(MKMapItem *)a_fromMapItem
-                      to:(MKMapItem *)a_toMapItem
- requestsAlternateRoutes:(BOOL)a_shouldRequestAlternateRoutes
-         completionBlock:(MKDirectionsHandler)a_completionBlock {
+- (void)directionsFrom:(MKMapItem *)a_fromMapItem
+                     to:(MKMapItem *)a_toMapItem
+requestsAlternateRoutes:(BOOL)a_shouldRequestAlternateRoutes
+        completionBlock:(MKDirectionsHandler)a_completionBlock {
 
     MKDirectionsRequest *l_request = [[MKDirectionsRequest alloc] init];
     l_request.source = a_fromMapItem;
@@ -44,7 +44,7 @@
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "UnavailableInDeploymentTarget"
-- (void)m_etaFrom:(MKMapItem *)a_fromMapItem
+- (void)etaFrom:(MKMapItem *)a_fromMapItem
                      to:(MKMapItem *)a_toMapItem
 requestsAlternateRoutes:(BOOL)a_shouldRequestAlternateRoutes
         completionBlock:(MKETAHandler)a_completionBlock {
@@ -60,7 +60,7 @@ requestsAlternateRoutes:(BOOL)a_shouldRequestAlternateRoutes
 }
 #pragma clang diagnostic pop
 
-+ (IADirectionsManager*)m_instance {
++ (IADirectionsManager*)sharedInstance {
     static dispatch_once_t c_dispatchOncePredicate;
     static IADirectionsManager *c_instance = nil;
     dispatch_once(&c_dispatchOncePredicate, ^{

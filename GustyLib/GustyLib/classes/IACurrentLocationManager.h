@@ -27,12 +27,12 @@ typedef void (^CurrentLocationBlock)(CLLocation *a_location);
 
 @property (nonatomic, strong, readonly) CLLocationManager *p_underlyingLocationManager;
 
-- (void)m_currentLocationWithCompletionBlock:(CurrentLocationBlock)a_completionBlock;
+- (void)currentLocationWithCompletionBlock:(CurrentLocationBlock)a_completionBlock;
 
-- (void)m_currentLocationWithHorizontalAccuracy:(CLLocationAccuracy)horizontalAccuracy
-                           locationAgeThreshold:(NSTimeInterval)locationAgeThreshold
-                locationUpdatesTimeoutThreshold:(NSTimeInterval)locationUpdatesTimeoutThreshold
-                                completionBlock:(CurrentLocationBlock)a_completionBlock;
+- (void)currentLocationWithHorizontalAccuracy:(CLLocationAccuracy)horizontalAccuracy
+                         locationAgeThreshold:(NSTimeInterval)locationAgeThreshold
+              locationUpdatesTimeoutThreshold:(NSTimeInterval)locationUpdatesTimeoutThreshold
+                              completionBlock:(CurrentLocationBlock)a_completionBlock;
 
-+ (BOOL)m_performLocationServicesChecks;
++ (BOOL)performLocationServicesChecks;
 @end

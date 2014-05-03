@@ -59,7 +59,7 @@
 			}
 
 		}
-		[label appendString:[[IAPersistenceManager instance].entityConfig labelForProperty:[aKeyArray objectAtIndex:i] inObject:self]];
+		[label appendString:[[IAPersistenceManager sharedInstance].entityConfig labelForProperty:[aKeyArray objectAtIndex:i] inObject:self]];
 	}
 	return label;
 }
@@ -78,11 +78,11 @@
 }
 
 - (BOOL) m_delete{
-	return [[IAPersistenceManager instance] m_delete:self];
+	return [[IAPersistenceManager sharedInstance] deleteObject:self];
 }
 
 - (BOOL) m_deleteAndSave{
-	return [[IAPersistenceManager instance] m_deleteAndSave:self];
+	return [[IAPersistenceManager sharedInstance] deleteAndSaveObject:self];
 }
 
 - (BOOL)m_hasValueChangedForKey:(NSString*)a_key{
@@ -98,22 +98,22 @@
 }
 
 + (NSManagedObject*)m_instantiate{
-	return [[IAPersistenceManager instance] m_instantiate:[self description]];
+	return [[IAPersistenceManager sharedInstance] instantiate:[self description]];
 }
 
 + (NSMutableArray *)m_findAll{
-    return [[IAPersistenceManager instance] findAllForEntity:[self entityName]];
+    return [[IAPersistenceManager sharedInstance] findAllForEntity:[self entityName]];
 }
 
 + (void)m_deleteAll{
-    for (NSManagedObject *l_mo in [[IAPersistenceManager instance] findAllForEntity:[self entityName]]) {
+    for (NSManagedObject *l_mo in [[IAPersistenceManager sharedInstance] findAllForEntity:[self entityName]]) {
         [l_mo m_delete];
     }
 }
 
 + (void)m_deleteAllAndSave{
     [self m_deleteAll];
-    [[IAPersistenceManager instance] save];
+    [[IAPersistenceManager sharedInstance] save];
 }
 
 @end

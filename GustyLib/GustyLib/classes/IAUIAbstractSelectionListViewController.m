@@ -32,21 +32,21 @@
 
 - (id) initWithManagedObject:(NSManagedObject *)aManagedObject propertyName:(NSString *)aPropertyName{
 	
-    if ((self = [super initWithEntityName:[[IAPersistenceManager instance].entityConfig entityNameForProperty:aPropertyName inObject:aManagedObject]])) {
+    if ((self = [super initWithEntityName:[[IAPersistenceManager sharedInstance].entityConfig entityNameForProperty:aPropertyName inObject:aManagedObject]])) {
 		
 		self.p_managedObject = aManagedObject;
 		self.p_propertyName = aPropertyName;
 		
         if (![IAUIUtils m_isIPad]) {
-            UIBarButtonItem *l_barButtonItem = [[self m_appearanceTheme] m_doneBarButtonItemWithTarget:self
-                                                                                                action:@selector(onDoneButtonTap:)
-                                                                                        viewController:self];
+            UIBarButtonItem *l_barButtonItem = [[self m_appearanceTheme] doneBarButtonItemWithTarget:self
+                                                                                              action:@selector(onDoneButtonTap:)
+                                                                                      viewController:self];
             [self m_addLeftBarButtonItem:l_barButtonItem];
         }
 		
 		self.p_selectNoneButtonItem = [IAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_ITEM_SELECT_NONE target:self action:@selector(onSelectNoneButtonTap:)];
 		
-        NSString *l_propertyLabel = [[IAPersistenceManager instance].entityConfig labelForProperty:self.p_propertyName
+        NSString *l_propertyLabel = [[IAPersistenceManager sharedInstance].entityConfig labelForProperty:self.p_propertyName
                                                                                           inObject:self.p_managedObject];
         if (l_propertyLabel) {
             self.title = [NSString stringWithFormat:@"%@ Selection", l_propertyLabel];
@@ -77,7 +77,7 @@
 #pragma mark Overrides
 
 - (NSArray*)m_nonEditModeToolbarItems{
-    if ([[IAPersistenceManager instance].entityConfig shouldShowSelectNoneButtonInSelectionForEntity:self.entityName]) {
+    if ([[IAPersistenceManager sharedInstance].entityConfig shouldShowSelectNoneButtonInSelectionForEntity:self.entityName]) {
         return @[self.p_selectNoneButtonItem];
     }else{
         return nil;
@@ -89,9 +89,9 @@
 	[self updateUiState];
 }
 
--(void)m_willRefreshAndReloadDataAsync{
-    
-    [super m_willRefreshAndReloadDataAsync];
+-(void)willRefreshAndReloadDataAsync {
+
+    [super willRefreshAndReloadDataAsync];
     
     // Disable user interaction while data is being refreshed asynchronously
     self.navigationItem.rightBarButtonItem.enabled = NO;
@@ -99,9 +99,9 @@
 
 }
 
--(void)m_didRefreshAndReloadDataAsync{
+-(void)didRefreshAndReloadDataAsync {
 
-    [super m_didRefreshAndReloadDataAsync];
+    [super didRefreshAndReloadDataAsync];
     
     // Restore user interaction now that data has been refreshed asynchronously
     self.navigationItem.rightBarButtonItem.enabled = YES;

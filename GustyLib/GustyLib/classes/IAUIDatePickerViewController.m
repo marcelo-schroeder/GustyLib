@@ -75,12 +75,12 @@ static NSString * const k_valueCellId = @"valueCell";
 
 -(void)m_onClearDateButtonTap:(id)aSender{
     self.p_dateAndTime = nil;
-	[self m_done];
+    [self done];
 }
 
 -(void)m_onResetCountDownButtonTap:(id)aSender{
     self.p_countDownDuration = 0;
-	[self m_done];
+    [self done];
 }
 
 -(void)m_updateToolbarLabelForDate:(NSDate*)a_date shouldShowTime:(BOOL)a_shouldShowTime{
@@ -109,7 +109,7 @@ static NSString * const k_valueCellId = @"valueCell";
 	UIDatePicker *l_datePicker = [[UIDatePicker alloc] initWithFrame:CGRectZero];
     l_datePicker.datePickerMode = a_pickerMode;
     if (l_datePicker.datePickerMode!=UIDatePickerModeCountDownTimer) {
-        NSDictionary *l_optionsDict = [[IAPersistenceManager instance].entityConfig optionsForProperty:a_propertyName inObject:a_object];
+        NSDictionary *l_optionsDict = [[IAPersistenceManager sharedInstance].entityConfig optionsForProperty:a_propertyName inObject:a_object];
         l_datePicker.minimumDate = [NSDate distantPast];
         BOOL l_preventFutureDateSelection = [[l_optionsDict objectForKey:@"preventFutureDateSelection"] boolValue];
         BOOL l_preventFutureDateSelectionExceptTomorrow = [[l_optionsDict objectForKey:@"preventFutureDateSelectionExceptTomorrow"] boolValue];
@@ -128,7 +128,7 @@ static NSString * const k_valueCellId = @"valueCell";
 
 -(NSArray*)m_datePickerToolbarItemsForProperty:(NSString*)a_propertyName inObject:(NSObject*)a_object target:(id)a_target{
     
-    NSDictionary *l_optionsDict = [[IAPersistenceManager instance].entityConfig optionsForProperty:a_propertyName inObject:a_object];
+    NSDictionary *l_optionsDict = [[IAPersistenceManager sharedInstance].entityConfig optionsForProperty:a_propertyName inObject:a_object];
 	BOOL l_showSelectNowButton = [[l_optionsDict objectForKey:@"showSelectNowButton"] boolValue];
 	BOOL l_showSelectTodayButton = [[l_optionsDict objectForKey:@"showSelectTodayButton"] boolValue];
 	BOOL l_showClearDateButton = [[l_optionsDict objectForKey:@"showClearDateButton"] boolValue];
@@ -218,7 +218,7 @@ static NSString * const k_valueCellId = @"valueCell";
             self.p_dateAndTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             self.p_dateAndTimeLabel.backgroundColor = [UIColor clearColor];
             self.p_dateAndTimeLabel.textColor = [UIColor whiteColor];
-            [[self m_appearanceTheme] m_setAppearanceForView:self.p_dateAndTimeLabel];
+            [[self m_appearanceTheme] setAppearanceForView:self.p_dateAndTimeLabel];
             self.p_dateAndTimeLabel.textAlignment = NSTextAlignmentCenter;
             
             UIBarButtonItem *l_dateAndTimeBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.p_dateAndTimeLabel];
@@ -237,7 +237,7 @@ static NSString * const k_valueCellId = @"valueCell";
             self.p_dateAndTime = [self.p_object valueForKey:self.p_propertyName];
         }
 
-        NSDictionary *l_options = [[IAPersistenceManager instance].entityConfig optionsForProperty:self.p_propertyName inObject:self.p_object];
+        NSDictionary *l_options = [[IAPersistenceManager sharedInstance].entityConfig optionsForProperty:self.p_propertyName inObject:self.p_object];
         v_seconds = [l_options objectForKey:@"seconds"];
         
         // Configure view
@@ -266,7 +266,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
     return v_toolbarItems;
 }
 
--(id)m_editedValue{
+-(id)editedValue {
     if (self.p_datePickerMode==UIDatePickerModeCountDownTimer) {
         return @(self.p_countDownDuration);
     }else{
@@ -315,8 +315,8 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
         [self m_updateToolbarLabel];
 
     }
-    
-    [self m_updateModel];
+
+    [self updateModel];
 
 }
 

@@ -19,7 +19,7 @@
 
 @interface IASemaphoreManager : NSObject
 
-- (BOOL)      m_waitForSemaphore:(dispatch_semaphore_t)a_semaphore
+- (BOOL)waitForSemaphore:(dispatch_semaphore_t)a_semaphore
 shouldShowModalProgressIndicator:(BOOL)a_shouldShowModalProgressIndicator
         progressIndicatorMessage:(NSString *)a_progressIndicatorMessage
             semaphoreNoWaitBlock:(void (^)())a_semaphoreNoWaitBlock

@@ -82,8 +82,8 @@
 
 - (CGFloat)m_frostedGlassViewHeight {
     CGFloat l_newHeight = self.presentingViewController.view.frame.size.height;
-    if ([self.p_delegate respondsToSelector:@selector(m_frostedGlassViewHeight)]) {
-        l_newHeight = [self.p_delegate m_frostedGlassViewHeight];
+    if ([self.p_delegate respondsToSelector:@selector(frostedGlassViewHeight)]) {
+        l_newHeight = [self.p_delegate frostedGlassViewHeight];
     }
     return l_newHeight;
 }
@@ -177,7 +177,7 @@
     return self;
 }
 
-- (UIImage *)m_newBlurredSnapshotImageFrom:(UIView *)a_viewToSnapshot {
+- (UIImage *)newBlurredSnapshotImageFrom:(UIView *)a_viewToSnapshot {
     UIImage *l_snapshotImage = [a_viewToSnapshot m_snapshotImage];
     UIImage *l_blurredSnapshotImage;
     if (self.p_snapshotEffectBlock) {
@@ -279,7 +279,7 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [IAUtils m_dispatchAsyncMainThreadBlock:^{  // Had to run this async to allow for the correct snapshot to be taken when app enters foreground
-        self.p_frostedGlassImageView.image = [self m_newBlurredSnapshotImageFrom:self.presentingViewController.view];
+        self.p_frostedGlassImageView.image = [self newBlurredSnapshotImageFrom:self.presentingViewController.view];
         [self m_updateFrostedGlassImageViewHeightConstraintConstantForVisibleState];
         [self.view layoutIfNeeded];
         [UIView animateWithDuration:0.3 animations:^{
@@ -336,7 +336,7 @@
         [l_toViewController.view m_addLayoutConstraintsToFillSuperview];
 
         // Set the blurred snapshot image
-        self.p_frostedGlassImageView.image = [self m_newBlurredSnapshotImageFrom:l_fromViewController.view];
+        self.p_frostedGlassImageView.image = [self newBlurredSnapshotImageFrom:l_fromViewController.view];
 
         // Update layout constraints in the blurred snapshot view
         [self m_updateFrostedGlassImageViewHeightConstraintForVisible:NO];

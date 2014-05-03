@@ -50,18 +50,18 @@ static NSArray *c_pageDataLoadingOrder = nil;
     // Switch flag that indicates scrolling is being performed on
     v_performingScroll = YES;
 
-    [self m_scrollToPage:(a_page - v_firstPageWithContent) animated:a_animated];
+    [self scrollToPage:(a_page - v_firstPageWithContent) animated:a_animated];
 
 }
 
 -(id)m_requestChildViewControllerFromDataSourceForPage:(IAUIScrollPage)a_page{
-    UITableViewController *l_viewController = [self.p_dataSource m_childViewControlerForPage:a_page];
+    UITableViewController *l_viewController = [self.p_dataSource childViewControlerForPage:a_page];
     l_viewController.tableView.scrollsToTop = NO;
     return l_viewController ? l_viewController : [NSNull null];
 }
 
 -(void)m_updateChildViewControllersForSelectedPageNumber:(NSNumber*)a_selectedPage{
-    [self m_updateChildViewControllersForSelectedPage:[a_selectedPage unsignedIntegerValue]];
+    [self updateChildViewControllersForSelectedPage:[a_selectedPage unsignedIntegerValue]];
 }
 
 - (void)m_onToolbarNavigationButtonAction:(id)aSender{
@@ -127,7 +127,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
     if (![self m_isReturningVisibleViewController]) {
         
         // At first time, initialise child view controllers and scroll to centre page, otherwise just scroll to centre page (to avoid any previously unfinished animation)
-        [self m_updateChildViewControllersForSelectedPage:self.p_childViewControllers?v_selectedPage:IA_UISCROLL_PAGE_INIT];
+        [self updateChildViewControllersForSelectedPage:self.p_childViewControllers ? v_selectedPage : IA_UISCROLL_PAGE_INIT];
 
     }
 
@@ -152,13 +152,13 @@ static NSArray *c_pageDataLoadingOrder = nil;
 
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self m_updateChildViewControllersForSelectedPage:v_selectedPage];
+    [self updateChildViewControllersForSelectedPage:v_selectedPage];
 }
 
 -(void)m_updateNavigationItemState{
     [super m_updateNavigationItemState];
 //    NSLog(@"m_updateNavigationItemState v_selectedPage: %u", v_selectedPage);
-    self.navigationItem.title = [self.p_dataSource m_titleForPage:v_selectedPage];
+    self.navigationItem.title = [self.p_dataSource titleForPage:v_selectedPage];
 }
 
 - (void)m_updateToolbarNavigationButtonState{
@@ -184,7 +184,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
     return v_childViewControllerCentre;
 }
 
--(NSArray *)m_dataLoadPageIndexes{
+-(NSArray *)dataLoadPageIndexes {
     NSMutableArray *l_pageIndexes = [NSMutableArray new];
     for (NSNumber *l_pageIndex in c_pageDataLoadingOrder) {
         NSUInteger i = [l_pageIndex unsignedIntegerValue];
@@ -209,7 +209,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
     }
     
 //    NSLog(@"   v_selectedPage BEFORE: %u", v_selectedPage);
-    v_selectedPage = [self m_calculateSelectedPageIndex] + v_firstPageWithContent;
+    v_selectedPage = [self calculateSelectedPageIndex] + v_firstPageWithContent;
 //    NSLog(@"   v_selectedPage AFTER: %u", v_selectedPage);
     
     [super scrollViewDidScroll:sender];
@@ -224,7 +224,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
 //    NSLog(@"scrollViewDidEndDecelerating - v_selectedPage: %u", v_selectedPage);
 
     // Update child view controllers after a horizontal swipe by user
-    [self m_updateChildViewControllersForSelectedPage:v_selectedPage];
+    [self updateChildViewControllersForSelectedPage:v_selectedPage];
 
 }
 
@@ -239,7 +239,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
 
 #pragma mark - Public
 
--(void)m_updateChildViewControllersForSelectedPage:(IAUIScrollPage)a_selectedPage{
+-(void)updateChildViewControllersForSelectedPage:(IAUIScrollPage)a_selectedPage{
     
 //    NSLog(@"m_updateChildViewControllersForSelectedPage - a_selectedPage: %u", a_selectedPage);
     
@@ -341,8 +341,8 @@ static NSArray *c_pageDataLoadingOrder = nil;
         }
         
     }
-    
-    [self m_updateContentLayout];
+
+    [self updateContentLayout];
     
     [self m_scrollToDynamicPage:v_selectedPage animated:NO];
     
@@ -361,7 +361,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
     
 }
 
--(UIViewController*)m_visibleChildViewController{
+-(UIViewController*)visibleChildViewController {
     return v_childViewControllerCentre;
 }
 

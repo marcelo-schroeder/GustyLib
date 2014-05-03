@@ -92,8 +92,8 @@ static char c_presentedAsSemiModalKey;
 -(void)presentSemiModalViewController:(UIViewController*)vc {
 //    NSLog(@"presentSemiModalViewController: %@, by: %@", [vc description], [self description]);
     self.p_presentingSemiModal = YES;
-    [IAUIApplicationDelegate m_instance].p_semiModalViewController = vc;
-    [IAUIApplicationDelegate m_instance].p_semiModalViewController.p_presentedAsSemiModal = YES;
+    [IAUIApplicationDelegate sharedInstance].p_semiModalViewController = vc;
+    [IAUIApplicationDelegate sharedInstance].p_semiModalViewController.p_presentedAsSemiModal = YES;
     [self presentSemiModalView:vc.view];
 }
 
@@ -128,7 +128,7 @@ static char c_presentedAsSemiModalKey;
 //        ss.autoresizingMask = [IAUIUtils m_fullAutoresizingMask];
 //        [overlay addSubview:ss];
         [target addSubview:overlay];
-        [IAUIApplicationDelegate m_instance].p_semiModalInterfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+        [IAUIApplicationDelegate sharedInstance].p_semiModalInterfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
         
         // Dismiss button
         // Don't use UITapGestureRecognizer to avoid complex handling
@@ -186,13 +186,13 @@ static char c_presentedAsSemiModalKey;
         [overlay removeFromSuperview];
         [modal removeFromSuperview];
         self.p_presentingSemiModal = NO;
-        UIViewController *l_dismissedChildViewController = [IAUIApplicationDelegate m_instance].p_semiModalViewController;
+        UIViewController *l_dismissedChildViewController = [IAUIApplicationDelegate sharedInstance].p_semiModalViewController;
         if ([l_dismissedChildViewController isKindOfClass:[UINavigationController class]]) {
             UINavigationController *l_navigationController = (UINavigationController *) l_dismissedChildViewController;
             l_dismissedChildViewController = l_navigationController.viewControllers[0];
         }
-        [IAUIApplicationDelegate m_instance].p_semiModalViewController.p_presentedAsSemiModal = NO;
-        [IAUIApplicationDelegate m_instance].p_semiModalViewController = nil;
+        [IAUIApplicationDelegate sharedInstance].p_semiModalViewController.p_presentedAsSemiModal = NO;
+        [IAUIApplicationDelegate sharedInstance].p_semiModalViewController = nil;
         [UIViewController attemptRotationToDeviceOrientation];  // We may have missed an interface orientation change when the semi modal view was being displayed, so this is the opportunity to catch up
         [self m_didDismissViewController:l_dismissedChildViewController changesMade:a_changesMade data:a_data];
     }];

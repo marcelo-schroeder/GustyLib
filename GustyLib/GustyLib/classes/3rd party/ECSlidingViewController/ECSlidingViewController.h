@@ -196,6 +196,6 @@ typedef enum {
 
 /** UIViewController extension */
 @interface UIViewController(SlidingViewExtension)
-/** Convience method for getting access to the ECSlidingViewController instance */
+/** Convience method for getting access to the ECSlidingViewController sharedInstance */
 - (ECSlidingViewController *)slidingViewController;
 @end

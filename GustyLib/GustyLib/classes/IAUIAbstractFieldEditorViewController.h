@@ -35,11 +35,11 @@
 
 - (id) initWithObject:(NSObject *)anObject propertyName:(NSString *)aPropertyName
 useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter>)a_presenter;
--(void)m_done;
--(void)m_updateModel;
--(BOOL)m_hasValueChanged;
+-(void)done;
+-(void)updateModel;
+-(BOOL)hasValueChanged;
 
 // To be overriden by subclasses
--(id)m_editedValue;
+-(id)editedValue;
 
 @end

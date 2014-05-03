@@ -40,17 +40,17 @@
 @property BOOL p_staleData;
 
 - (id)initWithEntityName:(NSString *)anEntityName;
-- (NSArray*) m_findEntities;
+- (NSArray*)findEntities;
 - (NSObject*)m_objectForIndexPath:(NSIndexPath*)a_indexPath;
-- (NSIndexPath*)m_indexPathForObject:(NSObject*)a_object;
--(void)m_refreshSectionsWithRows;
-- (void)m_refreshAndReloadDataAsync;
+- (NSIndexPath*)indexPathForObject:(NSObject*)a_object;
+-(void)refreshSectionsWithRows;
+- (void)refreshAndReloadDataAsync;
 
 /* can be overriden by subclasses */
-- (UITableViewStyle) m_tableViewStyle;
-- (UITableViewCell*) m_cellForTableView:(UITableView*)a_tableView;
-- (void)m_willRefreshAndReloadDataAsync;
-- (void)m_didRefreshAndReloadDataAsync;
+- (UITableViewStyle)tableViewStyle;
+- (UITableViewCell*)cellForTableView:(UITableView*)a_tableView;
+- (void)willRefreshAndReloadDataAsync;
+- (void)didRefreshAndReloadDataAsync;
 
 - (BOOL)shouldShowTipsForEditing:(BOOL)a_editing;
 - (NSString*)tipTextForEditing:(BOOL)a_editing;

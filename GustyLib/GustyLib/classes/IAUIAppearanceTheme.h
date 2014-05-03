@@ -49,109 +49,113 @@ typedef enum {
 
 @property (nonatomic, strong) NSShadow *p_shadow;
 
--(void)m_setAppearance;
--(void)m_setAppearanceForView:(UIView*)a_view;
--(void)m_setAppearanceForBarButtonItem:(UIBarButtonItem*)a_barButtonItem;
--(void)m_setAppearanceForBarButtonItem:(UIBarButtonItem *)a_barButtonItem viewController:(UIViewController *)a_viewController important:(BOOL)a_important;
--(void)m_setAppearanceForToolbarButtonItem:(UIBarButtonItem*)a_barButtonItem;
--(void)m_setAppearanceForPopoverController:(UIPopoverController*)a_popoverController;
+-(void)setAppearance;
+-(void)setAppearanceForView:(UIView*)a_view;
+-(void)setAppearanceForBarButtonItem:(UIBarButtonItem*)a_barButtonItem;
+-(void)setAppearanceForBarButtonItem:(UIBarButtonItem *)a_barButtonItem
+                      viewController:(UIViewController *)a_viewController important:(BOOL)a_important;
+-(void)setAppearanceForToolbarButtonItem:(UIBarButtonItem*)a_barButtonItem;
+-(void)setAppearanceForPopoverController:(UIPopoverController*)a_popoverController;
 
--(void)m_setLabelTextStyleForChildrenOfView:(UIView*)a_view;
+-(void)setLabelTextStyleForChildrenOfView:(UIView*)a_view;
 
--(NSString*)m_themeName;
--(NSString*)m_fallbackThemeName;
--(NSBundle*)m_bundle;
--(NSString*)m_storyboardName;
--(UIStoryboard*)m_storyboard;
--(UIImage*)m_imageNamed:(NSString*)a_imageName;
--(NSString*)m_nameSpacedResourceName:(NSString*)a_resourceName;
+-(NSString*)themeName;
+-(NSString*)fallbackThemeName;
+-(NSBundle*)bundle;
+-(NSString*)storyboardName;
+-(UIStoryboard*)storyboard;
+-(UIImage*)imageNamed:(NSString*)a_imageName;
+-(NSString*)nameSpacedResourceName:(NSString*)a_resourceName;
 
--(UIColor*)m_barButtonItemTintColor;
--(UIColor*)m_importantBarButtonItemTintColor;
--(UIColor*)m_tableCellTextColor;
--(UIFont*)m_tableCellTextFont;
+-(UIColor*)barButtonItemTintColor;
+-(UIColor*)importantBarButtonItemTintColor;
+-(UIColor*)tableCellTextColor;
+-(UIFont*)tableCellTextFont;
 
--(UIButton*)m_newDetailDisclosureButton;
--(UIView*)m_newDisclosureIndicatorView;
-- (void)m_setCustomDisclosureIndicatorForCell:(UITableViewCell *)a_cell
-                          tableViewController:(UITableViewController *)a_tableViewController;
--(UIImage*)m_backgroundImageForViewController:(UIViewController*)a_viewController;
+-(UIButton*)newDetailDisclosureButton;
+-(UIView*)newDisclosureIndicatorView;
+- (void)setCustomDisclosureIndicatorForCell:(UITableViewCell *)a_cell
+                        tableViewController:(UITableViewController *)a_tableViewController;
+-(UIImage*)backgroundImageForViewController:(UIViewController*)a_viewController;
 
--(UIColor*)m_selectedTableCellBackgroundColor;
+-(UIColor*)selectedTableCellBackgroundColor;
 
 // Google ads styling
--(NSDictionary*)m_gadAdditionalParameters;
+-(NSDictionary*)gadAdditionalParameters;
 
--(UIBarButtonItem*)m_backBarButtonItem;
--(UIBarButtonItem*)m_backBarButtonItemForViewController:(UIViewController *)a_viewController;
--(UIBarButtonItem*)m_splitViewControllerBarButtonItem;
--(UIBarButtonItem*)m_slidingMenuBarButtonItem;
--(UIBarButtonItem*)m_slidingMenuBarButtonItemForViewController:(UIViewController *)a_viewController;
+-(UIBarButtonItem*)backBarButtonItem;
+-(UIBarButtonItem*)backBarButtonItemForViewController:(UIViewController *)a_viewController;
+-(UIBarButtonItem*)splitViewControllerBarButtonItem;
+-(UIBarButtonItem*)slidingMenuBarButtonItem;
+-(UIBarButtonItem*)slidingMenuBarButtonItemForViewController:(UIViewController *)a_viewController;
 
-- (UIBarButtonItem *)m_doneBarButtonItemWithTarget:(id)a_target action:(SEL)a_action
+- (UIBarButtonItem *)doneBarButtonItemWithTarget:(id)a_target action:(SEL)a_action
+                                  viewController:(UIViewController *)a_viewController;
+
+- (UIBarButtonItem *)cancelBarButtonItemWithTarget:(id)a_target
+                                            action:(SEL)a_action
                                     viewController:(UIViewController *)a_viewController;
-
-- (UIBarButtonItem *)m_cancelBarButtonItemWithTarget:(id)a_target
-                                              action:(SEL)a_action
-                                      viewController:(UIViewController *)a_viewController;
-- (UIBarButtonItem *)m_cancelBarButtonItemWithTarget:(id)a_target
-                                              action:(SEL)a_action;
+- (UIBarButtonItem *)cancelBarButtonItemWithTarget:(id)a_target
+                                            action:(SEL)a_action;
 
 // Bar button item spacing automation
--(BOOL)m_shouldAutomateBarButtonItemSpacingForViewController:(UIViewController*)a_viewController;
--(UIBarButtonItem*)m_spacingBarButtonItemForType:(IAUISpacingBarButtonItemType)a_type viewController:(UIViewController*)a_viewController;
+-(BOOL)shouldAutomateBarButtonItemSpacingForViewController:(UIViewController*)a_viewController;
+-(UIBarButtonItem*)spacingBarButtonItemForType:(IAUISpacingBarButtonItemType)a_type viewController:(UIViewController*)a_viewController;
 
-- (UIViewController *)m_newInternalWebBrowserViewControllerWithUrl:(NSURL *)a_url;
-- (UIViewController *)m_newInternalWebBrowserViewControllerWithUrl:(NSURL *)a_url completionBlock:(void(^)(void))a_completionBlock;
+- (UIViewController *)newInternalWebBrowserViewControllerWithUrl:(NSURL *)a_url;
+- (UIViewController *)newInternalWebBrowserViewControllerWithUrl:(NSURL *)a_url completionBlock:(void(^)(void))a_completionBlock;
 
--(Class)m_navigationControllerClass;
+-(Class)navigationControllerClass;
 
 /*
     Some of these have been moved to the more specific protocols below.
     Ideally these would be deprecated one day.
 */
--(void)m_setAppearanceOnViewDidLoadForViewController:(UIViewController*)a_viewController;
--(void)m_setAppearanceOnViewWillAppearForViewController:(UIViewController*)a_viewController;
--(void)m_setAppearanceOnWillRotateForViewController:(UIViewController*)a_viewController toInterfaceOrientation:(UIInterfaceOrientation)a_toInterfaceOrientation;
--(void)m_setAppearanceOnWillAnimateRotationForViewController:(UIViewController*)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_toInterfaceOrientation;
--(void)m_setAppearanceOnInitReusableCellForViewController:(UITableViewController*)a_tableViewController cell:(UITableViewCell*)a_cell;
--(void)m_setAppearanceOnWillDisplayCell:(UITableViewCell*)a_cell forRowAtIndexPath:(NSIndexPath*)a_indexPath viewController:(IAUITableViewController*)a_tableViewController;
--(void)m_setAppearanceForCell:(UITableViewCell*)a_cell atIndexPath:(NSIndexPath*)a_indexPath viewController:(IAUITableViewController*)a_tableViewController;
--(void)m_setAppearanceOnAwakeFromNibForView:(UIView*)a_view;
--(void)m_setAppearanceOnInitForView:(UIView*)a_view;
-- (void)m_setAppearanceOnSetHighlightedForCell:(UITableViewCell *)a_cell animated:(BOOL)a_shouldAnimate;
-- (void)m_setAppearanceOnSetSelectedForCell:(UITableViewCell *)a_cell animated:(BOOL)a_shouldAnimate;
--(void)m_setAppearanceOnPrepareForReuseForCell:(UITableViewCell *)a_cell;
+-(void)setAppearanceOnViewDidLoadForViewController:(UIViewController*)a_viewController;
+-(void)setAppearanceOnViewWillAppearForViewController:(UIViewController*)a_viewController;
+-(void)setAppearanceOnWillRotateForViewController:(UIViewController *)a_viewController toInterfaceOrientation:(UIInterfaceOrientation)a_toInterfaceOrientation;
+-(void)setAppearanceOnWillAnimateRotationForViewController:(UIViewController *)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_toInterfaceOrientation;
+-(void)setAppearanceOnInitReusableCellForViewController:(UITableViewController *)a_tableViewController cell:(UITableViewCell*)a_cell;
+-(void)setAppearanceOnWillDisplayCell:(UITableViewCell *)a_cell forRowAtIndexPath:(NSIndexPath *)a_indexPath
+                       viewController:(IAUITableViewController*)a_tableViewController;
+-(void)setAppearanceForCell:(UITableViewCell *)a_cell atIndexPath:(NSIndexPath *)a_indexPath viewController:(IAUITableViewController*)a_tableViewController;
+-(void)setAppearanceOnAwakeFromNibForView:(UIView*)a_view;
+-(void)setAppearanceOnInitForView:(UIView*)a_view;
+- (void)setAppearanceOnSetHighlightedForCell:(UITableViewCell *)a_cell animated:(BOOL)a_shouldAnimate;
+- (void)setAppearanceOnSetSelectedForCell:(UITableViewCell *)a_cell animated:(BOOL)a_shouldAnimate;
+-(void)setAppearanceOnPrepareForReuseForCell:(UITableViewCell *)a_cell;
 
 @optional
--(void)m_willReloadUi;
--(void)m_setAppearanceForAdBannerView:(GADBannerView *)a_adBannerView;
--(void)m_setAppearanceForCollectionViewCell:(UICollectionViewCell*)a_cell atIndexPath:(NSIndexPath*)a_indexPath viewController:(IAUICollectionViewCell*)a_collectionViewController;
+-(void)willReloadUi;
+-(void)setAppearanceForAdBannerView:(GADBannerView *)a_adBannerView;
+-(void)setAppearanceForCollectionViewCell:(UICollectionViewCell *)a_cell atIndexPath:(NSIndexPath *)a_indexPath
+                           viewController:(IAUICollectionViewCell*)a_collectionViewController;
 
 @end
 
 @protocol IAUIViewControllerAppearance <NSObject>
 @optional
--(void)m_setAppearanceOnViewDidLoadForViewController:(UIViewController*)a_viewController;
--(void)m_setAppearanceOnViewWillAppearForViewController:(UIViewController*)a_viewController;
--(void)m_setAppearanceOnWillRotateForViewController:(UIViewController*)a_viewController toInterfaceOrientation:(UIInterfaceOrientation)a_toInterfaceOrientation;
--(void)m_setAppearanceOnWillAnimateRotationForViewController:(UIViewController*)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_toInterfaceOrientation;
+-(void)setAppearanceOnViewDidLoadForViewController:(UIViewController*)a_viewController;
+-(void)setAppearanceOnViewWillAppearForViewController:(UIViewController*)a_viewController;
+-(void)setAppearanceOnWillRotateForViewController:(UIViewController *)a_viewController toInterfaceOrientation:(UIInterfaceOrientation)a_toInterfaceOrientation;
+-(void)setAppearanceOnWillAnimateRotationForViewController:(UIViewController *)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_toInterfaceOrientation;
 @end
 
 @protocol IAUITableViewControllerAppearance <IAUIViewControllerAppearance>
 @optional
--(void)m_setAppearanceOnInitReusableCellForViewController:(UITableViewController*)a_tableViewController cell:(UITableViewCell*)a_cell;
--(void)m_setAppearanceOnWillDisplayCell:(UITableViewCell*)a_cell forRowAtIndexPath:(NSIndexPath*)a_indexPath viewController:(IAUITableViewController*)a_tableViewController;
--(void)m_setAppearanceForCell:(UITableViewCell*)a_cell atIndexPath:(NSIndexPath*)a_indexPath viewController:(IAUITableViewController*)a_tableViewController;
+-(void)setAppearanceOnInitReusableCellForViewController:(UITableViewController *)a_tableViewController cell:(UITableViewCell*)a_cell;
+-(void)setAppearanceOnWillDisplayCell:(UITableViewCell *)a_cell forRowAtIndexPath:(NSIndexPath *)a_indexPath
+                       viewController:(IAUITableViewController*)a_tableViewController;
+-(void)setAppearanceForCell:(UITableViewCell *)a_cell atIndexPath:(NSIndexPath *)a_indexPath viewController:(IAUITableViewController*)a_tableViewController;
 @end
 
 @protocol IAUIViewAppearance <NSObject>
 @optional
--(void)m_setAppearanceOnAwakeFromNibForView:(UIView*)a_view;
--(void)m_setAppearanceOnInitForView:(UIView*)a_view;
+-(void)setAppearanceOnAwakeFromNibForView:(UIView*)a_view;
+-(void)setAppearanceOnInitForView:(UIView*)a_view;
 @end
 
 @protocol IAUITableViewCellAppearance <IAUIViewAppearance>
 @optional
--(void)m_setAppearanceOnSetHighlightedForCell:(UITableViewCell *)a_cell;
+-(void)setAppearanceOnSetHighlightedForCell:(UITableViewCell *)a_cell;
 @end

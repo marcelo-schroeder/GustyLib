@@ -240,7 +240,9 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
 		case IA_UIBAR_BUTTON_ITEM_DONE:
 			barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:aTarget action:anAction];
             barButtonItem.p_helpTargetId = [self m_helpTargetIdForName:@"doneButton"];
-            [[[IAUIAppearanceThemeManager m_instance] m_activeAppearanceTheme] m_setAppearanceForBarButtonItem:barButtonItem viewController:nil important:YES ];
+            [[[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceForBarButtonItem:barButtonItem
+                                                                                              viewController:nil
+                                                                                                   important:YES ];
 //			barButtonItem.accessibilityLabel = @"Done Button";
 			break;
 		case IA_UIBAR_BUTTON_ITEM_DELETE:
@@ -392,7 +394,7 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
 			return @"";
 		}else {
 			NSString *l_entityName = [((NSManagedObject*)[anObject anyObject]) entityName];
-			NSArray *sortDescriptors = [[IAPersistenceManager instance] listSortDescriptorsForEntity:l_entityName];
+			NSArray *sortDescriptors = [[IAPersistenceManager sharedInstance] listSortDescriptorsForEntity:l_entityName];
 			NSArray *sortedArray = [[anObject allObjects] sortedArrayUsingDescriptors:sortDescriptors];
 			NSMutableString *l_string = [NSMutableString string];
 			BOOL l_firstTime = YES;
@@ -526,7 +528,7 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
 }
 
 +(void)m_setKeyWindowRootViewControllerToMainStoryboardInitialViewController{
-    [self m_setKeyWindowRootViewController:[[[IAUIApplicationDelegate m_instance] m_storyboard] instantiateInitialViewController]];
+    [self m_setKeyWindowRootViewController:[[[IAUIApplicationDelegate sharedInstance] storyboard] instantiateInitialViewController]];
 }
 
 +(void)adjustImageInsetsForBarButtonItem:(UIBarButtonItem*)a_barButtonItem insetValue:(CGFloat)a_insetValue{

@@ -25,12 +25,12 @@
 
 #pragma mark - Public
 
--(CGFloat)m_calculateFieldX{
+-(CGFloat)calculateFieldX {
     return self.textLabel.frame.origin.x + self.textLabel.frame.size.width + 10;
 }
 
--(CGFloat)m_calculateFieldWidth{
-    return self.contentView.frame.size.width - [self m_calculateFieldX] - 10;
+-(CGFloat)calculateFieldWidth {
+    return self.contentView.frame.size.width - [self calculateFieldX] - 10;
 }
 
 #pragma mark - Overrides
@@ -41,7 +41,7 @@
 
     // Configure standard text labels
     self.textLabel.numberOfLines = 2;
-    [[[IAUIAppearanceThemeManager m_instance] m_activeAppearanceTheme] m_setAppearanceForView:self.detailTextLabel];
+    [[[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceForView:self.detailTextLabel];
     self.detailTextLabel.font = [UIFont systemFontOfSize:16];
 
     return self;
@@ -60,7 +60,7 @@
     
     // Fine tune labels frames to distribute form elements better
     self.textLabel.frame = CGRectMake(self.textLabel.frame.origin.x, self.textLabel.frame.origin.y-2, self.frame.size.width/4, self.textLabel.frame.size.height);
-    self.detailTextLabel.frame = CGRectMake([self m_calculateFieldX], 11, [self m_calculateFieldWidth], self.detailTextLabel.frame.size.height);
+    self.detailTextLabel.frame = CGRectMake([self calculateFieldX], 11, [self calculateFieldWidth], self.detailTextLabel.frame.size.height);
 
 }
 

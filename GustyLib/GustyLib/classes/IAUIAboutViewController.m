@@ -56,21 +56,25 @@
 
 #pragma mark - Public
 
-- (IBAction)m_bugReportButtonTap:(id)sender{
+- (IBAction)bugReportButtonTap:(id)sender{
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nPlease fix the following bug I have found in %@:", [IAUtils appFullName]];
-    [v_emailManager m_composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Bug Report", [IAUtils appNameAndEdition]] recipient:[self m_bugReportEmailAddress] body:l_body];
+    [v_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Bug Report",
+                                                                       [IAUtils appNameAndEdition]]
+                                  recipient:[self m_bugReportEmailAddress] body:l_body];
 }
 
-- (IBAction)m_feedbackButtonTap:(id)sender{
+- (IBAction)feedbackButtonTap:(id)sender{
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nI have the following feedback to provide for %@:", [IAUtils appFullName]];
-    [v_emailManager m_composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Feedback", [IAUtils appNameAndEdition]] recipient:[self m_feedbackEmailAddress] body:l_body];
+    [v_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Feedback",
+                                                                       [IAUtils appNameAndEdition]]
+                                  recipient:[self m_feedbackEmailAddress] body:l_body];
 }
 
-- (IBAction)m_forceCrashButtonTap:(id)sender {
+- (IBAction)forceCrashButtonTap:(id)sender {
     [IAUtils m_forceCrash];
 }
 
-- (IBAction)m_thirdPartyCreditsButtonTap:(id)sender {
+- (IBAction)thirdPartyCreditsButtonTap:(id)sender {
     UIViewController *l_viewController = [[IAUIThirdPartyCodeCreditsViewController alloc] init];
     l_viewController.title = @"Third Party Credits";
     [self m_presentModalViewController:l_viewController
