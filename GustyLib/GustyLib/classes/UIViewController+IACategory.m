@@ -595,7 +595,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 }
 
--(void)m_removeRightBarButtonItem:(UIBarButtonItem*)a_barButtonItem{
+-(void)IFA_removeRightBarButtonItem:(UIBarButtonItem*)a_barButtonItem{
 
     if (!a_barButtonItem) {
         return;

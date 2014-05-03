@@ -41,8 +41,8 @@ typedef enum {
                      animationOptions:(UIViewAnimationOptions)a_animationOptions
                       completionBlock:(void (^)(BOOL finished))a_completionBlock;
 
-//-(void)m_reloadUiWithTransitionAnimation:(SMUiReloadTransitionAnimation)a_transitionAnimation;
-//-(void)m_reloadUiWithTransitionAnimation:(SMUiReloadTransitionAnimation)a_transitionAnimation completionBlock:(void (^)(BOOL finished))a_completionBlock;
+//-(void)reloadUiWithTransitionAnimation:(SMUiReloadTransitionAnimation)a_transitionAnimation;
+//-(void)reloadUiWithTransitionAnimation:(SMUiReloadTransitionAnimation)a_transitionAnimation completionBlock:(void (^)(BOOL finished))a_completionBlock;
 
 // This returns the loaded appearance theme (i.e. loaded by this manager) if it has been loaded,
 //  otherwise it returns the appearance theme set by the delegate (i.e. in the case this manager is not used)

@@ -140,7 +140,7 @@
 
 -(void)IFA_addRightBarButtonItem:(UIBarButtonItem*)a_barButtonItem;
 -(void)IFA_insertRightBarButtonItem:(UIBarButtonItem *)a_barButtonItem atIndex:(NSUInteger)a_index;
--(void)m_removeRightBarButtonItem:(UIBarButtonItem*)a_barButtonItem;
+-(void)IFA_removeRightBarButtonItem:(UIBarButtonItem*)a_barButtonItem;
 
 -(void)IFA_prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender;
 -(id<IAUIAppearanceTheme>)IFA_appearanceTheme;

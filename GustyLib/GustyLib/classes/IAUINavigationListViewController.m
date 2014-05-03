@@ -48,7 +48,7 @@
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
     if (![IAHelpManager sharedInstance].p_helpMode) {
-        [self showEditFormForManagedObject:(NSManagedObject*)[self m_objectForIndexPath:indexPath]];
+        [self showEditFormForManagedObject:(NSManagedObject*) [self objectForIndexPath:indexPath]];
     }
 }
 
@@ -59,7 +59,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
         // Persist deletion
-		NSManagedObject	*mo = (NSManagedObject*)[self m_objectForIndexPath:indexPath];
+		NSManagedObject	*mo = (NSManagedObject*) [self objectForIndexPath:indexPath];
 		if (![[IAPersistenceManager sharedInstance] deleteAndSaveObject:mo]) {
 			return;
 		}

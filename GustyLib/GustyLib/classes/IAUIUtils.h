@@ -100,7 +100,7 @@ extern const CGFloat k_IAMaximumImageSizeInPixels;
                landscapeDenominator:(float)a_landscapeDenominator;
 
 +(BOOL)isIPad;
-+(BOOL)m_isIPhoneLandscape;
++(BOOL)isIPhoneLandscape;
 +(NSString*)resourceNameDeviceModifier;
 +(UIViewAutoresizing)fullAutoresizingMask;
 +(NSString*)menuBarButtonItemImageName;

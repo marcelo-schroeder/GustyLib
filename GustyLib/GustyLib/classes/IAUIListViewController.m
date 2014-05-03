@@ -205,7 +205,7 @@
     return v_savedToolbarItemEnabledStates;
 }
 
-- (NSObject*)m_objectForIndexPath:(NSIndexPath*)a_indexPath{
+- (NSObject*)objectForIndexPath:(NSIndexPath*)a_indexPath{
     if (self.p_fetchedResultsController) {
         return [self.p_fetchedResultsController objectAtIndexPath:a_indexPath];
     }else{
@@ -482,7 +482,7 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [self cellForTableView:tableView];
-	cell.textLabel.text = self.p_listGroupedBy ? [[self m_objectForIndexPath:indexPath] IFA_displayValue] : [[self m_objectForIndexPath:indexPath] IFA_longDisplayValue];
+	cell.textLabel.text = self.p_listGroupedBy ? [[self objectForIndexPath:indexPath] IFA_displayValue] : [[self objectForIndexPath:indexPath] IFA_longDisplayValue];
     [[self IFA_appearanceTheme] setAppearanceForView:cell.textLabel];
     return cell;
 }
@@ -510,7 +510,7 @@
 #pragma mark - IAUISelectionManagerDelegate
 
 - (NSObject*)selectionManagerObjectForIndexPath:(NSIndexPath*)a_indexPath{
-    return [self m_objectForIndexPath:a_indexPath];
+    return [self objectForIndexPath:a_indexPath];
 }
 
 - (NSIndexPath*)selectionManagerIndexPathForObject:(NSObject*)a_object{

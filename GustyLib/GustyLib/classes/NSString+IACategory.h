@@ -22,7 +22,7 @@
 
 @interface NSString (IACategory)
 
--(NSString*)IFA_stringByKeepingCharactersInSet:(NSCharacterSet*)m_characterSet;
+-(NSString*)IFA_stringByKeepingCharactersInSet:(NSCharacterSet*)a_characterSet;
 -(NSString*)IFA_stringByRemovingNewLineCharacters;
 -(NSString*)IFA_stringByTrimming;
 -(BOOL)IFA_isEmpty;

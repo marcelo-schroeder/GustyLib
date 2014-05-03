@@ -41,7 +41,7 @@
 
 - (id)initWithEntityName:(NSString *)anEntityName;
 - (NSArray*)findEntities;
-- (NSObject*)m_objectForIndexPath:(NSIndexPath*)a_indexPath;
+- (NSObject*)objectForIndexPath:(NSIndexPath*)a_indexPath;
 - (NSIndexPath*)indexPathForObject:(NSObject*)a_object;
 -(void)refreshSectionsWithRows;
 - (void)refreshAndReloadDataAsync;

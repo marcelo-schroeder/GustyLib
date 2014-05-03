@@ -107,7 +107,7 @@
     [super updateToolbarItems];
     self.p_previousBarButtonItem.enabled = self.mainWebView.canGoBack;
     self.p_nextBarButtonItem.enabled = self.mainWebView.canGoForward;
-    [self m_removeRightBarButtonItem:self.p_refreshStopBarButtonItem];
+    [self IFA_removeRightBarButtonItem:self.p_refreshStopBarButtonItem];
     self.p_refreshStopBarButtonItem = self.p_urlLoadCount ? self.p_stopBarButtonItem : self.p_refreshBarButtonItem;
     NSUInteger i = 0;
     [self IFA_insertRightBarButtonItem:self.p_actionBarButtonItem atIndex:i++];

@@ -100,13 +100,13 @@
 }
 
 /*
--(void)m_reloadUiWithTransitionAnimation:(SMUiReloadTransitionAnimation)a_transitionAnimation{
+-(void)reloadUiWithTransitionAnimation:(SMUiReloadTransitionAnimation)a_transitionAnimation{
     [self m_reloadUiWithTransitionAnimation:a_transitionAnimation completionBlock:nil];
 }
 */
 
 /*
--(void)m_reloadUiWithTransitionAnimation:(SMUiReloadTransitionAnimation)a_transitionAnimation completionBlock:(void (^)(BOOL finished))a_completionBlock{
+-(void)reloadUiWithTransitionAnimation:(SMUiReloadTransitionAnimation)a_transitionAnimation completionBlock:(void (^)(BOOL finished))a_completionBlock{
 
     [self applyAppearanceTheme];
 

@@ -486,7 +486,7 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
     return UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad;
 }
 
-+(BOOL)m_isIPhoneLandscape{
++(BOOL)isIPhoneLandscape {
     return ![self isIPad] && [self isDeviceInLandscapeOrientation];
 }
 
