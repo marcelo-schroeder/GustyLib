@@ -92,7 +92,6 @@
 - (void)IFA_updateToolbarForMode:(BOOL)anEditModeFlag animated:(BOOL)anAnimatedFlag;
 
 -(BOOL)IFA_isReturningVisibleViewController;
-//-(BOOL)m_isLeavingVisibleViewController;
 -(UIView*)IFA_viewForActionSheet;
 
 -(BOOL)IFA_hasFixedSize;
@@ -145,7 +144,6 @@
 -(void)IFA_prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender;
 -(id<IAUIAppearanceTheme>)IFA_appearanceTheme;
 -(UIStoryboard*)IFA_commonStoryboard;
-//-(void)m_updateEditButtonItemAccessibilityLabel;
 
 -(void)IFA_reset;
 
@@ -214,8 +212,6 @@
 
 -(void)IFA_startAdRequests;
 -(void)IFA_stopAdRequests;
-
-//-(void)m_simulateMemoryWarning;
 
 #pragma mark - IAHelpTargetContainer
 

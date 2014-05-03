@@ -45,7 +45,7 @@
 /**
 * Sets the preferred maximum layout width for the multi-line UILabel instances in table view cell based on the prototype table view cell provided.
 * This method requires the IFA_multiLineLabelKeyPathsForCellWithReuseIdentifier: method of the IAUITableViewControllerDynamicCellHeightDelegate protocol to be implemented.
-* Only the UILabel instances that match the key paths provided by the m_multiLineLabelKeyPathsForCellWithReuseIdentifier: will have their preferredMaxLayoutWidth property changed.
+* Only the UILabel instances that match the key paths provided by the IFA_multiLineLabelKeyPathsForCellWithReuseIdentifier: will have their preferredMaxLayoutWidth property changed.
 *
 * @param a_cell Table view cell containing the UILabel instances that will have their preferredMaxLayoutWidth property changed.
 * @param a_prototypeCell Prototype table view cell to provide the dimensions required for a_cell.

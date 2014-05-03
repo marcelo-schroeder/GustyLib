@@ -85,8 +85,8 @@
 }
 
 - (IAUITableViewCellSelectedBackgroundStyle)
-m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
-                               tableViewController:(IAUITableViewController *)a_tableViewController {
+ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
+                                 tableViewController:(IAUITableViewController *)a_tableViewController {
     IAUITableViewCellSelectedBackgroundStyle l_cellPosition = IAUITableViewCellSelectedBackgroundStyleMiddle;
     if (![IAUtils isIOS7OrGreater] && a_tableViewController.tableView.style == UITableViewStyleGrouped) {
         NSInteger l_rowCount = [a_tableViewController tableView:a_tableViewController.tableView
@@ -352,8 +352,8 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         IAUITableCellSelectedBackgroundView *l_selectedBackgroundView = [[IAUITableCellSelectedBackgroundView alloc] initWithFrame:a_cell.frame];
         l_selectedBackgroundView.p_fillColor = l_selectedTableCellBackgroundColor;
         l_selectedBackgroundView.p_borderColor = [UIColor clearColor];
-        l_selectedBackgroundView.p_style = ([self m_tableViewCellSelectedBackgroundStyleForIndexPath:a_indexPath
-                                                                                 tableViewController:a_tableViewController]);
+        l_selectedBackgroundView.p_style = ([self ifa_tableViewCellSelectedBackgroundStyleForIndexPath:a_indexPath
+                                                                                   tableViewController:a_tableViewController]);
         a_cell.selectedBackgroundView = l_selectedBackgroundView;
     }
 

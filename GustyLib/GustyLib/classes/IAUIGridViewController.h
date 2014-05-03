@@ -51,7 +51,7 @@
 
 /**
 * Implement this method to force the item width calculation to be based on the item height.
-* When this method is implemented, implementing m_shouldAdjustLastColumnWidth will have no effect.
+* When this method is implemented, implementing shouldAdjustLastColumnWidth will have no effect.
 *
 * @returns Number that multiplied by the item height will result in the item width. Returning zero will have no effect.
 */
@@ -59,7 +59,7 @@
 
 /**
 * Implement this method to force the item height calculation to be based on the item width.
-* When this method is implemented, implementing m_shouldAdjustLastRowHeight will have no effect.
+* When this method is implemented, implementing shouldAdjustLastRowHeight will have no effect.
 *
 * @returns Number that multiplied by the item width will result in the item height. Returning zero will have no effect.
 */
