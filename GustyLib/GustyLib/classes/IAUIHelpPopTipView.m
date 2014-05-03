@@ -48,9 +48,11 @@
 -(CGFloat)m_calculateWidth{
     CGFloat l_width = 0;
     if (self.p_maximised) {
-        l_width = [IAUIUtils m_widthForPortraitNumerator:0.9 portraitDenominator:1 landscapeNumerator:0.9 landscapeDenominator:1];
+        l_width = [IAUIUtils widthForPortraitNumerator:0.9 portraitDenominator:1 landscapeNumerator:0.9
+                                  landscapeDenominator:1];
     }else{
-        l_width = [IAUIUtils m_widthForPortraitNumerator:3 portraitDenominator:4 landscapeNumerator:2 landscapeDenominator:3];
+        l_width = [IAUIUtils widthForPortraitNumerator:3 portraitDenominator:4 landscapeNumerator:2
+                                  landscapeDenominator:3];
     }
     return l_width;
 }
@@ -107,7 +109,7 @@
         // Configure the superclass
         self.delegate = self;
         self.disableTapToDismiss = YES;
-        self.backgroundColor = [IAUIUtils m_colorForInfoPlistKey:@"IAUIHelpPopTipBackgroundColour"];
+        self.backgroundColor = [IAUIUtils colorForInfoPlistKey:@"IAUIHelpPopTipBackgroundColour"];
         if (!self.backgroundColor) {
             self.backgroundColor = [UIColor lightGrayColor];
         }
@@ -115,7 +117,7 @@
         
         // Load the XIB
         [[NSBundle mainBundle] loadNibNamed:@"IAUIHelpPopTipCustomView" owner:self options:nil];
-        self.p_helpTargetTitleLabel.textColor = [IAUIUtils m_colorForInfoPlistKey:@"IAUIHelpPopTipTitleColour"];
+        self.p_helpTargetTitleLabel.textColor = [IAUIUtils colorForInfoPlistKey:@"IAUIHelpPopTipTitleColour"];
         if (!self.p_helpTargetTitleLabel.textColor) {
             self.p_helpTargetTitleLabel.textColor = [UIColor blackColor];
         }
@@ -124,14 +126,14 @@
         self.p_webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, [self m_calculateWidth], 1)];
         self.p_webView.delegate = self;
         self.p_webView.opaque = NO;
-        self.p_webView.backgroundColor = [IAUIUtils m_colorForInfoPlistKey:@"IAUIHelpPopTipContentBackgroundColour"];
+        self.p_webView.backgroundColor = [IAUIUtils colorForInfoPlistKey:@"IAUIHelpPopTipContentBackgroundColour"];
         if (!self.p_webView.backgroundColor) {
             self.p_webView.backgroundColor = [UIColor clearColor];
         }
         self.p_webView.hidden = YES;
         self.p_webView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         self.p_webView.scrollView.alwaysBounceVertical = NO;
-        [self.p_webView m_removeShadow];
+        [self.p_webView IFA_removeShadow];
         self.p_webView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, -2);
         
         // Configure the HTML document
@@ -193,9 +195,9 @@
     
     // Show the web view
     self.p_webView.hidden = NO;
-    [IAUtils m_dispatchAsyncMainThreadBlock:^{
+    [IAUtils dispatchAsyncMainThreadBlock:^{
         [self.p_webView.scrollView flashScrollIndicators];
-    } afterDelay:0.1];
+    }                          afterDelay:0.1];
 
     self.p_presentationRequestInProgress = NO;
     

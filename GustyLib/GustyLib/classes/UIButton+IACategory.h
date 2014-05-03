@@ -21,6 +21,6 @@
 
 @interface UIButton (IACategory)
 
-+ (id)m_buttonWithType:(UIButtonType)a_buttonType appearanceId:(NSString *)a_appearanceId;
++ (id)IFA_buttonWithType:(UIButtonType)a_buttonType appearanceId:(NSString *)a_appearanceId;
 
 @end

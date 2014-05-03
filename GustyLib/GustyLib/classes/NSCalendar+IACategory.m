@@ -27,19 +27,19 @@ static NSUInteger c_minimumDaysInFirstWeek = NSNotFound;
 
 #pragma mark - Public
 
-+(void)m_setThreadSafeCalendarFirstWeekday:(NSUInteger)a_firstWeekday{
++(void)IFA_setThreadSafeCalendarFirstWeekday:(NSUInteger)a_firstWeekday{
     @synchronized([NSCalendar class]){
         c_firstWeekday = a_firstWeekday;
     }
 }
 
-+(void)m_setThreadSafeCalendarMinimumDaysInFirstWeek:(NSUInteger)a_minimumDaysInFirstWeek{
++(void)IFA_setThreadSafeCalendarMinimumDaysInFirstWeek:(NSUInteger)a_minimumDaysInFirstWeek{
     @synchronized([NSCalendar class]){
         c_minimumDaysInFirstWeek = a_minimumDaysInFirstWeek;
     }
 }
 
-+(NSUInteger)m_threadSafeCalendarFirstWeekday{
++(NSUInteger)IFA_threadSafeCalendarFirstWeekday {
     NSUInteger l_firstWeekday;
     @synchronized([NSCalendar class]){
         l_firstWeekday = c_firstWeekday;
@@ -47,7 +47,7 @@ static NSUInteger c_minimumDaysInFirstWeek = NSNotFound;
     return l_firstWeekday;
 }
 
-+(NSUInteger)m_threadSafeCalendarMinimumDaysInFirstWeek{
++(NSUInteger)IFA_threadSafeCalendarMinimumDaysInFirstWeek {
     NSUInteger l_minimumDaysInFirstWeek;
     @synchronized([NSCalendar class]){
         l_minimumDaysInFirstWeek = c_minimumDaysInFirstWeek;
@@ -55,8 +55,8 @@ static NSUInteger c_minimumDaysInFirstWeek = NSNotFound;
     return l_minimumDaysInFirstWeek;
 }
 
-+ (NSCalendar *)m_threadSafeCalendar{
-//    NSLog(@"m_threadSafeCalendar for thread: %@", [[NSThread currentThread] description]);
++ (NSCalendar *)IFA_threadSafeCalendar {
+//    NSLog(@"IFA_threadSafeCalendar for thread: %@", [[NSThread currentThread] description]);
     NSMutableDictionary *l_threadDictionary = [[NSThread currentThread] threadDictionary] ;
     NSCalendar *l_calendar = [l_threadDictionary objectForKey:IA_KEY_THREAD_SAFE_CALENDAR] ;
     if (!l_calendar){
@@ -66,11 +66,11 @@ static NSUInteger c_minimumDaysInFirstWeek = NSNotFound;
 //        NSLog(@"   %@", [l_threadDictionary description]);
     }
 //    NSLog(@" timeZone: %@", [l_calendar.timeZone description]);
-    NSUInteger l_firstWeekday = [self m_threadSafeCalendarFirstWeekday];
+    NSUInteger l_firstWeekday = [self IFA_threadSafeCalendarFirstWeekday];
     if (l_firstWeekday!=NSNotFound) {
         l_calendar.firstWeekday = l_firstWeekday;
     }
-    NSUInteger l_minimumDaysInFirstWeek = [self m_threadSafeCalendarMinimumDaysInFirstWeek];
+    NSUInteger l_minimumDaysInFirstWeek = [self IFA_threadSafeCalendarMinimumDaysInFirstWeek];
     if (l_minimumDaysInFirstWeek!=NSNotFound) {
         l_calendar.minimumDaysInFirstWeek = l_minimumDaysInFirstWeek;
     }

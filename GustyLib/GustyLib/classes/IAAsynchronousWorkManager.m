@@ -62,7 +62,7 @@
     
     // Remove modal WIP view
     if (self.p_showProgressIndicator) {
-        [self.p_wipViewManager m_removeView];
+        [self.p_wipViewManager removeView];
     }
     
     // Perform callback selector
@@ -195,7 +195,7 @@
         }else{
             self.p_wipViewManager = [[IAUIWorkInProgressModalViewManager alloc] initWithMessage:l_message];
         }
-        [self.p_wipViewManager m_showView];
+        [self.p_wipViewManager showView];
     }
     
     // Add operation to execution queue
@@ -284,8 +284,9 @@ progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView
 
         // Hide progress indicator if required
         if (a_progressIndicatorContainerView && [self.p_nonModalProgressIndicatorOwnerUuid isEqualToString:l_blockUuid]) {
-            [IAUtils m_dispatchAsyncMainThreadBlock:^{
-                [self hideNonModalProgressIndicatorWithAnimation:YES];}];
+            [IAUtils dispatchAsyncMainThreadBlock:^{
+                [self hideNonModalProgressIndicatorWithAnimation:YES];
+            }];
 //            NSLog(@"m_hideNonModalProgressIndicator scheduled for UUID %@", l_blockUuid);
         }
 

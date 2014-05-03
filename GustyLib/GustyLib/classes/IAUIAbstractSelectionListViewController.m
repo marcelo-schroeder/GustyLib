@@ -37,11 +37,11 @@
 		self.p_managedObject = aManagedObject;
 		self.p_propertyName = aPropertyName;
 		
-        if (![IAUIUtils m_isIPad]) {
-            UIBarButtonItem *l_barButtonItem = [[self m_appearanceTheme] doneBarButtonItemWithTarget:self
+        if (![IAUIUtils isIPad]) {
+            UIBarButtonItem *l_barButtonItem = [[self IFA_appearanceTheme] doneBarButtonItemWithTarget:self
                                                                                               action:@selector(onDoneButtonTap:)
                                                                                       viewController:self];
-            [self m_addLeftBarButtonItem:l_barButtonItem];
+            [self IFA_addLeftBarButtonItem:l_barButtonItem];
         }
 		
 		self.p_selectNoneButtonItem = [IAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_ITEM_SELECT_NONE target:self action:@selector(onSelectNoneButtonTap:)];
@@ -76,8 +76,8 @@
 #pragma mark -
 #pragma mark Overrides
 
-- (NSArray*)m_nonEditModeToolbarItems{
-    if ([[IAPersistenceManager sharedInstance].entityConfig shouldShowSelectNoneButtonInSelectionForEntity:self.entityName]) {
+- (NSArray*)IFA_nonEditModeToolbarItems {
+    if ([[IAPersistenceManager sharedInstance].entityConfig shouldShowSelectNoneButtonInSelectionForEntity:self.IFA_entityName]) {
         return @[self.p_selectNoneButtonItem];
     }else{
         return nil;

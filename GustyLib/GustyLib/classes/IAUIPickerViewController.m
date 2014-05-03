@@ -80,7 +80,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
         
         self.p_isEnumeration = [[IAPersistenceManager sharedInstance].entityConfig isEnumerationForProperty:aPropertyName inObject:anObject];
         NSString *l_entityName = [[IAPersistenceManager sharedInstance].entityConfig entityNameForProperty:aPropertyName inObject:anObject];
-        //    NSLog(@"parent managed object name: %@", [aManagedObject entityName]);
+        //    NSLog(@"parent managed object name: %@", [aManagedObject IFA_entityName]);
         if (self.p_isEnumeration) {
             NSString *l_enumerationSource = [[IAPersistenceManager sharedInstance].entityConfig enumerationSourceForProperty:aPropertyName inObject:anObject];
 //            NSLog(@"enumeration entity! source: %@", l_enumerationSource);
@@ -117,7 +117,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
     }
 }
 
--(BOOL)m_hasFixedSize{
+-(BOOL)IFA_hasFixedSize {
     return YES;
 }
 
@@ -134,7 +134,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
 #pragma mark - UIPickerViewDelegate protocol
 
 - (NSString *) pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-	return [((NSObject*)[self.p_entities objectAtIndex:row]) displayValue];
+	return [((NSObject *) [self.p_entities objectAtIndex:row]) IFA_displayValue];
 }
 
 - (void) pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{

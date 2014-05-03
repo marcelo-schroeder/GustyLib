@@ -116,7 +116,7 @@
 // By loading the storyboard using the device modifier explicitly in the name avoids any problems.
 -(NSString*)storyboardName {
     return [NSString stringWithFormat:@"%@%@", [self storyboardFileName],
-                                      self.p_useDeviceAgnosticMainStoryboard ? @"" : [IAUIUtils m_resourceNameDeviceModifier]];
+                                      self.p_useDeviceAgnosticMainStoryboard ? @"" : [IAUIUtils resourceNameDeviceModifier]];
 }
 
 - (NSString *)storyboardFileName {
@@ -124,7 +124,7 @@
 }
 
 -(NSString*)storyboardInitialViewControllerId {
-    return [NSString stringWithFormat:@"%@InitialController", [IAUIUtils m_isIPad]?@"ipad":@"iphone"];
+    return [NSString stringWithFormat:@"%@InitialController", [IAUIUtils isIPad]?@"ipad":@"iphone"];
 }
 
 -(UIStoryboard*)storyboard {
@@ -156,7 +156,7 @@
         
         if ([a_value isKindOfClass:[NSDate class]]) {
             
-            return [a_value descriptionWithCurrentLocale];
+            return [a_value IFA_descriptionWithCurrentLocale];
             
         }else{
             
@@ -175,7 +175,7 @@
             NSString *l_unformattedString = [l_displayValue description];
 //            NSLog(@"  l_unformattedString: %@", l_unformattedString);
             // Remove new line characters
-            NSString *l_formattedString = [l_unformattedString m_stringByRemovingNewLineCharacters];
+            NSString *l_formattedString = [l_unformattedString IFA_stringByRemovingNewLineCharacters];
             // Remove double quotes to avoid issues with displaying the values on the Crashlytics web site
             l_formattedString = [l_formattedString stringByReplacingOccurrencesOfString:@"\"" withString:@"'"];
 //            NSLog(@"  l_formattedString: %@", l_formattedString);

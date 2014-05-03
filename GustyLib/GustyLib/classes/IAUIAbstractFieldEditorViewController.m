@@ -64,8 +64,8 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
 }
 
 -(void)updateModel {
-    [self.p_object setValue:[self editedValue] forProperty:self.p_propertyName];
-    [self.p_presenter m_changesMadeByViewController:self];
+    [self.p_object IFA_setValue:[self editedValue] forProperty:self.p_propertyName];
+    [self.p_presenter changesMadeByViewController:self];
 }
 
 - (BOOL)hasValueChanged {
@@ -74,7 +74,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
 }
 
 -(void)done {
-    [self m_notifySessionCompletionWithChangesMade:[self hasValueChanged] data:nil ];
+    [self IFA_notifySessionCompletionWithChangesMade:[self hasValueChanged] data:nil ];
 }
 
 // To be overriden by subclasses
@@ -90,16 +90,16 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if (![IAUIUtils m_isIPad] && self.p_useButtonForDismissal) {
+    if (![IAUIUtils isIPad] && self.p_useButtonForDismissal) {
         self.editButtonItem.tag = IA_UIBAR_ITEM_TAG_EDIT_BUTTON;
-        [self m_addRightBarButtonItem:[self editButtonItem]];
+        [self IFA_addRightBarButtonItem:[self editButtonItem]];
     }
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated{
 	if(editing){
 		[super setEditing:editing animated:animated];
-        [[self m_appearanceTheme] setAppearanceForBarButtonItem:self.editButtonItem viewController:nil important:YES ];
+        [[self IFA_appearanceTheme] setAppearanceForBarButtonItem:self.editButtonItem viewController:nil important:YES ];
 //		self.navigationItem.rightBarButtonItem.accessibilityLabel = self.navigationItem.rightBarButtonItem.title;
 	}else{
         [self done];

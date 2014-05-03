@@ -216,10 +216,10 @@
         if (a_helpMode) {
             [self m_showHelpModeInstructions];
         }
-        [IAUtils m_dispatchAsyncMainThreadBlock:^{
+        [IAUtils dispatchAsyncMainThreadBlock:^{
             if (a_helpMode) {
                 [self.p_observedHelpTargetContainer didEnterHelpMode];
-            }else{
+            } else {
                 [self.p_observedHelpTargetContainer didExitHelpMode];
             }
         }];
@@ -258,10 +258,10 @@
     self.p_activePopTipView = nil;
     
     // Get help overlay ticker going again
-//    [IAUtils m_dispatchAsyncMainThreadBlock:^{
+//    [IAUtils dispatchAsyncMainThreadBlock:^{
 //        [self.p_helpModeOverlayView m_showTicker];
 //    }];
-//    [IAUtils m_dispatchAsyncMainThreadBlock:^{
+//    [IAUtils dispatchAsyncMainThreadBlock:^{
 //        [self.p_helpModeOverlayView m_showTicker];
 //    } afterDelay:0.5];
 //    [self.p_helpModeOverlayView m_showTicker];
@@ -283,10 +283,10 @@
     [self removeHelpTargetSelectionWithAnimation:NO dismissPopTipView:YES];
     
     // Hide help overlay ticker
-//    [IAUtils m_dispatchAsyncMainThreadBlock:^{
+//    [IAUtils dispatchAsyncMainThreadBlock:^{
 //        [self.p_helpModeOverlayView m_hideTicker];
 //    }];
-//    [IAUtils m_dispatchAsyncMainThreadBlock:^{
+//    [IAUtils dispatchAsyncMainThreadBlock:^{
 //        [self.p_helpModeOverlayView m_hideTicker];
 //    } afterDelay:0.5];
 //    [self.p_helpModeOverlayView m_hideTicker];
@@ -449,11 +449,11 @@
     for (id<IAHelpTarget> l_helpTarget in l_helpTargets) {
         [self addHelpTarget:l_helpTarget];
     }
-    
-    [IAUIUtils m_traverseHierarchyForView:[self.p_observedHelpTargetContainer targetView] withBlock:^(UIView *a_view) {
+
+    [IAUIUtils traverseHierarchyForView:[self.p_observedHelpTargetContainer targetView] withBlock:^(UIView *a_view) {
         [self addHelpTarget:a_view];
         if ([a_view conformsToProtocol:@protocol(IAHelpTargetContainer)]) {
-            id<IAHelpTargetContainer> l_helpTargetContainer = (id<IAHelpTargetContainer>)a_view;
+            id <IAHelpTargetContainer> l_helpTargetContainer = (id <IAHelpTargetContainer>) a_view;
             for (UIView *l_view in [l_helpTargetContainer helpTargets]) {
                 [self addHelpTarget:l_view];
             }
@@ -529,7 +529,7 @@
     UIViewController *l_observedViewController = (UIViewController*)self.p_observedHelpTargetContainer;
     NSString *l_helpTargetId = l_observedViewController.p_helpTargetId;
     if (!l_helpTargetId) {
-        l_helpTargetId = [l_observedViewController m_helpTargetIdForName:@"screen"];
+        l_helpTargetId = [l_observedViewController IFA_helpTargetIdForName:@"screen"];
     }
     NSLog(@"m_onScreenHelpButtonTap for helpTargetId: %@", l_helpTargetId);
     NSString *l_title = [self m_helpTitleForKeyPath:l_helpTargetId];
@@ -770,7 +770,7 @@
     UIButton *l_helpButton = [UIButton buttonWithType:UIButtonTypeCustom];
     l_helpButton.tag = IA_UIVIEW_TAG_HELP_BUTTON;
     l_helpButton.frame = CGRectMake(0, 0, 20, 44);
-    l_helpButton.accessibilityLabel = [self accessibilityLabelForKeyPath:[IAUIUtils m_helpTargetIdForName:@"helpButton"]];
+    l_helpButton.accessibilityLabel = [self accessibilityLabelForKeyPath:[IAUIUtils helpTargetIdForName:@"helpButton"]];
 //    l_helpButton.backgroundColor = [UIColor redColor];
     [l_helpButton setImage:l_helpButtonImage forState:UIControlStateNormal];
     [l_helpButton addTarget:self action:@selector(m_onHelpButtonTap:) forControlEvents:UIControlEventTouchUpInside];
@@ -823,7 +823,7 @@
 }
 
 + (NSString*)helpTargetIdForPropertyName:(NSString *)a_propertyName inObject:(NSObject*)a_object{
-    return [NSString stringWithFormat:@"entities.%@.%@", [a_object entityName], a_propertyName];
+    return [NSString stringWithFormat:@"entities.%@.%@", [a_object IFA_entityName], a_propertyName];
 }
 
 #pragma mark - Overrides
@@ -841,7 +841,7 @@
         UIImage *l_cancelButtonImage = [UIImage imageNamed:@"277-MultiplyCircle-white"];
         self.p_cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.p_cancelButton.frame = CGRectZero;
-        self.p_cancelButton.accessibilityLabel = [self accessibilityLabelForKeyPath:[IAUIUtils m_helpTargetIdForName:@"closeHelpButton"]];
+        self.p_cancelButton.accessibilityLabel = [self accessibilityLabelForKeyPath:[IAUIUtils helpTargetIdForName:@"closeHelpButton"]];
         [self.p_cancelButton setImage:l_cancelButtonImage forState:UIControlStateNormal];
         [self.p_cancelButton addTarget:self action:@selector(m_onCancelButtonTap:) forControlEvents:UIControlEventTouchUpInside];
         
@@ -849,7 +849,7 @@
         UIImage *l_screenHelpButtonImage = [UIImage imageNamed:@"248-QuestionCircleAlt"];
         self.p_screenHelpButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.p_screenHelpButton.frame = CGRectZero;
-        self.p_screenHelpButton.accessibilityLabel = [self accessibilityLabelForKeyPath:[IAUIUtils m_helpTargetIdForName:@"screenHelpButton"]];
+        self.p_screenHelpButton.accessibilityLabel = [self accessibilityLabelForKeyPath:[IAUIUtils helpTargetIdForName:@"screenHelpButton"]];
         [self.p_screenHelpButton setImage:l_screenHelpButtonImage forState:UIControlStateNormal];
         [self.p_screenHelpButton addTarget:self action:@selector(m_onScreenHelpButtonTap:) forControlEvents:UIControlEventTouchUpInside];
 //        self.p_screenHelpButton.backgroundColor = [UIColor redColor];

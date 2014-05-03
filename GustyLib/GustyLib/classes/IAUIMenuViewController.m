@@ -54,7 +54,7 @@
     [self highlightCurrentSelection];
     
     // Dismiss the popover controller if a split view controller is used
-    [self m_dismissMenuPopoverController];
+    [self IFA_dismissMenuPopoverController];
     
 }
 
@@ -66,11 +66,11 @@
 -(UIViewController*)newViewControllerForIndexPath:(NSIndexPath*)a_indexPath{
     UITableViewCell *l_cell = [self tableView:self.tableView cellForRowAtIndexPath:a_indexPath];
     BOOL l_useDeviceAgnosticMainStoryboard = [IAUIApplicationDelegate sharedInstance].p_useDeviceAgnosticMainStoryboard;
-    UIStoryboard *l_storyboard = l_useDeviceAgnosticMainStoryboard ? self.storyboard : [self m_commonStoryboard];
+    UIStoryboard *l_storyboard = l_useDeviceAgnosticMainStoryboard ? self.storyboard : [self IFA_commonStoryboard];
     UIViewController *l_viewController = [l_storyboard instantiateViewControllerWithIdentifier:l_cell.reuseIdentifier];
     if ((self.splitViewController || self.slidingViewController) && ![l_viewController isKindOfClass:[UINavigationController class]]) {
         // Automatically add a navigation controller as the parent
-        l_viewController = [[[[self m_appearanceTheme] navigationControllerClass] alloc] initWithRootViewController:l_viewController];
+        l_viewController = [[[[self IFA_appearanceTheme] navigationControllerClass] alloc] initWithRootViewController:l_viewController];
     }
     return l_viewController;
 }
@@ -84,7 +84,7 @@
     if (l_viewController) { // A view controller is cached
         //        NSLog(@"   view controller is cached: %@", [l_viewController description]);
         // Reset view controller's state
-        [l_viewController m_reset];
+        [l_viewController IFA_reset];
     }else{
         // Configure a new view controller
         l_viewController = [self newViewControllerForIndexPath:a_indexPath];
@@ -104,12 +104,12 @@
         self.splitViewController.viewControllers = @[[self.splitViewController.viewControllers objectAtIndex:0], l_viewController];
     }else if(self.slidingViewController){
         if (self.slidingViewController.topViewController) {
-            [IAUtils m_dispatchAsyncMainThreadBlock:^{
-                if (self.slidingViewController.topViewController!=l_viewController) {
+            [IAUtils dispatchAsyncMainThreadBlock:^{
+                if (self.slidingViewController.topViewController != l_viewController) {
                     self.slidingViewController.topViewController = l_viewController;
                 }
                 [self.slidingViewController resetTopView];
-            } afterDelay:0.05];
+            }                          afterDelay:0.05];
         }else { // First time only
             self.slidingViewController.topViewController = l_viewController;
         }
@@ -134,11 +134,11 @@
             //            NSLog(@"[l_navigationController.topViewController description]: %@", [l_navigationController.topViewController description]);
         }
         self.p_previousViewController = l_viewController;
-        [IAUIUtils m_postNavigationEventNotification];
+        [IAUIUtils postNavigationEventNotification];
     }
     
     // Dismiss the popover controller if a split view controller is used
-    [self m_dismissMenuPopoverController];
+    [self IFA_dismissMenuPopoverController];
     
 }
 

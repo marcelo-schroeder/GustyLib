@@ -35,45 +35,45 @@
 
 #pragma mark - Public
 
-- (NSDate*)lastMidnightForCalendar:(NSCalendar*)a_calendar{
+- (NSDate*)IFA_lastMidnightForCalendar:(NSCalendar*)a_calendar{
 	return [a_calendar dateFromComponents:[self dayDateComponentsForCalendar:a_calendar]];
 }
 
-- (NSDate*)nextMidnightForCalendar:(NSCalendar*)a_calendar{
+- (NSDate*)IFA_nextMidnightForCalendar:(NSCalendar*)a_calendar{
 	NSDateComponents *comps = [[NSDateComponents alloc] init];
 	[comps setDay:1];
-	NSDate *date = [a_calendar dateByAddingComponents:comps toDate:[self lastMidnightForCalendar:a_calendar] options:0];
+	NSDate *date = [a_calendar dateByAddingComponents:comps toDate:[self IFA_lastMidnightForCalendar:a_calendar] options:0];
 	return date;
 }
 
-- (NSDate*)lastSecondForCalendar:(NSCalendar*)a_calendar{
+- (NSDate*)IFA_lastSecondForCalendar:(NSCalendar*)a_calendar{
 	NSDateComponents *comps = [[NSDateComponents alloc] init];
 	[comps setSecond:-1];
-	NSDate *date = [a_calendar dateByAddingComponents:comps toDate:[self nextMidnightForCalendar:a_calendar] options:0];
+	NSDate *date = [a_calendar dateByAddingComponents:comps toDate:[self IFA_nextMidnightForCalendar:a_calendar] options:0];
 	return date;
 }
 
-- (BOOL)isSameDay:(NSDate*)anotherDate calendar:(NSCalendar*)a_calendar{
+- (BOOL)IFA_isSameDay:(NSDate *)anotherDate calendar:(NSCalendar*)a_calendar{
 	NSDateComponents *l_myDayComponents = [self dayDateComponentsForCalendar:a_calendar];
 	NSDateComponents *l_theOtherDayComponents = [self dayDateComponentsForDate:anotherDate calendar:a_calendar];
-    NSDate *l_myDateFromComponents = [[NSCalendar m_threadSafeCalendar] dateFromComponents:l_myDayComponents];
-    NSDate *l_theOtherDateFromComponents = [[NSCalendar m_threadSafeCalendar] dateFromComponents:l_theOtherDayComponents];
+    NSDate *l_myDateFromComponents = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_myDayComponents];
+    NSDate *l_theOtherDateFromComponents = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_theOtherDayComponents];
     return [l_myDateFromComponents isEqualToDate:l_theOtherDateFromComponents];
 }
 
-- (BOOL)isTodayForCalendar:(NSCalendar*)a_calendar{
-	return [self isSameDay:[NSDate lastMidnightForCalendar:a_calendar] calendar:a_calendar];
+- (BOOL)IFA_isTodayForCalendar:(NSCalendar*)a_calendar{
+	return [self IFA_isSameDay:[NSDate IFA_lastMidnightForCalendar:a_calendar] calendar:a_calendar];
 }
 
-- (BOOL)isBetweenDate:(NSDate*)aStartDate andDate:(NSDate*)anEndDate{
-	return [NSDate isDate:self betweenDate:aStartDate andDate:anEndDate];
+- (BOOL)IFA_isBetweenDate:(NSDate *)aStartDate andDate:(NSDate*)anEndDate{
+	return [NSDate IFA_isDate:self betweenDate:aStartDate andDate:anEndDate];
 }
 
-- (IADateRange*)fullDayRangeForCalendar:(NSCalendar*)a_calendar{
-	return [[IADateRange alloc] initWithStartTimestamp:[self lastMidnightForCalendar:a_calendar] endTimestamp:[self nextMidnightForCalendar:a_calendar]];
+- (IADateRange*)IFA_fullDayRangeForCalendar:(NSCalendar*)a_calendar{
+	return [[IADateRange alloc] initWithStartTimestamp:[self IFA_lastMidnightForCalendar:a_calendar] endTimestamp:[self IFA_nextMidnightForCalendar:a_calendar]];
 }
 
-- (IADateRange*) dateRangeForUnit:(NSCalendarUnit)aUnit calendar:(NSCalendar*)a_calendar exclusiveEnd:(BOOL)anExclusiveEndFlag{
+- (IADateRange*)IFA_dateRangeForUnit:(NSCalendarUnit)aUnit calendar:(NSCalendar *)a_calendar exclusiveEnd:(BOOL)anExclusiveEndFlag{
 	NSDate *startTimestamp, *endTimestamp;
 	NSTimeInterval interval;
 	[a_calendar rangeOfUnit:aUnit startDate:&startTimestamp interval:&interval forDate:self];
@@ -84,45 +84,45 @@
 	return [[IADateRange alloc] initWithStartTimestamp:startTimestamp endTimestamp:endTimestamp];
 }
 
-- (IADateRange*) dateRangeForUnit:(NSCalendarUnit)aUnit calendar:(NSCalendar*)a_calendar{
-	return [self dateRangeForUnit:aUnit calendar:a_calendar exclusiveEnd:YES];
+- (IADateRange*)IFA_dateRangeForUnit:(NSCalendarUnit)aUnit calendar:(NSCalendar*)a_calendar{
+	return [self IFA_dateRangeForUnit:aUnit calendar:a_calendar exclusiveEnd:YES];
 }
 
-- (NSString*)formatAsDate{
-    return [self formatAsDateWithRelativeDateFormatting:YES];
+- (NSString*)IFA_formatAsDate {
+    return [self IFA_formatAsDateWithRelativeDateFormatting:YES];
 }
 
-- (NSString*)formatAsDateWithRelativeDateFormatting:(BOOL)a_doesRelativeDateFormating{
-    NSDateFormatter *l_dateFormatter = [NSDate dateFormatter];
+- (NSString*)IFA_formatAsDateWithRelativeDateFormatting:(BOOL)a_doesRelativeDateFormating{
+    NSDateFormatter *l_dateFormatter = [NSDate IFA_dateFormatter];
     l_dateFormatter.doesRelativeDateFormatting = a_doesRelativeDateFormating;
     return [l_dateFormatter stringFromDate:self];
 }
 
-- (NSString*)formatAsTime{
-    return [[NSDate timeFormatter] stringFromDate:self];
+- (NSString*)IFA_formatAsTime {
+    return [[NSDate IFA_timeFormatter] stringFromDate:self];
 }
 
-- (NSString*)formatAsDateAndTime{
-    return [self formatAsDateAndTimeWithRelativeDateFormatting:YES];
+- (NSString*)IFA_formatAsDateAndTime {
+    return [self IFA_formatAsDateAndTimeWithRelativeDateFormatting:YES];
 }
 
-- (NSString*)formatAsDateAndTimeWithRelativeDateFormatting:(BOOL)a_doesRelativeDateFormating{
-    NSDateFormatter *l_dateFormatter = [NSDate dateAndTimeFormatter];
+- (NSString*)IFA_formatAsDateAndTimeWithRelativeDateFormatting:(BOOL)a_doesRelativeDateFormating{
+    NSDateFormatter *l_dateFormatter = [NSDate IFA_dateAndTimeFormatter];
     l_dateFormatter.doesRelativeDateFormatting = a_doesRelativeDateFormating;
     return [l_dateFormatter stringFromDate:self];
 }
 
--(NSString *)descriptionWithCurrentLocale{
+-(NSString *)IFA_descriptionWithCurrentLocale {
     return [self descriptionWithLocale:[NSLocale currentLocale]];
 }
 
-- (NSDate*)addDays:(NSInteger)a_days calendar:(NSCalendar*)a_calendar{
+- (NSDate*)IFA_addDays:(NSInteger)a_days calendar:(NSCalendar*)a_calendar{
 	NSDateComponents *comps = [[NSDateComponents alloc] init];
 	[comps setDay:a_days];
 	return [a_calendar dateByAddingComponents:comps toDate:self options:0];
 }
 
--(NSDate *)withSecondPrecision{
+-(NSDate *)IFA_withSecondPrecision {
     NSTimeInterval l_timeInterval = [self timeIntervalSinceReferenceDate];
     //    NSLog(@"l_timeInterval: %f", l_timeInterval);
     NSDecimalNumber *l_decimalNumber = [[NSDecimalNumber alloc] initWithDouble:l_timeInterval];
@@ -131,19 +131,19 @@
     NSDecimalNumber *l_roundedDecimalNumber = [l_decimalNumber decimalNumberByRoundingAccordingToBehavior:l_decimalNumberHandler];
     //    NSLog(@"l_roundedDecimalNumber: %@", [l_roundedDecimalNumber description]);
     NSDate *l_date = [NSDate dateWithTimeIntervalSinceReferenceDate:l_roundedDecimalNumber.doubleValue];
-    //    NSLog(@"l_date: %@", [l_date descriptionWithCurrentLocale]);
+    //    NSLog(@"l_date: %@", [l_date IFA_descriptionWithCurrentLocale]);
     return l_date;
 }
 
-+ (NSDate*)dateWithSecondPrecision{
-    return [[NSDate date] withSecondPrecision];
++ (NSDate*)IFA_dateWithSecondPrecision {
+    return [[NSDate date] IFA_withSecondPrecision];
 }
 
-+ (NSDate*)lastMidnightForCalendar:(NSCalendar*)a_calendar{
-	return [[NSDate date] lastMidnightForCalendar:a_calendar];
++ (NSDate*)IFA_lastMidnightForCalendar:(NSCalendar*)a_calendar{
+	return [[NSDate date] IFA_lastMidnightForCalendar:a_calendar];
 }
 
-+ (BOOL)isDate:(NSDate*)aDate betweenDate:(NSDate*)aStartDate andDate:(NSDate*)anEndDate{
++ (BOOL)IFA_isDate:(NSDate *)aDate betweenDate:(NSDate *)aStartDate andDate:(NSDate*)anEndDate{
 	if (aStartDate && anEndDate) {
 		NSTimeInterval startInterval = [aDate timeIntervalSinceDate:aStartDate];
 		NSTimeInterval endInterval = [anEndDate timeIntervalSinceDate:aDate];
@@ -153,7 +153,7 @@
 	}
 }
 
-+ (NSDateFormatter*)dateAndTimeFormatter{
++ (NSDateFormatter*)IFA_dateAndTimeFormatter {
 	static NSDateFormatter *dateAndTimeFormatter;
 	if (!dateAndTimeFormatter) {
 		dateAndTimeFormatter = [[NSDateFormatter alloc] init];
@@ -164,7 +164,7 @@
 	return dateAndTimeFormatter;
 }
 
-+ (NSDateFormatter*)dateFormatter{
++ (NSDateFormatter*)IFA_dateFormatter {
 	static NSDateFormatter *dateFormatter;
 	if (!dateFormatter) {
 		dateFormatter = [[NSDateFormatter alloc] init];
@@ -175,7 +175,7 @@
 	return dateFormatter;
 }
 
-+ (NSDateFormatter*)timeFormatter{
++ (NSDateFormatter*)IFA_timeFormatter {
 	static NSDateFormatter *timeFormatter;
 	if (!timeFormatter) {
 		timeFormatter = [[NSDateFormatter alloc] init];

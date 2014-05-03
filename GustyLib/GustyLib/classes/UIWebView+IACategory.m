@@ -24,7 +24,7 @@
 
 #pragma mark - Public
 
--(void)m_removeShadow{
+-(void)IFA_removeShadow {
     for(UIScrollView* webScrollView in [self subviews]){
         if ([webScrollView isKindOfClass:[UIScrollView class]]){
             for(UIView* subview in [webScrollView subviews]){
@@ -37,11 +37,11 @@
     }
 }
 
--(void)m_updateViewPortWidth{
+-(void)IFA_updateViewPortWidth {
     [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.querySelector('meta[name=viewport]').setAttribute('content', 'width=%d, initial-scale=1.0, maximum-scale=1.0', false); ", (int)self.self.frame.size.width]];
 }
 
-- (NSString *)m_html{
+- (NSString *)IFA_html {
     return [self stringByEvaluatingJavaScriptFromString:@"document.documentElement.outerHTML"];
 }
 

@@ -58,7 +58,7 @@ extern const CGFloat k_IAMaximumImageSizeInPixels;
 						   delegate:(id<UIActionSheetDelegate>)aDelegate
 								tag:(NSInteger)aTag;
 
-+(NSString*)m_helpTargetIdForName:(NSString*)a_name;
++(NSString*)helpTargetIdForName:(NSString*)a_name;
 + (UIBarButtonItem*) barButtonItemForType:(NSUInteger)aType target:(id)aTarget action:(SEL)anAction;
 
 +(BOOL)isDeviceInLandscapeOrientation;
@@ -67,7 +67,7 @@ extern const CGFloat k_IAMaximumImageSizeInPixels;
 + (CGSize)appFrameSize;
 + (CGRect)appFrame;
 
-+ (CGRect)m_convertToCurrentOrientationForFrame:(CGRect)a_frame;
++ (CGRect)convertToCurrentOrientationForFrame:(CGRect)a_frame;
 
 + (CGPoint)screenBoundsOrigin;
 + (CGSize)screenBoundsSize;
@@ -90,50 +90,50 @@ extern const CGFloat k_IAMaximumImageSizeInPixels;
 + (void)showAndHideModeToggleConfirmationHudWithText:(NSString*)a_text on:(BOOL)a_on;
 +(UIView*)nonModalHudContainerView;
 
-+(void)m_postNavigationEventNotification;
++(void)postNavigationEventNotification;
 
-+(void)m_traverseHierarchyForView:(UIView*)a_view withBlock:(void (^) (UIView*))a_block;
++(void)traverseHierarchyForView:(UIView *)a_view withBlock:(void (^) (UIView*))a_block;
 
-+(CGFloat)m_widthForPortraitNumerator:(float)a_portraitNumerator
-                  portraitDenominator:(float)a_portraitDenominator 
-                   landscapeNumerator:(float)a_landscapeNumerator
-                 landscapeDenominator:(float)a_landscapeDenominator;
++(CGFloat)widthForPortraitNumerator:(float)a_portraitNumerator
+                portraitDenominator:(float)a_portraitDenominator
+                 landscapeNumerator:(float)a_landscapeNumerator
+               landscapeDenominator:(float)a_landscapeDenominator;
 
-+(BOOL)m_isIPad;
++(BOOL)isIPad;
 +(BOOL)m_isIPhoneLandscape;
-+(NSString*)m_resourceNameDeviceModifier;
-+(UIViewAutoresizing)m_fullAutoresizingMask;
-+(NSString*)m_menuBarButtonItemImageName;
-+(UIImage*)m_menuBarButtonItemImage;
++(NSString*)resourceNameDeviceModifier;
++(UIViewAutoresizing)fullAutoresizingMask;
++(NSString*)menuBarButtonItemImageName;
++(UIImage*)menuBarButtonItemImage;
 
-+(void)m_dismissSplitViewControllerPopover;
-+(void)m_setKeyWindowRootViewController:(UIViewController*)a_viewController;
-+(void)m_setKeyWindowRootViewControllerToMainStoryboardInitialViewController;
++(void)dismissSplitViewControllerPopover;
++(void)setKeyWindowRootViewController:(UIViewController*)a_viewController;
++(void)setKeyWindowRootViewControllerToMainStoryboardInitialViewController;
 
 +(void)adjustImageInsetsForBarButtonItem:(UIBarButtonItem*)a_barButtonItem insetValue:(CGFloat)a_insetValue;
 
-+(UIColor*)m_colorForInfoPlistKey:(NSString*)a_infoPlistKey;
++(UIColor*)colorForInfoPlistKey:(NSString*)a_infoPlistKey;
 
-+ (BOOL)m_isImageWithinSafeMemoryThresholdForSizeInPixels:(CGSize)a_imageSizeInPixels;
++ (BOOL)isImageWithinSafeMemoryThresholdForSizeInPixels:(CGSize)a_imageSizeInPixels;
 
 // mimic iOS default separator inset
-+ (UIEdgeInsets)m_tableViewCellDefaultSeparatorInset;
++ (UIEdgeInsets)tableViewCellDefaultSeparatorInset;
 
-+ (void)m_showServerErrorAlertViewForNetworkReachable:(BOOL)a_networkReachable
-                                    alertViewDelegate:(id <UIAlertViewDelegate>)a_alertViewDelegate;
++ (void)showServerErrorAlertViewForNetworkReachable:(BOOL)a_networkReachable
+                                  alertViewDelegate:(id <UIAlertViewDelegate>)a_alertViewDelegate;
 
 /**
 * Calculates height given width and aspect ratio.
 * @param a_width Width to calculate height for.
 * @param a_aspectRatio Aspect ratio (width divided by height)
 */
-+ (CGFloat)m_heightForWidth:(CGFloat)a_width aspectRatio:(CGFloat)a_aspectRatio;
++ (CGFloat)heightForWidth:(CGFloat)a_width aspectRatio:(CGFloat)a_aspectRatio;
 
 /**
 * Calculates width given height and aspect ratio.
 * @param a_height Height to calculate width for.
 * @param a_aspectRatio Aspect ratio (width divided by height)
 */
-+ (CGFloat)m_widthForHeight:(CGFloat)a_height aspectRatio:(CGFloat)a_aspectRatio;
++ (CGFloat)widthForHeight:(CGFloat)a_height aspectRatio:(CGFloat)a_aspectRatio;
 
 @end

@@ -68,7 +68,7 @@ otherButtonTitlesArray:(NSArray *)otherTitlesArray iPadWidth:(CGFloat)iPadWidth 
     }
     
     // set up cancel button
-    BOOL l_isIPad = [IAUIUtils m_isIPad];
+    BOOL l_isIPad = [IAUIUtils isIPad];
     if (cancelTitle && !l_isIPad) {
         IBActionSheetButton *cancelButton = [[IBActionSheetButton alloc] initWithAllCornersRoundedAndMaximumActionSheetWidth:[self maximumActionSheetWidth]];
         cancelButton.titleLabel.font = [UIFont boldSystemFontOfSize:21];
@@ -170,7 +170,7 @@ otherButtonTitlesArray:(NSArray *)otherTitlesArray iPadWidth:(CGFloat)iPadWidth 
 }
 
 - (CGFloat)maximumActionSheetWidth {
-    if ([IAUIUtils m_isIPad]) {
+    if ([IAUIUtils isIPad]) {
         return self.iPadWidth ?: 320;
     }else{
         if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
@@ -497,7 +497,7 @@ otherButtonTitlesArray:(NSArray *)otherTitlesArray iPadWidth:(CGFloat)iPadWidth 
 
     self.transparentView.center = CGPointMake(x, height / 2.0);
 
-    if ([IAUIUtils m_isIPad]) {
+    if ([IAUIUtils isIPad]) {
 
         self.alpha = 0;
         self.center = CGPointMake(x, height / 2.0);
@@ -539,7 +539,7 @@ otherButtonTitlesArray:(NSArray *)otherTitlesArray iPadWidth:(CGFloat)iPadWidth 
     
     if (self.shouldCancelOnTouch) {
         
-        if ([IAUIUtils m_isIPad]) {
+        if ([IAUIUtils isIPad]) {
             
             [UIView animateWithDuration:0.3f
                                   delay:0.0f
@@ -620,7 +620,7 @@ otherButtonTitlesArray:(NSArray *)otherTitlesArray iPadWidth:(CGFloat)iPadWidth 
     
     self.transparentView.frame = CGRectMake(0, 0, width, height);
     self.transparentView.center = CGPointMake(width / 2.0, height / 2.0);
-    if ([IAUIUtils m_isIPad]) {
+    if ([IAUIUtils isIPad]) {
         self.center = CGPointMake(width / 2.0, height / 2.0);
     }else{
         self.center = CGPointMake(width / 2.0, height - CGRectGetHeight(self.frame) / 2.0);

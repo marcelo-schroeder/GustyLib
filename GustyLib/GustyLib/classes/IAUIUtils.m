@@ -215,7 +215,7 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
 						   otherButtonTitles:nil];
 	actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
 //    NSLog(@"aView: %@", [aView description]);
-    if ([IAUIUtils m_isIPad] && aBarButtonItem) {
+    if ([IAUIUtils isIPad] && aBarButtonItem) {
         [actionSheet showFromBarButtonItem:aBarButtonItem animated:YES];
     }else {
         [actionSheet showInView:aView];
@@ -225,7 +225,7 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
 	}
 }
 
-+(NSString*)m_helpTargetIdForName:(NSString*)a_name{
++(NSString*)helpTargetIdForName:(NSString*)a_name{
     return [NSString stringWithFormat:@"controllers.common.%@", a_name];
 }
 
@@ -234,12 +234,12 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
 	switch (aType) {
 		case IA_UIBAR_BUTTON_ITEM_CANCEL:
 			barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:aTarget action:anAction];
-            barButtonItem.p_helpTargetId = [self m_helpTargetIdForName:@"cancelButton"];
+            barButtonItem.p_helpTargetId = [self helpTargetIdForName:@"cancelButton"];
 //			barButtonItem.accessibilityLabel = @"Cancel Button";
 			break;
 		case IA_UIBAR_BUTTON_ITEM_DONE:
 			barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:aTarget action:anAction];
-            barButtonItem.p_helpTargetId = [self m_helpTargetIdForName:@"doneButton"];
+            barButtonItem.p_helpTargetId = [self helpTargetIdForName:@"doneButton"];
             [[[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceForBarButtonItem:barButtonItem
                                                                                               viewController:nil
                                                                                                    important:YES ];
@@ -247,7 +247,7 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
 			break;
 		case IA_UIBAR_BUTTON_ITEM_DELETE:
 			barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"310-RemoveButton.png"] style:UIBarButtonItemStylePlain target:aTarget action:anAction];
-            barButtonItem.p_helpTargetId = [self m_helpTargetIdForName:@"deleteButton"];
+            barButtonItem.p_helpTargetId = [self helpTargetIdForName:@"deleteButton"];
 //			barButtonItem.accessibilityLabel = @"Delete Button";
 			break;
 		case IA_UIBAR_BUTTON_ITEM_FLEXIBLE_SPACE:
@@ -260,7 +260,7 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
 		case IA_UIBAR_BUTTON_ITEM_ADD:
 			barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:aTarget action:anAction];
             barButtonItem.tag = 10000;
-            barButtonItem.p_helpTargetId = [self m_helpTargetIdForName:@"addButton"];
+            barButtonItem.p_helpTargetId = [self helpTargetIdForName:@"addButton"];
 //			barButtonItem.accessibilityLabel = @"Add Button";
 			break;
 		case IA_UIBAR_BUTTON_ITEM_SELECT_NONE:
@@ -270,7 +270,7 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
                 l_title = @"Select None";
             }
 			barButtonItem = [[UIBarButtonItem alloc] initWithTitle:l_title style:UIBarButtonItemStyleBordered target:aTarget action:anAction];
-            barButtonItem.p_helpTargetId = [self m_helpTargetIdForName:@"selectNoneButton"];
+            barButtonItem.p_helpTargetId = [self helpTargetIdForName:@"selectNoneButton"];
 //			barButtonItem.accessibilityLabel = @"Select None Button";
 			break;
 		}
@@ -278,7 +278,7 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
 		{
 			NSString *l_title = @"Select All";
 			barButtonItem = [[UIBarButtonItem alloc] initWithTitle:l_title style:UIBarButtonItemStyleBordered target:aTarget action:anAction];
-            barButtonItem.p_helpTargetId = [self m_helpTargetIdForName:@"selectAllButton"];
+            barButtonItem.p_helpTargetId = [self helpTargetIdForName:@"selectAllButton"];
 //			barButtonItem.accessibilityLabel = @"Select All Button";
 			break;
 		}
@@ -292,12 +292,12 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
 			break;
 		case IA_UIBAR_BUTTON_ITEM_SELECT_NOW:
 			barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Now" style:UIBarButtonItemStyleBordered target:aTarget action:anAction];
-            barButtonItem.p_helpTargetId = [self m_helpTargetIdForName:@"nowButton"];
+            barButtonItem.p_helpTargetId = [self helpTargetIdForName:@"nowButton"];
 //			barButtonItem.accessibilityLabel = @"Now Button";
 			break;
 		case IA_UIBAR_BUTTON_ITEM_SELECT_TODAY:
 			barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Today" style:UIBarButtonItemStyleBordered target:aTarget action:anAction];
-            barButtonItem.p_helpTargetId = [self m_helpTargetIdForName:@"todaySelectionButton"];
+            barButtonItem.p_helpTargetId = [self helpTargetIdForName:@"todaySelectionButton"];
 //			barButtonItem.accessibilityLabel = @"Today Button";
 			break;
 		case IA_UIBAR_BUTTON_ITEM_ACTION:
@@ -310,12 +310,12 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
 			break;
 		case IA_UIBAR_BUTTON_ITEM_DISMISS:
 			barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Dismiss" style:UIBarButtonItemStyleBordered target:aTarget action:anAction];
-            barButtonItem.p_helpTargetId = [self m_helpTargetIdForName:@"dismissButton"];
+            barButtonItem.p_helpTargetId = [self helpTargetIdForName:@"dismissButton"];
 //			barButtonItem.accessibilityLabel = @"Dismiss Button";
 			break;
 		case IA_UIBAR_BUTTON_ITEM_BACK:
 			barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:aTarget action:anAction];
-            barButtonItem.p_helpTargetId = [self m_helpTargetIdForName:@"backButton"];
+            barButtonItem.p_helpTargetId = [self helpTargetIdForName:@"backButton"];
 //			barButtonItem.accessibilityLabel = @"Back Button";
 			break;
 		default:
@@ -337,7 +337,7 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
 	return [[UIScreen mainScreen] applicationFrame];
 }
 
-+ (CGRect)m_convertToCurrentOrientationForFrame:(CGRect)a_frame{
++ (CGRect)convertToCurrentOrientationForFrame:(CGRect)a_frame{
     return [self isDeviceInLandscapeOrientation] ? CGRectMake(a_frame.origin.y, a_frame.origin.x, a_frame.size.height, a_frame.size.width) : a_frame;
 }
 
@@ -388,12 +388,12 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
 		[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
 		return [dateFormatter stringFromDate:anObject];
 	}else if ([anObject isKindOfClass:[NSManagedObject class]]) {
-		return [anObject longDisplayValue];
+		return [anObject IFA_longDisplayValue];
 	}else if ([anObject isKindOfClass:[NSSet class]]) {
 		if ([anObject count]==0) {
 			return @"";
 		}else {
-			NSString *l_entityName = [((NSManagedObject*)[anObject anyObject]) entityName];
+			NSString *l_entityName = [((NSManagedObject *) [anObject anyObject]) IFA_entityName];
 			NSArray *sortDescriptors = [[IAPersistenceManager sharedInstance] listSortDescriptorsForEntity:l_entityName];
 			NSArray *sortedArray = [[anObject allObjects] sortedArrayUsingDescriptors:sortDescriptors];
 			NSMutableString *l_string = [NSMutableString string];
@@ -404,7 +404,7 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
 				}else {
 					[l_string appendString:@", "];
 				}
-				[l_string appendString:[l_managedObject displayValue]];
+				[l_string appendString:[l_managedObject IFA_displayValue]];
 			}
 			return l_string;
 		}
@@ -462,19 +462,19 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
     return l_view;
 }
 
-+(void)m_postNavigationEventNotification{
++(void)postNavigationEventNotification {
     [[NSNotificationCenter defaultCenter] postNotificationName:IA_NOTIFICATION_NAVIGATION_EVENT object:nil];
 //    NSLog(@"IA_NOTIFICATION_NAVIGATION_EVENT sent");
 }
 
-+(void)m_traverseHierarchyForView:(UIView*)a_view withBlock:(void (^) (UIView*))a_block{
++(void)traverseHierarchyForView:(UIView *)a_view withBlock:(void (^) (UIView*))a_block{
     [self m_traverseHierarchyForView:a_view withBlock:a_block level:0];
 }
 
-+(CGFloat)m_widthForPortraitNumerator:(float)a_portraitNumerator
-                  portraitDenominator:(float)a_portraitDenominator 
-                   landscapeNumerator:(float)a_landscapeNumerator 
-                 landscapeDenominator:(float)a_landscapeDenominator
++(CGFloat)widthForPortraitNumerator:(float)a_portraitNumerator
+                portraitDenominator:(float)a_portraitDenominator
+                 landscapeNumerator:(float)a_landscapeNumerator
+               landscapeDenominator:(float)a_landscapeDenominator
 {
     float l_numerator = [IAUIUtils isDeviceInLandscapeOrientation] ? a_landscapeNumerator : a_portraitNumerator;
     float l_denominator = [IAUIUtils isDeviceInLandscapeOrientation] ? a_landscapeDenominator : a_portraitDenominator;
@@ -482,23 +482,23 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
     return l_width;
 }
 
-+(BOOL)m_isIPad{
++(BOOL)isIPad {
     return UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad;
 }
 
 +(BOOL)m_isIPhoneLandscape{
-    return ![self m_isIPad] && [self isDeviceInLandscapeOrientation];
+    return ![self isIPad] && [self isDeviceInLandscapeOrientation];
 }
 
-+(NSString*)m_resourceNameDeviceModifier{
-    return [self m_isIPad] ? @"~ipad" : @"~iphone";
++(NSString*)resourceNameDeviceModifier {
+    return [self isIPad] ? @"~ipad" : @"~iphone";
 }
 
-+(UIViewAutoresizing)m_fullAutoresizingMask{
++(UIViewAutoresizing)fullAutoresizingMask {
     return UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
 }
 
-+(NSString*)m_menuBarButtonItemImageName{
++(NSString*)menuBarButtonItemImageName {
     NSString *l_imageName = [[IAUtils infoPList] objectForKey:@"IAMenuButtonImage"];
     if (!l_imageName) {
         l_imageName = @"271-ThreeColumn.png";
@@ -506,14 +506,14 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
     return l_imageName;
 }
 
-+(UIImage*)m_menuBarButtonItemImage{
++(UIImage*)menuBarButtonItemImage {
     if (!c_menuBarButtonItemImage) {
-        return [UIImage imageNamed:[self m_menuBarButtonItemImageName]];
+        return [UIImage imageNamed:[self menuBarButtonItemImageName]];
     }
     return c_menuBarButtonItemImage;
 }
 
-+(void)m_dismissSplitViewControllerPopover{
++(void)dismissSplitViewControllerPopover {
     UIWindow *l_window = [UIApplication sharedApplication].delegate.window;
     UIViewController *l_appRootViewController = l_window.rootViewController;
     if ([l_appRootViewController isKindOfClass:[IAUISplitViewController class]]) {
@@ -522,13 +522,13 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
     }
 }
 
-+(void)m_setKeyWindowRootViewController:(UIViewController*)a_viewController{
-    [self m_dismissSplitViewControllerPopover];
++(void)setKeyWindowRootViewController:(UIViewController*)a_viewController{
+    [self dismissSplitViewControllerPopover];
     [UIApplication sharedApplication].keyWindow.rootViewController = a_viewController;
 }
 
-+(void)m_setKeyWindowRootViewControllerToMainStoryboardInitialViewController{
-    [self m_setKeyWindowRootViewController:[[[IAUIApplicationDelegate sharedInstance] storyboard] instantiateInitialViewController]];
++(void)setKeyWindowRootViewControllerToMainStoryboardInitialViewController {
+    [self setKeyWindowRootViewController:[[[IAUIApplicationDelegate sharedInstance] storyboard] instantiateInitialViewController]];
 }
 
 +(void)adjustImageInsetsForBarButtonItem:(UIBarButtonItem*)a_barButtonItem insetValue:(CGFloat)a_insetValue{
@@ -538,7 +538,7 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
     a_barButtonItem.imageInsets = l_imageInsets;
 }
 
-+(UIColor*)m_colorForInfoPlistKey:(NSString*)a_infoPlistKey{
++(UIColor*)colorForInfoPlistKey:(NSString*)a_infoPlistKey{
     UIColor *l_color = nil;
     NSDictionary *l_colorDictionary = [[IAUtils infoPList] objectForKey:a_infoPlistKey];
     if (l_colorDictionary) {
@@ -546,23 +546,23 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
         CGFloat l_green = [[l_colorDictionary objectForKey:@"green"] floatValue];
         CGFloat l_blue = [[l_colorDictionary objectForKey:@"blue"] floatValue];
         CGFloat l_alpha = [[l_colorDictionary objectForKey:@"alpha"] floatValue];
-        l_color = [UIColor m_colorWithRed:l_red green:l_green blue:l_blue alpha:l_alpha];
+        l_color = [UIColor IFA_colorWithRed:l_red green:l_green blue:l_blue alpha:l_alpha];
     }
     return l_color;
 }
 
-+ (BOOL)m_isImageWithinSafeMemoryThresholdForSizeInPixels:(CGSize)a_imageSizeInPixels {
++ (BOOL)isImageWithinSafeMemoryThresholdForSizeInPixels:(CGSize)a_imageSizeInPixels {
     CGFloat l_imageSizeInPixels = a_imageSizeInPixels.width * a_imageSizeInPixels.height;
     BOOL l_ok = l_imageSizeInPixels <= k_IAMaximumImageSizeInPixels;
     return l_ok;
 }
 
-+ (UIEdgeInsets)m_tableViewCellDefaultSeparatorInset{
++ (UIEdgeInsets)tableViewCellDefaultSeparatorInset {
     return UIEdgeInsetsMake(0, 15, 0, 0);
 }
 
-+ (void)m_showServerErrorAlertViewForNetworkReachable:(BOOL)a_networkReachable
-                                    alertViewDelegate:(id <UIAlertViewDelegate>)a_alertViewDelegate {
++ (void)showServerErrorAlertViewForNetworkReachable:(BOOL)a_networkReachable
+                                  alertViewDelegate:(id <UIAlertViewDelegate>)a_alertViewDelegate {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     NSString *l_title;
     NSString *l_messageArgument;
@@ -577,11 +577,11 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
     [IAUIUtils showAlertWithMessage:l_message title:l_title delegate:a_alertViewDelegate];
 }
 
-+ (CGFloat)m_heightForWidth:(CGFloat)a_width aspectRatio:(CGFloat)a_aspectRatio {
++ (CGFloat)heightForWidth:(CGFloat)a_width aspectRatio:(CGFloat)a_aspectRatio {
     return a_width / a_aspectRatio;
 }
 
-+ (CGFloat)m_widthForHeight:(CGFloat)a_height aspectRatio:(CGFloat)a_aspectRatio {
++ (CGFloat)widthForHeight:(CGFloat)a_height aspectRatio:(CGFloat)a_aspectRatio {
     return a_height * a_aspectRatio;
 }
 

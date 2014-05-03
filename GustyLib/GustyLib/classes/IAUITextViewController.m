@@ -76,7 +76,7 @@
 }
 
 - (void)m_quitEditing{
-    [self m_notifySessionCompletion];
+    [self IFA_notifySessionCompletion];
 }
 
 - (void)m_configureContentView {
@@ -90,13 +90,13 @@
     }
 */
     self.p_contentView.frame = CGRectMake(0, 0, self.view.frame.size.width, 0);
-    self.p_contentView.autoresizingMask = [IAUIUtils m_fullAutoresizingMask];
+    self.p_contentView.autoresizingMask = [IAUIUtils fullAutoresizingMask];
     [self.view addSubview:self.p_contentView];
 }
 
 - (void)m_scrollToCaret {
     if (self.p_growingTextView.internalTextView.isFirstResponder) {
-        [self.p_scrollView m_scrollToCaretInTextView:self.p_growingTextView.internalTextView];
+        [self.p_scrollView IFA_scrollToCaretInTextView:self.p_growingTextView.internalTextView];
     }
 }
 
@@ -104,7 +104,7 @@
     self.p_growingTextView.minNumberOfLines = 1;
     self.p_growingTextView.maxHeight = NSIntegerMax;
     self.p_growingTextView.delegate = self;
-    CGFloat l_horizontalInset = [IAUtils m_isIOS7OrGreater] ? 3 : 0;
+    CGFloat l_horizontalInset = [IAUtils isIOS7OrGreater] ? 3 : 0;
     self.p_growingTextView.contentInset = UIEdgeInsetsMake(0, l_horizontalInset, 0, l_horizontalInset);
 /*
     {
@@ -136,12 +136,12 @@
 
 #pragma mark - Public
 
--(BOOL)m_hasValueChanged{
+-(BOOL)hasValueChanged {
     return ![self.p_originalTextViewValue isEqualToString:self.p_growingTextView.internalTextView.text];
 }
 
-- (IBAction)m_onCancelButtonAction:(id)sender {
-    if ([self m_hasValueChanged]) {
+- (IBAction)onCancelButtonAction:(id)sender {
+    if ([self hasValueChanged]) {
         [IAUIUtils showActionSheetWithMessage:@"Are you sure you want to discard your changes?"
                  destructiveButtonLabelSuffix:@"discard"
                                viewController:self
@@ -153,7 +153,7 @@
     }
 }
 
--(UIResponder*)m_initialFirstResponder{
+-(UIResponder*)initialFirstResponder {
     return self.p_growingTextView.internalTextView;
 }
 
@@ -178,7 +178,7 @@
     [super viewDidAppear:animated];
     
     // Show keyboard
-    [[self m_initialFirstResponder] becomeFirstResponder];
+    [[self initialFirstResponder] becomeFirstResponder];
 
 }
 
@@ -191,7 +191,7 @@
     
 }
 
--(void)m_onKeyboardNotification:(NSNotification*)a_notification {
+-(void)IFA_onKeyboardNotification:(NSNotification*)a_notification {
     if ([a_notification.name isEqualToString:UIKeyboardDidShowNotification]) {
         [self m_onKeyboardDidShowNotification:a_notification];
     } else if ([a_notification.name isEqualToString:UIKeyboardWillHideNotification]) {

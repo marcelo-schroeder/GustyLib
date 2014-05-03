@@ -40,17 +40,17 @@
 *
 * @returns Calculated cell height.
 */
-- (CGFloat)m_heightForCellAtIndexPath:(NSIndexPath *)a_indexPath tableView:(UITableView *)a_tableView;
+- (CGFloat)IFA_heightForCellAtIndexPath:(NSIndexPath *)a_indexPath tableView:(UITableView *)a_tableView;
 
 /**
 * Sets the preferred maximum layout width for the multi-line UILabel instances in table view cell based on the prototype table view cell provided.
-* This method requires the m_multiLineLabelKeyPathsForCellWithReuseIdentifier: method of the IAUITableViewControllerDynamicCellHeightDelegate protocol to be implemented.
+* This method requires the IFA_multiLineLabelKeyPathsForCellWithReuseIdentifier: method of the IAUITableViewControllerDynamicCellHeightDelegate protocol to be implemented.
 * Only the UILabel instances that match the key paths provided by the m_multiLineLabelKeyPathsForCellWithReuseIdentifier: will have their preferredMaxLayoutWidth property changed.
 *
 * @param a_cell Table view cell containing the UILabel instances that will have their preferredMaxLayoutWidth property changed.
 * @param a_prototypeCell Prototype table view cell to provide the dimensions required for a_cell.
 */
-- (void)m_setPreferredMaxLayoutWidthForMultiLineLabelsInCell:(UITableViewCell *)a_cell basedOnPrototypeCell:(UITableViewCell *)a_prototypeCell;
+- (void)IFA_setPreferredMaxLayoutWidthForMultiLineLabelsInCell:(UITableViewCell *)a_cell basedOnPrototypeCell:(UITableViewCell *)a_prototypeCell;
 
 @end
 
@@ -64,7 +64,7 @@
 *
 * @returns Prototype table view cell to be used for height calculation.
 */
-- (UITableViewCell *)m_prototypeCellForIndexPath:(NSIndexPath *)a_indexPath tableView:(UITableView *)a_tableView;
+- (UITableViewCell *)IFA_prototypeCellForIndexPath:(NSIndexPath *)a_indexPath tableView:(UITableView *)a_tableView;
 
 /**
 * Populates a table cell with data.
@@ -74,8 +74,8 @@
 * @param a_indexPath Index path of the prototype cell.
 * @param a_tableView Parent table view of the prototype cell.
 */
-- (void)m_populateCell:(UITableViewCell *)a_cell atIndexPath:(NSIndexPath *)a_indexPath
-             tableView:(UITableView *)a_tableView;
+- (void)IFA_populateCell:(UITableViewCell *)a_cell atIndexPath:(NSIndexPath *)a_indexPath
+               tableView:(UITableView *)a_tableView;
 
 @optional
 
@@ -87,7 +87,7 @@
 *
 * returns The value for the width constraint.
 */
-- (CGFloat)m_cellContentViewWidthForPrototypeCell:(UITableViewCell *)a_prototypeCell;
+- (CGFloat)IFA_cellContentViewWidthForPrototypeCell:(UITableViewCell *)a_prototypeCell;
 
 /**
 * This method provides a hint as to which multi-line UILabel instances need to have their width adjusted as the cell width changes.
@@ -97,6 +97,6 @@
 *
 * @returns Array of key path NSString instances corresponding to the multi-line UILabel instances that require their width to adjust automatically as the cell width changes.
 */
-- (NSArray *)m_multiLineLabelKeyPathsForCellWithReuseIdentifier:(NSString *)a_cellReuseIdentifier;
+- (NSArray *)IFA_multiLineLabelKeyPathsForCellWithReuseIdentifier:(NSString *)a_cellReuseIdentifier;
 
 @end

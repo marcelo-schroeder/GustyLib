@@ -40,7 +40,7 @@
     self.p_childViewDidAppearCount = 0;
     self.p_newChildViewControllerCount = 0;
 
-    if (![self m_isReturningVisibleViewController]) {
+    if (![self IFA_isReturningVisibleViewController]) {
         
         for (UIViewController *l_viewController in self.childViewControllers) {
             if([l_viewController isKindOfClass:[IAUIListViewController class]]){

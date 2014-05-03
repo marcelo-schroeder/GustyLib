@@ -40,15 +40,15 @@
 
 - (id)initWithCancellationCompletionBlock:(void (^)())a_cancellationCompletionBlock;
 
-- (void)m_showView;
-- (void)m_showViewWithAnimation:(BOOL)a_animate;
-- (void)m_showViewForView:(UIView*)a_view;
-- (void)m_showViewForView:(UIView*)a_view animate:(BOOL)a_animate;
+- (void)showView;
+- (void)showViewWithAnimation:(BOOL)a_animate;
+- (void)showViewForView:(UIView*)a_view;
+- (void)showViewForView:(UIView *)a_view animate:(BOOL)a_animate;
 
-- (void)m_showViewForView:(UIView *)a_view animate:(BOOL)a_animate
-    hudConfigurationBlock:(void (^)(MBProgressHUD *))a_hudConfigurationBlock;
+- (void)showViewForView:(UIView *)a_view animate:(BOOL)a_animate
+  hudConfigurationBlock:(void (^)(MBProgressHUD *))a_hudConfigurationBlock;
 
-- (void)m_removeView;
-- (void)m_removeViewWithAnimation:(BOOL)a_animate;
+- (void)removeView;
+- (void)removeViewWithAnimation:(BOOL)a_animate;
 
 @end

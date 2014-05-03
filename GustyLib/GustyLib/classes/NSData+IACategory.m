@@ -24,7 +24,7 @@
 
 #pragma mark - Public
 
--(NSString*)m_hexString{
+-(NSString*)IFA_hexString {
     NSUInteger dataLength = [self length];
     NSMutableString *string = [NSMutableString stringWithCapacity:dataLength*2];
     const unsigned char *dataBytes = [self bytes];

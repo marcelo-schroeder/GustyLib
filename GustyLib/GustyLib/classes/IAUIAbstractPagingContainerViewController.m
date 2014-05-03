@@ -74,8 +74,8 @@
 //    NSLog(@"m_scrollToPage - bounds: %@", NSStringFromCGRect(self.p_scrollView.bounds));
     
     self.p_previousVisibleViewController = nil;
-    
-    [self m_updateScreenDecorationState];
+
+    [self IFA_updateScreenDecorationState];
     
 }
 
@@ -211,7 +211,7 @@
     IAUIScrollPage l_newSelectedPageIndex = [self calculateSelectedPageIndex];
     if (self.p_selectedPageIndex!=l_newSelectedPageIndex) {
         self.p_selectedPageIndex = l_newSelectedPageIndex;
-        [self m_updateScreenDecorationState];
+        [self IFA_updateScreenDecorationState];
 //        NSLog(@" self.p_selectedPageIndex CHANGED: %u, title: %@", self.p_selectedPageIndex, self.navigationItem.title);
     }
     

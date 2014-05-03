@@ -42,7 +42,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
         // Configure text view
         self.p_textView = [UITextView new];
         self.p_textView.text = [self.p_object valueForKey:self.p_propertyName];
-        self.p_textView.autoresizingMask = [IAUIUtils m_fullAutoresizingMask];
+        self.p_textView.autoresizingMask = [IAUIUtils fullAutoresizingMask];
         self.p_textView.font = [self.p_textView.font fontWithSize:14];
         [self.view addSubview:self.p_textView];
         
@@ -62,7 +62,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
     return self.p_textView.text;
 }
 
--(BOOL)m_hasFixedSize{
+-(BOOL)IFA_hasFixedSize {
     return NO;
 }
 

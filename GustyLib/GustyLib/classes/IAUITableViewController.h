@@ -37,35 +37,35 @@
 @property (nonatomic) BOOL p_skipEditingUiStateChange;
 
 - (void)reloadData;
-- (void)m_oncontextSwitchRequestNotification:(NSNotification*)aNotification;
-- (void)m_replyToContextSwitchRequestWithGranted:(BOOL)a_granted;
-- (UITableViewCell*)m_visibleCellForIndexPath:(NSIndexPath*)a_indexPath;
-- (UITableViewCell *)m_dequeueAndInitReusableCellWithIdentifier:(NSString*)a_reuseIdentifier atIndexPath:(NSIndexPath*)a_indexPath;
-- (UITableViewCell *)m_initReusableCellWithIdentifier:(NSString*)a_reuseIdentifier atIndexPath:(NSIndexPath*)a_indexPath;
-- (UITableViewCellStyle) m_tableViewCellStyle;
--(CGFloat)m_sectionHeaderNonEditingXOffset;
--(void)m_updateSectionHeaderBounds;
--(UIView*)m_newTableViewCellAccessoryView;
+- (void)oncontextSwitchRequestNotification:(NSNotification*)aNotification;
+- (void)replyToContextSwitchRequestWithGranted:(BOOL)a_granted;
+- (UITableViewCell*)visibleCellForIndexPath:(NSIndexPath*)a_indexPath;
+- (UITableViewCell *)dequeueAndCreateReusableCellWithIdentifier:(NSString *)a_reuseIdentifier atIndexPath:(NSIndexPath*)a_indexPath;
+- (UITableViewCell *)createReusableCellWithIdentifier:(NSString *)a_reuseIdentifier atIndexPath:(NSIndexPath*)a_indexPath;
+- (UITableViewCellStyle)tableViewCellStyle;
+-(CGFloat)sectionHeaderNonEditingXOffset;
+-(void)updateSectionHeaderBounds;
+-(UIView*)newTableViewCellAccessoryView;
 
 // Reload target cell so it does appear on top of any custom section header or footer views
 //  (i.e. it tries to fix what seems to be a UIKit bug)
--(void)m_reloadMovedCellAtIndexPath:(NSIndexPath*)a_indexPath;
+-(void)reloadMovedCellAtIndexPath:(NSIndexPath*)a_indexPath;
 
 // Message "beginRefreshing" to self.refreshControl but does not show the control
--(void)m_beginRefreshing;
+-(void)beginRefreshing;
 // Message "beginRefreshing" to self.refreshControl with option to show control or not
--(void)m_beginRefreshingWithControlShowing:(BOOL)a_shouldShowControl;
+-(void)beginRefreshingWithControlShowing:(BOOL)a_shouldShowControl;
 
 // Use this instead of the native clearsSelectionOnViewWillAppear to avoid issues caused by
 // the interactive pop gesture recogniser's animation colliding with the deselection animation
-- (BOOL)m_shouldClearSelectionOnViewDidAppear;
+- (BOOL)shouldClearSelectionOnViewDidAppear;
 
 // to be overriden by subclasses
 - (BOOL)contextSwitchRequestRequiredInEditMode;
 - (void)quitEditing;
 
--(NSCalendar*)m_calendar;
+-(NSCalendar*)calendar;
 
-- (NSUInteger)m_numberOfRows;
+- (NSUInteger)numberOfRows;
 
 @end

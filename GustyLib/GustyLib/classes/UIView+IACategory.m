@@ -54,7 +54,7 @@ static char c_appearanceIdKey;
 
 #pragma mark - Public
 
--(id)m_init{
+-(id)IFA_init {
     
     // Set appearance
     [[[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitForView:self];
@@ -63,18 +63,18 @@ static char c_appearanceIdKey;
 
 }
 
--(void)m_awakeFromNib{
+-(void)IFA_awakeFromNib {
     
     // Set appearance
     [[[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnAwakeFromNibForView:self];
     
 }
 
--(void)m_roundCorners{
-    [self m_roundCornersWithRadius:8];
+-(void)IFA_roundCorners {
+    [self IFA_roundCornersWithRadius:8];
 }
 
--(void)m_roundCornersWithRadius:(CGFloat)a_radius{
+-(void)IFA_roundCornersWithRadius:(CGFloat)a_radius{
     self.layer.masksToBounds = NO;
     self.layer.cornerRadius = a_radius;
     self.layer.shadowColor = [UIColor grayColor].CGColor;
@@ -83,7 +83,7 @@ static char c_appearanceIdKey;
     self.layer.shadowRadius = a_radius;
 }
 
--(CGPoint)m_centerInSuperview:(UIView*)a_superview{
+-(CGPoint)IFA_centerInSuperview:(UIView*)a_superview{
     return [a_superview convertPoint:a_superview.center fromView:a_superview.superview];
 }
 
@@ -104,7 +104,7 @@ static char c_appearanceIdKey;
     It was a table view cell separator view, at the bottom
 
  */
-- (void)m_changeFrameTo1PixelTall {
+- (void)IFA_changeFrameTo1PixelTall {
     CGFloat l_screenScale = [UIScreen mainScreen].scale;
     if (l_screenScale!=1) {
         CGRect l_newFrame = self.frame;
@@ -114,7 +114,7 @@ static char c_appearanceIdKey;
     }
 }
 
-- (id <IAUIAppearanceTheme>)m_appearanceTheme {
+- (id <IAUIAppearanceTheme>)IFA_appearanceTheme {
     return [[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme];
 }
 
@@ -126,7 +126,7 @@ static char c_appearanceIdKey;
     return objc_getAssociatedObject(self, &c_appearanceIdKey);
 }
 
--(NSArray *)m_addLayoutConstraintsToFillSuperview{
+-(NSArray *)IFA_addLayoutConstraintsToFillSuperview {
     self.translatesAutoresizingMaskIntoConstraints = NO;
     NSArray *l_horizontalConstraints = [self m_addLayoutConstraintsToFillSuperviewForOrientation:k_layoutConstraintVisualFormatOrientationHorizontal];
     NSArray *l_verticalConstraints = [self m_addLayoutConstraintsToFillSuperviewForOrientation:k_layoutConstraintVisualFormatOrientationVertical];
@@ -136,35 +136,35 @@ static char c_appearanceIdKey;
     return l_constraints;
 }
 
--(NSArray *)m_addLayoutConstraintsToFillSuperviewHorizontally{
+-(NSArray *)IFA_addLayoutConstraintsToFillSuperviewHorizontally {
     self.translatesAutoresizingMaskIntoConstraints = NO;
     return [self m_addLayoutConstraintsToFillSuperviewForOrientation:k_layoutConstraintVisualFormatOrientationHorizontal];
 }
 
--(NSArray *)m_addLayoutConstraintsToFillSuperviewVertically{
+-(NSArray *)IFA_addLayoutConstraintsToFillSuperviewVertically {
     self.translatesAutoresizingMaskIntoConstraints = NO;
     return [self m_addLayoutConstraintsToFillSuperviewForOrientation:k_layoutConstraintVisualFormatOrientationVertical];
 }
 
--(NSArray *)m_addLayoutConstraintsToCenterInSuperview{
+-(NSArray *)IFA_addLayoutConstraintsToCenterInSuperview {
     self.translatesAutoresizingMaskIntoConstraints = NO;
     NSMutableArray *l_constraints = [@[] mutableCopy];
-    NSLayoutConstraint *l_horizontalLayoutConstraint = [self m_addLayoutConstraintToCenterInSuperviewHorizontally];
+    NSLayoutConstraint *l_horizontalLayoutConstraint = [self IFA_addLayoutConstraintToCenterInSuperviewHorizontally];
     [l_constraints addObject:l_horizontalLayoutConstraint];
-    NSLayoutConstraint *l_verticalLayoutConstraint = [self m_addLayoutConstraintToCenterInSuperviewVertically];
+    NSLayoutConstraint *l_verticalLayoutConstraint = [self IFA_addLayoutConstraintToCenterInSuperviewVertically];
     [l_constraints addObject:l_verticalLayoutConstraint];
     return l_constraints;
 }
 
-- (NSLayoutConstraint *)m_addLayoutConstraintToCenterInSuperviewHorizontally{
+- (NSLayoutConstraint *)IFA_addLayoutConstraintToCenterInSuperviewHorizontally {
     return [self m_addSuperviewEqualityLayoutConstraintForAttribute:NSLayoutAttributeCenterX];
 }
 
-- (NSLayoutConstraint *)m_addLayoutConstraintToCenterInSuperviewVertically{
+- (NSLayoutConstraint *)IFA_addLayoutConstraintToCenterInSuperviewVertically {
     return [self m_addSuperviewEqualityLayoutConstraintForAttribute:NSLayoutAttributeCenterY];
 }
 
-- (NSLayoutConstraint *)m_newLayoutConstraintWithAttribute:(NSLayoutAttribute)a_attribute toItem:(id)a_item {
+- (NSLayoutConstraint *)IFA_newLayoutConstraintWithAttribute:(NSLayoutAttribute)a_attribute toItem:(id)a_item {
     return [NSLayoutConstraint constraintWithItem:self
                                         attribute:a_attribute
                                         relatedBy:NSLayoutRelationEqual
@@ -173,12 +173,12 @@ static char c_appearanceIdKey;
                                        multiplier:1 constant:0];
 }
 
-- (UIImage *)m_snapshotImage {
+- (UIImage *)IFA_snapshotImage {
     CGRect l_rectToSnapshot = self.bounds;
-    return [self m_snapshotImageFromRect:l_rectToSnapshot];
+    return [self IFA_snapshotImageFromRect:l_rectToSnapshot];
 }
 
-- (UIImage *)m_snapshotImageFromRect:(CGRect)a_rectToSnapshot {
+- (UIImage *)IFA_snapshotImageFromRect:(CGRect)a_rectToSnapshot {
     UIGraphicsBeginImageContextWithOptions(a_rectToSnapshot.size, YES, 0.0);
     [self drawViewHierarchyInRect:a_rectToSnapshot afterScreenUpdates:NO];
     UIImage *l_snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -186,14 +186,14 @@ static char c_appearanceIdKey;
     return l_snapshotImage;
 }
 
-- (BOOL)m_frameIntersectsWithView:(UIView *)a_theOtherView{
+- (BOOL)IFA_frameIntersectsWithView:(UIView *)a_theOtherView{
     CGRect l_frame1 = [self.superview convertRect:self.frame toView:nil];
     CGRect l_frame2 = [a_theOtherView.superview convertRect:a_theOtherView.frame toView:nil];
     return CGRectIntersectsRect(l_frame1, l_frame2);
 }
 
-- (void)m_traverseViewHierarchyWithBlock:(void (^) (UIView *))a_block {
-    [IAUIUtils m_traverseHierarchyForView:self withBlock:a_block];
+- (void)IFA_traverseViewHierarchyWithBlock:(void (^) (UIView *))a_block {
+    [IAUIUtils traverseHierarchyForView:self withBlock:a_block];
 }
 
 #pragma mark - IAHelpTarget protocol
@@ -214,23 +214,23 @@ static char c_appearanceIdKey;
 
 #pragma mark - IAHelpTargetContainer
 
--(NSArray*)m_helpTargets{
+-(NSArray*)IFA_helpTargets {
     return nil;
 }
 
--(UIView*)m_helpModeToggleView{
+-(UIView*)IFA_helpModeToggleView {
     return nil;
 }
 
--(UIView*)m_view{
+-(UIView*)IFA_view {
     return nil;
 }
 
--(void)m_didEnterHelpMode{
+-(void)IFA_didEnterHelpMode {
     // does nothing
 }
 
--(void)m_willExitHelpMode{
+-(void)IFA_willExitHelpMode {
     // does nothing
 }
 

@@ -22,6 +22,6 @@
 
 @property (nonatomic, weak) UIViewController *p_previousVisibleViewController;
 
--(NSCalendar*)m_calendar;
+-(NSCalendar*)calendar;
 
 @end

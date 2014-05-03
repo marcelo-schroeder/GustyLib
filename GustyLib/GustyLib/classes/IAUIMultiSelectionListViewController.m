@@ -212,7 +212,7 @@ enum {
         // Firstly, delete the managed objects in the original set
         for (NSManagedObject *l_managedObject in v_originalSortedEntities) {
 //            NSLog(@"deleting managed object: %@", l_managedObject);
-            [l_managedObject m_delete];
+            [l_managedObject IFA_delete];
         }
         
         //            NSLog(@"hasChanges1: %u", [IAPersistenceManager sharedInstance].managedObjectContext.hasChanges);
@@ -221,7 +221,7 @@ enum {
         [v_originalSortedEntities removeAllObjects];
         NSUInteger l_seq = 0;
         for (NSManagedObject *l_selectedDestinationManagedObject in v_selectedDestinationEntities) {
-            NSManagedObject *l_managedObject = [[IAPersistenceManager sharedInstance] instantiate:self.entityName];
+            NSManagedObject *l_managedObject = [[IAPersistenceManager sharedInstance] instantiate:self.IFA_entityName];
             [l_managedObject setValue:self.p_managedObject forKey:v_originRelationshipName];
             [l_managedObject setValue:l_selectedDestinationManagedObject forKey:v_destinationRelationshipName];
             [l_managedObject setValue:[NSNumber numberWithInt:l_seq++] forKey:@"seq"];
@@ -250,8 +250,8 @@ enum {
         [IAPersistenceManager sharedInstance].isCurrentManagedObjectDirty = YES;
         
     }
-    
-    [[self p_presenter] m_changesMadeByViewController:self];
+
+    [[self p_presenter] changesMadeByViewController:self];
     
 }
 
@@ -263,20 +263,20 @@ enum {
 	if((self=[super initWithManagedObject:aManagedObject propertyName:aPropertyName])){
 		
 		// First determine whether this controller is managing a pure many-to-many relationship or one which uses a join table
-		NSDictionary *l_parentRelationshipDictionary = [[IAPersistenceManager sharedInstance].entityConfig relationshipDictionaryForEntity:[self.p_managedObject entityName]];
+		NSDictionary *l_parentRelationshipDictionary = [[IAPersistenceManager sharedInstance].entityConfig relationshipDictionaryForEntity:[self.p_managedObject IFA_entityName]];
 		NSRelationshipDescription *l_parentRelationship = [l_parentRelationshipDictionary valueForKey:self.p_propertyName];
 		v_isJoinEntity = ! [[l_parentRelationship inverseRelationship] isToMany];
 
 		if (v_isJoinEntity) {
 			
 			// Determine destination entity in the many-to-many relationship
-			NSDictionary *l_relationshipDictionary = [[IAPersistenceManager sharedInstance].entityConfig relationshipDictionaryForEntity:self.entityName];
+			NSDictionary *l_relationshipDictionary = [[IAPersistenceManager sharedInstance].entityConfig relationshipDictionaryForEntity:self.IFA_entityName];
 			NSArray *l_relationshipNames = [l_relationshipDictionary allKeys];
 			for (NSString *l_relationshipName in l_relationshipNames) {
 				@autoreleasepool {
 					NSRelationshipDescription *l_relationship = [l_relationshipDictionary valueForKey:l_relationshipName];
 					NSEntityDescription *l_destinationEntity = [l_relationship destinationEntity];
-					if ([[self.p_managedObject entityName] isEqualToString:[l_destinationEntity name]]) {
+					if ([[self.p_managedObject IFA_entityName] isEqualToString:[l_destinationEntity name]]) {
 						v_originRelationshipName = l_relationshipName;
 					}else {
 						// Assume that there is only one destination to-many relationship for the moment
@@ -290,7 +290,7 @@ enum {
 
 			v_originRelationshipName = nil;	// not used in this case
 			v_destinationRelationshipName = nil;	// not used in this case
-			v_destinationEntityName = self.entityName;
+			v_destinationEntityName = self.IFA_entityName;
 			
 		}
 		
@@ -302,7 +302,7 @@ enum {
 		v_selectedDestinationEntities = [NSMutableArray array];
 		
 		// Now load the selected entity instances
-		NSArray *l_sortDescriptors = [[IAPersistenceManager sharedInstance] listSortDescriptorsForEntity:self.entityName];
+		NSArray *l_sortDescriptors = [[IAPersistenceManager sharedInstance] listSortDescriptorsForEntity:self.IFA_entityName];
 		v_originalSortedEntities = [NSMutableArray arrayWithArray:[[((NSSet*) [self.p_managedObject valueForKey:self.p_propertyName]) allObjects] sortedArrayUsingDescriptors:l_sortDescriptors]];
 		for (NSManagedObject *l_managedObject in v_originalSortedEntities) {
 			@autoreleasepool {
@@ -348,7 +348,7 @@ enum {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:k_cellId];
 
         // See cell appearance
-        [[self m_appearanceTheme] setAppearanceForView:cell.textLabel];
+        [[self IFA_appearanceTheme] setAppearanceForView:cell.textLabel];
 
         // Add custom delete button (hidden for now)
         UIButton *l_deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -374,14 +374,14 @@ enum {
 		managedObject = [v_unselectedDestinationEntities objectAtIndex:(NSUInteger) indexPath.row];
         l_deleteButtonView.hidden = YES;
 	}
-	cell.textLabel.text = [managedObject longDisplayValue];
-    cell.p_helpTargetId = [[self m_helpTargetIdForName:@"tableCell."] stringByAppendingString:indexPath.section==0?@"selected":@"unselected"];
+	cell.textLabel.text = [managedObject IFA_longDisplayValue];
+    cell.p_helpTargetId = [[self IFA_helpTargetIdForName:@"tableCell."] stringByAppendingString:indexPath.section==0?@"selected":@"unselected"];
 	
     return cell;
 
 }
 
-- (NSArray*)m_editModeToolbarItems{
+- (NSArray*)IFA_editModeToolbarItems {
 	return @[self.p_selectNoneButtonItem, v_flexSpaceButtonItem, v_selectAllButtonItem];
 }
 
@@ -395,7 +395,7 @@ enum {
 -(void)done{
 	
     BOOL l_valueChanged = [self m_hasValueChanged];
-    [self m_notifySessionCompletionWithChangesMade:l_valueChanged data:nil ];
+    [self IFA_notifySessionCompletionWithChangesMade:l_valueChanged data:nil ];
 
 }
 
@@ -487,8 +487,8 @@ enum {
     [v_selectedDestinationEntities replaceObjectAtIndex:(NSUInteger) toIndexPath.row withObject:fromManagedObject];
     [v_selectedDestinationEntities replaceObjectAtIndex:(NSUInteger) fromIndexPath.row withObject:toManagedObject];
     [self m_updateModel];
-    
-    [self m_reloadMovedCellAtIndexPath:toIndexPath];
+
+    [self reloadMovedCellAtIndexPath:toIndexPath];
 
 }
 

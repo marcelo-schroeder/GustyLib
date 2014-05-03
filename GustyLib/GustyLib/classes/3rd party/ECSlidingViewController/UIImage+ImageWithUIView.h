@@ -6,5 +6,5 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface UIImage (ImageWithUIView)
-+ (UIImage *)imageWithUIView:(UIView *)view;
++ (UIImage *)IFA_imageWithUIView:(UIView *)view;
 @end

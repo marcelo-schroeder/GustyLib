@@ -24,6 +24,6 @@
 //   device orientation changes.
 // This method is useful because the content offset may be incorrect after a device
 //   orientation change in some situations (e.g. from portrait to landscape on 2nd page of a collection view)
-- (void)m_updateContentOffsetForPagination;
+- (void)IFA_updateContentOffsetForPagination;
 
 @end

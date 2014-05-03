@@ -98,10 +98,10 @@ static NSArray *c_pageDataLoadingOrder = nil;
 	// Toolbar nav buttons
     v_previousViewBarButtonItem = [IAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_PREVIOUS_PAGE target:self action:NULL];
     [IAUIUtils adjustImageInsetsForBarButtonItem:v_previousViewBarButtonItem insetValue:1];
-    v_previousViewBarButtonItem.p_helpTargetId = [self m_helpTargetIdForName:@"previousPageButton"];
+    v_previousViewBarButtonItem.p_helpTargetId = [self IFA_helpTargetIdForName:@"previousPageButton"];
     v_nextViewBarButtonItem = [IAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_NEXT_PAGE target:self action:NULL];
     [IAUIUtils adjustImageInsetsForBarButtonItem:v_nextViewBarButtonItem insetValue:1];
-    v_nextViewBarButtonItem.p_helpTargetId = [self m_helpTargetIdForName:@"nextPageButton"];
+    v_nextViewBarButtonItem.p_helpTargetId = [self IFA_helpTargetIdForName:@"nextPageButton"];
     [self m_enableNavigationButtonsAction:YES];
 
 }
@@ -124,7 +124,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
     
     [super viewWillAppear:animated];
     
-    if (![self m_isReturningVisibleViewController]) {
+    if (![self IFA_isReturningVisibleViewController]) {
         
         // At first time, initialise child view controllers and scroll to centre page, otherwise just scroll to centre page (to avoid any previously unfinished animation)
         [self updateChildViewControllersForSelectedPage:self.p_childViewControllers ? v_selectedPage : IA_UISCROLL_PAGE_INIT];
@@ -135,7 +135,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
 
 }
 
-- (NSArray*)m_nonEditModeToolbarItems{
+- (NSArray*)IFA_nonEditModeToolbarItems {
     
 	// Separator
 	UIBarButtonItem *spaceBarButtonItem = [IAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_ITEM_FLEXIBLE_SPACE target:nil action:nil];
@@ -146,8 +146,8 @@ static NSArray *c_pageDataLoadingOrder = nil;
     
 }
 
--(NSArray *)m_editModeToolbarItems{
-    return [v_childViewControllerCentre m_editModeToolbarItems];
+-(NSArray *)IFA_editModeToolbarItems {
+    return [v_childViewControllerCentre IFA_editModeToolbarItems];
 }
 
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
@@ -155,14 +155,14 @@ static NSArray *c_pageDataLoadingOrder = nil;
     [self updateChildViewControllersForSelectedPage:v_selectedPage];
 }
 
--(void)m_updateNavigationItemState{
-    [super m_updateNavigationItemState];
-//    NSLog(@"m_updateNavigationItemState v_selectedPage: %u", v_selectedPage);
+-(void)IFA_updateNavigationItemState {
+    [super IFA_updateNavigationItemState];
+//    NSLog(@"IFA_updateNavigationItemState v_selectedPage: %u", v_selectedPage);
     self.navigationItem.title = [self.p_dataSource titleForPage:v_selectedPage];
 }
 
-- (void)m_updateToolbarNavigationButtonState{
-    [super m_updateToolbarNavigationButtonState];
+- (void)IFA_updateToolbarNavigationButtonState {
+    [super IFA_updateToolbarNavigationButtonState];
     //    NSLog(@"m_updateToolbarNavigationButtonStateForPage: %@", [v_childViewControllers description]);
 	v_previousViewBarButtonItem.enabled = [self.p_childViewControllers objectAtIndex:v_selectedPage-1]!=[NSNull null];
 	v_nextViewBarButtonItem.enabled = [self.p_childViewControllers objectAtIndex:v_selectedPage+1]!=[NSNull null];
@@ -170,10 +170,10 @@ static NSArray *c_pageDataLoadingOrder = nil;
     //    NSLog(@"v_nextViewBarButtonItem.enabled: %u", v_nextViewBarButtonItem.enabled);
 }
 
--(void)m_updateScreenDecorationState{
-    [super m_updateScreenDecorationState];
-    [self m_updateNavigationItemState];
-    [self m_updateToolbarNavigationButtonState];
+-(void)IFA_updateScreenDecorationState {
+    [super IFA_updateScreenDecorationState];
+    [self IFA_updateNavigationItemState];
+    [self IFA_updateToolbarNavigationButtonState];
 }
 
 -(BOOL)isEditing{
@@ -352,8 +352,8 @@ static NSArray *c_pageDataLoadingOrder = nil;
     self.p_scrollView.userInteractionEnabled = YES;
     
     v_performingScroll = NO;
-    
-    [self m_updateToolbarNavigationButtonState];
+
+    [self IFA_updateToolbarNavigationButtonState];
     
     //    [v_childViewControllerCentre m_didBecomeMainChildViewController];
     

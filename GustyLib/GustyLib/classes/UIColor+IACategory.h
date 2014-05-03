@@ -22,15 +22,16 @@
 
 @interface UIColor (IACategory)
 
--(CGFloat)m_hue;
--(NSString *)m_hexString;
+-(CGFloat)IFA_hue;
+-(NSString *)IFA_hexString;
 
-+ (UIColor *)m_colorWithRed:(NSUInteger)a_red green:(NSUInteger)a_green blue:(NSUInteger)a_blue;
-+ (UIColor *)m_colorWithRed:(NSUInteger)a_red green:(NSUInteger)a_green blue:(NSUInteger)a_blue alpha:(CGFloat)a_alpha;
++ (UIColor *)IFA_colorWithRed:(NSUInteger)a_red green:(NSUInteger)a_green blue:(NSUInteger)a_blue;
++ (UIColor *)IFA_colorWithRed:(NSUInteger)a_red green:(NSUInteger)a_green blue:(NSUInteger)a_blue alpha:(CGFloat)a_alpha;
 
-+ (UIColor *)m_colorWithHue:(NSUInteger)a_hue saturation:(NSUInteger)a_saturation brightness:(NSUInteger)a_brightness;
-+ (UIColor *)m_colorWithHue:(NSUInteger)a_hue saturation:(NSUInteger)a_saturation brightness:(NSUInteger)a_brightness alpha:(CGFloat)a_alpha;
++ (UIColor *)IFA_colorWithHue:(NSUInteger)a_hue saturation:(NSUInteger)a_saturation brightness:(NSUInteger)a_brightness;
++ (UIColor *)IFA_colorWithHue:(NSUInteger)a_hue saturation:(NSUInteger)a_saturation brightness:(NSUInteger)a_brightness
+                        alpha:(CGFloat)a_alpha;
 
-+(void)m_logFontNamesPerFamily;
++(void)IFA_logFontNamesPerFamily;
 
 @end

@@ -22,10 +22,10 @@
 
 @implementation UIButton (IACategory)
 
-+ (id)m_buttonWithType:(UIButtonType)a_buttonType appearanceId:(NSString *)a_appearanceId {
++ (id)IFA_buttonWithType:(UIButtonType)a_buttonType appearanceId:(NSString *)a_appearanceId {
     UIButton *a_button = [self buttonWithType:a_buttonType];
     a_button.p_appearanceId = a_appearanceId;
-    [a_button m_init];
+    [a_button IFA_init];
     return a_button;
 }
 

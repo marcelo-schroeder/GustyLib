@@ -27,26 +27,27 @@
 * To be called by init methods.
 * Subclasses can override this.
 */
-- (void)m_commonInit;
+- (void)IFA_commonInit;
 
-- (id)propertyValueForIndexPath:(NSIndexPath*)anIndexPath inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;
-- (NSString*)propertyNameForIndexPath:(NSIndexPath*)anIndexPath inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;
-- (NSString*)propertyStringValueForName:(NSString*)a_propertyName calendar:(NSCalendar*)a_calendar value:(id)a_value;
-- (NSString*)propertyStringValueForName:(NSString*)a_propertyName calendar:(NSCalendar*)a_calendar;
-- (NSString*)propertyStringValueForIndexPath:(NSIndexPath*)anIndexPath inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode calendar:(NSCalendar*)a_calendar;
-- (NSString*)displayValue;
-- (NSString*)longDisplayValue;
-- (NSString*)entityLabel;
-- (void) setValue:(id)aValue forProperty:(NSString *)aKey;
-- (NSString*)entityName;
-- (NSPropertyDescription*)descriptionForProperty:(NSString*)aPropertyName;
-- (NSString*)labelForProperty:(NSString*)aPropertyName;
-- (NSUInteger)fractionDigitsForProperty:(NSString*)aPropertyName;
-- (NSNumberFormatter*)numberFormatterForProperty:(NSString*)aPropertyName;
-- (NSNumber*)minimumValueForProperty:(NSString*)a_propertyName;
-- (NSNumber*)maximumValueForProperty:(NSString*)a_propertyName;
+- (id)IFA_propertyValueForIndexPath:(NSIndexPath *)anIndexPath inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode;
+- (NSString*)IFA_propertyNameForIndexPath:(NSIndexPath *)anIndexPath inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode;
+- (NSString*)IFA_propertyStringValueForName:(NSString *)a_propertyName calendar:(NSCalendar *)a_calendar value:(id)a_value;
+- (NSString*)IFA_propertyStringValueForName:(NSString *)a_propertyName calendar:(NSCalendar*)a_calendar;
+- (NSString*)IFA_propertyStringValueForIndexPath:(NSIndexPath *)anIndexPath inForm:(NSString *)aFormName
+                                      createMode:(BOOL)aCreateMode calendar:(NSCalendar*)a_calendar;
+- (NSString*)IFA_displayValue;
+- (NSString*)IFA_longDisplayValue;
+- (NSString*)IFA_entityLabel;
+- (void)IFA_setValue:(id)aValue forProperty:(NSString *)aKey;
+- (NSString*)IFA_entityName;
+- (NSPropertyDescription*)IFA_descriptionForProperty:(NSString*)aPropertyName;
+- (NSString*)IFA_labelForProperty:(NSString*)aPropertyName;
+- (NSUInteger)IFA_fractionDigitsForProperty:(NSString*)aPropertyName;
+- (NSNumberFormatter*)IFA_numberFormatterForProperty:(NSString*)aPropertyName;
+- (NSNumber*)IFA_minimumValueForProperty:(NSString*)a_propertyName;
+- (NSNumber*)IFA_maximumValueForProperty:(NSString*)a_propertyName;
 
-+ (NSString*)entityName;
-+ (NSString*)displayValueForNil;
++ (NSString*)IFA_entityName;
++ (NSString*)IFA_displayValueForNil;
 
 @end

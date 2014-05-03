@@ -17,8 +17,8 @@
 
 @implementation NSAttributedString (IACategory)
 
-+ (NSAttributedString *)m_attributedStringWithText:(NSString *)a_text font:(UIFont *)a_font colour:(UIColor *)a_colour
-                                        lineheight:(CGFloat)a_lineHeight {
++ (NSAttributedString *)IFA_attributedStringWithText:(NSString *)a_text font:(UIFont *)a_font colour:(UIColor *)a_colour
+                                          lineheight:(CGFloat)a_lineHeight {
     NSMutableParagraphStyle *l_paragraphStyle = [NSMutableParagraphStyle new];
     l_paragraphStyle.minimumLineHeight = a_lineHeight;
     l_paragraphStyle.maximumLineHeight = a_lineHeight;

@@ -22,35 +22,36 @@
 
 @implementation UIColor (IACategory)
 
--(CGFloat)m_hue{
+-(CGFloat)IFA_hue {
     CGFloat l_hue=0, l_saturation=0, l_brightness=0, l_alpha=0;
     [self getHue:&l_hue saturation:&l_saturation brightness:&l_brightness alpha:&l_alpha];
     return l_hue;
 }
 
--(NSString *)m_hexString{
+-(NSString *)IFA_hexString {
     CGFloat l_red = 0.0, l_green = 0.0, l_blue = 0.0, l_alpha = 0.0;
     [self getRed:&l_red green:&l_green blue:&l_blue alpha:&l_alpha];
     return [NSString stringWithFormat:@"%02X%02X%02X", (int)(l_red * 255), (int)(l_green * 255), (int)(l_blue * 255)];
 }
 
-+ (UIColor *)m_colorWithRed:(NSUInteger)a_red green:(NSUInteger)a_green blue:(NSUInteger)a_blue{
-    return [self m_colorWithRed:a_red green:a_green blue:a_blue alpha:1.0];
++ (UIColor *)IFA_colorWithRed:(NSUInteger)a_red green:(NSUInteger)a_green blue:(NSUInteger)a_blue{
+    return [self IFA_colorWithRed:a_red green:a_green blue:a_blue alpha:1.0];
 }
 
-+ (UIColor *)m_colorWithRed:(NSUInteger)a_red green:(NSUInteger)a_green blue:(NSUInteger)a_blue alpha:(CGFloat)a_alpha{
++ (UIColor *)IFA_colorWithRed:(NSUInteger)a_red green:(NSUInteger)a_green blue:(NSUInteger)a_blue alpha:(CGFloat)a_alpha{
     return [UIColor colorWithRed:a_red/255.0 green:a_green/255.0 blue:a_blue/255.0 alpha:a_alpha];
 }
 
-+ (UIColor *)m_colorWithHue:(NSUInteger)a_hue saturation:(NSUInteger)a_saturation brightness:(NSUInteger)a_brightness{
-    return [self m_colorWithHue:a_hue saturation:a_saturation brightness:a_brightness alpha:1.0];
++ (UIColor *)IFA_colorWithHue:(NSUInteger)a_hue saturation:(NSUInteger)a_saturation brightness:(NSUInteger)a_brightness{
+    return [self IFA_colorWithHue:a_hue saturation:a_saturation brightness:a_brightness alpha:1.0];
 }
 
-+ (UIColor *)m_colorWithHue:(NSUInteger)a_hue saturation:(NSUInteger)a_saturation brightness:(NSUInteger)a_brightness alpha:(CGFloat)a_alpha{
++ (UIColor *)IFA_colorWithHue:(NSUInteger)a_hue saturation:(NSUInteger)a_saturation brightness:(NSUInteger)a_brightness
+                        alpha:(CGFloat)a_alpha{
     return [UIColor colorWithHue:a_hue/360.0 saturation:a_saturation/100.0 brightness:a_brightness/100.0 alpha:a_alpha];
 }
 
-+(void)m_logFontNamesPerFamily{
++(void)IFA_logFontNamesPerFamily {
     NSLog(@"*** Font names per family - START ***");
     for (NSString *l_familyName in [UIFont familyNames]) {
         NSLog(@"   Font Family: %@", l_familyName);

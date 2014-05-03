@@ -50,19 +50,19 @@ static char c_cachedHeightsKey;
     objc_setAssociatedObject(self, &c_cachedHeightsKey, a_cachedHeights, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (CGFloat)m_heightForCellAtIndexPath:(NSIndexPath *)a_indexPath tableView:(UITableView *)a_tableView {
+- (CGFloat)IFA_heightForCellAtIndexPath:(NSIndexPath *)a_indexPath tableView:(UITableView *)a_tableView {
 
     if (!self.p_dynamicCellHeightDelegate) {
         return 0;
     }
 
     // Obtain prototype cell from delegate
-    UITableViewCell *l_cell = [self.p_dynamicCellHeightDelegate m_prototypeCellForIndexPath:a_indexPath
-                                                                                  tableView:a_tableView];
+    UITableViewCell *l_cell = [self.p_dynamicCellHeightDelegate IFA_prototypeCellForIndexPath:a_indexPath
+                                                                                    tableView:a_tableView];
 
     // Ask delegate to populate prototype cell
-    [self.p_dynamicCellHeightDelegate m_populateCell:l_cell atIndexPath:a_indexPath
-                                           tableView:a_tableView];
+    [self.p_dynamicCellHeightDelegate IFA_populateCell:l_cell atIndexPath:a_indexPath
+                                             tableView:a_tableView];
 
     // Configure cell's content view for auto layout
     UIView *l_contentView = l_cell.contentView;
@@ -70,8 +70,8 @@ static char c_cachedHeightsKey;
 
     // Constraint the content view width for correct height calculation
     NSLayoutConstraint *l_contentViewWidthConstraint = nil;
-    if ([self.p_dynamicCellHeightDelegate respondsToSelector:@selector(m_cellContentViewWidthForPrototypeCell:)]) {
-        CGFloat l_contentViewWidthConstraintConstant = [self.p_dynamicCellHeightDelegate m_cellContentViewWidthForPrototypeCell:l_cell];
+    if ([self.p_dynamicCellHeightDelegate respondsToSelector:@selector(IFA_cellContentViewWidthForPrototypeCell:)]) {
+        CGFloat l_contentViewWidthConstraintConstant = [self.p_dynamicCellHeightDelegate IFA_cellContentViewWidthForPrototypeCell:l_cell];
         l_contentViewWidthConstraint = [NSLayoutConstraint constraintWithItem:l_contentView
                                                                     attribute:NSLayoutAttributeWidth
                                                                     relatedBy:NSLayoutRelationEqual
@@ -87,8 +87,8 @@ static char c_cachedHeightsKey;
     [l_contentView layoutIfNeeded];
 
     // Set preferred max layout width for multi-line labels
-    [self m_setPreferredMaxLayoutWidthForMultiLineLabelsInCell:l_cell
-                                          basedOnPrototypeCell:l_cell];
+    [self IFA_setPreferredMaxLayoutWidthForMultiLineLabelsInCell:l_cell
+                                            basedOnPrototypeCell:l_cell];
 
     // Calculate size
     CGSize l_size = [l_contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
@@ -106,10 +106,10 @@ static char c_cachedHeightsKey;
 
 }
 
-- (void)m_setPreferredMaxLayoutWidthForMultiLineLabelsInCell:(UITableViewCell *)a_cell
-                                        basedOnPrototypeCell:(UITableViewCell *)a_prototypeCell {
-    if ([self.p_dynamicCellHeightDelegate respondsToSelector:@selector(m_multiLineLabelKeyPathsForCellWithReuseIdentifier:)]) {
-        NSArray *l_multiLineLabelKeyPaths = [self.p_dynamicCellHeightDelegate m_multiLineLabelKeyPathsForCellWithReuseIdentifier:a_prototypeCell.reuseIdentifier];
+- (void)IFA_setPreferredMaxLayoutWidthForMultiLineLabelsInCell:(UITableViewCell *)a_cell
+                                          basedOnPrototypeCell:(UITableViewCell *)a_prototypeCell {
+    if ([self.p_dynamicCellHeightDelegate respondsToSelector:@selector(IFA_multiLineLabelKeyPathsForCellWithReuseIdentifier:)]) {
+        NSArray *l_multiLineLabelKeyPaths = [self.p_dynamicCellHeightDelegate IFA_multiLineLabelKeyPathsForCellWithReuseIdentifier:a_prototypeCell.reuseIdentifier];
         for (NSString *l_keyPath in l_multiLineLabelKeyPaths) {
             UILabel *l_label = [a_cell valueForKeyPath:l_keyPath];
             if ([l_label isKindOfClass:[UILabel class]]) {

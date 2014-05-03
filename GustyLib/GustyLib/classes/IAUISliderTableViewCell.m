@@ -37,9 +37,9 @@
 //        self.p_maxLabel.text = [l_options valueForKey:@"maximumValueLabel"];
 //        self.p_slider.minimumValue = [[l_options valueForKey:@"minimumValue"] floatValue];
 //        self.p_slider.maximumValue = [[l_options valueForKey:@"maximumValue"] floatValue];
-        NSNumberFormatter *l_numberFormatter = [self.p_object numberFormatterForProperty:self.p_propertyName];
-        NSNumber *l_minValue = [self.p_object minimumValueForProperty:self.p_propertyName];
-        NSNumber *l_maxValue = [self.p_object maximumValueForProperty:self.p_propertyName];
+        NSNumberFormatter *l_numberFormatter = [self.p_object IFA_numberFormatterForProperty:self.p_propertyName];
+        NSNumber *l_minValue = [self.p_object IFA_minimumValueForProperty:self.p_propertyName];
+        NSNumber *l_maxValue = [self.p_object IFA_maximumValueForProperty:self.p_propertyName];
         self.p_minLabel.text = [l_numberFormatter stringFromNumber:l_minValue];
         self.p_maxLabel.text = [l_numberFormatter stringFromNumber:l_maxValue];
         self.p_slider.minimumValue = [l_minValue floatValue];

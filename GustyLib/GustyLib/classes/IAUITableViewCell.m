@@ -44,15 +44,15 @@
 #pragma mark - Overrides
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
-    return [[super initWithStyle:style reuseIdentifier:reuseIdentifier] m_init];
+    return [[super initWithStyle:style reuseIdentifier:reuseIdentifier] IFA_init];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder{
-    return [[super initWithCoder:aDecoder] m_init];
+    return [[super initWithCoder:aDecoder] IFA_init];
 }
 
 -(void)awakeFromNib{
-    [self m_awakeFromNib];
+    [self IFA_awakeFromNib];
 }
 
 -(void)willTransitionToState:(UITableViewCellStateMask)state{
@@ -63,17 +63,17 @@
 
 - (void)prepareForReuse {
     [super prepareForReuse];
-    [self m_prepareForReuse];
+    [self IFA_prepareForReuse];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-    [[self m_appearanceTheme] setAppearanceOnSetSelectedForCell:self animated:animated];
+    [[self IFA_appearanceTheme] setAppearanceOnSetSelectedForCell:self animated:animated];
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
     [super setHighlighted:highlighted animated:animated];
-    [[self m_appearanceTheme] setAppearanceOnSetHighlightedForCell:self animated:animated];
+    [[self IFA_appearanceTheme] setAppearanceOnSetHighlightedForCell:self animated:animated];
 }
 
 @end

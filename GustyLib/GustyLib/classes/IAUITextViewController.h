@@ -26,11 +26,11 @@
 @property (strong, nonatomic) IBOutlet UIScrollView *p_scrollView;
 @property (strong, nonatomic) IBOutlet HPGrowingTextView *p_growingTextView;
 
-- (IBAction)m_onCancelButtonAction:(id)sender;
+- (IBAction)onCancelButtonAction:(id)sender;
 
 // To be overriden by subclasses
--(BOOL)m_hasValueChanged;
+-(BOOL)hasValueChanged;
 
--(UIResponder*)m_initialFirstResponder;
+-(UIResponder*)initialFirstResponder;
 
 @end

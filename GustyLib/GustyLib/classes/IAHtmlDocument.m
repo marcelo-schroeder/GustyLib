@@ -43,7 +43,7 @@
 
 -(void)setP_htmlTemplateStringResourceName:(NSString *)a_htmlTemplateStringResourceName{
     v_htmlTemplateStringResourceName = a_htmlTemplateStringResourceName;
-    self.p_htmlTemplateString = [IAUtils m_stringFromResource:v_htmlTemplateStringResourceName type:nil];
+    self.p_htmlTemplateString = [IAUtils stringFromResource:v_htmlTemplateStringResourceName type:nil];
 }
 
 -(NSString *)p_htmlStyleStringResourceName{
@@ -52,7 +52,8 @@
 
 -(void)setP_htmlStyleStringResourceName:(NSString *)a_htmlStyleStringResourceName{
     v_htmlStyleStringResourceName = a_htmlStyleStringResourceName;
-    self.p_htmlStyleString = v_htmlStyleStringResourceName ? [IAUtils m_stringFromResource:v_htmlStyleStringResourceName type:nil] : @"";
+    self.p_htmlStyleString = v_htmlStyleStringResourceName ? [IAUtils stringFromResource:v_htmlStyleStringResourceName
+                                                                                    type:nil] : @"";
 }
 
 -(id)initWithHtmlStyleResourceName:(NSString*)a_htmlStyleResourceName{
@@ -80,10 +81,11 @@
 //    NSLog(@"l_htmlMetaString: %@", l_htmlMetaString);
     NSString *l_htmlStyleString = self.p_htmlStyleString;
     if (self.p_htmlStyleStringFormatArguments) {
-        l_htmlStyleString = [NSString m_stringWithFormat:l_htmlStyleString array:self.p_htmlStyleStringFormatArguments];
+        l_htmlStyleString = [NSString IFA_stringWithFormat:l_htmlStyleString
+                                                     array:self.p_htmlStyleStringFormatArguments];
     }
     NSArray *l_arguments = @[l_htmlMetaString, l_htmlStyleString, self.p_htmlBodyString];
-    NSString *l_htmlString = [NSString m_stringWithFormat:self.p_htmlTemplateString array:l_arguments];
+    NSString *l_htmlString = [NSString IFA_stringWithFormat:self.p_htmlTemplateString array:l_arguments];
 //    NSLog(@"l_htmlString: %@", l_htmlString);
     return l_htmlString;
 }

@@ -124,7 +124,7 @@
 
 - (void)m_configureFrostedGlassImageView {
     [self.view addSubview:self.p_frostedGlassImageView];
-    [self.p_frostedGlassImageView m_addLayoutConstraintsToFillSuperviewHorizontally];
+    [self.p_frostedGlassImageView IFA_addLayoutConstraintsToFillSuperviewHorizontally];
     [self.p_frostedGlassImageView.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.p_frostedGlassImageView
                                                                                        attribute:NSLayoutAttributeBottom
                                                                                        relatedBy:NSLayoutRelationEqual
@@ -149,7 +149,8 @@
     if (self) {
 
         self.p_childViewController = a_childViewController;
-        [self m_addChildViewController:self.p_childViewController parentView:self.p_childViewControllerContainerView shouldFillSuperview:YES];
+        [self IFA_addChildViewController:self.p_childViewController parentView:self.p_childViewControllerContainerView
+                     shouldFillSuperview:YES];
 
         self.p_slidingAnimationDuration = a_slidingAnimationDuration;
         self.modalPresentationStyle = UIModalPresentationCustom;
@@ -171,29 +172,29 @@
 //                                                                                           options:(NSLayoutFormatOptions) nil
 //                                                                                           metrics:nil
 //                                                                                             views:l_views]];
-//        [l_view m_addLayoutConstraintsToCenterInSuperview];
+//        [l_view IFA_addLayoutConstraintsToCenterInSuperview];
 
     }
     return self;
 }
 
 - (UIImage *)newBlurredSnapshotImageFrom:(UIView *)a_viewToSnapshot {
-    UIImage *l_snapshotImage = [a_viewToSnapshot m_snapshotImage];
+    UIImage *l_snapshotImage = [a_viewToSnapshot IFA_snapshotImage];
     UIImage *l_blurredSnapshotImage;
     if (self.p_snapshotEffectBlock) {
         l_blurredSnapshotImage = self.p_snapshotEffectBlock(l_snapshotImage);
     }else if (self.p_blurEffectTintColor) {
-        l_blurredSnapshotImage = [l_snapshotImage m_applyTintBlurEffectWithColor:self.p_blurEffectTintColor];
+        l_blurredSnapshotImage = [l_snapshotImage IFA_applyTintBlurEffectWithColor:self.p_blurEffectTintColor];
     } else {
         switch (self.p_blurEffect) {
             case IASlidingFrostedGlassViewControllerBlurEffectLight:
-                l_blurredSnapshotImage = [l_snapshotImage m_applyLightBlurEffect];
+                l_blurredSnapshotImage = [l_snapshotImage IFA_applyLightBlurEffect];
                 break;
             case IASlidingFrostedGlassViewControllerBlurEffectExtraLight:
-                l_blurredSnapshotImage = [l_snapshotImage m_applyExtraLightBlurEffect];
+                l_blurredSnapshotImage = [l_snapshotImage IFA_applyExtraLightBlurEffect];
                 break;
             case IASlidingFrostedGlassViewControllerBlurEffectDark:
-                l_blurredSnapshotImage = [l_snapshotImage m_applyDarkBlurEffect];
+                l_blurredSnapshotImage = [l_snapshotImage IFA_applyDarkBlurEffect];
                 break;
             default:
                 NSAssert(NO, @"Unexpected blur effect: %u", self.p_blurEffect);
@@ -216,7 +217,7 @@
 - (void)m_configureChildViewControllerContainerView {
     UIView *l_view = self.p_childViewControllerContainerView;
     [self.view addSubview:l_view];
-    [l_view m_addLayoutConstraintsToFillSuperviewHorizontally];
+    [l_view IFA_addLayoutConstraintsToFillSuperviewHorizontally];
     [self m_updateChildViewControllerContainerViewVerticalConstraints];
 }
 
@@ -241,7 +242,7 @@
 
 - (void)m_configureBackgroundView {
     [self.view addSubview:self.p_backgroundView];
-    [self.p_backgroundView m_addLayoutConstraintsToFillSuperview];
+    [self.p_backgroundView IFA_addLayoutConstraintsToFillSuperview];
     [self.p_backgroundView addGestureRecognizer:self.p_tapGestureRecogniser];
 }
 
@@ -278,7 +279,7 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    [IAUtils m_dispatchAsyncMainThreadBlock:^{  // Had to run this async to allow for the correct snapshot to be taken when app enters foreground
+    [IAUtils dispatchAsyncMainThreadBlock:^{  // Had to run this async to allow for the correct snapshot to be taken when app enters foreground
         self.p_frostedGlassImageView.image = [self newBlurredSnapshotImageFrom:self.presentingViewController.view];
         [self m_updateFrostedGlassImageViewHeightConstraintConstantForVisibleState];
         [self.view layoutIfNeeded];
@@ -333,7 +334,7 @@
         [l_containerView addSubview:l_toViewController.view];
 
         // Add layout constraints to the 'to' view controller
-        [l_toViewController.view m_addLayoutConstraintsToFillSuperview];
+        [l_toViewController.view IFA_addLayoutConstraintsToFillSuperview];
 
         // Set the blurred snapshot image
         self.p_frostedGlassImageView.image = [self newBlurredSnapshotImageFrom:l_fromViewController.view];

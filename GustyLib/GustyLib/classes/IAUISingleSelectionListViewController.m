@@ -34,7 +34,7 @@
 
 -(void)m_updateBackingPreference{
     IAPersistenceManager *l_pm = [IAPersistenceManager sharedInstance];
-    NSString *l_backingPreferencesProperty = [l_pm.entityConfig backingPreferencesPropertyForEntity:self.entityName];
+    NSString *l_backingPreferencesProperty = [l_pm.entityConfig backingPreferencesPropertyForEntity:self.IFA_entityName];
 //    NSLog(@"l_backingPreferencesProperty: %@", l_backingPreferencesProperty);
     if (l_backingPreferencesProperty) {
         NSManagedObjectID *l_selectedMoId = ((NSManagedObject*)[selectionManager selectedObject]).objectID;
@@ -53,7 +53,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
 	BOOL selected = [[selectionManager selectedIndexPath] isEqual:indexPath];
-    cell.p_helpTargetId = [[self m_helpTargetIdForName:@"tableCell."] stringByAppendingString:selected?@"selected":@"unselected"];
+    cell.p_helpTargetId = [[self IFA_helpTargetIdForName:@"tableCell."] stringByAppendingString:selected?@"selected":@"unselected"];
 	return [self decorateSelectionForCell:cell selected:selected targetObject:[selectionManager selectedObject]];
 }
 
@@ -109,12 +109,12 @@
 	[super done];
 	NSManagedObject *l_previousManagedObject = [self.p_managedObject valueForKey:self.p_propertyName];
 	BOOL l_valueChanged = [selectionManager selectedObject]!=l_previousManagedObject && ![[selectionManager selectedObject] isEqual:l_previousManagedObject];
-    [self.p_managedObject setValue:[selectionManager selectedObject] forProperty:self.p_propertyName];
+    [self.p_managedObject IFA_setValue:[selectionManager selectedObject] forProperty:self.p_propertyName];
     [self m_updateBackingPreference];
     if (l_valueChanged) {
-        [[self p_presenter] m_changesMadeByViewController:self];
+        [[self p_presenter] changesMadeByViewController:self];
     }
-    [self m_notifySessionCompletionWithChangesMade:l_valueChanged data:nil ];
+    [self IFA_notifySessionCompletionWithChangesMade:l_valueChanged data:nil ];
 }
 
 - (void) updateUiState{
@@ -124,9 +124,9 @@
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-    if ([[IAPersistenceManager sharedInstance].entityConfig shouldShowAddButtonInSelectionForEntity:self.entityName]) {
+    if ([[IAPersistenceManager sharedInstance].entityConfig shouldShowAddButtonInSelectionForEntity:self.IFA_entityName]) {
         self.p_addBarButtonItem = [IAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_ITEM_ADD target:self action:@selector(onAddButtonTap:)];
-        [self m_addLeftBarButtonItem:self.p_addBarButtonItem];
+        [self IFA_addLeftBarButtonItem:self.p_addBarButtonItem];
     }
 }
 
@@ -145,7 +145,8 @@
 -(NSString *)editFormNameForCreateMode:(BOOL)aCreateMode{
     NSString *l_formName = [super editFormNameForCreateMode:aCreateMode];
     if (aCreateMode) {
-        if ([[IAPersistenceManager sharedInstance].entityConfig containsForm:IA_ENTITY_CONFIG_FORM_NAME_CREATION_SHORTCUT forEntity:self.entityName]) {
+        if ([[IAPersistenceManager sharedInstance].entityConfig containsForm:IA_ENTITY_CONFIG_FORM_NAME_CREATION_SHORTCUT
+                                                                   forEntity:self.IFA_entityName]) {
             l_formName = IA_ENTITY_CONFIG_FORM_NAME_CREATION_SHORTCUT;
         }
     }
@@ -164,8 +165,8 @@
     
     // Make a note of the edited managed object ID before it gets reset by the superclass
     NSManagedObjectID *l_editedManagedObjectId = self.p_editedManagedObjectId;
-    
-    [super m_didDismissViewController:a_viewController changesMade:a_changesMade data:a_data];
+
+    [super didDismissViewController:a_viewController changesMade:a_changesMade data:a_data];
     
     if (l_editedManagedObjectId) {
         
@@ -174,7 +175,7 @@
         // Using the serial queue here will guarantee that the data would have been loaded by the main thread
         [self.p_aom dispatchSerialBlock:^{
 
-            [IAUtils m_dispatchAsyncMainThreadBlock:^{
+            [IAUtils dispatchAsyncMainThreadBlock:^{
 
                 NSManagedObject *l_mo = [[IAPersistenceManager sharedInstance] findById:l_editedManagedObjectId];
                 if (l_mo) { // If nil, it means the object has been discarded

@@ -78,9 +78,9 @@
     [self.p_parentViewController dismissViewControllerAnimated:YES completion:NULL];
     
     if (result==MFMailComposeResultFailed) {
-        [IAUtils m_dispatchAsyncMainThreadBlock:^{
+        [IAUtils dispatchAsyncMainThreadBlock:^{
             [IAUIUtils showAlertWithMessage:@"The email has not been sent due to an error." title:@"Email Error"];
-        } afterDelay:0.1];
+        }                          afterDelay:0.1];
     }
     
 }

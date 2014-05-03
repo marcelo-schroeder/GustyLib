@@ -183,11 +183,11 @@
     }
 
     // Dismiss activity view controller popover
-    [[IAUIApplicationDelegate sharedInstance].p_popoverControllerPresenter m_dismissModalViewControllerWithChangesMade:NO
-                                                                                                              data:nil ];
+    [[IAUIApplicationDelegate sharedInstance].p_popoverControllerPresenter IFA_dismissModalViewControllerWithChangesMade:NO
+                                                                                                                    data:nil ];
 
     // Dismiss popover menu if using the custom split view controller
-    [IAUIUtils m_dismissSplitViewControllerPopover];
+    [IAUIUtils dismissSplitViewControllerPopover];
 
     [self m_setThemeAppearanceIfRequired];
 

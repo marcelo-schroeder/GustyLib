@@ -24,21 +24,23 @@
 
 #pragma mark - Public
 
-- (void)m_commonInit {
+- (void)IFA_commonInit {
     // Subclasses can override this.
 }
 
-- (id)propertyValueForIndexPath:(NSIndexPath*)anIndexPath inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
+- (id)IFA_propertyValueForIndexPath:(NSIndexPath *)anIndexPath inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode{
     //	return [self performSelector:NSSelectorFromString([self propertyNameForIndexPath:anIndexPath inForm:aFormName])];
-	return objc_msgSend(self, NSSelectorFromString([self propertyNameForIndexPath:anIndexPath inForm:aFormName createMode:aCreateMode]));
+	return objc_msgSend(self, NSSelectorFromString([self IFA_propertyNameForIndexPath:anIndexPath inForm:aFormName
+                                                                           createMode:aCreateMode]));
 }
 
-- (NSString*)propertyNameForIndexPath:(NSIndexPath*)anIndexPath inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
+- (NSString*)IFA_propertyNameForIndexPath:(NSIndexPath *)anIndexPath inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode{
 	return [[IAPersistenceManager sharedInstance].entityConfig nameForIndexPath:anIndexPath inObject:self inForm:aFormName createMode:aCreateMode];
 }
 
-- (NSString*)propertyStringValueForName:(NSString*)a_propertyName calendar:(NSCalendar*)a_calendar{
-    return [self propertyStringValueForName:a_propertyName calendar:a_calendar value:[self valueForKey:a_propertyName]];
+- (NSString*)IFA_propertyStringValueForName:(NSString *)a_propertyName calendar:(NSCalendar*)a_calendar{
+    return [self IFA_propertyStringValueForName:a_propertyName calendar:a_calendar
+                                          value:[self valueForKey:a_propertyName]];
 }
 
 - (NSString *)stringValueForNumberPropertyNamed:(NSString *)a_propertyName a_calendar:(NSCalendar *)a_calendar a_value:(id)a_value {
@@ -47,13 +49,13 @@
     if (dataType==IA_DATA_TYPE_TIME_INTERVAL) {
         l_stringValue = [IADateRange durationStringForInterval:[a_value doubleValue] format:IA_DURATION_FORMAT_HOURS_MINUTES_LONG calendar:a_calendar];
     }else {
-        l_stringValue = [[self numberFormatterForProperty:a_propertyName] stringFromNumber:a_value];
+        l_stringValue = [[self IFA_numberFormatterForProperty:a_propertyName] stringFromNumber:a_value];
     }
     return l_stringValue;
 }
 
-- (NSString*)propertyStringValueForName:(NSString*)a_propertyName calendar:(NSCalendar*)a_calendar value:(id)a_value{
-    NSPropertyDescription *l_propertyDescription = [self descriptionForProperty:a_propertyName];
+- (NSString*)IFA_propertyStringValueForName:(NSString *)a_propertyName calendar:(NSCalendar *)a_calendar value:(id)a_value{
+    NSPropertyDescription *l_propertyDescription = [self IFA_descriptionForProperty:a_propertyName];
     if (l_propertyDescription) {
         if ([l_propertyDescription isKindOfClass:[NSRelationshipDescription class]]) {
             if (a_value && [a_value isKindOfClass:[NSManagedObject class]]){
@@ -94,11 +96,14 @@
     }
 }
 
-- (NSString*)propertyStringValueForIndexPath:(NSIndexPath*)anIndexPath inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode calendar:(NSCalendar*)a_calendar{
-    return [self propertyStringValueForName:[self propertyNameForIndexPath:anIndexPath inForm:aFormName createMode:aCreateMode] calendar:a_calendar];
+- (NSString*)IFA_propertyStringValueForIndexPath:(NSIndexPath *)anIndexPath inForm:(NSString *)aFormName
+                                      createMode:(BOOL)aCreateMode calendar:(NSCalendar*)a_calendar{
+    return [self IFA_propertyStringValueForName:[self IFA_propertyNameForIndexPath:anIndexPath inForm:aFormName
+                                                                        createMode:aCreateMode]
+                                       calendar:a_calendar];
 }
 
-- (NSString*)displayValue{
+- (NSString*)IFA_displayValue {
 	SEL selector = NSSelectorFromString(@"name");
 	if ([self respondsToSelector:selector]) {
 		return objc_msgSend(self, selector);
@@ -123,15 +128,15 @@
 	}
 }
 
-- (NSString*)longDisplayValue{
-    return [self displayValue];
+- (NSString*)IFA_longDisplayValue {
+    return [self IFA_displayValue];
 }
 
-- (NSString*)entityLabel{
+- (NSString*)IFA_entityLabel {
 	return [[IAPersistenceManager sharedInstance].entityConfig labelForEntity:[[self class] description]];
 }
 
-- (void) setValue:(id)aValue forProperty:(NSString *)aKey{
+- (void)IFA_setValue:(id)aValue forProperty:(NSString *)aKey{
 	id oldValue = [self valueForKey:aKey];
 	if (![aValue isEqual:oldValue]) {
 		[self setValue:aValue forKey:aKey];
@@ -139,43 +144,43 @@
 	}
 }
 
-- (NSString*)entityName{
+- (NSString*)IFA_entityName {
 	return [[self class] description];
 }
 
-- (NSPropertyDescription*)descriptionForProperty:(NSString*)aPropertyName{
+- (NSPropertyDescription*)IFA_descriptionForProperty:(NSString*)aPropertyName{
 	return [[IAPersistenceManager sharedInstance].entityConfig descriptionForProperty:aPropertyName inObject:self];
 }
 
-- (NSString*)labelForProperty:(NSString*)aPropertyName{
+- (NSString*)IFA_labelForProperty:(NSString*)aPropertyName{
 	return [[IAPersistenceManager sharedInstance].entityConfig labelForProperty:aPropertyName inObject:self];
 }
 
-- (NSUInteger)fractionDigitsForProperty:(NSString*)aPropertyName{
+- (NSUInteger)IFA_fractionDigitsForProperty:(NSString*)aPropertyName{
 	return [[IAPersistenceManager sharedInstance].entityConfig fractionDigitsForProperty:aPropertyName inObject:self];
 }
 
-- (NSNumberFormatter*)numberFormatterForProperty:(NSString*)aPropertyName{
+- (NSNumberFormatter*)IFA_numberFormatterForProperty:(NSString*)aPropertyName{
     NSNumberFormatter *l_numberFormatter = [[NSNumberFormatter alloc] init];
     [l_numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-    [l_numberFormatter setMaximumFractionDigits:[self fractionDigitsForProperty:aPropertyName]];
+    [l_numberFormatter setMaximumFractionDigits:[self IFA_fractionDigitsForProperty:aPropertyName]];
     return l_numberFormatter;
 }
 
-- (NSNumber*)minimumValueForProperty:(NSString*)a_propertyName{
+- (NSNumber*)IFA_minimumValueForProperty:(NSString*)a_propertyName{
     return nil;
 }
 
-- (NSNumber*)maximumValueForProperty:(NSString*)a_propertyName{
+- (NSNumber*)IFA_maximumValueForProperty:(NSString*)a_propertyName{
     return nil;
 }
 
-+ (NSString*)entityName{
++ (NSString*)IFA_entityName {
 	return [[self class] description];
 }
 
-+ (NSString*)displayValueForNil{
-    return [NSString stringWithFormat:@"(no %@)", [[[IAPersistenceManager sharedInstance].entityConfig labelForEntity:[self entityName]] lowercaseString]];
++ (NSString*)IFA_displayValueForNil {
+    return [NSString stringWithFormat:@"(no %@)", [[[IAPersistenceManager sharedInstance].entityConfig labelForEntity:[self IFA_entityName]] lowercaseString]];
 }
 
 @end

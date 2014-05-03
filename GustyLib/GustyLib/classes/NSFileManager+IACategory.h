@@ -20,10 +20,10 @@
 
 @interface NSFileManager (IACategory)
 
-- (void)m_removeItemAtURL:(NSURL *)a_url;
-- (void)m_removeItemAtPath:(NSString *)a_path;
+- (void)IFA_removeItemAtURL:(NSURL *)a_url;
+- (void)IFA_removeItemAtPath:(NSString *)a_path;
 
-- (NSURL *)m_temporaryDirectoryUrl;
+- (NSURL *)IFA_temporaryDirectoryUrl;
 
-- (NSURL *)m_urlForTemporaryFileNamed:(NSString *)a_fileName;
+- (NSURL *)IFA_urlForTemporaryFileNamed:(NSString *)a_fileName;
 @end

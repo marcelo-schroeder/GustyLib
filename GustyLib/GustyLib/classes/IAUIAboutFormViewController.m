@@ -54,7 +54,7 @@
 }
 
 - (void)m_ForceCrashButtonTap:(id)sender{
-    [IAUtils m_forceCrash];
+    [IAUtils forceCrash];
 }
 
 #pragma mark - Overrides
@@ -98,7 +98,7 @@
     
 }
 
--(NSArray *)m_nonEditModeToolbarItems{
+-(NSArray *)IFA_nonEditModeToolbarItems {
     UIBarButtonItem *l_flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     NSMutableArray *l_items = [NSMutableArray arrayWithArray:@[l_flexibleSpace, self.p_reportBugBarButtonItem, l_flexibleSpace, self.p_provideFeedbackBarButtonItem, l_flexibleSpace]];
     if ([[[IAUtils infoPList] objectForKey:@"IAShowForceCrashButton"] boolValue]) {
@@ -109,7 +109,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self m_logAnalyticsScreenEntry];
+    [self IFA_logAnalyticsScreenEntry];
 }
 
 #pragma mark - UITableViewDataSource
@@ -126,7 +126,7 @@
     UITableViewCell *l_cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     if ([[self nameForIndexPath:indexPath] isEqualToString:@"appName"]) {
         [l_cell.contentView addSubview:self.p_customView];
-        [[self m_appearanceTheme] setLabelTextStyleForChildrenOfView:self.p_customView];
+        [[self IFA_appearanceTheme] setLabelTextStyleForChildrenOfView:self.p_customView];
     }
     return l_cell;
 }

@@ -55,30 +55,30 @@
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
-    return [self m_shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
+    return [self IFA_shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
 }
 
 -(NSUInteger)supportedInterfaceOrientations{
-    return [self m_supportedInterfaceOrientations];
+    return [self IFA_supportedInterfaceOrientations];
 }
 
 -(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated{
-    [IAUIUtils m_postNavigationEventNotification];
+    [IAUIUtils postNavigationEventNotification];
     [super pushViewController:viewController animated:animated];
 }
 
 -(UIViewController *)popViewControllerAnimated:(BOOL)animated{
-    [IAUIUtils m_postNavigationEventNotification];
+    [IAUIUtils postNavigationEventNotification];
     return [super popViewControllerAnimated:animated];
 }
 
 -(NSArray *)popToRootViewControllerAnimated:(BOOL)animated{
-    [IAUIUtils m_postNavigationEventNotification];
+    [IAUIUtils postNavigationEventNotification];
     return [super popToRootViewControllerAnimated:animated];
 }
 
 -(NSArray *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated{
-    [IAUIUtils m_postNavigationEventNotification];
+    [IAUIUtils postNavigationEventNotification];
     return [super popToViewController:viewController animated:animated];
 }
 

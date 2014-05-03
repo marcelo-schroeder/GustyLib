@@ -58,13 +58,13 @@ shouldShowModalProgressIndicator:(BOOL)a_shouldShowModalProgressIndicator
         if (a_shouldShowModalProgressIndicator) {
             self.p_progressIndicatorManager.p_progressMessage = a_progressIndicatorMessage;
             self.p_progressIndicatorManager.p_cancelationCompletionBlock = ^{
-                [l_weakSelf.p_progressIndicatorManager m_removeView];
+                [l_weakSelf.p_progressIndicatorManager removeView];
                 l_weakSelf.p_isWaitingForSemaphore = NO;
                 if (a_userCancellationBlock) {
                     a_userCancellationBlock();
                 }
             };
-            [self.p_progressIndicatorManager m_showView];
+            [self.p_progressIndicatorManager showView];
         }
     } else {
         dispatch_semaphore_signal(a_semaphore);
@@ -74,13 +74,13 @@ shouldShowModalProgressIndicator:(BOOL)a_shouldShowModalProgressIndicator
         return YES;
     }
 
-    [IAUtils m_dispatchAsyncGlobalDefaultPriorityQueueBlock:^{
+    [IAUtils dispatchAsyncGlobalDefaultPriorityQueueBlock:^{
         dispatch_semaphore_wait(a_semaphore, DISPATCH_TIME_FOREVER);
         dispatch_semaphore_signal(a_semaphore);
-        [IAUtils m_dispatchAsyncMainThreadBlock:^{
+        [IAUtils dispatchAsyncMainThreadBlock:^{
             if (l_weakSelf.p_isWaitingForSemaphore) {
                 if (a_shouldShowModalProgressIndicator) {
-                    [l_weakSelf.p_progressIndicatorManager m_removeView];
+                    [l_weakSelf.p_progressIndicatorManager removeView];
                 }
                 l_weakSelf.p_isWaitingForSemaphore = NO;
                 if (a_semaphoreWaitOverBlock) {

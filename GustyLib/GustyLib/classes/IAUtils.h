@@ -51,35 +51,35 @@
 +(NSString*)appVersionAndBuildNumber;
 +(NSString*)appFullName;
 +(NSString*)generateUuid;
-+(void)m_forceCrash;
-+(NSString*)m_stringFromResource:(NSString*)a_resourceName type:(NSString*)a_resourceType;
-+(NSArray*)m_toArrayIfRequiredFromObject:(id)a_object;
++(void)forceCrash;
++(NSString*)stringFromResource:(NSString *)a_resourceName type:(NSString*)a_resourceType;
++(NSArray*)toArrayIfRequiredFromObject:(id)a_object;
 +(BOOL)deviceSupportsVibration;
-+(BOOL)m_nilOrEmptyForString:(NSString*)a_string;
++(BOOL)nilOrEmptyForString:(NSString*)a_string;
 
 /* the methods below are based on GCD main thread dispatch queues */
 
-+(void)m_dispatchAsyncMainThreadBlock:(dispatch_block_t)a_block;
-+(void)m_dispatchAsyncMainThreadBlock:(dispatch_block_t)a_block afterDelay:(NSTimeInterval)a_delay;
++(void)dispatchAsyncMainThreadBlock:(dispatch_block_t)a_block;
++(void)dispatchAsyncMainThreadBlock:(dispatch_block_t)a_block afterDelay:(NSTimeInterval)a_delay;
 
-+ (dispatch_time_t)m_dispatchTimeForDelay:(NSTimeInterval)a_delay;
++ (dispatch_time_t)dispatchTimeForDelay:(NSTimeInterval)a_delay;
 
-+(void)m_dispatchSyncMainThreadBlock:(dispatch_block_t)a_block;
++(void)dispatchSyncMainThreadBlock:(dispatch_block_t)a_block;
 
-+ (void)m_dispatchAsyncGlobalDefaultPriorityQueueBlock:(dispatch_block_t)a_block;
++ (void)dispatchAsyncGlobalDefaultPriorityQueueBlock:(dispatch_block_t)a_block;
 
-+ (void)m_dispatchAsyncGlobalQueueBlock:(dispatch_block_t)a_block priority:(dispatch_queue_priority_t)a_priority;
++ (void)dispatchAsyncGlobalQueueBlock:(dispatch_block_t)a_block priority:(dispatch_queue_priority_t)a_priority;
 
-+(Class)m_classForPropertyNamed:(NSString*)a_propertyName inClass:(Class)a_class;
-+(Class)m_classForPropertyNamed:(NSString*)a_propertyName inClassNamed:(NSString*)a_className;
++(Class)classForPropertyNamed:(NSString *)a_propertyName inClass:(Class)a_class;
++(Class)classForPropertyNamed:(NSString *)a_propertyName inClassNamed:(NSString*)a_className;
 
 // Inspect the provisioning profile "aps-environment" entry and determine whether it is running "development" or "production"
-+(BOOL)m_isProductionAps;
++(BOOL)isProductionAps;
 
-+ (BOOL)m_isIOS7OrGreater;
++ (BOOL)isIOS7OrGreater;
 
-+ (NSString *)m_hardwareType;
++ (NSString *)hardwareType;
 
-+ (NSString *)m_encodeForUrlByAddingPercentEscapesWithOriginalString:(NSString *)a_originalString;
-+ (NSString *)m_encodeForUrlByAddingPercentEscapesIncludingReservedCharactersWithOriginalString:(NSString *)a_originalString;
++ (NSString *)encodeForUrlByAddingPercentEscapesWithOriginalString:(NSString *)a_originalString;
++ (NSString *)encodeForUrlByAddingPercentEscapesIncludingReservedCharactersWithOriginalString:(NSString *)a_originalString;
 @end

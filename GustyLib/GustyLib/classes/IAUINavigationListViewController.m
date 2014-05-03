@@ -33,14 +33,14 @@
 
 -(void)m_updateLeftBarButtonItemsStates{
     if (!self.p_pagingContainerViewController || self.p_selectedViewControllerInPagingContainer) {
-        [self m_addLeftBarButtonItem:self.p_addBarButtonItem];
+        [self IFA_addLeftBarButtonItem:self.p_addBarButtonItem];
     }
 }
 
 #pragma mark - UITableViewDelegate Protocol
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (![[[IAPersistenceManager sharedInstance] entityConfig] disallowDetailDisclosureForEntity:self.entityName]) {
+    if (![[[IAPersistenceManager sharedInstance] entityConfig] disallowDetailDisclosureForEntity:self.IFA_entityName]) {
         [self tableView:tableView accessoryButtonTappedForRowWithIndexPath:indexPath];
         [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:NO];
     }
@@ -83,7 +83,7 @@
 
         // Update the table view
         [self.tableView beginUpdates];
-        [self.tableView m_deleteRowsAtIndexPaths:@[indexPath]];
+        [self.tableView IFA_deleteRowsAtIndexPaths:@[indexPath]];
         if (self.p_listGroupedBy && [l_sectionRows count]==0) {
             [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
@@ -100,7 +100,7 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
-	return [IAHelpManager sharedInstance].p_helpMode ? NO : [[IAPersistenceManager sharedInstance].entityConfig listReorderAllowedForEntity:self.entityName];
+	return [IAHelpManager sharedInstance].p_helpMode ? NO : [[IAPersistenceManager sharedInstance].entityConfig listReorderAllowedForEntity:self.IFA_entityName];
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath{
@@ -134,8 +134,8 @@
         //    NSLog(@"entities AFTER sorting: %@", [self.p_entities description]);
         
     }
-    
-    [self m_reloadMovedCellAtIndexPath:toIndexPath];
+
+    [self reloadMovedCellAtIndexPath:toIndexPath];
 
 }
 
@@ -145,16 +145,16 @@
     return UITableViewCellAccessoryDisclosureIndicator;
 }
 
--(UITableViewCell *)m_initReusableCellWithIdentifier:(NSString *)a_reuseIdentifier atIndexPath:(NSIndexPath *)a_indexPath{
-	UITableViewCell *l_cell = [super m_initReusableCellWithIdentifier:a_reuseIdentifier atIndexPath:a_indexPath];
-    if ([[[IAPersistenceManager sharedInstance] entityConfig] disallowDetailDisclosureForEntity:self.entityName]) {
+-(UITableViewCell *)createReusableCellWithIdentifier:(NSString *)a_reuseIdentifier atIndexPath:(NSIndexPath *)a_indexPath{
+	UITableViewCell *l_cell = [super createReusableCellWithIdentifier:a_reuseIdentifier atIndexPath:a_indexPath];
+    if ([[[IAPersistenceManager sharedInstance] entityConfig] disallowDetailDisclosureForEntity:self.IFA_entityName]) {
         l_cell.accessoryType = UITableViewCellAccessoryNone;
         l_cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }else {
         l_cell.accessoryType = [self m_tableViewCellAccessoryType];
     }
 	l_cell.showsReorderControl = YES;
-    [[self m_appearanceTheme] setAppearanceForView:l_cell.textLabel];
+    [[self IFA_appearanceTheme] setAppearanceForView:l_cell.textLabel];
 	return l_cell;
 }
 
@@ -162,12 +162,12 @@
 
     [super viewDidLoad];
 	
-    if (![[[IAPersistenceManager sharedInstance] entityConfig] disallowUserAdditionForEntity:self.entityName]) {
+    if (![[[IAPersistenceManager sharedInstance] entityConfig] disallowUserAdditionForEntity:self.IFA_entityName]) {
         self.p_addBarButtonItem = [IAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_ITEM_ADD target:self action:@selector(onAddButtonTap:)];
     }
 
     self.editButtonItem.tag = IA_UIBAR_ITEM_TAG_EDIT_BUTTON;
-    [self m_addRightBarButtonItem:self.editButtonItem];
+    [self IFA_addRightBarButtonItem:self.editButtonItem];
     
 }
 
@@ -185,17 +185,17 @@
 
 -(void)didRefreshAndReloadDataAsync {
     [super didRefreshAndReloadDataAsync];
-    if (![self m_isReturningVisibleViewController] && self.editing) { // If it was left editing previously, reset it to non-editing mode.
+    if (![self IFA_isReturningVisibleViewController] && self.editing) { // If it was left editing previously, reset it to non-editing mode.
         [self quitEditing];
     }else{
         [self showTipForEditing:NO];
     }
 }
 
--(void)m_reset{
-    [super m_reset];
+-(void)IFA_reset {
+    [super IFA_reset];
     // If it was left editing previously, reset it to non-editing mode.
-    if (![self m_isReturningVisibleViewController] && self.editing && !self.p_staleData) {  // If it's stale data, then quitEditing will be performed by the didRefreshAndReloadDataAsync method
+    if (![self IFA_isReturningVisibleViewController] && self.editing && !self.p_staleData) {  // If it's stale data, then quitEditing will be performed by the didRefreshAndReloadDataAsync method
         [self quitEditing];
     }
 }

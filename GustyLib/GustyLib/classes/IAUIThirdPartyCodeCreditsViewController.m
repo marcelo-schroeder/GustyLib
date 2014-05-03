@@ -44,8 +44,8 @@
     return self;
 }
 
--(UITableViewCell *)m_initReusableCellWithIdentifier:(NSString *)a_reuseIdentifier atIndexPath:(NSIndexPath *)a_indexPath{
-    UITableViewCell *l_cell = [super m_initReusableCellWithIdentifier:a_reuseIdentifier atIndexPath:a_indexPath];
+-(UITableViewCell *)createReusableCellWithIdentifier:(NSString *)a_reuseIdentifier atIndexPath:(NSIndexPath *)a_indexPath{
+    UITableViewCell *l_cell = [super createReusableCellWithIdentifier:a_reuseIdentifier atIndexPath:a_indexPath];
     l_cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return l_cell;
 }
@@ -56,7 +56,7 @@
     NSIndexPath *l_selectedIndexPath = self.tableView.indexPathForSelectedRow;
     NSDictionary *l_credit = self.p_credits[(NSUInteger) l_selectedIndexPath.row];
     NSURL *l_url = [NSURL URLWithString:l_credit[@"url"]];
-    [self m_openUrl:l_url];
+    [self IFA_openUrl:l_url];
 }
 
 #pragma mark - UITableViewDataSource
@@ -67,7 +67,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString * const k_cellId = @"cell";
-    UITableViewCell *l_cell = [self m_dequeueAndInitReusableCellWithIdentifier:k_cellId atIndexPath:indexPath];
+    UITableViewCell *l_cell = [self dequeueAndCreateReusableCellWithIdentifier:k_cellId atIndexPath:indexPath];
     NSDictionary *l_credit = self.p_credits[(NSUInteger) indexPath.row];
     l_cell.textLabel.text = l_credit[@"name"];
     return l_cell;

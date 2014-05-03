@@ -133,24 +133,24 @@
                                               message:nil];
 }
 
-- (void)m_showView{
-    [self m_showViewWithAnimation:YES];
+- (void)showView {
+    [self showViewWithAnimation:YES];
 }
 
-- (void)m_showViewWithAnimation:(BOOL)a_animate{
-    [self m_showViewForView:[UIApplication sharedApplication].delegate.window animate:a_animate];
+- (void)showViewWithAnimation:(BOOL)a_animate{
+    [self showViewForView:[UIApplication sharedApplication].delegate.window animate:a_animate];
 }
     
-- (void)m_showViewForView:(UIView*)a_view{
-    [self m_showViewForView:a_view animate:YES];
+- (void)showViewForView:(UIView*)a_view{
+    [self showViewForView:a_view animate:YES];
 }
 
-- (void)m_showViewForView:(UIView*)a_view animate:(BOOL)a_animate{
-    [self m_showViewForView:a_view animate:a_animate
-      hudConfigurationBlock:nil];
+- (void)showViewForView:(UIView *)a_view animate:(BOOL)a_animate{
+    [self showViewForView:a_view animate:a_animate
+    hudConfigurationBlock:nil];
 }
 
-- (void)m_showViewForView:(UIView*)a_view animate:(BOOL)a_animate hudConfigurationBlock:(void(^)(MBProgressHUD *))a_hudConfigurationBlock{
+- (void)showViewForView:(UIView *)a_view animate:(BOOL)a_animate hudConfigurationBlock:(void(^)(MBProgressHUD *))a_hudConfigurationBlock{
 
     self.p_hasBeenCancelled = NO;
 
@@ -188,11 +188,11 @@
     
 }
 
-- (void)m_removeView{
-    [self m_removeViewWithAnimation:YES];
+- (void)removeView {
+    [self removeViewWithAnimation:YES];
 }
 
-- (void)m_removeViewWithAnimation:(BOOL)a_animate{
+- (void)removeViewWithAnimation:(BOOL)a_animate{
     [v_hud hide:a_animate];
     [self m_removeGestureRecogniser];
 }

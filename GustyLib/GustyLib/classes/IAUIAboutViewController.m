@@ -71,16 +71,16 @@
 }
 
 - (IBAction)forceCrashButtonTap:(id)sender {
-    [IAUtils m_forceCrash];
+    [IAUtils forceCrash];
 }
 
 - (IBAction)thirdPartyCreditsButtonTap:(id)sender {
     UIViewController *l_viewController = [[IAUIThirdPartyCodeCreditsViewController alloc] init];
     l_viewController.title = @"Third Party Credits";
-    [self m_presentModalViewController:l_viewController
-                     presentationStyle:UIModalPresentationCurrentContext
-                       transitionStyle:UIModalTransitionStyleCoverVertical
-                   shouldAddDoneButton:YES];
+    [self IFA_presentModalViewController:l_viewController
+                       presentationStyle:UIModalPresentationCurrentContext
+                         transitionStyle:UIModalTransitionStyleCoverVertical
+                     shouldAddDoneButton:YES];
 }
 
 #pragma mark - Overrides

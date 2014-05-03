@@ -22,29 +22,29 @@
 
 @interface NSDate (IACategory)
 
-- (NSDate*)lastMidnightForCalendar:(NSCalendar*)a_calendar;
-- (NSDate*)nextMidnightForCalendar:(NSCalendar*)a_calendar;
-- (NSDate*)lastSecondForCalendar:(NSCalendar*)a_calendar;
-- (BOOL)isSameDay:(NSDate*)anotherDate calendar:(NSCalendar*)a_calendar;
-- (BOOL)isTodayForCalendar:(NSCalendar*)a_calendar;
-- (BOOL)isBetweenDate:(NSDate*)aStartDate andDate:(NSDate*)anEndDate;
-- (IADateRange*)fullDayRangeForCalendar:(NSCalendar*)a_calendar;
-- (IADateRange*) dateRangeForUnit:(NSCalendarUnit)aUnit calendar:(NSCalendar*)a_calendar;
-- (IADateRange*) dateRangeForUnit:(NSCalendarUnit)aUnit calendar:(NSCalendar*)a_calendar exclusiveEnd:(BOOL)anExclusiveEndFlag;
-- (NSString*)formatAsDate;
-- (NSString*)formatAsDateWithRelativeDateFormatting:(BOOL)a_doesRelativeDateFormating;
-- (NSString*)formatAsTime;
-- (NSString*)formatAsDateAndTime;
-- (NSString*)formatAsDateAndTimeWithRelativeDateFormatting:(BOOL)a_doesRelativeDateFormating;
-- (NSString*)descriptionWithCurrentLocale;
-- (NSDate*)addDays:(NSInteger)a_days calendar:(NSCalendar*)a_calendar;
-- (NSDate*)withSecondPrecision;
+- (NSDate*)IFA_lastMidnightForCalendar:(NSCalendar*)a_calendar;
+- (NSDate*)IFA_nextMidnightForCalendar:(NSCalendar*)a_calendar;
+- (NSDate*)IFA_lastSecondForCalendar:(NSCalendar*)a_calendar;
+- (BOOL)IFA_isSameDay:(NSDate *)anotherDate calendar:(NSCalendar*)a_calendar;
+- (BOOL)IFA_isTodayForCalendar:(NSCalendar*)a_calendar;
+- (BOOL)IFA_isBetweenDate:(NSDate *)aStartDate andDate:(NSDate*)anEndDate;
+- (IADateRange*)IFA_fullDayRangeForCalendar:(NSCalendar*)a_calendar;
+- (IADateRange*)IFA_dateRangeForUnit:(NSCalendarUnit)aUnit calendar:(NSCalendar*)a_calendar;
+- (IADateRange*)IFA_dateRangeForUnit:(NSCalendarUnit)aUnit calendar:(NSCalendar *)a_calendar exclusiveEnd:(BOOL)anExclusiveEndFlag;
+- (NSString*)IFA_formatAsDate;
+- (NSString*)IFA_formatAsDateWithRelativeDateFormatting:(BOOL)a_doesRelativeDateFormating;
+- (NSString*)IFA_formatAsTime;
+- (NSString*)IFA_formatAsDateAndTime;
+- (NSString*)IFA_formatAsDateAndTimeWithRelativeDateFormatting:(BOOL)a_doesRelativeDateFormating;
+- (NSString*)IFA_descriptionWithCurrentLocale;
+- (NSDate*)IFA_addDays:(NSInteger)a_days calendar:(NSCalendar*)a_calendar;
+- (NSDate*)IFA_withSecondPrecision;
 
-+ (NSDate*)dateWithSecondPrecision;
-+ (NSDate*)lastMidnightForCalendar:(NSCalendar*)a_calendar;
-+ (BOOL)isDate:(NSDate*)aDate betweenDate:(NSDate*)aStartDate andDate:(NSDate*)anEndDate;
-+ (NSDateFormatter*)dateFormatter;
-+ (NSDateFormatter*)timeFormatter;
-+ (NSDateFormatter*)dateAndTimeFormatter;
++ (NSDate*)IFA_dateWithSecondPrecision;
++ (NSDate*)IFA_lastMidnightForCalendar:(NSCalendar*)a_calendar;
++ (BOOL)IFA_isDate:(NSDate *)aDate betweenDate:(NSDate *)aStartDate andDate:(NSDate*)anEndDate;
++ (NSDateFormatter*)IFA_dateFormatter;
++ (NSDateFormatter*)IFA_timeFormatter;
++ (NSDateFormatter*)IFA_dateAndTimeFormatter;
 
 @end

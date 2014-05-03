@@ -35,7 +35,7 @@
 -(void)m_onStepperValueChange{
     //    NSLog(@"onStepperValueChange: %f", v_stepper.value);
     NSNumber *l_value = @(self.p_stepper.value);
-    [self.p_object setValue:l_value forProperty:self.p_propertyName];
+    [self.p_object IFA_setValue:l_value forProperty:self.p_propertyName];
     [self reloadData];
 }
 
@@ -49,7 +49,7 @@
 	UISlider *l_slider = aSender;
     NSNumber *l_value = @(l_slider.value);
     if (self.p_sliderIncrement) {
-        NSNumberFormatter *l_numberFormatter = [self.p_object numberFormatterForProperty:self.p_propertyName];
+        NSNumberFormatter *l_numberFormatter = [self.p_object IFA_numberFormatterForProperty:self.p_propertyName];
         [l_numberFormatter setRoundingIncrement:self.p_sliderIncrement];
         NSString *l_formattedValue = [l_numberFormatter stringFromNumber:l_value];
         l_value = [l_numberFormatter numberFromString:l_formattedValue];
@@ -60,7 +60,7 @@
             l_value = @(l_slider.maximumValue);
         }
     }
-    [self.p_object setValue:l_value forProperty:self.p_propertyName];
+    [self.p_object IFA_setValue:l_value forProperty:self.p_propertyName];
     [self reloadData];
 }
 
@@ -75,13 +75,13 @@
     self.p_sliderIncrement = [l_options valueForKey:@"sliderIncrement"];
     
     // Configure the text field
-    if (![IAUIUtils m_isIPad]) {
+    if (![IAUIUtils isIPad]) {
         self.p_textField.keyboardType = UIKeyboardTypeNumberPad;
     }
     
     // Min & max values
-    NSNumber *l_minValue = [self.p_object minimumValueForProperty:self.p_propertyName];
-    NSNumber *l_maxValue = [self.p_object maximumValueForProperty:self.p_propertyName];
+    NSNumber *l_minValue = [self.p_object IFA_minimumValueForProperty:self.p_propertyName];
+    NSNumber *l_maxValue = [self.p_object IFA_maximumValueForProperty:self.p_propertyName];
 
     // Configure stepper
     self.p_stepper = [UIStepper new];
@@ -122,7 +122,7 @@
 
 -(id)parsedValue {
 
-    NSNumberFormatter *l_numberFormatter = [self.p_object numberFormatterForProperty:self.p_propertyName];
+    NSNumberFormatter *l_numberFormatter = [self.p_object IFA_numberFormatterForProperty:self.p_propertyName];
     [l_numberFormatter setRoundingIncrement:self.p_roundingIncrement];
     return [l_numberFormatter numberFromString:self.p_textField.text];
     

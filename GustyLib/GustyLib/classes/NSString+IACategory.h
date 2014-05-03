@@ -22,22 +22,22 @@
 
 @interface NSString (IACategory)
 
--(NSString*)m_stringByKeepingCharactersInSet:(NSCharacterSet*)m_characterSet;
--(NSString*)m_stringByRemovingNewLineCharacters;
--(NSString*)m_stringByTrimming;
--(BOOL)m_isEmpty;
+-(NSString*)IFA_stringByKeepingCharactersInSet:(NSCharacterSet*)m_characterSet;
+-(NSString*)IFA_stringByRemovingNewLineCharacters;
+-(NSString*)IFA_stringByTrimming;
+-(BOOL)IFA_isEmpty;
 
--(BOOL)m_validateEmailAddress;
+-(BOOL)IFA_validateEmailAddress;
 
-- (NSString *)m_stringByReplacingOccurrencesOfRegexPattern:(NSString *)a_regexPattern
-                                                usingBlock:(NSString * (^)(NSString *a_matchedString))a_block;
+- (NSString *)IFA_stringByReplacingOccurrencesOfRegexPattern:(NSString *)a_regexPattern
+                                                  usingBlock:(NSString * (^)(NSString *a_matchedString))a_block;
 
-- (NSArray *)m_characters;
+- (NSArray *)IFA_characters;
 
-- (NSString *)m_stringMatchingSet:(NSCharacterSet *)a_characterSet;
+- (NSString *)IFA_stringMatchingSet:(NSCharacterSet *)a_characterSet;
 
-- (NSString *)m_stringWithNumbersOnly;
+- (NSString *)IFA_stringWithNumbersOnly;
 
-+ (id)m_stringWithFormat:(NSString *)format array:(NSArray*)arguments;
++ (id)IFA_stringWithFormat:(NSString *)format array:(NSArray*)arguments;
 
 @end

@@ -8,7 +8,7 @@
 #pragma mark -
 #pragma mark TakeScreenShot
 
-+ (UIImage *)imageWithUIView:(UIView *)view
++ (UIImage *)IFA_imageWithUIView:(UIView *)view
 {
   CGSize screenShotSize = view.bounds.size;
   UIImage *img;  

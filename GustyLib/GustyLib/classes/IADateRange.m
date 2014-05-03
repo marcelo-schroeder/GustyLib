@@ -50,10 +50,11 @@
 	return [IADateRange durationStringForStartDate:self.startTimestamp endDate:self.endTimestamp format:aFormat calendar:a_calendar];
 }
 
-- (NSString*)displayValue{
+- (NSString*)IFA_displayValue {
 	if (self.startTimestamp || self.endTimestamp) {
-		NSString* fromString = self.startTimestamp ? [[NSDate dateAndTimeFormatter] stringFromDate:self.startTimestamp] : @"";
-		NSString* toString = self.endTimestamp ? [([self.endTimestamp isSameDay:self.startTimestamp calendar:[NSCalendar m_threadSafeCalendar]]?[NSDate timeFormatter]:[NSDate dateAndTimeFormatter]) stringFromDate:self.endTimestamp] : @"";
+		NSString* fromString = self.startTimestamp ? [[NSDate IFA_dateAndTimeFormatter] stringFromDate:self.startTimestamp] : @"";
+		NSString* toString = self.endTimestamp ? [([self.endTimestamp IFA_isSameDay:self.startTimestamp
+                                                                           calendar:[NSCalendar IFA_threadSafeCalendar]]? [NSDate IFA_timeFormatter]: [NSDate IFA_dateAndTimeFormatter]) stringFromDate:self.endTimestamp] : @"";
 		return [NSString stringWithFormat:@"%@ - %@", fromString, toString];
 	}else {
 		return @"";

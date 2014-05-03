@@ -45,15 +45,15 @@
 
 #pragma mark - Overrides
 
-- (void)m_commonInit {
-    [super m_commonInit];
+- (void)IFA_commonInit {
+    [super IFA_commonInit];
     self.backgroundColor = [UIColor clearColor];
 }
 
 - (id)init {
     self = [super init];
     if (self) {
-        [self m_commonInit];
+        [self IFA_commonInit];
     }
     return self;
 }
@@ -61,7 +61,7 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self m_commonInit];
+        [self IFA_commonInit];
     }
     return self;
 }
@@ -69,7 +69,7 @@
 - (id)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (self) {
-        [self m_commonInit];
+        [self IFA_commonInit];
     }
     return self;
 }

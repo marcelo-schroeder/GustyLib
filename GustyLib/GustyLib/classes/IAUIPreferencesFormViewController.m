@@ -47,7 +47,7 @@
     return [[super initWithCoder:aDecoder] m_init];
 }
 
-- (NSArray*)m_editModeToolbarItems{
+- (NSArray*)IFA_editModeToolbarItems {
     // Preference cannot be deleted, so return an empty toolbar
     return nil;
 }

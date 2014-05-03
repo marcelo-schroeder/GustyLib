@@ -22,17 +22,17 @@
 
 #pragma mark - Public
 
-+ (UIStoryboard *)m_storyboardNamed:(NSString *)a_storyboardName {
++ (UIStoryboard *)IFA_storyboardNamed:(NSString *)a_storyboardName {
     return [UIStoryboard storyboardWithName:a_storyboardName
                                      bundle:nil];
 }
 
-+ (id)m_instantiateInitialViewControllerFromStoryboardNamed:(NSString *)a_storyboardName{
-    return [[self m_storyboardNamed:a_storyboardName] instantiateInitialViewController];
++ (id)IFA_instantiateInitialViewControllerFromStoryboardNamed:(NSString *)a_storyboardName{
+    return [[self IFA_storyboardNamed:a_storyboardName] instantiateInitialViewController];
 }
 
-+ (id)m_instantiateViewControllerWithIdentifier:(NSString *)a_viewControllerIdentifier fromStoryboardNamed:(NSString *)a_storyboardName {
-    return [[self m_storyboardNamed:a_storyboardName] instantiateViewControllerWithIdentifier:a_viewControllerIdentifier];
++ (id)IFA_instantiateViewControllerWithIdentifier:(NSString *)a_viewControllerIdentifier fromStoryboardNamed:(NSString *)a_storyboardName {
+    return [[self IFA_storyboardNamed:a_storyboardName] instantiateViewControllerWithIdentifier:a_viewControllerIdentifier];
 }
 
 @end

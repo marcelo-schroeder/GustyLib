@@ -55,7 +55,7 @@
     if (a_viewController.p_titleViewDefault && a_viewController.p_titleViewLandscapePhone) {
         
         // Determine which title view to use
-        BOOL l_isIPhoneLandscape = ![IAUIUtils m_isIPad] && UIInterfaceOrientationIsLandscape(a_interfaceOrientation);
+        BOOL l_isIPhoneLandscape = ![IAUIUtils isIPad] && UIInterfaceOrientationIsLandscape(a_interfaceOrientation);
 //        NSLog(@"l_isIPhoneLandscape: %u", l_isIPhoneLandscape);
         UIView *l_titleView = l_isIPhoneLandscape ? a_viewController.p_titleViewLandscapePhone : a_viewController.p_titleViewDefault;
         
@@ -81,14 +81,14 @@
 }
 
 -(UIColor*)m_colorForInfoPlistKey:(NSString*)a_infoPlistKey{
-    return [IAUIUtils m_colorForInfoPlistKey:a_infoPlistKey];
+    return [IAUIUtils colorForInfoPlistKey:a_infoPlistKey];
 }
 
 - (IAUITableViewCellSelectedBackgroundStyle)
 m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
                                tableViewController:(IAUITableViewController *)a_tableViewController {
     IAUITableViewCellSelectedBackgroundStyle l_cellPosition = IAUITableViewCellSelectedBackgroundStyleMiddle;
-    if (![IAUtils m_isIOS7OrGreater] && a_tableViewController.tableView.style == UITableViewStyleGrouped) {
+    if (![IAUtils isIOS7OrGreater] && a_tableViewController.tableView.style == UITableViewStyleGrouped) {
         NSInteger l_rowCount = [a_tableViewController tableView:a_tableViewController.tableView
                                           numberOfRowsInSection:a_indexPath.section];
         l_cellPosition = IAUITableViewCellSelectedBackgroundStyleBottom;
@@ -461,7 +461,7 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         [l_button setImage:l_imageNormal forState:UIControlStateNormal];
         [l_button setImage:l_imageHighlighted forState:UIControlStateHighlighted];
     }
-    l_button.p_helpTargetId = [IAUIUtils m_helpTargetIdForName:@"detailDisclosureButton"];
+    l_button.p_helpTargetId = [IAUIUtils helpTargetIdForName:@"detailDisclosureButton"];
     return l_button;
 }
 
@@ -684,7 +684,7 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 + (UIColor *)splitViewControllerDividerColour {
-    return [UIColor m_colorWithRed:191 green:191 blue:191];
+    return [UIColor IFA_colorWithRed:191 green:191 blue:191];
 }
 
 

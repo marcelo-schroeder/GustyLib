@@ -23,17 +23,17 @@
 @property (nonatomic, readonly) NSString *p_stringId;
 @property (nonatomic, readonly) NSURL *p_urlId;
 
-- (NSString*)m_labelForKeys:(NSArray*)aKeyArray;
-- (BOOL)m_validateForSave:(NSError**)anError;
-- (void)m_willDelete;
-- (void)m_didDelete;
-- (BOOL)m_delete;
-- (BOOL)m_deleteAndSave;
-- (BOOL)m_hasValueChangedForKey:(NSString*)a_key;
+- (NSString*)IFA_labelForKeys:(NSArray*)aKeyArray;
+- (BOOL)IFA_validateForSave:(NSError**)anError;
+- (void)IFA_willDelete;
+- (void)IFA_didDelete;
+- (BOOL)IFA_delete;
+- (BOOL)IFA_deleteAndSave;
+- (BOOL)IFA_hasValueChangedForKey:(NSString*)a_key;
 
-+ (NSManagedObject*)m_instantiate;
-+ (NSMutableArray *)m_findAll;
-+ (void)m_deleteAll;
-+ (void)m_deleteAllAndSave;
++ (NSManagedObject*)IFA_instantiate;
++ (NSMutableArray *)IFA_findAll;
++ (void)IFA_deleteAll;
++ (void)IFA_deleteAllAndSave;
 
 @end

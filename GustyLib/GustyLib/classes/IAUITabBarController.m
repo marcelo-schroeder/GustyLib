@@ -43,13 +43,13 @@
 //        NSLog(@"   inspecting view controller: %@", [l_viewController description]);
         if (l_viewController!=self.selectedViewController) {
 //            NSLog(@"      not selected - releasing view...");
-            [l_viewController m_releaseView];
+            [l_viewController IFA_releaseView];
         }
     }
 }
 
--(void)m_onApplicationDidEnterBackgroundNotification:(NSNotification *)aNotification{
-    [super m_onApplicationDidEnterBackgroundNotification:aNotification];
+-(void)IFA_onApplicationDidEnterBackgroundNotification:(NSNotification *)aNotification{
+    [super IFA_onApplicationDidEnterBackgroundNotification:aNotification];
     [self m_releaseMemory];
 }
 
@@ -115,7 +115,7 @@
 //        NSLog(@"[l_navigationController.topViewController description]: %@", [l_navigationController.topViewController description]);
     }
     v_previousViewController = viewController;
-    [IAUIUtils m_postNavigationEventNotification];
+    [IAUIUtils postNavigationEventNotification];
 }
 
 #pragma mark - Overrides
@@ -146,16 +146,16 @@
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-    [self m_viewDidLoad];
+    [self IFA_viewDidLoad];
     self.navigationItem.leftItemsSupplementBackButton = YES;
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
-    return [self m_shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
+    return [self IFA_shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
 }
 
 -(NSUInteger)supportedInterfaceOrientations{
-    return [self m_supportedInterfaceOrientations];
+    return [self IFA_supportedInterfaceOrientations];
 }
 
 -(void)didReceiveMemoryWarning{

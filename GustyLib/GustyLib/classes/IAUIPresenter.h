@@ -23,17 +23,17 @@
 @protocol IAUIPresenter <NSObject>
 
 // Called after presentation transition animation
--(void)m_didPresentViewController:(UIViewController*)a_viewController;
+-(void)didPresentViewController:(UIViewController*)a_viewController;
 
 // Called when changes are made by the presented view controller
--(void)m_changesMadeByViewController:(UIViewController*)a_viewController;
+-(void)changesMadeByViewController:(UIViewController*)a_viewController;
 
 // Called when presented view controller is done handling dismissal user action
-- (void)m_sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
-                                         data:(id)a_data;
+- (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
+                                       data:(id)a_data;
 
 // Called after dismissal transition animation
-- (void)m_didDismissViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
-                              data:(id)a_data;
+- (void)didDismissViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
+                            data:(id)a_data;
 
 @end

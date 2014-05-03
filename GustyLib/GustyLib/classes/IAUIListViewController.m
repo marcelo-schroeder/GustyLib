@@ -88,8 +88,10 @@
             //            NSLog(@"all blocks cancelled - exiting block - after find!");
             return;
         }
-        
-        [IAUtils m_dispatchAsyncMainThreadBlock:^{l_completionBlock(l_entities);}];
+
+        [IAUtils dispatchAsyncMainThreadBlock:^{
+            l_completionBlock(l_entities);
+        }];
         //        NSLog(@"block - end");
         
     } copy];
@@ -144,7 +146,7 @@
 }
 
 - (NSArray*)findEntities {
-	return [[IAPersistenceManager sharedInstance] findAllForEntity:self.entityName];
+	return [[IAPersistenceManager sharedInstance] findAllForEntity:self.IFA_entityName];
 }
 
 - (void)refreshAndReloadDataAsync {
@@ -159,7 +161,7 @@
 
 - (UITableViewCell*)cellForTableView:(UITableView*)a_tableView{
     static NSString *CellIdentifier = @"Cell";
-    return [self m_dequeueAndInitReusableCellWithIdentifier:CellIdentifier atIndexPath:nil];
+    return [self dequeueAndCreateReusableCellWithIdentifier:CellIdentifier atIndexPath:nil];
 }
 
 // to be overriden by subclasses
@@ -191,8 +193,8 @@
 
 -(NSString*)tipTextForEditing:(BOOL)a_editing{
     NSString *l_textTemplate = @"Tap the '+' button to add %@ %@.";
-    NSString *l_indefiniteArticle = [[IAPersistenceManager sharedInstance].entityConfig indefiniteArticleForEntity:self.entityName];
-    NSString *l_entityName = [[IAPersistenceManager sharedInstance].entityConfig labelForEntity:self.entityName];
+    NSString *l_indefiniteArticle = [[IAPersistenceManager sharedInstance].entityConfig indefiniteArticleForEntity:self.IFA_entityName];
+    NSString *l_entityName = [[IAPersistenceManager sharedInstance].entityConfig labelForEntity:self.IFA_entityName];
     return [NSString stringWithFormat:l_textTemplate, l_indefiniteArticle, l_entityName];
 }
 
@@ -259,7 +261,7 @@
 }
 
 - (IAUIFormViewController*)formViewControllerForManagedObject:(NSManagedObject *)aManagedObject createMode:(BOOL)aCreateMode{
-    Class l_formViewControllerClass = [[IAPersistenceManager sharedInstance].entityConfig formViewControllerClassForEntity:[aManagedObject entityName]];
+    Class l_formViewControllerClass = [[IAPersistenceManager sharedInstance].entityConfig formViewControllerClassForEntity:[aManagedObject IFA_entityName]];
     if (!l_formViewControllerClass) {
         l_formViewControllerClass = NSClassFromString(@"IAUIFormViewController");
     }
@@ -295,7 +297,7 @@
     
     // Present form view controller
     UIViewController *l_viewController = [self formViewControllerForManagedObject:l_mo createMode:l_isCreateMode];
-    [self m_presentModalFormViewController:l_viewController];
+    [self IFA_presentModalFormViewController:l_viewController];
 
 }
 
@@ -304,7 +306,7 @@
 }
 
 - (NSManagedObject*)newManagedobject{
-	return [[IAPersistenceManager sharedInstance] instantiate:self.entityName];
+	return [[IAPersistenceManager sharedInstance] instantiate:self.IFA_entityName];
 }
 
 - (void)onAddButtonTap:(id)sender {
@@ -330,9 +332,9 @@
 
     [super viewDidLoad];
 
-//    NSLog(@"self.entityName: %@", self.entityName);
+//    NSLog(@"self.IFA_entityName: %@", self.IFA_entityName);
     if (!self.title) {
-        self.title = [[IAPersistenceManager sharedInstance].entityConfig listLabelForEntity:self.entityName];
+        self.title = [[IAPersistenceManager sharedInstance].entityConfig listLabelForEntity:self.IFA_entityName];
     }
 
     self.p_staleData = YES;
@@ -342,20 +344,20 @@
     self.p_sectionsWithRows = [NSMutableArray new];
     
     // Instantiate block that will provide table section data
-    NSString *l_entityName = self.entityName;
+    NSString *l_entityName = self.IFA_entityName;
     v_sectionDataBlock = ^(NSString *a_sectionGroupedBy, NSObject *a_sectionObject, NSArray *a_sectionRows, NSMutableArray *a_sectionHeaderTitles, NSMutableArray *a_sectionsWithRows){
         NSString *l_sectionHeaderTitle = nil;
         if (a_sectionObject == [NSNull null]) {
             NSString *l_relatedEntityName = [[IAPersistenceManager sharedInstance].entityConfig entityNameForProperty:a_sectionGroupedBy inEntity:l_entityName];
-            l_sectionHeaderTitle = [NSClassFromString(l_relatedEntityName) displayValueForNil];
+            l_sectionHeaderTitle = [NSClassFromString(l_relatedEntityName) IFA_displayValueForNil];
         }else{
-            l_sectionHeaderTitle = [a_sectionObject longDisplayValue];
+            l_sectionHeaderTitle = [a_sectionObject IFA_longDisplayValue];
         }
         [a_sectionHeaderTitles addObject:l_sectionHeaderTitle];
         [a_sectionsWithRows addObject:a_sectionRows];
     };
     
-    self.p_listGroupedBy = [[[IAPersistenceManager sharedInstance] entityConfig] listGroupedByForEntity:self.entityName];
+    self.p_listGroupedBy = [[[IAPersistenceManager sharedInstance] entityConfig] listGroupedByForEntity:self.IFA_entityName];
     
     // Observe persistence notifications
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -371,7 +373,7 @@
 
     [super viewWillAppear:animated];
     
-    if( !self.p_fetchedResultsController && self.p_staleData && ![self m_isReturningVisibleViewController] ){
+    if( !self.p_fetchedResultsController && self.p_staleData && ![self IFA_isReturningVisibleViewController] ){
         [self willRefreshAndReloadDataAsync];
     }
 
@@ -381,7 +383,7 @@
 
     [super viewDidAppear:animated];
 
-    if( !self.p_fetchedResultsController && self.p_staleData && ![self m_isReturningVisibleViewController] ){
+    if( !self.p_fetchedResultsController && self.p_staleData && ![self IFA_isReturningVisibleViewController] ){
         [self m_refreshAndReloadDataAsyncWithContainerCoordination:YES];
         self.p_refreshAndReloadDataAsyncRequested = YES;
     }else{
@@ -411,7 +413,7 @@
 
 //    NSLog(@"m_sessionDidCompleteForViewController for %@", [self description]);
 
-    [super m_sessionDidCompleteForViewController:a_viewController changesMade:a_changesMade data:a_data];
+    [super sessionDidCompleteForViewController:a_viewController changesMade:a_changesMade data:a_data];
     
     // It is returning from an edit form
     if (self.p_editedManagedObjectId) {
@@ -443,7 +445,7 @@
 
 - (void)m_didDismissViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
                               data:(id)a_data {
-    [super m_didDismissViewController:a_viewController changesMade:a_changesMade data:a_data];
+    [super didDismissViewController:a_viewController changesMade:a_changesMade data:a_data];
     if (!self.p_changesMadeByPresentedViewController) { // If changes have been made by the presented view controller, then showTipForEditing will be called somewhere else
         [self showTipForEditing:self.editing];
     }
@@ -480,8 +482,8 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [self cellForTableView:tableView];
-	cell.textLabel.text = self.p_listGroupedBy ? [[self m_objectForIndexPath:indexPath] displayValue] : [[self m_objectForIndexPath:indexPath] longDisplayValue];
-    [[self m_appearanceTheme] setAppearanceForView:cell.textLabel];
+	cell.textLabel.text = self.p_listGroupedBy ? [[self m_objectForIndexPath:indexPath] IFA_displayValue] : [[self m_objectForIndexPath:indexPath] IFA_longDisplayValue];
+    [[self IFA_appearanceTheme] setAppearanceForView:cell.textLabel];
     return cell;
 }
 

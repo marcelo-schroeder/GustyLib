@@ -152,27 +152,27 @@
     [self appLogWithTitle:a_title message:a_message location:nil error:nil showAlert:NO];
 }
 
-+(void)m_dispatchAsyncMainThreadBlock:(dispatch_block_t)a_block{
++(void)dispatchAsyncMainThreadBlock:(dispatch_block_t)a_block{
     dispatch_async(dispatch_get_main_queue(), a_block);
 }
 
-+(void)m_dispatchAsyncMainThreadBlock:(dispatch_block_t)a_block afterDelay:(NSTimeInterval)a_delay{
-    dispatch_after([self m_dispatchTimeForDelay:a_delay], dispatch_get_main_queue(), a_block);
++(void)dispatchAsyncMainThreadBlock:(dispatch_block_t)a_block afterDelay:(NSTimeInterval)a_delay{
+    dispatch_after([self dispatchTimeForDelay:a_delay], dispatch_get_main_queue(), a_block);
 }
 
-+(void)m_dispatchSyncMainThreadBlock:(dispatch_block_t)a_block{
++(void)dispatchSyncMainThreadBlock:(dispatch_block_t)a_block{
     dispatch_sync(dispatch_get_main_queue(), a_block);
 }
 
-+(void)m_dispatchAsyncGlobalDefaultPriorityQueueBlock:(dispatch_block_t)a_block{
-    [self m_dispatchAsyncGlobalQueueBlock:a_block priority:DISPATCH_QUEUE_PRIORITY_DEFAULT];
++(void)dispatchAsyncGlobalDefaultPriorityQueueBlock:(dispatch_block_t)a_block{
+    [self dispatchAsyncGlobalQueueBlock:a_block priority:DISPATCH_QUEUE_PRIORITY_DEFAULT];
 }
 
-+(void)m_dispatchAsyncGlobalQueueBlock:(dispatch_block_t)a_block priority:(dispatch_queue_priority_t)a_priority{
++(void)dispatchAsyncGlobalQueueBlock:(dispatch_block_t)a_block priority:(dispatch_queue_priority_t)a_priority{
     dispatch_async(dispatch_get_global_queue(a_priority, 0), a_block);
 }
 
-+ (dispatch_time_t)m_dispatchTimeForDelay:(NSTimeInterval)a_delay {
++ (dispatch_time_t)dispatchTimeForDelay:(NSTimeInterval)a_delay {
     int64_t l_delta = (int64_t)(1.0e9 * a_delay);
     dispatch_time_t l_dispatchTimeDelay = dispatch_time(DISPATCH_TIME_NOW, l_delta);
     return l_dispatchTimeDelay;
@@ -228,12 +228,12 @@
     return l_uuid;
 }
 
-+(void)m_forceCrash{
++(void)forceCrash {
     NSLog(@"About to force a crash...");
     NSAssert(NO, @"Forced crash!");
 }
 
-+(NSString*)m_stringFromResource:(NSString*)a_resourceName type:(NSString*)a_resourceType{
++(NSString*)stringFromResource:(NSString *)a_resourceName type:(NSString*)a_resourceType{
     NSString *l_filePath = [[NSBundle mainBundle] pathForResource:a_resourceName ofType:a_resourceType];
     NSString *l_string = nil;
     if (l_filePath) {  
@@ -243,7 +243,7 @@
     return l_string;
 }
 
-+(NSArray*)m_toArrayIfRequiredFromObject:(id)a_object{
++(NSArray*)toArrayIfRequiredFromObject:(id)a_object{
     if ([a_object isKindOfClass:[NSArray class]] || a_object==nil) {
         return a_object;
     }else {
@@ -251,7 +251,7 @@
     }
 }
 
-+(Class)m_classForPropertyNamed:(NSString*)a_propertyName inClass:(Class)a_class{
++(Class)classForPropertyNamed:(NSString *)a_propertyName inClass:(Class)a_class{
     if (!a_propertyName || !a_class) {
         return NULL;
     }
@@ -270,8 +270,8 @@
     return l_class;
 }
 
-+(Class)m_classForPropertyNamed:(NSString*)a_propertyName inClassNamed:(NSString*)a_className{
-    return [self m_classForPropertyNamed:a_propertyName inClass:NSClassFromString(a_className)];
++(Class)classForPropertyNamed:(NSString *)a_propertyName inClassNamed:(NSString*)a_className{
+    return [self classForPropertyNamed:a_propertyName inClass:NSClassFromString(a_className)];
 }
 
 +(BOOL)deviceSupportsVibration{
@@ -279,11 +279,11 @@
     return [[UIDevice currentDevice].model isEqualToString:@"iPhone"];
 }
 
-+(BOOL)m_nilOrEmptyForString:(NSString*)a_string{
++(BOOL)nilOrEmptyForString:(NSString*)a_string{
     return a_string==nil || [[a_string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0;
 }
 
-+(BOOL)m_isProductionAps{
++(BOOL)isProductionAps {
 
 	NSString * provisioning = [[NSBundle mainBundle] pathForResource:@"embedded.mobileprovision" ofType:nil];
 	if(!provisioning)
@@ -323,24 +323,24 @@
 
 }
 
-+ (BOOL)m_isIOS7OrGreater{
++ (BOOL)isIOS7OrGreater {
     return !(floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1);
 }
 
-+ (NSString *)m_hardwareType{
++ (NSString *)hardwareType {
     struct utsname systemInfo;
     uname(&systemInfo);
     NSString *l_hardwareType = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
     return l_hardwareType;
 }
 
-+ (NSString *)m_encodeForUrlByAddingPercentEscapesWithOriginalString:(NSString *)a_originalString {
++ (NSString *)encodeForUrlByAddingPercentEscapesWithOriginalString:(NSString *)a_originalString {
     NSString *l_encodedString = CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
             (__bridge CFStringRef)(a_originalString), NULL, CFSTR(""), kCFStringEncodingUTF8));
     return l_encodedString;
 }
 
-+ (NSString *)m_encodeForUrlByAddingPercentEscapesIncludingReservedCharactersWithOriginalString:(NSString *)a_originalString {
++ (NSString *)encodeForUrlByAddingPercentEscapesIncludingReservedCharactersWithOriginalString:(NSString *)a_originalString {
     NSString *l_encodedString = CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
             (__bridge CFStringRef)(a_originalString), NULL, CFSTR(":/?#[]@!$&'()*+,;="), kCFStringEncodingUTF8));
     return l_encodedString;

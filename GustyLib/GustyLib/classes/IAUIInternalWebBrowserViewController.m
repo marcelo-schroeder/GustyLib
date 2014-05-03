@@ -46,7 +46,7 @@
 }
 
 -(void)m_onActionBarButtonTap:(UIBarButtonItem*)a_button{
-    [self m_presentActivityViewControllerFromBarButtonItem:a_button webView:self.mainWebView];
+    [self IFA_presentActivityViewControllerFromBarButtonItem:a_button webView:self.mainWebView];
 }
 
 - (void)m_configureBrowserButtons {
@@ -92,9 +92,9 @@
     [super viewDidLoad];
     if (self.p_presentedAsModal) {
         self.navigationItem.leftBarButtonItems = nil;
-        [self m_addLeftBarButtonItem:[[self m_appearanceTheme] doneBarButtonItemWithTarget:self
-                                                                                    action:@selector(doneButtonClicked:)
-                                                                            viewController:self]];
+        [self IFA_addLeftBarButtonItem:[[self IFA_appearanceTheme] doneBarButtonItemWithTarget:self
+                                                                                      action:@selector(doneButtonClicked:)
+                                                                              viewController:self]];
     }
 }
 
@@ -110,11 +110,11 @@
     [self m_removeRightBarButtonItem:self.p_refreshStopBarButtonItem];
     self.p_refreshStopBarButtonItem = self.p_urlLoadCount ? self.p_stopBarButtonItem : self.p_refreshBarButtonItem;
     NSUInteger i = 0;
-    [self m_insertRightBarButtonItem:self.p_actionBarButtonItem atIndex:i++];
-    [self m_insertRightBarButtonItem:self.p_nextBarButtonItem atIndex:i++];
-    [self m_insertRightBarButtonItem:self.p_previousBarButtonItem atIndex:i++];
-    [self m_insertRightBarButtonItem:self.p_refreshStopBarButtonItem atIndex:i++];
-    [self m_insertRightBarButtonItem:self.p_activityIndicatorBarButtonItem atIndex:i];
+    [self IFA_insertRightBarButtonItem:self.p_actionBarButtonItem atIndex:i++];
+    [self IFA_insertRightBarButtonItem:self.p_nextBarButtonItem atIndex:i++];
+    [self IFA_insertRightBarButtonItem:self.p_previousBarButtonItem atIndex:i++];
+    [self IFA_insertRightBarButtonItem:self.p_refreshStopBarButtonItem atIndex:i++];
+    [self IFA_insertRightBarButtonItem:self.p_activityIndicatorBarButtonItem atIndex:i];
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {

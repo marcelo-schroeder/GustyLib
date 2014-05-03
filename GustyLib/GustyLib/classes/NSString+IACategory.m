@@ -24,30 +24,30 @@
 
 #pragma mark - Public
 
--(NSString*)m_stringByKeepingCharactersInSet:(NSCharacterSet*)a_characterSet{
+-(NSString*)IFA_stringByKeepingCharactersInSet:(NSCharacterSet*)a_characterSet{
     NSCharacterSet *l_charactersToRemove = [a_characterSet invertedSet];
     return [[self componentsSeparatedByCharactersInSet:l_charactersToRemove] componentsJoinedByString:@""];
 }
 
--(NSString*)m_stringByRemovingNewLineCharacters{
+-(NSString*)IFA_stringByRemovingNewLineCharacters {
     return [[self componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] componentsJoinedByString:@""];
 }
 
--(NSString*)m_stringByTrimming{
+-(NSString*)IFA_stringByTrimming {
     return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
--(BOOL)m_isEmpty{
-    return [[self m_stringByTrimming] isEqualToString:@""];
+-(BOOL)IFA_isEmpty {
+    return [[self IFA_stringByTrimming] isEqualToString:@""];
 }
 
--(BOOL)m_validateEmailAddress{
+-(BOOL)IFA_validateEmailAddress {
     NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     return [emailTest evaluateWithObject:self];
 }
 
--(NSString *)m_stringByReplacingOccurrencesOfRegexPattern:(NSString *)a_regexPattern usingBlock:(NSString * (^)(NSString *a_matchedString))a_block{
+-(NSString *)IFA_stringByReplacingOccurrencesOfRegexPattern:(NSString *)a_regexPattern usingBlock:(NSString * (^)(NSString *a_matchedString))a_block{
     NSString *l_inputString = self;
     NSMutableString *l_outputString = [@"" mutableCopy];
     NSRegularExpression *l_regex = [NSRegularExpression
@@ -77,7 +77,7 @@
     return l_outputString;
 }
 
-+ (id)m_stringWithFormat:(NSString *)format array:(NSArray*)arguments{
++ (id)IFA_stringWithFormat:(NSString *)format array:(NSArray*)arguments{
     NSRange range = NSMakeRange(0, [arguments count]);
     NSMutableData* data = [NSMutableData dataWithLength:sizeof(id) * [arguments count]];
     [arguments getObjects:(__unsafe_unretained id *)data.mutableBytes range:range];
@@ -85,7 +85,7 @@
     return result;
 }
 
-- (NSArray *)m_characters{
+- (NSArray *)IFA_characters {
     NSMutableArray *l_characters = [@[] mutableCopy];
     for (NSUInteger i = 0; i < self.length; i++) {
         [l_characters addObject:[self substringWithRange:NSMakeRange(i, 1)]];
@@ -93,7 +93,7 @@
     return l_characters;
 }
 
-- (NSString *)m_stringMatchingSet:(NSCharacterSet *)a_characterSet{
+- (NSString *)IFA_stringMatchingSet:(NSCharacterSet *)a_characterSet{
     NSScanner *l_scanner = [NSScanner scannerWithString:self];
     NSMutableString *l_result = [@"" mutableCopy];
     while (![l_scanner isAtEnd]) {
@@ -107,9 +107,9 @@
     return l_result;
 }
 
-- (NSString *)m_stringWithNumbersOnly{
+- (NSString *)IFA_stringWithNumbersOnly {
     NSCharacterSet *l_numbers = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
-    return [self m_stringMatchingSet:l_numbers];
+    return [self IFA_stringMatchingSet:l_numbers];
 }
 
 @end

@@ -28,46 +28,46 @@
 @property (nonatomic, strong) NSString *p_helpTargetId;
 @property (nonatomic, strong) NSString *p_appearanceId;
 
--(id)m_init;
--(void)m_awakeFromNib;
--(void)m_roundCorners;
--(void)m_roundCornersWithRadius:(CGFloat)a_radius;
+-(id)IFA_init;
+-(void)IFA_awakeFromNib;
+-(void)IFA_roundCorners;
+-(void)IFA_roundCornersWithRadius:(CGFloat)a_radius;
 
--(NSArray*)m_helpTargets;
--(UIView*)m_helpModeToggleView;
--(UIView*)m_view;
--(void)m_didEnterHelpMode;
--(void)m_willExitHelpMode;
+-(NSArray*)IFA_helpTargets;
+-(UIView*)IFA_helpModeToggleView;
+-(UIView*)IFA_view;
+-(void)IFA_didEnterHelpMode;
+-(void)IFA_willExitHelpMode;
 
--(CGPoint)m_centerInSuperview:(UIView*)a_superview;
+-(CGPoint)IFA_centerInSuperview:(UIView*)a_superview;
 
 /*
     *** IMPORTANT: this did not work for the iPad ***
     It was a table view cell separator view, at the bottom
  */
--(void)m_changeFrameTo1PixelTall;
+-(void)IFA_changeFrameTo1PixelTall;
 
--(id<IAUIAppearanceTheme>)m_appearanceTheme;
+-(id<IAUIAppearanceTheme>)IFA_appearanceTheme;
 
-- (NSArray *)m_addLayoutConstraintsToFillSuperview;
+- (NSArray *)IFA_addLayoutConstraintsToFillSuperview;
 
-- (NSArray *)m_addLayoutConstraintsToFillSuperviewHorizontally;
+- (NSArray *)IFA_addLayoutConstraintsToFillSuperviewHorizontally;
 
-- (NSArray *)m_addLayoutConstraintsToFillSuperviewVertically;
+- (NSArray *)IFA_addLayoutConstraintsToFillSuperviewVertically;
 
-- (NSArray *)m_addLayoutConstraintsToCenterInSuperview;
+- (NSArray *)IFA_addLayoutConstraintsToCenterInSuperview;
 
-- (NSLayoutConstraint *)m_addLayoutConstraintToCenterInSuperviewHorizontally;
+- (NSLayoutConstraint *)IFA_addLayoutConstraintToCenterInSuperviewHorizontally;
 
-- (NSLayoutConstraint *)m_addLayoutConstraintToCenterInSuperviewVertically;
+- (NSLayoutConstraint *)IFA_addLayoutConstraintToCenterInSuperviewVertically;
 
-- (NSLayoutConstraint *)m_newLayoutConstraintWithAttribute:(NSLayoutAttribute)a_attribute toItem:(id)a_item;
+- (NSLayoutConstraint *)IFA_newLayoutConstraintWithAttribute:(NSLayoutAttribute)a_attribute toItem:(id)a_item;
 
-- (UIImage *)m_snapshotImage;
+- (UIImage *)IFA_snapshotImage;
 
-- (UIImage *)m_snapshotImageFromRect:(CGRect)a_rectToSnapshot;
+- (UIImage *)IFA_snapshotImageFromRect:(CGRect)a_rectToSnapshot;
 
-- (BOOL)m_frameIntersectsWithView:(UIView *)a_theOtherView;
+- (BOOL)IFA_frameIntersectsWithView:(UIView *)a_theOtherView;
 
-- (void)m_traverseViewHierarchyWithBlock:(void (^) (UIView*))a_block;
+- (void)IFA_traverseViewHierarchyWithBlock:(void (^) (UIView*))a_block;
 @end

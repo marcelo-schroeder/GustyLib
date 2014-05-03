@@ -112,26 +112,27 @@
         self.p_finalDrawing = YES;
         
         // Schedule animations
-        [IAUtils m_dispatchAsyncMainThreadBlock:^{
-            
+        [IAUtils dispatchAsyncMainThreadBlock:^{
+
             BOOL l_removeSpotlightWithAnimation = self.p_removeSpotlightWithAnimation;
-            
-            [UIView transitionWithView:self duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-                if (self.p_shouldSpotlight) {
-                    [self.p_spotlightMask removeFromSuperview];
-                }
-                if (self.p_removeSpotlightWithAnimation) {
-                    if (l_previousSpotlightMask) {
-                        [self addSubview:l_previousSpotlightMask];
-                    }
-                }
-            } completion:^(BOOL finished) {
+
+            [UIView transitionWithView:self duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:^{
+                                if (self.p_shouldSpotlight) {
+                                    [self.p_spotlightMask removeFromSuperview];
+                                }
+                                if (self.p_removeSpotlightWithAnimation) {
+                                    if (l_previousSpotlightMask) {
+                                        [self addSubview:l_previousSpotlightMask];
+                                    }
+                                }
+                            } completion:^(BOOL finished) {
                 if (l_removeSpotlightWithAnimation) {
                     [l_previousSpotlightMask removeFromSuperview];
                     [self setNeedsDisplay];
                 }
             }];
-            
+
         }];
         
     }

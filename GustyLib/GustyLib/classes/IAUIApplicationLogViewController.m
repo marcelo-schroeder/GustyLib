@@ -28,7 +28,7 @@
 
 - (void)onAction:(id)a_sender{
     if (a_sender==v_deleteAllButton) {
-        [[IAPersistenceManager sharedInstance] deleteAllForEntityAndSave:self.entityName];
+        [[IAPersistenceManager sharedInstance] deleteAllForEntityAndSave:self.IFA_entityName];
     }
     [self refreshAndReloadDataAsync];
 }
@@ -40,19 +40,19 @@
     return [super initWithEntityName:@"IAApplicationLog"];
 }
 
-- (UITableViewCellStyle) m_tableViewCellStyle{
+- (UITableViewCellStyle)tableViewCellStyle {
 	return UITableViewCellStyleSubtitle;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *l_cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    [[self m_appearanceTheme] setAppearanceForView:l_cell.detailTextLabel];
+    [[self IFA_appearanceTheme] setAppearanceForView:l_cell.detailTextLabel];
     IAApplicationLog *l_logEntry = [self.p_entities objectAtIndex:indexPath.row];
     l_cell.detailTextLabel.text = l_logEntry.message;
     return l_cell;
 }
 
-- (NSArray*)m_nonEditModeToolbarItems{
+- (NSArray*)IFA_nonEditModeToolbarItems {
     
     if (!v_deleteAllButton) {
         v_deleteAllButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(onAction:)];

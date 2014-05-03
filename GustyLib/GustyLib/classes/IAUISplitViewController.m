@@ -55,11 +55,11 @@
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
-    return [self m_shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
+    return [self IFA_shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
 }
 
 -(NSUInteger)supportedInterfaceOrientations{
-    return [self m_supportedInterfaceOrientations];
+    return [self IFA_supportedInterfaceOrientations];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -87,7 +87,7 @@
 //    NSLog(@"willHideViewController");
     
     // Configure bar button item to get back to the master view controller
-    UIBarButtonItem *l_barButtonItem = [[self m_appearanceTheme] splitViewControllerBarButtonItem];
+    UIBarButtonItem *l_barButtonItem = [[self IFA_appearanceTheme] splitViewControllerBarButtonItem];
     if (l_barButtonItem) {
         l_barButtonItem.target = barButtonItem.target;
         l_barButtonItem.action = barButtonItem.action;
@@ -98,8 +98,8 @@
 
     // Manage bar button item visibility
     UIViewController *l_visibleDetailTopViewController = [self m_visibleDetailTopViewController];
-    if ([l_visibleDetailTopViewController m_shouldShowLeftSlidingPaneButton]) {
-        [[self m_visibleDetailTopViewController] m_addLeftBarButtonItem:l_barButtonItem];
+    if ([l_visibleDetailTopViewController IFA_shouldShowLeftSlidingPaneButton]) {
+        [[self m_visibleDetailTopViewController] IFA_addLeftBarButtonItem:l_barButtonItem];
     }
 
     // Save details for later

@@ -58,7 +58,7 @@ static char c_buttonKey;
 
     // Create the underlying button
     UIImage *l_buttonImage = [UIImage imageNamed:a_imageName];
-    self.p_button = [UIButton m_buttonWithType:UIButtonTypeCustom appearanceId:a_appearanceId];
+    self.p_button = [UIButton IFA_buttonWithType:UIButtonTypeCustom appearanceId:a_appearanceId];
     [self.p_button addTarget:self action:@selector(m_onButtonAction) forControlEvents:UIControlEventTouchUpInside];
     self.p_button.p_appearanceId = a_appearanceId;
     [self.p_button setImage:l_buttonImage forState:UIControlStateNormal];

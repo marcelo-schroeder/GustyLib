@@ -116,7 +116,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
         // Process inserted objects
         for (NSManagedObject *l_managedObject in [[aNotification userInfo] valueForKey:NSInsertedObjectsKey]) {
 
-            NSString *l_entityName = [l_managedObject entityName];
+            NSString *l_entityName = [l_managedObject IFA_entityName];
             NSMutableDictionary *l_userInfoDict = [self userInfoForEntityName:l_entityName entityUserInfo:l_entityUserInfoDict];
             //            NSLog(@"class: %@", [[l_userInfoDict class] description]);
             //            NSLog(@"value: %@", [l_userInfoDict description]);
@@ -127,7 +127,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
         // Process updated objects
         for (NSManagedObject *l_managedObject in [[aNotification userInfo] valueForKey:NSUpdatedObjectsKey]) {
 
-            NSString *l_entityName = [l_managedObject entityName];
+            NSString *l_entityName = [l_managedObject IFA_entityName];
             NSMutableDictionary *l_userInfoDict = [self userInfoForEntityName:l_entityName entityUserInfo:l_entityUserInfoDict];
             [((NSMutableSet*)[l_userInfoDict valueForKey:IA_KEY_UPDATED_OBJECTS]) addObject:l_managedObject];
             [((NSMutableDictionary*)[l_userInfoDict valueForKey:IA_KEY_UPDATED_PROPERTIES]) setObject:[self.p_managedObjectChangedValuesDictionary objectForKey:l_managedObject.p_stringId] forKey:l_managedObject.p_stringId];
@@ -140,7 +140,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
         for (NSManagedObject *l_managedObject in [[aNotification userInfo] valueForKey:NSDeletedObjectsKey]) {
 
             //            NSLog(@"l_managedObject: %@", l_managedObject);
-            NSString *l_entityName = [l_managedObject entityName];
+            NSString *l_entityName = [l_managedObject IFA_entityName];
             NSMutableDictionary *l_userInfoDict = [self userInfoForEntityName:l_entityName entityUserInfo:l_entityUserInfoDict];
             [((NSMutableSet*)[l_userInfoDict valueForKey:IA_KEY_DELETED_OBJECTS]) addObject:l_managedObject];
             [((NSMutableDictionary*)[l_userInfoDict valueForKey:IA_KEY_ORIGINAL_PROPERTIES]) setObject:[self.p_managedObjectCommittedValuesDictionary objectForKey:l_managedObject.p_stringId] forKey:l_managedObject.p_stringId];
@@ -254,7 +254,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 			if ([keysAndValues count]>1) {
 				[label appendString:@"This combination of "];
 			}
-			NSString *labelForKeys = [aManagedObject m_labelForKeys:[keysAndValues allKeys]];
+			NSString *labelForKeys = [aManagedObject IFA_labelForKeys:[keysAndValues allKeys]];
 			if ([keysAndValues count]>1) {
 				labelForKeys = [labelForKeys lowercaseString];
 			}
@@ -281,7 +281,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
         NSDictionary *l_errorDict = [a_error userInfo];
         NSString *l_propertyName = [l_errorDict objectForKey:NSValidationKeyErrorKey];
 //        NSLog(@"l_propertyName: %@", l_propertyName);
-        NSRelationshipDescription *l_relationshipDescription = [[[NSEntityDescription entityForName:[a_managedObject entityName] inManagedObjectContext:[self currentManagedObjectContext]] relationshipsByName] valueForKey:l_propertyName];
+        NSRelationshipDescription *l_relationshipDescription = [[[NSEntityDescription entityForName:[a_managedObject IFA_entityName] inManagedObjectContext:[self currentManagedObjectContext]] relationshipsByName] valueForKey:l_propertyName];
         if (l_relationshipDescription.deleteRule==NSDenyDeleteRule) {
             return NO;
         }
@@ -462,7 +462,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     NSFetchRequest *l_fetchRequest = [self findAllFetchRequest:entityName includePendingChanges:a_includePendingChanges];
     l_fetchRequest.includesSubentities = a_includeSubentities;
     NSMutableArray *l_array = [self inMemorySortList:[self executeFetchRequestMutable:l_fetchRequest] forEntity:entityName];
-//    NSLog(@"findAllForNonSystemEntity for %@: %@", entityName, [l_array description]);
+//    NSLog(@"findAllForNonSystemEntity for %@: %@", IFA_entityName, [l_array description]);
     return l_array;
 }
 
@@ -570,7 +570,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
         
 		// Manage sequence if this entity's list can be reordered by the user
 		if ([self.entityConfig listReorderAllowedForObject:aManagedObject]) {
-			NSArray* all = [self findAllForEntity:[aManagedObject entityName] includePendingChanges:YES];
+			NSArray* all = [self findAllForEntity:[aManagedObject IFA_entityName] includePendingChanges:YES];
 			for (int i = 0; i < [all count]; i++) {
 				[[all objectAtIndex:i] setValue:[NSNumber numberWithUnsignedInt:((i+1)*2)] forKey:@"seq"];
 			}
@@ -592,7 +592,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
         
         // Run pre-delete method
         //        NSLog(@"Running pre-delete method...");
-		[aManagedObject m_willDelete];
+        [aManagedObject IFA_willDelete];
         //        NSLog(@"Done");
 		
 		NSManagedObjectContext *moc = [aManagedObject managedObjectContext];
@@ -600,7 +600,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
         
         // Run post-delete method
         //            NSLog(@"Running post-delete method...");
-        [aManagedObject m_didDelete];
+        [aManagedObject IFA_didDelete];
         //            NSLog(@"Done");
         
         return YES;
@@ -620,7 +620,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
         
         // Run pre-delete method
         //        NSLog(@"Running pre-delete method...");
-		[aManagedObject m_willDelete];
+        [aManagedObject IFA_willDelete];
         //        NSLog(@"Done");
 		
 		NSManagedObjectContext *moc = [aManagedObject managedObjectContext];
@@ -632,7 +632,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
             
             // Run post-delete method
             //            NSLog(@"Running post-delete method...");
-            [aManagedObject m_didDelete];
+            [aManagedObject IFA_didDelete];
             //            NSLog(@"Done");
             
 			return YES;
@@ -690,10 +690,10 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 }
 - (NSMutableArray *) findAllForEntity:(NSString *)entityName includePendingChanges:(BOOL)a_includePendingChanges includeSubentities:(BOOL)a_includeSubentities{
 	if ([self isSystemEntityForEntity:entityName]) {
-		//NSLog(@"system entity: %@", entityName);
+		//NSLog(@"system entity: %@", IFA_entityName);
 		return [self findAllForSystemEntity:entityName];
 	}else {
-		//NSLog(@"ANY entity: %@", entityName);
+		//NSLog(@"ANY entity: %@", IFA_entityName);
 		return [self findAllForNonSystemEntity:entityName includePendingChanges:a_includePendingChanges includeSubentities:a_includeSubentities];
 	}
 
@@ -701,7 +701,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 
 - (void) deleteAllForEntityAndSave:(NSString *)entityName{
     for (NSManagedObject *l_managedObject in [self findAllForEntity:entityName]) {
-        [l_managedObject m_delete];
+        [l_managedObject IFA_delete];
     }
     [self save];
 }
@@ -959,7 +959,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
             NSString *keyPath = [sortItem objectForKey:@"name"];
 //            NSLog(@"keyPath: %@", keyPath);
             BOOL ascending = [[sortItem objectForKey:@"ascending"] boolValue];
-            Class l_propertyClass = [IAUtils m_classForPropertyNamed:keyPath inClassNamed:anEntityName];
+            Class l_propertyClass = [IAUtils classForPropertyNamed:keyPath inClassNamed:anEntityName];
 //            NSLog(@"l_propertyClass: %@", [l_propertyClass description]);
 			if ([l_propertyClass isSubclassOfClass:[NSString class]]) {
 				sortDescriptor = [[NSSortDescriptor alloc] initWithKey:keyPath ascending:ascending selector:NSSelectorFromString(@"localizedCaseInsensitiveCompare:")];
@@ -1092,7 +1092,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
                             NSLog(@"    Entity instance will be updated");
                         }else{
                             NSLog(@"    Entity instance will be deleted");
-                            [l_systemEntity m_delete];
+                            [l_systemEntity IFA_delete];
                         }
                     }else{
                         NSLog(@"  Entity instance does NOT exist");
@@ -1143,7 +1143,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 	// Core data model validation
 	if (coreDataValidationOk) {
 		// Custom managed object validation
-		if ([aManagedObject m_validateForSave:&error]) {
+		if ([aManagedObject IFA_validateForSave:&error]) {
 			// Custom unique key checks
 			if([self validateUniqueKeysForManagedObject:aManagedObject error:&error]){
 				return YES;

@@ -312,8 +312,8 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
     for (NSString *l_keyValuePairString in l_keyValuePairStrings) {
         NSArray *l_keyAndValue = [l_keyValuePairString componentsSeparatedByString:k_styleAttributeKeyValueSeparator];
         if (l_keyAndValue.count==2) {
-            NSString *l_key = [l_keyAndValue[0] m_stringByTrimming];
-            NSString *l_value = [l_keyAndValue[1] m_stringByTrimming];
+            NSString *l_key = [l_keyAndValue[0] IFA_stringByTrimming];
+            NSString *l_value = [l_keyAndValue[1] IFA_stringByTrimming];
             l_attributes[l_key] = l_value;
         }
     }

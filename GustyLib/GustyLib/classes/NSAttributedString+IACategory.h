@@ -18,6 +18,6 @@
 #import <Foundation/Foundation.h>
 
 @interface NSAttributedString (IACategory)
-+ (NSAttributedString *)m_attributedStringWithText:(NSString *)a_text font:(UIFont *)a_font colour:(UIColor *)a_colour
-                                        lineheight:(CGFloat)a_lineHeight;
++ (NSAttributedString *)IFA_attributedStringWithText:(NSString *)a_text font:(UIFont *)a_font colour:(UIColor *)a_colour
+                                          lineheight:(CGFloat)a_lineHeight;
 @end

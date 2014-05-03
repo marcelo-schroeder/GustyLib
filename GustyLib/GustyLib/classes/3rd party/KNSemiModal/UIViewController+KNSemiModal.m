@@ -115,7 +115,7 @@ static char c_presentedAsSemiModalKey;
         
         // Add semi overlay
         UIView * overlay = [[UIView alloc] initWithFrame:target.bounds];
-        overlay.autoresizingMask = [IAUIUtils m_fullAutoresizingMask];
+        overlay.autoresizingMask = [IAUIUtils fullAutoresizingMask];
         overlay.backgroundColor = [UIColor blackColor];
         overlay.alpha = 0;
         
@@ -125,7 +125,7 @@ static char c_presentedAsSemiModalKey;
 //        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
 //        UIGraphicsEndImageContext();
 //        UIImageView * ss = [[UIImageView alloc] initWithImage:image];
-//        ss.autoresizingMask = [IAUIUtils m_fullAutoresizingMask];
+//        ss.autoresizingMask = [IAUIUtils fullAutoresizingMask];
 //        [overlay addSubview:ss];
         [target addSubview:overlay];
         [IAUIApplicationDelegate sharedInstance].p_semiModalInterfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
@@ -137,7 +137,7 @@ static char c_presentedAsSemiModalKey;
             [dismissButton addTarget:self action:@selector(dismissSemiModalView) forControlEvents:UIControlEventTouchUpInside];
             dismissButton.backgroundColor = [UIColor clearColor];
             dismissButton.frame = vf;
-            dismissButton.autoresizingMask = [IAUIUtils m_fullAutoresizingMask];
+            dismissButton.autoresizingMask = [IAUIUtils fullAutoresizingMask];
             [overlay addSubview:dismissButton];
         }
         
@@ -194,7 +194,7 @@ static char c_presentedAsSemiModalKey;
         [IAUIApplicationDelegate sharedInstance].p_semiModalViewController.p_presentedAsSemiModal = NO;
         [IAUIApplicationDelegate sharedInstance].p_semiModalViewController = nil;
         [UIViewController attemptRotationToDeviceOrientation];  // We may have missed an interface orientation change when the semi modal view was being displayed, so this is the opportunity to catch up
-        [self m_didDismissViewController:l_dismissedChildViewController changesMade:a_changesMade data:a_data];
+        [self didDismissViewController:l_dismissedChildViewController changesMade:a_changesMade data:a_data];
     }];
     
     // Begin overlay animation
