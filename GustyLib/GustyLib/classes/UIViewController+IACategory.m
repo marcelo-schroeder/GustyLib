@@ -63,7 +63,8 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 #pragma mark - Private
 
--(void)m_presentModalSelectionViewController:(UIViewController*)a_viewController fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem fromRect:(CGRect)a_fromRect inView:(UIView *)a_view{
+-(void)ifa_presentModalSelectionViewController:(UIViewController *)a_viewController
+                             fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem fromRect:(CGRect)a_fromRect inView:(UIView *)a_view{
 
 //    NSLog(@"m_presentModalSelectionViewController: %@", [a_viewController description]);
 
@@ -142,7 +143,8 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     objc_setAssociatedObject(self, &c_activePopoverControllerBarButtonItemKey, a_activePopoverControllerBarButtonItem, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(void)m_setActivePopoverController:(UIPopoverController*)a_popoverController presenter:(UIViewController*)a_presenter barButtonItem:(UIBarButtonItem*)a_barButtonItem{
+-(void)ifa_setActivePopoverController:(UIPopoverController *)a_popoverController
+                            presenter:(UIViewController *)a_presenter barButtonItem:(UIBarButtonItem*)a_barButtonItem{
 //    NSLog(@"a_popoverController.popoverContentSize: %@", NSStringFromCGSize(a_popoverController.popoverContentSize));
 //    NSLog(@"a_popoverController.contentViewController.view.frame.size: %@", NSStringFromCGSize(a_popoverController.contentViewController.view.frame.size));
     self.p_activePopoverController = a_popoverController;
@@ -150,7 +152,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     self.p_activePopoverControllerBarButtonItem = a_barButtonItem;
 }
 
--(void)m_resizePopoverContent{
+-(void)ifa_resizePopoverContent {
     UIPopoverController *l_popoverController = self.p_activePopoverController;
     UIViewController *l_contentViewController = l_popoverController.contentViewController;
     BOOL l_hasFixedSize =  [l_contentViewController isKindOfClass:[UINavigationController class]] ? [((UINavigationController *) l_contentViewController).topViewController IFA_hasFixedSize] : [l_contentViewController IFA_hasFixedSize];
@@ -161,22 +163,22 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     }
 }
 
--(void)m_onMenuBarButtonItemInvalidated:(NSNotification*)a_notification{
+-(void)ifa_onMenuBarButtonItemInvalidated:(NSNotification*)a_notification{
 //    NSLog(@"menu button invalidated - removing it...");
     [self IFA_removeLeftBarButtonItem:a_notification.object];
 }
 
--(void)m_onSlidingMenuButtonAction:(UIBarButtonItem*)a_button{
+-(void)ifa_onSlidingMenuButtonAction:(UIBarButtonItem*)a_button{
     [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
--(void)m_releaseViewForController:(UIViewController*)a_viewController{
-//    NSLog(@"m_releaseViewForController: %@", [a_viewController description]);
+-(void)ifa_releaseViewForController:(UIViewController*)a_viewController{
+//    NSLog(@"ifa_releaseViewForController: %@", [a_viewController description]);
     a_viewController.view = nil;
     a_viewController.p_previousVisibleViewController = nil;
     for (UIViewController *l_childViewController in a_viewController.childViewControllers) {
 //        NSLog(@"   going to release view for child view controller: %@", [l_childViewController description]);
-        [self m_releaseViewForController:l_childViewController];
+        [self ifa_releaseViewForController:l_childViewController];
     }
 }
 
@@ -190,11 +192,11 @@ static char c_shouldUseKeyboardPassthroughViewKey;
         l_height = [IAUIUtils isDeviceInLandscapeOrientation] ? k_iPhoneLandscapeAdHeight : kGADAdSizeBanner.size.height;
     }
     CGSize l_size = CGSizeMake(l_width, l_height);
-//    NSLog(@"m_gadAdSize: %@", NSStringFromCGSize(l_size));
+//    NSLog(@"ifa_gadAdSize: %@", NSStringFromCGSize(l_size));
     return l_size;
 }
 
--(GADAdSize)m_gadAdSize {
+-(GADAdSize)ifa_gadAdSize {
     return GADAdSizeFromCGSize([self IFA_gadAdFrameSize]);
 }
 
@@ -202,11 +204,11 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     return [[IAUIApplicationDelegate sharedInstance] gadBannerView];
 }
 
--(void)m_popViewController{
+-(void)ifa_popViewController {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)m_spaceBarButtonItems:(NSMutableArray*)a_items firstItemSpacingType:(IAUISpacingBarButtonItemType)a_firstItemSpacingType{
+-(void)ifa_spaceBarButtonItems:(NSMutableArray *)a_items firstItemSpacingType:(IAUISpacingBarButtonItemType)a_firstItemSpacingType{
     
     if (![[self IFA_appearanceTheme] shouldAutomateBarButtonItemSpacingForViewController:self]) {
         return;
@@ -231,7 +233,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     
 }
 
--(void)m_removeAutomatedSpacingFromBarButtonItemArray:(NSMutableArray*)a_items{
+-(void)ifa_removeAutomatedSpacingFromBarButtonItemArray:(NSMutableArray*)a_items{
     
     if (![[self IFA_appearanceTheme] shouldAutomateBarButtonItemSpacingForViewController:self]) {
         return;
@@ -247,7 +249,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     
 }
 
-- (void)m_showLeftSlidingPaneButtonIfRequired {
+- (void)ifa_showLeftSlidingPaneButtonIfRequired {
     if ([self IFA_shouldShowLeftSlidingPaneButton]) {
         if (self.slidingViewController) {
             self.navigationController.view.layer.shadowOpacity = 0.75f;
@@ -260,7 +262,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
                 if (!self.p_slidingMenuBarButtonItem) {
                     self.p_slidingMenuBarButtonItem = [[self IFA_appearanceTheme] slidingMenuBarButtonItemForViewController:self];
                     self.p_slidingMenuBarButtonItem.target = self;
-                    self.p_slidingMenuBarButtonItem.action = @selector(m_onSlidingMenuButtonAction:);
+                    self.p_slidingMenuBarButtonItem.action = @selector(ifa_onSlidingMenuButtonAction:);
                     self.p_slidingMenuBarButtonItem.tag = IA_UIBAR_ITEM_TAG_LEFT_SLIDING_PANE_BUTTON;
                 }
                 [self IFA_addToNavigationBarForSlidingMenuBarButtonItem:self.p_slidingMenuBarButtonItem];
@@ -271,7 +273,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     }
 }
 
-- (void)m_updateAdContainerViewFrameWithAdBannerViewHeight:(CGFloat)a_adBannerViewHeight {
+- (void)ifa_updateAdContainerViewFrameWithAdBannerViewHeight:(CGFloat)a_adBannerViewHeight {
     UIView *l_adContainerView = self.p_adContainerView;
     CGRect l_newAdContainerViewFrame = l_adContainerView.frame;
     l_newAdContainerViewFrame.origin.y = self.view.frame.size.height - a_adBannerViewHeight;
@@ -280,15 +282,15 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 //    NSLog(@"adContainerView.frame 2: %@", NSStringFromCGRect(l_adContainerView.frame));
 }
 
-- (void)m_updateAdBannerSize {
-//    NSLog(@"m_updateAdBannerSize");
+- (void)ifa_updateAdBannerSize {
+//    NSLog(@"ifa_updateAdBannerSize");
     GADBannerView *l_bannerView = [self IFA_gadBannerView];
     CGRect l_newAdBannerViewFrame = CGRectZero;
     l_newAdBannerViewFrame.size = [self IFA_gadAdFrameSize];
     l_bannerView.frame = l_newAdBannerViewFrame;
 //    NSLog(@"          l_bannerView.frame: %@", NSStringFromCGRect(l_bannerView.frame));
 //    NSLog(@"self.p_adContainerView.frame: %@", NSStringFromCGRect(self.p_adContainerView.frame));
-    l_bannerView.adSize = [self m_gadAdSize];
+    l_bannerView.adSize = [self ifa_gadAdSize];
 //    NSLog(@"    l_bannerView.adSize.size: %@", NSStringFromCGSize(l_bannerView.adSize.size));
 //    NSLog(@"   l_bannerView.adSize.flags: %u", l_bannerView.adSize.flags);
 }
@@ -299,7 +301,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 //  If the device is rotated to landscape, the master view controller presented as a popover will be dismissed and so will
 //      the presented view controller. In those case, it is better to present the view controller from the detail
 //      view controller in the split view controller (which does not get dismissed if the device is rotated)
--(UIViewController*)m_appropriatePresentingViewController{
+-(UIViewController*)ifa_appropriatePresentingViewController {
     BOOL l_shouldPresentingViewControllerBeSplitViewControllerDetail = NO;
     if (self.splitViewController) {
         UIViewController *l_masterViewController = self.splitViewController.viewControllers[0];
@@ -315,7 +317,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     return l_shouldPresentingViewControllerBeSplitViewControllerDetail ? self.splitViewController.viewControllers[1] : self;
 }
 
-- (void)m_removeKeyboardPassthroughView {
+- (void)ifa_removeKeyboardPassthroughView {
     [self.p_keyboardPassthroughView removeFromSuperview];
 }
 
@@ -481,7 +483,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     if (![l_navigationItem.leftBarButtonItems containsObject:a_barButtonItem] || l_fixedPositionItem) {
         
         if (l_leftBarButtonItems) {
-            [self m_removeAutomatedSpacingFromBarButtonItemArray:l_leftBarButtonItems];
+            [self ifa_removeAutomatedSpacingFromBarButtonItemArray:l_leftBarButtonItems];
         }else{
             l_leftBarButtonItems = [NSMutableArray new];
         }
@@ -524,7 +526,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
         }
 
         // Bar button item spacing automation
-        [self m_spaceBarButtonItems:l_leftBarButtonItems firstItemSpacingType:IAUISpacingBarButtonItemTypeLeft];
+        [self ifa_spaceBarButtonItems:l_leftBarButtonItems firstItemSpacingType:IAUISpacingBarButtonItemTypeLeft];
 
         [l_navigationItem setLeftBarButtonItems:l_leftBarButtonItems animated:NO];
 //        NSLog(@"m_insertLeftBarButtonItem - button inserted for %@, tag: %u, navigationItem.title: %@: %@", [self description], a_barButtonItem.tag, l_navigationItem.title, [l_navigationItem.leftBarButtonItems description]);
@@ -542,9 +544,9 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     UINavigationItem *l_navigationItem = [self IFA_navigationItem];
     NSMutableArray *l_leftBarButtonItems = [l_navigationItem.leftBarButtonItems mutableCopy];
     if (l_leftBarButtonItems) {
-        [self m_removeAutomatedSpacingFromBarButtonItemArray:l_leftBarButtonItems];
+        [self ifa_removeAutomatedSpacingFromBarButtonItemArray:l_leftBarButtonItems];
         [l_leftBarButtonItems removeObject:a_barButtonItem];
-        [self m_spaceBarButtonItems:l_leftBarButtonItems firstItemSpacingType:IAUISpacingBarButtonItemTypeLeft];
+        [self ifa_spaceBarButtonItems:l_leftBarButtonItems firstItemSpacingType:IAUISpacingBarButtonItemTypeLeft];
         [l_navigationItem setLeftBarButtonItems:l_leftBarButtonItems animated:NO];
 //        NSLog(@"m_removeLeftBarButtonItem - button removed for %@: %@", l_navigationItem.title, [l_navigationItem.leftBarButtonItems description]);
     }
@@ -566,7 +568,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     if (![l_navigationItem.rightBarButtonItems containsObject:a_barButtonItem]) {
 
         if (l_rightBarButtonItems) {
-            [self m_removeAutomatedSpacingFromBarButtonItemArray:l_rightBarButtonItems];
+            [self ifa_removeAutomatedSpacingFromBarButtonItemArray:l_rightBarButtonItems];
         }else{
             l_rightBarButtonItems = [NSMutableArray new];
         }
@@ -586,7 +588,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
         }
         
         // Bar button item spacing automation
-        [self m_spaceBarButtonItems:l_rightBarButtonItems firstItemSpacingType:IAUISpacingBarButtonItemTypeRight];
+        [self ifa_spaceBarButtonItems:l_rightBarButtonItems firstItemSpacingType:IAUISpacingBarButtonItemTypeRight];
 
         [l_navigationItem setRightBarButtonItems:l_rightBarButtonItems animated:NO];
         //        NSLog(@"m_insertRightBarButtonItem - button inserted for %@, navigationItem.title: %@: %@", [self description], l_navigationItem.title, [l_navigationItem.rightBarButtonItems description]);
@@ -604,9 +606,9 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     UINavigationItem *l_navigationItem = [self IFA_navigationItem];
     NSMutableArray *l_rightBarButtonItems = [l_navigationItem.rightBarButtonItems mutableCopy];
     if (l_rightBarButtonItems) {
-        [self m_removeAutomatedSpacingFromBarButtonItemArray:l_rightBarButtonItems];
+        [self ifa_removeAutomatedSpacingFromBarButtonItemArray:l_rightBarButtonItems];
         [l_rightBarButtonItems removeObject:a_barButtonItem];
-        [self m_spaceBarButtonItems:l_rightBarButtonItems firstItemSpacingType:IAUISpacingBarButtonItemTypeRight];
+        [self ifa_spaceBarButtonItems:l_rightBarButtonItems firstItemSpacingType:IAUISpacingBarButtonItemTypeRight];
         [l_navigationItem setRightBarButtonItems:l_rightBarButtonItems animated:NO];
         //        NSLog(@"m_removeRightBarButtonItem - button removed for %@: %@", l_navigationItem.title, [l_navigationItem.rightBarButtonItems description]);
     }
@@ -661,8 +663,8 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 -(void)IFA_presentPopoverController:(UIPopoverController *)a_popoverController fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem{
-    [self m_setActivePopoverController:a_popoverController presenter:self barButtonItem:a_fromBarButtonItem];
-    [self m_resizePopoverContent];
+    [self ifa_setActivePopoverController:a_popoverController presenter:self barButtonItem:a_fromBarButtonItem];
+    [self ifa_resizePopoverContent];
     [a_popoverController presentPopoverFromBarButtonItem:a_fromBarButtonItem
                                 permittedArrowDirections:[self IFA_permittedPopoverArrowDirectionForViewController:nil ]
                                                 animated:k_animated];
@@ -673,8 +675,8 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 -(void)IFA_presentPopoverController:(UIPopoverController *)a_popoverController fromRect:(CGRect)a_fromRect inView:(UIView *)a_view{
-    [self m_setActivePopoverController:a_popoverController presenter:self barButtonItem:nil];
-    [self m_resizePopoverContent];
+    [self ifa_setActivePopoverController:a_popoverController presenter:self barButtonItem:nil];
+    [self ifa_resizePopoverContent];
     [a_popoverController presentPopoverFromRect:a_fromRect inView:a_view
                        permittedArrowDirections:[self IFA_permittedPopoverArrowDirectionForViewController:nil ] animated:k_animated];
     __weak UIViewController *l_weakSelf = self;
@@ -694,11 +696,13 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 -(void)IFA_presentModalSelectionViewController:(UIViewController *)a_viewController fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem{
-    [self m_presentModalSelectionViewController:a_viewController fromBarButtonItem:a_fromBarButtonItem fromRect:CGRectZero inView:nil];
+    [self ifa_presentModalSelectionViewController:a_viewController fromBarButtonItem:a_fromBarButtonItem
+                                         fromRect:CGRectZero inView:nil];
 }
 
 -(void)IFA_presentModalSelectionViewController:(UIViewController *)a_viewController fromRect:(CGRect)a_fromRect inView:(UIView *)a_view{
-    [self m_presentModalSelectionViewController:a_viewController fromBarButtonItem:nil fromRect:a_fromRect inView:a_view];
+    [self ifa_presentModalSelectionViewController:a_viewController fromBarButtonItem:nil fromRect:a_fromRect
+                                           inView:a_view];
 }
 
 -(void)IFA_presentModalViewController:(UIViewController *)a_viewController
@@ -723,7 +727,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
                        transitionStyle:(UIModalTransitionStyle)a_transitionStyle
                    shouldAddDoneButton:(BOOL)a_shouldAddDoneButton
                             customSize:(CGSize)a_customSize{
-    UIViewController *l_presentingViewController = [self m_appropriatePresentingViewController];
+    UIViewController *l_presentingViewController = [self ifa_appropriatePresentingViewController];
     if ([l_presentingViewController conformsToProtocol:@protocol(IAUIPresenter)]) {
         a_viewController.p_presenter = (id <IAUIPresenter>) l_presentingViewController;
         if (a_shouldAddDoneButton) {
@@ -790,7 +794,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 -(void)IFA_resetActivePopoverController {
-    [self m_setActivePopoverController:nil presenter:nil barButtonItem:nil];
+    [self ifa_setActivePopoverController:nil presenter:nil barButtonItem:nil];
 }
 
 -(void)IFA_prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -858,11 +862,11 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 - (void)IFA_onApplicationDidEnterBackgroundNotification:(NSNotification*)aNotification{
 }
 
-- (void)m_onAdsSuspendRequest:(NSNotification*)aNotification{
+- (void)ifa_onAdsSuspendRequest:(NSNotification*)aNotification{
     [self IFA_stopAdRequests];
 }
 
-- (void)m_onAdsResumeRequest:(NSNotification*)aNotification{
+- (void)ifa_onAdsResumeRequest:(NSNotification*)aNotification{
     if ([self IFA_shouldEnableAds]) {
         [self IFA_startAdRequests];
     }
@@ -889,7 +893,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     return NO;
 }
 
--(UIBarButtonItem*)m_editBarButtonItem{
+-(UIBarButtonItem*)ifa_editBarButtonItem {
     if ([self isKindOfClass:[IAUIDynamicPagingContainerViewController class]]) {
         IAUIDynamicPagingContainerViewController *l_containerViewController = (IAUIDynamicPagingContainerViewController*)self;
         return [l_containerViewController visibleChildViewController].editButtonItem;
@@ -899,7 +903,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 //-(void)m_updateEditButtonItemAccessibilityLabel{
-//    [self m_editBarButtonItem].accessibilityLabel = self.editing ? @"Done Button" : @"Edit Button";
+//    [self ifa_editBarButtonItem].accessibilityLabel = self.editing ? @"Done Button" : @"Edit Button";
 //}
 
 - (void)IFA_viewDidLoad {
@@ -916,7 +920,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
         l_navigationItem.hidesBackButton = YES;
         l_backBarButtonItem.tag = IA_UIBAR_ITEM_TAG_BACK_BUTTON;
         l_backBarButtonItem.target = self;
-        l_backBarButtonItem.action = @selector(m_popViewController);
+        l_backBarButtonItem.action = @selector(ifa_popViewController);
         [self IFA_addLeftBarButtonItem:l_backBarButtonItem];
     }
 
@@ -932,7 +936,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(m_onMenuBarButtonItemInvalidated:) 
+                                             selector:@selector(ifa_onMenuBarButtonItemInvalidated:)
                                                  name:IA_NOTIFICATION_MENU_BAR_BUTTON_ITEM_INVALIDATED 
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -996,11 +1000,11 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(m_onAdsSuspendRequest:)
+                                             selector:@selector(ifa_onAdsSuspendRequest:)
                                                  name:IA_NOTIFICATION_ADS_SUSPEND_REQUEST
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(m_onAdsResumeRequest:)
+                                             selector:@selector(ifa_onAdsResumeRequest:)
                                                  name:IA_NOTIFICATION_ADS_RESUME_REQUEST
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -1026,7 +1030,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     }
 
     // Manage left sliding menu button visibility
-    [self m_showLeftSlidingPaneButtonIfRequired];
+    [self ifa_showLeftSlidingPaneButtonIfRequired];
 
     // Set appearance
     [[[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnViewWillAppearForViewController:self];
@@ -1097,7 +1101,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
     // Remove keyboard passthrough view if required
     if (self.p_shouldUseKeyboardPassthroughView) {
-        [self m_removeKeyboardPassthroughView]; // Keyboard dismissal is doing this already - this is just a safety net in case of any unforeseen scenarios out there.
+        [self ifa_removeKeyboardPassthroughView]; // Keyboard dismissal is doing this already - this is just a safety net in case of any unforeseen scenarios out there.
     }
 
 //    [self m_simulateMemoryWarning];
@@ -1268,7 +1272,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 -(void)IFA_releaseView {
-    [self m_releaseViewForController:self];
+    [self ifa_releaseViewForController:self];
 }
 
 -(NSString*)IFA_accessibilityLabelForKeyPath:(NSString*)a_keyPath{
@@ -1323,7 +1327,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
         [self.view addSubview:l_adContainerView];
     }
 
-    [self m_updateAdBannerSize];
+    [self ifa_updateAdBannerSize];
 
     // Add the ad view to the container view
     [self.p_adContainerView addSubview:[self IFA_gadBannerView]];
@@ -1462,7 +1466,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
             [self.navigationController.view addSubview:self.p_keyboardPassthroughView];
             [self.p_keyboardPassthroughView IFA_addLayoutConstraintsToFillSuperview];
         } else if ([a_notification.name isEqualToString:UIKeyboardDidHideNotification]) {
-            [self m_removeKeyboardPassthroughView];
+            [self ifa_removeKeyboardPassthroughView];
         }
     }
 }
@@ -1541,8 +1545,8 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 //            NSLog(@" help button ignored");
             continue;
         }
-//        NSLog(@" m_editBarButtonItem: %@", [[self m_editBarButtonItem] description]);
-        if (l_barButtonItem==[self m_editBarButtonItem]) {
+//        NSLog(@" ifa_editBarButtonItem: %@", [[self m_editBarButtonItem] description]);
+        if (l_barButtonItem== [self ifa_editBarButtonItem]) {
             l_barButtonItem.p_helpTargetId = [self IFA_editBarButtonItemHelpTargetId];
         }
         [l_helpTargets addObject:l_barButtonItem];
@@ -1633,7 +1637,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
                     l_adContainerView.hidden = NO;
                     CGFloat l_bannerViewHeight = bannerView.frame.size.height;
                     [self IFA_updateNonAdContainerViewFrameWithAdBannerViewHeight:l_bannerViewHeight];
-                    [self m_updateAdContainerViewFrameWithAdBannerViewHeight:l_bannerViewHeight];
+                    [self ifa_updateAdContainerViewFrameWithAdBannerViewHeight:l_bannerViewHeight];
                 }];
             }
         }

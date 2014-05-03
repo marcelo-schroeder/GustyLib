@@ -28,22 +28,22 @@
 
 - (void)testStringFromAustralianPhoneNumber  {
 
-    assertThat([NSNumberFormatter m_stringFromAustralianPhoneNumber:@(92345678)], is(equalTo(@"9234 5678")));
-    assertThat([NSNumberFormatter m_stringFromAustralianPhoneNumber:@(292345678)], is(equalTo(@"02 9234 5678")));
-    assertThat([NSNumberFormatter m_stringFromAustralianPhoneNumber:@(412345678)], is(equalTo(@"0412 345 678")));
-    assertThat([NSNumberFormatter m_stringFromAustralianPhoneNumber:@(1300268926)], is(equalTo(@"1300 268 926")));
-    assertThat([NSNumberFormatter m_stringFromAustralianPhoneNumber:@(1800268926)], is(equalTo(@"1800 268 926")));
-    assertThat([NSNumberFormatter m_stringFromAustralianPhoneNumber:@(1234)], is(equalTo(@"1234")));    // does not fall in any of the usual ranges above
+    assertThat([NSNumberFormatter IFA_stringFromAustralianPhoneNumber:@(92345678)], is(equalTo(@"9234 5678")));
+    assertThat([NSNumberFormatter IFA_stringFromAustralianPhoneNumber:@(292345678)], is(equalTo(@"02 9234 5678")));
+    assertThat([NSNumberFormatter IFA_stringFromAustralianPhoneNumber:@(412345678)], is(equalTo(@"0412 345 678")));
+    assertThat([NSNumberFormatter IFA_stringFromAustralianPhoneNumber:@(1300268926)], is(equalTo(@"1300 268 926")));
+    assertThat([NSNumberFormatter IFA_stringFromAustralianPhoneNumber:@(1800268926)], is(equalTo(@"1800 268 926")));
+    assertThat([NSNumberFormatter IFA_stringFromAustralianPhoneNumber:@(1234)], is(equalTo(@"1234")));    // does not fall in any of the usual ranges above
 
 }
 
 - (void)testStringFromAustralianPhoneNumberString{
-    assertThat([NSNumberFormatter m_stringFromAustralianPhoneNumberString:@"(02) 9234-5678"], is(equalTo(@"02 9234 5678")));
-    assertThat([NSNumberFormatter m_stringFromAustralianPhoneNumberString:@"0292345678"], is(equalTo(@"02 9234 5678")));
-    assertThat([NSNumberFormatter m_stringFromAustralianPhoneNumberString:@"Phone: 02 92345678"], is(equalTo(@"02 9234 5678")));
-    assertThat([NSNumberFormatter m_stringFromAustralianPhoneNumberString:@"abcd"], is(equalTo(@"abcd")));
-    assertThat([NSNumberFormatter m_stringFromAustralianPhoneNumberString:@""], is(equalTo(@"")));
-    assertThat([NSNumberFormatter m_stringFromAustralianPhoneNumberString:nil], is(equalTo(nil)));
+    assertThat([NSNumberFormatter IFA_stringFromAustralianPhoneNumberString:@"(02) 9234-5678"], is(equalTo(@"02 9234 5678")));
+    assertThat([NSNumberFormatter IFA_stringFromAustralianPhoneNumberString:@"0292345678"], is(equalTo(@"02 9234 5678")));
+    assertThat([NSNumberFormatter IFA_stringFromAustralianPhoneNumberString:@"Phone: 02 92345678"], is(equalTo(@"02 9234 5678")));
+    assertThat([NSNumberFormatter IFA_stringFromAustralianPhoneNumberString:@"abcd"], is(equalTo(@"abcd")));
+    assertThat([NSNumberFormatter IFA_stringFromAustralianPhoneNumberString:@""], is(equalTo(@"")));
+    assertThat([NSNumberFormatter IFA_stringFromAustralianPhoneNumberString:nil], is(equalTo(nil)));
 }
 
 @end

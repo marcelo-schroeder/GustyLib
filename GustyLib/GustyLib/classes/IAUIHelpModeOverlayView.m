@@ -42,7 +42,7 @@
 
 #pragma mark - Private
 
-+(UIColor*)m_backgroundColour{
++(UIColor*)ifa_backgroundColour {
     return [UIColor colorWithRed:0 green:0 blue:0 alpha:0.70];
 }
 
@@ -72,7 +72,7 @@
     CGContextRef l_context = UIGraphicsGetCurrentContext();
     
     // Fill the rect with the background colour
-    CGContextSetFillColorWithColor(l_context, [IAUIHelpModeOverlayView m_backgroundColour].CGColor);
+    CGContextSetFillColorWithColor(l_context, [IAUIHelpModeOverlayView ifa_backgroundColour].CGColor);
     CGContextFillRect(l_context, rect);
     
     IAUIHelpModeOverlaySpotlightMaskView *l_previousSpotlightMask = nil;
@@ -208,7 +208,7 @@
     CGContextFillRect(l_context, rect);
     
     // Draw spotlight mask
-    CGContextSetFillColorWithColor(l_context, [IAUIHelpModeOverlayView m_backgroundColour].CGColor);
+    CGContextSetFillColorWithColor(l_context, [IAUIHelpModeOverlayView ifa_backgroundColour].CGColor);
     CGContextFillEllipseInRect(l_context, rect);
     
 }

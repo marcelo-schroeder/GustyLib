@@ -45,15 +45,15 @@
     return _p_activityIndicatorView;
 }
 
--(void)m_onActionBarButtonTap:(UIBarButtonItem*)a_button{
+-(void)ifa_onActionBarButtonTap:(UIBarButtonItem*)a_button{
     [self IFA_presentActivityViewControllerFromBarButtonItem:a_button webView:self.mainWebView];
 }
 
-- (void)m_configureBrowserButtons {
+- (void)ifa_configureBrowserButtons {
 
     self.p_actionBarButtonItem = [self.p_delegate newActionBarButtonItem];
     self.p_actionBarButtonItem.target = self;
-    self.p_actionBarButtonItem.action = @selector(m_onActionBarButtonTap:);
+    self.p_actionBarButtonItem.action = @selector(ifa_onActionBarButtonTap:);
 
     self.p_previousBarButtonItem = [self.p_delegate newPreviousBarButtonItem];
     self.p_previousBarButtonItem.target = self;
@@ -88,7 +88,7 @@
 
 - (void)viewDidLoad {
     self.p_delegate = self;
-    [self m_configureBrowserButtons];
+    [self ifa_configureBrowserButtons];
     [super viewDidLoad];
     if (self.p_presentedAsModal) {
         self.navigationItem.leftBarButtonItems = nil;

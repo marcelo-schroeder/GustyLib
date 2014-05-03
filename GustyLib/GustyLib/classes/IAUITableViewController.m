@@ -36,7 +36,7 @@
 
 #pragma mark - Private
 
--(void)m_onTableViewCellAccessoryButtonTap:(UIButton*)l_button withEvent:(UIEvent*)l_event{
+-(void)ifa_onTableViewCellAccessoryButtonTap:(UIButton *)l_button withEvent:(UIEvent*)l_event{
     NSIndexPath *l_indexPath = [self.tableView indexPathForRowAtPoint:[[[l_event touchesForView:l_button] anyObject] locationInView:self.tableView]];
     if (l_indexPath){
         [self.tableView.delegate tableView: self.tableView accessoryButtonTappedForRowWithIndexPath:l_indexPath];
@@ -48,7 +48,8 @@
 -(UIView*)newTableViewCellAccessoryView {
     UIButton *l_button = [[self IFA_appearanceTheme] newDetailDisclosureButton];
     l_button.frame = CGRectMake(l_button.frame.origin.x, l_button.frame.origin.y, IA_MINIMUM_TAP_AREA_DIMENSION, IA_MINIMUM_TAP_AREA_DIMENSION);
-    [l_button addTarget:self action:@selector(m_onTableViewCellAccessoryButtonTap:withEvent:) forControlEvents:UIControlEventTouchUpInside];
+    [l_button addTarget:self action:@selector(ifa_onTableViewCellAccessoryButtonTap:withEvent:)
+       forControlEvents:UIControlEventTouchUpInside];
     return l_button;
 }
 
@@ -204,7 +205,7 @@
 
 #pragma mark - Overrides
 
--(void)m_init{
+-(void)ifa_init {
     if ([self IFA_shouldEnableAds]) {
         self.p_shouldCreateContainerViewOnLoadView = YES;
     }
@@ -212,28 +213,28 @@
 
 -(id)init{
     if (self=[super init]) {
-        [self m_init];
+        [self ifa_init];
     }
     return self;
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder{
     if (self=[super initWithCoder:aDecoder]) {
-        [self m_init];
+        [self ifa_init];
     }
     return self;
 }
 
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     if (self=[super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        [self m_init];
+        [self ifa_init];
     }
     return self;
 }
 
 -(id)initWithStyle:(UITableViewStyle)style{
     if (self=[super initWithStyle:style]) {
-        [self m_init];
+        [self ifa_init];
     }
     return self;
 }

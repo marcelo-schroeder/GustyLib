@@ -54,7 +54,7 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
     return l_hud;
 }
 
-+(void)m_traverseHierarchyForView:(UIView*)a_view withBlock:(void (^) (UIView*))a_block level:(NSUInteger)a_level{
++(void)ifa_traverseHierarchyForView:(UIView *)a_view withBlock:(void (^) (UIView *))a_block level:(NSUInteger)a_level{
 
 //    NSMutableString *l_indentation = [NSMutableString string];
 //    for (int i=0; i<a_level; i++) {
@@ -73,7 +73,7 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
         for (UITableViewCell *l_tableViewCell in l_tableView.visibleCells) {
             NSIndexPath *l_indexPath = [l_tableView indexPathForCell:l_tableViewCell];
 //            if ([l_tableView m_isCellFullyVisibleForRowAtIndexPath:l_indexPath]) {
-                [self m_traverseHierarchyForView:l_tableViewCell withBlock:a_block level:l_subviewLevel];
+            [self ifa_traverseHierarchyForView:l_tableViewCell withBlock:a_block level:l_subviewLevel];
                 [l_fullyVisibleIndexPaths addObject:l_indexPath];
 //            }
         }
@@ -89,17 +89,17 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
                 if ([l_tableView.delegate respondsToSelector:@selector(tableView:viewForHeaderInSection:)]) {
                     UIView *l_sectionHeaderView = [l_tableView.delegate tableView:l_tableView
                                                            viewForHeaderInSection:[l_section unsignedIntegerValue]];
-                    [self m_traverseHierarchyForView:l_sectionHeaderView withBlock:a_block level:l_subviewLevel];
+                    [self ifa_traverseHierarchyForView:l_sectionHeaderView withBlock:a_block level:l_subviewLevel];
                 }
                 if ([l_tableView.delegate respondsToSelector:@selector(tableView:viewForFooterInSection:)]) {
                     UIView *l_sectionFooterView = [l_tableView.delegate tableView:l_tableView
                                                            viewForFooterInSection:[l_section unsignedIntegerValue]];
-                    [self m_traverseHierarchyForView:l_sectionFooterView withBlock:a_block level:l_subviewLevel];
+                    [self ifa_traverseHierarchyForView:l_sectionFooterView withBlock:a_block level:l_subviewLevel];
                 }
             }
         }
-        [self m_traverseHierarchyForView:l_tableView.tableHeaderView withBlock:a_block level:l_subviewLevel];
-        [self m_traverseHierarchyForView:l_tableView.tableFooterView withBlock:a_block level:l_subviewLevel];
+        [self ifa_traverseHierarchyForView:l_tableView.tableHeaderView withBlock:a_block level:l_subviewLevel];
+        [self ifa_traverseHierarchyForView:l_tableView.tableFooterView withBlock:a_block level:l_subviewLevel];
 
     }else {
         
@@ -110,7 +110,7 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
         
         // Go deeper...
         for (UIView *l_subview in a_view.subviews) {
-            [self m_traverseHierarchyForView:l_subview withBlock:a_block level:l_subviewLevel];
+            [self ifa_traverseHierarchyForView:l_subview withBlock:a_block level:l_subviewLevel];
         }
 
     }
@@ -468,7 +468,7 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
 }
 
 +(void)traverseHierarchyForView:(UIView *)a_view withBlock:(void (^) (UIView*))a_block{
-    [self m_traverseHierarchyForView:a_view withBlock:a_block level:0];
+    [self ifa_traverseHierarchyForView:a_view withBlock:a_block level:0];
 }
 
 +(CGFloat)widthForPortraitNumerator:(float)a_portraitNumerator

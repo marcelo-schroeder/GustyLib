@@ -32,7 +32,7 @@
 
 #pragma mark - Private
 
--(void)m_updateBackingPreference{
+-(void)ifa_updateBackingPreference {
     IAPersistenceManager *l_pm = [IAPersistenceManager sharedInstance];
     NSString *l_backingPreferencesProperty = [l_pm.entityConfig backingPreferencesPropertyForEntity:self.IFA_entityName];
 //    NSLog(@"l_backingPreferencesProperty: %@", l_backingPreferencesProperty);
@@ -110,7 +110,7 @@
 	NSManagedObject *l_previousManagedObject = [self.p_managedObject valueForKey:self.p_propertyName];
 	BOOL l_valueChanged = [selectionManager selectedObject]!=l_previousManagedObject && ![[selectionManager selectedObject] isEqual:l_previousManagedObject];
     [self.p_managedObject IFA_setValue:[selectionManager selectedObject] forProperty:self.p_propertyName];
-    [self m_updateBackingPreference];
+    [self ifa_updateBackingPreference];
     if (l_valueChanged) {
         [[self p_presenter] changesMadeByViewController:self];
     }
@@ -160,7 +160,7 @@
 
 #pragma mark - IAUIPresenter protocol
 
-- (void)m_didDismissViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
+- (void)didDismissViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
                               data:(id)a_data {
     
     // Make a note of the edited managed object ID before it gets reset by the superclass

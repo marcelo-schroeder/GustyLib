@@ -41,11 +41,11 @@
 
 #pragma mark - Private
 
-- (void)m_onTapGestureRecognizerAction:(id)sender {
+- (void)ifa_onTapGestureRecognizerAction:(id)sender {
     [self onUserDismissal];
 }
 
--(CGFloat)m_calculateWidth{
+-(CGFloat)ifa_calculateWidth {
     CGFloat l_width = 0;
     if (self.p_maximised) {
         l_width = [IAUIUtils widthForPortraitNumerator:0.9 portraitDenominator:1 landscapeNumerator:0.9
@@ -63,7 +63,7 @@
     v_maximised = a_maximised;
     // Recalculate web view frame
     CGRect l_webViewFrame = self.p_webView.frame;
-    self.p_webView.frame = CGRectMake(l_webViewFrame.origin.x, l_webViewFrame.origin.y, [self m_calculateWidth], l_webViewFrame.size.height);
+    self.p_webView.frame = CGRectMake(l_webViewFrame.origin.x, l_webViewFrame.origin.y, [self ifa_calculateWidth], l_webViewFrame.size.height);
 }
 
 -(BOOL)p_maximised{
@@ -123,7 +123,7 @@
         }
 
         // Configure the webview
-        self.p_webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, [self m_calculateWidth], 1)];
+        self.p_webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, [self ifa_calculateWidth], 1)];
         self.p_webView.delegate = self;
         self.p_webView.opaque = NO;
         self.p_webView.backgroundColor = [IAUIUtils colorForInfoPlistKey:@"IAUIHelpPopTipContentBackgroundColour"];
@@ -145,7 +145,8 @@
         self.p_htmlDocument.p_htmlMetaString = @"";
         
         // Configure tap gesture recognizer
-        self.p_tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(m_onTapGestureRecognizerAction:)];
+        self.p_tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                              action:@selector(ifa_onTapGestureRecognizerAction:)];
         self.p_tapGestureRecognizer.delegate = self;
         [self addGestureRecognizer:self.p_tapGestureRecognizer];
 

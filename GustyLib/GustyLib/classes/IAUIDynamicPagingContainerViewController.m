@@ -39,13 +39,13 @@ static NSArray *c_pageDataLoadingOrder = nil;
 
 #pragma mark - Private
 
--(void)m_enableNavigationButtonsAction:(BOOL)a_enable{
-//    NSLog(@"m_enableNavigationButtonsAction: %u", a_enable);
-    v_previousViewBarButtonItem.action = a_enable ? @selector(m_onToolbarNavigationButtonAction:) : NULL;
-    v_nextViewBarButtonItem.action = a_enable ? @selector(m_onToolbarNavigationButtonAction:) : NULL;
+-(void)ifa_enableNavigationButtonsAction:(BOOL)a_enable{
+//    NSLog(@"ifa_enableNavigationButtonsAction: %u", a_enable);
+    v_previousViewBarButtonItem.action = a_enable ? @selector(ifa_onToolbarNavigationButtonAction:) : NULL;
+    v_nextViewBarButtonItem.action = a_enable ? @selector(ifa_onToolbarNavigationButtonAction:) : NULL;
 }
 
--(void)m_scrollToDynamicPage:(IAUIScrollPage)a_page animated:(BOOL)a_animated{
+-(void)ifa_scrollToDynamicPage:(IAUIScrollPage)a_page animated:(BOOL)a_animated{
 
     // Switch flag that indicates scrolling is being performed on
     v_performingScroll = YES;
@@ -54,23 +54,23 @@ static NSArray *c_pageDataLoadingOrder = nil;
 
 }
 
--(id)m_requestChildViewControllerFromDataSourceForPage:(IAUIScrollPage)a_page{
+-(id)ifa_requestChildViewControllerFromDataSourceForPage:(IAUIScrollPage)a_page{
     UITableViewController *l_viewController = [self.p_dataSource childViewControlerForPage:a_page];
     l_viewController.tableView.scrollsToTop = NO;
     return l_viewController ? l_viewController : [NSNull null];
 }
 
--(void)m_updateChildViewControllersForSelectedPageNumber:(NSNumber*)a_selectedPage{
+-(void)ifa_updateChildViewControllersForSelectedPageNumber:(NSNumber*)a_selectedPage{
     [self updateChildViewControllersForSelectedPage:[a_selectedPage unsignedIntegerValue]];
 }
 
-- (void)m_onToolbarNavigationButtonAction:(id)aSender{
+- (void)ifa_onToolbarNavigationButtonAction:(id)aSender{
     
     if (!v_performingScroll) {
 
         IAUIScrollPage l_selectedPage = v_selectedPage + (aSender==v_previousViewBarButtonItem ? (-1) : (+1));
         //    NSLog(@"m_onToolbarNavigationButtonAction - l_selectedPage: %u", l_selectedPage);
-        [self m_scrollToDynamicPage:l_selectedPage animated:YES];
+        [self ifa_scrollToDynamicPage:l_selectedPage animated:YES];
         //    NSLog(@"scroll ended!");
 
 //    }else{
@@ -102,7 +102,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
     v_nextViewBarButtonItem = [IAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_NEXT_PAGE target:self action:NULL];
     [IAUIUtils adjustImageInsetsForBarButtonItem:v_nextViewBarButtonItem insetValue:1];
     v_nextViewBarButtonItem.p_helpTargetId = [self IFA_helpTargetIdForName:@"nextPageButton"];
-    [self m_enableNavigationButtonsAction:YES];
+    [self ifa_enableNavigationButtonsAction:YES];
 
 }
 
@@ -233,7 +233,8 @@ static NSArray *c_pageDataLoadingOrder = nil;
     //    NSLog(@"   ***   scrollViewDidEndScrollingAnimation");
     
     // Update child view controllers after a navigation button has been tapped
-    [self performSelectorOnMainThread:@selector(m_updateChildViewControllersForSelectedPageNumber:) withObject:@(v_selectedPage) waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(ifa_updateChildViewControllersForSelectedPageNumber:)
+                           withObject:@(v_selectedPage) waitUntilDone:NO];
 
 }
 
@@ -272,7 +273,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
             v_childViewControllerRightNear = v_childViewControllerCentre;
             v_childViewControllerCentre = v_childViewControllerLeftNear;
             v_childViewControllerLeftNear = v_childViewControllerLeftFar;
-            v_childViewControllerLeftFar = [self m_requestChildViewControllerFromDataSourceForPage:IA_UISCROLL_PAGE_LEFT_FAR];
+            v_childViewControllerLeftFar = [self ifa_requestChildViewControllerFromDataSourceForPage:IA_UISCROLL_PAGE_LEFT_FAR];
             break;
             
         case IA_UISCROLL_PAGE_RIGHT_NEAR:
@@ -281,18 +282,18 @@ static NSArray *c_pageDataLoadingOrder = nil;
             v_childViewControllerLeftNear = v_childViewControllerCentre;
             v_childViewControllerCentre = v_childViewControllerRightNear;
             v_childViewControllerRightNear = v_childViewControllerRightFar;
-            v_childViewControllerRightFar = [self m_requestChildViewControllerFromDataSourceForPage:IA_UISCROLL_PAGE_RIGHT_FAR];
+            v_childViewControllerRightFar = [self ifa_requestChildViewControllerFromDataSourceForPage:IA_UISCROLL_PAGE_RIGHT_FAR];
             break;
             
         case IA_UISCROLL_PAGE_INIT:
             self.p_lastFullChildViewControllerUpdate = [NSDate date];
             self.p_childViewControllers = [NSMutableArray new];
             v_childViewControllerCentre = nil;
-            v_childViewControllerCentre = [self m_requestChildViewControllerFromDataSourceForPage:IA_UISCROLL_PAGE_CENTRE];
-            v_childViewControllerLeftNear = [self m_requestChildViewControllerFromDataSourceForPage:IA_UISCROLL_PAGE_LEFT_NEAR];
-            v_childViewControllerLeftFar = [self m_requestChildViewControllerFromDataSourceForPage:IA_UISCROLL_PAGE_LEFT_FAR];
-            v_childViewControllerRightNear = [self m_requestChildViewControllerFromDataSourceForPage:IA_UISCROLL_PAGE_RIGHT_NEAR];
-            v_childViewControllerRightFar = [self m_requestChildViewControllerFromDataSourceForPage:IA_UISCROLL_PAGE_RIGHT_FAR];
+            v_childViewControllerCentre = [self ifa_requestChildViewControllerFromDataSourceForPage:IA_UISCROLL_PAGE_CENTRE];
+            v_childViewControllerLeftNear = [self ifa_requestChildViewControllerFromDataSourceForPage:IA_UISCROLL_PAGE_LEFT_NEAR];
+            v_childViewControllerLeftFar = [self ifa_requestChildViewControllerFromDataSourceForPage:IA_UISCROLL_PAGE_LEFT_FAR];
+            v_childViewControllerRightNear = [self ifa_requestChildViewControllerFromDataSourceForPage:IA_UISCROLL_PAGE_RIGHT_NEAR];
+            v_childViewControllerRightFar = [self ifa_requestChildViewControllerFromDataSourceForPage:IA_UISCROLL_PAGE_RIGHT_FAR];
             break;
             
         case IA_UISCROLL_PAGE_CENTRE:
@@ -343,8 +344,8 @@ static NSArray *c_pageDataLoadingOrder = nil;
     }
 
     [self updateContentLayout];
-    
-    [self m_scrollToDynamicPage:v_selectedPage animated:NO];
+
+    [self ifa_scrollToDynamicPage:v_selectedPage animated:NO];
     
     // Centre child view controller the only one to respond to "scroll to top" taps on status bar
     v_childViewControllerCentre.tableView.scrollsToTop = YES;

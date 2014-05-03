@@ -44,12 +44,12 @@
     assertThatUnsignedInteger(l_pagingStateManager.p_resultsCountTotal, is(equalToUnsignedInteger(0)));
 
     // First page criteria
-    IAPagingCriteria *l_pagingCriteria = [l_pagingStateManager m_pagingCriteriaForEvent:IAPagingStateManagerEventShowFirstPage];
+    IAPagingCriteria *l_pagingCriteria = [l_pagingStateManager pagingCriteriaForEvent:IAPagingStateManagerEventShowFirstPage];
     assertThatUnsignedInteger(l_pagingCriteria.p_pageIndex, is(equalToUnsignedInteger(0)));
     assertThatUnsignedInteger(l_pagingCriteria.p_pageSize, is(equalToUnsignedInteger(10)));
 
     // First page results - full page
-    [l_pagingStateManager m_updatePagingStateWithResultsAtPageIndex:0
+    [l_pagingStateManager updatePagingStateWithResultsAtPageIndex:0
                                                    pageResultsCount:10
                                                   totalResultsCount:k_totalResultsCount];
     assertThatUnsignedInteger(l_pagingStateManager.p_pageSize, is(equalToUnsignedInteger(10)));
@@ -58,12 +58,12 @@
     assertThatUnsignedInteger(l_pagingStateManager.p_resultsCountTotal, is(equalToUnsignedInteger(25)));
 
     // Second page criteria
-    l_pagingCriteria = [l_pagingStateManager m_pagingCriteriaForEvent:IAPagingStateManagerEventShowNextPage];
+    l_pagingCriteria = [l_pagingStateManager pagingCriteriaForEvent:IAPagingStateManagerEventShowNextPage];
     assertThatUnsignedInteger(l_pagingCriteria.p_pageIndex, is(equalToUnsignedInteger(1)));
     assertThatUnsignedInteger(l_pagingCriteria.p_pageSize, is(equalToUnsignedInteger(10)));
 
     // Second page results - full page
-    [l_pagingStateManager m_updatePagingStateWithResultsAtPageIndex:1
+    [l_pagingStateManager updatePagingStateWithResultsAtPageIndex:1
                                                    pageResultsCount:10
                                                   totalResultsCount:k_totalResultsCount];
     assertThatUnsignedInteger(l_pagingStateManager.p_pageSize, is(equalToUnsignedInteger(10)));
@@ -72,12 +72,12 @@
     assertThatUnsignedInteger(l_pagingStateManager.p_resultsCountTotal, is(equalToUnsignedInteger(25)));
 
     // Third page criteria
-    l_pagingCriteria = [l_pagingStateManager m_pagingCriteriaForEvent:IAPagingStateManagerEventShowNextPage];
+    l_pagingCriteria = [l_pagingStateManager pagingCriteriaForEvent:IAPagingStateManagerEventShowNextPage];
     assertThatUnsignedInteger(l_pagingCriteria.p_pageIndex, is(equalToUnsignedInteger(2)));
     assertThatUnsignedInteger(l_pagingCriteria.p_pageSize, is(equalToUnsignedInteger(10)));
 
     // Third page results - partial page
-    [l_pagingStateManager m_updatePagingStateWithResultsAtPageIndex:2
+    [l_pagingStateManager updatePagingStateWithResultsAtPageIndex:2
                                                    pageResultsCount:5
                                                   totalResultsCount:k_totalResultsCount];
     assertThatUnsignedInteger(l_pagingStateManager.p_pageSize, is(equalToUnsignedInteger(10)));
@@ -86,12 +86,12 @@
     assertThatUnsignedInteger(l_pagingStateManager.p_resultsCountTotal, is(equalToUnsignedInteger(25)));
 
     // First page criteria - again
-    l_pagingCriteria = [l_pagingStateManager m_pagingCriteriaForEvent:IAPagingStateManagerEventShowFirstPage];
+    l_pagingCriteria = [l_pagingStateManager pagingCriteriaForEvent:IAPagingStateManagerEventShowFirstPage];
     assertThatUnsignedInteger(l_pagingCriteria.p_pageIndex, is(equalToUnsignedInteger(0)));
     assertThatUnsignedInteger(l_pagingCriteria.p_pageSize, is(equalToUnsignedInteger(10)));
 
     // First page results - again - full page
-    [l_pagingStateManager m_updatePagingStateWithResultsAtPageIndex:0
+    [l_pagingStateManager updatePagingStateWithResultsAtPageIndex:0
                                                    pageResultsCount:10
                                                   totalResultsCount:k_totalResultsCount];
     assertThatUnsignedInteger(l_pagingStateManager.p_pageSize, is(equalToUnsignedInteger(10)));
@@ -100,12 +100,12 @@
     assertThatUnsignedInteger(l_pagingStateManager.p_resultsCountTotal, is(equalToUnsignedInteger(25)));
 
     // Show all criteria
-    l_pagingCriteria = [l_pagingStateManager m_pagingCriteriaForEvent:IAPagingStateManagerEventShowAll];
+    l_pagingCriteria = [l_pagingStateManager pagingCriteriaForEvent:IAPagingStateManagerEventShowAll];
     assertThatUnsignedInteger(l_pagingCriteria.p_pageIndex, is(equalToUnsignedInteger(0)));
     assertThatUnsignedInteger(l_pagingCriteria.p_pageSize, is(equalToUnsignedInteger(0)));
 
     // First page results - again - full page
-    [l_pagingStateManager m_updatePagingStateWithResultsAtPageIndex:0
+    [l_pagingStateManager updatePagingStateWithResultsAtPageIndex:0
                                                    pageResultsCount:k_totalResultsCount
                                                   totalResultsCount:k_totalResultsCount];
     assertThatUnsignedInteger(l_pagingStateManager.p_pageSize, is(equalToUnsignedInteger(10)));

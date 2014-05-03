@@ -32,7 +32,7 @@
 
 #pragma mark - Private
 
-- (void)m_setThemeAppearanceIfRequired {
+- (void)ifa_setThemeAppearanceIfRequired {
     NSString *l_themeName = [self.p_loadedAppearanceTheme themeName];
     if (![self.p_alreadyLoadedThemeNames containsObject:l_themeName]) {
 //        NSLog(@"Setting appearance theme: %@", l_themeName);
@@ -41,11 +41,11 @@
     }
 }
 
-- (void)m_transitionViewsWithAnimationDuration:(NSTimeInterval)a_animationDuration
-                              animationOptions:(UIViewAnimationOptions)a_animationOptions
-                               completionBlock:(void (^)(BOOL finished))a_completionBlock {
+- (void)ifa_transitionViewsWithAnimationDuration:(NSTimeInterval)a_animationDuration
+                                animationOptions:(UIViewAnimationOptions)a_animationOptions
+                                 completionBlock:(void (^)(BOOL finished))a_completionBlock {
 
-    UIWindow *l_window = [self m_window];
+    UIWindow *l_window = [self ifa_window];
     [UIView
             transitionWithView:l_window
                       duration:a_animationDuration
@@ -64,7 +64,7 @@
 
 }
 
-- (UIWindow *)m_window {
+- (UIWindow *)ifa_window {
     return [UIApplication sharedApplication].delegate.window;
 }
 
@@ -82,7 +82,7 @@
 
 - (void)reloadUiWithNoTransitionAnimation {
     [self applyAppearanceTheme];
-    UIWindow *l_window = [self m_window];
+    UIWindow *l_window = [self ifa_window];
     UIViewController *l_newViewController = [[self.p_loadedAppearanceTheme storyboard] instantiateInitialViewController];
     l_window.rootViewController = l_newViewController;
 }
@@ -96,7 +96,8 @@
                      animationOptions:(UIViewAnimationOptions)a_animationOptions
                       completionBlock:(void (^)(BOOL finished))a_completionBlock {
     [self applyAppearanceTheme];
-    [self m_transitionViewsWithAnimationDuration:a_animationDuration animationOptions:a_animationOptions completionBlock:a_completionBlock];
+    [self ifa_transitionViewsWithAnimationDuration:a_animationDuration animationOptions:a_animationOptions
+                                   completionBlock:a_completionBlock];
 }
 
 /*
@@ -189,7 +190,7 @@
     // Dismiss popover menu if using the custom split view controller
     [IAUIUtils dismissSplitViewControllerPopover];
 
-    [self m_setThemeAppearanceIfRequired];
+    [self ifa_setThemeAppearanceIfRequired];
 
 }
 

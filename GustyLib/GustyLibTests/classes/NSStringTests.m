@@ -27,13 +27,13 @@
 }
 
 - (void)testCharacters {
-    assertThat([@"Test me!" m_characters], contains(@"T", @"e", @"s", @"t", @" ", @"m", @"e", @"!", nil));
+    assertThat([@"Test me!" IFA_characters], contains(@"T", @"e", @"s", @"t", @" ", @"m", @"e", @"!", nil));
 }
 
 - (void)testStringWithNumbersOnly{
-    assertThat([@"abcd" m_stringWithNumbersOnly], is(equalTo(@"")));
-    assertThat([@"1234" m_stringWithNumbersOnly], is(equalTo(@"1234")));
-    assertThat([@"1.4l5(0 12" m_stringWithNumbersOnly], is(equalTo(@"145012")));
+    assertThat([@"abcd" IFA_stringWithNumbersOnly], is(equalTo(@"")));
+    assertThat([@"1234" IFA_stringWithNumbersOnly], is(equalTo(@"1234")));
+    assertThat([@"1.4l5(0 12" IFA_stringWithNumbersOnly], is(equalTo(@"145012")));
 }
 
 @end

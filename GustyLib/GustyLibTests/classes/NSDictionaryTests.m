@@ -38,7 +38,7 @@
                                                             property2:@"3c"],
     ];
     // when
-    NSDictionary *l_groupedObjects = [NSDictionary m_dictionaryFromObjects:l_objects groupedByPath:@"p_property1"
+    NSDictionary *l_groupedObjects = [NSDictionary IFA_dictionaryFromObjects:l_objects groupedByPath:@"p_property1"
                                                             sortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"p_property2"
                                                                                                          ascending:NO]];
     // then

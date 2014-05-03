@@ -27,7 +27,7 @@
 
 #pragma mark - Private
 
-+(NSString*)m_pListPathForName:(NSString*)a_name bundle:(NSBundle*)a_bundle{
++(NSString*)ifa_pListPathForName:(NSString *)a_name bundle:(NSBundle*)a_bundle{
     NSBundle *l_bundle = a_bundle ? a_bundle : [NSBundle mainBundle];
     return [l_bundle pathForResource:a_name ofType:@"plist"];
 }
@@ -39,7 +39,7 @@
 }
 
 + (NSArray*) getPlistAsArray:(NSString *)pListName bundle:(NSBundle*)a_bundle{
-	NSString *plistPath = [self m_pListPathForName:pListName bundle:a_bundle];
+	NSString *plistPath = [self ifa_pListPathForName:pListName bundle:a_bundle];
 	return [[NSArray alloc] initWithContentsOfFile:plistPath];
 }
 
@@ -48,7 +48,7 @@
 }
 
 + (NSDictionary*) getPlistAsDictionary:(NSString *)pListName bundle:(NSBundle*)a_bundle{
-	NSString *plistPath = [self m_pListPathForName:pListName bundle:a_bundle];
+	NSString *plistPath = [self ifa_pListPathForName:pListName bundle:a_bundle];
 	return [[NSDictionary alloc] initWithContentsOfFile:plistPath];
 }
 

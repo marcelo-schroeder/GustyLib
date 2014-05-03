@@ -33,7 +33,7 @@
 
 #pragma mark - Private
 
--(void)m_onKeyboardNotification:(NSNotification*)a_notification{
+-(void)ifa_onKeyboardNotification:(NSNotification*)a_notification{
     
     //    NSLog(@"m_onKeyboardNotification");
     
@@ -58,11 +58,11 @@
     
 }
 
-- (void)m_onAdsSuspendRequest:(NSNotification*)aNotification{
+- (void)ifa_onAdsSuspendRequest:(NSNotification*)aNotification{
     self.p_adsSuspended = YES;
 }
 
-- (void)m_onAdsResumeRequest:(NSNotification*)aNotification{
+- (void)ifa_onAdsResumeRequest:(NSNotification*)aNotification{
     self.p_adsSuspended = NO;
 }
 
@@ -266,19 +266,19 @@
     
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(m_onKeyboardNotification:) 
+                                             selector:@selector(ifa_onKeyboardNotification:)
                                                  name:UIKeyboardDidShowNotification 
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(m_onKeyboardNotification:) 
+                                             selector:@selector(ifa_onKeyboardNotification:)
                                                  name:UIKeyboardDidHideNotification 
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(m_onAdsSuspendRequest:)
+                                             selector:@selector(ifa_onAdsSuspendRequest:)
                                                  name:IA_NOTIFICATION_ADS_SUSPEND_REQUEST
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(m_onAdsResumeRequest:)
+                                             selector:@selector(ifa_onAdsResumeRequest:)
                                                  name:IA_NOTIFICATION_ADS_RESUME_REQUEST
                                                object:nil];
 

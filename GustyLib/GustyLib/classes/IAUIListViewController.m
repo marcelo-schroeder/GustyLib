@@ -42,7 +42,7 @@
 
 #pragma mark - Private
 
-- (void)m_refreshAndReloadDataAsyncWithContainerCoordination:(BOOL)a_withContainerCoordination{
+- (void)ifa_refreshAndReloadDataAsyncWithContainerCoordination:(BOOL)a_withContainerCoordination{
 //    NSLog(@" ");
 //    NSLog(@"m_refreshAndReloadDataAsyncWithContainerCoordination for %@ - self.p_selectedViewControllerInPagingContainer: %u", [self description], self.p_selectedViewControllerInPagingContainer);
     
@@ -119,7 +119,7 @@
     
 }
 
--(void)m_onPersistenceChangeNotification:(NSNotification*)a_notification{
+-(void)ifa_onPersistenceChangeNotification:(NSNotification*)a_notification{
     
 //    NSLog(@"m_onPersistenceChangeNotification for %@ in %@", [a_notification.object description], [self description]);
 
@@ -151,7 +151,7 @@
 
 - (void)refreshAndReloadDataAsync {
     [self willRefreshAndReloadDataAsync];
-    [self m_refreshAndReloadDataAsyncWithContainerCoordination:NO];
+    [self ifa_refreshAndReloadDataAsyncWithContainerCoordination:NO];
 }
 
 - (UITableViewStyle)tableViewStyle {
@@ -361,7 +361,7 @@
     
     // Observe persistence notifications
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(m_onPersistenceChangeNotification:)
+                                             selector:@selector(ifa_onPersistenceChangeNotification:)
                                                  name:IA_NOTIFICATION_PERSISTENT_ENTITY_CHANGE 
                                                object:nil];
 //    NSLog(@"OBSERVER ADDED IN viewDidLoad for %@", [self description]);
@@ -384,7 +384,7 @@
     [super viewDidAppear:animated];
 
     if( !self.p_fetchedResultsController && self.p_staleData && ![self IFA_isReturningVisibleViewController] ){
-        [self m_refreshAndReloadDataAsyncWithContainerCoordination:YES];
+        [self ifa_refreshAndReloadDataAsyncWithContainerCoordination:YES];
         self.p_refreshAndReloadDataAsyncRequested = YES;
     }else{
         self.p_refreshAndReloadDataAsyncRequested = NO;
@@ -408,10 +408,10 @@
 
 #pragma mark - IAUIPresenter
 
-- (void)m_sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
+- (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
                                          data:(id)a_data {
 
-//    NSLog(@"m_sessionDidCompleteForViewController for %@", [self description]);
+//    NSLog(@"sessionDidCompleteForViewController for %@", [self description]);
 
     [super sessionDidCompleteForViewController:a_viewController changesMade:a_changesMade data:a_data];
     
@@ -443,7 +443,7 @@
 
 }
 
-- (void)m_didDismissViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
+- (void)didDismissViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
                               data:(id)a_data {
     [super didDismissViewController:a_viewController changesMade:a_changesMade data:a_data];
     if (!self.p_changesMadeByPresentedViewController) { // If changes have been made by the presented view controller, then showTipForEditing will be called somewhere else
@@ -523,11 +523,11 @@
 
 #pragma mark - IAHelpTargetContainer
 
--(void)m_willEnterHelpMode{
+-(void)willEnterHelpMode{
     [IAUIUtils hideHud:self.p_hud animated:NO];
 }
 
--(void)m_didExitHelpMode{
+-(void)didExitHelpMode{
     [self showTipForEditing:self.editing];
 }
 

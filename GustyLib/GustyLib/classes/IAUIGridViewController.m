@@ -29,27 +29,27 @@
 
 #pragma mark - Private
 
-- (void)m_updateGridLayoutInCaseDeviceOrientationChangedWhileViewWasNotVisible {
+- (void)ifa_updateGridLayoutInCaseDeviceOrientationChangedWhileViewWasNotVisible {
     [self.collectionView setNeedsLayout];
     [self.collectionView layoutIfNeeded];
     [self.collectionView reloadData];
 }
 
-- (void)m_doFirstLoadConfiguration {
+- (void)ifa_doFirstLoadConfiguration {
     if (!self.p_firstLoadDone) {
-        [self m_updateCollectionViewLayout];
+        [self ifa_updateCollectionViewLayout];
         self.p_firstLoadDone = YES;
     }
 }
 
-- (void)m_onApplicationWillChangeStatusBarFrameNotification:(NSNotification *)a_notification {
+- (void)ifa_onApplicationWillChangeStatusBarFrameNotification:(NSNotification *)a_notification {
     if (!self.p_interfaceIsRotating) {  // If interface is rotating then layout will be taken care of somewhere else
         // Force collection views re-layout
         [self.collectionView.collectionViewLayout invalidateLayout];
     }
 }
 
-- (CGFloat)m_calculateHorizontalSpaceAvailable {
+- (CGFloat)ifa_calculateHorizontalSpaceAvailable {
 
     UICollectionViewFlowLayout *l_layout = self.p_layout;
     CGFloat l_numberOfColumns = [self.p_gridViewDataSource numberOfColumns];
@@ -70,13 +70,13 @@
 
 }
 
-- (CGFloat)m_calculateCollectionItemWidthForIndexPath:(NSIndexPath *)a_indexPath{
+- (CGFloat)ifa_calculateCollectionItemWidthForIndexPath:(NSIndexPath *)a_indexPath{
 
     if ([self.p_gridViewDataSource respondsToSelector:@selector(itemHeightMultiplierForItemWidth)]) {
         CGFloat l_multiplier = [self.p_gridViewDataSource itemHeightMultiplierForItemWidth];
         if (l_multiplier) {
             // Item width is based on the item height
-            return [self m_calculateCollectionItemHeightForIndexPath:a_indexPath] * l_multiplier;
+            return [self ifa_calculateCollectionItemHeightForIndexPath:a_indexPath] * l_multiplier;
         }
     }
 
@@ -84,7 +84,7 @@
     CGFloat l_numberOfColumns = [self.p_gridViewDataSource numberOfColumns];
     CGFloat l_numberOfRows = [self.p_gridViewDataSource numberOfRows];
     CGFloat l_numberOfTiles = l_numberOfColumns * l_numberOfRows;
-    CGFloat l_horizontalSpaceAvailable = [self m_calculateHorizontalSpaceAvailable];
+    CGFloat l_horizontalSpaceAvailable = [self ifa_calculateHorizontalSpaceAvailable];
     CGFloat l_itemWidth = (CGFloat) floor(l_horizontalSpaceAvailable / l_numberOfColumns);
 
     if (a_indexPath) {
@@ -115,7 +115,7 @@
 
 }
 
-- (CGFloat)m_calculateVerticalSpaceAvailable {
+- (CGFloat)ifa_calculateVerticalSpaceAvailable {
 
     UICollectionViewFlowLayout *l_layout = self.p_layout;
     CGFloat l_numberOfRows = [self.p_gridViewDataSource numberOfRows];
@@ -136,13 +136,13 @@
     
 }
 
-- (CGFloat)m_calculateCollectionItemHeightForIndexPath:(NSIndexPath *)a_indexPath{
+- (CGFloat)ifa_calculateCollectionItemHeightForIndexPath:(NSIndexPath *)a_indexPath{
 
     if ([self.p_gridViewDataSource respondsToSelector:@selector(itemWidthMultiplierForItemHeight)]) {
         CGFloat l_multiplier = [self.p_gridViewDataSource itemWidthMultiplierForItemHeight];
         if (l_multiplier) {
             // Item height is based on the item width
-            return [self m_calculateCollectionItemWidthForIndexPath:a_indexPath] * l_multiplier;
+            return [self ifa_calculateCollectionItemWidthForIndexPath:a_indexPath] * l_multiplier;
         }
     }
 
@@ -150,7 +150,7 @@
     CGFloat l_numberOfColumns = [self.p_gridViewDataSource numberOfColumns];
     CGFloat l_numberOfRows = [self.p_gridViewDataSource numberOfRows];
     CGFloat l_numberOfTiles = l_numberOfColumns * l_numberOfRows;
-    CGFloat l_verticalSpaceAvailable = [self m_calculateVerticalSpaceAvailable];
+    CGFloat l_verticalSpaceAvailable = [self ifa_calculateVerticalSpaceAvailable];
     CGFloat l_itemHeight = (CGFloat) floor(l_verticalSpaceAvailable / l_numberOfRows);
 
     if (a_indexPath) {
@@ -181,16 +181,16 @@
     
 }
 
-- (CGSize)m_calculateCollectionItemSizeForIndexPath:(NSIndexPath *)a_indexPath{
-//    NSLog(@"m_calculateCollectionItemSizeForIndexPath: %@", [a_indexPath description]);
-    CGFloat l_itemWidth = [self m_calculateCollectionItemWidthForIndexPath:a_indexPath];
-    CGFloat l_itemHeight = [self m_calculateCollectionItemHeightForIndexPath:a_indexPath];
+- (CGSize)ifa_calculateCollectionItemSizeForIndexPath:(NSIndexPath *)a_indexPath{
+//    NSLog(@"ifa_calculateCollectionItemSizeForIndexPath: %@", [a_indexPath description]);
+    CGFloat l_itemWidth = [self ifa_calculateCollectionItemWidthForIndexPath:a_indexPath];
+    CGFloat l_itemHeight = [self ifa_calculateCollectionItemHeightForIndexPath:a_indexPath];
     CGSize l_collectionItemSize = CGSizeMake(l_itemWidth, l_itemHeight);
 //    NSLog(@"  l_collectionItemSize: %@", NSStringFromCGSize(l_collectionItemSize));
     return l_collectionItemSize;
 }
 
-- (void)m_updateCollectionViewLayout {
+- (void)ifa_updateCollectionViewLayout {
 
     CGFloat l_interTileSpace = [self.p_gridViewDataSource interTileSpace];
 
@@ -218,15 +218,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(m_onApplicationWillChangeStatusBarFrameNotification:)
+                                             selector:@selector(ifa_onApplicationWillChangeStatusBarFrameNotification:)
                                                  name:UIApplicationWillChangeStatusBarFrameNotification
                                                object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self m_doFirstLoadConfiguration];
-    [self m_updateGridLayoutInCaseDeviceOrientationChangedWhileViewWasNotVisible];
+    [self ifa_doFirstLoadConfiguration];
+    [self ifa_updateGridLayoutInCaseDeviceOrientationChangedWhileViewWasNotVisible];
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
@@ -239,7 +239,7 @@
                                          duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self.collectionView IFA_updateContentOffsetForPagination];
-    [self m_updateCollectionViewLayout];
+    [self ifa_updateCollectionViewLayout];
     // Need to reload data here because the item order might change if orientation changes
     [self.collectionView reloadData];
 }
@@ -264,7 +264,7 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return [self m_calculateCollectionItemSizeForIndexPath:indexPath];
+    return [self ifa_calculateCollectionItemSizeForIndexPath:indexPath];
 }
 
 @end

@@ -50,7 +50,7 @@
 
 #pragma mark - Private
 
--(void)m_setNavigationItemTitleViewForViewController:(UIViewController*)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation{
+-(void)ifa_setNavigationItemTitleViewForViewController:(UIViewController *)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation{
     
     if (a_viewController.p_titleViewDefault && a_viewController.p_titleViewLandscapePhone) {
         
@@ -80,7 +80,7 @@
     }
 }
 
--(UIColor*)m_colorForInfoPlistKey:(NSString*)a_infoPlistKey{
+-(UIColor*)ifa_colorForInfoPlistKey:(NSString*)a_infoPlistKey{
     return [IAUIUtils colorForInfoPlistKey:a_infoPlistKey];
 }
 
@@ -217,10 +217,10 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }
     
     // Switch
-    self.p_switchAppearance.onTintColor = [self m_colorForInfoPlistKey:@"IAUIThemeSwitchOnTintColor"];
+    self.p_switchAppearance.onTintColor = [self ifa_colorForInfoPlistKey:@"IAUIThemeSwitchOnTintColor"];
     
     // Slider
-    self.p_sliderAppearance.minimumTrackTintColor = [self m_colorForInfoPlistKey:@"IAUIThemeSliderMinimumTrackTintColor"];
+    self.p_sliderAppearance.minimumTrackTintColor = [self ifa_colorForInfoPlistKey:@"IAUIThemeSliderMinimumTrackTintColor"];
     
     
 
@@ -235,7 +235,7 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     if ([a_viewController isKindOfClass:[UITableViewController class]]) {
         UITableViewController *l_tableViewController = (UITableViewController*)a_viewController;
         if (l_tableViewController.tableView.style==UITableViewStyleGrouped) {
-            l_tableViewController.tableView.separatorColor = [self m_colorForInfoPlistKey:@"IAUIThemeGroupedTableSeparatorColor"];
+            l_tableViewController.tableView.separatorColor = [self ifa_colorForInfoPlistKey:@"IAUIThemeGroupedTableSeparatorColor"];
         }
     }else if([a_viewController isKindOfClass:[IAUIMasterDetailViewController class]]) {
 
@@ -253,7 +253,8 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     a_viewController.p_titleViewLandscapePhone.p_titleLabel.text = a_viewController.title;
     a_viewController.p_titleViewLandscapePhone.p_subTitleLabel.text = a_viewController.p_subTitle;
 
-    [self m_setNavigationItemTitleViewForViewController:a_viewController interfaceOrientation:[UIApplication sharedApplication].statusBarOrientation];
+    [self ifa_setNavigationItemTitleViewForViewController:a_viewController
+                                     interfaceOrientation:[UIApplication sharedApplication].statusBarOrientation];
     
     if ([a_viewController isKindOfClass:[IAUIAbstractFieldEditorViewController class]]) {
         NSString *l_imageName = [[IAUtils infoPList] objectForKey:@"IAUIThemeFieldEditorToolbarBackgroundImageName"];
@@ -265,7 +266,8 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 -(void)setAppearanceOnWillRotateForViewController:(UIViewController *)a_viewController toInterfaceOrientation:(UIInterfaceOrientation)a_toInterfaceOrientation{
-    [self m_setNavigationItemTitleViewForViewController:a_viewController interfaceOrientation:a_toInterfaceOrientation];
+    [self ifa_setNavigationItemTitleViewForViewController:a_viewController
+                                     interfaceOrientation:a_toInterfaceOrientation];
 }
 
 -(void)setAppearanceOnWillAnimateRotationForViewController:(UIViewController *)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_toInterfaceOrientation{
@@ -296,7 +298,7 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     
     // Cell background color
     if (![a_tableViewController isKindOfClass:[IAUIMenuViewController class]] && a_tableViewController.tableView.style==UITableViewStyleGrouped) {
-        a_cell.backgroundColor = [self m_colorForInfoPlistKey:@"IAUIThemeGroupedTableCellBackgroundColor"];
+        a_cell.backgroundColor = [self ifa_colorForInfoPlistKey:@"IAUIThemeGroupedTableCellBackgroundColor"];
     }
     
     // Label text color
@@ -305,7 +307,7 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         if (a_cell.detailTextLabel) {   // Is it a cell style that has text and detail?
             // textLabel here in this context refers to the form field label
             //  So, it is setting the form field label colour
-            a_cell.textLabel.textColor = [self m_colorForInfoPlistKey:@"IAUIThemeFormFieldLabelColor"];
+            a_cell.textLabel.textColor = [self ifa_colorForInfoPlistKey:@"IAUIThemeFormFieldLabelColor"];
         }
     }
     
@@ -340,7 +342,7 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     
     // Cell background color
     if ([a_tableViewController isKindOfClass:[IAUIMenuViewController class]] && a_tableViewController.tableView.style==UITableViewStyleGrouped) {
-        a_cell.backgroundColor = [self m_colorForInfoPlistKey:@"IAUIThemeGroupedTableCellBackgroundColor"];
+        a_cell.backgroundColor = [self ifa_colorForInfoPlistKey:@"IAUIThemeGroupedTableCellBackgroundColor"];
     }
     
     // Set selected table cell background color
@@ -443,7 +445,7 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 -(UIColor*)tableCellTextColor {
-    return [self m_colorForInfoPlistKey:@"IAUIThemeTableCellTextColor"];
+    return [self ifa_colorForInfoPlistKey:@"IAUIThemeTableCellTextColor"];
 }
 
 // To be implemented by subclasses
@@ -519,7 +521,7 @@ m_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 -(UIColor*)selectedTableCellBackgroundColor {
-    return [self m_colorForInfoPlistKey:@"IAUIThemeSelectedTableCellBackgroundColor"];
+    return [self ifa_colorForInfoPlistKey:@"IAUIThemeSelectedTableCellBackgroundColor"];
 }
 
 -(UIBarButtonItem*)backBarButtonItem {

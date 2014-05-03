@@ -32,7 +32,7 @@
 
 #pragma mark - Private
 
--(UIViewController*)m_visibleDetailTopViewController{
+-(UIViewController*)ifa_visibleDetailTopViewController {
     UIViewController *l_visibleDetailViewController = nil;
     UIViewController *l_detailViewController = [self.viewControllers objectAtIndex:1];
     if ([l_detailViewController isKindOfClass:[UINavigationController class]]) {
@@ -97,9 +97,9 @@
     l_barButtonItem.tag = IA_UIBAR_ITEM_TAG_LEFT_SLIDING_PANE_BUTTON;
 
     // Manage bar button item visibility
-    UIViewController *l_visibleDetailTopViewController = [self m_visibleDetailTopViewController];
+    UIViewController *l_visibleDetailTopViewController = [self ifa_visibleDetailTopViewController];
     if ([l_visibleDetailTopViewController IFA_shouldShowLeftSlidingPaneButton]) {
-        [[self m_visibleDetailTopViewController] IFA_addLeftBarButtonItem:l_barButtonItem];
+        [[self ifa_visibleDetailTopViewController] IFA_addLeftBarButtonItem:l_barButtonItem];
     }
 
     // Save details for later

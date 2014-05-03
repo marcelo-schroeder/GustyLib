@@ -27,7 +27,7 @@
 
 #pragma mark - Private
 
--(void)m_openSavedUrl{
+-(void)ifa_openSavedUrl {
     if (self.p_urlToOpen) {
         [[UIApplication sharedApplication] openURL:self.p_urlToOpen];
         self.p_urlToOpen = nil;
@@ -59,7 +59,7 @@
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex==1) {
-        [self m_openSavedUrl];
+        [self ifa_openSavedUrl];
     }
 }
 

@@ -20,16 +20,16 @@
 #import "IFACommonTests.h"
 #import "IAHtmlParser.h"
 
-typedef void (^HtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes);
+typedef void (^IAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes);
 
-@interface HtmlParserTests : XCTestCase
+@interface IAHtmlParserTests : XCTestCase
 @end
 
-@implementation HtmlParserTests {
+@implementation IAHtmlParserTests {
 }
 
 - (void)testSimpleHtmlParsing {
-    HtmlParserTestsElementBlock l_elementBlock = ^(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes) {
+    IAHtmlParserTestsElementBlock l_elementBlock = ^(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes) {
         switch (a_index) {
             case 0:
                 assertThat(a_name, is(equalTo(@"title")));
@@ -153,13 +153,13 @@ typedef void (^HtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_name
                 break;
         }
     };
-    [self m_parseHtmlFileNamed:@"HtmlParser_testdata1" withElementBlock:l_elementBlock];
+    [self parseHtmlFileNamed:@"HtmlParser_testdata1" withElementBlock:l_elementBlock];
 }
 
 - (void)testComplexHtmlParsing{
     __block BOOL l_hasTestStarted = NO;
     __block NSUInteger l_firstIndex = 0;
-    HtmlParserTestsElementBlock l_elementBlock = ^(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes) {
+    IAHtmlParserTestsElementBlock l_elementBlock = ^(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes) {
         if ([a_name isEqualToString:@"param"] && !l_hasTestStarted){
             l_hasTestStarted = YES;
             l_firstIndex = a_index;
@@ -177,14 +177,14 @@ typedef void (^HtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_name
             }
         }
     };
-    [self m_parseHtmlFileNamed:@"HtmlParser_testdata2" withElementBlock:l_elementBlock];
+    [self parseHtmlFileNamed:@"HtmlParser_testdata2" withElementBlock:l_elementBlock];
 }
 
 - (void)testAttributesFromStyleAttributeValue {
     // given
     NSString *l_styleAttributeValue = @"key1:value1;key2 : value2; key3: value3;key4 :value4;";
     // when
-    NSDictionary *l_actualAttributes = [IAHtmlParser m_attributesFromStyleAttributeValue:l_styleAttributeValue];
+    NSDictionary *l_actualAttributes = [IAHtmlParser attributesFromStyleAttributeValue:l_styleAttributeValue];
     // then
     NSDictionary *l_expectedAttributes = @{
             @"key1" : @"value1",
@@ -204,7 +204,7 @@ typedef void (^HtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_name
             @"key4" : @"value4",
     };
     // when
-    NSString *l_actualStyleAttributeValue = [IAHtmlParser m_styleAttributeValueFromAttributes:l_attributes];
+    NSString *l_actualStyleAttributeValue = [IAHtmlParser styleAttributeValueFromAttributes:l_attributes];
     // then
     NSString *l_expectedStyleAttributeValue = @"key1: value1; key2: value2; key3: value3; key4: value4;";
     assertThat(l_actualStyleAttributeValue, is(equalTo(l_expectedStyleAttributeValue)));
@@ -214,7 +214,7 @@ typedef void (^HtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_name
     // given
     NSString *l_stringRepresentation = @"<tag>value</tag>";
     // when
-    NSString *l_actualValue = [IAHtmlParser m_charactersBetweenOpenAndCloseTagsForStringRepresentation:l_stringRepresentation];
+    NSString *l_actualValue = [IAHtmlParser charactersBetweenOpenAndCloseTagsForStringRepresentation:l_stringRepresentation];
     // then
     assertThat(l_actualValue, is(equalTo(@"value")));
 }
@@ -223,15 +223,15 @@ typedef void (^HtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_name
     // given
     NSString *l_stringRepresentation = @"abc";
     // when
-    NSString *l_actualValue = [IAHtmlParser m_charactersBetweenOpenAndCloseTagsForStringRepresentation:l_stringRepresentation];
+    NSString *l_actualValue = [IAHtmlParser charactersBetweenOpenAndCloseTagsForStringRepresentation:l_stringRepresentation];
     // then
     assertThat(l_actualValue, is(nilValue()));
 }
 
 #pragma mark - Private
 
-- (void)m_parseHtmlFileNamed:(NSString *)a_htmlFileName
-            withElementBlock:(HtmlParserTestsElementBlock)a_elementBlock {
+- (void)parseHtmlFileNamed:(NSString *)a_htmlFileName
+            withElementBlock:(IAHtmlParserTestsElementBlock)a_elementBlock {
 
     NSString *l_htmlOriginalFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:a_htmlFileName
                                                                                         ofType:@"html"];
@@ -255,7 +255,7 @@ typedef void (^HtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_name
                 [l_elementStringRepresentations addObject:l_stringRepresentation];
                 [l_elementAttributes addObject:l_attributes ? l_attributes : [NSNull null]];
             };
-    [l_htmlParser m_parseHtmlString:l_htmlOriginal
+    [l_htmlParser parseHtmlString:l_htmlOriginal
                     endElementBlock:l_endElementBlock];
 
     for (NSUInteger i = 0; i < l_elementNames.count; i++) {

@@ -63,7 +63,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 
 #pragma mark - Private
 
--(void (^)())m_wrapperForBlock:(void (^)())a_block managedObjectContext:(NSManagedObjectContext*)a_managedObjectContext{
+-(void (^)())ifa_wrapperForBlock:(void (^)())a_block managedObjectContext:(NSManagedObjectContext*)a_managedObjectContext{
     return ^{
         NSMutableDictionary *l_threadDict = [[NSThread currentThread] threadDictionary];
         [l_threadDict setObject:a_managedObjectContext forKey:k_threadDictKeyManagedObjectContext];
@@ -520,7 +520,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 	[[IAPersistenceManager sharedInstance] setMetadataValue:@(a_version) forKey:METADATA_KEY_SYSTEM_DB_TABLES_VERSION];
 }
 
--(NSManagedObjectContext*)m_privateQueueManagedObjectContext{
+-(NSManagedObjectContext*)ifa_privateQueueManagedObjectContext {
     NSManagedObjectContext *l_managedObjectContext = [[NSThread currentThread] threadDictionary][IA_KEY_SERIAL_QUEUE_MANAGED_OBJECT_CONTEXT];
     NSAssert(l_managedObjectContext!=nil, @"Thread managed object context must be not nil");
     NSAssert(l_managedObjectContext!=self.managedObjectContext, @"Thread managed object context must be different than main one");
@@ -983,19 +983,20 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 }
 
 - (void)performBlockInPrivateQueue:(void (^)())a_block{
-    [self performBlock:a_block managedObjectContext:[self m_privateQueueManagedObjectContext]];
+    [self performBlock:a_block managedObjectContext:[self ifa_privateQueueManagedObjectContext]];
 }
 
 - (void)performBlockInPrivateQueueAndWait:(void (^)())a_block{
-    [self performBlockAndWait:a_block managedObjectContext:[self m_privateQueueManagedObjectContext]];
+    [self performBlockAndWait:a_block managedObjectContext:[self ifa_privateQueueManagedObjectContext]];
 }
 
 - (void)performBlock:(void (^)())a_block managedObjectContext:(NSManagedObjectContext*)a_managedObjectContext{
-    [a_managedObjectContext performBlock:[self m_wrapperForBlock:a_block managedObjectContext:a_managedObjectContext]];
+    [a_managedObjectContext performBlock:[self ifa_wrapperForBlock:a_block managedObjectContext:a_managedObjectContext]];
 }
 
 - (void)performBlockAndWait:(void (^)())a_block managedObjectContext:(NSManagedObjectContext*)a_managedObjectContext{
-    [a_managedObjectContext performBlockAndWait:[self m_wrapperForBlock:a_block managedObjectContext:a_managedObjectContext]];
+    [a_managedObjectContext performBlockAndWait:[self ifa_wrapperForBlock:a_block
+                                                     managedObjectContext:a_managedObjectContext]];
 }
 
 -(NSMutableArray*)managedObjectsForIds:(NSArray*)a_managedObjectIds{

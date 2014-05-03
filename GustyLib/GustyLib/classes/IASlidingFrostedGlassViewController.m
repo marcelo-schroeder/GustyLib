@@ -50,37 +50,39 @@
 
 - (UITapGestureRecognizer *)p_tapGestureRecogniser {
     if (!_p_tapGestureRecogniser) {
-        _p_tapGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(m_onTapGestureRecogniserAction)];
+        _p_tapGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                          action:@selector(ifa_onTapGestureRecogniserAction)];
     }
     return _p_tapGestureRecogniser;
 }
 
 - (UISwipeGestureRecognizer *)p_swipeGestureRecogniser {
     if (!_p_swipeGestureRecogniser) {
-        _p_swipeGestureRecogniser = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(m_onSwipeGestureRecogniserAction)];
+        _p_swipeGestureRecogniser = [[UISwipeGestureRecognizer alloc] initWithTarget:self
+                                                                              action:@selector(ifa_onSwipeGestureRecogniserAction)];
         _p_swipeGestureRecogniser.direction = UISwipeGestureRecognizerDirectionDown;
     }
     return _p_swipeGestureRecogniser;
 }
 
-- (void)m_onTapGestureRecogniserAction {
-    [self m_dismissViewController];
+- (void)ifa_onTapGestureRecogniserAction {
+    [self ifa_dismissViewController];
 }
 
-- (void)m_onSwipeGestureRecogniserAction {
-    [self m_dismissViewController];
+- (void)ifa_onSwipeGestureRecogniserAction {
+    [self ifa_dismissViewController];
 }
 
-- (void)m_dismissViewController {
+- (void)ifa_dismissViewController {
     [self.presentingViewController dismissViewControllerAnimated:YES //wip: hardcoded value
                                                       completion:nil];
 }
 
-- (void)m_updateFrostedGlassImageViewHeightConstraintConstantForVisibleState {
-    self.p_frostedGlassImageViewHeightConstraint.constant = [self m_frostedGlassViewHeight];
+- (void)ifa_updateFrostedGlassImageViewHeightConstraintConstantForVisibleState {
+    self.p_frostedGlassImageViewHeightConstraint.constant = [self ifa_frostedGlassViewHeight];
 }
 
-- (CGFloat)m_frostedGlassViewHeight {
+- (CGFloat)ifa_frostedGlassViewHeight {
     CGFloat l_newHeight = self.presentingViewController.view.frame.size.height;
     if ([self.p_delegate respondsToSelector:@selector(frostedGlassViewHeight)]) {
         l_newHeight = [self.p_delegate frostedGlassViewHeight];
@@ -88,7 +90,7 @@
     return l_newHeight;
 }
 
-- (NSLayoutConstraint *)m_newChildViewControllerContainerViewTopSpaceConstraint {
+- (NSLayoutConstraint *)ifa_newChildViewControllerContainerViewTopSpaceConstraint {
     return [NSLayoutConstraint constraintWithItem:self.p_childViewControllerContainerView
                                         attribute:NSLayoutAttributeTop
                                         relatedBy:NSLayoutRelationEqual
@@ -98,21 +100,21 @@
                                          constant:0];
 }
 
-- (NSLayoutConstraint *)m_newChildViewControllerContainerViewHeightConstraint {
+- (NSLayoutConstraint *)ifa_newChildViewControllerContainerViewHeightConstraint {
     return [NSLayoutConstraint constraintWithItem:self.p_childViewControllerContainerView
                                         attribute:NSLayoutAttributeHeight
                                         relatedBy:NSLayoutRelationEqual
                                            toItem:nil
                                         attribute:(NSLayoutAttribute) nil
                                        multiplier:1
-                                         constant:[self m_frostedGlassViewHeight]];
+                                         constant:[self ifa_frostedGlassViewHeight]];
 }
 
-- (void)m_updateChildViewControllerContainerViewHeightConstraintConstant {
-    self.p_childViewControllerContainerViewHeightConstraint.constant = [self m_frostedGlassViewHeight];
+- (void)ifa_updateChildViewControllerContainerViewHeightConstraintConstant {
+    self.p_childViewControllerContainerViewHeightConstraint.constant = [self ifa_frostedGlassViewHeight];
 }
 
-- (NSLayoutConstraint *)m_newFrostedGlassImageViewHeightConstraintWithConstant:(CGFloat)a_constant {
+- (NSLayoutConstraint *)ifa_newFrostedGlassImageViewHeightConstraintWithConstant:(CGFloat)a_constant {
     return [NSLayoutConstraint constraintWithItem:self.p_frostedGlassImageView
                                         attribute:NSLayoutAttributeHeight
                                         relatedBy:NSLayoutRelationEqual
@@ -122,7 +124,7 @@
                                          constant:a_constant];
 }
 
-- (void)m_configureFrostedGlassImageView {
+- (void)ifa_configureFrostedGlassImageView {
     [self.view addSubview:self.p_frostedGlassImageView];
     [self.p_frostedGlassImageView IFA_addLayoutConstraintsToFillSuperviewHorizontally];
     [self.p_frostedGlassImageView.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.p_frostedGlassImageView
@@ -134,10 +136,10 @@
                                                                                         constant:0]];
 }
 
-- (void)m_updateFrostedGlassImageViewHeightConstraintForVisible:(BOOL)a_visible{
+- (void)ifa_updateFrostedGlassImageViewHeightConstraintForVisible:(BOOL)a_visible{
     [self.p_frostedGlassImageView removeConstraint:self.p_frostedGlassImageViewHeightConstraint];
-    CGFloat l_constant = a_visible ? [self m_frostedGlassViewHeight] : 0;
-    self.p_frostedGlassImageViewHeightConstraint = [self m_newFrostedGlassImageViewHeightConstraintWithConstant:l_constant];
+    CGFloat l_constant = a_visible ? [self ifa_frostedGlassViewHeight] : 0;
+    self.p_frostedGlassImageViewHeightConstraint = [self ifa_newFrostedGlassImageViewHeightConstraintWithConstant:l_constant];
     [self.p_frostedGlassImageView addConstraint:self.p_frostedGlassImageViewHeightConstraint];
 }
 
@@ -214,33 +216,33 @@
     return _p_frostedGlassImageView;
 }
 
-- (void)m_configureChildViewControllerContainerView {
+- (void)ifa_configureChildViewControllerContainerView {
     UIView *l_view = self.p_childViewControllerContainerView;
     [self.view addSubview:l_view];
     [l_view IFA_addLayoutConstraintsToFillSuperviewHorizontally];
-    [self m_updateChildViewControllerContainerViewVerticalConstraints];
+    [self ifa_updateChildViewControllerContainerViewVerticalConstraints];
 }
 
-- (void)m_updateChildViewControllerContainerViewVerticalConstraints{
-    [self m_updateChildViewControllerContainerViewHeightConstraint];
-    [self m_updateChildViewControllerContainerViewTopSpaceConstraint];
+- (void)ifa_updateChildViewControllerContainerViewVerticalConstraints {
+    [self ifa_updateChildViewControllerContainerViewHeightConstraint];
+    [self ifa_updateChildViewControllerContainerViewTopSpaceConstraint];
 }
 
-- (void)m_updateChildViewControllerContainerViewTopSpaceConstraint {
+- (void)ifa_updateChildViewControllerContainerViewTopSpaceConstraint {
     UIView *l_view = self.p_childViewControllerContainerView;
     [l_view.superview removeConstraint:self.p_childViewControllerContainerViewTopSpaceConstraint];
-    self.p_childViewControllerContainerViewTopSpaceConstraint = [self m_newChildViewControllerContainerViewTopSpaceConstraint];
+    self.p_childViewControllerContainerViewTopSpaceConstraint = [self ifa_newChildViewControllerContainerViewTopSpaceConstraint];
     [l_view.superview addConstraint:self.p_childViewControllerContainerViewTopSpaceConstraint];
 }
 
-- (void)m_updateChildViewControllerContainerViewHeightConstraint {
+- (void)ifa_updateChildViewControllerContainerViewHeightConstraint {
     UIView *l_view = self.p_childViewControllerContainerView;
     [l_view removeConstraint:self.p_childViewControllerContainerViewHeightConstraint];
-    self.p_childViewControllerContainerViewHeightConstraint = [self m_newChildViewControllerContainerViewHeightConstraint];
+    self.p_childViewControllerContainerViewHeightConstraint = [self ifa_newChildViewControllerContainerViewHeightConstraint];
     [l_view addConstraint:self.p_childViewControllerContainerViewHeightConstraint];
 }
 
-- (void)m_configureBackgroundView {
+- (void)ifa_configureBackgroundView {
     [self.view addSubview:self.p_backgroundView];
     [self.p_backgroundView IFA_addLayoutConstraintsToFillSuperview];
     [self.p_backgroundView addGestureRecognizer:self.p_tapGestureRecogniser];
@@ -254,7 +256,7 @@
     return _p_backgroundView;
 }
 
-- (void)m_configureView {
+- (void)ifa_configureView {
     self.view.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addGestureRecognizer:self.p_swipeGestureRecogniser];
 }
@@ -263,10 +265,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self m_configureView];
-    [self m_configureBackgroundView];
-    [self m_configureFrostedGlassImageView];
-    [self m_configureChildViewControllerContainerView];
+    [self ifa_configureView];
+    [self ifa_configureBackgroundView];
+    [self ifa_configureFrostedGlassImageView];
+    [self ifa_configureChildViewControllerContainerView];
 //    self.view.backgroundColor = [[UIColor redColor] colorWithAlphaComponent:0.5];
 }
 
@@ -274,14 +276,14 @@
                                          duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     self.view.alpha = 0;
-    [self m_updateChildViewControllerContainerViewHeightConstraintConstant];
+    [self ifa_updateChildViewControllerContainerViewHeightConstraintConstant];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [IAUtils dispatchAsyncMainThreadBlock:^{  // Had to run this async to allow for the correct snapshot to be taken when app enters foreground
         self.p_frostedGlassImageView.image = [self newBlurredSnapshotImageFrom:self.presentingViewController.view];
-        [self m_updateFrostedGlassImageViewHeightConstraintConstantForVisibleState];
+        [self ifa_updateFrostedGlassImageViewHeightConstraintConstantForVisibleState];
         [self.view layoutIfNeeded];
         [UIView animateWithDuration:0.3 animations:^{
             self.view.alpha = 1;
@@ -321,8 +323,8 @@
         NSAssert(self.p_frostedGlassImageViewHeightConstraint != nil, @"self.p_blurredSnapshotViewHeightConstraint is nil");
 
         // Update layout constraints for animation
-        [self m_updateFrostedGlassImageViewHeightConstraintForVisible:NO];
-        [self m_updateChildViewControllerContainerViewVerticalConstraints];
+        [self ifa_updateFrostedGlassImageViewHeightConstraintForVisible:NO];
+        [self ifa_updateChildViewControllerContainerViewVerticalConstraints];
 
 
     }else{
@@ -340,11 +342,11 @@
         self.p_frostedGlassImageView.image = [self newBlurredSnapshotImageFrom:l_fromViewController.view];
 
         // Update layout constraints in the blurred snapshot view
-        [self m_updateFrostedGlassImageViewHeightConstraintForVisible:NO];
+        [self ifa_updateFrostedGlassImageViewHeightConstraintForVisible:NO];
         [self.view layoutIfNeeded];
 
         // Update layout constraints for animation
-        [self m_updateFrostedGlassImageViewHeightConstraintForVisible:YES];
+        [self ifa_updateFrostedGlassImageViewHeightConstraintForVisible:YES];
 
     }
 

@@ -73,7 +73,7 @@
 
 }
 
-- (void)m_onNavigationEventNotification:(NSNotification*)aNotification{
+- (void)ifa_onNavigationEventNotification:(NSNotification*)aNotification{
 //    NSLog(@"IA_NOTIFICATION_NAVIGATION_EVENT received");
     [self cancelAllSerialBlocks];
 }
@@ -91,7 +91,7 @@
     });
 }
 
--(void)m_dispatchConcurrentBlock:(dispatch_block_t)a_block priority:(long)a_priority{
+-(void)ifa_dispatchConcurrentBlock:(dispatch_block_t)a_block priority:(long)a_priority{
     dispatch_async(dispatch_get_global_queue(a_priority, 0), a_block);
 }
 
@@ -103,7 +103,7 @@
         
         // Add observers
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(m_onNavigationEventNotification:)
+                                                 selector:@selector(ifa_onNavigationEventNotification:)
                                                      name:IA_NOTIFICATION_NAVIGATION_EVENT
                                                    object:nil];
         
@@ -305,7 +305,7 @@ usePrivateManagedObjectContext:a_usePrivateManagedObjectContext];
 }
 
 -(void)dispatchConcurrentBackgroundBlock:(dispatch_block_t)a_block{
-    [self m_dispatchConcurrentBlock:a_block priority:DISPATCH_QUEUE_PRIORITY_BACKGROUND];
+    [self ifa_dispatchConcurrentBlock:a_block priority:DISPATCH_QUEUE_PRIORITY_BACKGROUND];
 }
 
 #pragma mark -

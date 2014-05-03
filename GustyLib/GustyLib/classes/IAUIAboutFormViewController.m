@@ -35,25 +35,25 @@
 
 #pragma mark - Private
 
--(NSString*)m_supportEmailAddress{
+-(NSString*)ifa_supportEmailAddress {
     return [[IAUtils infoPList] objectForKey:@"IASupportEmailAddress"];
 }
 
-- (void)m_ReportBugButtonTap:(id)sender{
+- (void)ifa_ReportBugButtonTap:(id)sender{
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nPlease fix the following bug I have found in %@:", [IAUtils appFullName]];
     [self.p_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Bug Report",
                                                                             [IAUtils appNameAndEdition]]
-                                       recipient:[self m_supportEmailAddress] body:l_body];
+                                       recipient:[self ifa_supportEmailAddress] body:l_body];
 }
 
-- (void)m_ProvideFeedbackButtonTap:(id)sender{
+- (void)ifa_provideFeedbackButtonTap:(id)sender{
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nI have the following feedback to provide for %@:", [IAUtils appFullName]];
     [self.p_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Feedback",
                                                                             [IAUtils appNameAndEdition]]
-                                       recipient:[self m_supportEmailAddress] body:l_body];
+                                       recipient:[self ifa_supportEmailAddress] body:l_body];
 }
 
-- (void)m_ForceCrashButtonTap:(id)sender{
+- (void)ifa_forceCrashButtonTap:(id)sender{
     [IAUtils forceCrash];
 }
 
@@ -80,9 +80,16 @@
         self.createMode = NO;
         
         // Configure toolbar buttons
-        self.p_reportBugBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Report Bug" style:UIBarButtonItemStyleBordered target:self action:@selector(m_ReportBugButtonTap:)];
-        self.p_provideFeedbackBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Provide Feedback" style:UIBarButtonItemStyleBordered target:self action:@selector(m_ProvideFeedbackButtonTap:)];
-        self.p_forceCrashBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Force Crash" style:UIBarButtonItemStyleBordered target:self action:@selector(m_ForceCrashButtonTap:)];
+        self.p_reportBugBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Report Bug"
+                                                                         style:UIBarButtonItemStyleBordered target:self
+                                                                        action:@selector(ifa_ReportBugButtonTap:)];
+        self.p_provideFeedbackBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Provide Feedback"
+                                                                               style:UIBarButtonItemStyleBordered
+                                                                              target:self
+                                                                              action:@selector(ifa_provideFeedbackButtonTap:)];
+        self.p_forceCrashBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Force Crash"
+                                                                          style:UIBarButtonItemStyleBordered target:self
+                                                                         action:@selector(ifa_forceCrashButtonTap:)];
         
         // Configure email manager
         self.p_emailManager = [[IAEmailManager alloc ] initWithParentViewController:self];

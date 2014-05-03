@@ -28,7 +28,7 @@
 
 #pragma mark - Private
 
--(id)m_init{
+-(id)ifa_init {
     self.readOnlyMode = NO;
     self.createMode = NO;
     self.p_object = [[IAPreferencesManager sharedInstance] preferences];
@@ -40,11 +40,11 @@
 #pragma mark - Overrides
 
 -(id)init{
-    return [[super initWithStyle:UITableViewStyleGrouped] m_init];
+    return [[super initWithStyle:UITableViewStyleGrouped] ifa_init];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder{
-    return [[super initWithCoder:aDecoder] m_init];
+    return [[super initWithCoder:aDecoder] ifa_init];
 }
 
 - (NSArray*)IFA_editModeToolbarItems {

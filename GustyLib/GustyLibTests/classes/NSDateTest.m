@@ -31,9 +31,9 @@
 
 - (void) testLastMidnight {
 	
-	NSDate* lastMidnight = [[self testDate] lastMidnightForCalendar:[NSCalendar m_threadSafeCalendar]];
+	NSDate* lastMidnight = [[self testDate] IFA_lastMidnightForCalendar:[NSCalendar IFA_threadSafeCalendar]];
 	unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
-	NSDateComponents* comps = [[NSCalendar m_threadSafeCalendar] components:unitFlags fromDate:lastMidnight];
+	NSDateComponents* comps = [[NSCalendar IFA_threadSafeCalendar] components:unitFlags fromDate:lastMidnight];
 	
 	XCTAssertEqual([comps day], 26);
 	XCTAssertEqual([comps month], 2);
@@ -46,9 +46,9 @@
 
 - (void) testNextMidnight {
 	
-	NSDate* lastMidnight = [[self testDate] nextMidnightForCalendar:[NSCalendar m_threadSafeCalendar]];
+	NSDate* lastMidnight = [[self testDate] IFA_nextMidnightForCalendar:[NSCalendar IFA_threadSafeCalendar]];
 	unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
-	NSDateComponents* comps = [[NSCalendar m_threadSafeCalendar] components:unitFlags fromDate:lastMidnight];
+	NSDateComponents* comps = [[NSCalendar IFA_threadSafeCalendar] components:unitFlags fromDate:lastMidnight];
 	
 	XCTAssertEqual([comps day], 27);
 	XCTAssertEqual([comps month], 2);
@@ -59,7 +59,7 @@
 	
 }
 
--(void)testIsSameDay{
+-(void)testIFA_isSameDay{
     
     {
         
@@ -70,7 +70,7 @@
         [l_date1Components setHour:1];
         [l_date1Components setMinute:2];
         [l_date1Components setSecond:3];
-        NSDate *l_date1 = [[NSCalendar m_threadSafeCalendar] dateFromComponents:l_date1Components];
+        NSDate *l_date1 = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_date1Components];
         
         NSDateComponents* l_date2Components = [[NSDateComponents alloc] init];
         [l_date2Components setDay:16];
@@ -79,9 +79,9 @@
         [l_date2Components setHour:4];
         [l_date2Components setMinute:5];
         [l_date2Components setSecond:6];
-        NSDate *l_date2 = [[NSCalendar m_threadSafeCalendar] dateFromComponents:l_date2Components];
+        NSDate *l_date2 = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_date2Components];
         
-        XCTAssertTrue([l_date1 isSameDay:l_date2 calendar:[NSCalendar m_threadSafeCalendar]]);
+        XCTAssertTrue([l_date1 IFA_isSameDay:l_date2 calendar:[NSCalendar IFA_threadSafeCalendar]]);
         
     }
     
@@ -94,7 +94,7 @@
         [l_date1Components setHour:1];
         [l_date1Components setMinute:2];
         [l_date1Components setSecond:3];
-        NSDate *l_date1 = [[NSCalendar m_threadSafeCalendar] dateFromComponents:l_date1Components];
+        NSDate *l_date1 = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_date1Components];
         
         NSDateComponents* l_date2Components = [[NSDateComponents alloc] init];
         [l_date2Components setDay:16];
@@ -103,9 +103,9 @@
         [l_date2Components setHour:4];
         [l_date2Components setMinute:5];
         [l_date2Components setSecond:6];
-        NSDate *l_date2 = [[NSCalendar m_threadSafeCalendar] dateFromComponents:l_date2Components];
+        NSDate *l_date2 = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_date2Components];
         
-        XCTAssertFalse([l_date1 isSameDay:l_date2 calendar:[NSCalendar m_threadSafeCalendar]]);
+        XCTAssertFalse([l_date1 IFA_isSameDay:l_date2 calendar:[NSCalendar IFA_threadSafeCalendar]]);
         
     }
     
@@ -118,7 +118,7 @@
         [l_date1Components setHour:1];
         [l_date1Components setMinute:2];
         [l_date1Components setSecond:3];
-        NSDate *l_date1 = [[NSCalendar m_threadSafeCalendar] dateFromComponents:l_date1Components];
+        NSDate *l_date1 = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_date1Components];
         
         NSDateComponents* l_date2Components = [[NSDateComponents alloc] init];
         [l_date2Components setDay:16];
@@ -127,9 +127,9 @@
         [l_date2Components setHour:1];
         [l_date2Components setMinute:2];
         [l_date2Components setSecond:3];
-        NSDate *l_date2 = [[NSCalendar m_threadSafeCalendar] dateFromComponents:l_date2Components];
+        NSDate *l_date2 = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_date2Components];
         
-        XCTAssertTrue([l_date1 isSameDay:l_date2 calendar:[NSCalendar m_threadSafeCalendar]]);
+        XCTAssertTrue([l_date1 IFA_isSameDay:l_date2 calendar:[NSCalendar IFA_threadSafeCalendar]]);
         
     }
     
@@ -142,7 +142,7 @@
         [l_date1Components setHour:1];
         [l_date1Components setMinute:2];
         [l_date1Components setSecond:3];
-        NSDate *l_date1 = [[NSCalendar m_threadSafeCalendar] dateFromComponents:l_date1Components];
+        NSDate *l_date1 = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_date1Components];
         
         NSDateComponents* l_date2Components = [[NSDateComponents alloc] init];
         [l_date2Components setDay:16];
@@ -151,9 +151,9 @@
         [l_date2Components setHour:1];
         [l_date2Components setMinute:2];
         [l_date2Components setSecond:3];
-        NSDate *l_date2 = [[NSCalendar m_threadSafeCalendar] dateFromComponents:l_date2Components];
+        NSDate *l_date2 = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_date2Components];
         
-        XCTAssertFalse([l_date1 isSameDay:l_date2 calendar:[NSCalendar m_threadSafeCalendar]]);
+        XCTAssertFalse([l_date1 IFA_isSameDay:l_date2 calendar:[NSCalendar IFA_threadSafeCalendar]]);
         
     }
     
@@ -166,7 +166,7 @@
         [l_date1Components setHour:1];
         [l_date1Components setMinute:2];
         [l_date1Components setSecond:3];
-        NSDate *l_date1 = [[NSCalendar m_threadSafeCalendar] dateFromComponents:l_date1Components];
+        NSDate *l_date1 = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_date1Components];
         
         NSDateComponents* l_date2Components = [[NSDateComponents alloc] init];
         [l_date2Components setDay:16];
@@ -175,9 +175,9 @@
         [l_date2Components setHour:1];
         [l_date2Components setMinute:2];
         [l_date2Components setSecond:3];
-        NSDate *l_date2 = [[NSCalendar m_threadSafeCalendar] dateFromComponents:l_date2Components];
+        NSDate *l_date2 = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_date2Components];
         
-        XCTAssertFalse([l_date1 isSameDay:l_date2 calendar:[NSCalendar m_threadSafeCalendar]]);
+        XCTAssertFalse([l_date1 IFA_isSameDay:l_date2 calendar:[NSCalendar IFA_threadSafeCalendar]]);
         
     }
     
@@ -190,7 +190,7 @@
         [l_date1Components setHour:0];
         [l_date1Components setMinute:0];
         [l_date1Components setSecond:0];
-        NSDate *l_date1 = [[NSCalendar m_threadSafeCalendar] dateFromComponents:l_date1Components];
+        NSDate *l_date1 = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_date1Components];
         
         NSDateComponents* l_date2Components = [[NSDateComponents alloc] init];
         [l_date2Components setDay:16];
@@ -199,9 +199,9 @@
         [l_date2Components setHour:23];
         [l_date2Components setMinute:59];
         [l_date2Components setSecond:59];
-        NSDate *l_date2 = [[NSCalendar m_threadSafeCalendar] dateFromComponents:l_date2Components];
+        NSDate *l_date2 = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_date2Components];
         
-        XCTAssertTrue([l_date1 isSameDay:l_date2 calendar:[NSCalendar m_threadSafeCalendar]]);
+        XCTAssertTrue([l_date1 IFA_isSameDay:l_date2 calendar:[NSCalendar IFA_threadSafeCalendar]]);
         
     }
     
@@ -214,7 +214,7 @@
         [l_date1Components setHour:0];
         [l_date1Components setMinute:0];
         [l_date1Components setSecond:0];
-        NSDate *l_date1 = [[NSCalendar m_threadSafeCalendar] dateFromComponents:l_date1Components];
+        NSDate *l_date1 = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_date1Components];
         
         NSDateComponents* l_date2Components = [[NSDateComponents alloc] init];
         [l_date2Components setDay:17];
@@ -223,9 +223,9 @@
         [l_date2Components setHour:0];
         [l_date2Components setMinute:0];
         [l_date2Components setSecond:0];
-        NSDate *l_date2 = [[NSCalendar m_threadSafeCalendar] dateFromComponents:l_date2Components];
+        NSDate *l_date2 = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_date2Components];
         
-        XCTAssertFalse([l_date1 isSameDay:l_date2 calendar:[NSCalendar m_threadSafeCalendar]]);
+        XCTAssertFalse([l_date1 IFA_isSameDay:l_date2 calendar:[NSCalendar IFA_threadSafeCalendar]]);
         
     }
     
@@ -238,7 +238,7 @@
         [l_date1Components setHour:0];
         [l_date1Components setMinute:0];
         [l_date1Components setSecond:0];
-        NSDate *l_date1 = [[NSCalendar m_threadSafeCalendar] dateFromComponents:l_date1Components];
+        NSDate *l_date1 = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_date1Components];
         
         NSDateComponents* l_date2Components = [[NSDateComponents alloc] init];
         [l_date2Components setDay:16];
@@ -247,9 +247,9 @@
         [l_date2Components setHour:0];
         [l_date2Components setMinute:0];
         [l_date2Components setSecond:0];
-        NSDate *l_date2 = [[NSCalendar m_threadSafeCalendar] dateFromComponents:l_date2Components];
+        NSDate *l_date2 = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_date2Components];
         
-        XCTAssertTrue([l_date1 isSameDay:l_date2 calendar:[NSCalendar m_threadSafeCalendar]]);
+        XCTAssertTrue([l_date1 IFA_isSameDay:l_date2 calendar:[NSCalendar IFA_threadSafeCalendar]]);
         
     }
     
@@ -262,7 +262,7 @@
         [l_date1Components setHour:23];
         [l_date1Components setMinute:23];
         [l_date1Components setSecond:59];
-        NSDate *l_date1 = [[NSCalendar m_threadSafeCalendar] dateFromComponents:l_date1Components];
+        NSDate *l_date1 = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_date1Components];
         
         NSDateComponents* l_date2Components = [[NSDateComponents alloc] init];
         [l_date2Components setDay:16];
@@ -271,9 +271,9 @@
         [l_date2Components setHour:23];
         [l_date2Components setMinute:59];
         [l_date2Components setSecond:59];
-        NSDate *l_date2 = [[NSCalendar m_threadSafeCalendar] dateFromComponents:l_date2Components];
+        NSDate *l_date2 = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_date2Components];
         
-        XCTAssertTrue([l_date1 isSameDay:l_date2 calendar:[NSCalendar m_threadSafeCalendar]]);
+        XCTAssertTrue([l_date1 IFA_isSameDay:l_date2 calendar:[NSCalendar IFA_threadSafeCalendar]]);
         
     }
 
@@ -290,7 +290,7 @@
 	[comps setHour:1];
 	[comps setMinute:2];
 	[comps setSecond:3];
-	NSDate *date = [[NSCalendar m_threadSafeCalendar] dateFromComponents:comps];
+	NSDate *date = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:comps];
 	return date;
 }
 

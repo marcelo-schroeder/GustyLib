@@ -33,9 +33,9 @@
 
 #pragma mark - Private
 
-- (void)m_onKeyboardDidShowNotification:(NSNotification *)aNotification{
+- (void)ifa_onKeyboardDidShowNotification:(NSNotification *)aNotification{
 
-    [self m_updateScrollViewContentSize];
+    [self ifa_updateScrollViewContentSize];
 
     NSDictionary*l_userInfo = [aNotification userInfo];
     CGRect l_keyboardFrame = [[l_userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
@@ -48,13 +48,13 @@
     self.p_scrollView.contentInset = l_newContentInset;
     self.p_scrollView.scrollIndicatorInsets = l_newContentInset;
 
-    [self m_updateGrowingTextViewMinimumHeight];
+    [self ifa_updateGrowingTextViewMinimumHeight];
 
-    [self m_scrollToCaret];
+    [self ifa_scrollToCaret];
 
 }
 
-- (void)m_onKeyboardWillHideNotification:(NSNotification *)aNotification{
+- (void)ifa_onKeyboardWillHideNotification:(NSNotification *)aNotification{
 
     UIEdgeInsets l_newContentInset = self.p_scrollView.contentInset;
     l_newContentInset.bottom = 0;
@@ -63,23 +63,23 @@
 
 }
 
-- (void)m_updateGrowingTextViewMinimumHeight {
+- (void)ifa_updateGrowingTextViewMinimumHeight {
 //    self.p_growingTextView.minHeight = (int) (self.p_scrollView.frame.size.height - self.p_scrollView.contentInset.top - self.p_scrollView.contentInset.bottom - self.p_growingTextView.frame.origin.y);
 //    [self.p_growingTextView refreshHeight];
 }
 
--(void)m_updateScrollViewContentSize {
+-(void)ifa_updateScrollViewContentSize {
     CGRect l_newContentViewFrame = self.p_contentView.frame;
     l_newContentViewFrame.size.height = self.p_growingTextView.frame.origin.y + self.p_growingTextView.frame.size.height;
     self.p_contentView.frame = l_newContentViewFrame;
     self.p_scrollView.contentSize = self.p_contentView.frame.size;
 }
 
-- (void)m_quitEditing{
+- (void)ifa_quitEditing {
     [self IFA_notifySessionCompletion];
 }
 
-- (void)m_configureContentView {
+- (void)ifa_configureContentView {
     [[NSBundle mainBundle] loadNibNamed:@"CommentSubmissionFormView" owner:self
                                 options:nil];
 /*
@@ -94,13 +94,13 @@
     [self.view addSubview:self.p_contentView];
 }
 
-- (void)m_scrollToCaret {
+- (void)ifa_scrollToCaret {
     if (self.p_growingTextView.internalTextView.isFirstResponder) {
         [self.p_scrollView IFA_scrollToCaretInTextView:self.p_growingTextView.internalTextView];
     }
 }
 
-- (void)m_configureTextView {
+- (void)ifa_configureTextView {
     self.p_growingTextView.minNumberOfLines = 1;
     self.p_growingTextView.maxHeight = NSIntegerMax;
     self.p_growingTextView.delegate = self;
@@ -119,11 +119,11 @@
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
                                          duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self m_updateScrollViewContentSize];
-    [self m_updateGrowingTextViewMinimumHeight];
+    [self ifa_updateScrollViewContentSize];
+    [self ifa_updateGrowingTextViewMinimumHeight];
 }
 
-- (void)m_configureScrollView {
+- (void)ifa_configureScrollView {
     self.p_scrollView.delegate = self;
 /*
     {
@@ -149,7 +149,7 @@
                                      delegate:self
                                           tag:IA_UIVIEW_TAG_ACTION_SHEET_CANCEL];
     }else {
-        [self m_quitEditing];
+        [self ifa_quitEditing];
     }
 }
 
@@ -161,12 +161,12 @@
 
 -(void)viewDidLoad{
 
-    [self m_configureContentView];
+    [self ifa_configureContentView];
 
     [super viewDidLoad];
 
-    [self m_configureScrollView];
-    [self m_configureTextView];
+    [self ifa_configureScrollView];
+    [self ifa_configureTextView];
 
     // Save text view's original value
     self.p_originalTextViewValue = self.p_growingTextView.internalTextView.text;
@@ -193,24 +193,24 @@
 
 -(void)IFA_onKeyboardNotification:(NSNotification*)a_notification {
     if ([a_notification.name isEqualToString:UIKeyboardDidShowNotification]) {
-        [self m_onKeyboardDidShowNotification:a_notification];
+        [self ifa_onKeyboardDidShowNotification:a_notification];
     } else if ([a_notification.name isEqualToString:UIKeyboardWillHideNotification]) {
-        [self m_onKeyboardWillHideNotification:a_notification];
+        [self ifa_onKeyboardWillHideNotification:a_notification];
     }
 }
 
 #pragma mark - HPGrowingTextViewDelegate
 
 - (void)growingTextView:(HPGrowingTextView *)growingTextView didChangeHeight:(float)height {
-    [self m_updateScrollViewContentSize];
-    [self m_scrollToCaret];
+    [self ifa_updateScrollViewContentSize];
+    [self ifa_scrollToCaret];
 }
 
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex==0) {
-        [self m_quitEditing];
+        [self ifa_quitEditing];
     }
 }
 

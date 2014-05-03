@@ -32,20 +32,20 @@
 ////
 #pragma mark - Private
 
--(void)m_onStepperValueChange{
+-(void)ifa_onStepperValueChange {
     //    NSLog(@"onStepperValueChange: %f", v_stepper.value);
     NSNumber *l_value = @(self.p_stepper.value);
     [self.p_object IFA_setValue:l_value forProperty:self.p_propertyName];
     [self reloadData];
 }
 
--(void)m_onTextFieldDidChangeNotification:(NSNotification*)a_notification{
+-(void)ifa_onTextFieldDidChangeNotification:(NSNotification*)a_notification{
     NSNumber *l_value = [self parsedValue];
     self.p_slider.value = [l_value floatValue];
     self.p_stepper.value = [l_value doubleValue];
 }
 
-- (void)m_onSliderAction:(id)aSender{
+- (void)ifa_onSliderAction:(id)aSender{
 	UISlider *l_slider = aSender;
     NSNumber *l_value = @(l_slider.value);
     if (self.p_sliderIncrement) {
@@ -88,14 +88,15 @@
     self.p_stepper.minimumValue = [l_minValue doubleValue];
     self.p_stepper.maximumValue = [l_maxValue doubleValue];
     self.p_stepper.stepValue = [self.p_roundingIncrement doubleValue];
-    [self.p_stepper addTarget:self action:@selector(m_onStepperValueChange) forControlEvents:UIControlEventValueChanged];
+    [self.p_stepper addTarget:self action:@selector(ifa_onStepperValueChange)
+             forControlEvents:UIControlEventValueChanged];
     [self.contentView addSubview:self.p_stepper];
 
     // Configure slider
     self.p_slider = [UISlider new];
     self.p_slider.minimumValue = [l_minValue floatValue];
     self.p_slider.maximumValue = [l_maxValue floatValue];
-    [self.p_slider addTarget:self action:@selector(m_onSliderAction:) forControlEvents:UIControlEventValueChanged];
+    [self.p_slider addTarget:self action:@selector(ifa_onSliderAction:) forControlEvents:UIControlEventValueChanged];
     [self.contentView addSubview:self.p_slider];
 
 //    // Configure slider labels
@@ -112,7 +113,7 @@
     
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(m_onTextFieldDidChangeNotification:) 
+                                             selector:@selector(ifa_onTextFieldDidChangeNotification:)
                                                  name:UITextFieldTextDidChangeNotification 
                                                object:nil];
     
@@ -157,8 +158,9 @@
 -(void)dealloc{
 
     // Remove targets
-    [self.p_stepper removeTarget:self action:@selector(m_onStepperValueChange) forControlEvents:UIControlEventValueChanged];
-    [self.p_slider removeTarget:self action:@selector(m_onSliderAction:) forControlEvents:UIControlEventValueChanged];
+    [self.p_stepper removeTarget:self action:@selector(ifa_onStepperValueChange)
+                forControlEvents:UIControlEventValueChanged];
+    [self.p_slider removeTarget:self action:@selector(ifa_onSliderAction:) forControlEvents:UIControlEventValueChanged];
     
     // Remove observers
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];

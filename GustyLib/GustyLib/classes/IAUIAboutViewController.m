@@ -34,22 +34,22 @@
 
 #pragma mark - Private
 
--(NSString*)m_supportEmailAddress{
+-(NSString*)ifa_supportEmailAddress {
     return [[IAUtils infoPList] objectForKey:@"IASupportEmailAddress"];
 }
 
--(NSString*)m_bugReportEmailAddress{
+-(NSString*)ifa_bugReportEmailAddress {
     NSString *l_emailAddress = [[IAUtils infoPList] objectForKey:@"IABugReportEmailAddress"];
     if (!l_emailAddress) {
-        l_emailAddress = [self m_supportEmailAddress];
+        l_emailAddress = [self ifa_supportEmailAddress];
     }
     return l_emailAddress;
 }
 
--(NSString*)m_feedbackEmailAddress{
+-(NSString*)ifa_feedbackEmailAddress {
     NSString *l_emailAddress = [[IAUtils infoPList] objectForKey:@"IAFeedbackEmailAddress"];
     if (!l_emailAddress) {
-        l_emailAddress = [self m_supportEmailAddress];
+        l_emailAddress = [self ifa_supportEmailAddress];
     }
     return l_emailAddress;
 }
@@ -60,14 +60,14 @@
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nPlease fix the following bug I have found in %@:", [IAUtils appFullName]];
     [v_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Bug Report",
                                                                        [IAUtils appNameAndEdition]]
-                                  recipient:[self m_bugReportEmailAddress] body:l_body];
+                                  recipient:[self ifa_bugReportEmailAddress] body:l_body];
 }
 
 - (IBAction)feedbackButtonTap:(id)sender{
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nI have the following feedback to provide for %@:", [IAUtils appFullName]];
     [v_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Feedback",
                                                                        [IAUtils appNameAndEdition]]
-                                  recipient:[self m_feedbackEmailAddress] body:l_body];
+                                  recipient:[self ifa_feedbackEmailAddress] body:l_body];
 }
 
 - (IBAction)forceCrashButtonTap:(id)sender {
