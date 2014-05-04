@@ -20,7 +20,7 @@
 
 @interface IASlidingFrostedGlassViewController ()
 @property(nonatomic) BOOL p_isDismissing;
-@property(nonatomic, strong) UIImageView *p_frostedGlassImageView;
+@property(nonatomic, strong) UIImageView *frostedGlassImageView;
 @property(nonatomic, strong) UIViewController *p_childViewController;
 @property(nonatomic, strong) UITapGestureRecognizer *p_tapGestureRecogniser;
 @property(nonatomic, strong) UISwipeGestureRecognizer *p_swipeGestureRecogniser;
@@ -84,8 +84,8 @@
 
 - (CGFloat)ifa_frostedGlassViewHeight {
     CGFloat l_newHeight = self.presentingViewController.view.frame.size.height;
-    if ([self.p_delegate respondsToSelector:@selector(frostedGlassViewHeight)]) {
-        l_newHeight = [self.p_delegate frostedGlassViewHeight];
+    if ([self.delegate respondsToSelector:@selector(frostedGlassViewHeight)]) {
+        l_newHeight = [self.delegate frostedGlassViewHeight];
     }
     return l_newHeight;
 }
@@ -94,7 +94,7 @@
     return [NSLayoutConstraint constraintWithItem:self.p_childViewControllerContainerView
                                         attribute:NSLayoutAttributeTop
                                         relatedBy:NSLayoutRelationEqual
-                                           toItem:self.p_frostedGlassImageView
+                                           toItem:self.frostedGlassImageView
                                         attribute:NSLayoutAttributeTop
                                        multiplier:1
                                          constant:0];
@@ -115,7 +115,7 @@
 }
 
 - (NSLayoutConstraint *)ifa_newFrostedGlassImageViewHeightConstraintWithConstant:(CGFloat)a_constant {
-    return [NSLayoutConstraint constraintWithItem:self.p_frostedGlassImageView
+    return [NSLayoutConstraint constraintWithItem:self.frostedGlassImageView
                                         attribute:NSLayoutAttributeHeight
                                         relatedBy:NSLayoutRelationEqual
                                            toItem:nil
@@ -125,22 +125,22 @@
 }
 
 - (void)ifa_configureFrostedGlassImageView {
-    [self.view addSubview:self.p_frostedGlassImageView];
-    [self.p_frostedGlassImageView IFA_addLayoutConstraintsToFillSuperviewHorizontally];
-    [self.p_frostedGlassImageView.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.p_frostedGlassImageView
+    [self.view addSubview:self.frostedGlassImageView];
+    [self.frostedGlassImageView IFA_addLayoutConstraintsToFillSuperviewHorizontally];
+    [self.frostedGlassImageView.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.frostedGlassImageView
                                                                                        attribute:NSLayoutAttributeBottom
                                                                                        relatedBy:NSLayoutRelationEqual
-                                                                                          toItem:self.p_frostedGlassImageView.superview
+                                                                                          toItem:self.frostedGlassImageView.superview
                                                                                        attribute:NSLayoutAttributeBottom
                                                                                       multiplier:1
                                                                                         constant:0]];
 }
 
 - (void)ifa_updateFrostedGlassImageViewHeightConstraintForVisible:(BOOL)a_visible{
-    [self.p_frostedGlassImageView removeConstraint:self.p_frostedGlassImageViewHeightConstraint];
+    [self.frostedGlassImageView removeConstraint:self.p_frostedGlassImageViewHeightConstraint];
     CGFloat l_constant = a_visible ? [self ifa_frostedGlassViewHeight] : 0;
     self.p_frostedGlassImageViewHeightConstraint = [self ifa_newFrostedGlassImageViewHeightConstraintWithConstant:l_constant];
-    [self.p_frostedGlassImageView addConstraint:self.p_frostedGlassImageViewHeightConstraint];
+    [self.frostedGlassImageView addConstraint:self.p_frostedGlassImageViewHeightConstraint];
 }
 
 #pragma mark - Public
@@ -158,7 +158,7 @@
         self.modalPresentationStyle = UIModalPresentationCustom;
         self.transitioningDelegate = self;
 
-        self.p_blurEffect = IASlidingFrostedGlassViewControllerBlurEffectLight;
+        self.blurEffect = IASlidingFrostedGlassViewControllerBlurEffectLight;
 
         // Used during development only
 //        UIView *l_view = [UIView new];
@@ -183,12 +183,12 @@
 - (UIImage *)newBlurredSnapshotImageFrom:(UIView *)a_viewToSnapshot {
     UIImage *l_snapshotImage = [a_viewToSnapshot IFA_snapshotImage];
     UIImage *l_blurredSnapshotImage;
-    if (self.p_snapshotEffectBlock) {
-        l_blurredSnapshotImage = self.p_snapshotEffectBlock(l_snapshotImage);
-    }else if (self.p_blurEffectTintColor) {
-        l_blurredSnapshotImage = [l_snapshotImage IFA_applyTintBlurEffectWithColor:self.p_blurEffectTintColor];
+    if (self.snapshotEffectBlock) {
+        l_blurredSnapshotImage = self.snapshotEffectBlock(l_snapshotImage);
+    }else if (self.blurEffectTintColor) {
+        l_blurredSnapshotImage = [l_snapshotImage IFA_applyTintBlurEffectWithColor:self.blurEffectTintColor];
     } else {
-        switch (self.p_blurEffect) {
+        switch (self.blurEffect) {
             case IASlidingFrostedGlassViewControllerBlurEffectLight:
                 l_blurredSnapshotImage = [l_snapshotImage IFA_applyLightBlurEffect];
                 break;
@@ -199,21 +199,21 @@
                 l_blurredSnapshotImage = [l_snapshotImage IFA_applyDarkBlurEffect];
                 break;
             default:
-                NSAssert(NO, @"Unexpected blur effect: %u", self.p_blurEffect);
+                NSAssert(NO, @"Unexpected blur effect: %u", self.blurEffect);
                 break;
         }
     }
     return l_blurredSnapshotImage;
 }
 
-- (UIImageView *)p_frostedGlassImageView {
-    if (!_p_frostedGlassImageView) {
-        _p_frostedGlassImageView = [UIImageView new];
-        _p_frostedGlassImageView.translatesAutoresizingMaskIntoConstraints = NO;
-        _p_frostedGlassImageView.contentMode = UIViewContentModeBottom;    // This is the trick that simulates 'live' blur
-        _p_frostedGlassImageView.clipsToBounds = YES;
+- (UIImageView *)frostedGlassImageView {
+    if (!_frostedGlassImageView) {
+        _frostedGlassImageView = [UIImageView new];
+        _frostedGlassImageView.translatesAutoresizingMaskIntoConstraints = NO;
+        _frostedGlassImageView.contentMode = UIViewContentModeBottom;    // This is the trick that simulates 'live' blur
+        _frostedGlassImageView.clipsToBounds = YES;
     }
-    return _p_frostedGlassImageView;
+    return _frostedGlassImageView;
 }
 
 - (void)ifa_configureChildViewControllerContainerView {
@@ -282,7 +282,7 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [IAUtils dispatchAsyncMainThreadBlock:^{  // Had to run this async to allow for the correct snapshot to be taken when app enters foreground
-        self.p_frostedGlassImageView.image = [self newBlurredSnapshotImageFrom:self.presentingViewController.view];
+        self.frostedGlassImageView.image = [self newBlurredSnapshotImageFrom:self.presentingViewController.view];
         [self ifa_updateFrostedGlassImageViewHeightConstraintConstantForVisibleState];
         [self.view layoutIfNeeded];
         [UIView animateWithDuration:0.3 animations:^{
@@ -339,7 +339,7 @@
         [l_toViewController.view IFA_addLayoutConstraintsToFillSuperview];
 
         // Set the blurred snapshot image
-        self.p_frostedGlassImageView.image = [self newBlurredSnapshotImageFrom:l_fromViewController.view];
+        self.frostedGlassImageView.image = [self newBlurredSnapshotImageFrom:l_fromViewController.view];
 
         // Update layout constraints in the blurred snapshot view
         [self ifa_updateFrostedGlassImageViewHeightConstraintForVisible:NO];
@@ -352,7 +352,7 @@
 
     [UIView animateWithDuration:self.p_slidingAnimationDuration animations:^{
         if (self.p_isDismissing) {
-            [self.p_frostedGlassImageView layoutIfNeeded];
+            [self.frostedGlassImageView layoutIfNeeded];
             [self.p_childViewControllerContainerView layoutIfNeeded];
         } else {
             [self.view layoutIfNeeded];

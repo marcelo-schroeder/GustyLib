@@ -22,16 +22,16 @@
 
 @interface IAHtmlDocument : NSObject
 
-@property (nonatomic, strong) NSString *p_htmlTemplateStringResourceName;
-@property (nonatomic, strong) NSString *p_htmlStyleStringResourceName;
+@property (nonatomic, strong) NSString *htmlTemplateStringResourceName;
+@property (nonatomic, strong) NSString *htmlStyleStringResourceName;
 
-@property (nonatomic, strong) NSString *p_htmlTemplateString;
-@property (nonatomic, strong) NSString *p_htmlMetaString;
-@property (nonatomic, strong) NSString *p_htmlStyleString;
-@property (nonatomic, strong) NSString *p_htmlBodyString;
-@property (nonatomic) CGFloat p_viewportWidth;
+@property (nonatomic, strong) NSString *htmlTemplateString;
+@property (nonatomic, strong) NSString *htmlMetaString;
+@property (nonatomic, strong) NSString *htmlStyleString;
+@property (nonatomic, strong) NSString *htmlBodyString;
+@property (nonatomic) CGFloat viewportWidth;
 
-@property (nonatomic, strong) NSArray *p_htmlStyleStringFormatArguments;
+@property (nonatomic, strong) NSArray *htmlStyleStringFormatArguments;
 
 -(id)initWithHtmlStyleResourceName:(NSString*)a_htmlStyleResourceName;
 -(id)initWithHtmlTemplateResourceName:(NSString*)a_htmlTemplateResourceName htmlStyleResourceName:(NSString*)a_htmlStyleResourceName;

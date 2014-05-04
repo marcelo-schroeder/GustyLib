@@ -22,6 +22,6 @@
 
 @interface IAUILongTextEditorViewController : IAUIAbstractFieldEditorViewController
 
-@property (nonatomic, strong, readonly) UITextView *p_textView;
+@property (nonatomic, strong, readonly) UITextView *textView;
 
 @end

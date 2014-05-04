@@ -26,16 +26,16 @@
 #pragma mark - Overrides
 
 //-(CGRect)textRectForBounds:(CGRect)bounds{
-//    if (self.p_textPaddingEnabled) {
-//        return CGRectMake(bounds.origin.x + self.p_leftTextPadding, bounds.origin.y + self.p_topTextPadding, bounds.size.width - self.p_rightTextPadding, bounds.size.height - self.p_bottomTextPadding);
+//    if (self.textPaddingEnabled) {
+//        return CGRectMake(bounds.origin.x + self.leftTextPadding, bounds.origin.y + self.topTextPadding, bounds.size.width - self.rightTextPadding, bounds.size.height - self.bottomTextPadding);
 //    }else{
 //        return CGRectMake(bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
 //    }
 //}
 //
 //-(CGRect)editingRectForBounds:(CGRect)bounds{
-//    if (self.p_editingPaddingEnabled) {
-//        return CGRectMake(bounds.origin.x + self.p_leftEditingPadding, bounds.origin.y + self.p_topEditingPadding, bounds.size.width - self.p_rightEditingPadding, bounds.size.height - self.p_bottomEditingPadding);
+//    if (self.editingPaddingEnabled) {
+//        return CGRectMake(bounds.origin.x + self.leftEditingPadding, bounds.origin.y + self.topEditingPadding, bounds.size.width - self.rightEditingPadding, bounds.size.height - self.bottomEditingPadding);
 //    }else{
 //        return CGRectMake(bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
 //    }

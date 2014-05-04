@@ -15,7 +15,7 @@
 @property (nonatomic, strong) UIWebView *mainWebView;
 @property (nonatomic, readwrite) SVWebViewControllerAvailableActions availableActions;
 
-@property(nonatomic) NSUInteger p_urlLoadCount;
+@property(nonatomic) NSUInteger urlLoadCount;
 
 - (id)initWithAddress:(NSString*)urlString;
 - (id)initWithURL:(NSURL*)url;

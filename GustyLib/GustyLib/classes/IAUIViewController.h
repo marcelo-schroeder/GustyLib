@@ -20,7 +20,7 @@
 
 @interface IAUIViewController : UIViewController
 
-@property (nonatomic, weak) UIViewController *p_previousVisibleViewController;
+@property (nonatomic, weak) UIViewController *previousVisibleViewController;
 
 -(NSCalendar*)calendar;
 

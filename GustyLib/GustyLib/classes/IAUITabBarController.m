@@ -60,7 +60,7 @@
     //    NSLog(@"shouldSelectViewController: %@", [viewController description]);
     
     // Check if we are in help mode first
-    if ([IAHelpManager sharedInstance].p_helpMode) {
+    if ([IAHelpManager sharedInstance].helpMode) {
         NSUInteger l_selectedViewControllerIndex = [self.viewControllers indexOfObject:viewController];
         UITabBarItem *l_tabBarItem = ((UITabBarItem*)[tabBarController.tabBar.items objectAtIndex:l_selectedViewControllerIndex]);
         NSString *l_title = l_tabBarItem.title;
@@ -72,15 +72,15 @@
         }
         l_title = [NSString stringWithFormat:@"%@ Tab", l_title];
         [[IAHelpManager sharedInstance] helpRequestedForTabBarItemIndex:l_selectedViewControllerIndex
-                                                       helpTargetId:l_tabBarItem.p_helpTargetId title:l_title];
+                                                           helpTargetId:l_tabBarItem.helpTargetId title:l_title];
         return NO;
     }
     
     BOOL l_shouldSelectViewController = YES;
     if ([self.selectedViewController isKindOfClass:[IAUINavigationController class]]) {
         IAUINavigationController *l_selectedNavigationController = (IAUINavigationController*)self.selectedViewController;
-//        NSLog(@"l_navigationController.p_contextSwitchRequestRequired: %u", l_selectedNavigationController.p_contextSwitchRequestRequired);
-        if (l_selectedNavigationController.p_contextSwitchRequestRequired) {
+//        NSLog(@"l_navigationController.contextSwitchRequestRequired: %u", l_selectedNavigationController.contextSwitchRequestRequired);
+        if (l_selectedNavigationController.contextSwitchRequestRequired) {
             NSNotification *l_notification = [NSNotification notificationWithName:IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST object:viewController userInfo:nil];
             [[NSNotificationQueue defaultQueue] enqueueNotification:l_notification 
                                                        postingStyle:NSPostASAP

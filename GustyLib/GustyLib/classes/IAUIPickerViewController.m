@@ -47,7 +47,7 @@ static NSString * const k_valueCellId = @"valueCell";
 
 - (void) setPickerValue:(id)aValue{
 //    NSLog(@"aValue: %@", aValue);
-//    NSLog(@"[self.p_entities indexOfObject:aValue]: %u", [self.p_entities indexOfObject:aValue]);
+//    NSLog(@"[self.entities indexOfObject:aValue]: %u", [self.entities indexOfObject:aValue]);
 //    NSLog(@"self.p_pickerView: %@", [self.p_pickerView description]);
     id l_value = nil;
     if (self.p_isEnumeration) {
@@ -62,7 +62,7 @@ static NSString * const k_valueCellId = @"valueCell";
 - (id) pickerValue{
     //    NSLog(@"[((UIPickerView*)pickerView) selectedRowInComponent:0]: %u", [((UIPickerView*)pickerView) selectedRowInComponent:0]);
     if (self.p_isEnumeration) {
-        return ((IAEnumerationEntity*)self.p_selectedObject).p_id;
+        return ((IAEnumerationEntity*)self.p_selectedObject).enumerationEntityId;
     }else{
         return self.p_selectedObject;
     }
@@ -89,11 +89,11 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
 //            NSLog(@"persistent entity!");
             self.p_entities = [[IAPersistenceManager sharedInstance] findAllForEntity:l_entityName];
         }
-//        NSLog(@"entities: %@", self.p_entities);
+//        NSLog(@"entities: %@", self.entities);
         
         [(UIPickerView*)self.p_pickerView reloadAllComponents];
 
-        [self setPickerValue:[self.p_object valueForKey:self.p_propertyName]];
+        [self setPickerValue:[self.object valueForKey:self.propertyName]];
 
         // Configure view
         [self.view addSubview:self.p_pickerView];
@@ -111,7 +111,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
 
 -(id)editedValue {
     if (self.p_isEnumeration) {
-        return ((IAEnumerationEntity*)self.p_selectedObject).p_id;
+        return ((IAEnumerationEntity*)self.p_selectedObject).enumerationEntityId;
     }else{
         return self.p_selectedObject;
     }

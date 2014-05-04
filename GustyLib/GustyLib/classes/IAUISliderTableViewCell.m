@@ -33,24 +33,24 @@
 //        self.selectionStyle = UITableViewCellEditingStyleNone;
         [[NSBundle mainBundle] loadNibNamed:@"IAUISliderView" owner:self options:nil];
 //        NSDictionary *l_options = [[IAPersistenceManager sharedInstance].entityConfig optionsForProperty:a_propertyName inManagedObject:a_managedObject];
-//        self.p_minLabel.text = [l_options valueForKey:@"minimumValueLabel"];
-//        self.p_maxLabel.text = [l_options valueForKey:@"maximumValueLabel"];
-//        self.p_slider.minimumValue = [[l_options valueForKey:@"minimumValue"] floatValue];
-//        self.p_slider.maximumValue = [[l_options valueForKey:@"maximumValue"] floatValue];
-        NSNumberFormatter *l_numberFormatter = [self.p_object IFA_numberFormatterForProperty:self.p_propertyName];
-        NSNumber *l_minValue = [self.p_object IFA_minimumValueForProperty:self.p_propertyName];
-        NSNumber *l_maxValue = [self.p_object IFA_maximumValueForProperty:self.p_propertyName];
-        self.p_minLabel.text = [l_numberFormatter stringFromNumber:l_minValue];
-        self.p_maxLabel.text = [l_numberFormatter stringFromNumber:l_maxValue];
-        self.p_slider.minimumValue = [l_minValue floatValue];
-        self.p_slider.maximumValue = [l_maxValue floatValue];
-//		[self.p_slider addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:NULL];
+//        self.minLabel.text = [l_options valueForKey:@"minimumValueLabel"];
+//        self.maxLabel.text = [l_options valueForKey:@"maximumValueLabel"];
+//        self.slider.minimumValue = [[l_options valueForKey:@"minimumValue"] floatValue];
+//        self.slider.maximumValue = [[l_options valueForKey:@"maximumValue"] floatValue];
+        NSNumberFormatter *l_numberFormatter = [self.object IFA_numberFormatterForProperty:self.propertyName];
+        NSNumber *l_minValue = [self.object IFA_minimumValueForProperty:self.propertyName];
+        NSNumber *l_maxValue = [self.object IFA_maximumValueForProperty:self.propertyName];
+        self.minLabel.text = [l_numberFormatter stringFromNumber:l_minValue];
+        self.maxLabel.text = [l_numberFormatter stringFromNumber:l_maxValue];
+        self.slider.minimumValue = [l_minValue floatValue];
+        self.slider.maximumValue = [l_maxValue floatValue];
+//		[self.slider addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:NULL];
 //        v_minimumValueDisplay = [[l_options valueForKey:@"minimumValueDisplay"] retain];
-        self.p_nibView.center = self.center;
-        CGRect l_frame = self.p_nibView.frame;
+        self.nibView.center = self.center;
+        CGRect l_frame = self.nibView.frame;
         l_frame.size.width = self.contentView.frame.size.width;
-        self.p_nibView.frame = l_frame;
-        [self.contentView addSubview:self.p_nibView];
+        self.nibView.frame = l_frame;
+        [self.contentView addSubview:self.nibView];
         self.backgroundColor = [UIColor whiteColor];
     }
     return self;
@@ -60,10 +60,10 @@
 //    [super willTransitionToState:state];
 //    switch (state) {
 //        case UITableViewCellStateDefaultMask:
-//            self.p_slider.enabled = NO;
+//            self.slider.enabled = NO;
 //            break;
 //        case UITableViewCellStateShowingEditControlMask:
-//            self.p_slider.enabled = YES;
+//            self.slider.enabled = YES;
 //            break;
 //        default:
 //            break;
@@ -72,10 +72,10 @@
 
 //- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
 //    NSNumber *l_newValue = [object valueForKey:keyPath];
-//    if (self.p_slider.minimumValue==[l_newValue floatValue] && v_minimumValueDisplay) {
+//    if (self.slider.minimumValue==[l_newValue floatValue] && v_minimumValueDisplay) {
 //        self.detailTextLabel.text = v_minimumValueDisplay;
 //    }else{
-//        [super observeValueForKeyPath:self.p_propertyName ofObject:self.p_managedObject change:change context:context];
+//        [super observeValueForKeyPath:self.propertyName ofObject:self.managedObject change:change context:context];
 //    }
 //}
 

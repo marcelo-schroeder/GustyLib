@@ -10,8 +10,8 @@
 
 @interface UIViewController (KNSemiModal)
 
-@property (nonatomic, readonly) BOOL p_presentingSemiModal;
-@property (nonatomic, readonly) BOOL p_presentedAsSemiModal;
+@property (nonatomic, readonly) BOOL presentingSemiModal;
+@property (nonatomic, readonly) BOOL presentedAsSemiModal;
 
 -(void)presentSemiModalViewController:(UIViewController*)vc;
 -(void)presentSemiModalView:(UIView*)vc;

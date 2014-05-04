@@ -34,7 +34,7 @@
 @property SEL p_callbackSelector;
 @property BOOL p_showProgressIndicator;
 @property dispatch_queue_t p_mainSerialDispatchQueue;
-@property BOOL p_areAllBlocksCancelled;
+@property BOOL areAllBlocksCancelled;
 @property BOOL p_isSharedInstance;
 
 @end
@@ -54,9 +54,9 @@
     [self.p_operation removeObserver:self forKeyPath:@"isFinished"];
     if (self.p_showProgressIndicator) {
         if ([self.p_operation isKindOfClass:[IAOperation class]]) {
-            [self.p_operation removeObserver:self forKeyPath:@"p_determinateProgress"];
-            [self.p_operation removeObserver:self forKeyPath:@"p_determinateProgressPercentage"];
-            [self.p_operation removeObserver:self forKeyPath:@"p_progressMessage"];
+            [self.p_operation removeObserver:self forKeyPath:@"determinateProgress"];
+            [self.p_operation removeObserver:self forKeyPath:@"determinateProgressPercentage"];
+            [self.p_operation removeObserver:self forKeyPath:@"progressMessage"];
         }
     }
     
@@ -80,13 +80,13 @@
 
 -(void)cancelAllSerialBlocks {
     [self hideNonModalProgressIndicatorWithAnimation:NO];
-    self.p_areAllBlocksCancelled = YES;
+    self.areAllBlocksCancelled = YES;
     self.p_cancelAllBlocksRequestOwnerUuid = nil;
-//    NSLog(@"   ###   p_areAllBlocksCancelled = YES");
+//    NSLog(@"   ###   areAllBlocksCancelled = YES");
     dispatch_async(self.p_mainSerialDispatchQueue, ^{
         if (!self.p_cancelAllBlocksRequestOwnerUuid) {
-            self.p_areAllBlocksCancelled = NO;
-//            NSLog(@"   ###   p_areAllBlocksCancelled = NO");
+            self.areAllBlocksCancelled = NO;
+//            NSLog(@"   ###   areAllBlocksCancelled = NO");
         }
     });
 }
@@ -172,9 +172,9 @@
     // Add observers for tracking progress
     if (self.p_showProgressIndicator) {
         if ([self.p_operation isKindOfClass:[IAOperation class]]) {
-            [self.p_operation addObserver:self forKeyPath:@"p_determinateProgress" options:0 context:nil];
-            [self.p_operation addObserver:self forKeyPath:@"p_determinateProgressPercentage" options:0 context:nil];
-            [self.p_operation addObserver:self forKeyPath:@"p_progressMessage" options:0 context:nil];
+            [self.p_operation addObserver:self forKeyPath:@"determinateProgress" options:0 context:nil];
+            [self.p_operation addObserver:self forKeyPath:@"determinateProgressPercentage" options:0 context:nil];
+            [self.p_operation addObserver:self forKeyPath:@"progressMessage" options:0 context:nil];
         }
     }
 
@@ -184,8 +184,8 @@
         BOOL l_allowCancellation = NO;
         if ([self.p_operation isKindOfClass:[IAOperation class]]) {
             IAOperation *l_operation = ((IAOperation*)a_operation);
-            l_message = l_operation.p_progressMessage;
-            l_allowCancellation = l_operation.p_allowCancellation;
+            l_message = l_operation.progressMessage;
+            l_allowCancellation = l_operation.allowCancellation;
         }
         if (l_allowCancellation) {
             self.p_wipViewManager = [[IAUIWorkInProgressModalViewManager alloc] initWithCancellationCallbackReceiver:self
@@ -242,7 +242,7 @@ progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView
     
     // Cancel previous blocks if required
     if (a_cancelPreviousBlocks) {
-        self.p_areAllBlocksCancelled = YES;
+        self.areAllBlocksCancelled = YES;
         self.p_cancelAllBlocksRequestOwnerUuid = l_blockUuid;
     }
 
@@ -262,10 +262,10 @@ progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView
 //        NSLog(@"a_block: %@", [a_block description]);
         
         // Reset the managed object context to avoid stale objects for this session
-        [self.p_managedObjectContext reset];
+        [self.managedObjectContext reset];
         
-        if (self.p_areAllBlocksCancelled && [self.p_cancelAllBlocksRequestOwnerUuid isEqualToString:l_blockUuid]) {
-            self.p_areAllBlocksCancelled = NO;
+        if (self.areAllBlocksCancelled && [self.p_cancelAllBlocksRequestOwnerUuid isEqualToString:l_blockUuid]) {
+            self.areAllBlocksCancelled = NO;
             self.p_cancelAllBlocksRequestOwnerUuid = nil;
          }
 
@@ -274,7 +274,7 @@ progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView
         NSMutableDictionary *l_threadDict = nil;
         if (a_usePrivateManagedObjectContext) {
             l_threadDict = [[NSThread currentThread] threadDictionary];
-            [l_threadDict setObject:self.p_managedObjectContext forKey:IA_KEY_SERIAL_QUEUE_MANAGED_OBJECT_CONTEXT];
+            [l_threadDict setObject:self.managedObjectContext forKey:IA_KEY_SERIAL_QUEUE_MANAGED_OBJECT_CONTEXT];
         }
         a_block();
         if (l_threadDict) {
@@ -314,18 +314,18 @@ usePrivateManagedObjectContext:a_usePrivateManagedObjectContext];
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     if ([keyPath isEqualToString:@"isFinished"]) {
         [self performSelectorOnMainThread:@selector(doneWithOperation) withObject:nil waitUntilDone:NO];
-    }else if ([keyPath isEqualToString:@"p_determinateProgress"]) {
+    }else if ([keyPath isEqualToString:@"determinateProgress"]) {
         BOOL l_determinateProgress = [[self.p_operation valueForKey:keyPath] boolValue];
 //        NSLog(@"l_determinateProgress: %u", l_determinateProgress);
-        self.p_wipViewManager.p_determinateProgress = l_determinateProgress;
-    }else if ([keyPath isEqualToString:@"p_determinateProgressPercentage"]) {
+        self.p_wipViewManager.determinateProgress = l_determinateProgress;
+    }else if ([keyPath isEqualToString:@"determinateProgressPercentage"]) {
         float l_determinateProgressPercentage = [[self.p_operation valueForKey:keyPath] floatValue];
 //        NSLog(@"l_determinateProgressPercentage: %f", l_determinateProgressPercentage);
-        self.p_wipViewManager.p_determinateProgressPercentage = l_determinateProgressPercentage;
-    }else if ([keyPath isEqualToString:@"p_progressMessage"]) {
+        self.p_wipViewManager.determinateProgressPercentage = l_determinateProgressPercentage;
+    }else if ([keyPath isEqualToString:@"progressMessage"]) {
         NSString *l_progressMessage = [self.p_operation valueForKey:keyPath];
 //        NSLog(@"l_progressMessage: %@", l_progressMessage);
-        self.p_wipViewManager.p_progressMessage = l_progressMessage;
+        self.p_wipViewManager.progressMessage = l_progressMessage;
     }else{
         NSAssert(NO, @"Unexpected key path: %@", keyPath);
     }
@@ -354,7 +354,7 @@ usePrivateManagedObjectContext:a_usePrivateManagedObjectContext];
         self.p_mainSerialDispatchQueue = dispatch_queue_create([l_mainSerialDispatchQueueId UTF8String], DISPATCH_QUEUE_SERIAL);
         
         // Set default managed object context for this work manager's threads
-        self.p_managedObjectContext = [IAPersistenceManager sharedInstance].privateQueueManagedObjectContext;
+        self.managedObjectContext = [IAPersistenceManager sharedInstance].privateQueueManagedObjectContext;
 
     }
 

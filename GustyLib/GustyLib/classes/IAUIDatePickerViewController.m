@@ -46,7 +46,7 @@ static NSString * const k_valueCellId = @"valueCell";
 #pragma mark - Private
 
 -(void)ifa_onDatePickerValueChanged {
-    if (self.p_datePickerMode==UIDatePickerModeCountDownTimer) {
+    if (self.datePickerMode ==UIDatePickerModeCountDownTimer) {
         self.p_countDownDuration = v_datePicker.countDownDuration;
     }else{
         self.p_dateAndTime = v_datePicker.date;
@@ -200,10 +200,10 @@ static NSString * const k_valueCellId = @"valueCell";
     if (self= [super initWithObject:anObject propertyName:aPropertyName useButtonForDismissal:a_useButtonForDismissal
                           presenter:nil ]) {
         
-        self.p_datePickerMode = aDatePickerMode;
-        self.p_showTimePicker = aShowTimePickerFlag;
+        self.datePickerMode = aDatePickerMode;
+        self.showTimePicker = aShowTimePickerFlag;
 
-        if (self.p_showTimePicker) {
+        if (self.showTimePicker) {
             
             v_timePicker = [self newDatePickerForProperty:aPropertyName inObject:anObject pickerMode:UIDatePickerModeTime];
 //            v_timePicker.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
@@ -213,7 +213,7 @@ static NSString * const k_valueCellId = @"valueCell";
 
         }
 
-        v_datePicker = [self newDatePickerForProperty:aPropertyName inObject:anObject pickerMode:self.p_datePickerMode];
+        v_datePicker = [self newDatePickerForProperty:aPropertyName inObject:anObject pickerMode:self.datePickerMode];
 //        v_datePicker.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
         v_datePicker.hidden = NO;
         [v_datePicker addTarget:self action:@selector(ifa_onDatePickerValueChanged)
@@ -223,7 +223,7 @@ static NSString * const k_valueCellId = @"valueCell";
         v_toolbarItems = [NSMutableArray arrayWithArray:[self ifa_datePickerToolbarItemsForProperty:aPropertyName
                                                                                            inObject:anObject
                                                                                              target:self]];
-        if (self.p_showTimePicker) {
+        if (self.showTimePicker) {
 
             NSAssert([v_toolbarItems count]==3, @"Unexpected array count: %u", [v_toolbarItems count]);
 
@@ -255,15 +255,16 @@ static NSString * const k_valueCellId = @"valueCell";
 
         }
         
-        if (self.p_datePickerMode==UIDatePickerModeCountDownTimer) {
+        if (self.datePickerMode ==UIDatePickerModeCountDownTimer) {
             [self addObserver:self forKeyPath:@"p_countDownDuration" options:0 context:nil];
-            self.p_countDownDuration = [[self.p_object valueForKey:self.p_propertyName] doubleValue];
+            self.p_countDownDuration = [[self.object valueForKey:self.propertyName] doubleValue];
         }else{
             [self addObserver:self forKeyPath:@"p_dateAndTime" options:0 context:nil];
-            self.p_dateAndTime = [self.p_object valueForKey:self.p_propertyName];
+            self.p_dateAndTime = [self.object valueForKey:self.propertyName];
         }
 
-        NSDictionary *l_options = [[IAPersistenceManager sharedInstance].entityConfig optionsForProperty:self.p_propertyName inObject:self.p_object];
+        NSDictionary *l_options = [[IAPersistenceManager sharedInstance].entityConfig optionsForProperty:self.propertyName
+                                                                                                inObject:self.object];
         v_seconds = [l_options objectForKey:@"seconds"];
         
         // Configure view
@@ -293,7 +294,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
 }
 
 -(id)editedValue {
-    if (self.p_datePickerMode==UIDatePickerModeCountDownTimer) {
+    if (self.datePickerMode ==UIDatePickerModeCountDownTimer) {
         return @(self.p_countDownDuration);
     }else{
         return self.p_dateAndTime;
@@ -301,7 +302,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
 }
 
 -(void)dealloc{
-    if (self.p_datePickerMode==UIDatePickerModeCountDownTimer) {
+    if (self.datePickerMode ==UIDatePickerModeCountDownTimer) {
         [self removeObserver:self forKeyPath:@"p_countDownDuration"];
     }else {
         [self removeObserver:self forKeyPath:@"p_dateAndTime"];
@@ -322,7 +323,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
     
 //    NSLog(@"observeValueForKeyPath");
     
-    if (self.p_datePickerMode==UIDatePickerModeCountDownTimer) {
+    if (self.datePickerMode ==UIDatePickerModeCountDownTimer) {
 
         v_datePicker.countDownDuration = self.p_countDownDuration;
     

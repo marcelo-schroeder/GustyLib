@@ -22,6 +22,6 @@
 
 @interface NSManagedObjectContext (IACategory)
 
-@property BOOL p_isCurrentManagedObjectDirty;
+@property BOOL IFA_isCurrentManagedObjectDirty;
 
 @end

@@ -22,9 +22,9 @@
 
 @interface IAUIAbstractFieldEditorViewController ()
 
-@property (nonatomic, strong) id p_originalValue;
-@property (nonatomic, strong) NSObject *p_object;
-@property (nonatomic, strong) NSString *p_propertyName;
+@property (nonatomic, strong) id originalValue;
+@property (nonatomic, strong) NSObject *object;
+@property (nonatomic, strong) NSString *propertyName;
 
 @end
 
@@ -44,18 +44,19 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
     
     if ((self = [super init])) {
 		
-        self.p_presenter = a_presenter;
-		self.p_object = anObject;
-		self.p_propertyName = aPropertyName;
-        self.p_useButtonForDismissal = a_useButtonForDismissal;
+        self.IFA_presenter = a_presenter;
+		self.object = anObject;
+		self.propertyName = aPropertyName;
+        self.useButtonForDismissal = a_useButtonForDismissal;
         
-        self.p_originalValue = [self.p_object valueForKey:self.p_propertyName];
+        self.originalValue = [self.object valueForKey:self.propertyName];
 		
 		self.editing = YES;
         
-        self.title = [[IAPersistenceManager sharedInstance].entityConfig labelForProperty:self.p_propertyName inObject:self.p_object];
+        self.title = [[IAPersistenceManager sharedInstance].entityConfig labelForProperty:self.propertyName
+                                                                                 inObject:self.object];
         
-        self.modalInPopover = self.p_useButtonForDismissal;
+        self.modalInPopover = self.useButtonForDismissal;
         
 	}
     
@@ -64,13 +65,13 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
 }
 
 -(void)updateModel {
-    [self.p_object IFA_setValue:[self editedValue] forProperty:self.p_propertyName];
-    [self.p_presenter changesMadeByViewController:self];
+    [self.object IFA_setValue:[self editedValue] forProperty:self.propertyName];
+    [self.IFA_presenter changesMadeByViewController:self];
 }
 
 - (BOOL)hasValueChanged {
-//    NSLog(@"hasValueChanged - old: %@, new: %@", [self.p_originalValue description], [[self editedValue] description]);
-    return ![self.p_originalValue isEqual:[self editedValue]];
+//    NSLog(@"hasValueChanged - old: %@, new: %@", [self.originalValue description], [[self editedValue] description]);
+    return ![self.originalValue isEqual:[self editedValue]];
 }
 
 -(void)done {
@@ -90,7 +91,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if (![IAUIUtils isIPad] && self.p_useButtonForDismissal) {
+    if (![IAUIUtils isIPad] && self.useButtonForDismissal) {
         self.editButtonItem.tag = IA_UIBAR_ITEM_TAG_EDIT_BUTTON;
         [self IFA_addRightBarButtonItem:[self editButtonItem]];
     }

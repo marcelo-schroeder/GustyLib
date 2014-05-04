@@ -22,9 +22,9 @@
 
 @interface IAUIFormNumberFieldTableViewCell : IAUIFormTextFieldTableViewCell
 
-@property (strong, nonatomic) UISlider *p_slider;
-@property (strong, nonatomic) UIStepper *p_stepper;
-//@property (strong, nonatomic) UILabel *p_minLabel;
-//@property (strong, nonatomic) UILabel *p_maxLabel;
+@property (strong, nonatomic) UISlider *slider;
+@property (strong, nonatomic) UIStepper *stepper;
+//@property (strong, nonatomic) UILabel *minLabel;
+//@property (strong, nonatomic) UILabel *maxLabel;
 
 @end

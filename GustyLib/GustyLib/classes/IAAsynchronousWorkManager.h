@@ -20,9 +20,9 @@
 
 @interface IAAsynchronousWorkManager : NSObject
 
-@property (nonatomic, strong) NSManagedObjectContext *p_managedObjectContext;
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
-@property (readonly) BOOL p_areAllBlocksCancelled;
+@property (readonly) BOOL areAllBlocksCancelled;
 
 + (IAAsynchronousWorkManager*)instance;
 

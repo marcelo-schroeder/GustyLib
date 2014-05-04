@@ -24,7 +24,7 @@
 
 + (id)IFA_buttonWithType:(UIButtonType)a_buttonType appearanceId:(NSString *)a_appearanceId {
     UIButton *a_button = [self buttonWithType:a_buttonType];
-    a_button.p_appearanceId = a_appearanceId;
+    a_button.IFA_appearanceId = a_appearanceId;
     [a_button IFA_init];
     return a_button;
 }

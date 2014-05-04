@@ -22,8 +22,8 @@
 
 @interface IAUIMenuViewController : IAUIFetchedResultsTableViewController
 
-@property (nonatomic, strong, readonly) NSMutableDictionary *p_indexPathToViewControllerDictionary;
-@property (nonatomic, strong) NSIndexPath *p_selectedIndexPath;
+@property (nonatomic, strong, readonly) NSMutableDictionary *indexPathToViewControllerDictionary;
+@property (nonatomic, strong) NSIndexPath *selectedIndexPath;
 
 -(void)highlightCurrentSelection;
 -(void)restoreCurrentSelection;

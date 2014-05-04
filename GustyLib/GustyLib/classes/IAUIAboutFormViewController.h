@@ -22,8 +22,8 @@
 
 @interface IAUIAboutFormViewController : IAUIFormViewController
 
-@property (strong, nonatomic) IBOutlet UIView *p_customView;
-@property (strong, nonatomic) IBOutlet UILabel *p_appNameLabel;
-@property (strong, nonatomic) IBOutlet UILabel *p_copyrightNoticeLabel;
+@property (strong, nonatomic) IBOutlet UIView *customView;
+@property (strong, nonatomic) IBOutlet UILabel *appNameLabel;
+@property (strong, nonatomic) IBOutlet UILabel *copyrightNoticeLabel;
 
 @end

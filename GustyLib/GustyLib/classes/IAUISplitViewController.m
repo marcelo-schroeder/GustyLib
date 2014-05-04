@@ -103,8 +103,8 @@
     }
 
     // Save details for later
-    self.p_popoverController = popoverController;
-    self.p_popoverControllerBarButtonItem = l_barButtonItem;
+    self.splitViewControllerPopoverController = popoverController;
+    self.splitViewControllerPopoverControllerBarButtonItem = l_barButtonItem;
     
 }
 
@@ -114,11 +114,12 @@
 //    NSLog(@"willShowViewController");
     
     // Notify view controllers of invalidated menu button
-    [[NSNotificationCenter defaultCenter] postNotificationName:IA_NOTIFICATION_MENU_BAR_BUTTON_ITEM_INVALIDATED object:self.p_popoverControllerBarButtonItem];
+    [[NSNotificationCenter defaultCenter] postNotificationName:IA_NOTIFICATION_MENU_BAR_BUTTON_ITEM_INVALIDATED
+                                                        object:self.splitViewControllerPopoverControllerBarButtonItem];
     
     // Reset saved details
-    self.p_popoverController = nil;
-    self.p_popoverControllerBarButtonItem = nil;
+    self.splitViewControllerPopoverController = nil;
+    self.splitViewControllerPopoverControllerBarButtonItem = nil;
     
 }
 

@@ -51,23 +51,23 @@
 
 - (void)ifa_configureBrowserButtons {
 
-    self.p_actionBarButtonItem = [self.p_delegate newActionBarButtonItem];
+    self.p_actionBarButtonItem = [self.delegate newActionBarButtonItem];
     self.p_actionBarButtonItem.target = self;
     self.p_actionBarButtonItem.action = @selector(ifa_onActionBarButtonTap:);
 
-    self.p_previousBarButtonItem = [self.p_delegate newPreviousBarButtonItem];
+    self.p_previousBarButtonItem = [self.delegate newPreviousBarButtonItem];
     self.p_previousBarButtonItem.target = self;
     self.p_previousBarButtonItem.action = @selector(goBackClicked:);
 
-    self.p_nextBarButtonItem = [self.p_delegate newNextBarButtonItem];
+    self.p_nextBarButtonItem = [self.delegate newNextBarButtonItem];
     self.p_nextBarButtonItem.target = self;
     self.p_nextBarButtonItem.action = @selector(goForwardClicked:);
 
-    self.p_stopBarButtonItem = [self.p_delegate newStopBarButtonItem];
+    self.p_stopBarButtonItem = [self.delegate newStopBarButtonItem];
     self.p_stopBarButtonItem.target = self;
     self.p_stopBarButtonItem.action = @selector(stopClicked:);
 
-    self.p_refreshBarButtonItem = [self.p_delegate newRefreshBarButtonItem];
+    self.p_refreshBarButtonItem = [self.delegate newRefreshBarButtonItem];
     self.p_refreshBarButtonItem.target = self;
     self.p_refreshBarButtonItem.action = @selector(reloadClicked:);
 
@@ -87,10 +87,10 @@
 }
 
 - (void)viewDidLoad {
-    self.p_delegate = self;
+    self.delegate = self;
     [self ifa_configureBrowserButtons];
     [super viewDidLoad];
-    if (self.p_presentedAsModal) {
+    if (self.IFA_presentedAsModal) {
         self.navigationItem.leftBarButtonItems = nil;
         [self IFA_addLeftBarButtonItem:[[self IFA_appearanceTheme] doneBarButtonItemWithTarget:self
                                                                                       action:@selector(doneButtonClicked:)
@@ -108,7 +108,7 @@
     self.p_previousBarButtonItem.enabled = self.mainWebView.canGoBack;
     self.p_nextBarButtonItem.enabled = self.mainWebView.canGoForward;
     [self IFA_removeRightBarButtonItem:self.p_refreshStopBarButtonItem];
-    self.p_refreshStopBarButtonItem = self.p_urlLoadCount ? self.p_stopBarButtonItem : self.p_refreshBarButtonItem;
+    self.p_refreshStopBarButtonItem = self.urlLoadCount ? self.p_stopBarButtonItem : self.p_refreshBarButtonItem;
     NSUInteger i = 0;
     [self IFA_insertRightBarButtonItem:self.p_actionBarButtonItem atIndex:i++];
     [self IFA_insertRightBarButtonItem:self.p_nextBarButtonItem atIndex:i++];

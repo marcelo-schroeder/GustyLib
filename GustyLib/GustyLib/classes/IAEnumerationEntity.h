@@ -22,8 +22,8 @@
     
 }
 
-@property (nonatomic, strong) NSNumber *p_id;
-@property (nonatomic, strong) NSString *p_name;
+@property (nonatomic, strong) NSNumber *enumerationEntityId;
+@property (nonatomic, strong) NSString *name;
 @property (weak, nonatomic, readonly) NSString *label;
 
 +(IAEnumerationEntity*)enumerationEntityForId:(NSNumber*)a_id entities:(NSArray*)a_entities;

@@ -27,7 +27,7 @@
 
 +(IAEnumerationEntity*)enumerationEntityForId:(NSNumber*)a_id entities:(NSArray*)a_entities{
     for (IAEnumerationEntity *l_enumEntity in a_entities) {
-        if ([l_enumEntity.p_id isEqual:a_id]) {
+        if ([l_enumEntity.enumerationEntityId isEqual:a_id]) {
             return l_enumEntity;
         }
     }
@@ -37,11 +37,11 @@
 #pragma mark - Overrides
 
 - (NSString *)description{
-    return [NSString stringWithFormat:@"id: %@, name: %@", [self.p_id description], self.p_name];
+    return [NSString stringWithFormat:@"id: %@, name: %@", [self.enumerationEntityId description], self.name];
 }
 
 -(NSString*)label{
-    return self.p_name;
+    return self.name;
 }
 
 @end

@@ -20,8 +20,8 @@
 
 @interface IAUIDatePickerViewController : IAUIAbstractFieldEditorViewController
 
-@property (nonatomic) UIDatePickerMode p_datePickerMode;
-@property (nonatomic) BOOL p_showTimePicker;
+@property (nonatomic) UIDatePickerMode datePickerMode;
+@property (nonatomic) BOOL showTimePicker;
 
 -(id)initWithObject:(NSObject *)anObject propertyName:(NSString *)aPropertyName datePickerMode:(UIDatePickerMode)aDatePickerMode showTimePicker:(BOOL)aShowTimePickerFlag;
 -(id)initWithObject:(NSObject *)anObject propertyName:(NSString *)aPropertyName useButtonForDismissal:(BOOL)a_useButtonForDismissal datePickerMode:(UIDatePickerMode)aDatePickerMode showTimePicker:(BOOL)aShowTimePickerFlag;

@@ -265,16 +265,16 @@
 #pragma mark UIWebViewDelegate
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
-    self.p_urlLoadCount++;
-//    NSLog(@"webViewDidStartLoad: %u", self.p_urlLoadCount);
+    self.urlLoadCount++;
+//    NSLog(@"webViewDidStartLoad: %u", self.urlLoadCount);
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     [self updateToolbarItems];
 }
 
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    self.p_urlLoadCount--;
-//    NSLog(@"webViewDidFinishLoad: %u", self.p_urlLoadCount);
+    self.urlLoadCount--;
+//    NSLog(@"webViewDidFinishLoad: %u", self.urlLoadCount);
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     [webView.scrollView flashScrollIndicators];
     
@@ -283,8 +283,8 @@
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    self.p_urlLoadCount--;
-//    NSLog(@"didFailLoadWithError: %u", self.p_urlLoadCount);
+    self.urlLoadCount--;
+//    NSLog(@"didFailLoadWithError: %u", self.urlLoadCount);
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     [webView.scrollView flashScrollIndicators];
     [self updateToolbarItems];

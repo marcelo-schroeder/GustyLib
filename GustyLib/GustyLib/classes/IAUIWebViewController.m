@@ -40,7 +40,7 @@
     self.p_webView.delegate = self;
     [self.view addSubview:self.p_webView];
     self.p_htmlDocument = [[IAHtmlDocument alloc] init];
-    self.p_htmlDocument.p_htmlBodyString = [IAUtils stringFromResource:self.p_htmlResourceName type:nil];
+    self.p_htmlDocument.htmlBodyString = [IAUtils stringFromResource:self.htmlResourceName type:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated{

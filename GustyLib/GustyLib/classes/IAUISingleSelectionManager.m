@@ -38,28 +38,28 @@
 }
 
 - (id)selectedObject{
-    if ([self.p_selectedObjects count]==0) {
+    if ([self.selectedObjects count]==0) {
         return nil;
     }else{
-        NSAssert([self.p_selectedObjects count]==1, @"Unexpected array size: %u, array: %@", [self.p_selectedObjects count], [self.p_selectedObjects description]);
-        return [self.p_selectedObjects objectAtIndex:0];
+        NSAssert([self.selectedObjects count]==1, @"Unexpected array size: %u, array: %@", [self.selectedObjects count], [self.selectedObjects description]);
+        return [self.selectedObjects objectAtIndex:0];
     }
 }
 
 - (void)setSelectedObject:(id)a_object{
-    NSAssert([self.p_selectedObjects count]<=1, @"Unexpected array size: %u", [self.p_selectedObjects count]);
-    [self.p_selectedObjects removeAllObjects];
+    NSAssert([self.selectedObjects count]<=1, @"Unexpected array size: %u", [self.selectedObjects count]);
+    [self.selectedObjects removeAllObjects];
     if (a_object) {
-        [self.p_selectedObjects addObject:a_object];
+        [self.selectedObjects addObject:a_object];
     }
 }
 
 - (NSIndexPath*)selectedIndexPath{
-    if ([self.p_selectedIndexPaths count]==0) {
+    if ([self.selectedIndexPaths count]==0) {
         return nil;
     }else{
-        NSAssert([self.p_selectedIndexPaths count]==1, @"Unexpected array size: %u", [self.p_selectedIndexPaths count]);
-        return [self.p_selectedIndexPaths objectAtIndex:0];
+        NSAssert([self.selectedIndexPaths count]==1, @"Unexpected array size: %u", [self.selectedIndexPaths count]);
+        return [self.selectedIndexPaths objectAtIndex:0];
     }
 }
 

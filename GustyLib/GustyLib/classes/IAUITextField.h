@@ -22,15 +22,15 @@
 
 @interface IAUITextField : UITextField
 
-//@property (nonatomic) BOOL p_textPaddingEnabled;
-//@property (nonatomic) CGFloat p_leftTextPadding;
-//@property (nonatomic) CGFloat p_rightTextPadding;
-//@property (nonatomic) CGFloat p_topTextPadding;
-//@property (nonatomic) CGFloat p_bottomTextPadding;
-//@property (nonatomic) BOOL p_editingPaddingEnabled;
-//@property (nonatomic) CGFloat p_leftEditingPadding;
-//@property (nonatomic) CGFloat p_rightEditingPadding;
-//@property (nonatomic) CGFloat p_topEditingPadding;
-//@property (nonatomic) CGFloat p_bottomEditingPadding;
+//@property (nonatomic) BOOL textPaddingEnabled;
+//@property (nonatomic) CGFloat leftTextPadding;
+//@property (nonatomic) CGFloat rightTextPadding;
+//@property (nonatomic) CGFloat topTextPadding;
+//@property (nonatomic) CGFloat bottomTextPadding;
+//@property (nonatomic) BOOL editingPaddingEnabled;
+//@property (nonatomic) CGFloat leftEditingPadding;
+//@property (nonatomic) CGFloat rightEditingPadding;
+//@property (nonatomic) CGFloat topEditingPadding;
+//@property (nonatomic) CGFloat bottomEditingPadding;
 
 @end

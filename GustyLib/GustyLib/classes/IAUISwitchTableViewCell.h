@@ -22,7 +22,7 @@
     
 }
 
-@property (nonatomic, strong) UISwitch *p_switch;
-@property (nonatomic) BOOL p_enabledInEditing;
+@property (nonatomic, strong) UISwitch *switchControl;
+@property (nonatomic) BOOL enabledInEditing;
 
 @end

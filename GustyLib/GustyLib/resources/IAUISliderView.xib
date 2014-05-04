@@ -115,7 +115,7 @@
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">p_minLabel</string>
+						<string key="label">minLabel</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="329215981"/>
 					</object>
@@ -123,7 +123,7 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">p_slider</string>
+						<string key="label">slider</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="704267517"/>
 					</object>
@@ -131,7 +131,7 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">p_maxLabel</string>
+						<string key="label">maxLabel</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="76508350"/>
 					</object>
@@ -139,7 +139,7 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">p_nibView</string>
+						<string key="label">nibView</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="677620231"/>
 					</object>
@@ -240,10 +240,10 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>p_maxLabel</string>
-							<string>p_minLabel</string>
-							<string>p_nibView</string>
-							<string>p_slider</string>
+							<string>maxLabel</string>
+							<string>minLabel</string>
+							<string>nibView</string>
+							<string>slider</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -257,27 +257,27 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>p_maxLabel</string>
-							<string>p_minLabel</string>
-							<string>p_nibView</string>
-							<string>p_slider</string>
+							<string>maxLabel</string>
+							<string>minLabel</string>
+							<string>nibView</string>
+							<string>slider</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
-								<string key="name">p_maxLabel</string>
+								<string key="name">maxLabel</string>
 								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">p_minLabel</string>
+								<string key="name">minLabel</string>
 								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">p_nibView</string>
+								<string key="name">nibView</string>
 								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">p_slider</string>
+								<string key="name">slider</string>
 								<string key="candidateClassName">UISlider</string>
 							</object>
 						</object>

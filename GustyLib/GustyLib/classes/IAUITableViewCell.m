@@ -34,9 +34,9 @@
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier object:(NSObject*)a_object propertyName:(NSString*)a_propertyName indexPath:(NSIndexPath*)a_indexPath{
     if ((self=[super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
-        self.p_object = a_object;
-        self.p_propertyName = a_propertyName;
-        self.p_indexPath = a_indexPath;
+        self.object = a_object;
+        self.propertyName = a_propertyName;
+        self.indexPath = a_indexPath;
     }
     return self;
 }
@@ -58,7 +58,7 @@
 -(void)willTransitionToState:(UITableViewCellStateMask)state{
     [super willTransitionToState:state];
 //    NSLog(@"willTransitionToState: %u", state);
-    self.p_swipedToDelete = (state == UITableViewCellStateShowingDeleteConfirmationMask);
+    self.swipedToDelete = (state == UITableViewCellStateShowingDeleteConfirmationMask);
 }
 
 - (void)prepareForReuse {

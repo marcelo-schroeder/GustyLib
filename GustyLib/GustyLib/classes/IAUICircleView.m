@@ -44,7 +44,7 @@
     [super drawRect:rect];
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     CGContextAddEllipseInRect(ctx, rect);
-    UIColor *l_color = self.p_foregroundColor;
+    UIColor *l_color = self.foregroundColor;
     l_color = l_color?:[UIColor redColor];
     CGContextSetFillColor(ctx, CGColorGetComponents([l_color CGColor]));
     CGContextFillPath(ctx);

@@ -47,7 +47,7 @@
 
 -(CGFloat)ifa_calculateWidth {
     CGFloat l_width = 0;
-    if (self.p_maximised) {
+    if (self.maximised) {
         l_width = [IAUIUtils widthForPortraitNumerator:0.9 portraitDenominator:1 landscapeNumerator:0.9
                                   landscapeDenominator:1];
     }else{
@@ -59,21 +59,21 @@
 
 #pragma mark - Public
 
--(void)setP_maximised:(BOOL)a_maximised{
+-(void)setMaximised:(BOOL)a_maximised{
     v_maximised = a_maximised;
     // Recalculate web view frame
     CGRect l_webViewFrame = self.p_webView.frame;
     self.p_webView.frame = CGRectMake(l_webViewFrame.origin.x, l_webViewFrame.origin.y, [self ifa_calculateWidth], l_webViewFrame.size.height);
 }
 
--(BOOL)p_maximised{
+-(BOOL)maximised {
     return v_maximised;
 }
 
 -(void)presentWithTitle:(NSString *)a_title description:(NSString *)a_description
          pointingAtView:(UIView *)a_viewPointedAt inView:(UIView *)a_viewPresentedIn completionBlock:(void (^)(void))a_completionBlock{
     
-    self.p_presentationRequestInProgress = YES;
+    self.presentationRequestInProgress = YES;
     
     // Save this infor for later when the webview has finished loading
     self.p_viewPointedAt = a_viewPointedAt;
@@ -82,11 +82,11 @@
     
     // Set the title
     self.p_helpTargetTitleLabel.text = a_title;
-    self.p_helpTargetTitleLabel.hidden = !a_title || !self.p_isTitlePositionFixed;
+    self.p_helpTargetTitleLabel.hidden = !a_title || !self.isTitlePositionFixed;
     
     // Load the description in a webview
     NSString *l_htmlBody = nil;
-    if (a_title && !self.p_isTitlePositionFixed) {
+    if (a_title && !self.isTitlePositionFixed) {
         l_htmlBody = [NSString stringWithFormat:@"<h1>%@</h1>%@", a_title, a_description];
     }else{
         l_htmlBody = a_description;
@@ -142,7 +142,7 @@
             l_htmlStyleResourceName = @"IAUIHelpPopTipView.css";
         }
         self.p_htmlDocument = [[IAHtmlDocument alloc] initWithHtmlStyleResourceName:l_htmlStyleResourceName];
-        self.p_htmlDocument.p_htmlMetaString = @"";
+        self.p_htmlDocument.htmlMetaString = @"";
         
         // Configure tap gesture recognizer
         self.p_tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -174,7 +174,7 @@
     [self addSubview:self.customView];
     
     BOOL l_shouldInvertLandscapeFrame = YES;
-    if ([[IAHelpManager sharedInstance].p_observedHelpTargetContainer isKindOfClass:[IAUIAbstractFieldEditorViewController class]]) { // Simple Help
+    if ([[IAHelpManager sharedInstance].observedHelpTargetContainer isKindOfClass:[IAUIAbstractFieldEditorViewController class]]) { // Simple Help
         l_shouldInvertLandscapeFrame = NO;
     }
     
@@ -200,7 +200,7 @@
         [self.p_webView.scrollView flashScrollIndicators];
     }                          afterDelay:0.1];
 
-    self.p_presentationRequestInProgress = NO;
+    self.presentationRequestInProgress = NO;
     
     // Run completion block
     self.p_completionBlock();

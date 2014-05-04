@@ -22,7 +22,7 @@
 
 @interface IAUIStaticPagingContainerViewController()
 
-@property (nonatomic) NSUInteger p_newChildViewControllerCount;
+@property (nonatomic) NSUInteger newChildViewControllerCount;
 
 @end
 
@@ -37,16 +37,16 @@
     
     [super viewWillAppear:animated];
     
-    self.p_childViewDidAppearCount = 0;
-    self.p_newChildViewControllerCount = 0;
+    self.childViewDidAppearCount = 0;
+    self.newChildViewControllerCount = 0;
 
     if (![self IFA_isReturningVisibleViewController]) {
         
         for (UIViewController *l_viewController in self.childViewControllers) {
             if([l_viewController isKindOfClass:[IAUIListViewController class]]){
                 IAUIListViewController *l_listViewController = (IAUIListViewController*)l_viewController;
-                if (l_listViewController.p_staleData) {
-                    self.p_newChildViewControllerCount++;
+                if (l_listViewController.staleData) {
+                    self.newChildViewControllerCount++;
                 }
             }
         }

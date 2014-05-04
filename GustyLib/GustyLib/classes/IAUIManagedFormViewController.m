@@ -24,12 +24,12 @@
 
 #pragma mark - Public
 
--(void)setP_managedObject:(NSManagedObject*)a_managedObject{
-    self.p_object = a_managedObject;
+-(void)setManagedObject:(NSManagedObject*)a_managedObject{
+    self.object = a_managedObject;
 }
 
--(NSManagedObject*)p_managedObject{
-    return (NSManagedObject*)self.p_object;
+-(NSManagedObject*)managedObject {
+    return (NSManagedObject*)self.object;
 }
 
 @end

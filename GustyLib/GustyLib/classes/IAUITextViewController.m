@@ -43,10 +43,10 @@
     l_keyboardFrame = [self.view convertRect:l_keyboardFrame fromView:nil];
     CGSize l_keyboardSize = l_keyboardFrame.size;
 
-    UIEdgeInsets l_newContentInset = self.p_scrollView.contentInset;
+    UIEdgeInsets l_newContentInset = self.scrollView.contentInset;
     l_newContentInset.bottom = l_keyboardSize.height;
-    self.p_scrollView.contentInset = l_newContentInset;
-    self.p_scrollView.scrollIndicatorInsets = l_newContentInset;
+    self.scrollView.contentInset = l_newContentInset;
+    self.scrollView.scrollIndicatorInsets = l_newContentInset;
 
     [self ifa_updateGrowingTextViewMinimumHeight];
 
@@ -56,23 +56,23 @@
 
 - (void)ifa_onKeyboardWillHideNotification:(NSNotification *)aNotification{
 
-    UIEdgeInsets l_newContentInset = self.p_scrollView.contentInset;
+    UIEdgeInsets l_newContentInset = self.scrollView.contentInset;
     l_newContentInset.bottom = 0;
-    self.p_scrollView.contentInset = l_newContentInset;
-    self.p_scrollView.scrollIndicatorInsets = l_newContentInset;
+    self.scrollView.contentInset = l_newContentInset;
+    self.scrollView.scrollIndicatorInsets = l_newContentInset;
 
 }
 
 - (void)ifa_updateGrowingTextViewMinimumHeight {
-//    self.p_growingTextView.minHeight = (int) (self.p_scrollView.frame.size.height - self.p_scrollView.contentInset.top - self.p_scrollView.contentInset.bottom - self.p_growingTextView.frame.origin.y);
-//    [self.p_growingTextView refreshHeight];
+//    self.growingTextView.minHeight = (int) (self.scrollView.frame.size.height - self.scrollView.contentInset.top - self.scrollView.contentInset.bottom - self.growingTextView.frame.origin.y);
+//    [self.growingTextView refreshHeight];
 }
 
 -(void)ifa_updateScrollViewContentSize {
-    CGRect l_newContentViewFrame = self.p_contentView.frame;
-    l_newContentViewFrame.size.height = self.p_growingTextView.frame.origin.y + self.p_growingTextView.frame.size.height;
-    self.p_contentView.frame = l_newContentViewFrame;
-    self.p_scrollView.contentSize = self.p_contentView.frame.size;
+    CGRect l_newContentViewFrame = self.contentView.frame;
+    l_newContentViewFrame.size.height = self.growingTextView.frame.origin.y + self.growingTextView.frame.size.height;
+    self.contentView.frame = l_newContentViewFrame;
+    self.scrollView.contentSize = self.contentView.frame.size;
 }
 
 - (void)ifa_quitEditing {
@@ -85,32 +85,32 @@
 /*
     {
         // DEV ONLY - START
-        self.p_contentView.backgroundColor = [UIColor orangeColor];
+        self.contentView.backgroundColor = [UIColor orangeColor];
         // DEV ONLY - END
     }
 */
-    self.p_contentView.frame = CGRectMake(0, 0, self.view.frame.size.width, 0);
-    self.p_contentView.autoresizingMask = [IAUIUtils fullAutoresizingMask];
-    [self.view addSubview:self.p_contentView];
+    self.contentView.frame = CGRectMake(0, 0, self.view.frame.size.width, 0);
+    self.contentView.autoresizingMask = [IAUIUtils fullAutoresizingMask];
+    [self.view addSubview:self.contentView];
 }
 
 - (void)ifa_scrollToCaret {
-    if (self.p_growingTextView.internalTextView.isFirstResponder) {
-        [self.p_scrollView IFA_scrollToCaretInTextView:self.p_growingTextView.internalTextView];
+    if (self.growingTextView.internalTextView.isFirstResponder) {
+        [self.scrollView IFA_scrollToCaretInTextView:self.growingTextView.internalTextView];
     }
 }
 
 - (void)ifa_configureTextView {
-    self.p_growingTextView.minNumberOfLines = 1;
-    self.p_growingTextView.maxHeight = NSIntegerMax;
-    self.p_growingTextView.delegate = self;
+    self.growingTextView.minNumberOfLines = 1;
+    self.growingTextView.maxHeight = NSIntegerMax;
+    self.growingTextView.delegate = self;
     CGFloat l_horizontalInset = [IAUtils isIOS7OrGreater] ? 3 : 0;
-    self.p_growingTextView.contentInset = UIEdgeInsetsMake(0, l_horizontalInset, 0, l_horizontalInset);
+    self.growingTextView.contentInset = UIEdgeInsetsMake(0, l_horizontalInset, 0, l_horizontalInset);
 /*
     {
         // DEV ONLY - START
-        self.p_growingTextView.backgroundColor = [UIColor redColor];
-        self.p_growingTextView.internalTextView.backgroundColor = [UIColor yellowColor];
+        self.growingTextView.backgroundColor = [UIColor redColor];
+        self.growingTextView.internalTextView.backgroundColor = [UIColor yellowColor];
         // DEV ONLY - END
     }
 */
@@ -124,11 +124,11 @@
 }
 
 - (void)ifa_configureScrollView {
-    self.p_scrollView.delegate = self;
+    self.scrollView.delegate = self;
 /*
     {
         // DEV ONLY - START
-        self.p_scrollView.backgroundColor = [UIColor greenColor];
+        self.scrollView.backgroundColor = [UIColor greenColor];
         // DEV ONLY - END
     }
 */
@@ -137,7 +137,7 @@
 #pragma mark - Public
 
 -(BOOL)hasValueChanged {
-    return ![self.p_originalTextViewValue isEqualToString:self.p_growingTextView.internalTextView.text];
+    return ![self.p_originalTextViewValue isEqualToString:self.growingTextView.internalTextView.text];
 }
 
 - (IBAction)onCancelButtonAction:(id)sender {
@@ -154,7 +154,7 @@
 }
 
 -(UIResponder*)initialFirstResponder {
-    return self.p_growingTextView.internalTextView;
+    return self.growingTextView.internalTextView;
 }
 
 #pragma mark - Overrides
@@ -169,7 +169,7 @@
     [self ifa_configureTextView];
 
     // Save text view's original value
-    self.p_originalTextViewValue = self.p_growingTextView.internalTextView.text;
+    self.p_originalTextViewValue = self.growingTextView.internalTextView.text;
 
 }
 

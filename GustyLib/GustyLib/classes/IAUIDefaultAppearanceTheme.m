@@ -71,34 +71,36 @@
         self.p_statusBarStyle = [UIApplication sharedApplication].statusBarStyle;
         
         // Navigation bar
-        self.p_navigationBarBackgroundImageForDefaultBarMetrics = [self.p_navigationBarAppearance backgroundImageForBarMetrics:UIBarMetricsDefault];
-        self.p_popoverNavigationBarBackgroundImageForDefaultBarMetrics = [self.p_popoverNavigationBarAppearance backgroundImageForBarMetrics:UIBarMetricsDefault];
-        self.p_navigationBarTitleTextAttributes = self.p_navigationBarAppearance.titleTextAttributes;
-        self.p_navigationBarTitleVerticalPositionAdjustmentDefault = [self.p_navigationBarAppearance titleVerticalPositionAdjustmentForBarMetrics:UIBarMetricsDefault];
-        self.p_navigationBarTitleVerticalPositionAdjustmentLandscapePhone = [self.p_navigationBarAppearance titleVerticalPositionAdjustmentForBarMetrics:UIBarMetricsLandscapePhone];
+        self.p_navigationBarBackgroundImageForDefaultBarMetrics = [self.navigationBarAppearance backgroundImageForBarMetrics:UIBarMetricsDefault];
+        self.p_popoverNavigationBarBackgroundImageForDefaultBarMetrics = [self.popoverNavigationBarAppearance backgroundImageForBarMetrics:UIBarMetricsDefault];
+        self.p_navigationBarTitleTextAttributes = self.navigationBarAppearance.titleTextAttributes;
+        self.p_navigationBarTitleVerticalPositionAdjustmentDefault = [self.navigationBarAppearance titleVerticalPositionAdjustmentForBarMetrics:UIBarMetricsDefault];
+        self.p_navigationBarTitleVerticalPositionAdjustmentLandscapePhone = [self.navigationBarAppearance titleVerticalPositionAdjustmentForBarMetrics:UIBarMetricsLandscapePhone];
         
         // Bar button items
-        self.p_barButtonItemTintColor = self.p_barButtonItemAppearance.tintColor;
-        self.p_navigationBarButtonItemTintColor = self.p_navigationBarButtonItemAppearance.tintColor;
-        self.p_toolbarButtonItemTintColor = self.p_toolbarButtonItemAppearance.tintColor;
+        self.p_barButtonItemTintColor = self.barButtonItemAppearance.tintColor;
+        self.p_navigationBarButtonItemTintColor = self.navigationBarButtonItemAppearance.tintColor;
+        self.p_toolbarButtonItemTintColor = self.toolbarButtonItemAppearance.tintColor;
         
         // Toobar background
-        self.p_toolbarBackgroundImageForDefaultBarMetrics = [self.p_toolbarAppearance backgroundImageForToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
-        self.p_popoverToolbarBarBackgroundImageForDefaultBarMetrics = [self.p_popoverToolbarAppearance backgroundImageForToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+        self.p_toolbarBackgroundImageForDefaultBarMetrics = [self.toolbarAppearance backgroundImageForToolbarPosition:UIToolbarPositionAny
+                                                                                                           barMetrics:UIBarMetricsDefault];
+        self.p_popoverToolbarBarBackgroundImageForDefaultBarMetrics = [self.popoverToolbarAppearance backgroundImageForToolbarPosition:UIToolbarPositionAny
+                                                                                                                            barMetrics:UIBarMetricsDefault];
         
         // TabBar
-        self.p_tabBarBackgroundImage = self.p_tabBarAppearance.backgroundImage;
-        self.p_tabBarSelectedImageTintColor = self.p_tabBarAppearance.selectedImageTintColor;
+        self.p_tabBarBackgroundImage = self.tabBarAppearance.backgroundImage;
+        self.p_tabBarSelectedImageTintColor = self.tabBarAppearance.selectedImageTintColor;
         
         // TabBar Item
-        self.p_tabBarItemTitleTextAttributesForNormalState = [self.p_tabBarItemAppearance titleTextAttributesForState:UIControlStateNormal];
-        self.p_tabBarItemTitleTextAttributesForSelectedState = [self.p_tabBarItemAppearance titleTextAttributesForState:UIControlStateSelected];
+        self.p_tabBarItemTitleTextAttributesForNormalState = [self.tabBarItemAppearance titleTextAttributesForState:UIControlStateNormal];
+        self.p_tabBarItemTitleTextAttributesForSelectedState = [self.tabBarItemAppearance titleTextAttributesForState:UIControlStateSelected];
         
         // Search bar
-        self.p_searchBarBackgroundImage = self.p_searchBarAppearance.backgroundImage;
+        self.p_searchBarBackgroundImage = self.searchBarAppearance.backgroundImage;
         
         // Segmented control
-        self.p_segmentedControlTintColor = self.p_segmentedControlAppearance.tintColor;
+        self.p_segmentedControlTintColor = self.segmentedControlAppearance.tintColor;
 
     }
     return self;
@@ -112,57 +114,74 @@
     [UIApplication sharedApplication].statusBarStyle = self.p_statusBarStyle;
     
     // Navigation bar
-    [self.p_navigationBarAppearance setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-    [self.p_popoverNavigationBarAppearance setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-    [self.p_navigationBarAppearance setTitleTextAttributes:nil];
-    [self.p_popoverNavigationBarAppearance setTitleTextAttributes:nil];
-    [self.p_navigationBarAppearance setTitleVerticalPositionAdjustment:self.p_navigationBarTitleVerticalPositionAdjustmentDefault forBarMetrics:UIBarMetricsDefault];
-    [self.p_navigationBarAppearance setTitleVerticalPositionAdjustment:self.p_navigationBarTitleVerticalPositionAdjustmentLandscapePhone forBarMetrics:UIBarMetricsLandscapePhone];
+    [self.navigationBarAppearance setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    [self.popoverNavigationBarAppearance setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    [self.navigationBarAppearance setTitleTextAttributes:nil];
+    [self.popoverNavigationBarAppearance setTitleTextAttributes:nil];
+    [self.navigationBarAppearance setTitleVerticalPositionAdjustment:self.p_navigationBarTitleVerticalPositionAdjustmentDefault
+                                                       forBarMetrics:UIBarMetricsDefault];
+    [self.navigationBarAppearance setTitleVerticalPositionAdjustment:self.p_navigationBarTitleVerticalPositionAdjustmentLandscapePhone
+                                                       forBarMetrics:UIBarMetricsLandscapePhone];
     
     // Bar button items
-    [self.p_barButtonItemAppearance setTintColor:self.p_barButtonItemTintColor];
-    [self.p_barButtonItemAppearance setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    [self.p_barButtonItemAppearance setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
-    [self.p_barButtonItemAppearance setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-    [self.p_barButtonItemAppearance setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsLandscapePhone];
-    [self.p_barButtonItemAppearance setBackButtonBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    [self.p_barButtonItemAppearance setBackButtonBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
-    [self.p_barButtonItemAppearance setBackButtonBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-    [self.p_barButtonItemAppearance setBackButtonBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsLandscapePhone];
-    [self.p_barButtonItemAppearance setTitleTextAttributes:nil forState:UIControlStateNormal];
-    [self.p_barButtonItemAppearance setTitleTextAttributes:nil forState:UIControlStateHighlighted];
-    [self.p_navigationBarButtonItemAppearance setTintColor:self.p_navigationBarButtonItemTintColor];
-    [self.p_toolbarButtonItemAppearance setTintColor:self.p_toolbarButtonItemTintColor];
+    [self.barButtonItemAppearance setTintColor:self.p_barButtonItemTintColor];
+    [self.barButtonItemAppearance setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [self.barButtonItemAppearance setBackgroundImage:nil forState:UIControlStateNormal
+                                          barMetrics:UIBarMetricsLandscapePhone];
+    [self.barButtonItemAppearance setBackgroundImage:nil forState:UIControlStateHighlighted
+                                          barMetrics:UIBarMetricsDefault];
+    [self.barButtonItemAppearance setBackgroundImage:nil forState:UIControlStateHighlighted
+                                          barMetrics:UIBarMetricsLandscapePhone];
+    [self.barButtonItemAppearance setBackButtonBackgroundImage:nil forState:UIControlStateNormal
+                                                    barMetrics:UIBarMetricsDefault];
+    [self.barButtonItemAppearance setBackButtonBackgroundImage:nil forState:UIControlStateNormal
+                                                    barMetrics:UIBarMetricsLandscapePhone];
+    [self.barButtonItemAppearance setBackButtonBackgroundImage:nil forState:UIControlStateHighlighted
+                                                    barMetrics:UIBarMetricsDefault];
+    [self.barButtonItemAppearance setBackButtonBackgroundImage:nil forState:UIControlStateHighlighted
+                                                    barMetrics:UIBarMetricsLandscapePhone];
+    [self.barButtonItemAppearance setTitleTextAttributes:nil forState:UIControlStateNormal];
+    [self.barButtonItemAppearance setTitleTextAttributes:nil forState:UIControlStateHighlighted];
+    [self.navigationBarButtonItemAppearance setTintColor:self.p_navigationBarButtonItemTintColor];
+    [self.toolbarButtonItemAppearance setTintColor:self.p_toolbarButtonItemTintColor];
     
     // Toobar background
-    [self.p_toolbarAppearance setBackgroundImage:self.p_toolbarBackgroundImageForDefaultBarMetrics forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
-    [self.p_popoverToolbarAppearance setBackgroundImage:self.p_popoverToolbarBarBackgroundImageForDefaultBarMetrics forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+    [self.toolbarAppearance setBackgroundImage:self.p_toolbarBackgroundImageForDefaultBarMetrics
+                            forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+    [self.popoverToolbarAppearance setBackgroundImage:self.p_popoverToolbarBarBackgroundImageForDefaultBarMetrics
+                                   forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
     
     // TabBar
-    [self.p_tabBarAppearance setBackgroundImage:self.p_tabBarBackgroundImage];
-    [self.p_tabBarAppearance setSelectedImageTintColor:self.p_tabBarSelectedImageTintColor];
+    [self.tabBarAppearance setBackgroundImage:self.p_tabBarBackgroundImage];
+    [self.tabBarAppearance setSelectedImageTintColor:self.p_tabBarSelectedImageTintColor];
     
     // TabBar Item
-    [self.p_tabBarItemAppearance setTitleTextAttributes:self.p_tabBarItemTitleTextAttributesForNormalState forState:UIControlStateNormal];
-    [self.p_tabBarItemAppearance setTitleTextAttributes:self.p_tabBarItemTitleTextAttributesForSelectedState forState:UIControlStateSelected];
+    [self.tabBarItemAppearance setTitleTextAttributes:self.p_tabBarItemTitleTextAttributesForNormalState
+                                             forState:UIControlStateNormal];
+    [self.tabBarItemAppearance setTitleTextAttributes:self.p_tabBarItemTitleTextAttributesForSelectedState
+                                             forState:UIControlStateSelected];
     
     // Search bar
-    self.p_searchBarAppearance.backgroundImage = self.p_searchBarBackgroundImage;
-    [self.p_searchBarAppearance setImage:nil forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+    self.searchBarAppearance.backgroundImage = self.p_searchBarBackgroundImage;
+    [self.searchBarAppearance setImage:nil forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
     
     // Segmented control
-    [self.p_segmentedControlAppearance setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    [self.p_segmentedControlAppearance setBackgroundImage:nil forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
-    [self.p_segmentedControlAppearance setDividerImage:nil forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    [self.p_segmentedControlAppearance setDividerImage:nil forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
-    [self.p_segmentedControlAppearance setDividerImage:nil forLeftSegmentState:UIControlStateSelected rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    [self.p_segmentedControlAppearance setTitleTextAttributes:nil forState:UIControlStateNormal];
-    [self.p_segmentedControlAppearance setTitleTextAttributes:nil forState:UIControlStateSelected];
-    self.p_segmentedControlAppearance.tintColor = self.p_segmentedControlTintColor;
+    [self.segmentedControlAppearance setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [self.segmentedControlAppearance setBackgroundImage:nil forState:UIControlStateSelected
+                                             barMetrics:UIBarMetricsDefault];
+    [self.segmentedControlAppearance setDividerImage:nil forLeftSegmentState:UIControlStateNormal
+                                   rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [self.segmentedControlAppearance setDividerImage:nil forLeftSegmentState:UIControlStateNormal
+                                   rightSegmentState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+    [self.segmentedControlAppearance setDividerImage:nil forLeftSegmentState:UIControlStateSelected
+                                   rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [self.segmentedControlAppearance setTitleTextAttributes:nil forState:UIControlStateNormal];
+    [self.segmentedControlAppearance setTitleTextAttributes:nil forState:UIControlStateSelected];
+    self.segmentedControlAppearance.tintColor = self.p_segmentedControlTintColor;
     
     // Slider
-    self.p_sliderAppearance.minimumTrackTintColor = nil;
-    self.p_sliderAppearance.maximumTrackTintColor = nil;
+    self.sliderAppearance.minimumTrackTintColor = nil;
+    self.sliderAppearance.maximumTrackTintColor = nil;
     
 }
 

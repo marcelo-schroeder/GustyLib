@@ -27,17 +27,17 @@
 @interface IAUIListViewController : IAUIFetchedResultsTableViewController
 
 @property (nonatomic, strong) NSString *entityName;
-@property (nonatomic, strong, readonly) dispatch_block_t p_refreshAndReloadDataAsyncBlock;
-@property (nonatomic, strong) NSMutableArray *p_entities;
-@property (nonatomic, strong) NSDate *p_lastRefreshAndReloadDate;
-@property (nonatomic, readonly) BOOL p_refreshAndReloadDataAsyncRequested;
-@property (nonatomic, strong) NSMutableArray *p_sectionHeaderTitles;
-@property (nonatomic, strong) NSMutableArray *p_sectionsWithRows;
-@property (nonatomic, strong) NSString *p_listGroupedBy;
-@property (nonatomic, strong) UIBarButtonItem *p_addBarButtonItem;
-@property (nonatomic, strong) NSManagedObjectID *p_editedManagedObjectId;
+@property (nonatomic, strong, readonly) dispatch_block_t refreshAndReloadDataAsyncBlock;
+@property (nonatomic, strong) NSMutableArray *entities;
+@property (nonatomic, strong) NSDate *lastRefreshAndReloadDate;
+@property (nonatomic, readonly) BOOL refreshAndReloadDataAsyncRequested;
+@property (nonatomic, strong) NSMutableArray *sectionHeaderTitles;
+@property (nonatomic, strong) NSMutableArray *sectionsWithRows;
+@property (nonatomic, strong) NSString *listGroupedBy;
+@property (nonatomic, strong) UIBarButtonItem *addBarButtonItem;
+@property (nonatomic, strong) NSManagedObjectID *editedManagedObjectId;
 
-@property BOOL p_staleData;
+@property BOOL staleData;
 
 - (id)initWithEntityName:(NSString *)anEntityName;
 - (NSArray*)findEntities;

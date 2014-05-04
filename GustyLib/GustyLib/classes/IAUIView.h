@@ -22,6 +22,6 @@
 
 @interface IAUIView : UIView
 
-@property (nonatomic) BOOL p_isBackgroundView;
+@property (nonatomic) BOOL isBackgroundView;
 
 @end

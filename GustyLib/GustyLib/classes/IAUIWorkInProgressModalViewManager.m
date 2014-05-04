@@ -39,9 +39,9 @@
     v_hud.mode = MBProgressHUDModeIndeterminate;
     v_hud.labelText = @"Cancelling...";
     v_hud.detailsLabelText = @"";
-    self.p_hasBeenCancelled = YES;
-    if (self.p_cancelationCompletionBlock) {
-        self.p_cancelationCompletionBlock();
+    self.hasBeenCancelled = YES;
+    if (self.cancelationCompletionBlock) {
+        self.cancelationCompletionBlock();
     }else{
 //    [v_cancellationCallbackReceiver performSelector:v_cancellationCallbackSelector withObject:nil];
         objc_msgSend(v_cancellationCallbackReceiver, v_cancellationCallbackSelector, v_cancellationCallbackArgument);
@@ -49,8 +49,8 @@
 }
 
 - (void)ifa_removeGestureRecogniser {
-    if ([v_hud.p_userInteractionView.gestureRecognizers count]==1) {
-        [v_hud.p_userInteractionView removeGestureRecognizer:[[v_hud.p_userInteractionView gestureRecognizers] objectAtIndex:0]];
+    if ([v_hud.userInteractionView.gestureRecognizers count]==1) {
+        [v_hud.userInteractionView removeGestureRecognizer:[[v_hud.userInteractionView gestureRecognizers] objectAtIndex:0]];
     }
 }
 
@@ -63,38 +63,38 @@
         v_cancellationCallbackReceiver = a_callbackReceiver;
         v_cancellationCallbackSelector = a_callbackSelector;
         v_cancellationCallbackArgument = a_callbackArgument;
-        self.p_cancelationCompletionBlock = a_cancellationCompletionBlock;
-        self.p_progressMessage = a_message ? a_message : @"Work in progress...";
+        self.cancelationCompletionBlock = a_cancellationCompletionBlock;
+        self.progressMessage = a_message ? a_message : @"Work in progress...";
     }
     return self;
 }
 
 #pragma mark - Public
 
--(void)setP_determinateProgress:(BOOL)p_determinateProgress{
-    v_hud.mode = p_determinateProgress ? MBProgressHUDModeDeterminate : MBProgressHUDModeIndeterminate;
+-(void)setDeterminateProgress:(BOOL)determinateProgress {
+    v_hud.mode = determinateProgress ? MBProgressHUDModeDeterminate : MBProgressHUDModeIndeterminate;
 }
 
--(BOOL)p_determinateProgress{
+-(BOOL)determinateProgress {
     return v_hud.mode == MBProgressHUDModeDeterminate;
 }
 
--(void)setP_determinateProgressPercentage:(float)p_determinateProgressPercentage{
-    v_hud.progress = p_determinateProgressPercentage;
+-(void)setDeterminateProgressPercentage:(float)determinateProgressPercentage {
+    v_hud.progress = determinateProgressPercentage;
 }
 
--(float)p_determinateProgressPercentage{
+-(float)determinateProgressPercentage {
     return v_hud.progress;
 }
 
--(void)setP_progressMessage:(NSString *)p_progressMessage{
-    v_message = p_progressMessage;
+-(void)setProgressMessage:(NSString *)progressMessage {
+    v_message = progressMessage;
     if (v_hud) {
         v_hud.labelText = v_message;
     }
 }
 
--(NSString *)p_progressMessage{
+-(NSString *)progressMessage {
     return v_message;
 }
 
@@ -152,28 +152,28 @@
 
 - (void)showViewForView:(UIView *)a_view animate:(BOOL)a_animate hudConfigurationBlock:(void(^)(MBProgressHUD *))a_hudConfigurationBlock{
 
-    self.p_hasBeenCancelled = NO;
+    self.hasBeenCancelled = NO;
 
     // Instantiate HUD
     v_hud = [[MBProgressHUD alloc] initWithView:a_view];
     
     // Configure HUD
     v_hud.opacity = 0.6;
-    v_hud.labelText = self.p_progressMessage;
+    v_hud.labelText = self.progressMessage;
     v_hud.removeFromSuperViewOnHide = YES;
     v_hud.animationType = MBProgressHUDAnimationFade;
     v_hud.dimBackground = YES;
     v_hud.mode = MBProgressHUDModeIndeterminate;
     
     // Allow cancellation if required
-    if (v_cancellationCallbackReceiver || self.p_cancelationCompletionBlock) {
+    if (v_cancellationCallbackReceiver || self.cancelationCompletionBlock) {
 
         // Set details label to indicate that cancellation is possible
         v_hud.detailsLabelText = @"Tap to cancel";
         
         // Add tap gesture recogniser
         UITapGestureRecognizer *l_recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onCancelTap:)];
-        [v_hud.p_userInteractionView addGestureRecognizer:l_recognizer];
+        [v_hud.userInteractionView addGestureRecognizer:l_recognizer];
         
     }
 

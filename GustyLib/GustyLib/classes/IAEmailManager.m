@@ -32,8 +32,8 @@
 
 -(id)initWithParentViewController:(UIViewController*)a_parentViewController completionBlock:(void (^)(void))a_completionBlock{
     if (self=[super init]) {
-        self.p_parentViewController = a_parentViewController;
-        self.p_completionBlock = a_completionBlock;
+        self.parentViewController = a_parentViewController;
+        self.completionBlock = a_completionBlock;
     }
     return self;
 }
@@ -59,7 +59,7 @@
 //            NSLog(@"a_attachmentUrl.lastPathComponent: %@", a_attachmentUrl.lastPathComponent);
             [l_mailer addAttachmentData:l_attachmentData mimeType:a_attachmentMimeType fileName:a_attachmentUrl.lastPathComponent];
         }
-        [self.p_parentViewController presentViewController:l_mailer animated:YES completion:nil];
+        [self.parentViewController presentViewController:l_mailer animated:YES completion:nil];
         
     }else{
         
@@ -72,10 +72,10 @@
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error{
     
-    self.p_completionBlock();
+    self.completionBlock();
     
     // Remove the mail view
-    [self.p_parentViewController dismissViewControllerAnimated:YES completion:NULL];
+    [self.parentViewController dismissViewControllerAnimated:YES completion:NULL];
     
     if (result==MFMailComposeResultFailed) {
         [IAUtils dispatchAsyncMainThreadBlock:^{

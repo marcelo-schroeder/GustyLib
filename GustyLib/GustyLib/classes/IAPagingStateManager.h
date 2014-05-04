@@ -30,10 +30,10 @@ static const NSUInteger k_IAPagingPageSizeAll = 0;
 
 @interface IAPagingStateManager : NSObject
 
-@property(nonatomic, readonly) NSUInteger p_pageSize;
-@property (nonatomic, readonly) NSUInteger p_currentPageIndex;
-@property (nonatomic, readonly) NSUInteger p_resultsCountShowing;
-@property (nonatomic, readonly) NSUInteger p_resultsCountTotal;
+@property(nonatomic, readonly) NSUInteger pageSize;
+@property (nonatomic, readonly) NSUInteger currentPageIndex;
+@property (nonatomic, readonly) NSUInteger resultsCountShowing;
+@property (nonatomic, readonly) NSUInteger resultsCountTotal;
 
 - (id)initWithPageSize:(NSUInteger)a_pageSize;
 
@@ -46,8 +46,8 @@ static const NSUInteger k_IAPagingPageSizeAll = 0;
 @end
 
 @interface IAPagingCriteria : NSObject
-@property (nonatomic, readonly) NSUInteger p_pageIndex;
-@property (nonatomic, readonly) NSUInteger p_pageSize;
+@property (nonatomic, readonly) NSUInteger pageIndex;
+@property (nonatomic, readonly) NSUInteger pageSize;
 
 - (instancetype)initWithPageIndex:(NSUInteger)a_pageIndex pageSize:(NSUInteger)a_pageSize;
 

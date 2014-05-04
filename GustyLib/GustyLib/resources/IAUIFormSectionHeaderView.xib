@@ -93,7 +93,7 @@
 			<array class="NSMutableArray" key="connectionRecords">
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">p_titleLabel</string>
+						<string key="label">titleLabel</string>
 						<reference key="source" ref="815399766"/>
 						<reference key="destination" ref="122111197"/>
 					</object>
@@ -148,7 +148,7 @@
 						<array key="userDefinedRuntimeAttributes">
 							<object class="IBUserDefinedRuntimeAttribute">
 								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.number</string>
-								<string key="keyPath">p_type</string>
+								<string key="keyPath">type</string>
 								<integer value="1" key="value"/>
 							</object>
 						</array>
@@ -168,13 +168,13 @@
 					<string key="className">IAUITableSectionHeaderView</string>
 					<string key="superclassName">IAUIView</string>
 					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">p_titleLabel</string>
+						<string key="NS.key.0">titleLabel</string>
 						<string key="NS.object.0">UILabel</string>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">p_titleLabel</string>
+						<string key="NS.key.0">titleLabel</string>
 						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">p_titleLabel</string>
+							<string key="name">titleLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
 					</object>

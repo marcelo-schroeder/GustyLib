@@ -22,12 +22,12 @@
 
 @interface IAUIWorkInProgressModalViewManager : NSObject
 
-@property (nonatomic) BOOL p_determinateProgress;
-@property (nonatomic) float p_determinateProgressPercentage;
-@property (nonatomic, strong) NSString *p_progressMessage;
-@property (nonatomic) BOOL p_hasBeenCancelled;
+@property (nonatomic) BOOL determinateProgress;
+@property (nonatomic) float determinateProgressPercentage;
+@property (nonatomic, strong) NSString *progressMessage;
+@property (nonatomic) BOOL hasBeenCancelled;
 
-@property(nonatomic, copy) void (^p_cancelationCompletionBlock)();
+@property(nonatomic, copy) void (^cancelationCompletionBlock)();
 
 -(id)initWithMessage:(NSString*)a_message;
 -(id)initWithCancellationCallbackReceiver:(id)a_callbackReceiver cancellationCallbackSelector:(SEL)a_callbackSelector;

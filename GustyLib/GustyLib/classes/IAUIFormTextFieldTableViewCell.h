@@ -24,7 +24,7 @@
 
 @interface IAUIFormTextFieldTableViewCell : IAUIFormTableViewCell <UITextFieldDelegate>
 
-@property (strong, nonatomic) IAUITextField *p_textField;
+@property (strong, nonatomic) IAUITextField *textField;
 
 -(void)reloadData;
 -(BOOL)valueChanged;

@@ -29,7 +29,7 @@ typedef enum  {
 
 @interface IAUITableCellSelectedBackgroundView : UIView
 
-@property(nonatomic, strong) UIColor *p_borderColor, *p_fillColor;
-@property(nonatomic) IAUITableViewCellSelectedBackgroundStyle p_style;
+@property(nonatomic, strong) UIColor *borderColor, *fillColor;
+@property(nonatomic) IAUITableViewCellSelectedBackgroundStyle style;
 
 @end

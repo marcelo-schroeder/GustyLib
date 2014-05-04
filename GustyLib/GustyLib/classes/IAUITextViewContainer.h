@@ -22,7 +22,7 @@
 
 @interface IAUITextViewContainer : IAUIView
 
-@property (nonatomic, strong) UIImageView *p_backgroundImageView;
-@property (nonatomic, strong) UITextView *p_textView;
+@property (nonatomic, strong) UIImageView *backgroundImageView;
+@property (nonatomic, strong) UITextView *textView;
 
 @end

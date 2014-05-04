@@ -19,9 +19,9 @@
 #import "IAUIViewController.h"
 
 @interface IAUIMasterDetailViewController : IAUIViewController
-@property (strong, nonatomic) UIViewController *p_masterViewController;
-@property (strong, nonatomic) UIViewController *p_detailViewController;
-@property (strong, nonatomic, readonly) UIView *p_masterContainerView;
-@property (strong, nonatomic, readonly) UIView *p_detailContainerView;
-@property (strong, nonatomic, readonly) UIView *p_separatorView;
+@property (strong, nonatomic) UIViewController *masterViewController;
+@property (strong, nonatomic) UIViewController *detailViewController;
+@property (strong, nonatomic, readonly) UIView *masterContainerView;
+@property (strong, nonatomic, readonly) UIView *detailContainerView;
+@property (strong, nonatomic, readonly) UIView *separatorView;
 @end

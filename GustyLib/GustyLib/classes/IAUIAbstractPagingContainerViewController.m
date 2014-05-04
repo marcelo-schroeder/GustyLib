@@ -22,8 +22,8 @@
 
 @interface IAUIAbstractPagingContainerViewController ()
 
-@property (nonatomic) NSUInteger p_selectedPageIndex;
-@property (nonatomic) NSUInteger p_newChildViewControllerCount;
+@property (nonatomic) NSUInteger selectedPageIndex;
+@property (nonatomic) NSUInteger newChildViewControllerCount;
 
 @end
 
@@ -32,12 +32,12 @@
 
 #pragma mark - Public
 
--(UIScrollView*)p_scrollView{
+-(UIScrollView*)scrollView {
     return (UIScrollView*)self.view;
 }
 
--(IAUITableViewController*)p_selectedViewController{
-    return [self.childViewControllers objectAtIndex:self.p_selectedPageIndex];
+-(IAUITableViewController*)selectedViewController {
+    return [self.childViewControllers objectAtIndex:self.selectedPageIndex];
 }
 
 -(void)updateContentLayout {
@@ -51,7 +51,7 @@
 //        NSLog(@"l_viewController.view.frame: %@", NSStringFromCGRect(l_viewController.view.frame));
         l_contentWidth += l_viewController.view.frame.size.width;
     }
-    self.p_scrollView.contentSize = CGSizeMake(l_contentWidth, self.view.frame.size.height);
+    self.scrollView.contentSize = CGSizeMake(l_contentWidth, self.view.frame.size.height);
 }
 
 -(CGRect)visibleRectForPage:(NSUInteger)a_pageIndex{
@@ -69,11 +69,11 @@
     
 //    NSLog(@"m_scrollToPage: %u", a_pageIndex);
     
-    [self.p_scrollView scrollRectToVisible:[self visibleRectForPage:a_pageIndex] animated:a_animated];
-//    NSLog(@"m_scrollToPage - frame: %@", NSStringFromCGRect(self.p_scrollView.frame));
-//    NSLog(@"m_scrollToPage - bounds: %@", NSStringFromCGRect(self.p_scrollView.bounds));
+    [self.scrollView scrollRectToVisible:[self visibleRectForPage:a_pageIndex] animated:a_animated];
+//    NSLog(@"m_scrollToPage - frame: %@", NSStringFromCGRect(self.scrollView.frame));
+//    NSLog(@"m_scrollToPage - bounds: %@", NSStringFromCGRect(self.scrollView.bounds));
     
-    self.p_previousVisibleViewController = nil;
+    self.previousVisibleViewController = nil;
 
     [self IFA_updateScreenDecorationState];
     
@@ -95,14 +95,14 @@
         UIViewController *l_viewController = [self.childViewControllers objectAtIndex:i];
         if ([l_viewController isKindOfClass:[IAUIListViewController class]]) {
             IAUIListViewController *l_childListViewController = (IAUIListViewController*)l_viewController;
-            //            NSLog(@"  l_pageIndex: %u, child: %@, staleData: %u", i, [l_childViewController description], l_childViewController.p_staleData);
-            if (l_childListViewController.p_staleData) {
-                BOOL l_shouldShowProgressIndicator = l_firstChildViewController && l_childListViewController==self.p_selectedViewController;
+            //            NSLog(@"  l_pageIndex: %u, child: %@, staleData: %u", i, [l_childViewController description], l_childViewController.staleData);
+            if (l_childListViewController.staleData) {
+                BOOL l_shouldShowProgressIndicator = l_firstChildViewController && l_childListViewController==self.selectedViewController;
                 //                NSLog(@"    l_shouldShowProgressIndicator: %u", l_shouldShowProgressIndicator);
-                //                NSLog(@"    l_childViewController.p_refreshAndReloadDataAsyncBlock: %@", [l_childViewController.p_refreshAndReloadDataAsyncBlock description]);
-                [self.p_aom dispatchSerialBlock:l_childListViewController.p_refreshAndReloadDataAsyncBlock
-                          showProgressIndicator:l_shouldShowProgressIndicator
-                           cancelPreviousBlocks:l_firstChildViewController];
+                //                NSLog(@"    l_childViewController.refreshAndReloadDataAsyncBlock: %@", [l_childViewController.refreshAndReloadDataAsyncBlock description]);
+                [self.IFA_asynchronousWorkManager dispatchSerialBlock:l_childListViewController.refreshAndReloadDataAsyncBlock
+                                                showProgressIndicator:l_shouldShowProgressIndicator
+                                                 cancelPreviousBlocks:l_firstChildViewController];
                 l_firstChildViewController = NO;
             }
         }
@@ -116,7 +116,7 @@
 
 -(NSUInteger)calculateSelectedPageIndex {
     CGFloat l_contentWidth = self.view.frame.size.width;
-    IAUIScrollPage l_selectedPageIndex = floor((self.p_scrollView.contentOffset.x - l_contentWidth / 2) / l_contentWidth) + 1;
+    IAUIScrollPage l_selectedPageIndex = floor((self.scrollView.contentOffset.x - l_contentWidth / 2) / l_contentWidth) + 1;
     return l_selectedPageIndex;
 }
 
@@ -150,12 +150,12 @@
     
     // When the interface orientation changes in some other tab, it will trigger a scrollViewDidScroll event when this view is shown.
     // We need to ignore that event and that is reason to re-layout below so we can do set a flag to indicate we have to ignore it.
-    if (self.p_interfaceOrientation!=self.interfaceOrientation) {
+    if (self.lastActiveInterfaceOrientation !=self.interfaceOrientation) {
         
         //        NSLog(@"Orientation CHANGED in viewWillAppear! - v_interfaceOrientation: %u, self.interfaceOrientation: %u", v_interfaceOrientation, self.interfaceOrientation);
         
-        self.p_willRotate = YES;
-        self.p_interfaceOrientation = self.interfaceOrientation;
+        self.willRotate = YES;
+        self.lastActiveInterfaceOrientation = self.interfaceOrientation;
         
         // If orientation changes while this controller's view is not visible, we need to adjust this controller's frame to reflect the new orientation.
         //  The frame must reflect the new orientation by the time the m_updateChildViewControllersForSelectedPage method call is made below because it will the basis for the children's frames.
@@ -164,7 +164,7 @@
         self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.navigationController.view.frame.size.width, self.navigationController.view.frame.size.height - self.navigationController.navigationBar.frame.size.height - self.navigationController.toolbar.frame.size.height);
         
     }
-    self.p_willRotate = NO;
+    self.willRotate = NO;
     
     [super viewWillAppear:animated];
     
@@ -175,13 +175,13 @@
     [super viewDidAppear:animated];
     
     // Update scroll view content's height as it may need to change due to toolbar being hidden/shown
-    self.p_scrollView.contentSize = CGSizeMake(self.p_scrollView.contentSize.width, self.view.frame.size.height);
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.contentSize.width, self.view.frame.size.height);
     
 }
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
 //    NSLog(@"willRotateToInterfaceOrientation in %@", [self description]);
-    self.p_willRotate = YES;
+    self.willRotate = YES;
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
@@ -193,26 +193,26 @@
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
 //    NSLog(@"didRotateFromInterfaceOrientation in %@", [self description]);
-    self.p_willRotate = NO;
+    self.willRotate = NO;
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    self.p_interfaceOrientation = self.interfaceOrientation;
+    self.lastActiveInterfaceOrientation = self.interfaceOrientation;
 }
 
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender{
     
-    if (self.p_willRotate) {
+    if (self.willRotate) {
         // v_willRotate: changes to interface orientation may generate callbacks to this method: we have to ignore those...
 //        NSLog(@"Ignoring scrollViewDidScroll event in IAUIAbstractPagingContainerViewController");
         return;
     }
     
     IAUIScrollPage l_newSelectedPageIndex = [self calculateSelectedPageIndex];
-    if (self.p_selectedPageIndex!=l_newSelectedPageIndex) {
-        self.p_selectedPageIndex = l_newSelectedPageIndex;
+    if (self.selectedPageIndex !=l_newSelectedPageIndex) {
+        self.selectedPageIndex = l_newSelectedPageIndex;
         [self IFA_updateScreenDecorationState];
-//        NSLog(@" self.p_selectedPageIndex CHANGED: %u, title: %@", self.p_selectedPageIndex, self.navigationItem.title);
+//        NSLog(@" self.selectedPageIndex CHANGED: %u, title: %@", self.selectedPageIndex, self.navigationItem.title);
     }
     
 }

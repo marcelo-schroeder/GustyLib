@@ -22,19 +22,19 @@
 
 @interface IAUITableViewController : UITableViewController <UIAlertViewDelegate>
 
-@property (nonatomic) BOOL p_contextSwitchRequestRequired;
-@property (nonatomic) BOOL p_contextSwitchRequestPending;
-@property (nonatomic) BOOL p_doneButtonSaves;
-@property (nonatomic, strong) id p_contextSwitchRequestObject;
-@property (nonatomic, readonly) BOOL p_selectedViewControllerInPagingContainer;
-@property (nonatomic, readonly) IAUIAbstractPagingContainerViewController *p_pagingContainerViewController;
-@property (nonatomic, weak) UIViewController *p_previousVisibleViewController;
-@property (nonatomic, strong) UIView *p_sectionHeaderView;
-@property (nonatomic, strong) UIColor *p_tableCellTextColor;
-@property (nonatomic) BOOL p_shouldCreateContainerViewOnLoadView;
+@property (nonatomic) BOOL contextSwitchRequestRequired;
+@property (nonatomic) BOOL contextSwitchRequestPending;
+@property (nonatomic) BOOL doneButtonSaves;
+@property (nonatomic, strong) id contextSwitchRequestObject;
+@property (nonatomic, readonly) BOOL selectedViewControllerInPagingContainer;
+@property (nonatomic, readonly) IAUIAbstractPagingContainerViewController *pagingContainerViewController;
+@property (nonatomic, weak) UIViewController *previousVisibleViewController;
+@property (nonatomic, strong) UIView *sectionHeaderView;
+@property (nonatomic, strong) UIColor *tableCellTextColor;
+@property (nonatomic) BOOL shouldCreateContainerViewOnLoadView;
 
 // Used to indicate to the setEditing method whether we are navigating away from the current view and that a UI stage change is no longer required
-@property (nonatomic) BOOL p_skipEditingUiStateChange;
+@property (nonatomic) BOOL skipEditingUiStateChange;
 
 - (void)reloadData;
 - (void)oncontextSwitchRequestNotification:(NSNotification*)aNotification;

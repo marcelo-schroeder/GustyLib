@@ -26,10 +26,10 @@
     IAEmailManager *v_emailManager;
     
 }
-@synthesize p_copyrightNoticeLabel;
-@synthesize p_createdByLabel;
-@synthesize p_visualDesignByLabel;
-@synthesize p_editionLabel;
+@synthesize copyrightNoticeLabel;
+@synthesize createdByLabel;
+@synthesize visualDesignByLabel;
+@synthesize editionLabel;
 
 
 #pragma mark - Private
@@ -85,7 +85,7 @@
 
 #pragma mark - Overrides
 
--(BOOL)p_manageToolbar{
+-(BOOL)IFA_manageToolbar {
     return NO;
 }
 
@@ -94,17 +94,17 @@
     [super viewDidLoad];
 
     // Set product name and version in the view
-    self.p_appNameLabel.text = [IAUtils appName];
-    self.p_editionLabel.text = [IAUtils appEdition];
-    self.p_versionLabel.text = [IAUtils appVersionAndBuildNumber];
-    self.p_copyrightNoticeLabel.text = [[IAUtils infoPList] objectForKey:@"IACopyrightNotice"];
-    self.p_createdByLabel.text = [[IAUtils infoPList] objectForKey:@"IACreatedBy"];
-    self.p_visualDesignByLabel.text = [[IAUtils infoPList] objectForKey:@"IAVisualDesignBy"];
+    self.appNameLabel.text = [IAUtils appName];
+    self.editionLabel.text = [IAUtils appEdition];
+    self.versionLabel.text = [IAUtils appVersionAndBuildNumber];
+    self.copyrightNoticeLabel.text = [[IAUtils infoPList] objectForKey:@"IACopyrightNotice"];
+    self.createdByLabel.text = [[IAUtils infoPList] objectForKey:@"IACreatedBy"];
+    self.visualDesignByLabel.text = [[IAUtils infoPList] objectForKey:@"IAVisualDesignBy"];
     
     // Set email manager
     v_emailManager = [[IAEmailManager alloc ] initWithParentViewController:self];
 
-    self.p_forceCrashButton.hidden = ![[[IAUtils infoPList] objectForKey:@"IAShowForceCrashButton"] boolValue];
+    self.forceCrashButton.hidden = ![[[IAUtils infoPList] objectForKey:@"IAShowForceCrashButton"] boolValue];
 
 }
 

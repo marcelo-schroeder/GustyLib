@@ -32,22 +32,22 @@
 #pragma mark - Private
 
 -(void)ifa_updateLeftBarButtonItemsStates {
-    if (!self.p_pagingContainerViewController || self.p_selectedViewControllerInPagingContainer) {
-        [self IFA_addLeftBarButtonItem:self.p_addBarButtonItem];
+    if (!self.pagingContainerViewController || self.selectedViewControllerInPagingContainer) {
+        [self IFA_addLeftBarButtonItem:self.addBarButtonItem];
     }
 }
 
 #pragma mark - UITableViewDelegate Protocol
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (![[[IAPersistenceManager sharedInstance] entityConfig] disallowDetailDisclosureForEntity:self.IFA_entityName]) {
+    if (![[[IAPersistenceManager sharedInstance] entityConfig] disallowDetailDisclosureForEntity:self.entityName]) {
         [self tableView:tableView accessoryButtonTappedForRowWithIndexPath:indexPath];
         [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:NO];
     }
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
-    if (![IAHelpManager sharedInstance].p_helpMode) {
+    if (![IAHelpManager sharedInstance].helpMode) {
         [self showEditFormForManagedObject:(NSManagedObject*) [self objectForIndexPath:indexPath]];
     }
 }
@@ -65,31 +65,31 @@
 		}
 
 		// Update the main entities array
-        [self.p_entities removeObject:mo];
+        [self.entities removeObject:mo];
 
         // Update the "sections with rows" array
-        NSMutableArray *l_sectionRows = [self.p_sectionsWithRows objectAtIndex:indexPath.section];
-        if (self.p_listGroupedBy) {
+        NSMutableArray *l_sectionRows = [self.sectionsWithRows objectAtIndex:indexPath.section];
+        if (self.listGroupedBy) {
             [l_sectionRows removeObjectAtIndex:indexPath.row];
             if ([l_sectionRows count]==0) {
-                [self.p_sectionsWithRows removeObjectAtIndex:indexPath.section];
+                [self.sectionsWithRows removeObjectAtIndex:indexPath.section];
             }
         }
 
         // Mark data as stale if required
-        if ([self.p_entities count]==0) {
-            self.p_staleData = YES;
+        if ([self.entities count]==0) {
+            self.staleData = YES;
         }
 
         // Update the table view
         [self.tableView beginUpdates];
         [self.tableView IFA_deleteRowsAtIndexPaths:@[indexPath]];
-        if (self.p_listGroupedBy && [l_sectionRows count]==0) {
+        if (self.listGroupedBy && [l_sectionRows count]==0) {
             [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
         [self.tableView endUpdates];
 
-        if ([self.p_entities count]==0) {
+        if ([self.entities count]==0) {
             NSAssert(self.editing, @"Unexpected editing state: %u", self.editing);
             [self setEditing:NO animated:YES];
         }else{
@@ -100,7 +100,7 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
-	return [IAHelpManager sharedInstance].p_helpMode ? NO : [[IAPersistenceManager sharedInstance].entityConfig listReorderAllowedForEntity:self.IFA_entityName];
+	return [IAHelpManager sharedInstance].helpMode ? NO : [[IAPersistenceManager sharedInstance].entityConfig listReorderAllowedForEntity:self.entityName];
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath{
@@ -109,8 +109,8 @@
         
         //    NSLog(@"moveRowAtIndexPath: %u", fromIndexPath.row);
         //    NSLog(@"toIndexPath: %u", toIndexPath.row);
-        NSManagedObject *fromManagedObject = [self.p_entities objectAtIndex:fromIndexPath.row];
-        NSManagedObject *toManagedObject = [self.p_entities objectAtIndex:toIndexPath.row];
+        NSManagedObject *fromManagedObject = [self.entities objectAtIndex:fromIndexPath.row];
+        NSManagedObject *toManagedObject = [self.entities objectAtIndex:toIndexPath.row];
         //    NSLog(@"fromManagedObject: %u", [[fromManagedObject valueForKey:@"seq"] unsignedIntValue]);
         //    NSLog(@"toManagedObject: %u", [[toManagedObject valueForKey:@"seq"] unsignedIntValue]);
         
@@ -128,10 +128,10 @@
         [[IAPersistenceManager sharedInstance] saveObject:fromManagedObject];
         
         // Re-order backing entity array
-        //    NSLog(@"entities BEFORE sorting: %@", [self.p_entities description]);
+        //    NSLog(@"entities BEFORE sorting: %@", [self.entities description]);
         NSSortDescriptor *l_sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"seq" ascending:YES];
-        [self.p_entities sortUsingDescriptors:@[l_sortDescriptor]];
-        //    NSLog(@"entities AFTER sorting: %@", [self.p_entities description]);
+        [self.entities sortUsingDescriptors:@[l_sortDescriptor]];
+        //    NSLog(@"entities AFTER sorting: %@", [self.entities description]);
         
     }
 
@@ -147,7 +147,7 @@
 
 -(UITableViewCell *)createReusableCellWithIdentifier:(NSString *)a_reuseIdentifier atIndexPath:(NSIndexPath *)a_indexPath{
 	UITableViewCell *l_cell = [super createReusableCellWithIdentifier:a_reuseIdentifier atIndexPath:a_indexPath];
-    if ([[[IAPersistenceManager sharedInstance] entityConfig] disallowDetailDisclosureForEntity:self.IFA_entityName]) {
+    if ([[[IAPersistenceManager sharedInstance] entityConfig] disallowDetailDisclosureForEntity:self.entityName]) {
         l_cell.accessoryType = UITableViewCellAccessoryNone;
         l_cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }else {
@@ -162,8 +162,8 @@
 
     [super viewDidLoad];
 	
-    if (![[[IAPersistenceManager sharedInstance] entityConfig] disallowUserAdditionForEntity:self.IFA_entityName]) {
-        self.p_addBarButtonItem = [IAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_ITEM_ADD target:self action:@selector(onAddButtonTap:)];
+    if (![[[IAPersistenceManager sharedInstance] entityConfig] disallowUserAdditionForEntity:self.entityName]) {
+        self.addBarButtonItem = [IAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_ITEM_ADD target:self action:@selector(onAddButtonTap:)];
     }
 
     self.editButtonItem.tag = IA_UIBAR_ITEM_TAG_EDIT_BUTTON;
@@ -195,7 +195,7 @@
 -(void)IFA_reset {
     [super IFA_reset];
     // If it was left editing previously, reset it to non-editing mode.
-    if (![self IFA_isReturningVisibleViewController] && self.editing && !self.p_staleData) {  // If it's stale data, then quitEditing will be performed by the didRefreshAndReloadDataAsync method
+    if (![self IFA_isReturningVisibleViewController] && self.editing && !self.staleData) {  // If it's stale data, then quitEditing will be performed by the didRefreshAndReloadDataAsync method
         [self quitEditing];
     }
 }

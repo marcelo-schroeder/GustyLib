@@ -59,13 +59,13 @@
 }
 
 -(void)highlightCurrentSelection {
-//    NSLog(@"t: %@, p: %@, = %u", [self.tableView.indexPathForSelectedRow description], [self.p_selectedIndexPath description], [self.tableView.indexPathForSelectedRow isEqual:self.p_selectedIndexPath]);
-    [self.tableView selectRowAtIndexPath:self.p_selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+//    NSLog(@"t: %@, p: %@, = %u", [self.tableView.indexPathForSelectedRow description], [self.selectedIndexPath description], [self.tableView.indexPathForSelectedRow isEqual:self.selectedIndexPath]);
+    [self.tableView selectRowAtIndexPath:self.selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
 }
 
 -(UIViewController*)newViewControllerForIndexPath:(NSIndexPath*)a_indexPath{
     UITableViewCell *l_cell = [self tableView:self.tableView cellForRowAtIndexPath:a_indexPath];
-    BOOL l_useDeviceAgnosticMainStoryboard = [IAUIApplicationDelegate sharedInstance].p_useDeviceAgnosticMainStoryboard;
+    BOOL l_useDeviceAgnosticMainStoryboard = [IAUIApplicationDelegate sharedInstance].useDeviceAgnosticMainStoryboard;
     UIStoryboard *l_storyboard = l_useDeviceAgnosticMainStoryboard ? self.storyboard : [self IFA_commonStoryboard];
     UIViewController *l_viewController = [l_storyboard instantiateViewControllerWithIdentifier:l_cell.reuseIdentifier];
     if ((self.splitViewController || self.slidingViewController) && ![l_viewController isKindOfClass:[UINavigationController class]]) {
@@ -80,7 +80,7 @@
 }
 
 -(UIViewController*)viewControllerForIndexPath:(NSIndexPath*)a_indexPath{
-    UIViewController *l_viewController = [self.p_indexPathToViewControllerDictionary objectForKey:a_indexPath];
+    UIViewController *l_viewController = [self.indexPathToViewControllerDictionary objectForKey:a_indexPath];
     if (l_viewController) { // A view controller is cached
         //        NSLog(@"   view controller is cached: %@", [l_viewController description]);
         // Reset view controller's state
@@ -88,9 +88,9 @@
     }else{
         // Configure a new view controller
         l_viewController = [self newViewControllerForIndexPath:a_indexPath];
-        l_viewController.p_presenter = self;
-        [self.p_indexPathToViewControllerDictionary setObject:l_viewController forKey:a_indexPath];
-        //        NSLog(@"   p_indexPathToViewControllerDictionary: %@", [self.p_indexPathToViewControllerDictionary description]);
+        l_viewController.IFA_presenter = self;
+        [self.indexPathToViewControllerDictionary setObject:l_viewController forKey:a_indexPath];
+        //        NSLog(@"   indexPathToViewControllerDictionary: %@", [self.indexPathToViewControllerDictionary description]);
     }
     return l_viewController;
 }
@@ -117,8 +117,8 @@
         [self.navigationController pushViewController:l_viewController animated:YES];
     }
     
-    self.p_selectedIndexPath = a_indexPath;
-    //    NSLog(@"self.p_selectedIndexPath: %@", [self.p_selectedIndexPath description]);
+    self.selectedIndexPath = a_indexPath;
+    //    NSLog(@"self.selectedIndexPath: %@", [self.selectedIndexPath description]);
     
     if (self.splitViewController || self.slidingViewController) {
         if (self.p_previousViewController && [self.p_previousViewController isKindOfClass:[UINavigationController class]]) {
@@ -167,7 +167,7 @@
     return l_menuViewController;
 }
 
--(NSMutableDictionary *)p_indexPathToViewControllerDictionary{
+-(NSMutableDictionary *)indexPathToViewControllerDictionary {
     id l_obj = [[IADynamicCache sharedInstance] objectForKey:IA_CACHE_KEY_MENU_VIEW_CONTROLLERS_DICTIONARY];
     if (!l_obj) {
 //        NSLog(@"Menu view controllers dictionary not in the cache. Creating a new one...");
@@ -184,7 +184,7 @@
     [super viewDidLoad];
     
     // Clear view controller dictionary in case the UI has been re-loaded   
-    [self.p_indexPathToViewControllerDictionary removeAllObjects];
+    [self.indexPathToViewControllerDictionary removeAllObjects];
 
     // Add observers if required
     if (self.splitViewController || self.slidingViewController) {
@@ -238,8 +238,8 @@
     if (self.splitViewController || self.slidingViewController) {
         l_selectedViewController = self.splitViewController ? [self.splitViewController.viewControllers objectAtIndex:1] : self.slidingViewController.topViewController;
         if ([l_selectedViewController isKindOfClass:[IAUINavigationController class]]) {
-            //    NSLog(@"l_navigationController.p_contextSwitchRequestRequired: %u", l_selectedNavigationController.p_contextSwitchRequestRequired);
-            if (((IAUINavigationController*)l_selectedViewController).p_contextSwitchRequestRequired) {
+            //    NSLog(@"l_navigationController.contextSwitchRequestRequired: %u", l_selectedNavigationController.contextSwitchRequestRequired);
+            if (((IAUINavigationController*)l_selectedViewController).contextSwitchRequestRequired) {
                 NSNotification *l_notification = [NSNotification notificationWithName:IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST object:indexPath userInfo:nil];
                 [[NSNotificationQueue defaultQueue] enqueueNotification:l_notification 
                                                            postingStyle:NSPostASAP

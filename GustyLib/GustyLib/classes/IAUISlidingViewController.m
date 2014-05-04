@@ -42,8 +42,8 @@
     self.underLeftViewController = l_storyboardMenuViewController;
 
     // Configure placeholder view controller
-    if (self.p_placeholderViewControllerStoryboardId) {
-        self.topViewController = [self.storyboard instantiateViewControllerWithIdentifier:self.p_placeholderViewControllerStoryboardId];
+    if (self.placeholderViewControllerStoryboardId) {
+        self.topViewController = [self.storyboard instantiateViewControllerWithIdentifier:self.placeholderViewControllerStoryboardId];
     }
     
 }

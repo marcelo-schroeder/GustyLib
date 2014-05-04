@@ -55,29 +55,30 @@
 
 -(void)replyToContextSwitchRequestWithGranted:(BOOL)a_granted{
     NSString *l_notificationName = a_granted ? IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST_GRANTED : IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST_DENIED;
-    NSNotification *l_notification = [NSNotification notificationWithName:l_notificationName object:self.p_contextSwitchRequestObject userInfo:nil];
+    NSNotification *l_notification = [NSNotification notificationWithName:l_notificationName
+                                                                   object:self.contextSwitchRequestObject userInfo:nil];
     [[NSNotificationQueue defaultQueue] enqueueNotification:l_notification 
                                                postingStyle:NSPostASAP
                                                coalesceMask:NSNotificationNoCoalescing 
                                                    forModes:nil];
-    self.p_contextSwitchRequestPending = NO;
-    self.p_contextSwitchRequestObject = nil;
+    self.contextSwitchRequestPending = NO;
+    self.contextSwitchRequestObject = nil;
 //    NSLog(@"IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST_%@ sent by %@", a_granted?@"GRANTED":@"DENIED", [self description]);
 }
 
--(BOOL)p_contextSwitchRequestRequired{
+-(BOOL)contextSwitchRequestRequired {
     if ([self.navigationController isKindOfClass:[IAUINavigationController class]]) {
-        return ((IAUINavigationController*)self.navigationController).p_contextSwitchRequestRequired;
+        return ((IAUINavigationController*)self.navigationController).contextSwitchRequestRequired;
     }else{
         return NO;
     }
 }
 
--(void)setP_contextSwitchRequestRequired:(BOOL)a_contextSwitchRequestRequired{
-//    NSLog(@"setting p_contextSwitchRequestRequired 2...");
+-(void)setContextSwitchRequestRequired:(BOOL)a_contextSwitchRequestRequired{
+//    NSLog(@"setting contextSwitchRequestRequired 2...");
     if ([self.navigationController isKindOfClass:[IAUINavigationController class]]) {
-        ((IAUINavigationController*)self.navigationController).p_contextSwitchRequestRequired = a_contextSwitchRequestRequired;
-//        NSLog(@"   *** p_contextSwitchRequestRequired set to %u", self.p_contextSwitchRequestRequired);
+        ((IAUINavigationController*)self.navigationController).contextSwitchRequestRequired = a_contextSwitchRequestRequired;
+//        NSLog(@"   *** contextSwitchRequestRequired set to %u", self.contextSwitchRequestRequired);
     }
 }
 
@@ -87,8 +88,8 @@
 
 - (void)oncontextSwitchRequestNotification:(NSNotification*)aNotification{
 //    NSLog(@"IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST received by %@", [self description]);
-    self.p_contextSwitchRequestPending = YES;
-    self.p_contextSwitchRequestObject = aNotification.object;
+    self.contextSwitchRequestPending = YES;
+    self.contextSwitchRequestObject = aNotification.object;
     [self quitEditing];
 }
 
@@ -102,9 +103,9 @@
     self.editing = NO;
 }
 
-- (BOOL)p_selectedViewControllerInPagingContainer{
-//    NSLog(@"self: %@, self.p_pagingContainerViewController: %@, self.p_pagingContainerViewController.p_mainChildViewController: %@", [self description], [self.p_pagingContainerViewController description], [self.p_pagingContainerViewController.p_mainChildViewController description]);
-    return self.p_pagingContainerViewController.p_selectedViewController == self;
+- (BOOL)selectedViewControllerInPagingContainer {
+//    NSLog(@"self: %@, self.pagingContainerViewController: %@, self.pagingContainerViewController.p_mainChildViewController: %@", [self description], [self.pagingContainerViewController description], [self.pagingContainerViewController.p_mainChildViewController description]);
+    return self.pagingContainerViewController.selectedViewController == self;
 }
 
 -(NSCalendar*)calendar {
@@ -143,7 +144,7 @@
         l_cell = [self createReusableCellWithIdentifier:a_reuseIdentifier atIndexPath:a_indexPath];
 
         // Set help target ID
-        l_cell.p_helpTargetId = [self IFA_helpTargetIdForName:@"tableCell"];
+        l_cell.helpTargetId = [self IFA_helpTargetIdForName:@"tableCell"];
        
         // Set appearance
         [[[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
@@ -169,15 +170,15 @@
         @autoreleasepool {
             if ([l_cell isKindOfClass:[IAUITableViewCell class]]) {
                 IAUITableViewCell *l_customCell = (IAUITableViewCell*)l_cell;
-//                NSLog(@"p_swipedToDelete: %u", l_customCell.p_swipedToDelete);
-                if (l_customCell.p_swipedToDelete) {
+//                NSLog(@"swipedToDelete: %u", l_customCell.swipedToDelete);
+                if (l_customCell.swipedToDelete) {
                     l_swipedToDelete = YES;
                     break;
                 }
             }
         }
     }
-    self.p_sectionHeaderView.bounds = CGRectMake( (self.editing && !l_swipedToDelete ) ? 0 : [self sectionHeaderNonEditingXOffset], 0, self.tableView.frame.size.width, self.p_sectionHeaderView.frame.size.height);
+    self.sectionHeaderView.bounds = CGRectMake( (self.editing && !l_swipedToDelete ) ? 0 : [self sectionHeaderNonEditingXOffset], 0, self.tableView.frame.size.width, self.sectionHeaderView.frame.size.height);
 }
 
 -(void)reloadMovedCellAtIndexPath:(NSIndexPath*)a_indexPath{
@@ -207,7 +208,7 @@
 
 -(void)ifa_init {
     if ([self IFA_shouldEnableAds]) {
-        self.p_shouldCreateContainerViewOnLoadView = YES;
+        self.shouldCreateContainerViewOnLoadView = YES;
     }
 }
 
@@ -262,7 +263,7 @@
     [super viewDidAppear:animated];
     [self IFA_viewDidAppear];
         
-    if ( (!self.p_pagingContainerViewController || self.p_selectedViewControllerInPagingContainer) && (![IAUIUtils isIPad] || self.p_isDetailViewController) ) {
+    if ( (!self.pagingContainerViewController || self.selectedViewControllerInPagingContainer) && (![IAUIUtils isIPad] || self.IFA_isDetailViewController) ) {
         
         // Add observers
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -298,7 +299,7 @@
 }
 
 -(UITableView *)tableView{
-    if (self.p_shouldCreateContainerViewOnLoadView) {
+    if (self.shouldCreateContainerViewOnLoadView) {
         if (!self.view) {
             [self loadView];
         }
@@ -309,7 +310,7 @@
 }
 
 -(void)loadView{
-    if (self.p_shouldCreateContainerViewOnLoadView) {
+    if (self.shouldCreateContainerViewOnLoadView) {
         CGRect l_frame;
         if (self.parentViewController) {
             l_frame = CGRectZero;
@@ -336,7 +337,7 @@
 
 -(void)viewDidLoad{
 
-    self.p_tableCellTextColor = [[self IFA_appearanceTheme] tableCellTextColor];
+    self.tableCellTextColor = [[self IFA_appearanceTheme] tableCellTextColor];
     [super viewDidLoad];
     [self IFA_viewDidLoad];
     self.tableView.delegate = self;
@@ -355,7 +356,7 @@
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
 
-    if (!self.p_skipEditingUiStateChange) { // Avoids unnecessary UI state change in Create mode
+    if (!self.skipEditingUiStateChange) { // Avoids unnecessary UI state change in Create mode
         [super setEditing:editing animated:animated];
 //        [super m_updateEditButtonItemAccessibilityLabel];
         
@@ -363,33 +364,33 @@
         [[self IFA_appearanceTheme] setAppearanceForBarButtonItem:self.editButtonItem viewController:nil
                                                       important:editing];
         
-        if (self.p_sectionHeaderView) {
+        if (self.sectionHeaderView) {
             [UIView animateWithDuration:IA_UI_ANIMATION_DURATION animations:^{
                 [self updateSectionHeaderBounds];
             }];
         }
     }
 
-    if (v_initDone && !self.p_skipEditingUiStateChange) {
-        if (self.p_manageToolbar) {
+    if (v_initDone && !self.skipEditingUiStateChange) {
+        if (self.IFA_manageToolbar) {
             [self IFA_updateToolbarForMode:editing animated:animated];
         }else{
             [((IAUIViewController *) self.parentViewController) IFA_updateToolbarForMode:editing animated:animated];
         }
     }
 
-    if (self.p_contextSwitchRequestPending) {
+    if (self.contextSwitchRequestPending) {
         // Notify that any pending context switch can occur
         [self replyToContextSwitchRequestWithGranted:YES];
     }
 
     if ([self contextSwitchRequestRequiredInEditMode]) {
-//        NSLog(@"setting p_contextSwitchRequestRequired 1...");
-        self.p_contextSwitchRequestRequired =  editing;
+//        NSLog(@"setting contextSwitchRequestRequired 1...");
+        self.contextSwitchRequestRequired =  editing;
     }
 
-    if (self.p_pagingContainerViewController) {
-        self.p_pagingContainerViewController.p_scrollView.scrollEnabled = !editing;
+    if (self.pagingContainerViewController) {
+        self.pagingContainerViewController.scrollView.scrollEnabled = !editing;
     }
 
 }
@@ -402,11 +403,11 @@
     return [self IFA_supportedInterfaceOrientations];
 }
 
--(BOOL)p_manageToolbar{
-    return !self.p_pagingContainerViewController;
+-(BOOL)IFA_manageToolbar {
+    return !self.pagingContainerViewController;
 }
 
--(IAUIAbstractPagingContainerViewController*)p_pagingContainerViewController{
+-(IAUIAbstractPagingContainerViewController*)pagingContainerViewController {
     return [self.parentViewController isKindOfClass:[IAUIAbstractPagingContainerViewController class]] ? (IAUIAbstractPagingContainerViewController*)self.parentViewController : nil;
 }
 
@@ -446,13 +447,13 @@
 #pragma mark - UITableViewDataSource protocol
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
-    return ![IAHelpManager sharedInstance].p_helpMode;
+    return ![IAHelpManager sharedInstance].helpMode;
 }
 
 #pragma mark - UITableViewDelegate protocol
 
 -(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    return [IAHelpManager sharedInstance].p_helpMode ? nil : indexPath;
+    return [IAHelpManager sharedInstance].helpMode ? nil : indexPath;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -464,21 +465,21 @@
 #pragma mark - UIScrollViewDelegate protocol
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    if ([IAHelpManager sharedInstance].p_helpMode) {
+    if ([IAHelpManager sharedInstance].helpMode) {
         [[IAHelpManager sharedInstance] refreshHelpTargets];
     }
 }
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
     if (!decelerate) {
-        if ([IAHelpManager sharedInstance].p_helpMode) {
+        if ([IAHelpManager sharedInstance].helpMode) {
             [[IAHelpManager sharedInstance] refreshHelpTargets];
         }
     }
 }
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-    if ([IAHelpManager sharedInstance].p_helpMode) {
+    if ([IAHelpManager sharedInstance].helpMode) {
         [[IAHelpManager sharedInstance] resetUi];
     }
 }

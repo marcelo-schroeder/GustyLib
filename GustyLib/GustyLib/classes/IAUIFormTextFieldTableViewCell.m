@@ -30,18 +30,18 @@
 #pragma mark - Public
 
 -(void)reloadData {
-    self.p_textField.text = [self.p_object IFA_propertyStringValueForName:self.p_propertyName
-                                                                 calendar:[NSCalendar IFA_threadSafeCalendar]];
+    self.textField.text = [self.object IFA_propertyStringValueForName:self.propertyName
+                                                             calendar:[NSCalendar IFA_threadSafeCalendar]];
 }
 
 -(BOOL)valueChanged {
     
 	// Old text
-	NSString* l_oldText = [self.p_object IFA_propertyStringValueForName:self.p_propertyName
-                                                               calendar:[NSCalendar IFA_threadSafeCalendar]];
+	NSString* l_oldText = [self.object IFA_propertyStringValueForName:self.propertyName
+                                                             calendar:[NSCalendar IFA_threadSafeCalendar]];
     
 	// New text
-	NSString* l_newText = self.p_textField.text;
+	NSString* l_newText = self.textField.text;
     
 	BOOL l_valueChanged = ( l_oldText==nil && [l_newText isEqualToString:@""] ? NO : ![l_newText isEqualToString:l_oldText] );
     
@@ -51,13 +51,13 @@
 
 -(id)parsedValue {
 
-    NSString *l_trimmedValue = [self.p_textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *l_trimmedValue = [self.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     id l_value;
     if ([l_trimmedValue isEqualToString:@""]) {
         l_value = nil;
-        self.p_textField.text = @"";
+        self.textField.text = @"";
     }else {
-        l_value = self.p_textField.text;
+        l_value = self.textField.text;
     }
     
     return l_value;
@@ -74,27 +74,28 @@
     //    NSLog(@"self.contentView.frame: %@", NSStringFromCGRect(self.contentView.frame));
     //    NSLog(@"self.textLabel.frame: %@", NSStringFromCGRect(self.textLabel.frame));
     //    NSLog(@"self.detailTextLabel.frame: %@", NSStringFromCGRect(self.detailTextLabel.frame));
-    self.p_textField = [[IAUITextField alloc] init];
-    self.p_textField.font = self.detailTextLabel.font;
-    self.p_textField.borderStyle = UITextBorderStyleRoundedRect;
-//    self.p_textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    self.p_textField.hidden = YES;
-    self.p_textField.delegate = self;
-    self.p_textField.placeholder = [[[IAPersistenceManager sharedInstance] entityConfig] editorTipTextForProperty:self.p_propertyName inObject:self.p_object];
-//    self.p_textField.p_textPaddingEnabled = YES;
-//    self.p_textField.p_leftTextPadding = 7;
-//    self.p_textField.p_topTextPadding = 3;
-//    self.p_textField.p_editingPaddingEnabled = self.p_textField.p_textPaddingEnabled;
-//    self.p_textField.p_leftEditingPadding = self.p_textField.p_leftTextPadding;
-//    self.p_textField.p_topEditingPadding = self.p_textField.p_topTextPadding;
-//    self.p_textField.p_rightEditingPadding = 32;    // Account for the clear button width when editing
-    //    [self.p_textField setFont:[UIFont fontWithName:@"Helvetica" size:30.0]];
-    self.p_textField.adjustsFontSizeToFitWidth = YES;
-    self.p_textField.minimumFontSize = 10;
-    //    self.p_textField.backgroundColor = [UIColor redColor];
-    //    self.p_textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    //    self.p_textField.frame = CGRectMake(100, 12, 150, 15);
-    [self.contentView addSubview:self.p_textField];
+    self.textField = [[IAUITextField alloc] init];
+    self.textField.font = self.detailTextLabel.font;
+    self.textField.borderStyle = UITextBorderStyleRoundedRect;
+//    self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    self.textField.hidden = YES;
+    self.textField.delegate = self;
+    self.textField.placeholder = [[[IAPersistenceManager sharedInstance] entityConfig] editorTipTextForProperty:self.propertyName
+                                                                                                       inObject:self.object];
+//    self.textField.p_textPaddingEnabled = YES;
+//    self.textField.p_leftTextPadding = 7;
+//    self.textField.p_topTextPadding = 3;
+//    self.textField.p_editingPaddingEnabled = self.textField.p_textPaddingEnabled;
+//    self.textField.p_leftEditingPadding = self.textField.p_leftTextPadding;
+//    self.textField.p_topEditingPadding = self.textField.p_topTextPadding;
+//    self.textField.p_rightEditingPadding = 32;    // Account for the clear button width when editing
+    //    [self.textField setFont:[UIFont fontWithName:@"Helvetica" size:30.0]];
+    self.textField.adjustsFontSizeToFitWidth = YES;
+    self.textField.minimumFontSize = 10;
+    //    self.textField.backgroundColor = [UIColor redColor];
+    //    self.textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    //    self.textField.frame = CGRectMake(100, 12, 150, 15);
+    [self.contentView addSubview:self.textField];
     
     return self;
     
@@ -105,7 +106,7 @@
     [super layoutSubviews];
 
     // Set the text field's frame in relation to the standard text label
-    self.p_textField.frame = CGRectMake([self calculateFieldX], 8, [self calculateFieldWidth], 27);
+    self.textField.frame = CGRectMake([self calculateFieldX], 8, [self calculateFieldWidth], 27);
     
 }
 
@@ -115,17 +116,17 @@
 
 //    NSLog(@"textFieldDidEndEditing: %@", [textField description]);
 
-    if (!self.p_formViewController.p_textFieldCommitSuspended && [self valueChanged]) {
+    if (!self.formViewController.textFieldCommitSuspended && [self valueChanged]) {
 
-        [self.p_object IFA_setValue:[self parsedValue] forProperty:self.p_propertyName];
-//        NSLog(@"  value set: %@", [self.p_object valueForKey:self.p_propertyName]);
+        [self.object IFA_setValue:[self parsedValue] forProperty:self.propertyName];
+//        NSLog(@"  value set: %@", [self.object valueForKey:self.propertyName]);
 
     }
 
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
-    [self.p_formViewController handleReturnKeyForTextFieldCell:self];
+    [self.formViewController handleReturnKeyForTextFieldCell:self];
     return NO;
 }
 

@@ -39,9 +39,9 @@
     
 }
 
-@property (weak, nonatomic) id<IAUIDynamicPagingContainerViewControllerDataSource> p_dataSource;
-@property (nonatomic, strong) NSMutableArray *p_childViewControllers;
-@property (nonatomic, strong, readonly) NSDate *p_lastFullChildViewControllerUpdate;
+@property (weak, nonatomic) id<IAUIDynamicPagingContainerViewControllerDataSource> dataSource;
+@property (nonatomic, strong) NSMutableArray *pagingContainerChildViewControllers;
+@property (nonatomic, strong, readonly) NSDate *lastFullChildViewControllerUpdate;
 
 -(void)updateChildViewControllersForSelectedPage:(IAUIScrollPage)a_selectedPage;
 -(UIViewController*)visibleChildViewController;

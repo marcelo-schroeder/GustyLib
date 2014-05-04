@@ -18,9 +18,9 @@
 #import "IACommon.h"
 
 @interface IAUIMasterDetailViewController ()
-@property (strong, nonatomic, readwrite) UIView *p_masterContainerView;
-@property (strong, nonatomic, readwrite) UIView *p_detailContainerView;
-@property (strong, nonatomic, readwrite) UIView *p_separatorView;
+@property (strong, nonatomic, readwrite) UIView *masterContainerView;
+@property (strong, nonatomic, readwrite) UIView *detailContainerView;
+@property (strong, nonatomic, readwrite) UIView *separatorView;
 //@property(nonatomic, strong) UISwipeGestureRecognizer *p_swipeGestureRecogniser;
 @end
 
@@ -31,9 +31,9 @@
 #pragma mark - Private
 
 - (void)ifa_configureSubViews {
-    UIView *l_masterView = self.p_masterContainerView;
-    UIView *l_detailView = self.p_detailContainerView;
-    UIView *l_separatorView = self.p_separatorView;
+    UIView *l_masterView = self.masterContainerView;
+    UIView *l_detailView = self.detailContainerView;
+    UIView *l_separatorView = self.separatorView;
     [self.view addSubview:l_masterView];
     [self.view addSubview:l_detailView];
     [self.view addSubview:l_separatorView];
@@ -71,35 +71,35 @@
 
 #pragma mark - Public
 
-- (UIView *)p_masterContainerView {
-    if (!_p_masterContainerView) {
-        _p_masterContainerView = [UIView new];
+- (UIView *)masterContainerView {
+    if (!_masterContainerView) {
+        _masterContainerView = [UIView new];
     }
-    return _p_masterContainerView;
+    return _masterContainerView;
 }
 
-- (UIView *)p_detailContainerView {
-    if (!_p_detailContainerView) {
-        _p_detailContainerView = [UIView new];
+- (UIView *)detailContainerView {
+    if (!_detailContainerView) {
+        _detailContainerView = [UIView new];
     }
-    return _p_detailContainerView;
+    return _detailContainerView;
 }
 
-- (UIView *)p_separatorView {
-    if (!_p_separatorView) {
-        _p_separatorView = [UIView new];
+- (UIView *)separatorView {
+    if (!_separatorView) {
+        _separatorView = [UIView new];
     }
-    return _p_separatorView;
+    return _separatorView;
 }
 
-- (void)setP_masterViewController:(UIViewController *)p_masterViewController {
-    _p_masterViewController = p_masterViewController;
-    [self IFA_addChildViewController:_p_masterViewController parentView:self.p_masterContainerView];
+- (void)setMasterViewController:(UIViewController *)masterViewController {
+    _masterViewController = masterViewController;
+    [self IFA_addChildViewController:_masterViewController parentView:self.masterContainerView];
 }
 
-- (void)setP_detailViewController:(UIViewController *)p_detailViewController {
-    _p_detailViewController = p_detailViewController;
-    [self IFA_addChildViewController:_p_detailViewController parentView:self.p_detailContainerView];
+- (void)setDetailViewController:(UIViewController *)detailViewController {
+    _detailViewController = detailViewController;
+    [self IFA_addChildViewController:_detailViewController parentView:self.detailContainerView];
 }
 
 @end

@@ -20,7 +20,7 @@
 
 @interface UIBarButtonItem (IACategory)
 
-@property (nonatomic, strong, readonly) UIButton *p_button;
+@property (nonatomic, strong, readonly) UIButton *IFA_button;
 
 -(id)initWithImageName:(NSString*)a_imageName target:(id)a_target action:(SEL)a_action;
 

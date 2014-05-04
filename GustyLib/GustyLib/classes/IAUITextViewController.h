@@ -22,9 +22,9 @@
 
 @interface IAUITextViewController : IAUIViewController <HPGrowingTextViewDelegate, UIActionSheetDelegate, UIScrollViewDelegate>
 
-@property (strong, nonatomic) IBOutlet UIView *p_contentView;
-@property (strong, nonatomic) IBOutlet UIScrollView *p_scrollView;
-@property (strong, nonatomic) IBOutlet HPGrowingTextView *p_growingTextView;
+@property (strong, nonatomic) IBOutlet UIView *contentView;
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic) IBOutlet HPGrowingTextView *growingTextView;
 
 - (IBAction)onCancelButtonAction:(id)sender;
 

@@ -25,8 +25,8 @@
 
 @interface UIView (IACategory) <IAHelpTarget>
 
-@property (nonatomic, strong) NSString *p_helpTargetId;
-@property (nonatomic, strong) NSString *p_appearanceId;
+@property (nonatomic, strong) NSString *helpTargetId;
+@property (nonatomic, strong) NSString *IFA_appearanceId;
 
 -(id)IFA_init;
 -(void)IFA_awakeFromNib;

@@ -26,7 +26,7 @@ typedef void (^IAHtmlParserEndElementBlock)(IAHtmlElementParsingContext *a_parsi
 
 @interface IAHtmlParser : NSObject <DTHTMLParserDelegate>
 
-@property(nonatomic, strong, readonly) NSMutableString *p_mutableHtmlString;
+@property(nonatomic, strong, readonly) NSMutableString *mutableHtmlString;
 
 - (NSString *)stringForStartPosition:(IAHtmlDocumentPosition *)a_startPosition
                          endPosition:(IAHtmlDocumentPosition *)a_endPosition;
@@ -50,18 +50,16 @@ typedef void (^IAHtmlParserEndElementBlock)(IAHtmlElementParsingContext *a_parsi
 @end
 
 @interface IAHtmlDocumentPosition : NSObject
-@property (nonatomic) NSUInteger p_line;
-@property (nonatomic) NSUInteger p_column;
+@property (nonatomic) NSUInteger line;
+@property (nonatomic) NSUInteger column;
 - (id)initWithLine:(NSUInteger)a_line column:(NSUInteger)a_column;
 + (IAHtmlDocumentPosition *)positionWithLine:(NSUInteger)a_line column:(NSUInteger)a_column;
 @end
 
 @interface IAHtmlElementParsingMetadata : NSObject
-//@property (nonatomic, strong) HtmlDocumentPosition *p_startPosition;
-//@property (nonatomic, strong) HtmlDocumentPosition *p_endPosition;
-@property (nonatomic, strong) NSString *p_name;
-@property (nonatomic, strong) NSString *p_stringRepresentation;
-@property (nonatomic, strong) NSDictionary *p_attributes;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *stringRepresentation;
+@property (nonatomic, strong) NSDictionary *attributes;
 
 - (id)initWithName:(NSString *)a_name stringRepresentation:(NSString *)a_stringRepresentation
         attributes:(NSDictionary *)a_attributes;
@@ -71,13 +69,13 @@ typedef void (^IAHtmlParserEndElementBlock)(IAHtmlElementParsingContext *a_parsi
 @end
 
 @interface IAHtmlElementParsingContext : NSObject
-@property (nonatomic, strong) IAHtmlElementParsingMetadata *p_elementMetadata;
-@property (nonatomic, weak) IAHtmlParser *p_parser;
+@property (nonatomic, strong) IAHtmlElementParsingMetadata *elementMetadata;
+@property (nonatomic, weak) IAHtmlParser *parser;
 
 - (id)initWithElementMetadata:(IAHtmlElementParsingMetadata *)a_elementMetadata
                        parser:(IAHtmlParser *)a_parser;
 @end
 
 @interface IAHtmlLineParsingMetadata : NSObject
-@property (nonatomic) NSUInteger p_lengthBeforeThisLine;
+@property (nonatomic) NSUInteger lengthBeforeThisLine;
 @end

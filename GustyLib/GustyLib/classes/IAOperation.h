@@ -20,9 +20,9 @@
 
 @interface IAOperation : NSOperation
 
-@property (nonatomic) BOOL p_determinateProgress;
-@property (nonatomic) float p_determinateProgressPercentage;
-@property (nonatomic, strong) NSString *p_progressMessage;
-@property (nonatomic) BOOL p_allowCancellation;
+@property (nonatomic) BOOL determinateProgress;
+@property (nonatomic) float determinateProgressPercentage;
+@property (nonatomic, strong) NSString *progressMessage;
+@property (nonatomic) BOOL allowCancellation;
 
 @end

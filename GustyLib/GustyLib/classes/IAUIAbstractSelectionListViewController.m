@@ -21,8 +21,8 @@
 #import "IACommon.h"
 
 @interface IAUIAbstractSelectionListViewController ()
-@property(nonatomic, strong, readwrite) NSManagedObject *p_managedObject;
-@property(nonatomic, strong, readwrite) NSString *p_propertyName;
+@property(nonatomic, strong, readwrite) NSManagedObject *managedObject;
+@property(nonatomic, strong, readwrite) NSString *propertyName;
 @end
 
 @implementation IAUIAbstractSelectionListViewController
@@ -34,8 +34,8 @@
 	
     if ((self = [super initWithEntityName:[[IAPersistenceManager sharedInstance].entityConfig entityNameForProperty:aPropertyName inObject:aManagedObject]])) {
 		
-		self.p_managedObject = aManagedObject;
-		self.p_propertyName = aPropertyName;
+		self.managedObject = aManagedObject;
+		self.propertyName = aPropertyName;
 		
         if (![IAUIUtils isIPad]) {
             UIBarButtonItem *l_barButtonItem = [[self IFA_appearanceTheme] doneBarButtonItemWithTarget:self
@@ -44,10 +44,10 @@
             [self IFA_addLeftBarButtonItem:l_barButtonItem];
         }
 		
-		self.p_selectNoneButtonItem = [IAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_ITEM_SELECT_NONE target:self action:@selector(onSelectNoneButtonTap:)];
+		self.selectNoneButtonItem = [IAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_ITEM_SELECT_NONE target:self action:@selector(onSelectNoneButtonTap:)];
 		
-        NSString *l_propertyLabel = [[IAPersistenceManager sharedInstance].entityConfig labelForProperty:self.p_propertyName
-                                                                                          inObject:self.p_managedObject];
+        NSString *l_propertyLabel = [[IAPersistenceManager sharedInstance].entityConfig labelForProperty:self.propertyName
+                                                                                                inObject:self.managedObject];
         if (l_propertyLabel) {
             self.title = [NSString stringWithFormat:@"%@ Selection", l_propertyLabel];
         }
@@ -77,8 +77,8 @@
 #pragma mark Overrides
 
 - (NSArray*)IFA_nonEditModeToolbarItems {
-    if ([[IAPersistenceManager sharedInstance].entityConfig shouldShowSelectNoneButtonInSelectionForEntity:self.IFA_entityName]) {
-        return @[self.p_selectNoneButtonItem];
+    if ([[IAPersistenceManager sharedInstance].entityConfig shouldShowSelectNoneButtonInSelectionForEntity:self.entityName]) {
+        return @[self.selectNoneButtonItem];
     }else{
         return nil;
     }
@@ -95,7 +95,7 @@
     
     // Disable user interaction while data is being refreshed asynchronously
     self.navigationItem.rightBarButtonItem.enabled = NO;
-    self.p_selectNoneButtonItem.enabled = NO;
+    self.selectNoneButtonItem.enabled = NO;
 
 }
 

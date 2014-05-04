@@ -61,10 +61,10 @@ static void addRoundedRectToPath(CGContextRef context, CGRect rect, float ovalWi
 {
     // Drawing code
     CGContextRef c = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(c, [self.p_fillColor CGColor]);
-    CGContextSetStrokeColorWithColor(c, [self.p_borderColor CGColor]);
+    CGContextSetFillColorWithColor(c, [self.fillColor CGColor]);
+    CGContextSetStrokeColorWithColor(c, [self.borderColor CGColor]);
     
-    if (self.p_style == IAUITableViewCellSelectedBackgroundStyleTop) {
+    if (self.style == IAUITableViewCellSelectedBackgroundStyleTop) {
         CGContextFillRect(c, CGRectMake(0.0f, rect.size.height - 10.0f, rect.size.width, 10.0f));
         CGContextBeginPath(c);
         CGContextMoveToPoint(c, 0.0f, rect.size.height - 10.0f);
@@ -75,7 +75,7 @@ static void addRoundedRectToPath(CGContextRef context, CGRect rect, float ovalWi
         CGContextClipToRect(c, CGRectMake(0.0f, 0.0f, rect.size.width, rect.size.height - 10.0f));
     }
     
-    else if (self.p_style == IAUITableViewCellSelectedBackgroundStyleBottom) {
+    else if (self.style == IAUITableViewCellSelectedBackgroundStyleBottom) {
         CGContextFillRect(c, CGRectMake(0.0f, 0.0f, rect.size.width, 10.0f));
         CGContextBeginPath(c);
         CGContextMoveToPoint(c, 0.0f, 10.0f);
@@ -88,7 +88,7 @@ static void addRoundedRectToPath(CGContextRef context, CGRect rect, float ovalWi
         CGContextClipToRect(c, CGRectMake(0.0f, 10.0f, rect.size.width, rect.size.height));
     }
     
-    else if (self.p_style == IAUITableViewCellSelectedBackgroundStyleMiddle) {
+    else if (self.style == IAUITableViewCellSelectedBackgroundStyleMiddle) {
         CGContextFillRect(c, rect);
         CGContextBeginPath(c);
         CGContextMoveToPoint(c, 0.0f, 0.0f);

@@ -22,9 +22,9 @@
 
 @interface IAUIGridViewController : IAUICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
-@property (nonatomic, weak) id<IAUIGridViewDataSource> p_gridViewDataSource;
-@property (nonatomic, weak) id<IAUIGridViewDelegate> p_gridViewDelegate;
-@property (nonatomic, strong, readonly) UICollectionViewFlowLayout *p_layout;
+@property (nonatomic, weak) id<IAUIGridViewDataSource> gridViewDataSource;
+@property (nonatomic, weak) id<IAUIGridViewDelegate> gridViewDelegate;
+@property (nonatomic, strong, readonly) UICollectionViewFlowLayout *layout;
 
 @end
 

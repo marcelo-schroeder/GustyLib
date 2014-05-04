@@ -35,7 +35,7 @@
 - (UIViewController *)p_internalWebBrowserViewController {
     if (!_p_internalWebBrowserViewController) {
         id <IAUIAppearanceTheme> l_appearanceTheme = [[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme];
-        UIViewController *l_viewController = [l_appearanceTheme newInternalWebBrowserViewControllerWithUrl:self.p_url
+        UIViewController *l_viewController = [l_appearanceTheme newInternalWebBrowserViewControllerWithUrl:self.url
                                                                                            completionBlock:^{
                                                                                                [self activityDidFinish:YES];
                                                                                            }];

@@ -50,8 +50,8 @@
 
 - (void)willTransitionToState:(UITableViewCellStateMask)state{
     [super willTransitionToState:state];
-//    NSLog(@"willTransitionToState: %u, indexPath: %@", state, [self.p_indexPath description]);
-    [self.p_formViewController populateCell:self];
+//    NSLog(@"willTransitionToState: %u, indexPath: %@", state, [self.indexPath description]);
+    [self.formViewController populateCell:self];
 }
 
 -(void)layoutSubviews{

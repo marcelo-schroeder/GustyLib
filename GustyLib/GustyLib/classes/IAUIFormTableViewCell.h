@@ -23,7 +23,7 @@
 
 @interface IAUIFormTableViewCell : IAUITableViewCell
 
-@property (nonatomic, weak) IAUIFormViewController *p_formViewController;
+@property (nonatomic, weak) IAUIFormViewController *formViewController;
 
 -(CGFloat)calculateFieldX;
 -(CGFloat)calculateFieldWidth;

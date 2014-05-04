@@ -118,11 +118,11 @@ static char c_appearanceIdKey;
     return [[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme];
 }
 
--(void)setP_appearanceId:(NSString *)a_appearanceId{
+-(void)setIFA_appearanceId:(NSString *)a_appearanceId{
     objc_setAssociatedObject(self, &c_appearanceIdKey, a_appearanceId, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(NSString *)p_appearanceId{
+-(NSString *)IFA_appearanceId {
     return objc_getAssociatedObject(self, &c_appearanceIdKey);
 }
 
@@ -198,7 +198,7 @@ static char c_appearanceIdKey;
 
 #pragma mark - IAHelpTarget protocol
 
--(void)setP_helpTargetId:(NSString *)a_helpTargetId{
+-(void)setHelpTargetId:(NSString *)a_helpTargetId{
     objc_setAssociatedObject(self, &c_helpTargetIdKey, a_helpTargetId, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     if ([self isKindOfClass:[UIButton class]]) {
         NSString *l_accessibilityLabel = [[IAHelpManager sharedInstance] accessibilityLabelForKeyPath:a_helpTargetId];
@@ -208,7 +208,7 @@ static char c_appearanceIdKey;
     }
 }
 
--(NSString *)p_helpTargetId{
+-(NSString *)helpTargetId {
     return objc_getAssociatedObject(self, &c_helpTargetIdKey);
 }
 

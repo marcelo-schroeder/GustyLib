@@ -31,16 +31,16 @@
 #pragma mark - UITableViewDataSource protocol
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [[self.p_fetchedResultsController sections] count];
+    return [[self.IFA_activeFetchedResultsController sections] count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    id <NSFetchedResultsSectionInfo> l_sectionInfo = [[self.p_fetchedResultsController sections] objectAtIndex:section];
+    id <NSFetchedResultsSectionInfo> l_sectionInfo = [[self.IFA_activeFetchedResultsController sections] objectAtIndex:section];
     return [l_sectionInfo numberOfObjects];
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    id <NSFetchedResultsSectionInfo> l_sectionInfo = [[self.p_fetchedResultsController sections] objectAtIndex:section];
+    id <NSFetchedResultsSectionInfo> l_sectionInfo = [[self.IFA_activeFetchedResultsController sections] objectAtIndex:section];
     return [l_sectionInfo name];
 }
 

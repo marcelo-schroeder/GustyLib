@@ -21,10 +21,10 @@
 @interface IAUITableViewCell : UITableViewCell {
 }
 
-@property (nonatomic, strong) NSObject *p_object;
-@property (nonatomic, strong) NSString *p_propertyName;
-@property (nonatomic, strong) NSIndexPath *p_indexPath;
-@property (nonatomic) BOOL p_swipedToDelete;
+@property (nonatomic, strong) NSObject *object;
+@property (nonatomic, strong) NSString *propertyName;
+@property (nonatomic, strong) NSIndexPath *indexPath;
+@property (nonatomic) BOOL swipedToDelete;
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier object:(NSObject*)a_object propertyName:(NSString*)a_propertyName;
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier object:(NSObject*)a_object propertyName:(NSString*)a_propertyName indexPath:(NSIndexPath*)a_indexPath;

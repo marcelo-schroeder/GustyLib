@@ -22,23 +22,23 @@
 
 @interface IAUIAbstractAppearanceTheme()
 
-@property (nonatomic, strong) UINavigationBar *p_navigationBarAppearance;
-@property (nonatomic, strong) UINavigationBar *p_popoverNavigationBarAppearance;
-@property (nonatomic, strong) UIBarButtonItem *p_barButtonItemAppearance;
-@property (nonatomic, strong) UIBarButtonItem *p_navigationBarButtonItemAppearance;
-@property (nonatomic, strong) UIBarButtonItem *p_toolbarButtonItemAppearance;
-@property (nonatomic, strong) UIToolbar *p_toolbarAppearance;
-@property (nonatomic, strong) UIToolbar *p_popoverToolbarAppearance;
-@property (nonatomic, strong) UITabBar *p_tabBarAppearance;
-@property (nonatomic, strong) UITabBarItem *p_tabBarItemAppearance;
-@property (nonatomic, strong) UISearchBar *p_searchBarAppearance;
-@property (nonatomic, strong) UISegmentedControl *p_barSegmentedControlAppearance;
-@property (nonatomic, strong) UISegmentedControl *p_segmentedControlAppearance;
-@property (nonatomic, strong) UISwitch *p_switchAppearance;
-@property (nonatomic, strong) UISlider *p_sliderAppearance;
+@property (nonatomic, strong) UINavigationBar *navigationBarAppearance;
+@property (nonatomic, strong) UINavigationBar *popoverNavigationBarAppearance;
+@property (nonatomic, strong) UIBarButtonItem *barButtonItemAppearance;
+@property (nonatomic, strong) UIBarButtonItem *navigationBarButtonItemAppearance;
+@property (nonatomic, strong) UIBarButtonItem *toolbarButtonItemAppearance;
+@property (nonatomic, strong) UIToolbar *toolbarAppearance;
+@property (nonatomic, strong) UIToolbar *popoverToolbarAppearance;
+@property (nonatomic, strong) UITabBar *tabBarAppearance;
+@property (nonatomic, strong) UITabBarItem *tabBarItemAppearance;
+@property (nonatomic, strong) UISearchBar *searchBarAppearance;
+@property (nonatomic, strong) UISegmentedControl *barSegmentedControlAppearance;
+@property (nonatomic, strong) UISegmentedControl *segmentedControlAppearance;
+@property (nonatomic, strong) UISwitch *switchAppearance;
+@property (nonatomic, strong) UISlider *sliderAppearance;
 @property (nonatomic, strong) IAUIColorScheme *p_colorScheme;
-@property (nonatomic, strong) UIActivityIndicatorView *p_activityIndicatorView;
-@property (nonatomic, strong) UIPageControl *p_pageControlAppearance;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
+@property (nonatomic, strong) UIPageControl *pageControlAppearance;
 
 @end
 
@@ -46,18 +46,18 @@
     
 }
 
-@synthesize p_shadow;
+@synthesize shadow;
 
 #pragma mark - Private
 
 -(void)ifa_setNavigationItemTitleViewForViewController:(UIViewController *)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation{
     
-    if (a_viewController.p_titleViewDefault && a_viewController.p_titleViewLandscapePhone) {
+    if (a_viewController.IFA_titleViewDefault && a_viewController.IFA_titleViewLandscapePhone) {
         
         // Determine which title view to use
         BOOL l_isIPhoneLandscape = ![IAUIUtils isIPad] && UIInterfaceOrientationIsLandscape(a_interfaceOrientation);
 //        NSLog(@"l_isIPhoneLandscape: %u", l_isIPhoneLandscape);
-        UIView *l_titleView = l_isIPhoneLandscape ? a_viewController.p_titleViewLandscapePhone : a_viewController.p_titleViewDefault;
+        UIView *l_titleView = l_isIPhoneLandscape ? a_viewController.IFA_titleViewLandscapePhone : a_viewController.IFA_titleViewDefault;
         
         // Resize the title view according to the greatest label width
         CGFloat l_greatestMaxWidth = 0;
@@ -114,7 +114,8 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     {
         NSString *l_imageName = [[IAUtils infoPList] objectForKey:@"IAUIThemeNavigationBarBackgroundImageName"];
         if (l_imageName) {
-            [self.p_navigationBarAppearance setBackgroundImage:[UIImage imageNamed:l_imageName] forBarMetrics:UIBarMetricsDefault];
+            [self.navigationBarAppearance setBackgroundImage:[UIImage imageNamed:l_imageName]
+                                               forBarMetrics:UIBarMetricsDefault];
         }
     }
     
@@ -122,7 +123,8 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     {
         NSString *l_imageName = [[IAUtils infoPList] objectForKey:@"IAUIThemeToolbarBackgroundImageName"];
         if (l_imageName) {
-            [self.p_toolbarAppearance setBackgroundImage:[UIImage imageNamed:l_imageName] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+            [self.toolbarAppearance setBackgroundImage:[UIImage imageNamed:l_imageName]
+                                    forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
         }
     }
     
@@ -130,15 +132,15 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     {
         NSString *l_imageName = [[IAUtils infoPList] objectForKey:@"IAUIThemeTabBarBackgroundImageName"];
         if (l_imageName) {
-            self.p_tabBarAppearance.backgroundImage = [UIImage imageNamed:l_imageName];
+            self.tabBarAppearance.backgroundImage = [UIImage imageNamed:l_imageName];
         }
     }
     
     // Bar button item
-    [self setAppearanceForToolbarButtonItem:self.p_toolbarButtonItemAppearance];
+    [self setAppearanceForToolbarButtonItem:self.toolbarButtonItemAppearance];
     
     // Bar button item
-    [self setAppearanceForBarButtonItem:self.p_barButtonItemAppearance viewController:nil important:NO ];
+    [self setAppearanceForBarButtonItem:self.barButtonItemAppearance viewController:nil important:NO ];
     
     // Back Bar button item
     {
@@ -147,13 +149,15 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         l_imageName = [[IAUtils infoPList] objectForKey:@"IAUIThemeBackBarButtonItemBackgroundImageNormalDefaultImageName"];
         if (l_imageName) {
             UIImage *l_image = [[UIImage imageNamed:l_imageName] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 14, 0, 4)];
-            [self.p_barButtonItemAppearance setBackButtonBackgroundImage:l_image forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+            [self.barButtonItemAppearance setBackButtonBackgroundImage:l_image forState:UIControlStateNormal
+                                                            barMetrics:UIBarMetricsDefault];
         }
         
         l_imageName = [[IAUtils infoPList] objectForKey:@"IAUIThemeBackBarButtonItemBackgroundImageNormalLandscapeIphoneImageName"];
         if (l_imageName) {
             UIImage *l_image = [[UIImage imageNamed:l_imageName] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 14, 0, 4)];
-            [self.p_barButtonItemAppearance setBackButtonBackgroundImage:l_image forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
+            [self.barButtonItemAppearance setBackButtonBackgroundImage:l_image forState:UIControlStateNormal
+                                                            barMetrics:UIBarMetricsLandscapePhone];
         }
     }
     
@@ -164,31 +168,40 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         l_imageName = [[IAUtils infoPList] objectForKey:@"IAUIThemeBarButtonItemBackgroundImageNormalDefaultImageName"];
         if (l_imageName) {
             UIImage *l_image = [[UIImage imageNamed:l_imageName] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
-            [self.p_barSegmentedControlAppearance setBackgroundImage:l_image forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+            [self.barSegmentedControlAppearance setBackgroundImage:l_image forState:UIControlStateNormal
+                                                        barMetrics:UIBarMetricsDefault];
         }
         
         l_imageName = [[IAUtils infoPList] objectForKey:@"IAUIThemeBarButtonItemBackgroundImageNormalLandscapeIphoneImageName"];
         if (l_imageName) {
             UIImage *l_image = [[UIImage imageNamed:l_imageName] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
-            [self.p_barSegmentedControlAppearance setBackgroundImage:l_image forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
+            [self.barSegmentedControlAppearance setBackgroundImage:l_image forState:UIControlStateNormal
+                                                        barMetrics:UIBarMetricsLandscapePhone];
         }
         
         l_imageName = [[IAUtils infoPList] objectForKey:@"IAUIThemeBarButtonItemBackgroundImageSelectedDefaultImageName"];
         if (l_imageName) {
             UIImage *l_image = [[UIImage imageNamed:l_imageName] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
-            [self.p_barSegmentedControlAppearance setBackgroundImage:l_image forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+            [self.barSegmentedControlAppearance setBackgroundImage:l_image forState:UIControlStateSelected
+                                                        barMetrics:UIBarMetricsDefault];
         }
         
         l_imageName = [[IAUtils infoPList] objectForKey:@"IAUIThemeBarButtonItemBackgroundImageSelectedLandscapeIphoneImageName"];
         if (l_imageName) {
             UIImage *l_image = [[UIImage imageNamed:l_imageName] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
-            [self.p_barSegmentedControlAppearance setBackgroundImage:l_image forState:UIControlStateSelected barMetrics:UIBarMetricsLandscapePhone];
+            [self.barSegmentedControlAppearance setBackgroundImage:l_image forState:UIControlStateSelected
+                                                        barMetrics:UIBarMetricsLandscapePhone];
         }
         
         l_imageName = [[IAUtils infoPList] objectForKey:@"IAUIThemeBarSegmentedControlDividerImageName"];
         if (l_imageName) {
-            [self.p_barSegmentedControlAppearance setDividerImage:[UIImage imageNamed:l_imageName] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-            [self.p_barSegmentedControlAppearance setDividerImage:[UIImage imageNamed:l_imageName] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
+            [self.barSegmentedControlAppearance setDividerImage:[UIImage imageNamed:l_imageName]
+                                            forLeftSegmentState:UIControlStateNormal
+                                              rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+            [self.barSegmentedControlAppearance setDividerImage:[UIImage imageNamed:l_imageName]
+                                            forLeftSegmentState:UIControlStateNormal
+                                              rightSegmentState:UIControlStateNormal
+                                                     barMetrics:UIBarMetricsLandscapePhone];
         }
         
     }
@@ -200,36 +213,40 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         l_imageName = [[IAUtils infoPList] objectForKey:@"IAUIThemeSegmentedControlBackgroundImageNormalImageName"];
         if (l_imageName) {
             UIImage *l_image = [[UIImage imageNamed:l_imageName] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
-            [self.p_segmentedControlAppearance setBackgroundImage:l_image forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+            [self.segmentedControlAppearance setBackgroundImage:l_image forState:UIControlStateNormal
+                                                     barMetrics:UIBarMetricsDefault];
         }
         
         l_imageName = [[IAUtils infoPList] objectForKey:@"IAUIThemeSegmentedControlBackgroundImageSelectedImageName"];
         if (l_imageName) {
             UIImage *l_image = [[UIImage imageNamed:l_imageName] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
-            [self.p_segmentedControlAppearance setBackgroundImage:l_image forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+            [self.segmentedControlAppearance setBackgroundImage:l_image forState:UIControlStateSelected
+                                                     barMetrics:UIBarMetricsDefault];
         }
         
         l_imageName = [[IAUtils infoPList] objectForKey:@"IAUIThemeSegmentedControlDividerImageName"];
         if (l_imageName) {
-            [self.p_segmentedControlAppearance setDividerImage:[UIImage imageNamed:l_imageName] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+            [self.segmentedControlAppearance setDividerImage:[UIImage imageNamed:l_imageName]
+                                         forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal
+                                                  barMetrics:UIBarMetricsDefault];
         }
         
     }
     
     // Switch
-    self.p_switchAppearance.onTintColor = [self ifa_colorForInfoPlistKey:@"IAUIThemeSwitchOnTintColor"];
+    self.switchAppearance.onTintColor = [self ifa_colorForInfoPlistKey:@"IAUIThemeSwitchOnTintColor"];
     
     // Slider
-    self.p_sliderAppearance.minimumTrackTintColor = [self ifa_colorForInfoPlistKey:@"IAUIThemeSliderMinimumTrackTintColor"];
+    self.sliderAppearance.minimumTrackTintColor = [self ifa_colorForInfoPlistKey:@"IAUIThemeSliderMinimumTrackTintColor"];
     
     
 
 }
 
 -(void)setAppearanceOnViewDidLoadForViewController:(UIViewController*)a_viewController{
-    a_viewController.p_titleViewDefault = [self navigationItemTitleViewForViewController:a_viewController
+    a_viewController.IFA_titleViewDefault = [self navigationItemTitleViewForViewController:a_viewController
                                                                               barMetrics:UIBarMetricsDefault];
-    a_viewController.p_titleViewLandscapePhone = [self navigationItemTitleViewForViewController:a_viewController
+    a_viewController.IFA_titleViewLandscapePhone = [self navigationItemTitleViewForViewController:a_viewController
                                                                                      barMetrics:UIBarMetricsLandscapePhone];
     [self setOrientationDependentBackgroundImagesForViewController:a_viewController];
     if ([a_viewController isKindOfClass:[UITableViewController class]]) {
@@ -240,7 +257,7 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }else if([a_viewController isKindOfClass:[IAUIMasterDetailViewController class]]) {
 
         IAUIMasterDetailViewController *l_viewController = (IAUIMasterDetailViewController *) a_viewController;
-        l_viewController.p_separatorView.backgroundColor = [self.class splitViewControllerDividerColour];
+        l_viewController.separatorView.backgroundColor = [self.class splitViewControllerDividerColour];
 
     }
 }
@@ -248,10 +265,10 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 -(void)setAppearanceOnViewWillAppearForViewController:(UIViewController*)a_viewController{
     
     // Navigation item title view titles and subtitle, if applicable
-    a_viewController.p_titleViewDefault.p_titleLabel.text = a_viewController.title;
-    a_viewController.p_titleViewDefault.p_subTitleLabel.text = a_viewController.p_subTitle;
-    a_viewController.p_titleViewLandscapePhone.p_titleLabel.text = a_viewController.title;
-    a_viewController.p_titleViewLandscapePhone.p_subTitleLabel.text = a_viewController.p_subTitle;
+    a_viewController.IFA_titleViewDefault.titleLabel.text = a_viewController.title;
+    a_viewController.IFA_titleViewDefault.subTitleLabel.text = a_viewController.IFA_subTitle;
+    a_viewController.IFA_titleViewLandscapePhone.titleLabel.text = a_viewController.title;
+    a_viewController.IFA_titleViewLandscapePhone.subTitleLabel.text = a_viewController.IFA_subTitle;
 
     [self ifa_setNavigationItemTitleViewForViewController:a_viewController
                                      interfaceOrientation:[UIApplication sharedApplication].statusBarOrientation];
@@ -318,7 +335,7 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     
     // Table cell text color
     if (![a_tableViewController isKindOfClass:[IAUIFormViewController class]]) {
-        UIColor *l_color = a_tableViewController.p_tableCellTextColor;
+        UIColor *l_color = a_tableViewController.tableCellTextColor;
         if (l_color) {
             a_cell.textLabel.textColor = l_color;
             a_cell.detailTextLabel.textColor = l_color;
@@ -350,9 +367,9 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     if (l_selectedTableCellBackgroundColor) {
         // Set the appropriate selected background view according to the cell position
         IAUITableCellSelectedBackgroundView *l_selectedBackgroundView = [[IAUITableCellSelectedBackgroundView alloc] initWithFrame:a_cell.frame];
-        l_selectedBackgroundView.p_fillColor = l_selectedTableCellBackgroundColor;
-        l_selectedBackgroundView.p_borderColor = [UIColor clearColor];
-        l_selectedBackgroundView.p_style = ([self ifa_tableViewCellSelectedBackgroundStyleForIndexPath:a_indexPath
+        l_selectedBackgroundView.fillColor = l_selectedTableCellBackgroundColor;
+        l_selectedBackgroundView.borderColor = [UIColor clearColor];
+        l_selectedBackgroundView.style = ([self ifa_tableViewCellSelectedBackgroundStyleForIndexPath:a_indexPath
                                                                                    tableViewController:a_tableViewController]);
         a_cell.selectedBackgroundView = l_selectedBackgroundView;
     }
@@ -463,7 +480,7 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         [l_button setImage:l_imageNormal forState:UIControlStateNormal];
         [l_button setImage:l_imageHighlighted forState:UIControlStateHighlighted];
     }
-    l_button.p_helpTargetId = [IAUIUtils helpTargetIdForName:@"detailDisclosureButton"];
+    l_button.helpTargetId = [IAUIUtils helpTargetIdForName:@"detailDisclosureButton"];
     return l_button;
 }
 
@@ -695,23 +712,23 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 - (id)init{
     self = [super init];
     if (self) {
-        self.p_navigationBarAppearance = [UINavigationBar appearanceWhenContainedIn:[self navigationControllerClass], nil];
-        self.p_popoverNavigationBarAppearance = [UINavigationBar appearanceWhenContainedIn:[UIPopoverController class], [self navigationControllerClass], nil];
-        self.p_barButtonItemAppearance = [UIBarButtonItem appearanceWhenContainedIn:[self navigationControllerClass], nil];
-        self.p_navigationBarButtonItemAppearance = [UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], [self navigationControllerClass], nil];
-        self.p_toolbarButtonItemAppearance = [UIBarButtonItem appearanceWhenContainedIn:[UIToolbar class], [self navigationControllerClass], nil];
-        self.p_toolbarAppearance = [UIToolbar appearanceWhenContainedIn:[self navigationControllerClass], nil];
-        self.p_popoverToolbarAppearance = [UIToolbar appearanceWhenContainedIn:[UIPopoverController class], [self navigationControllerClass], nil];
-        self.p_tabBarAppearance = [UITabBar appearanceWhenContainedIn:[self navigationControllerClass], nil];
-        self.p_tabBarItemAppearance = [UITabBarItem appearanceWhenContainedIn:[self navigationControllerClass], nil];
-        self.p_searchBarAppearance = [UISearchBar appearanceWhenContainedIn:[self navigationControllerClass], nil];
-        self.p_barSegmentedControlAppearance = [UISegmentedControl appearanceWhenContainedIn:[UIToolbar class], [self navigationControllerClass], nil];
-        self.p_segmentedControlAppearance = [UISegmentedControl appearanceWhenContainedIn:[self navigationControllerClass], nil];
-        self.p_switchAppearance = [UISwitch appearanceWhenContainedIn:[self navigationControllerClass], nil];
-        self.p_sliderAppearance = [UISlider appearanceWhenContainedIn:[self navigationControllerClass], nil];
-        self.p_activityIndicatorView = [UIActivityIndicatorView appearanceWhenContainedIn:[self navigationControllerClass], nil];
-        self.p_pageControlAppearance = [UIPageControl appearanceWhenContainedIn:[self navigationControllerClass], nil];
-        self.p_shadow = [NSShadow new];
+        self.navigationBarAppearance = [UINavigationBar appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.popoverNavigationBarAppearance = [UINavigationBar appearanceWhenContainedIn:[UIPopoverController class], [self navigationControllerClass], nil];
+        self.barButtonItemAppearance = [UIBarButtonItem appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.navigationBarButtonItemAppearance = [UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], [self navigationControllerClass], nil];
+        self.toolbarButtonItemAppearance = [UIBarButtonItem appearanceWhenContainedIn:[UIToolbar class], [self navigationControllerClass], nil];
+        self.toolbarAppearance = [UIToolbar appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.popoverToolbarAppearance = [UIToolbar appearanceWhenContainedIn:[UIPopoverController class], [self navigationControllerClass], nil];
+        self.tabBarAppearance = [UITabBar appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.tabBarItemAppearance = [UITabBarItem appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.searchBarAppearance = [UISearchBar appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.barSegmentedControlAppearance = [UISegmentedControl appearanceWhenContainedIn:[UIToolbar class], [self navigationControllerClass], nil];
+        self.segmentedControlAppearance = [UISegmentedControl appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.switchAppearance = [UISwitch appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.sliderAppearance = [UISlider appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.activityIndicatorView = [UIActivityIndicatorView appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.pageControlAppearance = [UIPageControl appearanceWhenContainedIn:[self navigationControllerClass], nil];
+        self.shadow = [NSShadow new];
     }
     return self;
 }

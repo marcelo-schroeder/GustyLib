@@ -222,8 +222,8 @@ enum {
         [v_originalSortedEntities removeAllObjects];
         NSUInteger l_seq = 0;
         for (NSManagedObject *l_selectedDestinationManagedObject in v_selectedDestinationEntities) {
-            NSManagedObject *l_managedObject = [[IAPersistenceManager sharedInstance] instantiate:self.IFA_entityName];
-            [l_managedObject setValue:self.p_managedObject forKey:v_originRelationshipName];
+            NSManagedObject *l_managedObject = [[IAPersistenceManager sharedInstance] instantiate:self.entityName];
+            [l_managedObject setValue:self.managedObject forKey:v_originRelationshipName];
             [l_managedObject setValue:l_selectedDestinationManagedObject forKey:v_destinationRelationshipName];
             [l_managedObject setValue:[NSNumber numberWithInt:l_seq++] forKey:@"seq"];
             [v_originalSortedEntities addObject:l_managedObject];
@@ -241,7 +241,7 @@ enum {
         
         // Firstly, empty the set
         //			NSLog(@"propertyName: %@", propertyName);
-        NSMutableSet *l_set = [self.p_managedObject mutableSetValueForKey:self.p_propertyName];
+        NSMutableSet *l_set = [self.managedObject mutableSetValueForKey:self.propertyName];
         [l_set removeAllObjects];
         
         // Secondly, add the managed objects in the new set
@@ -252,7 +252,7 @@ enum {
         
     }
 
-    [[self p_presenter] changesMadeByViewController:self];
+    [[self IFA_presenter] changesMadeByViewController:self];
     
 }
 
@@ -264,20 +264,20 @@ enum {
 	if((self=[super initWithManagedObject:aManagedObject propertyName:aPropertyName])){
 		
 		// First determine whether this controller is managing a pure many-to-many relationship or one which uses a join table
-		NSDictionary *l_parentRelationshipDictionary = [[IAPersistenceManager sharedInstance].entityConfig relationshipDictionaryForEntity:[self.p_managedObject IFA_entityName]];
-		NSRelationshipDescription *l_parentRelationship = [l_parentRelationshipDictionary valueForKey:self.p_propertyName];
+		NSDictionary *l_parentRelationshipDictionary = [[IAPersistenceManager sharedInstance].entityConfig relationshipDictionaryForEntity:[self.managedObject IFA_entityName]];
+		NSRelationshipDescription *l_parentRelationship = [l_parentRelationshipDictionary valueForKey:self.propertyName];
 		v_isJoinEntity = ! [[l_parentRelationship inverseRelationship] isToMany];
 
 		if (v_isJoinEntity) {
 			
 			// Determine destination entity in the many-to-many relationship
-			NSDictionary *l_relationshipDictionary = [[IAPersistenceManager sharedInstance].entityConfig relationshipDictionaryForEntity:self.IFA_entityName];
+			NSDictionary *l_relationshipDictionary = [[IAPersistenceManager sharedInstance].entityConfig relationshipDictionaryForEntity:self.entityName];
 			NSArray *l_relationshipNames = [l_relationshipDictionary allKeys];
 			for (NSString *l_relationshipName in l_relationshipNames) {
 				@autoreleasepool {
 					NSRelationshipDescription *l_relationship = [l_relationshipDictionary valueForKey:l_relationshipName];
 					NSEntityDescription *l_destinationEntity = [l_relationship destinationEntity];
-					if ([[self.p_managedObject IFA_entityName] isEqualToString:[l_destinationEntity name]]) {
+					if ([[self.managedObject IFA_entityName] isEqualToString:[l_destinationEntity name]]) {
 						v_originRelationshipName = l_relationshipName;
 					}else {
 						// Assume that there is only one destination to-many relationship for the moment
@@ -291,7 +291,7 @@ enum {
 
 			v_originRelationshipName = nil;	// not used in this case
 			v_destinationRelationshipName = nil;	// not used in this case
-			v_destinationEntityName = self.IFA_entityName;
+			v_destinationEntityName = self.entityName;
 			
 		}
 		
@@ -303,8 +303,8 @@ enum {
 		v_selectedDestinationEntities = [NSMutableArray array];
 		
 		// Now load the selected entity instances
-		NSArray *l_sortDescriptors = [[IAPersistenceManager sharedInstance] listSortDescriptorsForEntity:self.IFA_entityName];
-		v_originalSortedEntities = [NSMutableArray arrayWithArray:[[((NSSet*) [self.p_managedObject valueForKey:self.p_propertyName]) allObjects] sortedArrayUsingDescriptors:l_sortDescriptors]];
+		NSArray *l_sortDescriptors = [[IAPersistenceManager sharedInstance] listSortDescriptorsForEntity:self.entityName];
+		v_originalSortedEntities = [NSMutableArray arrayWithArray:[[((NSSet*) [self.managedObject valueForKey:self.propertyName]) allObjects] sortedArrayUsingDescriptors:l_sortDescriptors]];
 		for (NSManagedObject *l_managedObject in v_originalSortedEntities) {
 			@autoreleasepool {
 				NSManagedObject *l_destinationManagedObject;
@@ -378,14 +378,14 @@ enum {
         l_deleteButtonView.hidden = YES;
 	}
 	cell.textLabel.text = [managedObject IFA_longDisplayValue];
-    cell.p_helpTargetId = [[self IFA_helpTargetIdForName:@"tableCell."] stringByAppendingString:indexPath.section==0?@"selected":@"unselected"];
+    cell.helpTargetId = [[self IFA_helpTargetIdForName:@"tableCell."] stringByAppendingString:indexPath.section==0?@"selected":@"unselected"];
 	
     return cell;
 
 }
 
 - (NSArray*)IFA_editModeToolbarItems {
-	return @[self.p_selectNoneButtonItem, v_flexSpaceButtonItem, v_selectAllButtonItem];
+	return @[self.selectNoneButtonItem, v_flexSpaceButtonItem, v_selectAllButtonItem];
 }
 
 - (void)onDoneButtonTap:(id)sender{
@@ -413,7 +413,7 @@ enum {
 
 - (void) updateUiState{
 	[super updateUiState];
-	self.p_selectNoneButtonItem.enabled = [v_selectedDestinationEntities count]>0;
+	self.selectNoneButtonItem.enabled = [v_selectedDestinationEntities count]>0;
 	v_selectAllButtonItem.enabled = [v_unselectedDestinationEntities count]>0;
 }
 

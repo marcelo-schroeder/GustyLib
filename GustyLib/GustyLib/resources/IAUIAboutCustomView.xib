@@ -118,7 +118,7 @@
 			<array class="NSMutableArray" key="connectionRecords">
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">p_appNameLabel</string>
+						<string key="label">appNameLabel</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="329549029"/>
 					</object>
@@ -126,7 +126,7 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">p_copyrightNoticeLabel</string>
+						<string key="label">copyrightNoticeLabel</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="194233661"/>
 					</object>
@@ -134,7 +134,7 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">p_customView</string>
+						<string key="label">customView</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="858494898"/>
 					</object>
@@ -208,21 +208,21 @@
 					<string key="className">IAUIAboutFormViewController</string>
 					<string key="superclassName">IAUIFormViewController</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="p_appNameLabel">UILabel</string>
-						<string key="p_copyrightNoticeLabel">UILabel</string>
-						<string key="p_customView">UIView</string>
+						<string key="appNameLabel">UILabel</string>
+						<string key="copyrightNoticeLabel">UILabel</string>
+						<string key="customView">UIView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="p_appNameLabel">
-							<string key="name">p_appNameLabel</string>
+						<object class="IBToOneOutletInfo" key="appNameLabel">
+							<string key="name">appNameLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="p_copyrightNoticeLabel">
-							<string key="name">p_copyrightNoticeLabel</string>
+						<object class="IBToOneOutletInfo" key="copyrightNoticeLabel">
+							<string key="name">copyrightNoticeLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="p_customView">
-							<string key="name">p_customView</string>
+						<object class="IBToOneOutletInfo" key="customView">
+							<string key="name">customView</string>
 							<string key="candidateClassName">UIView</string>
 						</object>
 					</dictionary>

@@ -28,7 +28,7 @@
 
 - (void)onAction:(id)a_sender{
     if (a_sender==v_deleteAllButton) {
-        [[IAPersistenceManager sharedInstance] deleteAllForEntityAndSave:self.IFA_entityName];
+        [[IAPersistenceManager sharedInstance] deleteAllForEntityAndSave:self.entityName];
     }
     [self refreshAndReloadDataAsync];
 }
@@ -47,7 +47,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *l_cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     [[self IFA_appearanceTheme] setAppearanceForView:l_cell.detailTextLabel];
-    IAApplicationLog *l_logEntry = [self.p_entities objectAtIndex:indexPath.row];
+    IAApplicationLog *l_logEntry = [self.entities objectAtIndex:indexPath.row];
     l_cell.detailTextLabel.text = l_logEntry.message;
     return l_cell;
 }

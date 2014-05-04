@@ -22,6 +22,6 @@
 
 @interface IAUIManagedFormViewController : IAUIFormViewController
 
-@property (nonatomic, strong) NSManagedObject *p_managedObject;
+@property (nonatomic, strong) NSManagedObject *managedObject;
 
 @end

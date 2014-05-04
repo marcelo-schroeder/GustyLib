@@ -80,15 +80,15 @@
     }
     UIView *l_topLevelView = self.window;
     UIView *l_view = [self hitTestChildrenOfView:l_topLevelView point:point withEvent:event];
-    if (self.p_shouldDismissKeyboardOnNonTextInputInteractions) {
+    if (self.shouldDismissKeyboardOnNonTextInputInteractions) {
         BOOL l_viewIsATextInput = [l_view conformsToProtocol:@protocol(UITextInput)];
         BOOL l_viewIsAButtonInsideATextInput = [l_view isKindOfClass:[UIButton class]] && [l_view.superview conformsToProtocol:@protocol(UITextInput)]; //e.g. the clear button in a text field
         if (!l_viewIsATextInput && !l_viewIsAButtonInsideATextInput) {
             [self.window endEditing:YES];
         }
     }
-    if (self.p_hitTestBlock) {
-        self.p_hitTestBlock(point, event, l_view);
+    if (self.hitTestBlock) {
+        self.hitTestBlock(point, event, l_view);
     }
     return l_view;
 }

@@ -37,9 +37,9 @@
 	
 }
 
-@property (nonatomic, strong) NSObject *p_object;
+@property (nonatomic, strong) NSObject *object;
 @property (nonatomic, strong) NSString *formName;
-@property (nonatomic) BOOL p_textFieldCommitSuspended;
+@property (nonatomic) BOOL textFieldCommitSuspended;
 @property (nonatomic) BOOL createMode;
 @property (nonatomic) BOOL readOnlyMode;
 @property (nonatomic) BOOL isSubForm;

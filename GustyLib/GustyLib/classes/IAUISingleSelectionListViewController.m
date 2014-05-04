@@ -34,7 +34,7 @@
 
 -(void)ifa_updateBackingPreference {
     IAPersistenceManager *l_pm = [IAPersistenceManager sharedInstance];
-    NSString *l_backingPreferencesProperty = [l_pm.entityConfig backingPreferencesPropertyForEntity:self.IFA_entityName];
+    NSString *l_backingPreferencesProperty = [l_pm.entityConfig backingPreferencesPropertyForEntity:self.entityName];
 //    NSLog(@"l_backingPreferencesProperty: %@", l_backingPreferencesProperty);
     if (l_backingPreferencesProperty) {
         NSManagedObjectID *l_selectedMoId = ((NSManagedObject*)[selectionManager selectedObject]).objectID;
@@ -53,7 +53,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
 	BOOL selected = [[selectionManager selectedIndexPath] isEqual:indexPath];
-    cell.p_helpTargetId = [[self IFA_helpTargetIdForName:@"tableCell."] stringByAppendingString:selected?@"selected":@"unselected"];
+    cell.helpTargetId = [[self IFA_helpTargetIdForName:@"tableCell."] stringByAppendingString:selected?@"selected":@"unselected"];
 	return [self decorateSelectionForCell:cell selected:selected targetObject:[selectionManager selectedObject]];
 }
 
@@ -69,9 +69,9 @@
 - (UITableViewCell*)decorateSelectionForCell:(UITableViewCell*)aCell selected:(BOOL)aSelectedFlag targetObject:(id)aTargetObject{
     aCell.accessoryView = nil;  // Reset the accessory view
 	if (aSelectedFlag) {
-        UIImage *l_imageNormal = self.p_selectedIconImageNormal ? self.p_selectedIconImageNormal : [UIImage imageNamed:[[IAUtils infoPList] valueForKey:@"IAUIThemeSingleSelectionListCheckmarkImageNameNormal"]];
+        UIImage *l_imageNormal = self.selectedIconImageNormal ? self.selectedIconImageNormal : [UIImage imageNamed:[[IAUtils infoPList] valueForKey:@"IAUIThemeSingleSelectionListCheckmarkImageNameNormal"]];
         if (l_imageNormal) {
-            UIImage *l_imageHighlighted = self.p_selectedIconImageHighlighted ? self.p_selectedIconImageHighlighted : [UIImage imageNamed:[[IAUtils infoPList] valueForKey:@"IAUIThemeSingleSelectionListCheckmarkImageNameHighlighted"]];
+            UIImage *l_imageHighlighted = self.selectedIconImageHighlighted ? self.selectedIconImageHighlighted : [UIImage imageNamed:[[IAUtils infoPList] valueForKey:@"IAUIThemeSingleSelectionListCheckmarkImageNameHighlighted"]];
             aCell.accessoryView = [[UIImageView alloc] initWithImage:l_imageNormal highlightedImage:l_imageHighlighted];
         }else{
             aCell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -94,7 +94,7 @@
 - (id) initWithManagedObject:(NSManagedObject *)aManagedObject propertyName:(NSString *)aPropertyName{
     if ((self = [super initWithManagedObject:aManagedObject propertyName:aPropertyName])){
 		selectionManager = [[IAUISingleSelectionManager alloc] initWithSelectionManagerDelegate:self
-                                                                                 selectedObject:[self.p_managedObject valueForKey:self.p_propertyName]];
+                                                                                 selectedObject:[self.managedObject valueForKey:self.propertyName]];
     }
 	return self;
 }
@@ -107,26 +107,26 @@
 
 - (void)done{
 	[super done];
-	NSManagedObject *l_previousManagedObject = [self.p_managedObject valueForKey:self.p_propertyName];
+	NSManagedObject *l_previousManagedObject = [self.managedObject valueForKey:self.propertyName];
 	BOOL l_valueChanged = [selectionManager selectedObject]!=l_previousManagedObject && ![[selectionManager selectedObject] isEqual:l_previousManagedObject];
-    [self.p_managedObject IFA_setValue:[selectionManager selectedObject] forProperty:self.p_propertyName];
+    [self.managedObject IFA_setValue:[selectionManager selectedObject] forProperty:self.propertyName];
     [self ifa_updateBackingPreference];
     if (l_valueChanged) {
-        [[self p_presenter] changesMadeByViewController:self];
+        [[self IFA_presenter] changesMadeByViewController:self];
     }
     [self IFA_notifySessionCompletionWithChangesMade:l_valueChanged data:nil ];
 }
 
 - (void) updateUiState{
 	[super updateUiState];
-	self.p_selectNoneButtonItem.enabled = [selectionManager selectedObject] != NULL;
+	self.selectNoneButtonItem.enabled = [selectionManager selectedObject] != NULL;
 }
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-    if ([[IAPersistenceManager sharedInstance].entityConfig shouldShowAddButtonInSelectionForEntity:self.IFA_entityName]) {
-        self.p_addBarButtonItem = [IAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_ITEM_ADD target:self action:@selector(onAddButtonTap:)];
-        [self IFA_addLeftBarButtonItem:self.p_addBarButtonItem];
+    if ([[IAPersistenceManager sharedInstance].entityConfig shouldShowAddButtonInSelectionForEntity:self.entityName]) {
+        self.addBarButtonItem = [IAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_ITEM_ADD target:self action:@selector(onAddButtonTap:)];
+        [self IFA_addLeftBarButtonItem:self.addBarButtonItem];
     }
 }
 
@@ -135,7 +135,7 @@
     if (self.p_hasInitialLoadBeenDone) {
         [self showTipForEditing:NO];
     }else{
-        if (self.p_entities.count==0) {
+        if (self.entities.count==0) {
             [self showCreateManagedObjectForm];
         }
         self.p_hasInitialLoadBeenDone = YES;
@@ -146,16 +146,16 @@
     NSString *l_formName = [super editFormNameForCreateMode:aCreateMode];
     if (aCreateMode) {
         if ([[IAPersistenceManager sharedInstance].entityConfig containsForm:IA_ENTITY_CONFIG_FORM_NAME_CREATION_SHORTCUT
-                                                                   forEntity:self.IFA_entityName]) {
+                                                                   forEntity:self.entityName]) {
             l_formName = IA_ENTITY_CONFIG_FORM_NAME_CREATION_SHORTCUT;
         }
     }
     return l_formName;
 }
 
-- (void)setP_disallowDeselection:(BOOL)p_disallowDeselection {
-    _p_disallowDeselection = p_disallowDeselection;
-    selectionManager.p_disallowDeselection = self.p_disallowDeselection;
+- (void)setDisallowDeselection:(BOOL)disallowDeselection {
+    _disallowDeselection = disallowDeselection;
+    selectionManager.disallowDeselection = self.disallowDeselection;
 }
 
 #pragma mark - IAUIPresenter protocol
@@ -164,7 +164,7 @@
                               data:(id)a_data {
     
     // Make a note of the edited managed object ID before it gets reset by the superclass
-    NSManagedObjectID *l_editedManagedObjectId = self.p_editedManagedObjectId;
+    NSManagedObjectID *l_editedManagedObjectId = self.editedManagedObjectId;
 
     [super didDismissViewController:a_viewController changesMade:a_changesMade data:a_data];
     
@@ -173,7 +173,7 @@
         __weak IAUISingleSelectionListViewController *l_weakSelf = self;
         
         // Using the serial queue here will guarantee that the data would have been loaded by the main thread
-        [self.p_aom dispatchSerialBlock:^{
+        [self.IFA_asynchronousWorkManager dispatchSerialBlock:^{
 
             [IAUtils dispatchAsyncMainThreadBlock:^{
 
@@ -183,7 +183,7 @@
                     NSUInteger l_selectedSection = NSNotFound;
                     NSUInteger l_selectedRow = NSNotFound;
                     NSUInteger l_section = 0;
-                    for (NSArray *l_rows in l_weakSelf.p_sectionsWithRows) {
+                    for (NSArray *l_rows in l_weakSelf.sectionsWithRows) {
                         if ([l_rows containsObject:l_mo]) {
                             l_selectedSection = l_section;
                             l_selectedRow = [l_rows indexOfObject:l_mo];

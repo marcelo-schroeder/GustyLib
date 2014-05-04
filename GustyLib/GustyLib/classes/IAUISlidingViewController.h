@@ -22,6 +22,6 @@
 
 @interface IAUISlidingViewController : ECSlidingViewController
 
-@property (nonatomic, strong) NSString *p_placeholderViewControllerStoryboardId;
+@property (nonatomic, strong) NSString *placeholderViewControllerStoryboardId;
 
 @end

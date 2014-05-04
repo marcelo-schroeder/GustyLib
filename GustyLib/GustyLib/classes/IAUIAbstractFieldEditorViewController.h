@@ -25,11 +25,11 @@
 @interface IAUIAbstractFieldEditorViewController : IAUIViewController <UIPopoverControllerDelegate> {
 }
 
-@property (nonatomic) BOOL p_useButtonForDismissal;
-@property (nonatomic, strong, readonly) NSObject *p_object;
-@property (nonatomic, strong, readonly) NSString *p_propertyName;
+@property (nonatomic) BOOL useButtonForDismissal;
+@property (nonatomic, strong, readonly) NSObject *object;
+@property (nonatomic, strong, readonly) NSString *propertyName;
 
-@property (nonatomic, strong, readonly) id p_originalValue;
+@property (nonatomic, strong, readonly) id originalValue;
 
 - (id) initWithObject:(NSObject *)anObject propertyName:(NSString *)aPropertyName;
 

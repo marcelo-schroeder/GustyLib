@@ -26,7 +26,7 @@
 #pragma mark - Overrides
 
 -(NSString *)description{
-    return [[super description] stringByAppendingFormat:@"title: %@, subtitle: %@", self.p_titleLabel.text, self.p_subTitleLabel.text];
+    return [[super description] stringByAppendingFormat:@"title: %@, subtitle: %@", self.titleLabel.text, self.subTitleLabel.text];
 }
 
 @end

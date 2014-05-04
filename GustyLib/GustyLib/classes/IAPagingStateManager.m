@@ -19,10 +19,10 @@
 
 
 @interface IAPagingStateManager ()
-@property(nonatomic) NSUInteger p_pageSize;
-@property (nonatomic, readwrite) NSUInteger p_currentPageIndex;
-@property (nonatomic, readwrite) NSUInteger p_resultsCountShowing;
-@property (nonatomic, readwrite) NSUInteger p_resultsCountTotal;
+@property(nonatomic) NSUInteger pageSize;
+@property (nonatomic, readwrite) NSUInteger currentPageIndex;
+@property (nonatomic, readwrite) NSUInteger resultsCountShowing;
+@property (nonatomic, readwrite) NSUInteger resultsCountTotal;
 @end
 
 @implementation IAPagingStateManager {
@@ -34,7 +34,7 @@
 - (id)initWithPageSize:(NSUInteger)a_pageSize {
     self = [super init];
     if (self) {
-        self.p_pageSize = a_pageSize;
+        self.pageSize = a_pageSize;
     }
     return self;
 }
@@ -44,12 +44,12 @@
     switch (a_event) {
         case IAPagingStateManagerEventShowFirstPage:
             l_pageIndex = k_IAPagingPageIndexFirst;
-            l_pageSize = self.p_pageSize;
+            l_pageSize = self.pageSize;
             break;
         case IAPagingStateManagerEventShowNextPage:
-            l_pageIndex = self.p_currentPageIndex;
+            l_pageIndex = self.currentPageIndex;
             l_pageIndex++;
-            l_pageSize = self.p_pageSize;
+            l_pageSize = self.pageSize;
             break;
         case IAPagingStateManagerEventShowAll:
             l_pageIndex = k_IAPagingPageIndexFirst;
@@ -66,16 +66,16 @@
 - (void)updatePagingStateWithResultsAtPageIndex:(NSUInteger)a_pageIndex
                                pageResultsCount:(NSUInteger)a_pageResultsCount
                               totalResultsCount:(NSUInteger)a_totalResultsCount {
-    self.p_currentPageIndex = a_pageIndex;
-    self.p_resultsCountShowing = (a_pageIndex * self.p_pageSize) + a_pageResultsCount;
-    self.p_resultsCountTotal = a_totalResultsCount;
+    self.currentPageIndex = a_pageIndex;
+    self.resultsCountShowing = (a_pageIndex * self.pageSize) + a_pageResultsCount;
+    self.resultsCountTotal = a_totalResultsCount;
 }
 
 @end
 
 @interface IAPagingCriteria()
-@property (nonatomic) NSUInteger p_pageIndex;
-@property (nonatomic) NSUInteger p_pageSize;
+@property (nonatomic) NSUInteger pageIndex;
+@property (nonatomic) NSUInteger pageSize;
 @end
 
 @implementation IAPagingCriteria
@@ -83,8 +83,8 @@
 - (instancetype)initWithPageIndex:(NSUInteger)a_pageIndex pageSize:(NSUInteger)a_pageSize {
     self = [super init];
     if (self) {
-        self.p_pageIndex = a_pageIndex;
-        self.p_pageSize = a_pageSize;
+        self.pageIndex = a_pageIndex;
+        self.pageSize = a_pageSize;
     }
     return self;
 }

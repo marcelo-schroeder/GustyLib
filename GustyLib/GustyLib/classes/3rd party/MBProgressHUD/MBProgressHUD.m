@@ -67,7 +67,7 @@
 
 @synthesize showStarted;
 
-- (UIView*)p_userInteractionView{
+- (UIView*)userInteractionView {
     return v_userInteractionView;
 }
 

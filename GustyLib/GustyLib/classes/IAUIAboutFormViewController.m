@@ -75,7 +75,7 @@
         l_model.visualDesignerUrl = l_appVisualDesigners[0][@"url"];
         
         // Configure form view controller
-        self.p_object = l_model;
+        self.object = l_model;
         self.readOnlyMode = YES;
         self.createMode = NO;
         
@@ -96,8 +96,8 @@
         
         // Configure custom view
         [[NSBundle mainBundle] loadNibNamed:@"IAUIAboutCustomView" owner:self options:nil];
-        self.p_appNameLabel.text = [IAUtils appName];
-        self.p_copyrightNoticeLabel.text = [[IAUtils infoPList] objectForKey:@"IACopyrightNotice"];
+        self.appNameLabel.text = [IAUtils appName];
+        self.copyrightNoticeLabel.text = [[IAUtils infoPList] objectForKey:@"IACopyrightNotice"];
         
     }
     
@@ -123,7 +123,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if ([[self nameForIndexPath:indexPath] isEqualToString:@"appName"]) {
-        return self.p_customView.frame.size.height;
+        return self.customView.frame.size.height;
     }else{
         return [super tableView:tableView heightForRowAtIndexPath:indexPath];
     }
@@ -132,8 +132,8 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *l_cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     if ([[self nameForIndexPath:indexPath] isEqualToString:@"appName"]) {
-        [l_cell.contentView addSubview:self.p_customView];
-        [[self IFA_appearanceTheme] setLabelTextStyleForChildrenOfView:self.p_customView];
+        [l_cell.contentView addSubview:self.customView];
+        [[self IFA_appearanceTheme] setLabelTextStyleForChildrenOfView:self.customView];
     }
     return l_cell;
 }

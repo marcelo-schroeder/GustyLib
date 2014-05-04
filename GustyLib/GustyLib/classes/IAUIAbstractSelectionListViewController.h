@@ -20,10 +20,10 @@
 
 @interface IAUIAbstractSelectionListViewController : IAUIListViewController <UIPopoverControllerDelegate>
 
-@property (nonatomic, strong) UIBarButtonItem *p_selectNoneButtonItem;
+@property (nonatomic, strong) UIBarButtonItem *selectNoneButtonItem;
 
-@property(nonatomic, strong, readonly) NSManagedObject *p_managedObject;
-@property(nonatomic, strong, readonly) NSString *p_propertyName;
+@property(nonatomic, strong, readonly) NSManagedObject *managedObject;
+@property(nonatomic, strong, readonly) NSString *propertyName;
 
 - (id) initWithManagedObject:(NSManagedObject *)aManagedObject propertyName:(NSString *)aPropertyName;
 

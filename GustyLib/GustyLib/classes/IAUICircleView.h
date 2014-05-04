@@ -8,5 +8,5 @@
 
 
 @interface IAUICircleView : IAUIView
-@property (nonatomic, strong) UIColor *p_foregroundColor;
+@property (nonatomic, strong) UIColor *foregroundColor;
 @end

@@ -22,7 +22,7 @@
 
 @interface IAUICollectionViewFetchedResultsControllerDelegate : NSObject <NSFetchedResultsControllerDelegate>
 
-@property (nonatomic, strong) UICollectionView *p_collectionView;
+@property (nonatomic, strong) UICollectionView *collectionView;
 
 -(id)initWithCollectionView:(UICollectionView*)a_collectionView;
 

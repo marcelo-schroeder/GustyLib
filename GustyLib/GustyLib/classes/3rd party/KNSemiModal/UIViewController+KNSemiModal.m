@@ -15,8 +15,8 @@ static char c_presentedAsSemiModalKey;
 
 @interface UIViewController (KNSemiModalInternal)
 
-@property (nonatomic) BOOL p_presentingSemiModal;
-@property (nonatomic) BOOL p_presentedAsSemiModal;
+@property (nonatomic) BOOL presentingSemiModal;
+@property (nonatomic) BOOL presentedAsSemiModal;
 
 -(UIView*)parentTarget;
 -(CAAnimationGroup*)animationGroupForward:(BOOL)_forward;
@@ -27,11 +27,11 @@ static char c_presentedAsSemiModalKey;
 
 #pragma mark - Private
 
--(void)setP_presentingSemiModal:(BOOL)a_presentingSemiModal{
+-(void)setPresentingSemiModal:(BOOL)a_presentingSemiModal{
     objc_setAssociatedObject(self, &c_presentingSemiModalKey, @(a_presentingSemiModal), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(void)setP_presentedAsSemiModal:(BOOL)a_presentedAsSemiModal{
+-(void)setPresentedAsSemiModal:(BOOL)a_presentedAsSemiModal{
     objc_setAssociatedObject(self, &c_presentedAsSemiModalKey, @(a_presentedAsSemiModal), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
@@ -81,19 +81,19 @@ static char c_presentedAsSemiModalKey;
 
 #pragma mark - Public
 
--(BOOL)p_presentingSemiModal{
+-(BOOL)presentingSemiModal {
     return [(NSNumber*)objc_getAssociatedObject(self, &c_presentingSemiModalKey) boolValue];
 }
 
--(BOOL)p_presentedAsSemiModal{
+-(BOOL)presentedAsSemiModal {
     return [(NSNumber*)objc_getAssociatedObject(self, &c_presentedAsSemiModalKey) boolValue];
 }
 
 -(void)presentSemiModalViewController:(UIViewController*)vc {
 //    NSLog(@"presentSemiModalViewController: %@, by: %@", [vc description], [self description]);
-    self.p_presentingSemiModal = YES;
-    [IAUIApplicationDelegate sharedInstance].p_semiModalViewController = vc;
-    [IAUIApplicationDelegate sharedInstance].p_semiModalViewController.p_presentedAsSemiModal = YES;
+    self.presentingSemiModal = YES;
+    [IAUIApplicationDelegate sharedInstance].semiModalViewController = vc;
+    [IAUIApplicationDelegate sharedInstance].semiModalViewController.presentedAsSemiModal = YES;
     [self presentSemiModalView:vc.view];
 }
 
@@ -128,7 +128,7 @@ static char c_presentedAsSemiModalKey;
 //        ss.autoresizingMask = [IAUIUtils fullAutoresizingMask];
 //        [overlay addSubview:ss];
         [target addSubview:overlay];
-        [IAUIApplicationDelegate sharedInstance].p_semiModalInterfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+        [IAUIApplicationDelegate sharedInstance].semiModalInterfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
         
         // Dismiss button
         // Don't use UITapGestureRecognizer to avoid complex handling
@@ -185,14 +185,14 @@ static char c_presentedAsSemiModalKey;
     } completion:^(BOOL finished) {
         [overlay removeFromSuperview];
         [modal removeFromSuperview];
-        self.p_presentingSemiModal = NO;
-        UIViewController *l_dismissedChildViewController = [IAUIApplicationDelegate sharedInstance].p_semiModalViewController;
+        self.presentingSemiModal = NO;
+        UIViewController *l_dismissedChildViewController = [IAUIApplicationDelegate sharedInstance].semiModalViewController;
         if ([l_dismissedChildViewController isKindOfClass:[UINavigationController class]]) {
             UINavigationController *l_navigationController = (UINavigationController *) l_dismissedChildViewController;
             l_dismissedChildViewController = l_navigationController.viewControllers[0];
         }
-        [IAUIApplicationDelegate sharedInstance].p_semiModalViewController.p_presentedAsSemiModal = NO;
-        [IAUIApplicationDelegate sharedInstance].p_semiModalViewController = nil;
+        [IAUIApplicationDelegate sharedInstance].semiModalViewController.presentedAsSemiModal = NO;
+        [IAUIApplicationDelegate sharedInstance].semiModalViewController = nil;
         [UIViewController attemptRotationToDeviceOrientation];  // We may have missed an interface orientation change when the semi modal view was being displayed, so this is the opportunity to catch up
         [self didDismissViewController:l_dismissedChildViewController changesMade:a_changesMade data:a_data];
     }];

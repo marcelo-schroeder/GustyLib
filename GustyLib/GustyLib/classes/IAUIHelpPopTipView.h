@@ -22,9 +22,9 @@
 
 @interface IAUIHelpPopTipView : CMPopTipView <CMPopTipViewDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate>
 
-@property (atomic) BOOL p_presentationRequestInProgress;
-@property (atomic) BOOL p_maximised;
-@property (atomic) BOOL p_isTitlePositionFixed;
+@property (atomic) BOOL presentationRequestInProgress;
+@property (atomic) BOOL maximised;
+@property (atomic) BOOL isTitlePositionFixed;
 
 -(void)presentWithTitle:(NSString *)a_title description:(NSString *)a_description
          pointingAtView:(UIView *)a_viewPointedAt inView:(UIView *)a_viewPresentedIn completionBlock:(void (^)(void))a_completionBlock;

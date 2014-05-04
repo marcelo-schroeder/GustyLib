@@ -22,7 +22,7 @@
 
 @interface IAUITableSectionHeaderView : IAUIView
 
-@property (strong, nonatomic) NSNumber *p_type;
-@property (strong, nonatomic) IBOutlet UILabel *p_titleLabel;
+@property (strong, nonatomic) NSNumber *type;
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
 
 @end

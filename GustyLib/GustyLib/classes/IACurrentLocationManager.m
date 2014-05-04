@@ -21,7 +21,7 @@
 static NSString *const k_LocationServiceDisableAlertMessage = @" Location Services are currently disabled for this app. Please enable them in the Privacy section in the Settings app.";
 
 @interface IACurrentLocationManager ()
-@property (nonatomic, strong) CLLocationManager *p_underlyingLocationManager;
+@property (nonatomic, strong) CLLocationManager *underlyingLocationManager;
 @property (nonatomic, strong) void(^p_completionBlock)(CLLocation *);
 @property(nonatomic) BOOL p_pendingCurrentLocationRequest;
 @property(nonatomic) CLLocationAccuracy p_horizontalAccuracy;
@@ -47,8 +47,8 @@ static NSString *const k_LocationServiceDisableAlertMessage = @" Location Servic
 #pragma mark - Private
 
 - (void)ifa_initialiseUnderlyingLocationManager:(CLLocationManager *)a_locationManager {
-    self.p_underlyingLocationManager = a_locationManager;
-    self.p_underlyingLocationManager.delegate = self;
+    self.underlyingLocationManager = a_locationManager;
+    self.underlyingLocationManager.delegate = self;
 }
 
 + (void)ifa_showLocationServicesAlertWithMessageSuffix:(NSString *)a_messageSuffix{
@@ -119,7 +119,7 @@ static NSString *const k_LocationServiceDisableAlertMessage = @" Location Servic
                                                       selector:@selector(ifa_locationUpdatingTimedOut)
                                                       userInfo:nil
                                                        repeats:NO];
-        [self.p_underlyingLocationManager startUpdatingLocation];
+        [self.underlyingLocationManager startUpdatingLocation];
     }else{
         [self ifa_handleCurrentLocationErrorWithAlert:NO];
     }
@@ -162,7 +162,7 @@ static NSString *const k_LocationServiceDisableAlertMessage = @" Location Servic
     CLLocation *l_validMostRecentLocation = [self ifa_retrieveValidLocationIfAvailable:locations];
 
     if (self.p_pendingCurrentLocationRequest && l_validMostRecentLocation) {
-        [self.p_underlyingLocationManager stopUpdatingLocation];
+        [self.underlyingLocationManager stopUpdatingLocation];
         [self.p_timer invalidate];
         self.p_pendingCurrentLocationRequest = NO;
         self.p_completionBlock(l_validMostRecentLocation);
@@ -173,7 +173,7 @@ static NSString *const k_LocationServiceDisableAlertMessage = @" Location Servic
 
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    [self.p_underlyingLocationManager stopUpdatingLocation];
+    [self.underlyingLocationManager stopUpdatingLocation];
     [self.p_timer invalidate];
     if (self.p_pendingCurrentLocationRequest) {
 //        NSLog(@"didFailWithError: handling");

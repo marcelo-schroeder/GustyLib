@@ -22,7 +22,7 @@
 
 @interface IAUINavigationItemTitleView : IAUIView
 
-@property (strong, nonatomic) IBOutlet UILabel *p_titleLabel;
-@property (strong, nonatomic) IBOutlet UILabel *p_subTitleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *subTitleLabel;
 
 @end

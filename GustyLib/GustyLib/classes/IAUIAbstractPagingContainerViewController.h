@@ -22,14 +22,14 @@
 
 @interface IAUIAbstractPagingContainerViewController : IAUIViewController <UIScrollViewDelegate>
 
-@property (nonatomic, readonly) UIScrollView *p_scrollView;
-@property (nonatomic, readonly, strong) IAUITableViewController *p_selectedViewController;
-@property (nonatomic, readonly) NSUInteger p_selectedPageIndex;
-@property (nonatomic) BOOL p_willRotate;
-@property (nonatomic) NSUInteger p_interfaceOrientation;
+@property (nonatomic, readonly) UIScrollView *scrollView;
+@property (nonatomic, readonly, strong) IAUITableViewController *selectedViewController;
+@property (nonatomic, readonly) NSUInteger selectedPageIndex;
+@property (nonatomic) BOOL willRotate;
+@property (nonatomic) NSUInteger lastActiveInterfaceOrientation;
 
-@property (nonatomic) NSUInteger p_childViewDidAppearCount;
-@property (nonatomic, readonly) NSUInteger p_newChildViewControllerCount;
+@property (nonatomic) NSUInteger childViewDidAppearCount;
+@property (nonatomic, readonly) NSUInteger newChildViewControllerCount;
 
 -(void)updateContentLayout;
 -(CGRect)visibleRectForPage:(NSUInteger)a_pageIndex;

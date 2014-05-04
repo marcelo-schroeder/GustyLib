@@ -35,15 +35,15 @@
 
 @protocol IAHelpTarget <NSObject>
 
-@property (nonatomic, strong) NSString *p_helpTargetId;
+@property (nonatomic, strong) NSString *helpTargetId;
 
 @end
 
 @interface IAHelpManager : NSObject <UIGestureRecognizerDelegate>
 
-@property (nonatomic) BOOL p_helpEnabled;
-@property (nonatomic, readonly) BOOL p_helpMode;
-@property (nonatomic, weak) id<IAHelpTargetContainer> p_observedHelpTargetContainer;
+@property (nonatomic) BOOL helpEnabled;
+@property (nonatomic, readonly) BOOL helpMode;
+@property (nonatomic, weak) id<IAHelpTargetContainer> observedHelpTargetContainer;
 
 -(void)observeHelpTargetContainer:(id<IAHelpTargetContainer>)a_helpTargetContainer;
 - (void)helpRequestedForTabBarItemIndex:(NSUInteger)a_index helpTargetId:(NSString *)a_helpTargetId title:(NSString*)a_title;

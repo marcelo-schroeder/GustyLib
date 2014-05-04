@@ -21,7 +21,7 @@
 
 @interface UITableViewController (IADynamicCellHeight)
 
-@property (nonatomic, weak) id<IAUITableViewControllerDynamicCellHeightDelegate> p_dynamicCellHeightDelegate;
+@property (nonatomic, weak) id<IAUITableViewControllerDynamicCellHeightDelegate> IFA_dynamicCellHeightDelegate;
 
 /**
 * This dictionary contains cached heights per index path.
@@ -29,7 +29,7 @@
 * House keeping to release memory can be done at any time as this is a mutable dictionary.
 * This property is useful in the tableView:estimatedHeightForRowAtIndexPath: method to avoid issues with reloadData.
 */
-@property (nonatomic, strong, readonly) NSMutableDictionary *p_cachedCellHeights;
+@property (nonatomic, strong, readonly) NSMutableDictionary *IFA_cachedCellHeights;
 
 /**
 * Calculates the height of a table view cell using auto layout.

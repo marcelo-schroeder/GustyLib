@@ -57,11 +57,11 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 		self.readOnlyMode = aReadOnlyMode;
 		self.createMode = aCreateMode;
-		self.p_object = anObject;
+		self.object = anObject;
 		self.formName = aFormName;
 		self.isSubForm = aSubFormFlag;
 
-        self.p_helpTargetId = [IAUIUtils helpTargetIdForName:[@"form" stringByAppendingString:self.createMode ? @".new" : @".existing"]];
+        self.IFA_helpTargetId = [IAUIUtils helpTargetIdForName:[@"form" stringByAppendingString:self.createMode ? @".new" : @".existing"]];
 
     }
 	
@@ -76,32 +76,37 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     // Create reusable cell
     IAUIFormTableViewCell *l_cell = [a_tableView dequeueReusableCellWithIdentifier:l_propertyName];
     if (l_cell == nil) {
-        l_cell = [[NSClassFromString(a_className) alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:l_propertyName object:self.p_object propertyName:l_propertyName indexPath:a_indexPath];
+        l_cell = [[NSClassFromString(a_className) alloc] initWithStyle:UITableViewCellStyleValue2
+                                                       reuseIdentifier:l_propertyName object:self.object
+                                                          propertyName:l_propertyName indexPath:a_indexPath];
         // Set appearance
         [[[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
                                                                                                                        cell:l_cell];
     }
-    l_cell.p_helpTargetId = [IAHelpManager helpTargetIdForPropertyName:l_propertyName inObject:self.p_object];
+    l_cell.helpTargetId = [IAHelpManager helpTargetIdForPropertyName:l_propertyName inObject:self.object];
     
     return l_cell;
     
 }
 
 - (NSString*) labelForIndexPath:(NSIndexPath*)anIndexPath{
-	return [[IAPersistenceManager sharedInstance].entityConfig labelForIndexPath:anIndexPath inObject:self.p_object inForm:self.formName createMode:self.createMode];
+	return [[IAPersistenceManager sharedInstance].entityConfig labelForIndexPath:anIndexPath inObject:self.object
+                                                                          inForm:self.formName
+                                                                      createMode:self.createMode];
 }
 
 - (NSString*) nameForIndexPath:(NSIndexPath*)anIndexPath{
-	return [[IAPersistenceManager sharedInstance].entityConfig nameForIndexPath:anIndexPath inObject:self.p_object inForm:self.formName createMode:self.createMode];
+	return [[IAPersistenceManager sharedInstance].entityConfig nameForIndexPath:anIndexPath inObject:self.object
+                                                                         inForm:self.formName createMode:self.createMode];
 }
 
 - (NSString*) entityNameForProperty:(NSString*)aPropertyName{
 	return [[IAPersistenceManager sharedInstance].entityConfig entityNameForProperty:aPropertyName
-																		inEntity:[[self.p_object class] description]];
+																		inEntity:[[self.object class] description]];
 }
 
 - (void)onDeleteButtonTap:(id)sender{
-	NSString *entityName = [[self.p_object IFA_entityLabel] lowercaseString];
+	NSString *entityName = [[self.object IFA_entityLabel] lowercaseString];
 	NSString *message = [NSString stringWithFormat:@"Are you sure you want to delete the %@?", entityName];
 	[IAUIUtils showActionSheetWithMessage:message 
 			 destructiveButtonLabelSuffix:@"delete" 
@@ -137,7 +142,8 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 	switch (editorType) {
 		case IA_EDITOR_TYPE_FORM:
         {
-            NSString *customFormViewControllerClassName = [[IAPersistenceManager sharedInstance].entityConfig viewControllerForForm:propertyName inObject:self.p_object];
+            NSString *customFormViewControllerClassName = [[IAPersistenceManager sharedInstance].entityConfig viewControllerForForm:propertyName
+                                                                                                                           inObject:self.object];
             Class formViewControllerClass;
             if (customFormViewControllerClassName) {
                 formViewControllerClass = NSClassFromString(customFormViewControllerClassName);
@@ -145,16 +151,18 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                 formViewControllerClass = [IAUIFormViewController class];
             }
             if (self.readOnlyMode) {
-                controller = [[formViewControllerClass alloc] initWithReadOnlyObject:self.p_object inForm:propertyName isSubForm:YES];
+                controller = [[formViewControllerClass alloc] initWithReadOnlyObject:self.object inForm:propertyName
+                                                                           isSubForm:YES];
             }else{
-                controller = [[formViewControllerClass alloc] initWithObject:self.p_object createMode:self.editing inForm:propertyName isSubForm:YES];
+                controller = [[formViewControllerClass alloc] initWithObject:self.object createMode:self.editing
+                                                                      inForm:propertyName isSubForm:YES];
             }
         }
 			break;
 		case IA_EDITOR_TYPE_SELECTION_LIST:
         {
-            NSAssert([self.p_object isKindOfClass:NSManagedObject.class], @"Selection list editor type not yet implemented for non-NSManagedObject instances");
-            NSManagedObject *l_managedObject = (NSManagedObject*)self.p_object;
+            NSAssert([self.object isKindOfClass:NSManagedObject.class], @"Selection list editor type not yet implemented for non-NSManagedObject instances");
+            NSManagedObject *l_managedObject = (NSManagedObject*)self.object;
 			if ([[IAPersistenceManager sharedInstance].entityConfig isToManyRelationshipForProperty:propertyName inManagedObject:l_managedObject]) {
 				controller = [[IAUIMultiSelectionListViewController alloc] initWithManagedObject:l_managedObject propertyName:propertyName];
 			}else {
@@ -168,7 +176,7 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 		case IA_EDITOR_TYPE_TIME_INTERVAL:
 		case IA_EDITOR_TYPE_PICKER:
             if (editorType==IA_EDITOR_TYPE_PICKER) {
-                controller = [[IAUIPickerViewController alloc] initWithObject:self.p_object propertyName:propertyName];
+                controller = [[IAUIPickerViewController alloc] initWithObject:self.object propertyName:propertyName];
             }else {
                 UIDatePickerMode l_datePickerMode = NSNotFound;
                 BOOL l_showTimePicker = NO;
@@ -179,7 +187,8 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                         break;
                     case IA_EDITOR_TYPE_DATE_PICKER:
                     {
-                        NSDictionary *l_propertyOptions = [[[IAPersistenceManager sharedInstance] entityConfig] optionsForProperty:propertyName inObject:self.p_object];
+                        NSDictionary *l_propertyOptions = [[[IAPersistenceManager sharedInstance] entityConfig] optionsForProperty:propertyName
+                                                                                                                          inObject:self.object];
                         if ([[l_propertyOptions objectForKey:@"datePickerMode"] isEqualToString:@"date"]) {
                             l_datePickerMode = UIDatePickerModeDate;
                         }else{
@@ -194,7 +203,9 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                         NSAssert(NO, @"Unexpected editor type - case 1: %u", editorType);
                         break;
                 }
-                controller = [[IAUIDatePickerViewController alloc] initWithObject:self.p_object propertyName:propertyName datePickerMode:l_datePickerMode showTimePicker:l_showTimePicker];
+                controller = [[IAUIDatePickerViewController alloc] initWithObject:self.object propertyName:propertyName
+                                                                   datePickerMode:l_datePickerMode
+                                                                   showTimePicker:l_showTimePicker];
             }
 			break;
 		default:
@@ -205,7 +216,7 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     // Set the help target ID for the view controller, if required
     if (l_shouldSetHelpTargetId) {
         UITableViewCell *l_cell = [self visibleCellForIndexPath:anIndexPath];
-        controller.p_helpTargetId = l_cell.p_helpTargetId;
+        controller.IFA_helpTargetId = l_cell.helpTargetId;
     }
     
 	return controller;
@@ -239,39 +250,47 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 - (IAEditorType) editorTypeForIndexPath:(NSIndexPath*)anIndexPath{
     
     IAEntityConfig *l_entityConfig = [IAPersistenceManager sharedInstance].entityConfig;
-    if ([l_entityConfig isViewControllerFieldTypeForIndexPath:anIndexPath inObject:self.p_object inForm:self.formName createMode:self.createMode] || [l_entityConfig isCustomFieldTypeForIndexPath:anIndexPath inObject:self.p_object inForm:self.formName createMode:self.createMode]) {
+    if ([l_entityConfig isViewControllerFieldTypeForIndexPath:anIndexPath inObject:self.object inForm:self.formName
+                                                   createMode:self.createMode] || [l_entityConfig isCustomFieldTypeForIndexPath:anIndexPath
+                                                                                                                       inObject:self.object
+                                                                                                                         inForm:self.formName
+                                                                                                                     createMode:self.createMode]) {
         return IA_EDITOR_TYPE_NOT_APPLICABLE;
     }
     
 	NSString *propertyName = [self nameForIndexPath:anIndexPath];
     
     // Introspection to get property type information
-    objc_property_t l_property = class_getProperty(self.p_object.class, [propertyName UTF8String]);
+    objc_property_t l_property = class_getProperty(self.object.class, [propertyName UTF8String]);
     NSString *l_propertyDescription = @(property_getAttributes(l_property));
     //            NSLog(@"property attributes: %@: ", l_propertyDescription);
     
     //    NSLog(@"editorTypeForIndexPath: %@, propertyName: %@", [anIndexPath description], propertyName);
 	
-	if ([[IAPersistenceManager sharedInstance].entityConfig isFormFieldTypeForIndexPath:anIndexPath inObject:self.p_object inForm:self.formName createMode:self.createMode]) {
+	if ([[IAPersistenceManager sharedInstance].entityConfig isFormFieldTypeForIndexPath:anIndexPath inObject:self.object
+                                                                                 inForm:self.formName
+                                                                             createMode:self.createMode]) {
         
 		return IA_EDITOR_TYPE_FORM;
         
-    }else if ([[IAPersistenceManager sharedInstance].entityConfig isEnumerationForProperty:propertyName inObject:self.p_object]) {
+    }else if ([[IAPersistenceManager sharedInstance].entityConfig isEnumerationForProperty:propertyName
+                                                                                  inObject:self.object]) {
         
         return IA_EDITOR_TYPE_PICKER;
         
     }else if([l_propertyDescription hasPrefix:@"T@\"NSDate\","]){
         
-        NSDictionary *l_propertyOptions = [[[IAPersistenceManager sharedInstance] entityConfig] optionsForProperty:propertyName inObject:self.p_object];
+        NSDictionary *l_propertyOptions = [[[IAPersistenceManager sharedInstance] entityConfig] optionsForProperty:propertyName
+                                                                                                          inObject:self.object];
         if ([[l_propertyOptions objectForKey:@"datePickerMode"] isEqualToString:@"fullDateAndTime"]) {
             return IA_EDITOR_TYPE_FULL_DATE_AND_TIME;
         }else{
             return IA_EDITOR_TYPE_DATE_PICKER;
         }
         
-	}else if ([self.p_object isKindOfClass:NSManagedObject.class]) {
+	}else if ([self.object isKindOfClass:NSManagedObject.class]) {
         
-        NSPropertyDescription *propertyDescription = [self.p_object IFA_descriptionForProperty:propertyName];
+        NSPropertyDescription *propertyDescription = [self.object IFA_descriptionForProperty:propertyName];
         //            NSLog(@"propertyDescription: %@", [propertyDescription validationPredicates]);
         
         if ([propertyDescription isKindOfClass:[NSAttributeDescription class]] && [(NSAttributeDescription*)propertyDescription attributeType]==NSBooleanAttributeType && ![self isReadOnlyForIndexPath:anIndexPath]) {
@@ -280,16 +299,19 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
             
         }else if ([propertyDescription isKindOfClass:[NSAttributeDescription class]] && [(NSAttributeDescription*)propertyDescription attributeType]==NSDoubleAttributeType && ![self isReadOnlyForIndexPath:anIndexPath]) {
             
-            NSUInteger dataType = [[IAPersistenceManager sharedInstance].entityConfig dataTypeForProperty:propertyName inObject:self.p_object];
+            NSUInteger dataType = [[IAPersistenceManager sharedInstance].entityConfig dataTypeForProperty:propertyName
+                                                                                                 inObject:self.object];
             if (dataType==IA_DATA_TYPE_TIME_INTERVAL) {
                 return IA_EDITOR_TYPE_TIME_INTERVAL;
             }else {
                 return IA_EDITOR_TYPE_NUMBER;
             }
             
-        }else if ([[IAPersistenceManager sharedInstance].entityConfig isRelationshipForProperty:propertyName inManagedObject:(NSManagedObject*)self.p_object]) {
+        }else if ([[IAPersistenceManager sharedInstance].entityConfig isRelationshipForProperty:propertyName
+                                                                                inManagedObject:(NSManagedObject *) self.object]) {
             
-            NSString *entityName = [[IAPersistenceManager sharedInstance].entityConfig entityNameForProperty:propertyName inObject:self.p_object];
+            NSString *entityName = [[IAPersistenceManager sharedInstance].entityConfig entityNameForProperty:propertyName
+                                                                                                    inObject:self.object];
             NSUInteger editorType = [[IAPersistenceManager sharedInstance].entityConfig fieldEditorForEntity:entityName];
             if (editorType==NSNotFound) {
                 // Attempt to infer editor type from target entity
@@ -317,7 +339,7 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 	NSString *entityName = [self entityNameForProperty:segmentedControl.propertyName];
 	NSManagedObject *selectedManagedObject = [[[IAPersistenceManager sharedInstance] findAllForEntity:entityName]
 											  objectAtIndex:[segmentedControl selectedSegmentIndex]];
-    [self.p_object IFA_setValue:selectedManagedObject forProperty:segmentedControl.propertyName];
+    [self.object IFA_setValue:selectedManagedObject forProperty:segmentedControl.propertyName];
 }
 
 -(NSInteger)tagForIndexPath:(NSIndexPath*)a_indexPath{
@@ -330,12 +352,12 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     NSString *propertyName = [self nameForIndexPath:a_indexPath];
     
     // Set up event handling
-    l_cell.p_switch.tag = [self tagForIndexPath:a_indexPath];
-    [l_cell.p_switch addTarget:self action:@selector(onSwitchAction:) forControlEvents:UIControlEventValueChanged];
-    [v_uiControlsWithTargets addObject:l_cell.p_switch];
+    l_cell.switchControl.tag = [self tagForIndexPath:a_indexPath];
+    [l_cell.switchControl addTarget:self action:@selector(onSwitchAction:) forControlEvents:UIControlEventValueChanged];
+    [v_uiControlsWithTargets addObject:l_cell.switchControl];
     //                [l_cell addValueChangedEventHandlerWithTarget:self action:@selector(onSwitchAction:)];
     //                NSLog(@"indexpath: %@, property: %@", indexPath, propertyName);
-    [v_tagToPropertyName setObject:propertyName forKey:@(l_cell.p_switch.tag)];
+    [v_tagToPropertyName setObject:propertyName forKey:@(l_cell.switchControl.tag)];
     
     return l_cell;
     
@@ -344,12 +366,13 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 -(BOOL)isDependencyEnabledForIndexPath:(NSIndexPath*)l_indexPath{
 //    NSLog(@"isDependencyEnabledForIndexPath: %@", [l_indexPath description]);
     NSString *propertyName = [self nameForIndexPath:l_indexPath];
-    NSString *l_dependencyParentPropertyName = [[IAPersistenceManager sharedInstance].entityConfig parentPropertyForDependent:propertyName inObject:self.p_object];
+    NSString *l_dependencyParentPropertyName = [[IAPersistenceManager sharedInstance].entityConfig parentPropertyForDependent:propertyName
+                                                                                                                     inObject:self.object];
     BOOL l_dependencyEnabled = YES;
     if (l_dependencyParentPropertyName) {
         IAUISwitchTableViewCell *l_parentCell = [v_propertyNameToCell objectForKey:l_dependencyParentPropertyName];
-//        NSLog(@"  parent: %@, value: %u", [l_parentCell description], l_parentCell.p_switch.on);
-        l_dependencyEnabled = l_parentCell.p_switch.on;
+//        NSLog(@"  parent: %@, value: %u", [l_parentCell description], l_parentCell.switchControl.on);
+        l_dependencyEnabled = l_parentCell.switchControl.on;
     }
     return l_dependencyEnabled;
 }
@@ -382,7 +405,7 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         [self IFA_removeLeftBarButtonItem:self.p_dismissModalFormBarButtonItem];
         [self IFA_removeLeftBarButtonItem:self.p_cancelBarButtonItem];
         if (self.editing) {
-            if (v_isManagedObject || ((!v_isManagedObject) && self.p_presentedAsModal)) {
+            if (v_isManagedObject || ((!v_isManagedObject) && self.IFA_presentedAsModal)) {
                 if (self.navigationItem.leftItemsSupplementBackButton) {
                     [self.navigationItem setHidesBackButton:YES animated:YES];
                 }
@@ -390,7 +413,7 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
             }
         }else {
             [self.navigationItem setHidesBackButton:NO animated:YES];
-            if(self.p_presentedAsModal) {
+            if(self.IFA_presentedAsModal) {
                 [self IFA_addLeftBarButtonItem:self.p_dismissModalFormBarButtonItem];
             }
         }
@@ -402,11 +425,11 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     if (self.p_textFieldEditing) {
 
         if (!a_commit) {
-            self.p_textFieldCommitSuspended = YES;
+            self.textFieldCommitSuspended = YES;
         }
         BOOL l_validationOk = [self.view endEditing:NO];
-        if (self.p_textFieldCommitSuspended) {
-            self.p_textFieldCommitSuspended = NO;
+        if (self.textFieldCommitSuspended) {
+            self.textFieldCommitSuspended = NO;
         }
         return l_validationOk;
 
@@ -437,20 +460,23 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         BOOL l_editing = self.editing && ![self isReadOnlyForIndexPath:a_indexPath];
 //        NSLog(@"  l_editing: %u, self.editing: %u, [self isReadOnlyForIndexPath:[self.tableView indexPathForCell:l_textFieldCell]]: %u", l_editing, self.editing, [self isReadOnlyForIndexPath:[self.tableView indexPathForCell:l_textFieldCell]]);
         l_textFieldCell.detailTextLabel.hidden = l_editing;
-        l_textFieldCell.p_textField.hidden = !l_editing;
+        l_textFieldCell.textField.hidden = !l_editing;
         if ([l_textFieldCell isKindOfClass:[IAUIFormNumberFieldTableViewCell class]]) {
             IAUIFormNumberFieldTableViewCell *l_numberFieldCell = (IAUIFormNumberFieldTableViewCell*)l_textFieldCell;
-            l_numberFieldCell.p_stepper.hidden = !l_editing;
-            l_numberFieldCell.p_slider.hidden = !l_editing;
-//            l_numberFieldCell.p_minLabel.hidden = !l_editing;
-//            l_numberFieldCell.p_maxLabel.hidden = !l_editing;
+            l_numberFieldCell.stepper.hidden = !l_editing;
+            l_numberFieldCell.slider.hidden = !l_editing;
+//            l_numberFieldCell.minLabel.hidden = !l_editing;
+//            l_numberFieldCell.maxLabel.hidden = !l_editing;
         }
     }
     return a_cell;
 }
 
 -(NSString*)ifa_urlPropertyNameForIndexPath:(NSIndexPath*)a_indexPath{
-    NSString *l_urlPropertyName = [[IAPersistenceManager sharedInstance].entityConfig urlPropertyNameForIndexPath:a_indexPath inObject:self.p_object inForm:self.formName createMode:self.createMode];
+    NSString *l_urlPropertyName = [[IAPersistenceManager sharedInstance].entityConfig urlPropertyNameForIndexPath:a_indexPath
+                                                                                                         inObject:self.object
+                                                                                                           inForm:self.formName
+                                                                                                       createMode:self.createMode];
 //    NSLog(@"ifa_urlPropertyNameForIndexPath: %@, l_urlPropertyName: %@", [a_indexPath description], l_urlPropertyName);
     return l_urlPropertyName;
 }
@@ -504,11 +530,13 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return [[IAPersistenceManager sharedInstance].entityConfig formSectionsCountForObject:self.p_object inForm:self.formName createMode:self.createMode];
+	return [[IAPersistenceManager sharedInstance].entityConfig formSectionsCountForObject:self.object
+                                                                                   inForm:self.formName
+                                                                               createMode:self.createMode];
 }
 
 -(NSString *)IFA_editBarButtonItemHelpTargetId {
-    if([[IAPersistenceManager sharedInstance].entityConfig hasSubmitButtonForForm:self.formName inEntity:[self.p_object IFA_entityName]]) {
+    if([[IAPersistenceManager sharedInstance].entityConfig hasSubmitButtonForForm:self.formName inEntity:[self.object IFA_entityName]]) {
         return [self IFA_helpTargetIdForName:@"submitButton"];
     }else{
         return [super IFA_editBarButtonItemHelpTargetId];
@@ -521,9 +549,9 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     
     v_saveButtonTapped = NO;
     v_objectSaved = NO;
-    self.p_doneButtonSaves = NO;
+    self.doneButtonSaves = NO;
 
-    BOOL l_contextSwitchRequestPending = self.p_contextSwitchRequestPending;    // save this value before the super class resets it
+    BOOL l_contextSwitchRequestPending = self.contextSwitchRequestPending;    // save this value before the super class resets it
 //    BOOL l_reloadData = !l_contextSwitchRequestPending;
 
 	if(editing){
@@ -531,13 +559,13 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 		[super setEditing:editing animated:animated];
 
 		if (!self.isSubForm) {
-            if([[IAPersistenceManager sharedInstance].entityConfig hasSubmitButtonForForm:self.formName inEntity:[self.p_object IFA_entityName]]) {
-                self.editButtonItem.title = [[IAPersistenceManager sharedInstance].entityConfig submitButtonLabelForForm:self.formName inEntity:[self.p_object IFA_entityName]];
+            if([[IAPersistenceManager sharedInstance].entityConfig hasSubmitButtonForForm:self.formName inEntity:[self.object IFA_entityName]]) {
+                self.editButtonItem.title = [[IAPersistenceManager sharedInstance].entityConfig submitButtonLabelForForm:self.formName inEntity:[self.object IFA_entityName]];
 //                self.editButtonItem.accessibilityLabel = self.editButtonItem.title;
             }else{
                 self.editButtonItem.title = IA_BUTTON_LABEL_SAVE;
 //                self.editButtonItem.accessibilityLabel = @"Save Button";
-                self.p_doneButtonSaves = YES;
+                self.doneButtonSaves = YES;
             }
             [self ifa_updateLeftBarButtonItemsStates];
 		}
@@ -554,7 +582,7 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
             
             if (v_isManagedObject) {
                 
-                NSManagedObject *l_managedObject = (NSManagedObject *) self.p_object;
+                NSManagedObject *l_managedObject = (NSManagedObject *) self.object;
                 
                 if ([l_managedObject isInserted] || [l_managedObject isUpdated]) {
                     
@@ -587,16 +615,16 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
             
         }
 
-         self.p_skipEditingUiStateChange = YES;
+         self.skipEditingUiStateChange = YES;
         [super setEditing:editing animated:animated];
 
 		if (!self.isSubForm) {   // does not execute this block if it's a context switching scenario for a sub-form
             
-            if (!self.p_skipEditingUiStateChange) {
+            if (!self.skipEditingUiStateChange) {
 //                self.editButtonItem.accessibilityLabel = self.editButtonItem.title;
                 [self ifa_updateLeftBarButtonItemsStates];
             }
-            BOOL l_canDismissView = self.p_presentedAsModal || [self.navigationController.viewControllers objectAtIndex:0]!=self;
+            BOOL l_canDismissView = self.IFA_presentedAsModal || [self.navigationController.viewControllers objectAtIndex:0]!=self;
             if ((v_saveButtonTapped || self.createMode) && l_canDismissView && !v_restoringNonEditingState) {
                 if (!l_contextSwitchRequestPending) {    // Make sure this controller has not already been popped by a context switch request somewhere else
                     [self IFA_notifySessionCompletionWithChangesMade:v_objectSaved data:nil ];
@@ -621,42 +649,44 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 -(IAUIFormTableViewCell*)populateCell:(IAUIFormTableViewCell*)a_cell{
     
-    id l_value = [self.p_object valueForKey:a_cell.p_propertyName];
+    id l_value = [self.object valueForKey:a_cell.propertyName];
     
     if ([a_cell isMemberOfClass:[IAUIFormTableViewCell class]] || [a_cell isMemberOfClass:[IAUISwitchTableViewCell class]] || [a_cell isKindOfClass:[IAUIFormTextFieldTableViewCell class]]) {
         
-        NSString *l_label = [self labelForIndexPath:a_cell.p_indexPath];
+        NSString *l_label = [self labelForIndexPath:a_cell.indexPath];
         a_cell.textLabel.text = l_label;
-        NSString *l_valueFormat = [[IAPersistenceManager sharedInstance].entityConfig valueFormatForProperty:a_cell.p_propertyName inObject:self.p_object];
-        NSString *l_valueString = [self.p_object IFA_propertyStringValueForIndexPath:a_cell.p_indexPath
-                                                                              inForm:self.formName
-                                                                          createMode:self.createMode
-                                                                            calendar:[self calendar]];
+        NSString *l_valueFormat = [[IAPersistenceManager sharedInstance].entityConfig valueFormatForProperty:a_cell.propertyName
+                                                                                                    inObject:self.object];
+        NSString *l_valueString = [self.object IFA_propertyStringValueForIndexPath:a_cell.indexPath
+                                                                            inForm:self.formName
+                                                                        createMode:self.createMode
+                                                                          calendar:[self calendar]];
         a_cell.detailTextLabel.text = l_valueFormat ? [NSString stringWithFormat:l_valueFormat, l_valueString] : l_valueString;
         
         if ([a_cell isMemberOfClass:[IAUIFormTableViewCell class]]) {
 
-            if ([self ifa_isFormEditorTypeForIndexPath:a_cell.p_indexPath]) {
+            if ([self ifa_isFormEditorTypeForIndexPath:a_cell.indexPath]) {
                 a_cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 a_cell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }else{
                 a_cell.accessoryType = UITableViewCellAccessoryNone;
-                a_cell.editingAccessoryType = [self showDetailDisclosureInEditModeForIndexPath:a_cell.p_indexPath inForm:self.formName] ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
+                a_cell.editingAccessoryType = [self showDetailDisclosureInEditModeForIndexPath:a_cell.indexPath
+                                                                                        inForm:self.formName] ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
 //                NSLog(@"  a_cell.editingAccessoryType: %u", a_cell.editingAccessoryType);
             }
 
         }else if([a_cell isMemberOfClass:[IAUISwitchTableViewCell class]]){
             
             IAUISwitchTableViewCell *l_cell = (IAUISwitchTableViewCell*)a_cell;
-            l_cell.p_switch.on = [(NSNumber*)l_value boolValue];
+            l_cell.switchControl.on = [(NSNumber*)l_value boolValue];
             if (!self.editing) {
-                l_cell.p_switch.enabled = NO;
+                l_cell.switchControl.enabled = NO;
             }
-            l_cell.p_enabledInEditing = [self isDependencyEnabledForIndexPath:a_cell.p_indexPath];
+            l_cell.enabledInEditing = [self isDependencyEnabledForIndexPath:a_cell.indexPath];
             
         }else {
 
-            if ([self ifa_shouldLinkToUrlForIndexPath:a_cell.p_indexPath]) {
+            if ([self ifa_shouldLinkToUrlForIndexPath:a_cell.indexPath]) {
                 a_cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 a_cell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }else{
@@ -689,10 +719,10 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     BOOL l_isSelectable = NO;
 	if (self.editing) {
         //        NSLog(@"editing");
-		l_isSelectable = [self allowUserInteractionInEditModeForIndexPath:a_cell.p_indexPath inForm:self.formName];
+		l_isSelectable = [self allowUserInteractionInEditModeForIndexPath:a_cell.indexPath inForm:self.formName];
 	}else {
         //        NSLog(@"NOT editing");
-		l_isSelectable = [self ifa_isFormEditorTypeForIndexPath:a_cell.p_indexPath] || [self ifa_shouldLinkToUrlForIndexPath:a_cell.p_indexPath];
+		l_isSelectable = [self ifa_isFormEditorTypeForIndexPath:a_cell.indexPath] || [self ifa_shouldLinkToUrlForIndexPath:a_cell.indexPath];
 	}
     //    NSLog(@"l_isSelectable: %u", l_isSelectable);
     a_cell.userInteractionEnabled = l_isSelectable;
@@ -702,7 +732,10 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 }
 
 -(BOOL)isReadOnlyForIndexPath:(NSIndexPath*)anIndexPath{
-    BOOL l_readOnly = [[IAPersistenceManager sharedInstance].entityConfig isReadOnlyForIndexPath:anIndexPath inObject:self.p_object inForm:self.formName createMode:self.createMode];
+    BOOL l_readOnly = [[IAPersistenceManager sharedInstance].entityConfig isReadOnlyForIndexPath:anIndexPath
+                                                                                        inObject:self.object
+                                                                                          inForm:self.formName
+                                                                                      createMode:self.createMode];
     return l_readOnly;
 }
 
@@ -733,8 +766,9 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 //    NSLog(@"onSwitchAction with tag: %u", a_switch.tag);
     NSString *l_propertyName = [v_tagToPropertyName objectForKey:@(a_switch.tag)];
 //    NSLog(@"  property name: %@", l_propertyName);
-    [self.p_object IFA_setValue:@((a_switch.on)) forProperty:l_propertyName];
-    NSArray *l_dependentPropertyNames = [[IAPersistenceManager sharedInstance].entityConfig dependentsForProperty:l_propertyName inObject:self.p_object];
+    [self.object IFA_setValue:@((a_switch.on)) forProperty:l_propertyName];
+    NSArray *l_dependentPropertyNames = [[IAPersistenceManager sharedInstance].entityConfig dependentsForProperty:l_propertyName
+                                                                                                         inObject:self.object];
 //    NSLog(@"  dependents: %@", l_dependentPropertyNames);
     NSMutableArray *l_indexPathsToReload = [[NSMutableArray alloc] init];
     for (NSString *l_propertyName in l_dependentPropertyNames) {
@@ -767,7 +801,7 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     [self.tableView scrollToRowAtIndexPath:l_nextIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     
     // The next text field
-    UITextField *l_nextTextField = l_nextTextFieldCell.p_textField;
+    UITextField *l_nextTextField = l_nextTextFieldCell.textField;
     
     // Move keyboard focus to the next text field
     [l_nextTextField becomeFirstResponder];
@@ -776,11 +810,12 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 -(void)updateBackingPreferences{
     
-    for (NSString *l_propertyWithBackingPreferencesProperty in [[IAPersistenceManager sharedInstance].entityConfig propertiesWithBackingPreferencesForObject:self.p_object]) {
+    for (NSString *l_propertyWithBackingPreferencesProperty in [[IAPersistenceManager sharedInstance].entityConfig propertiesWithBackingPreferencesForObject:self.object]) {
         //                    NSLog(@"l_propertyWithBackingPreferencesProperty: %@", l_propertyWithBackingPreferencesProperty);
         @autoreleasepool {
-            NSString *l_backingPreferencesProperty = [[IAPersistenceManager sharedInstance].entityConfig backingPreferencesPropertyForProperty:l_propertyWithBackingPreferencesProperty inObject:self.p_object];
-            id l_preferencesValue = [self.p_object valueForKey:l_propertyWithBackingPreferencesProperty];
+            NSString *l_backingPreferencesProperty = [[IAPersistenceManager sharedInstance].entityConfig backingPreferencesPropertyForProperty:l_propertyWithBackingPreferencesProperty
+                                                                                                                                      inObject:self.object];
+            id l_preferencesValue = [self.object valueForKey:l_propertyWithBackingPreferencesProperty];
             id l_preferences = [[IAPreferencesManager sharedInstance] preferences];
             [l_preferences setValue:l_preferencesValue forKey:l_backingPreferencesProperty];
         }
@@ -802,8 +837,8 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 			break;
 		case IA_UIVIEW_TAG_ACTION_SHEET_DELETE:
 			if(buttonIndex==0){
-                NSAssert([self.p_object isKindOfClass:NSManagedObject.class], @"Selection list editor type not yet implemented for non-NSManagedObject instances");
-                NSManagedObject *l_managedObject = (NSManagedObject*)self.p_object;
+                NSAssert([self.object isKindOfClass:NSManagedObject.class], @"Selection list editor type not yet implemented for non-NSManagedObject instances");
+                NSManagedObject *l_managedObject = (NSManagedObject*)self.object;
 				if (![[IAPersistenceManager sharedInstance] deleteAndSaveObject:l_managedObject]) {
 					return;
 				}
@@ -822,15 +857,22 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return [[IAPersistenceManager sharedInstance].entityConfig fieldCountCountForSectionIndex:section inObject:self.p_object inForm:self.formName createMode:self.createMode];
+	return [[IAPersistenceManager sharedInstance].entityConfig fieldCountCountForSectionIndex:section
+                                                                                     inObject:self.object
+                                                                                       inForm:self.formName
+                                                                                   createMode:self.createMode];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-	return [[IAPersistenceManager sharedInstance].entityConfig headerForSectionIndex:section inObject:self.p_object inForm:self.formName createMode:self.createMode];
+	return [[IAPersistenceManager sharedInstance].entityConfig headerForSectionIndex:section inObject:self.object
+                                                                              inForm:self.formName
+                                                                          createMode:self.createMode];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section{
-	return [[IAPersistenceManager sharedInstance].entityConfig footerForSectionIndex:section inObject:self.p_object inForm:self.formName createMode:self.createMode];
+	return [[IAPersistenceManager sharedInstance].entityConfig footerForSectionIndex:section inObject:self.object
+                                                                              inForm:self.formName
+                                                                          createMode:self.createMode];
 }
 
 // Customize the appearance of table view cells.
@@ -839,7 +881,8 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 //    NSLog(@"cellForRowAtIndexPath: %@", [indexPath description]);
 
     IAEntityConfig *l_entityConfig = [IAPersistenceManager sharedInstance].entityConfig;
-	if ([l_entityConfig isViewControllerFieldTypeForIndexPath:indexPath inObject:self.p_object inForm:self.formName createMode:self.createMode]) {
+	if ([l_entityConfig isViewControllerFieldTypeForIndexPath:indexPath inObject:self.object inForm:self.formName
+                                                   createMode:self.createMode]) {
         UITableViewCell *l_cell = [self.tableView dequeueReusableCellWithIdentifier:IA_TT_CELL_IDENTIFIER_VIEW_CONTROLLER];
         if (!l_cell) {
             l_cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:IA_TT_CELL_IDENTIFIER_VIEW_CONTROLLER];
@@ -849,9 +892,13 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
             [[[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
                                                                                                                            cell:l_cell];
         }
-        l_cell.textLabel.text = [l_entityConfig labelForViewControllerFieldTypeAtIndexPath:indexPath inObject:self.p_object inForm:self.formName createMode:self.createMode];
+        l_cell.textLabel.text = [l_entityConfig labelForViewControllerFieldTypeAtIndexPath:indexPath
+                                                                                  inObject:self.object
+                                                                                    inForm:self.formName
+                                                                                createMode:self.createMode];
         return l_cell;
-    }else if ([l_entityConfig isCustomFieldTypeForIndexPath:indexPath inObject:self.p_object inForm:self.formName createMode:self.createMode]){
+    }else if ([l_entityConfig isCustomFieldTypeForIndexPath:indexPath inObject:self.object inForm:self.formName
+                                                 createMode:self.createMode]){
         UITableViewCell *l_cell = [self.tableView dequeueReusableCellWithIdentifier:IA_TT_CELL_IDENTIFIER_CUSTOM];
         if (!l_cell) {
             l_cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:IA_TT_CELL_IDENTIFIER_CUSTOM];
@@ -920,9 +967,12 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                     [segmentedControl addTarget:self action:@selector(onSegmentedControlAction:) forControlEvents:UIControlEventValueChanged];
                     [v_uiControlsWithTargets addObject:segmentedControl];
                     
-                    cell = [[IAUISegmentedControlTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier object:self.p_object propertyName:propertyName indexPath:indexPath segmentedControl:segmentedControl];
-                    cell.p_helpTargetId = [IAHelpManager helpTargetIdForPropertyName:propertyName
-                                                                            inObject:self.p_object];
+                    cell = [[IAUISegmentedControlTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                                    reuseIdentifier:cellIdentifier object:self.object
+                                                                       propertyName:propertyName indexPath:indexPath
+                                                                   segmentedControl:segmentedControl];
+                    cell.helpTargetId = [IAHelpManager helpTargetIdForPropertyName:propertyName
+                                                                          inObject:self.object];
                     cell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
 
                     // Set appearance
@@ -952,7 +1002,7 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     [v_propertyNameToCell setObject:l_cellToReturn forKey:propertyName];
     [v_propertyNameToIndexPath setObject:indexPath forKey:propertyName];
     
-    l_cellToReturn.p_formViewController = self;
+    l_cellToReturn.formViewController = self;
     return [self ifa_updateEditingStateForCell:[self populateCell:l_cellToReturn] indexPath:indexPath];
     
 }
@@ -966,26 +1016,37 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 	if ([self ifa_shouldLinkToUrlForIndexPath:indexPath]) {
         NSString *l_urlPropertyName = [self ifa_urlPropertyNameForIndexPath:indexPath];
-        NSString *l_urlString = [self.p_object valueForKeyPath:l_urlPropertyName];
+        NSString *l_urlString = [self.object valueForKeyPath:l_urlPropertyName];
         NSURL *l_url = [NSURL URLWithString:l_urlString];
         [self IFA_openUrl:l_url];
         return;
     }
     
-    if ([l_entityConfig isViewControllerFieldTypeForIndexPath:indexPath inObject:self.p_object inForm:self.formName createMode:self.createMode]) {
-        NSString *l_viewControllerClassName = [[IAPersistenceManager sharedInstance].entityConfig classNameForViewControllerFieldTypeAtIndexPath:indexPath inObject:self.p_object inForm:self.formName createMode:self.createMode];
+    if ([l_entityConfig isViewControllerFieldTypeForIndexPath:indexPath inObject:self.object inForm:self.formName
+                                                   createMode:self.createMode]) {
+        NSString *l_viewControllerClassName = [[IAPersistenceManager sharedInstance].entityConfig classNameForViewControllerFieldTypeAtIndexPath:indexPath
+                                                                                                                                        inObject:self.object
+                                                                                                                                          inForm:self.formName
+                                                                                                                                      createMode:self.createMode];
         Class l_viewControllerClass = NSClassFromString(l_viewControllerClassName);
         UIViewController *l_viewController = [l_viewControllerClass new];
         if (!l_viewController.title) {
-            l_viewController.title = [l_entityConfig labelForViewControllerFieldTypeAtIndexPath:indexPath inObject:self.p_object inForm:self.formName createMode:self.createMode];
+            l_viewController.title = [l_entityConfig labelForViewControllerFieldTypeAtIndexPath:indexPath
+                                                                                       inObject:self.object
+                                                                                         inForm:self.formName
+                                                                                     createMode:self.createMode];
         }
-        NSDictionary *p_properties = [l_entityConfig propertiesForViewControllerFieldTypeAtIndexPath:indexPath inObject:self.p_object inForm:self.formName createMode:self.createMode];
+        NSDictionary *p_properties = [l_entityConfig propertiesForViewControllerFieldTypeAtIndexPath:indexPath
+                                                                                            inObject:self.object
+                                                                                              inForm:self.formName
+                                                                                          createMode:self.createMode];
         if (p_properties) {
             for (NSString *l_key in p_properties.allKeys) {
                 [l_viewController setValue:p_properties[l_key] forKeyPath:l_key];
             }
         }
-        if ([l_entityConfig isModalForViewControllerFieldTypeAtIndexPath:indexPath inObject:self.p_object inForm:self.formName createMode:self.createMode]) {
+        if ([l_entityConfig isModalForViewControllerFieldTypeAtIndexPath:indexPath inObject:self.object
+                                                                  inForm:self.formName createMode:self.createMode]) {
             [self IFA_presentModalViewController:l_viewController presentationStyle:UIModalPresentationFullScreen
                                  transitionStyle:UIModalTransitionStyleCoverVertical];
         }else{
@@ -1009,7 +1070,7 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                 __weak IAUIFormViewController *l_weakSelf = self;
                 
                 UIViewController *l_viewController = [self editorViewControllerForIndexPath:indexPath];
-                l_viewController.p_presenter = l_weakSelf;
+                l_viewController.IFA_presenter = l_weakSelf;
                 
                 self.p_indexPathForPopoverController = indexPath;
                 CGRect l_fromPopoverRect = [self ifa_fromPopoverRectForIndexPath:self.p_indexPathForPopoverController];
@@ -1054,7 +1115,7 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         NSString *l_xibName = [[IAUtils infoPList] objectForKey:@"IAUIThemeFormSectionHeaderViewXib"];
         if (l_xibName) {
             l_view = [[NSBundle mainBundle] loadNibNamed:l_xibName owner:self options:nil][0];
-            l_view.p_titleLabel.text = l_title;
+            l_view.titleLabel.text = l_title;
         }
     }
     return l_view;
@@ -1104,19 +1165,20 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     
     [super viewDidLoad];
     
-    v_isManagedObject = [self.p_object isKindOfClass:NSManagedObject.class];
+    v_isManagedObject = [self.object isKindOfClass:NSManagedObject.class];
     
     // Set managed object default values based on backing preferences
     if (self.createMode && !self.isSubForm) {
-        [[IAPersistenceManager sharedInstance].entityConfig setDefaultValuesFromBackingPreferencesForObject:self.p_object];
+        [[IAPersistenceManager sharedInstance].entityConfig setDefaultValuesFromBackingPreferencesForObject:self.object];
     }
     
     v_tagToPropertyName = [[NSMutableDictionary alloc] init];
     v_propertyNameToCell = [[NSMutableDictionary alloc] init];
     v_propertyNameToIndexPath = [[NSMutableDictionary alloc] init];
     
-    if (!(self.title = [[IAPersistenceManager sharedInstance].entityConfig labelForForm:self.formName inObject:self.p_object])) {
-        self.title = [[IAPersistenceManager sharedInstance].entityConfig labelForObject:self.p_object];
+    if (!(self.title = [[IAPersistenceManager sharedInstance].entityConfig labelForForm:self.formName
+                                                                               inObject:self.object])) {
+        self.title = [[IAPersistenceManager sharedInstance].entityConfig labelForObject:self.object];
     }
     
     //		self.hidesBottomBarWhenPushed = YES;
@@ -1141,7 +1203,8 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     
     // Form header
     NSString *l_formHeader = nil;
-    if ((l_formHeader = [[IAPersistenceManager sharedInstance].entityConfig headerForForm:self.formName inObject:self.p_object])) {
+    if ((l_formHeader = [[IAPersistenceManager sharedInstance].entityConfig headerForForm:self.formName
+                                                                                 inObject:self.object])) {
         UILabel *l_label = [UILabel new];
         l_label.textAlignment = NSTextAlignmentCenter;
         l_label.backgroundColor = [UIColor clearColor];
@@ -1153,7 +1216,8 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     
     // Form footer
     NSString *l_formFooter = nil;
-    if ((l_formFooter = [[IAPersistenceManager sharedInstance].entityConfig footerForForm:self.formName inObject:self.p_object])) {
+    if ((l_formFooter = [[IAPersistenceManager sharedInstance].entityConfig footerForForm:self.formName
+                                                                                 inObject:self.object])) {
         UILabel *l_label = [UILabel new];
         l_label.textAlignment = NSTextAlignmentCenter;
         l_label.backgroundColor = [UIColor clearColor];
@@ -1181,7 +1245,7 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                     IAUIFormTextFieldTableViewCell *l_cell = (IAUIFormTextFieldTableViewCell*)[self cellForTable:self.tableView indexPath:l_indexPath className:l_className];
                     [self.p_indexPathToTextFieldCellDictionary setObject:l_cell forKey:l_indexPath];
                     if ([self isReadOnlyForIndexPath:l_indexPath]) {
-                        [l_cell.p_textField removeFromSuperview];
+                        [l_cell.textField removeFromSuperview];
                     }else {
                         [self.p_editableTextFieldCells addObject:l_cell];
                     }
@@ -1208,7 +1272,7 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         self.editing = YES;
     }else if(self.editing && ![self IFA_isReturningVisibleViewController] && [self contextSwitchRequestRequiredInEditMode]) {
         // If it's already in editing mode, need to make sure context switch request is required (e.g. the view controller could be cached by the menu)
-        self.p_contextSwitchRequestRequired = YES;
+        self.contextSwitchRequestRequired = YES;
     }
 
     [self ifa_updateLeftBarButtonItemsStates];
@@ -1233,10 +1297,13 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     if (self.createMode && !v_createModeAutoFieldEditDone) {
-        NSIndexPath *l_indexPath = [[IAPersistenceManager sharedInstance].entityConfig indexPathForProperty:@"name" inObject:self.p_object inForm:self.formName createMode:self.createMode];
+        NSIndexPath *l_indexPath = [[IAPersistenceManager sharedInstance].entityConfig indexPathForProperty:@"name"
+                                                                                                   inObject:self.object
+                                                                                                     inForm:self.formName
+                                                                                                 createMode:self.createMode];
         if (l_indexPath) {
             IAUIFormTextFieldTableViewCell *l_cell = (IAUIFormTextFieldTableViewCell*) [self visibleCellForIndexPath:l_indexPath];
-            [l_cell.p_textField becomeFirstResponder];
+            [l_cell.textField becomeFirstResponder];
         }
         v_createModeAutoFieldEditDone = YES;
     }
@@ -1248,7 +1315,7 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
     [super viewWillDisappear:animated];
 
-    if (!v_isManagedObject && !self.p_presentedAsModal) {
+    if (!v_isManagedObject && !self.IFA_presentedAsModal) {
         [self updateAndSaveBackingPreferences];
     }
     
@@ -1300,28 +1367,28 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 
-    if (self.p_activePopoverController && !self.p_activePopoverControllerBarButtonItem) {
+    if (self.IFA_activePopoverController && !self.IFA_activePopoverControllerBarButtonItem) {
         
         // Present popover controller in the new interface orientation
         [self.tableView scrollToRowAtIndexPath:self.p_indexPathForPopoverController atScrollPosition:UITableViewScrollPositionBottom animated:NO];
         CGRect l_fromPopoverRect = [self ifa_fromPopoverRectForIndexPath:self.p_indexPathForPopoverController];
-        [self IFA_presentPopoverController:self.p_activePopoverController fromRect:l_fromPopoverRect
+        [self IFA_presentPopoverController:self.IFA_activePopoverController fromRect:l_fromPopoverRect
                                     inView:self.tableView];
         
     }
 
 }
 
--(BOOL)p_contextSwitchRequestRequired{
+-(BOOL)contextSwitchRequestRequired {
     if (v_isManagedObject) {
-        return [super p_contextSwitchRequestRequired];
+        return [super contextSwitchRequestRequired];
     }else{
         return NO;
     }
 }
 
--(void)setP_contextSwitchRequestRequired:(BOOL)a_contextSwitchRequestRequired{
-    [super setP_contextSwitchRequestRequired:v_isManagedObject ? a_contextSwitchRequestRequired : NO];
+-(void)setContextSwitchRequestRequired:(BOOL)a_contextSwitchRequestRequired{
+    [super setContextSwitchRequestRequired:v_isManagedObject ? a_contextSwitchRequestRequired : NO];
 }
 
 -(void)IFA_onKeyboardNotification:(NSNotification*)a_notification{
@@ -1339,10 +1406,10 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
     }else if ([a_notification.name isEqualToString:UIKeyboardDidHideNotification]) {
 
-        if (self.p_activePopoverController && !self.p_activePopoverControllerBarButtonItem) {
+        if (self.IFA_activePopoverController && !self.IFA_activePopoverControllerBarButtonItem) {
 
             CGRect l_fromPopoverRect = [self ifa_fromPopoverRectForIndexPath:self.p_indexPathForPopoverController];
-            [self IFA_presentPopoverController:self.p_activePopoverController fromRect:l_fromPopoverRect
+            [self IFA_presentPopoverController:self.IFA_activePopoverController fromRect:l_fromPopoverRect
                                         inView:self.tableView];
 
         }

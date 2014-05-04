@@ -20,8 +20,8 @@
 
 @interface NSManagedObject (IACategory)
 
-@property (nonatomic, readonly) NSString *p_stringId;
-@property (nonatomic, readonly) NSURL *p_urlId;
+@property (nonatomic, readonly) NSString *IFA_stringId;
+@property (nonatomic, readonly) NSURL *IFA_urlId;
 
 - (NSString*)IFA_labelForKeys:(NSArray*)aKeyArray;
 - (BOOL)IFA_validateForSave:(NSError**)anError;

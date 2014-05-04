@@ -31,8 +31,8 @@ typedef enum {
 
 @interface IAUIAppearanceThemeManager : NSObject
 
-@property (nonatomic, strong, readonly) id<IAUIAppearanceTheme> p_loadedAppearanceTheme;
-@property (nonatomic, strong, readonly) IAUIColorScheme *p_loadedColorScheme;
+@property (nonatomic, strong, readonly) id<IAUIAppearanceTheme> loadedAppearanceTheme;
+@property (nonatomic, strong, readonly) IAUIColorScheme *loadedColorScheme;
 
 - (void)reloadUiWithNoTransitionAnimation;
 

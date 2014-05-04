@@ -119,7 +119,7 @@ typedef enum {
 
 }
 
-@property (weak, nonatomic, readonly) UIView *p_userInteractionView;
+@property (weak, nonatomic, readonly) UIView *userInteractionView;
 
 /**
  * Creates a new HUD, adds it to provided view and shows it. The counterpart to this method is hideHUDForView:animated:.

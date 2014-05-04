@@ -23,7 +23,7 @@
 @interface IAUIApplicationDelegate ()
 
 @property (nonatomic, strong) id<IAUIAppearanceTheme> p_appearanceTheme;
-@property (nonatomic) BOOL p_useDeviceAgnosticMainStoryboard;
+@property (nonatomic) BOOL useDeviceAgnosticMainStoryboard;
 @property (nonatomic, strong) GADBannerView *p_gadBannerView;
 
 @end
@@ -39,31 +39,31 @@
     
     if([a_notification.name isEqualToString:UIKeyboardDidShowNotification] || [a_notification.name isEqualToString:UIKeyboardDidHideNotification]) {
         
-        self.p_keyboardVisible = [a_notification.name isEqualToString:UIKeyboardDidShowNotification];
+        self.keyboardVisible = [a_notification.name isEqualToString:UIKeyboardDidShowNotification];
         
     }else{
         NSAssert(NO, @"Unexpected notification name: %@", a_notification.name);
     }
 
-    if (self.p_keyboardVisible) {
+    if (self.keyboardVisible) {
 
         NSDictionary *l_userInfo = [a_notification userInfo];
-        self.p_keyboardFrame = [[l_userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+        self.keyboardFrame = [[l_userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
         
     }else{
 
-        self.p_keyboardFrame = CGRectZero;
+        self.keyboardFrame = CGRectZero;
         
     }
     
 }
 
 - (void)ifa_onAdsSuspendRequest:(NSNotification*)aNotification{
-    self.p_adsSuspended = YES;
+    self.adsSuspended = YES;
 }
 
 - (void)ifa_onAdsResumeRequest:(NSNotification*)aNotification{
-    self.p_adsSuspended = NO;
+    self.adsSuspended = NO;
 }
 
 #pragma mark - Public
@@ -116,7 +116,7 @@
 // By loading the storyboard using the device modifier explicitly in the name avoids any problems.
 -(NSString*)storyboardName {
     return [NSString stringWithFormat:@"%@%@", [self storyboardFileName],
-                                      self.p_useDeviceAgnosticMainStoryboard ? @"" : [IAUIUtils resourceNameDeviceModifier]];
+                                      self.useDeviceAgnosticMainStoryboard ? @"" : [IAUIUtils resourceNameDeviceModifier]];
 }
 
 - (NSString *)storyboardFileName {
@@ -165,7 +165,7 @@
                 if ([a_value isKindOfClass:[S_SystemEntity class]]) {
                     l_displayValue = ((S_SystemEntity*)a_value).systemEntityId;
                 }else{
-                    l_displayValue = ((NSManagedObject*)a_value).p_stringId;
+                    l_displayValue = ((NSManagedObject*)a_value).IFA_stringId;
                 }
             }else if ([a_value isKindOfClass:[NSLocale class]]){
                 l_displayValue = ((NSLocale*)a_value).localeIdentifier;
@@ -262,7 +262,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
     
     // Save some info plist settings
-    self.p_useDeviceAgnosticMainStoryboard = [[[IAUtils infoPList] objectForKey:@"IAUseDeviceAgnosticMainStoryboard"] boolValue];
+    self.useDeviceAgnosticMainStoryboard = [[[IAUtils infoPList] objectForKey:@"IAUseDeviceAgnosticMainStoryboard"] boolValue];
     
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self 
@@ -283,7 +283,7 @@
                                                object:nil];
 
     // Configure the app's window
-    if (!self.p_skipWindowSetup) {
+    if (!self.skipWindowSetup) {
         self.window = [[UIWindow alloc] initWithFrame:[IAUIUtils screenBounds]];
         [self.window makeKeyAndVisible];
     }
@@ -295,7 +295,7 @@
     [[IAUIAppearanceThemeManager sharedInstance] applyAppearanceTheme];
 
     // Configure the window's root view controller
-    if (!self.p_skipWindowSetup && !self.p_skipWindowRootViewControllerSetup) {
+    if (!self.skipWindowSetup && !self.skipWindowRootViewControllerSetup) {
 
         // Configure the window's root view controller
         [self configureWindowRootViewController];
@@ -303,7 +303,7 @@
     }
     
     // Configure help
-    [IAHelpManager sharedInstance].p_helpEnabled = [[[IAUtils infoPList] objectForKey:@"IAHelpEnabled"] boolValue];
+    [IAHelpManager sharedInstance].helpEnabled = [[[IAUtils infoPList] objectForKey:@"IAHelpEnabled"] boolValue];
     
     return YES;
 	

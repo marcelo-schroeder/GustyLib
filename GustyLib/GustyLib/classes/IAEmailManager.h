@@ -20,8 +20,8 @@
 
 @interface IAEmailManager : NSObject <MFMailComposeViewControllerDelegate>
 
-@property (nonatomic, weak) UIViewController *p_parentViewController;
-@property (nonatomic, strong) void (^p_completionBlock)(void);
+@property (nonatomic, weak) UIViewController *parentViewController;
+@property (nonatomic, strong) void (^completionBlock)(void);
 
 -(id)initWithParentViewController:(UIViewController*)a_parentViewController;
 -(id)initWithParentViewController:(UIViewController*)a_parentViewController completionBlock:(void (^)(void))a_completionBlock;

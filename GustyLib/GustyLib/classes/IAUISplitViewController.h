@@ -20,7 +20,7 @@
 
 @interface IAUISplitViewController : UISplitViewController <UISplitViewControllerDelegate>
 
-@property (nonatomic, strong) UIPopoverController *p_popoverController;
-@property (nonatomic, strong) UIBarButtonItem *p_popoverControllerBarButtonItem;
+@property (nonatomic, strong) UIPopoverController *splitViewControllerPopoverController;
+@property (nonatomic, strong) UIBarButtonItem *splitViewControllerPopoverControllerBarButtonItem;
 
 @end

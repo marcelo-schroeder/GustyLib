@@ -67,7 +67,7 @@
             return [IAUIUtils stringValueForObject:a_value];
         }else if([[IAPersistenceManager sharedInstance].entityConfig isEnumerationForProperty:a_propertyName inObject:self]){
             NSString *l_enumerationSource = [[IAPersistenceManager sharedInstance].entityConfig enumerationSourceForProperty:a_propertyName inObject:self];
-            return [IAEnumerationEntity enumerationEntityForId:a_value entities:[self valueForKey:l_enumerationSource]].p_name;
+            return [IAEnumerationEntity enumerationEntityForId:a_value entities:[self valueForKey:l_enumerationSource]].name;
         }else if([l_propertyDescription isKindOfClass:[NSAttributeDescription class]]){
             NSAttributeDescription *l_attributeDescription = (NSAttributeDescription*)l_propertyDescription;
             switch ([l_attributeDescription attributeType]) {

@@ -34,22 +34,22 @@
 
 -(void)ifa_onStepperValueChange {
     //    NSLog(@"onStepperValueChange: %f", v_stepper.value);
-    NSNumber *l_value = @(self.p_stepper.value);
-    [self.p_object IFA_setValue:l_value forProperty:self.p_propertyName];
+    NSNumber *l_value = @(self.stepper.value);
+    [self.object IFA_setValue:l_value forProperty:self.propertyName];
     [self reloadData];
 }
 
 -(void)ifa_onTextFieldDidChangeNotification:(NSNotification*)a_notification{
     NSNumber *l_value = [self parsedValue];
-    self.p_slider.value = [l_value floatValue];
-    self.p_stepper.value = [l_value doubleValue];
+    self.slider.value = [l_value floatValue];
+    self.stepper.value = [l_value doubleValue];
 }
 
 - (void)ifa_onSliderAction:(id)aSender{
 	UISlider *l_slider = aSender;
     NSNumber *l_value = @(l_slider.value);
     if (self.p_sliderIncrement) {
-        NSNumberFormatter *l_numberFormatter = [self.p_object IFA_numberFormatterForProperty:self.p_propertyName];
+        NSNumberFormatter *l_numberFormatter = [self.object IFA_numberFormatterForProperty:self.propertyName];
         [l_numberFormatter setRoundingIncrement:self.p_sliderIncrement];
         NSString *l_formattedValue = [l_numberFormatter stringFromNumber:l_value];
         l_value = [l_numberFormatter numberFromString:l_formattedValue];
@@ -60,7 +60,7 @@
             l_value = @(l_slider.maximumValue);
         }
     }
-    [self.p_object IFA_setValue:l_value forProperty:self.p_propertyName];
+    [self.object IFA_setValue:l_value forProperty:self.propertyName];
     [self reloadData];
 }
 
@@ -70,46 +70,47 @@
     
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier object:a_object propertyName:a_propertyName indexPath:a_indexPath];
     
-    NSDictionary *l_options = [[IAPersistenceManager sharedInstance].entityConfig optionsForProperty:self.p_propertyName inObject:self.p_object];
+    NSDictionary *l_options = [[IAPersistenceManager sharedInstance].entityConfig optionsForProperty:self.propertyName
+                                                                                            inObject:self.object];
     self.p_roundingIncrement = [l_options valueForKey:@"roundingIncrement"];
     self.p_sliderIncrement = [l_options valueForKey:@"sliderIncrement"];
     
     // Configure the text field
     if (![IAUIUtils isIPad]) {
-        self.p_textField.keyboardType = UIKeyboardTypeNumberPad;
+        self.textField.keyboardType = UIKeyboardTypeNumberPad;
     }
     
     // Min & max values
-    NSNumber *l_minValue = [self.p_object IFA_minimumValueForProperty:self.p_propertyName];
-    NSNumber *l_maxValue = [self.p_object IFA_maximumValueForProperty:self.p_propertyName];
+    NSNumber *l_minValue = [self.object IFA_minimumValueForProperty:self.propertyName];
+    NSNumber *l_maxValue = [self.object IFA_maximumValueForProperty:self.propertyName];
 
     // Configure stepper
-    self.p_stepper = [UIStepper new];
-    self.p_stepper.minimumValue = [l_minValue doubleValue];
-    self.p_stepper.maximumValue = [l_maxValue doubleValue];
-    self.p_stepper.stepValue = [self.p_roundingIncrement doubleValue];
-    [self.p_stepper addTarget:self action:@selector(ifa_onStepperValueChange)
-             forControlEvents:UIControlEventValueChanged];
-    [self.contentView addSubview:self.p_stepper];
+    self.stepper = [UIStepper new];
+    self.stepper.minimumValue = [l_minValue doubleValue];
+    self.stepper.maximumValue = [l_maxValue doubleValue];
+    self.stepper.stepValue = [self.p_roundingIncrement doubleValue];
+    [self.stepper addTarget:self action:@selector(ifa_onStepperValueChange)
+           forControlEvents:UIControlEventValueChanged];
+    [self.contentView addSubview:self.stepper];
 
     // Configure slider
-    self.p_slider = [UISlider new];
-    self.p_slider.minimumValue = [l_minValue floatValue];
-    self.p_slider.maximumValue = [l_maxValue floatValue];
-    [self.p_slider addTarget:self action:@selector(ifa_onSliderAction:) forControlEvents:UIControlEventValueChanged];
-    [self.contentView addSubview:self.p_slider];
+    self.slider = [UISlider new];
+    self.slider.minimumValue = [l_minValue floatValue];
+    self.slider.maximumValue = [l_maxValue floatValue];
+    [self.slider addTarget:self action:@selector(ifa_onSliderAction:) forControlEvents:UIControlEventValueChanged];
+    [self.contentView addSubview:self.slider];
 
 //    // Configure slider labels
-//    self.p_minLabel = [UILabel new];
-//    self.p_minLabel.backgroundColor = [UIColor clearColor];
-//    self.p_minLabel.textAlignment = UITextAlignmentRight;
-//    self.p_minLabel.text = @"100";
-//    [self.contentView addSubview:self.p_minLabel];
-//    self.p_maxLabel = [UILabel new];
-//    self.p_maxLabel.backgroundColor = [UIColor clearColor];
-//    self.p_maxLabel.textAlignment = UITextAlignmentLeft;
-//    self.p_maxLabel.text = @"10,000";
-//    [self.contentView addSubview:self.p_maxLabel];
+//    self.minLabel = [UILabel new];
+//    self.minLabel.backgroundColor = [UIColor clearColor];
+//    self.minLabel.textAlignment = UITextAlignmentRight;
+//    self.minLabel.text = @"100";
+//    [self.contentView addSubview:self.minLabel];
+//    self.maxLabel = [UILabel new];
+//    self.maxLabel.backgroundColor = [UIColor clearColor];
+//    self.maxLabel.textAlignment = UITextAlignmentLeft;
+//    self.maxLabel.text = @"10,000";
+//    [self.contentView addSubview:self.maxLabel];
     
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self 
@@ -123,9 +124,9 @@
 
 -(id)parsedValue {
 
-    NSNumberFormatter *l_numberFormatter = [self.p_object IFA_numberFormatterForProperty:self.p_propertyName];
+    NSNumberFormatter *l_numberFormatter = [self.object IFA_numberFormatterForProperty:self.propertyName];
     [l_numberFormatter setRoundingIncrement:self.p_roundingIncrement];
-    return [l_numberFormatter numberFromString:self.p_textField.text];
+    return [l_numberFormatter numberFromString:self.textField.text];
     
 }
 
@@ -133,34 +134,34 @@
     
     [super layoutSubviews];
     
-    self.p_stepper.frame = CGRectMake(self.p_textField.frame.origin.x + self.p_textField.frame.size.width - self.p_stepper.frame.size.width, 8, self.p_stepper.frame.size.width, self.p_stepper.frame.size.height);
-    self.p_textField.frame = CGRectMake(self.p_textField.frame.origin.x, self.p_textField.frame.origin.y, self.p_textField.frame.size.width - self.p_stepper.frame.size.width - 10, self.p_textField.frame.size.height);
-//    self.p_minLabel.frame = CGRectMake(self.p_textField.frame.origin.x, self.p_textField.frame.origin.y + self.p_textField.frame.size.height + 3, self.contentView.frame.size.width/10, self.p_slider.frame.size.height);
-//    self.p_maxLabel.frame = CGRectMake(self.p_stepper.frame.origin.x + self.p_stepper.frame.size.width - self.p_minLabel.frame.size.width, self.p_minLabel.frame.origin.y, self.p_minLabel.frame.size.width, self.p_minLabel.frame.size.height);
+    self.stepper.frame = CGRectMake(self.textField.frame.origin.x + self.textField.frame.size.width - self.stepper.frame.size.width, 8, self.stepper.frame.size.width, self.stepper.frame.size.height);
+    self.textField.frame = CGRectMake(self.textField.frame.origin.x, self.textField.frame.origin.y, self.textField.frame.size.width - self.stepper.frame.size.width - 10, self.textField.frame.size.height);
+//    self.minLabel.frame = CGRectMake(self.textField.frame.origin.x, self.textField.frame.origin.y + self.textField.frame.size.height + 3, self.contentView.frame.size.width/10, self.slider.frame.size.height);
+//    self.maxLabel.frame = CGRectMake(self.p_stepper.frame.origin.x + self.p_stepper.frame.size.width - self.minLabel.frame.size.width, self.minLabel.frame.origin.y, self.minLabel.frame.size.width, self.minLabel.frame.size.height);
 //    NSLog(@"self.detailTextLabel.frame: %@", NSStringFromCGRect(self.detailTextLabel.frame));
 //    NSLog(@"self.p_stepper.frame: %@", NSStringFromCGRect(self.p_stepper.frame));
-//    NSLog(@"self.p_slider.frame: %@", NSStringFromCGRect(self.p_slider.frame));
-//    NSLog(@"self.p_minLabel.frame: %@", NSStringFromCGRect(self.p_minLabel.frame));
-//    NSLog(@"self.p_maxLabel.frame: %@", NSStringFromCGRect(self.p_maxLabel.frame));
-//    CGFloat l_x = self.p_minLabel.frame.origin.x + self.p_minLabel.frame.size.width + 10;
-//    self.p_slider.frame = CGRectMake(l_x, self.p_textField.frame.origin.y + self.p_textField.frame.size.height + 5, self.detailTextLabel.frame.size.width - (l_x - self.p_minLabel.frame.origin.x) - self.p_maxLabel.frame.size.width - 10, self.p_slider.frame.size.height);
-    self.p_slider.frame = CGRectMake(self.p_textField.frame.origin.x, self.p_textField.frame.origin.y + self.p_textField.frame.size.height + 5, self.detailTextLabel.frame.size.width, self.p_slider.frame.size.height);
+//    NSLog(@"self.slider.frame: %@", NSStringFromCGRect(self.slider.frame));
+//    NSLog(@"self.minLabel.frame: %@", NSStringFromCGRect(self.minLabel.frame));
+//    NSLog(@"self.maxLabel.frame: %@", NSStringFromCGRect(self.maxLabel.frame));
+//    CGFloat l_x = self.minLabel.frame.origin.x + self.minLabel.frame.size.width + 10;
+//    self.slider.frame = CGRectMake(l_x, self.textField.frame.origin.y + self.textField.frame.size.height + 5, self.detailTextLabel.frame.size.width - (l_x - self.minLabel.frame.origin.x) - self.maxLabel.frame.size.width - 10, self.slider.frame.size.height);
+    self.slider.frame = CGRectMake(self.textField.frame.origin.x, self.textField.frame.origin.y + self.textField.frame.size.height + 5, self.detailTextLabel.frame.size.width, self.slider.frame.size.height);
     
 }
 
 -(void)reloadData {
     [super reloadData];
-    NSNumber *l_value = [self.p_object valueForKey:self.p_propertyName];
-    self.p_stepper.value = [l_value doubleValue];
-    self.p_slider.value = [l_value floatValue];
+    NSNumber *l_value = [self.object valueForKey:self.propertyName];
+    self.stepper.value = [l_value doubleValue];
+    self.slider.value = [l_value floatValue];
 }
 
 -(void)dealloc{
 
     // Remove targets
-    [self.p_stepper removeTarget:self action:@selector(ifa_onStepperValueChange)
-                forControlEvents:UIControlEventValueChanged];
-    [self.p_slider removeTarget:self action:@selector(ifa_onSliderAction:) forControlEvents:UIControlEventValueChanged];
+    [self.stepper removeTarget:self action:@selector(ifa_onStepperValueChange)
+              forControlEvents:UIControlEventValueChanged];
+    [self.slider removeTarget:self action:@selector(ifa_onSliderAction:) forControlEvents:UIControlEventValueChanged];
     
     // Remove observers
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
@@ -171,7 +172,7 @@
 
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField{
     
-    if (self.p_formViewController.p_textFieldCommitSuspended) {
+    if (self.formViewController.textFieldCommitSuspended) {
 
         return YES;
 
@@ -180,7 +181,8 @@
         if ([self parsedValue]) {
             return YES;
         }else {
-            NSString *l_propertyLabel = [[IAPersistenceManager sharedInstance].entityConfig labelForProperty:self.p_propertyName inObject:self.p_object];
+            NSString *l_propertyLabel = [[IAPersistenceManager sharedInstance].entityConfig labelForProperty:self.propertyName
+                                                                                                    inObject:self.object];
             [IAUIUtils showAlertWithMessage:[NSString stringWithFormat:@"Invalid number entered for %@.", l_propertyLabel] title:@"Validation Error"];
             return NO;
         }

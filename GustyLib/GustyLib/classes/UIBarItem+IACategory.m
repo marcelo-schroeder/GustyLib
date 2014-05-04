@@ -26,7 +26,7 @@ static char c_helpTargetIdKey;
 
 #pragma mark - IAHelpTarget protocol
 
--(void)setP_helpTargetId:(NSString *)a_helpTargetId{
+-(void)setHelpTargetId:(NSString *)a_helpTargetId{
     objc_setAssociatedObject(self, &c_helpTargetIdKey, a_helpTargetId, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     NSString *l_accessibilityLabel = [[IAHelpManager sharedInstance] accessibilityLabelForKeyPath:a_helpTargetId];
     if (l_accessibilityLabel) {
@@ -34,7 +34,7 @@ static char c_helpTargetIdKey;
     }
 }
 
--(NSString *)p_helpTargetId{
+-(NSString *)helpTargetId {
     return objc_getAssociatedObject(self, &c_helpTargetIdKey);
 }
 

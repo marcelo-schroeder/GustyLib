@@ -28,17 +28,17 @@
 @interface IAUIApplicationDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate>
 
 @property (nonatomic, strong) UIWindow *window;
-@property (nonatomic) UIViewController *p_semiModalViewController;
-@property (nonatomic) UIInterfaceOrientation p_semiModalInterfaceOrientation;
-@property (nonatomic) UIViewController *p_popoverControllerPresenter;
-@property (nonatomic, getter = p_isKeyboardVisible) BOOL p_keyboardVisible;
-@property (nonatomic) BOOL p_skipWindowSetup;
-@property (nonatomic) BOOL p_skipWindowRootViewControllerSetup;
-@property (nonatomic, readonly) BOOL p_useDeviceAgnosticMainStoryboard;
-@property (nonatomic) BOOL p_adsSuspended;
-@property (nonatomic, weak) UIViewController *p_adsOwnerViewController;
+@property (nonatomic) UIViewController *semiModalViewController;
+@property (nonatomic) UIInterfaceOrientation semiModalInterfaceOrientation;
+@property (nonatomic) UIViewController *popoverControllerPresenter;
+@property (nonatomic, getter = isKeyboardVisible) BOOL keyboardVisible;
+@property (nonatomic) BOOL skipWindowSetup;
+@property (nonatomic) BOOL skipWindowRootViewControllerSetup;
+@property (nonatomic, readonly) BOOL useDeviceAgnosticMainStoryboard;
+@property (nonatomic) BOOL adsSuspended;
+@property (nonatomic, weak) UIViewController *adsOwnerViewController;
 
-@property(nonatomic) CGRect p_keyboardFrame;
+@property(nonatomic) CGRect keyboardFrame;
 
 // to be overriden by subclasses
 -(Class)appearanceThemeClass;

@@ -22,6 +22,6 @@
     
 }
 
-@property (nonatomic) BOOL p_contextSwitchRequestRequired;
+@property (nonatomic) BOOL contextSwitchRequestRequired;
 
 @end

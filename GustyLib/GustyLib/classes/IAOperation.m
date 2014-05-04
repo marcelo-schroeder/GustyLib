@@ -27,7 +27,7 @@
 
 -(id)init{
     if (self=[super init]) {
-        self.p_allowCancellation = YES;
+        self.allowCancellation = YES;
     }
     return self;
 }

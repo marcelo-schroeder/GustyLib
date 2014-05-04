@@ -22,6 +22,6 @@
 
 @interface IAUIWebViewController : IAUIViewController <UIWebViewDelegate>
 
-@property (nonatomic, strong) NSString *p_htmlResourceName;
+@property (nonatomic, strong) NSString *htmlResourceName;
 
 @end

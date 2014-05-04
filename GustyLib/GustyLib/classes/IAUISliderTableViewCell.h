@@ -21,9 +21,9 @@
 @interface IAUISliderTableViewCell : IAUITableViewCell {
     
 }
-@property (nonatomic, strong) IBOutlet UIView *p_nibView;
-@property (nonatomic, strong) IBOutlet UISlider *p_slider;
-@property (nonatomic, strong) IBOutlet UILabel *p_minLabel;
-@property (nonatomic, strong) IBOutlet UILabel *p_maxLabel;
+@property (nonatomic, strong) IBOutlet UIView *nibView;
+@property (nonatomic, strong) IBOutlet UISlider *slider;
+@property (nonatomic, strong) IBOutlet UILabel *minLabel;
+@property (nonatomic, strong) IBOutlet UILabel *maxLabel;
 
 @end

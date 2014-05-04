@@ -24,8 +24,8 @@ static NSArray *c_pageDataLoadingOrder = nil;
 
 @interface IAUIDynamicPagingContainerViewController ()
 
-@property (nonatomic) NSUInteger p_newChildViewControllerCount;
-@property (nonatomic, strong) NSDate *p_lastFullChildViewControllerUpdate;
+@property (nonatomic) NSUInteger newChildViewControllerCount;
+@property (nonatomic, strong) NSDate *lastFullChildViewControllerUpdate;
 
 @end
 
@@ -55,7 +55,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
 }
 
 -(id)ifa_requestChildViewControllerFromDataSourceForPage:(IAUIScrollPage)a_page{
-    UITableViewController *l_viewController = [self.p_dataSource childViewControlerForPage:a_page];
+    UITableViewController *l_viewController = [self.dataSource childViewControlerForPage:a_page];
     l_viewController.tableView.scrollsToTop = NO;
     return l_viewController ? l_viewController : [NSNull null];
 }
@@ -98,10 +98,10 @@ static NSArray *c_pageDataLoadingOrder = nil;
 	// Toolbar nav buttons
     v_previousViewBarButtonItem = [IAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_PREVIOUS_PAGE target:self action:NULL];
     [IAUIUtils adjustImageInsetsForBarButtonItem:v_previousViewBarButtonItem insetValue:1];
-    v_previousViewBarButtonItem.p_helpTargetId = [self IFA_helpTargetIdForName:@"previousPageButton"];
+    v_previousViewBarButtonItem.helpTargetId = [self IFA_helpTargetIdForName:@"previousPageButton"];
     v_nextViewBarButtonItem = [IAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_NEXT_PAGE target:self action:NULL];
     [IAUIUtils adjustImageInsetsForBarButtonItem:v_nextViewBarButtonItem insetValue:1];
-    v_nextViewBarButtonItem.p_helpTargetId = [self IFA_helpTargetIdForName:@"nextPageButton"];
+    v_nextViewBarButtonItem.helpTargetId = [self IFA_helpTargetIdForName:@"nextPageButton"];
     [self ifa_enableNavigationButtonsAction:YES];
 
 }
@@ -127,7 +127,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
     if (![self IFA_isReturningVisibleViewController]) {
         
         // At first time, initialise child view controllers and scroll to centre page, otherwise just scroll to centre page (to avoid any previously unfinished animation)
-        [self updateChildViewControllersForSelectedPage:self.p_childViewControllers ? v_selectedPage : IA_UISCROLL_PAGE_INIT];
+        [self updateChildViewControllersForSelectedPage:self.pagingContainerChildViewControllers ? v_selectedPage : IA_UISCROLL_PAGE_INIT];
 
     }
 
@@ -158,14 +158,14 @@ static NSArray *c_pageDataLoadingOrder = nil;
 -(void)IFA_updateNavigationItemState {
     [super IFA_updateNavigationItemState];
 //    NSLog(@"IFA_updateNavigationItemState v_selectedPage: %u", v_selectedPage);
-    self.navigationItem.title = [self.p_dataSource titleForPage:v_selectedPage];
+    self.navigationItem.title = [self.dataSource titleForPage:v_selectedPage];
 }
 
 - (void)IFA_updateToolbarNavigationButtonState {
     [super IFA_updateToolbarNavigationButtonState];
     //    NSLog(@"m_updateToolbarNavigationButtonStateForPage: %@", [v_childViewControllers description]);
-	v_previousViewBarButtonItem.enabled = [self.p_childViewControllers objectAtIndex:v_selectedPage-1]!=[NSNull null];
-	v_nextViewBarButtonItem.enabled = [self.p_childViewControllers objectAtIndex:v_selectedPage+1]!=[NSNull null];
+	v_previousViewBarButtonItem.enabled = [self.pagingContainerChildViewControllers objectAtIndex:v_selectedPage - 1]!=[NSNull null];
+	v_nextViewBarButtonItem.enabled = [self.pagingContainerChildViewControllers objectAtIndex:v_selectedPage + 1]!=[NSNull null];
     //    NSLog(@"v_previousViewBarButtonItem.enabled: %u", v_previousViewBarButtonItem.enabled);
     //    NSLog(@"v_nextViewBarButtonItem.enabled: %u", v_nextViewBarButtonItem.enabled);
 }
@@ -180,7 +180,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
     return v_childViewControllerCentre.editing ? v_childViewControllerCentre.editing : [super isEditing];
 }
 
--(IAUITableViewController*)p_selectedViewController{
+-(IAUITableViewController*)selectedViewController {
     return v_childViewControllerCentre;
 }
 
@@ -188,7 +188,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
     NSMutableArray *l_pageIndexes = [NSMutableArray new];
     for (NSNumber *l_pageIndex in c_pageDataLoadingOrder) {
         NSUInteger i = [l_pageIndex unsignedIntegerValue];
-        if ( [self.p_childViewControllers objectAtIndex:i] != [NSNull null] ) {
+        if ( [self.pagingContainerChildViewControllers objectAtIndex:i] != [NSNull null] ) {
             [l_pageIndexes addObject:l_pageIndex];
         }
     }    
@@ -202,7 +202,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
 //    NSLog(@" ");
 //    NSLog(@"scrollViewDidScroll - interfaceOrientation: %u", self.interfaceOrientation);
     
-    if (self.p_willRotate) {
+    if (self.willRotate) {
         // v_willRotate: changes to interface orientation may generate callbacks to this method: we have to ignore those...
 //        NSLog(@"Ignoring scrollViewDidScroll event in IAUIDynamicPagingContainerViewController");
         return;
@@ -215,7 +215,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
     [super scrollViewDidScroll:sender];
     
     // Disables user interaction when it is mid scrolling... for now - ideally it would handle continuous scrolling gestures
-    self.p_scrollView.userInteractionEnabled = NO;
+    self.scrollView.userInteractionEnabled = NO;
 
 }
 
@@ -244,14 +244,14 @@ static NSArray *c_pageDataLoadingOrder = nil;
     
 //    NSLog(@"m_updateChildViewControllersForSelectedPage - a_selectedPage: %u", a_selectedPage);
     
-    //    [self.p_aom m_cancelAllBlocks];
+    //    [self.IFA_asynchronousWorkManager m_cancelAllBlocks];
     
     //    [v_childViewControllerCentre m_willResignMainChildViewController];
     
     // Some clean up
-    self.p_childViewDidAppearCount = 0;
-    self.p_newChildViewControllerCount = 0;
-    for (id l_object in self.p_childViewControllers) {
+    self.childViewDidAppearCount = 0;
+    self.newChildViewControllerCount = 0;
+    for (id l_object in self.pagingContainerChildViewControllers) {
         if (l_object!=[NSNull null]) {
             UITableViewController *l_viewController = (UITableViewController*)l_object;
             l_viewController.tableView.scrollsToTop = NO;
@@ -286,8 +286,8 @@ static NSArray *c_pageDataLoadingOrder = nil;
             break;
             
         case IA_UISCROLL_PAGE_INIT:
-            self.p_lastFullChildViewControllerUpdate = [NSDate date];
-            self.p_childViewControllers = [NSMutableArray new];
+            self.lastFullChildViewControllerUpdate = [NSDate date];
+            self.pagingContainerChildViewControllers = [NSMutableArray new];
             v_childViewControllerCentre = nil;
             v_childViewControllerCentre = [self ifa_requestChildViewControllerFromDataSourceForPage:IA_UISCROLL_PAGE_CENTRE];
             v_childViewControllerLeftNear = [self ifa_requestChildViewControllerFromDataSourceForPage:IA_UISCROLL_PAGE_LEFT_NEAR];
@@ -308,16 +308,16 @@ static NSArray *c_pageDataLoadingOrder = nil;
     
     //    [v_childViewControllerCentre m_willBecomeMainChildViewController];
     
-    [self.p_childViewControllers removeAllObjects];
-    [self.p_childViewControllers addObjectsFromArray:@[v_childViewControllerLeftFar, v_childViewControllerLeftNear, v_childViewControllerCentre, v_childViewControllerRightNear, v_childViewControllerRightFar]];
+    [self.pagingContainerChildViewControllers removeAllObjects];
+    [self.pagingContainerChildViewControllers addObjectsFromArray:@[v_childViewControllerLeftFar, v_childViewControllerLeftNear, v_childViewControllerCentre, v_childViewControllerRightNear, v_childViewControllerRightFar]];
     v_selectedPage = IA_UISCROLL_PAGE_CENTRE;
     
     // Update scroll view content and child view controllers
     //    NSLog(@"self.view.frame.size: %@", NSStringFromCGSize(self.view.frame.size));
     v_firstPageWithContent = NSNotFound;
-    for (NSUInteger i=0, j=0; i<[self.p_childViewControllers count]; i++) {
+    for (NSUInteger i=0, j=0; i<[self.pagingContainerChildViewControllers count]; i++) {
         
-        id l_object = [self.p_childViewControllers objectAtIndex:i];
+        id l_object = [self.pagingContainerChildViewControllers objectAtIndex:i];
         if (l_object!=[NSNull null]) {
             
             if (v_firstPageWithContent==NSNotFound) {
@@ -333,8 +333,8 @@ static NSArray *c_pageDataLoadingOrder = nil;
                 [l_viewController.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
             }
             
-            if (l_viewController.p_staleData) {
-                self.p_newChildViewControllerCount++;
+            if (l_viewController.staleData) {
+                self.newChildViewControllerCount++;
             }
             
             j++;
@@ -350,7 +350,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
     // Centre child view controller the only one to respond to "scroll to top" taps on status bar
     v_childViewControllerCentre.tableView.scrollsToTop = YES;
     
-    self.p_scrollView.userInteractionEnabled = YES;
+    self.scrollView.userInteractionEnabled = YES;
     
     v_performingScroll = NO;
 

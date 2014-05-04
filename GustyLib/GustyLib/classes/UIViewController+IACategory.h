@@ -32,29 +32,29 @@
 
 @interface UIViewController (IACategory) <IAHelpTargetContainer, IAUIPresenter, GADBannerViewDelegate, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate>
 
-@property (nonatomic, readonly) BOOL p_presentedAsModal;
-@property (nonatomic, readonly) BOOL p_isMasterViewController;
-@property (nonatomic, readonly) BOOL p_isDetailViewController;
-@property (nonatomic, readonly) BOOL p_needsToolbar;
-@property (nonatomic, readonly) BOOL p_helpMode;
-@property (nonatomic, readonly) BOOL p_changesMadeByPresentedViewController;
-@property (nonatomic, readonly) IAAsynchronousWorkManager *p_aom;
-@property (nonatomic) id<IAUIPresenter> p_presenter;
-@property (nonatomic, strong, readonly) UIPopoverController *p_activePopoverController;
-@property (nonatomic, strong, readonly) UIBarButtonItem *p_activePopoverControllerBarButtonItem;
-@property (nonatomic, strong) NSString *p_subTitle;
-@property (nonatomic, strong) NSString *p_helpTargetId;
-@property (nonatomic, strong) IAUINavigationItemTitleView *p_titleViewDefault;
-@property (nonatomic, strong) IAUINavigationItemTitleView *p_titleViewLandscapePhone;
-@property (nonatomic, strong) UIView *p_adContainerView;
-@property (nonatomic, strong) ODRefreshControl *p_refreshControl;
-@property (nonatomic, strong, readonly) NSFetchedResultsController *p_fetchedResultsController;
-@property (nonatomic) BOOL p_shouldUseKeyboardPassthroughView;
+@property (nonatomic, readonly) BOOL IFA_presentedAsModal;
+@property (nonatomic, readonly) BOOL IFA_isMasterViewController;
+@property (nonatomic, readonly) BOOL IFA_isDetailViewController;
+@property (nonatomic, readonly) BOOL IFA_needsToolbar;
+@property (nonatomic, readonly) BOOL IFA_helpMode;
+@property (nonatomic, readonly) BOOL IFA_changesMadeByPresentedViewController;
+@property (nonatomic, readonly) IAAsynchronousWorkManager *IFA_asynchronousWorkManager;
+@property (nonatomic) id<IAUIPresenter> IFA_presenter;
+@property (nonatomic, strong, readonly) UIPopoverController *IFA_activePopoverController;
+@property (nonatomic, strong, readonly) UIBarButtonItem *IFA_activePopoverControllerBarButtonItem;
+@property (nonatomic, strong) NSString *IFA_subTitle;
+@property (nonatomic, strong) NSString *IFA_helpTargetId;
+@property (nonatomic, strong) IAUINavigationItemTitleView *IFA_titleViewDefault;
+@property (nonatomic, strong) IAUINavigationItemTitleView *IFA_titleViewLandscapePhone;
+@property (nonatomic, strong) UIView *IFA_adContainerView;
+@property (nonatomic, strong) ODRefreshControl *IFA_refreshControl;
+@property (nonatomic, strong, readonly) NSFetchedResultsController *IFA_activeFetchedResultsController;
+@property (nonatomic) BOOL IFA_shouldUseKeyboardPassthroughView;
 
 // to be overriden by subclasses
-@property (nonatomic, readonly) BOOL p_manageToolbar;
-@property (nonatomic, readonly) BOOL p_doneButtonSaves;
-@property (nonatomic, weak) UIViewController *p_previousVisibleViewController;
+@property (nonatomic, readonly) BOOL IFA_manageToolbar;
+@property (nonatomic, readonly) BOOL IFA_doneButtonSaves;
+@property (nonatomic, weak) UIViewController *IFA_previousVisibleViewController;
 
 /**
 * Adds a child view controller to self.
@@ -152,7 +152,6 @@
 -(NSString*)IFA_editBarButtonItemHelpTargetId;
 
 -(void)IFA_openUrl:(NSURL*)a_url;
--(void)IFA_openSavedUrl;
 
 -(void)IFA_releaseView;
 
@@ -171,9 +170,9 @@
 
 - (GADBannerView*)IFA_gadBannerView;
 
-// Message "beginRefreshing" to self.p_refreshControl but does not show control
+// Message "beginRefreshing" to self.IFA_refreshControl but does not show control
 -(void)IFA_beginRefreshingWithScrollView:(UIScrollView*)a_scrollView;
-// Message "beginRefreshing" to self.p_refreshControl with option to show control or not
+// Message "beginRefreshing" to self.IFA_refreshControl with option to show control or not
 -(void)IFA_beginRefreshingWithScrollView:(UIScrollView *)a_scrollView showControl:(BOOL)a_shouldShowControl;
 -(void)IFA_showRefreshControl:(UIControl *)a_control inScrollView:(UIScrollView*)a_scrollView;
 

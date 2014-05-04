@@ -30,24 +30,24 @@ typedef enum {
 
 @protocol IAUIAppearanceTheme <NSObject>
 
-@property (nonatomic, strong, readonly) UINavigationBar *p_navigationBarAppearance;
-@property (nonatomic, strong, readonly) UINavigationBar *p_popoverNavigationBarAppearance;
-@property (nonatomic, strong, readonly) UIBarButtonItem *p_barButtonItemAppearance;
-@property (nonatomic, strong, readonly) UIBarButtonItem *p_navigationBarButtonItemAppearance;
-@property (nonatomic, strong, readonly) UIBarButtonItem *p_toolbarButtonItemAppearance;
-@property (nonatomic, strong, readonly) UIToolbar *p_toolbarAppearance;
-@property (nonatomic, strong, readonly) UIToolbar *p_popoverToolbarAppearance;
-@property (nonatomic, strong, readonly) UITabBar *p_tabBarAppearance;
-@property (nonatomic, strong, readonly) UITabBarItem *p_tabBarItemAppearance;
-@property (nonatomic, strong, readonly) UISearchBar *p_searchBarAppearance;
-@property (nonatomic, strong, readonly) UISegmentedControl *p_barSegmentedControlAppearance;
-@property (nonatomic, strong, readonly) UISegmentedControl *p_segmentedControlAppearance;
-@property (nonatomic, strong, readonly) UISwitch *p_switchAppearance;
-@property (nonatomic, strong, readonly) UISlider *p_sliderAppearance;
-@property (nonatomic, strong, readonly) UIActivityIndicatorView *p_activityIndicatorView;
-@property (nonatomic, strong, readonly) UIPageControl *p_pageControlAppearance;
+@property (nonatomic, strong, readonly) UINavigationBar *navigationBarAppearance;
+@property (nonatomic, strong, readonly) UINavigationBar *popoverNavigationBarAppearance;
+@property (nonatomic, strong, readonly) UIBarButtonItem *barButtonItemAppearance;
+@property (nonatomic, strong, readonly) UIBarButtonItem *navigationBarButtonItemAppearance;
+@property (nonatomic, strong, readonly) UIBarButtonItem *toolbarButtonItemAppearance;
+@property (nonatomic, strong, readonly) UIToolbar *toolbarAppearance;
+@property (nonatomic, strong, readonly) UIToolbar *popoverToolbarAppearance;
+@property (nonatomic, strong, readonly) UITabBar *tabBarAppearance;
+@property (nonatomic, strong, readonly) UITabBarItem *tabBarItemAppearance;
+@property (nonatomic, strong, readonly) UISearchBar *searchBarAppearance;
+@property (nonatomic, strong, readonly) UISegmentedControl *barSegmentedControlAppearance;
+@property (nonatomic, strong, readonly) UISegmentedControl *segmentedControlAppearance;
+@property (nonatomic, strong, readonly) UISwitch *switchAppearance;
+@property (nonatomic, strong, readonly) UISlider *sliderAppearance;
+@property (nonatomic, strong, readonly) UIActivityIndicatorView *activityIndicatorView;
+@property (nonatomic, strong, readonly) UIPageControl *pageControlAppearance;
 
-@property (nonatomic, strong) NSShadow *p_shadow;
+@property (nonatomic, strong) NSShadow *shadow;
 
 -(void)setAppearance;
 -(void)setAppearanceForView:(UIView*)a_view;

@@ -40,11 +40,11 @@
 
 #pragma mark - Public
 
--(NSString*)p_stringId{
-    return [self.p_urlId description];
+-(NSString*)IFA_stringId {
+    return [self.IFA_urlId description];
 }
 
--(NSURL*)p_urlId{
+-(NSURL*)IFA_urlId {
     return [[self objectID] URIRepresentation];
 }
 

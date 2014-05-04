@@ -33,9 +33,9 @@
 //        CGRect l_frame = CGRectZero;
 //        l_frame.origin.x = 232;
 //        l_frame.origin.y = 8;
-        self.p_switch = [[UISwitch alloc] init];
-        self.p_switch.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-        [self.contentView addSubview:self.p_switch];
+        self.switchControl = [[UISwitch alloc] init];
+        self.switchControl.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+        [self.contentView addSubview:self.switchControl];
         self.detailTextLabel.hidden = YES;
     }
     return self;
@@ -45,10 +45,10 @@
     [super willTransitionToState:state];
     switch (state) {
         case UITableViewCellStateDefaultMask:
-            self.p_switch.enabled = NO;
+            self.switchControl.enabled = NO;
             break;
         case UITableViewCellStateShowingEditControlMask:
-            self.p_switch.enabled = self.p_enabledInEditing;
+            self.switchControl.enabled = self.enabledInEditing;
             break;
         default:
             break;
@@ -57,7 +57,7 @@
 
 -(void)layoutSubviews{
     [super layoutSubviews];
-    self.p_switch.frame = CGRectMake(self.detailTextLabel.frame.origin.x, 8, self.p_switch.frame.size.width, self.p_switch.frame.size.height);
+    self.switchControl.frame = CGRectMake(self.detailTextLabel.frame.origin.x, 8, self.switchControl.frame.size.width, self.switchControl.frame.size.height);
 }
 
 @end

@@ -22,6 +22,6 @@
 
 @interface UIBarItem (IACategory) <IAHelpTarget>
 
-@property (nonatomic, strong) NSString *p_helpTargetId;
+@property (nonatomic, strong) NSString *helpTargetId;
 
 @end

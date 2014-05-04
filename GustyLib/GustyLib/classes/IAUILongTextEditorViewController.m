@@ -22,7 +22,7 @@
 
 @interface IAUILongTextEditorViewController ()
 
-@property (nonatomic, strong) UITextView *p_textView;
+@property (nonatomic, strong) UITextView *textView;
 
 @end
 
@@ -40,11 +40,11 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
                           presenter:a_presenter]) {
         
         // Configure text view
-        self.p_textView = [UITextView new];
-        self.p_textView.text = [self.p_object valueForKey:self.p_propertyName];
-        self.p_textView.autoresizingMask = [IAUIUtils fullAutoresizingMask];
-        self.p_textView.font = [self.p_textView.font fontWithSize:14];
-        [self.view addSubview:self.p_textView];
+        self.textView = [UITextView new];
+        self.textView.text = [self.object valueForKey:self.propertyName];
+        self.textView.autoresizingMask = [IAUIUtils fullAutoresizingMask];
+        self.textView.font = [self.textView.font fontWithSize:14];
+        [self.view addSubview:self.textView];
         
     }
     
@@ -54,12 +54,12 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.p_textView.frame = self.view.frame;
-    [self.p_textView becomeFirstResponder];
+    self.textView.frame = self.view.frame;
+    [self.textView becomeFirstResponder];
 }
 
 -(id)editedValue {
-    return self.p_textView.text;
+    return self.textView.text;
 }
 
 -(BOOL)IFA_hasFixedSize {
@@ -67,7 +67,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
 }
 
 - (BOOL)hasValueChanged {
-	NSString* l_oldText = self.p_originalValue;
+	NSString* l_oldText = self.originalValue;
 	NSString* l_newText = [self editedValue];
     return ( l_oldText==nil && [l_newText isEqualToString:@""] ? NO : ![l_newText isEqualToString:l_oldText] );
 }

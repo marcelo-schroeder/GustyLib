@@ -28,5 +28,5 @@
 
 @end
 @interface IAUIInternalWebBrowserViewController : SVWebViewController <IAUIInternalWebBrowserViewControllerDelegate>
-@property(nonatomic, weak) id<IAUIInternalWebBrowserViewControllerDelegate> p_delegate;
+@property(nonatomic, weak) id<IAUIInternalWebBrowserViewControllerDelegate> delegate;
 @end

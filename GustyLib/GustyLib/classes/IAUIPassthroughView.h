@@ -20,7 +20,7 @@
 // This view can be used to detect hits and, for instance, hide the keyboard when a UIView that conforms to UITextInput is hit.
 @interface IAUIPassthroughView : IAUIView
 
-@property (nonatomic, strong) void(^p_hitTestBlock)(CGPoint a_point, UIEvent *a_event, UIView *a_view);
-@property (nonatomic) BOOL p_shouldDismissKeyboardOnNonTextInputInteractions;
+@property (nonatomic, strong) void(^hitTestBlock)(CGPoint a_point, UIEvent *a_event, UIView *a_view);
+@property (nonatomic) BOOL shouldDismissKeyboardOnNonTextInputInteractions;
 
 @end

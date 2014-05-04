@@ -19,7 +19,7 @@
 
 
 @interface IAUIAbstractWebBrowserActivity ()
-@property (nonatomic, strong) NSURL *p_url;
+@property (nonatomic, strong) NSURL *url;
 @end
 
 @implementation IAUIAbstractWebBrowserActivity {
@@ -48,7 +48,7 @@
 -(void)prepareWithActivityItems:(NSArray *)activityItems{
     for (id l_activityItem in activityItems) {
         if ([l_activityItem isKindOfClass:[NSURL class]]) {
-            self.p_url = l_activityItem;
+            self.url = l_activityItem;
         }
     }
 }

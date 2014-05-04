@@ -25,7 +25,7 @@ typedef void (^CurrentLocationBlock)(CLLocation *a_location);
 
 @interface IACurrentLocationManager : NSObject <CLLocationManagerDelegate>
 
-@property (nonatomic, strong, readonly) CLLocationManager *p_underlyingLocationManager;
+@property (nonatomic, strong, readonly) CLLocationManager *underlyingLocationManager;
 
 - (void)currentLocationWithCompletionBlock:(CurrentLocationBlock)a_completionBlock;
 

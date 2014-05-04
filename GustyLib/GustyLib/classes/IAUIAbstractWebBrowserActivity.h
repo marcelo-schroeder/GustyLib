@@ -19,5 +19,5 @@
 
 
 @interface IAUIAbstractWebBrowserActivity : UIActivity
-@property (nonatomic, strong, readonly) NSURL *p_url;
+@property (nonatomic, strong, readonly) NSURL *url;
 @end

@@ -22,16 +22,16 @@
 
 @interface IAUIAboutViewController : IAUIViewController
 
-@property (strong, nonatomic) IBOutlet UILabel *p_appNameLabel;
-@property (strong, nonatomic) IBOutlet UILabel *p_editionLabel;
-@property (strong, nonatomic) IBOutlet UILabel *p_versionLabel;
-@property (strong, nonatomic) IBOutlet UILabel *p_copyrightNoticeLabel;
-@property (strong, nonatomic) IBOutlet UILabel *p_createdByLabel;
-@property (strong, nonatomic) IBOutlet UILabel *p_visualDesignByLabel;
-@property (strong, nonatomic) IBOutlet UIButton *p_bugReportButton;
-@property (strong, nonatomic) IBOutlet UIButton *p_feedbackButton;
-@property (strong, nonatomic) IBOutlet UIButton *p_forceCrashButton;
-@property (strong, nonatomic) IBOutlet UIButton *p_thirdPartyCreditsButton;
+@property (strong, nonatomic) IBOutlet UILabel *appNameLabel;
+@property (strong, nonatomic) IBOutlet UILabel *editionLabel;
+@property (strong, nonatomic) IBOutlet UILabel *versionLabel;
+@property (strong, nonatomic) IBOutlet UILabel *copyrightNoticeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *createdByLabel;
+@property (strong, nonatomic) IBOutlet UILabel *visualDesignByLabel;
+@property (strong, nonatomic) IBOutlet UIButton *bugReportButton;
+@property (strong, nonatomic) IBOutlet UIButton *feedbackButton;
+@property (strong, nonatomic) IBOutlet UIButton *forceCrashButton;
+@property (strong, nonatomic) IBOutlet UIButton *thirdPartyCreditsButton;
 
 - (IBAction)bugReportButtonTap:(id)sender;
 - (IBAction)feedbackButtonTap:(id)sender;
