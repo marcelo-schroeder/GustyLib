@@ -27,6 +27,7 @@ typedef void (^IFAHtmlParserEndElementBlock)(IFAHtmlElementParsingContext *a_par
 @interface IFAHtmlParser : NSObject <DTHTMLParserDelegate>
 
 @property(nonatomic, strong, readonly) NSMutableString *mutableHtmlString;
+@property(nonatomic, strong, readonly) NSMutableArray *elementMetadataStack;
 
 - (NSString *)stringForStartPosition:(IFAHtmlDocumentPosition *)a_startPosition
                          endPosition:(IFAHtmlDocumentPosition *)a_endPosition;
@@ -57,12 +58,35 @@ typedef void (^IFAHtmlParserEndElementBlock)(IFAHtmlElementParsingContext *a_par
 @end
 
 @interface IFAHtmlElementParsingMetadata : NSObject
+
+/**
+* Element's start position.
+*/
+@property (nonatomic, strong) IFAHtmlDocumentPosition *startPosition;
+
+/**
+* Element's end position.
+* Only available when IFAHtmlParserEndElementBlock is called.
+*/
+@property (nonatomic, strong) IFAHtmlDocumentPosition *endPosition;
+
+/**
+* Element's name.
+*/
 @property (nonatomic, strong) NSString *name;
+
+/**
+* Element's string representation.
+* Only available when IFAHtmlParserEndElementBlock is called.
+*/
 @property (nonatomic, strong) NSString *stringRepresentation;
+
+/**
+* Element's key/value pairs.
+*/
 @property (nonatomic, strong) NSDictionary *attributes;
 
-- (id)initWithName:(NSString *)a_name stringRepresentation:(NSString *)a_stringRepresentation
-        attributes:(NSDictionary *)a_attributes;
+- (id)initWithName:(NSString *)a_name attributes:(NSDictionary *)a_attributes startPosition:(IFAHtmlDocumentPosition *)a_startPosition;
 
 - (id)initWithMetadata:(IFAHtmlElementParsingMetadata *)a_metadata;
 

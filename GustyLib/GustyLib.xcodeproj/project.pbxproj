@@ -148,6 +148,7 @@
 		F7085E2E1915ECC80089BA8E /* IFA_SVWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7085E2C1915ECC80089BA8E /* IFA_SVWebViewController.m */; };
 		F7085E331915ED120089BA8E /* IFA_ECSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7085E301915ED120089BA8E /* IFA_ECSlidingViewController.m */; };
 		F7085E341915ED120089BA8E /* UIImage+IFA_ECImageWithUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = F7085E321915ED120089BA8E /* UIImage+IFA_ECImageWithUIView.m */; };
+		F7085E411917008C0089BA8E /* IFASystemEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = F7085E401917008C0089BA8E /* IFASystemEntity.m */; };
 		F766D2FE18ECA3A700B3B590 /* IFAPagingStateManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F766D2FD18ECA3A700B3B590 /* IFAPagingStateManagerTests.m */; };
 		F766D33E18ECA71000B3B590 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F766D33D18ECA71000B3B590 /* CoreLocation.framework */; };
 		F766D33F18ECA7D700B3B590 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4DBED18EA11E100ABF401 /* MapKit.framework */; };
@@ -160,7 +161,6 @@
 		F7D4D84818EA00E600ABF401 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4D84718EA00E600ABF401 /* UIKit.framework */; };
 		F7D4D84B18EA00E600ABF401 /* libGustyLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4D83318EA00E600ABF401 /* libGustyLib.a */; };
 		F7D4D85118EA00E600ABF401 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F7D4D84F18EA00E600ABF401 /* InfoPlist.strings */; };
-		F7D4DBDE18EA0E6400ABF401 /* S_SystemEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DB2418EA0E6300ABF401 /* S_SystemEntity.m */; };
 		F7D4DBFE18EA195900ABF401 /* IFADateRangeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DBF218EA195900ABF401 /* IFADateRangeTest.m */; };
 		F7D4DBFF18EA195900ABF401 /* IFAHtmlParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DBF318EA195900ABF401 /* IFAHtmlParserTests.m */; };
 		F7D4DC0018EA195900ABF401 /* IFAColorSchemeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DBF518EA195900ABF401 /* IFAColorSchemeTest.m */; };
@@ -488,6 +488,8 @@
 		F7085E3A1915FCB90089BA8E /* IFAHtmlTemplate.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = IFAHtmlTemplate.txt; sourceTree = "<group>"; };
 		F7085E3B1915FCB90089BA8E /* IFASliderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IFASliderView.xib; sourceTree = "<group>"; };
 		F7085E3C1915FCB90089BA8E /* IFATableSectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IFATableSectionHeaderView.xib; sourceTree = "<group>"; };
+		F7085E3F1917008C0089BA8E /* IFASystemEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFASystemEntity.h; sourceTree = "<group>"; };
+		F7085E401917008C0089BA8E /* IFASystemEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFASystemEntity.m; sourceTree = "<group>"; };
 		F7446BD119085FA9008345FA /* GustyLib.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = GustyLib.podspec; path = ../GustyLib.podspec; sourceTree = "<group>"; };
 		F766D2FD18ECA3A700B3B590 /* IFAPagingStateManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAPagingStateManagerTests.m; sourceTree = "<group>"; };
 		F766D33D18ECA71000B3B590 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -508,8 +510,6 @@
 		F7D4DA3718EA0E6300ABF401 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		F7D4DA3E18EA0E6300ABF401 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		F7D4DA3F18EA0E6300ABF401 /* README.textile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.textile; sourceTree = "<group>"; };
-		F7D4DB2318EA0E6300ABF401 /* S_SystemEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = S_SystemEntity.h; sourceTree = "<group>"; };
-		F7D4DB2418EA0E6300ABF401 /* S_SystemEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = S_SystemEntity.m; sourceTree = "<group>"; };
 		F7D4DB4418EA0E6400ABF401 /* 056-PlusCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "056-PlusCircle.png"; sourceTree = "<group>"; };
 		F7D4DB4518EA0E6400ABF401 /* 056-PlusCircle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "056-PlusCircle@2x.png"; sourceTree = "<group>"; };
 		F7D4DB4618EA0E6400ABF401 /* 191-ArrowHead-left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "191-ArrowHead-left.png"; sourceTree = "<group>"; };
@@ -662,6 +662,8 @@
 		F7D4DA2418EA0E6300ABF401 /* classes */ = {
 			isa = PBXGroup;
 			children = (
+				F7085E3F1917008C0089BA8E /* IFASystemEntity.h */,
+				F7085E401917008C0089BA8E /* IFASystemEntity.m */,
 				F7085CA11915EC310089BA8E /* IFAAboutFormViewController.h */,
 				F7085CA21915EC310089BA8E /* IFAAboutFormViewController.m */,
 				F7085CA31915EC310089BA8E /* IFAAboutViewController.h */,
@@ -928,8 +930,6 @@
 				F7085C981915DEBE0089BA8E /* IFAAsynchronousWorkManager.h */,
 				F7085C991915DEBE0089BA8E /* IFAAsynchronousWorkManager.m */,
 				F7D4DA2518EA0E6300ABF401 /* 3rd party */,
-				F7D4DB2318EA0E6300ABF401 /* S_SystemEntity.h */,
-				F7D4DB2418EA0E6300ABF401 /* S_SystemEntity.m */,
 			);
 			path = classes;
 			sourceTree = "<group>";
@@ -1300,7 +1300,6 @@
 				F7085DCE1915EC310089BA8E /* IFAMenuViewController.m in Sources */,
 				F7085DA41915EC310089BA8E /* IFAAppearanceThemeManager.m in Sources */,
 				F7085E0F1915EC310089BA8E /* UIScrollView+IFACategory.m in Sources */,
-				F7D4DBDE18EA0E6400ABF401 /* S_SystemEntity.m in Sources */,
 				F7085DF81915EC310089BA8E /* IFAViewController.m in Sources */,
 				F7085DB71915EC310089BA8E /* IFAEntityConfig.m in Sources */,
 				F7085E151915EC310089BA8E /* UIViewController+IFACategory.m in Sources */,
@@ -1337,6 +1336,7 @@
 				F7085DFF1915EC310089BA8E /* NSDictionary+IFACategory.m in Sources */,
 				F7085DB41915EC310089BA8E /* IFADynamicCache.m in Sources */,
 				F7085DA21915EC310089BA8E /* IFAAbstractWebBrowserActivity.m in Sources */,
+				F7085E411917008C0089BA8E /* IFASystemEntity.m in Sources */,
 				F7085C9E1915DEBE0089BA8E /* IFAAppTerminator.m in Sources */,
 				F7085E041915EC310089BA8E /* NSNumberFormatter+IFACategory.m in Sources */,
 				F7085DBA1915EC310089BA8E /* IFAExternalWebBrowserActivity.m in Sources */,

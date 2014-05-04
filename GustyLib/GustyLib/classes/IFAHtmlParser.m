@@ -15,9 +15,9 @@
 //  limitations under the License.
 //
 
-#import "IFAHtmlParser.h"
 #import "NSString+IFACategory.h"
 #import "NSString+HTML.h"
+#import "IFAHtmlParser.h"
 
 typedef enum{
     HtmlParserEventElementStarted,
@@ -35,20 +35,18 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
 @interface IFAHtmlParser ()
 
 // HTML element parsing stack
-@property(nonatomic, strong) NSMutableArray *ifa_elementNameStack;
-@property(nonatomic, strong) NSMutableArray *ifa_elementAttributeDictionaryStack;
-@property(nonatomic, strong) NSMutableArray *ifa_elementStartPositionStack;
+@property(nonatomic, strong) NSMutableArray *elementMetadataStack;
 
 @property(nonatomic, strong) NSArray *ifa_unparsedHtmlStringLines;
 @property(nonatomic, strong) NSMutableArray *ifa_unparsedHtmlStringLinesMetadata;
 @property(nonatomic, strong) NSMutableString *mutableHtmlString;
-//@property(nonatomic) BOOL p_isInBody;
-//@property(nonatomic, strong) HtmlDocumentPosition *p_topLevelTagStartPosition;
+//@property(nonatomic) BOOL ifa_isInBody;
+//@property(nonatomic, strong) HtmlDocumentPosition *ifa_topLevelTagStartPosition;
 @property(nonatomic, strong) IFAHtmlDocumentPosition *ifa_currentPosition;
 @property(nonatomic, strong) IFAHtmlParserEndElementBlock ifa_endElementBlock;
 @property(nonatomic) HtmlParserEvent ifa_lastParsingEvent;
 @property(nonatomic, strong) NSString *ifa_unparsedHtmlString;
-//@property(nonatomic) NSUInteger p_bodyElementLevel;
+//@property(nonatomic) NSUInteger ifa_bodyElementLevel;
 
 @end
 
@@ -57,27 +55,6 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
 }
 
 #pragma mark - Private
-
-- (NSMutableArray *)ifa_elementNameStack {
-    if (!_ifa_elementNameStack) {
-        _ifa_elementNameStack = [@[] mutableCopy];
-    }
-    return _ifa_elementNameStack;
-}
-
-- (NSMutableArray *)ifa_elementAttributeDictionaryStack {
-    if (!_ifa_elementAttributeDictionaryStack) {
-        _ifa_elementAttributeDictionaryStack = [@[] mutableCopy];
-    }
-    return _ifa_elementAttributeDictionaryStack;
-}
-
-- (NSMutableArray *)ifa_elementStartPositionStack {
-    if (!_ifa_elementStartPositionStack) {
-        _ifa_elementStartPositionStack = [@[] mutableCopy];
-    }
-    return _ifa_elementStartPositionStack;
-}
 
 - (IFAHtmlDocumentPosition *)ifa_currentPosition {
     if (!_ifa_currentPosition) {
@@ -93,48 +70,55 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
     return _ifa_unparsedHtmlStringLinesMetadata;
 }
 
-#pragma mark - DTHTMLParserDelegate
+- (void)ifa_pushElementMetadataStackWith:(NSString *)a_elementName attributes:(NSDictionary *)a_attributes {
 
-- (void)parser:(DTHTMLParser *)parser didStartElement:(NSString *)elementName attributes:(NSDictionary *)attributeDict {
-
-//    if (self.p_isInBody) {
-//        self.p_bodyElementLevel++;
-//    }
-//    if ([elementName isEqualToString:k_tagNameBody]) {
-//        self.p_isInBody = YES;
-//    }
-//    NSLog(@"didStartElement: %@, attributeDict: %@", elementName, [attributeDict description]);
-//    NSLog(@"    line: %u, column: %u", parser.lineNumber, parser.columnNumber);
-
-    // Save element name
-    [self.ifa_elementNameStack addObject:elementName];
-
-    // Save element attributes
-    NSMutableDictionary *l_attributes = (id) [NSNull null];
-    if (attributeDict) {
-        l_attributes = [attributeDict mutableCopy];
+    // Prepare element attributes for saving
+    NSMutableDictionary *l_attributes = nil;
+    if (a_attributes) {
+        l_attributes = [a_attributes mutableCopy];
         for (id l_key in l_attributes.allKeys) {
             NSString *l_value = l_attributes[l_key];
             // Re-encode attribute value for HTML
             l_attributes[l_key] = [l_value stringByEncodingHTMLEntities];
         }
     }
-    [self.ifa_elementAttributeDictionaryStack addObject:l_attributes];
 
-    // Save element start position
-    if (self.ifa_lastParsingEvent ==HtmlParserEventElementStarted) {
+    // Prepare element start position for saving
+    if (self.ifa_lastParsingEvent == HtmlParserEventElementStarted) {
         self.ifa_currentPosition.column++;
     }
-    [self.ifa_elementStartPositionStack addObject:self.ifa_currentPosition];
 
-//    if (self.p_bodyElementLevel == 1) {
-//        self.p_topLevelTagStartPosition = self.ifa_currentPosition;
-//        self.p_topLevelTagStartPosition.column++;
+    // Save element parsing metadata
+    IFAHtmlElementParsingMetadata *l_elementMetadata = [[IFAHtmlElementParsingMetadata alloc] initWithName:a_elementName
+                                                                                          attributes:l_attributes
+                                                                                       startPosition:self.ifa_currentPosition];
+    [self.elementMetadataStack addObject:l_elementMetadata];
+
+}
+
+#pragma mark - DTHTMLParserDelegate
+
+- (void)parser:(DTHTMLParser *)parser didStartElement:(NSString *)elementName attributes:(NSDictionary *)attributeDict {
+
+//    if (self.ifa_isInBody) {
+//        self.ifa_bodyElementLevel++;
+//    }
+//    if ([elementName isEqualToString:k_tagNameBody]) {
+//        self.ifa_isInBody = YES;
+//    }
+//    NSLog(@"didStartElement: %@, attributeDict: %@", elementName, [attributeDict description]);
+//    NSLog(@"    line: %u, column: %u", parser.lineNumber, parser.columnNumber);
+
+    [self ifa_pushElementMetadataStackWith:elementName attributes:attributeDict];
+
+//    if (self.ifa_bodyElementLevel == 1) {
+//        self.ifa_topLevelTagStartPosition = self.ifa_currentPosition;
+//        self.ifa_topLevelTagStartPosition.column++;
 //    }
 
     // Save element current position
     self.ifa_currentPosition = [IFAHtmlDocumentPosition positionWithLine:(NSUInteger) parser.lineNumber
-                                                                  column:(NSUInteger) parser.columnNumber];
+                                                               column:(NSUInteger) parser.columnNumber];
 
     // Save last parsing event
     self.ifa_lastParsingEvent = HtmlParserEventElementStarted;
@@ -147,25 +131,16 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
 //    NSLog(@"  line: %u, column: %u", parser.lineNumber, parser.columnNumber);
 
     self.ifa_currentPosition = [IFAHtmlDocumentPosition positionWithLine:(NSUInteger) parser.lineNumber
-                                                                  column:(NSUInteger) parser.columnNumber];
+                                                               column:(NSUInteger) parser.columnNumber];
 
-    NSString *l_elementName = [self.ifa_elementNameStack lastObject];
-    NSAssert([elementName isEqualToString:l_elementName], @"Element names do not match: %@ | %@", elementName, l_elementName);
-    [self.ifa_elementNameStack removeLastObject];
+    IFAHtmlElementParsingMetadata *l_elementMetadata = [self.elementMetadataStack lastObject];
+    NSAssert([elementName isEqualToString:l_elementMetadata.name], @"Element names do not match: %@ | %@", elementName, l_elementMetadata.name);
+    [self.elementMetadataStack removeLastObject];
 
-    NSDictionary *l_attributeDict = [self.ifa_elementAttributeDictionaryStack lastObject];
-    l_attributeDict = l_attributeDict == (id)[NSNull null] ? nil : l_attributeDict;
-    [self.ifa_elementAttributeDictionaryStack removeLastObject];
-
-    IFAHtmlDocumentPosition *l_startPosition = [self.ifa_elementStartPositionStack lastObject];
-    [self.ifa_elementStartPositionStack removeLastObject];
-
-    NSString *l_stringRepresentation = [self stringForStartPosition:l_startPosition
-                                                        endPosition:self.ifa_currentPosition];
-
-    IFAHtmlElementParsingMetadata *l_elementMetadata = [[IFAHtmlElementParsingMetadata alloc] initWithName:elementName
-                                                                                stringRepresentation:l_stringRepresentation
-                                                                                          attributes:l_attributeDict];
+    // Set the missing properties in the element metadata
+    l_elementMetadata.endPosition = self.ifa_currentPosition;
+    l_elementMetadata.stringRepresentation = [self stringForStartPosition:l_elementMetadata.startPosition
+                                                              endPosition:l_elementMetadata.endPosition];
 
 //    NSLog(@"  l_stringRepresentation: %@", l_stringRepresentation);
 //    NSLog(@"  l_attributeDict: %@", [l_attributeDict description]);
@@ -176,8 +151,8 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
         self.ifa_endElementBlock(l_parsingContext);
     }
 
-//    if (self.p_isInBody) {
-//        self.p_bodyElementLevel--;
+//    if (self.ifa_isInBody) {
+//        self.ifa_bodyElementLevel--;
 //    }
 
     self.ifa_lastParsingEvent = HtmlParserEventElementEnded;
@@ -336,6 +311,13 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
     return l_styleAttributeValue;
 }
 
+- (NSMutableArray *)elementMetadataStack {
+    if (!_elementMetadataStack) {
+        _elementMetadataStack = [@[] mutableCopy];
+    }
+    return _elementMetadataStack;
+}
+
 + (NSString *)charactersBetweenOpenAndCloseTagsForStringRepresentation:(NSString *)a_stringRepresentation{
     NSRange l_openTagEndRange = [a_stringRepresentation rangeOfString:@">"];
     NSRange l_closeTagStartRange = [a_stringRepresentation rangeOfString:@"<"
@@ -381,20 +363,24 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
 
 #pragma mark - Public
 
-- (id)initWithName:(NSString *)a_name stringRepresentation:(NSString *)a_stringRepresentation
-        attributes:(NSDictionary *)a_attributes {
+- (id)initWithName:(NSString *)a_name attributes:(NSDictionary *)a_attributes startPosition:(IFAHtmlDocumentPosition *)a_startPosition {
     self = [super init];
     if (self) {
         self.name = a_name;
-        self.stringRepresentation = a_stringRepresentation;
         self.attributes = a_attributes;
+        self.startPosition = a_startPosition;
     }
     return self;
 }
 
 - (id)initWithMetadata:(IFAHtmlElementParsingMetadata *)a_metadata{
-    return [self initWithName:a_metadata.name stringRepresentation:a_metadata.stringRepresentation
-                   attributes:a_metadata.attributes];
+    IFAHtmlElementParsingMetadata *l_obj = [IFAHtmlElementParsingMetadata new];
+    l_obj.name = a_metadata.name;
+    l_obj.stringRepresentation = a_metadata.stringRepresentation;
+    l_obj.attributes = a_metadata.attributes;
+    l_obj.startPosition = a_metadata.startPosition;
+    l_obj.endPosition = a_metadata.endPosition;
+    return l_obj;
 }
 
 @end
