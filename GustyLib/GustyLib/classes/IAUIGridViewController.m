@@ -19,8 +19,8 @@
 #import "UICollectionView+IACategory.h"
 
 @interface IAUIGridViewController ()
-@property(nonatomic) BOOL p_firstLoadDone;
-@property(nonatomic) BOOL p_interfaceIsRotating;
+@property(nonatomic) BOOL ifa_firstLoadDone;
+@property(nonatomic) BOOL ifa_interfaceIsRotating;
 @end
 
 @implementation IAUIGridViewController {
@@ -36,14 +36,14 @@
 }
 
 - (void)ifa_doFirstLoadConfiguration {
-    if (!self.p_firstLoadDone) {
+    if (!self.ifa_firstLoadDone) {
         [self ifa_updateCollectionViewLayout];
-        self.p_firstLoadDone = YES;
+        self.ifa_firstLoadDone = YES;
     }
 }
 
 - (void)ifa_onApplicationWillChangeStatusBarFrameNotification:(NSNotification *)a_notification {
-    if (!self.p_interfaceIsRotating) {  // If interface is rotating then layout will be taken care of somewhere else
+    if (!self.ifa_interfaceIsRotating) {  // If interface is rotating then layout will be taken care of somewhere else
         // Force collection views re-layout
         [self.collectionView.collectionViewLayout invalidateLayout];
     }
@@ -232,7 +232,7 @@
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
                                 duration:(NSTimeInterval)duration {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    self.p_interfaceIsRotating = YES;
+    self.ifa_interfaceIsRotating = YES;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
@@ -246,7 +246,7 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    self.p_interfaceIsRotating = NO;
+    self.ifa_interfaceIsRotating = NO;
 }
 
 - (void)dealloc {

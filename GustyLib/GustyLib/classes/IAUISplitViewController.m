@@ -22,7 +22,7 @@
 
 @interface IAUISplitViewController ()
 
-@property(nonatomic) BOOL p_firstLoadDone;
+@property(nonatomic) BOOL ifa_firstLoadDone;
 @end
 
 @implementation IAUISplitViewController{
@@ -66,13 +66,13 @@
 
     [super viewDidAppear:animated];
 
-    if (!self.p_firstLoadDone) {
+    if (!self.ifa_firstLoadDone) {
         UIViewController *l_masterViewController = self.viewControllers[0];
         if ([l_masterViewController isKindOfClass:[UINavigationController class]]) {
             UIViewController *l_masterRootViewController = ((UINavigationController*)l_masterViewController).viewControllers[0];
             if ([l_masterRootViewController isKindOfClass:[IAUIMenuViewController class]]) {
                 [((IAUIMenuViewController *) l_masterRootViewController) selectMenuItemAtIndex:0];
-                self.p_firstLoadDone = YES;
+                self.ifa_firstLoadDone = YES;
             }
         }
     }

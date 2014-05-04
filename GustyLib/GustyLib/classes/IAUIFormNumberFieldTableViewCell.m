@@ -22,8 +22,8 @@
 
 @interface IAUIFormNumberFieldTableViewCell()
 
-@property (nonatomic, strong) NSNumber *p_roundingIncrement;
-@property (nonatomic, strong) NSNumber *p_sliderIncrement;
+@property (nonatomic, strong) NSNumber *ifa_roundingIncrement;
+@property (nonatomic, strong) NSNumber *ifa_sliderIncrement;
 
 @end
 
@@ -48,9 +48,9 @@
 - (void)ifa_onSliderAction:(id)aSender{
 	UISlider *l_slider = aSender;
     NSNumber *l_value = @(l_slider.value);
-    if (self.p_sliderIncrement) {
+    if (self.ifa_sliderIncrement) {
         NSNumberFormatter *l_numberFormatter = [self.object IFA_numberFormatterForProperty:self.propertyName];
-        [l_numberFormatter setRoundingIncrement:self.p_sliderIncrement];
+        [l_numberFormatter setRoundingIncrement:self.ifa_sliderIncrement];
         NSString *l_formattedValue = [l_numberFormatter stringFromNumber:l_value];
         l_value = [l_numberFormatter numberFromString:l_formattedValue];
         if ([l_value compare:@(l_slider.minimumValue)]==NSOrderedAscending) {
@@ -72,8 +72,8 @@
     
     NSDictionary *l_options = [[IAPersistenceManager sharedInstance].entityConfig optionsForProperty:self.propertyName
                                                                                             inObject:self.object];
-    self.p_roundingIncrement = [l_options valueForKey:@"roundingIncrement"];
-    self.p_sliderIncrement = [l_options valueForKey:@"sliderIncrement"];
+    self.ifa_roundingIncrement = [l_options valueForKey:@"roundingIncrement"];
+    self.ifa_sliderIncrement = [l_options valueForKey:@"sliderIncrement"];
     
     // Configure the text field
     if (![IAUIUtils isIPad]) {
@@ -88,7 +88,7 @@
     self.stepper = [UIStepper new];
     self.stepper.minimumValue = [l_minValue doubleValue];
     self.stepper.maximumValue = [l_maxValue doubleValue];
-    self.stepper.stepValue = [self.p_roundingIncrement doubleValue];
+    self.stepper.stepValue = [self.ifa_roundingIncrement doubleValue];
     [self.stepper addTarget:self action:@selector(ifa_onStepperValueChange)
            forControlEvents:UIControlEventValueChanged];
     [self.contentView addSubview:self.stepper];
@@ -125,7 +125,7 @@
 -(id)parsedValue {
 
     NSNumberFormatter *l_numberFormatter = [self.object IFA_numberFormatterForProperty:self.propertyName];
-    [l_numberFormatter setRoundingIncrement:self.p_roundingIncrement];
+    [l_numberFormatter setRoundingIncrement:self.ifa_roundingIncrement];
     return [l_numberFormatter numberFromString:self.textField.text];
     
 }

@@ -26,13 +26,13 @@
 
 @interface IAUIHelpModeOverlayView()
 
-@property (nonatomic) BOOL p_shouldSpotlight;
-@property (nonatomic) BOOL p_showingSpotlight;
-@property (nonatomic) BOOL p_finalDrawing;
-@property (nonatomic) BOOL p_removeSpotlightWithAnimation;
-@property (nonatomic) CGRect p_spotlightRect;
+@property (nonatomic) BOOL ifa_shouldSpotlight;
+@property (nonatomic) BOOL ifa_showingSpotlight;
+@property (nonatomic) BOOL ifa_finalDrawing;
+@property (nonatomic) BOOL ifa_removeSpotlightWithAnimation;
+@property (nonatomic) CGRect ifa_spotlightRect;
 
-@property (nonatomic, strong) IAUIHelpModeOverlaySpotlightMaskView *p_spotlightMask;
+@property (nonatomic, strong) IAUIHelpModeOverlaySpotlightMaskView *ifa_spotlightMask;
 
 @end
 
@@ -76,11 +76,11 @@
     CGContextFillRect(l_context, rect);
     
     IAUIHelpModeOverlaySpotlightMaskView *l_previousSpotlightMask = nil;
-    if (!self.p_finalDrawing) {
+    if (!self.ifa_finalDrawing) {
         
-        if (self.p_showingSpotlight && self.p_removeSpotlightWithAnimation) {
+        if (self.ifa_showingSpotlight && self.ifa_removeSpotlightWithAnimation) {
             
-            l_previousSpotlightMask = self.p_spotlightMask;
+            l_previousSpotlightMask = self.ifa_spotlightMask;
             
             // Draw spotlight
             CGContextSetFillColorWithColor(l_context, [UIColor clearColor].CGColor);
@@ -90,38 +90,38 @@
         }
         
         // Add spotlight mask
-        if (self.p_shouldSpotlight) {
-            self.p_spotlightMask = [[IAUIHelpModeOverlaySpotlightMaskView alloc] initWithFrame:self.p_spotlightRect];
-            [self addSubview:self.p_spotlightMask];
+        if (self.ifa_shouldSpotlight) {
+            self.ifa_spotlightMask = [[IAUIHelpModeOverlaySpotlightMaskView alloc] initWithFrame:self.ifa_spotlightRect];
+            [self addSubview:self.ifa_spotlightMask];
         }
         
     }
     
     // Draw spotlight if required
-    if (self.p_shouldSpotlight) {
+    if (self.ifa_shouldSpotlight) {
         CGContextSetFillColorWithColor(l_context, [UIColor clearColor].CGColor);
         CGContextSetBlendMode(l_context, kCGBlendModeClear);
-        CGContextFillEllipseInRect(l_context, self.p_spotlightRect);
-        self.p_showingSpotlight = YES;
+        CGContextFillEllipseInRect(l_context, self.ifa_spotlightRect);
+        self.ifa_showingSpotlight = YES;
     }else {
-        self.p_showingSpotlight = NO;
+        self.ifa_showingSpotlight = NO;
     }
     
-    if (!self.p_finalDrawing) {
+    if (!self.ifa_finalDrawing) {
         
-        self.p_finalDrawing = YES;
+        self.ifa_finalDrawing = YES;
         
         // Schedule animations
         [IAUtils dispatchAsyncMainThreadBlock:^{
 
-            BOOL l_removeSpotlightWithAnimation = self.p_removeSpotlightWithAnimation;
+            BOOL l_removeSpotlightWithAnimation = self.ifa_removeSpotlightWithAnimation;
 
             [UIView transitionWithView:self duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve
                             animations:^{
-                                if (self.p_shouldSpotlight) {
-                                    [self.p_spotlightMask removeFromSuperview];
+                                if (self.ifa_shouldSpotlight) {
+                                    [self.ifa_spotlightMask removeFromSuperview];
                                 }
-                                if (self.p_removeSpotlightWithAnimation) {
+                                if (self.ifa_removeSpotlightWithAnimation) {
                                     if (l_previousSpotlightMask) {
                                         [self addSubview:l_previousSpotlightMask];
                                     }
@@ -156,22 +156,22 @@
     CGRect l_correctedRect = CGRectMake(l_x, a_rect.origin.y, l_width, a_rect.size.height);
 
     // Set up correct state for the spotlight to be drawn
-    self.p_spotlightRect = l_correctedRect;
-    self.p_shouldSpotlight = YES;
-    [self.p_spotlightMask setNeedsDisplay];
+    self.ifa_spotlightRect = l_correctedRect;
+    self.ifa_shouldSpotlight = YES;
+    [self.ifa_spotlightMask setNeedsDisplay];
     
     // Draw spotlight
-    self.p_finalDrawing = NO;
-    self.p_removeSpotlightWithAnimation = NO;
+    self.ifa_finalDrawing = NO;
+    self.ifa_removeSpotlightWithAnimation = NO;
     [self setNeedsDisplay];
     
 }
 
 -(void)removeSpotlightWithAnimation:(BOOL)a_animate{
     
-    self.p_shouldSpotlight = NO;
-    self.p_finalDrawing = NO;
-    self.p_removeSpotlightWithAnimation = a_animate;
+    self.ifa_shouldSpotlight = NO;
+    self.ifa_finalDrawing = NO;
+    self.ifa_removeSpotlightWithAnimation = a_animate;
     [self setNeedsDisplay];
     
 }

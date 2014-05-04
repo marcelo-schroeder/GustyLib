@@ -22,7 +22,7 @@
 
 @interface IAUIMenuViewController ()
 
-@property (nonatomic, strong) UIViewController *p_previousViewController;
+@property (nonatomic, strong) UIViewController *ifa_previousViewController;
 
 @end
 
@@ -121,10 +121,10 @@
     //    NSLog(@"self.selectedIndexPath: %@", [self.selectedIndexPath description]);
     
     if (self.splitViewController || self.slidingViewController) {
-        if (self.p_previousViewController && [self.p_previousViewController isKindOfClass:[UINavigationController class]]) {
+        if (self.ifa_previousViewController && [self.ifa_previousViewController isKindOfClass:[UINavigationController class]]) {
             // If the previously selected view controller is a navigation controller then make sure to pop to its root view controller
             //  in order to minimise memory requirements and avoid complications with entities being changed somewhere else (for now)
-            UINavigationController *l_navigationController = (UINavigationController*)self.p_previousViewController;
+            UINavigationController *l_navigationController = (UINavigationController*)self.ifa_previousViewController;
             //            NSLog(@"before...");
             //            NSLog(@"  [l_navigationController.viewControllers count]: %u", [l_navigationController.viewControllers count]);
             //            NSLog(@"  [l_navigationController.topViewController description]: %@", [l_navigationController.topViewController description]);
@@ -133,7 +133,7 @@
             //            NSLog(@"[l_navigationController.viewControllers count]: %u", [l_navigationController.viewControllers count]);
             //            NSLog(@"[l_navigationController.topViewController description]: %@", [l_navigationController.topViewController description]);
         }
-        self.p_previousViewController = l_viewController;
+        self.ifa_previousViewController = l_viewController;
         [IAUIUtils postNavigationEventNotification];
     }
     

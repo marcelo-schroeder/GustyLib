@@ -22,12 +22,12 @@ static NSString *const k_LocationServiceDisableAlertMessage = @" Location Servic
 
 @interface IACurrentLocationManager ()
 @property (nonatomic, strong) CLLocationManager *underlyingLocationManager;
-@property (nonatomic, strong) void(^p_completionBlock)(CLLocation *);
-@property(nonatomic) BOOL p_pendingCurrentLocationRequest;
-@property(nonatomic) CLLocationAccuracy p_horizontalAccuracy;
-@property(nonatomic) NSTimeInterval p_locationAgeThreshold;
-@property(nonatomic, strong) CLLocation *p_lastLocationReceived;
-@property(nonatomic, strong) NSTimer *p_timer;
+@property (nonatomic, strong) void(^ifa_completionBlock)(CLLocation *);
+@property(nonatomic) BOOL ifa_pendingCurrentLocationRequest;
+@property(nonatomic) CLLocationAccuracy ifa_horizontalAccuracy;
+@property(nonatomic) NSTimeInterval ifa_locationAgeThreshold;
+@property(nonatomic, strong) CLLocation *ifa_lastLocationReceived;
+@property(nonatomic, strong) NSTimer *ifa_timer;
 @end
 
 @implementation IACurrentLocationManager {
@@ -65,13 +65,13 @@ static NSString *const k_LocationServiceDisableAlertMessage = @" Location Servic
     if (a_shouldShowAlert) {
         [self.class ifa_showLocationServicesAlert];
     }
-    self.p_completionBlock(nil);
+    self.ifa_completionBlock(nil);
 }
 
 -(void)ifa_locationUpdatingTimedOut {
 //    NSLog(@"timeout called");
-    if(self.p_lastLocationReceived){
-        self.p_completionBlock(self.p_lastLocationReceived);
+    if(self.ifa_lastLocationReceived){
+        self.ifa_completionBlock(self.ifa_lastLocationReceived);
     }else{
         [self locationManager:nil didFailWithError:nil];
     }
@@ -83,9 +83,9 @@ static NSString *const k_LocationServiceDisableAlertMessage = @" Location Servic
 
     if(a_locations.count > 0){
         CLLocation *l_recentLocation = a_locations[a_locations.count-1];
-        self.p_lastLocationReceived = l_recentLocation;
-        BOOL l_isWithinHorizontalAccuracyRange = (l_recentLocation.horizontalAccuracy <= self.p_horizontalAccuracy);
-        BOOL l_isWithinTimeLapsedThreshold = (fabs(l_recentLocation.timestamp.timeIntervalSinceNow) <= self.p_locationAgeThreshold);
+        self.ifa_lastLocationReceived = l_recentLocation;
+        BOOL l_isWithinHorizontalAccuracyRange = (l_recentLocation.horizontalAccuracy <= self.ifa_horizontalAccuracy);
+        BOOL l_isWithinTimeLapsedThreshold = (fabs(l_recentLocation.timestamp.timeIntervalSinceNow) <= self.ifa_locationAgeThreshold);
         if(l_isWithinHorizontalAccuracyRange && l_isWithinTimeLapsedThreshold){
             l_validLocation =  l_recentLocation;
         }
@@ -108,13 +108,13 @@ static NSString *const k_LocationServiceDisableAlertMessage = @" Location Servic
               locationUpdatesTimeoutThreshold:(NSTimeInterval)locationUpdatesTimeoutThreshold
                               completionBlock:(CurrentLocationBlock)a_completionBlock {
 
-    self.p_completionBlock = a_completionBlock;
+    self.ifa_completionBlock = a_completionBlock;
     if ([self.class performLocationServicesChecks]) {
-        self.p_pendingCurrentLocationRequest = YES;
-        self.p_horizontalAccuracy = horizontalAccuracy;
-        self.p_locationAgeThreshold = locationAgeThreshold;
-        self.p_lastLocationReceived = nil;
-        self.p_timer = [NSTimer scheduledTimerWithTimeInterval:locationUpdatesTimeoutThreshold
+        self.ifa_pendingCurrentLocationRequest = YES;
+        self.ifa_horizontalAccuracy = horizontalAccuracy;
+        self.ifa_locationAgeThreshold = locationAgeThreshold;
+        self.ifa_lastLocationReceived = nil;
+        self.ifa_timer = [NSTimer scheduledTimerWithTimeInterval:locationUpdatesTimeoutThreshold
                                                         target:self
                                                       selector:@selector(ifa_locationUpdatingTimedOut)
                                                       userInfo:nil
@@ -161,11 +161,11 @@ static NSString *const k_LocationServiceDisableAlertMessage = @" Location Servic
 
     CLLocation *l_validMostRecentLocation = [self ifa_retrieveValidLocationIfAvailable:locations];
 
-    if (self.p_pendingCurrentLocationRequest && l_validMostRecentLocation) {
+    if (self.ifa_pendingCurrentLocationRequest && l_validMostRecentLocation) {
         [self.underlyingLocationManager stopUpdatingLocation];
-        [self.p_timer invalidate];
-        self.p_pendingCurrentLocationRequest = NO;
-        self.p_completionBlock(l_validMostRecentLocation);
+        [self.ifa_timer invalidate];
+        self.ifa_pendingCurrentLocationRequest = NO;
+        self.ifa_completionBlock(l_validMostRecentLocation);
     }else{
 //        NSLog(@"didUpdateLocations: NOT handling");
     }
@@ -174,10 +174,10 @@ static NSString *const k_LocationServiceDisableAlertMessage = @" Location Servic
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     [self.underlyingLocationManager stopUpdatingLocation];
-    [self.p_timer invalidate];
-    if (self.p_pendingCurrentLocationRequest) {
+    [self.ifa_timer invalidate];
+    if (self.ifa_pendingCurrentLocationRequest) {
 //        NSLog(@"didFailWithError: handling");
-        self.p_pendingCurrentLocationRequest = NO;
+        self.ifa_pendingCurrentLocationRequest = NO;
         [self ifa_handleCurrentLocationErrorWithAlert:YES];
     }else{
 //        NSLog(@"didFailWithError: NOT handling");

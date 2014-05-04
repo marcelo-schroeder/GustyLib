@@ -22,6 +22,9 @@
 
 @interface IAUIHelpPopTipView : CMPopTipView <CMPopTipViewDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate>
 
+@property (strong, nonatomic) IBOutlet UIView *customContainerView;
+@property (strong, nonatomic) IBOutlet UILabel *helpTargetTitleLabel;
+
 @property (atomic) BOOL presentationRequestInProgress;
 @property (atomic) BOOL maximised;
 @property (atomic) BOOL isTitlePositionFixed;

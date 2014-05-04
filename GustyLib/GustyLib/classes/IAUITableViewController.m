@@ -25,8 +25,8 @@
     BOOL v_initDone;
 }
 
-@property (nonatomic, strong) UITableView *p_tableView;
-@property(nonatomic, strong) NSLayoutConstraint *p_tableViewBottomLayoutConstraint;
+@property (nonatomic, strong) UITableView *ifa_tableView;
+@property(nonatomic, strong) NSLayoutConstraint *ifa_tableViewBottomLayoutConstraint;
 
 @end
 
@@ -303,7 +303,7 @@
         if (!self.view) {
             [self loadView];
         }
-        return self.p_tableView;
+        return self.ifa_tableView;
     }else{
         return [super tableView];
     }
@@ -320,13 +320,13 @@
         }
         UIView *l_view = [[UIView alloc] initWithFrame:l_frame];
         l_view.autoresizingMask = [IAUIUtils fullAutoresizingMask];
-        self.p_tableView = [[UITableView alloc] initWithFrame:l_frame style:UITableViewStylePlain];
-        self.p_tableView.autoresizingMask = [IAUIUtils fullAutoresizingMask];
-        [l_view addSubview:self.p_tableView];
-        NSArray *l_constraints = [self.p_tableView IFA_addLayoutConstraintsToFillSuperview];
+        self.ifa_tableView = [[UITableView alloc] initWithFrame:l_frame style:UITableViewStylePlain];
+        self.ifa_tableView.autoresizingMask = [IAUIUtils fullAutoresizingMask];
+        [l_view addSubview:self.ifa_tableView];
+        NSArray *l_constraints = [self.ifa_tableView IFA_addLayoutConstraintsToFillSuperview];
         for (NSLayoutConstraint *l_constraint in l_constraints) {
             if (l_constraint.firstAttribute == NSLayoutAttributeBottom) {
-                self.p_tableViewBottomLayoutConstraint = l_constraint;
+                self.ifa_tableViewBottomLayoutConstraint = l_constraint;
             }
         }
         self.view = l_view;
@@ -436,8 +436,8 @@
 }
 
 - (void)IFA_updateNonAdContainerViewFrameWithAdBannerViewHeight:(CGFloat)a_adBannerViewHeight {
-    if (self.p_tableViewBottomLayoutConstraint) {
-        self.p_tableViewBottomLayoutConstraint.constant = a_adBannerViewHeight;
+    if (self.ifa_tableViewBottomLayoutConstraint) {
+        self.ifa_tableViewBottomLayoutConstraint.constant = a_adBannerViewHeight;
         [[self IFA_nonAdContainerView] layoutIfNeeded];   // Done so that this change can be animated
     }else{
         [super IFA_updateNonAdContainerViewFrameWithAdBannerViewHeight:a_adBannerViewHeight];

@@ -22,7 +22,7 @@
 
 @interface IAUISingleSelectionListViewController ()
 
-@property (nonatomic) BOOL p_hasInitialLoadBeenDone;
+@property (nonatomic) BOOL ifa_hasInitialLoadBeenDone;
 
 @end
 
@@ -132,13 +132,13 @@
 
 -(void)didRefreshAndReloadDataAsync {
     [super didRefreshAndReloadDataAsync];
-    if (self.p_hasInitialLoadBeenDone) {
+    if (self.ifa_hasInitialLoadBeenDone) {
         [self showTipForEditing:NO];
     }else{
         if (self.entities.count==0) {
             [self showCreateManagedObjectForm];
         }
-        self.p_hasInitialLoadBeenDone = YES;
+        self.ifa_hasInitialLoadBeenDone = YES;
     }
 }
 

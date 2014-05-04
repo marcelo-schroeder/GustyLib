@@ -51,11 +51,11 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 @property (nonatomic, strong) UIPopoverController *IFA_activePopoverController;
 @property (nonatomic, strong) UIBarButtonItem *IFA_activePopoverControllerBarButtonItem;
-@property (nonatomic, strong) UIBarButtonItem *p_slidingMenuBarButtonItem;
-@property (nonatomic, strong) UIBarButtonItem *p_helpBarButtonItem;
+@property (nonatomic, strong) UIBarButtonItem *ifa_slidingMenuBarButtonItem;
+@property (nonatomic, strong) UIBarButtonItem *ifa_helpBarButtonItem;
 @property (nonatomic) BOOL IFA_changesMadeByPresentedViewController;
 @property (nonatomic, strong) NSFetchedResultsController *IFA_activeFetchedResultsController;
-@property (nonatomic, strong) IAUIPassthroughView *p_keyboardPassthroughView;
+@property (nonatomic, strong) IAUIPassthroughView *ifa_keyboardPassthroughView;
 
 @end
 
@@ -126,14 +126,14 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     
 }
 
--(UIViewController *)p_presentedViewController{
-    if ([self isKindOfClass:[IAUIAbstractPagingContainerViewController class]]) {
-        IAUIAbstractPagingContainerViewController *l_pagingContainerViewController = (IAUIAbstractPagingContainerViewController*)self;
-        return l_pagingContainerViewController.selectedViewController.presentedViewController ? l_pagingContainerViewController.selectedViewController.presentedViewController : self.presentedViewController;
-    }else{
-        return self.presentedViewController;
-    }
-}
+//-(UIViewController *)p_presentedViewController{
+//    if ([self isKindOfClass:[IAUIAbstractPagingContainerViewController class]]) {
+//        IAUIAbstractPagingContainerViewController *l_pagingContainerViewController = (IAUIAbstractPagingContainerViewController*)self;
+//        return l_pagingContainerViewController.selectedViewController.presentedViewController ? l_pagingContainerViewController.selectedViewController.presentedViewController : self.presentedViewController;
+//    }else{
+//        return self.presentedViewController;
+//    }
+//}
 
 -(void)setIFA_activePopoverController:(UIPopoverController*)a_activePopoverController{
     objc_setAssociatedObject(self, &c_activePopoverControllerKey, a_activePopoverController, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -259,13 +259,13 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
             BOOL l_shouldShowMenuButton = self.navigationController.topViewController==[self.navigationController.viewControllers objectAtIndex:0];
             if (l_shouldShowMenuButton) {
-                if (!self.p_slidingMenuBarButtonItem) {
-                    self.p_slidingMenuBarButtonItem = [[self IFA_appearanceTheme] slidingMenuBarButtonItemForViewController:self];
-                    self.p_slidingMenuBarButtonItem.target = self;
-                    self.p_slidingMenuBarButtonItem.action = @selector(ifa_onSlidingMenuButtonAction:);
-                    self.p_slidingMenuBarButtonItem.tag = IA_UIBAR_ITEM_TAG_LEFT_SLIDING_PANE_BUTTON;
+                if (!self.ifa_slidingMenuBarButtonItem) {
+                    self.ifa_slidingMenuBarButtonItem = [[self IFA_appearanceTheme] slidingMenuBarButtonItemForViewController:self];
+                    self.ifa_slidingMenuBarButtonItem.target = self;
+                    self.ifa_slidingMenuBarButtonItem.action = @selector(ifa_onSlidingMenuButtonAction:);
+                    self.ifa_slidingMenuBarButtonItem.tag = IA_UIBAR_ITEM_TAG_LEFT_SLIDING_PANE_BUTTON;
                 }
-                [self IFA_addToNavigationBarForSlidingMenuBarButtonItem:self.p_slidingMenuBarButtonItem];
+                [self IFA_addToNavigationBarForSlidingMenuBarButtonItem:self.ifa_slidingMenuBarButtonItem];
             }
         }else if (self.splitViewController) {
             [self IFA_addLeftBarButtonItem:((IAUISplitViewController *) self.splitViewController).splitViewControllerPopoverControllerBarButtonItem];
@@ -318,7 +318,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 - (void)ifa_removeKeyboardPassthroughView {
-    [self.p_keyboardPassthroughView removeFromSuperview];
+    [self.ifa_keyboardPassthroughView removeFromSuperview];
 }
 
 #pragma mark - Public
@@ -379,25 +379,25 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     objc_setAssociatedObject(self, &c_shouldUseKeyboardPassthroughViewKey, @(a_shouldUseKeyboardPassthroughView), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(IAUIPassthroughView*)p_keyboardPassthroughView{
+-(IAUIPassthroughView*)ifa_keyboardPassthroughView {
     IAUIPassthroughView *l_obj = objc_getAssociatedObject(self, &c_keyboardPassthroughViewKey);
     if (!l_obj) {
         l_obj = [IAUIPassthroughView new];
         l_obj.shouldDismissKeyboardOnNonTextInputInteractions = YES;
-        self.p_keyboardPassthroughView = l_obj;
+        self.ifa_keyboardPassthroughView = l_obj;
     }
     return l_obj;
 }
 
--(void)setP_keyboardPassthroughView:(IAUIPassthroughView*)a_keyboardPassthroughView{
+-(void)setIfa_keyboardPassthroughView:(IAUIPassthroughView*)a_keyboardPassthroughView{
     objc_setAssociatedObject(self, &c_keyboardPassthroughViewKey, a_keyboardPassthroughView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(UIBarButtonItem*)p_helpBarButtonItem{
+-(UIBarButtonItem*)ifa_helpBarButtonItem {
     return objc_getAssociatedObject(self, &c_helpBarButtonItemKey);
 }
 
--(void)setP_helpBarButtonItem:(UIBarButtonItem*)a_helpBarButtonItem{
+-(void)setIfa_helpBarButtonItem:(UIBarButtonItem*)a_helpBarButtonItem{
     objc_setAssociatedObject(self, &c_helpBarButtonItemKey, a_helpBarButtonItem, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
@@ -459,11 +459,11 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     objc_setAssociatedObject(self, &c_titleViewLandscapePhoneKey, a_titleViewLandscapePhone, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(NSString*)p_slidingMenuBarButtonItem{
+-(NSString*)ifa_slidingMenuBarButtonItem {
     return objc_getAssociatedObject(self, &c_slidingMenuBarButtonItemKey);
 }
 
--(void)setP_slidingMenuBarButtonItem:(NSString*)a_slidingMenuBarButtonItem{
+-(void)setIfa_slidingMenuBarButtonItem:(NSString*)a_slidingMenuBarButtonItem{
     objc_setAssociatedObject(self, &c_slidingMenuBarButtonItemKey, a_slidingMenuBarButtonItem, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
@@ -926,9 +926,9 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
     // Configure help button
     if ([[IAHelpManager sharedInstance] isHelpEnabledForViewController:self]) {
-        self.p_helpBarButtonItem = [[IAHelpManager sharedInstance] newHelpBarButtonItem];
+        self.ifa_helpBarButtonItem = [[IAHelpManager sharedInstance] newHelpBarButtonItem];
     }else{
-        self.p_helpBarButtonItem = nil;
+        self.ifa_helpBarButtonItem = nil;
     }
     
     // Set appearance
@@ -961,7 +961,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
     // Configure keyboard passthrough view
     if (self.IFA_shouldUseKeyboardPassthroughView) {
-        self.p_keyboardPassthroughView.shouldDismissKeyboardOnNonTextInputInteractions = YES;
+        self.ifa_keyboardPassthroughView.shouldDismissKeyboardOnNonTextInputInteractions = YES;
     }
 
 }
@@ -986,15 +986,15 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 //    NSLog(@"IFA_viewWillAppear: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
     
     // Add the help button if help is enabled for this view controller
-    if (self.p_helpBarButtonItem) {
+    if (self.ifa_helpBarButtonItem) {
         if ([self isKindOfClass:[IAUIAbstractFieldEditorViewController class]] || [self isKindOfClass:[IAUIMultiSelectionListViewController class]]) {
             if ([self isKindOfClass:[IAUIAbstractFieldEditorViewController class]] ) {
-                CGRect l_customViewFrame = self.p_helpBarButtonItem.customView.frame;
-                self.p_helpBarButtonItem.customView.frame = CGRectMake(l_customViewFrame.origin.x, l_customViewFrame.origin.y, 34, self.navigationController.navigationBar.frame.size.height);
+                CGRect l_customViewFrame = self.ifa_helpBarButtonItem.customView.frame;
+                self.ifa_helpBarButtonItem.customView.frame = CGRectMake(l_customViewFrame.origin.x, l_customViewFrame.origin.y, 34, self.navigationController.navigationBar.frame.size.height);
             }
-            [self IFA_addLeftBarButtonItem:self.p_helpBarButtonItem];
+            [self IFA_addLeftBarButtonItem:self.ifa_helpBarButtonItem];
         }else{
-            [self IFA_insertRightBarButtonItem:self.p_helpBarButtonItem atIndex:0];
+            [self IFA_insertRightBarButtonItem:self.ifa_helpBarButtonItem atIndex:0];
         }
     }
     
@@ -1463,8 +1463,8 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 -(void)IFA_onKeyboardNotification:(NSNotification*)a_notification {
     if (self.IFA_shouldUseKeyboardPassthroughView) {
         if ([a_notification.name isEqualToString:UIKeyboardDidShowNotification]) {
-            [self.navigationController.view addSubview:self.p_keyboardPassthroughView];
-            [self.p_keyboardPassthroughView IFA_addLayoutConstraintsToFillSuperview];
+            [self.navigationController.view addSubview:self.ifa_keyboardPassthroughView];
+            [self.ifa_keyboardPassthroughView IFA_addLayoutConstraintsToFillSuperview];
         } else if ([a_notification.name isEqualToString:UIKeyboardDidHideNotification]) {
             [self ifa_removeKeyboardPassthroughView];
         }

@@ -18,7 +18,7 @@
 #import "IACommon.h"
 
 @interface IAExternalUrlManager ()
-@property(nonatomic, strong) NSURL *p_urlToOpen;
+@property(nonatomic, strong) NSURL *ifa_urlToOpen;
 @end
 
 @implementation IAExternalUrlManager {
@@ -28,16 +28,16 @@
 #pragma mark - Private
 
 -(void)ifa_openSavedUrl {
-    if (self.p_urlToOpen) {
-        [[UIApplication sharedApplication] openURL:self.p_urlToOpen];
-        self.p_urlToOpen = nil;
+    if (self.ifa_urlToOpen) {
+        [[UIApplication sharedApplication] openURL:self.ifa_urlToOpen];
+        self.ifa_urlToOpen = nil;
     }
 }
 
 #pragma mark - Public
 
 -(void)openUrl:(NSURL*)a_url{
-    self.p_urlToOpen = a_url;
+    self.ifa_urlToOpen = a_url;
     NSString *l_message = [NSString stringWithFormat:@"You will now leave the %@ app", [IAUtils appName]];
     UIAlertView *l_alert = [[UIAlertView alloc] initWithTitle:nil message:l_message
                                                      delegate:self

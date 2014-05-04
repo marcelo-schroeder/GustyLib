@@ -28,10 +28,10 @@
     
 }
 
-@property (nonatomic, strong, readonly) NSMutableArray *p_savedToolbarItemEnabledStates;
+@property (nonatomic, strong, readonly) NSMutableArray *ifa_savedToolbarItemEnabledStates;
 @property (nonatomic, strong) dispatch_block_t refreshAndReloadDataAsyncBlock;
 @property (nonatomic) BOOL refreshAndReloadDataAsyncRequested;
-@property (nonatomic, strong) MBProgressHUD *p_hud;
+@property (nonatomic, strong) MBProgressHUD *ifa_hud;
 
 @end
 
@@ -129,7 +129,7 @@
 }
 
 -(void)showTipWithText:(NSString*)a_text{
-    self.p_hud = [IAUIUtils showHudWithText:a_text inView:self.tableView animated:YES];
+    self.ifa_hud = [IAUIUtils showHudWithText:a_text inView:self.tableView animated:YES];
 }
 
 #pragma mark - Public
@@ -199,7 +199,7 @@
     return [NSString stringWithFormat:l_textTemplate, l_indefiniteArticle, l_entityName];
 }
 
--(NSMutableArray *)p_savedToolbarItemEnabledStates{
+-(NSMutableArray *)ifa_savedToolbarItemEnabledStates {
     if (!v_savedToolbarItemEnabledStates) {
         v_savedToolbarItemEnabledStates = [NSMutableArray new];
     }
@@ -320,7 +320,7 @@
 
 -(void)showTipForEditing:(BOOL)a_editing{
     //    NSLog(@"showTipForEditing");
-    [IAUIUtils hideHud:self.p_hud animated:NO];
+    [IAUIUtils hideHud:self.ifa_hud animated:NO];
     if ([self shouldShowTipsForEditing:a_editing]) {
         //        NSLog(@"showTipWithText for %@", [self description]);
         [self showTipWithText:[self tipTextForEditing:a_editing]];
@@ -395,8 +395,8 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    [IAUIUtils hideHud:self.p_hud animated:NO];
-    self.p_hud = nil;
+    [IAUIUtils hideHud:self.ifa_hud animated:NO];
+    self.ifa_hud = nil;
 }
 
 -(void)dealloc{
@@ -525,7 +525,7 @@
 #pragma mark - IAHelpTargetContainer
 
 -(void)willEnterHelpMode{
-    [IAUIUtils hideHud:self.p_hud animated:NO];
+    [IAUIUtils hideHud:self.ifa_hud animated:NO];
 }
 
 -(void)didExitHelpMode{

@@ -22,7 +22,7 @@
 
 @interface IAUIColorScheme ()
 
-@property (nonatomic, strong) NSArray *p_colors;
+@property (nonatomic, strong) NSArray *ifa_colors;
 
 @end
 
@@ -35,7 +35,7 @@
 -(BOOL)isEqual:(id)object{
     if ([object isKindOfClass:[self class]]) {
         IAUIColorScheme *l_theOtherColorScheme = (IAUIColorScheme*)object;
-        return [self.p_colors isEqual:l_theOtherColorScheme.p_colors];
+        return [self.ifa_colors isEqual:l_theOtherColorScheme.ifa_colors];
     }else{
         return [super isEqual:object];
     }
@@ -46,13 +46,13 @@
 - (id)initWithColors:(NSArray*)a_colors{
     self = [super init];
     if (self) {
-        self.p_colors = a_colors;
+        self.ifa_colors = a_colors;
     }
     return self;
 }
 
 -(UIColor*)colorAtIndex:(NSUInteger)a_index{
-    return [self.p_colors objectAtIndex:a_index];
+    return [self.ifa_colors objectAtIndex:a_index];
 }
 
 @end

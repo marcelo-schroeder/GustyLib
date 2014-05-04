@@ -22,9 +22,9 @@
 
 @interface IAUIApplicationDelegate ()
 
-@property (nonatomic, strong) id<IAUIAppearanceTheme> p_appearanceTheme;
+@property (nonatomic, strong) id<IAUIAppearanceTheme> ifa_appearanceTheme;
 @property (nonatomic) BOOL useDeviceAgnosticMainStoryboard;
-@property (nonatomic, strong) GADBannerView *p_gadBannerView;
+@property (nonatomic, strong) GADBannerView *ifa_gadBannerView;
 
 @end
 
@@ -89,21 +89,21 @@
 }
 
 -(GADBannerView*)gadBannerView {
-    if (!self.p_gadBannerView) {
-        self.p_gadBannerView = [GADBannerView new];
-        self.p_gadBannerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        [[self appearanceTheme] setAppearanceForAdBannerView:self.p_gadBannerView];
+    if (!self.ifa_gadBannerView) {
+        self.ifa_gadBannerView = [GADBannerView new];
+        self.ifa_gadBannerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        [[self appearanceTheme] setAppearanceForAdBannerView:self.ifa_gadBannerView];
     }
-    self.p_gadBannerView.adUnitID = [self gadUnitId];
-    return self.p_gadBannerView;
+    self.ifa_gadBannerView.adUnitID = [self gadUnitId];
+    return self.ifa_gadBannerView;
 }
 
 -(id<IAUIAppearanceTheme>)appearanceTheme {
     Class l_appearanceThemeClass = [self appearanceThemeClass];
-    if (!self.p_appearanceTheme || ![self.p_appearanceTheme isMemberOfClass:l_appearanceThemeClass]) {
-        self.p_appearanceTheme = [l_appearanceThemeClass new];
+    if (!self.ifa_appearanceTheme || ![self.ifa_appearanceTheme isMemberOfClass:l_appearanceThemeClass]) {
+        self.ifa_appearanceTheme = [l_appearanceThemeClass new];
     }
-    return self.p_appearanceTheme;
+    return self.ifa_appearanceTheme;
 }
 
 +(IAUIApplicationDelegate*)sharedInstance {

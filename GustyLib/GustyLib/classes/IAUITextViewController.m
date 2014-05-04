@@ -23,7 +23,7 @@
 
 @interface IAUITextViewController ()
 
-@property (nonatomic, strong) NSString *p_originalTextViewValue;
+@property (nonatomic, strong) NSString *ifa_originalTextViewValue;
 
 @end
 
@@ -137,7 +137,7 @@
 #pragma mark - Public
 
 -(BOOL)hasValueChanged {
-    return ![self.p_originalTextViewValue isEqualToString:self.growingTextView.internalTextView.text];
+    return ![self.ifa_originalTextViewValue isEqualToString:self.growingTextView.internalTextView.text];
 }
 
 - (IBAction)onCancelButtonAction:(id)sender {
@@ -169,7 +169,7 @@
     [self ifa_configureTextView];
 
     // Save text view's original value
-    self.p_originalTextViewValue = self.growingTextView.internalTextView.text;
+    self.ifa_originalTextViewValue = self.growingTextView.internalTextView.text;
 
 }
 

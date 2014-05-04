@@ -22,7 +22,7 @@
 
 @interface IAUISlidingViewController ()
 
-@property (nonatomic) BOOL p_hasInitialLoadBeenDone;
+@property (nonatomic) BOOL ifa_hasInitialLoadBeenDone;
 
 @end
 
@@ -52,7 +52,7 @@
 
     [super viewDidAppear:animated];
 
-    if (!self.p_hasInitialLoadBeenDone) {
+    if (!self.ifa_hasInitialLoadBeenDone) {
         UIViewController *l_masterViewController = self.underLeftViewController;
         if ([l_masterViewController isKindOfClass:[UINavigationController class]]) {
             UIViewController *l_masterRootViewController = ((UINavigationController*)l_masterViewController).viewControllers[0];
@@ -60,7 +60,7 @@
                 [((IAUIMenuViewController *) l_masterRootViewController) selectMenuItemAtIndex:0];
             }
         }
-        self.p_hasInitialLoadBeenDone = YES;
+        self.ifa_hasInitialLoadBeenDone = YES;
     }
 
 }

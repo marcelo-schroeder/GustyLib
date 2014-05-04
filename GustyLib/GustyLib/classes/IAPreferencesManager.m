@@ -22,7 +22,7 @@
 
 @interface IAPreferencesManager()
 
-@property (nonatomic, strong) NSManagedObjectID *p_preferencesManagedObjectId;
+@property (nonatomic, strong) NSManagedObjectID *ifa_preferencesManagedObjectId;
 
 @end
 
@@ -38,17 +38,17 @@
     Class l_preferencesClass = NSClassFromString(l_preferencesClassName);
     if (l_preferencesClass) {    // App uses preferences
 
-        if (self.p_preferencesManagedObjectId) {    // ID is known, so load by ID
+        if (self.ifa_preferencesManagedObjectId) {    // ID is known, so load by ID
 
-            return [[IAPersistenceManager sharedInstance] findById:self.p_preferencesManagedObjectId];
+            return [[IAPersistenceManager sharedInstance] findById:self.ifa_preferencesManagedObjectId];
 
         }else{  // ID is not known
 
             NSManagedObject *l_mo = [[IAPersistenceManager sharedInstance] fetchSingleForEntity:l_preferencesClassName];
             if (l_mo) { // Preferences record already exists, so make a note of the ID for later use
-                self.p_preferencesManagedObjectId = l_mo.objectID;
+                self.ifa_preferencesManagedObjectId = l_mo.objectID;
             }else{  // Preferences record does not exist, so create it and make a note of the ID for later use
-                self.p_preferencesManagedObjectId = [[IAPersistenceManager sharedInstance] instantiate:l_preferencesClassName].objectID;
+                self.ifa_preferencesManagedObjectId = [[IAPersistenceManager sharedInstance] instantiate:l_preferencesClassName].objectID;
             }
             return l_mo;
 

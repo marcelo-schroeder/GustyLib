@@ -18,9 +18,9 @@
 @property (nonatomic, strong, readonly) UIActionSheet *pageActionSheet;
 
 @property (nonatomic, strong) NSURL *URL;
-@property (nonatomic, strong) void (^p_completionBlock)(void);
+@property (nonatomic, strong) void (^sv_completionBlock)(void);
 
-@property(nonatomic) BOOL p_hasInitialLoadBeenDone;
+@property(nonatomic) BOOL sv_hasInitialLoadBeenDone;
 
 - (id)initWithAddress:(NSString*)urlString;
 - (id)initWithURL:(NSURL*)url;
@@ -140,7 +140,7 @@
     
     if(self = [super init]) {
         self.URL = url;
-        self.p_completionBlock = a_completionBlock;
+        self.sv_completionBlock = a_completionBlock;
         self.availableActions = SVWebViewControllerAvailableActionsOpenInSafari | SVWebViewControllerAvailableActionsMailLink;
     }
     
@@ -169,9 +169,9 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if (!self.p_hasInitialLoadBeenDone) {
+    if (!self.sv_hasInitialLoadBeenDone) {
         [self.mainWebView loadRequest:[NSURLRequest requestWithURL:self.URL]];
-        self.p_hasInitialLoadBeenDone = YES;
+        self.sv_hasInitialLoadBeenDone = YES;
     }
 }
 
@@ -323,8 +323,8 @@
 
 - (void)doneButtonClicked:(id)sender {
     [self.mainWebView stopLoading];
-    if (self.p_completionBlock) {
-        self.p_completionBlock();
+    if (self.sv_completionBlock) {
+        self.sv_completionBlock();
     }else{
         [self dismissViewControllerAnimated:YES completion:NULL];
     }

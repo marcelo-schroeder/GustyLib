@@ -25,7 +25,7 @@
 @property (nonatomic, strong) id<IAUIAppearanceTheme> loadedAppearanceTheme;
 @property (nonatomic, strong) IAUIColorScheme *loadedColorScheme;
 
-@property(nonatomic, strong) NSMutableSet *p_alreadyLoadedThemeNames;
+@property(nonatomic, strong) NSMutableSet *ifa_alreadyLoadedThemeNames;
 @end
 
 @implementation IAUIAppearanceThemeManager
@@ -34,10 +34,10 @@
 
 - (void)ifa_setThemeAppearanceIfRequired {
     NSString *l_themeName = [self.loadedAppearanceTheme themeName];
-    if (![self.p_alreadyLoadedThemeNames containsObject:l_themeName]) {
+    if (![self.ifa_alreadyLoadedThemeNames containsObject:l_themeName]) {
 //        NSLog(@"Setting appearance theme: %@", l_themeName);
         [self.loadedAppearanceTheme setAppearance];
-        [self.p_alreadyLoadedThemeNames addObject:l_themeName];
+        [self.ifa_alreadyLoadedThemeNames addObject:l_themeName];
     }
 }
 
@@ -73,7 +73,7 @@
 - (id)init{
     self = [super init];
     if (self) {
-        self.p_alreadyLoadedThemeNames = [NSMutableSet new];
+        self.ifa_alreadyLoadedThemeNames = [NSMutableSet new];
     }
     return self;
 }

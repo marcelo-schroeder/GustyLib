@@ -22,7 +22,7 @@
 
 @interface IAUIInternalWebBrowserActivity ()
 
-@property (nonatomic, strong) UIViewController *p_internalWebBrowserViewController;
+@property (nonatomic, strong) UIViewController *ifa_internalWebBrowserViewController;
 
 @end
 
@@ -32,8 +32,8 @@
 
 #pragma mark - Private
 
-- (UIViewController *)p_internalWebBrowserViewController {
-    if (!_p_internalWebBrowserViewController) {
+- (UIViewController *)ifa_internalWebBrowserViewController {
+    if (!_ifa_internalWebBrowserViewController) {
         id <IAUIAppearanceTheme> l_appearanceTheme = [[IAUIAppearanceThemeManager sharedInstance] activeAppearanceTheme];
         UIViewController *l_viewController = [l_appearanceTheme newInternalWebBrowserViewControllerWithUrl:self.url
                                                                                            completionBlock:^{
@@ -42,9 +42,9 @@
         IAUINavigationController *l_navigationController = [[[l_appearanceTheme navigationControllerClass] alloc] initWithRootViewController:l_viewController];
         l_navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
         l_navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        _p_internalWebBrowserViewController = l_navigationController;
+        _ifa_internalWebBrowserViewController = l_navigationController;
     }
-    return _p_internalWebBrowserViewController;
+    return _ifa_internalWebBrowserViewController;
 }
 
 #pragma mark - Overrides
@@ -54,7 +54,7 @@
 }
 
 - (UIViewController *)activityViewController {
-    return self.p_internalWebBrowserViewController;
+    return self.ifa_internalWebBrowserViewController;
 }
 
 @end

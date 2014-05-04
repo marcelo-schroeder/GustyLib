@@ -86,7 +86,7 @@
 			<array class="NSMutableArray" key="connectionRecords">
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">p_helpTargetTitleLabel</string>
+						<string key="label">helpTargetTitleLabel</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="850563252"/>
 					</object>
@@ -94,7 +94,7 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">p_customContainerView</string>
+						<string key="label">customContainerView</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="944360465"/>
 					</object>
@@ -163,16 +163,16 @@
 					<string key="className">IAUIHelpPopTipView</string>
 					<string key="superclassName">CMPopTipView</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="p_customContainerView">UIView</string>
-						<string key="p_helpTargetTitleLabel">UILabel</string>
+						<string key="customContainerView">UIView</string>
+						<string key="helpTargetTitleLabel">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="p_customContainerView">
-							<string key="name">p_customContainerView</string>
+						<object class="IBToOneOutletInfo" key="customContainerView">
+							<string key="name">customContainerView</string>
 							<string key="candidateClassName">UIView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="p_helpTargetTitleLabel">
-							<string key="name">p_helpTargetTitleLabel</string>
+						<object class="IBToOneOutletInfo" key="helpTargetTitleLabel">
+							<string key="name">helpTargetTitleLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
 					</dictionary>

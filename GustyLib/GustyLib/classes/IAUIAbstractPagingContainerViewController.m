@@ -110,9 +110,9 @@
     //    NSLog(@"refreshAndReloadChildData - END");
 }
 
--(IAUITableViewController*)p_mainChildViewController{
-    return [self.childViewControllers objectAtIndex:0];
-}
+//-(IAUITableViewController*)p_mainChildViewController{
+//    return [self.childViewControllers objectAtIndex:0];
+//}
 
 -(NSUInteger)calculateSelectedPageIndex {
     CGFloat l_contentWidth = self.view.frame.size.width;

@@ -22,8 +22,8 @@
 
 @interface IAUIWebViewController ()
 
-@property (nonatomic, strong) UIWebView *p_webView;
-@property (nonatomic, strong) IAHtmlDocument *p_htmlDocument;
+@property (nonatomic, strong) UIWebView *ifa_webView;
+@property (nonatomic, strong) IAHtmlDocument *ifa_htmlDocument;
 
 @end
 
@@ -35,24 +35,24 @@
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-    self.p_webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    self.p_webView.autoresizingMask = [IAUIUtils fullAutoresizingMask];
-    self.p_webView.delegate = self;
-    [self.view addSubview:self.p_webView];
-    self.p_htmlDocument = [[IAHtmlDocument alloc] init];
-    self.p_htmlDocument.htmlBodyString = [IAUtils stringFromResource:self.htmlResourceName type:nil];
+    self.ifa_webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.ifa_webView.autoresizingMask = [IAUIUtils fullAutoresizingMask];
+    self.ifa_webView.delegate = self;
+    [self.view addSubview:self.ifa_webView];
+    self.ifa_htmlDocument = [[IAHtmlDocument alloc] init];
+    self.ifa_htmlDocument.htmlBodyString = [IAUtils stringFromResource:self.htmlResourceName type:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.p_webView loadHTMLString:[self.p_htmlDocument htmlString] baseURL:nil];
+    [self.ifa_webView loadHTMLString:[self.ifa_htmlDocument htmlString] baseURL:nil];
 }
 
 #pragma mark - UIWebViewDelegate protocol
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView{
     [IAUtils dispatchAsyncMainThreadBlock:^{
-        [self.p_webView.scrollView flashScrollIndicators];
+        [self.ifa_webView.scrollView flashScrollIndicators];
     }];
 }
 

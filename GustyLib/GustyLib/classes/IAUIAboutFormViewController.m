@@ -22,10 +22,10 @@
 
 @interface IAUIAboutFormViewController ()
 
-@property (nonatomic, strong) UIBarButtonItem *p_reportBugBarButtonItem;
-@property (nonatomic, strong) UIBarButtonItem *p_provideFeedbackBarButtonItem;
-@property (nonatomic, strong) UIBarButtonItem *p_forceCrashBarButtonItem;
-@property (nonatomic, strong) IAEmailManager *p_emailManager;
+@property (nonatomic, strong) UIBarButtonItem *ifa_reportBugBarButtonItem;
+@property (nonatomic, strong) UIBarButtonItem *ifa__provideFeedbackBarButtonItem;
+@property (nonatomic, strong) UIBarButtonItem *ifa_forceCrashBarButtonItem;
+@property (nonatomic, strong) IAEmailManager *ifa_emailManager;
 
 @end
 
@@ -41,16 +41,16 @@
 
 - (void)ifa_ReportBugButtonTap:(id)sender{
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nPlease fix the following bug I have found in %@:", [IAUtils appFullName]];
-    [self.p_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Bug Report",
-                                                                            [IAUtils appNameAndEdition]]
-                                       recipient:[self ifa_supportEmailAddress] body:l_body];
+    [self.ifa_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Bug Report",
+                                                                              [IAUtils appNameAndEdition]]
+                                         recipient:[self ifa_supportEmailAddress] body:l_body];
 }
 
 - (void)ifa_provideFeedbackButtonTap:(id)sender{
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nI have the following feedback to provide for %@:", [IAUtils appFullName]];
-    [self.p_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Feedback",
-                                                                            [IAUtils appNameAndEdition]]
-                                       recipient:[self ifa_supportEmailAddress] body:l_body];
+    [self.ifa_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Feedback",
+                                                                              [IAUtils appNameAndEdition]]
+                                         recipient:[self ifa_supportEmailAddress] body:l_body];
 }
 
 - (void)ifa_forceCrashButtonTap:(id)sender{
@@ -80,19 +80,19 @@
         self.createMode = NO;
         
         // Configure toolbar buttons
-        self.p_reportBugBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Report Bug"
+        self.ifa_reportBugBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Report Bug"
                                                                          style:UIBarButtonItemStyleBordered target:self
                                                                         action:@selector(ifa_ReportBugButtonTap:)];
-        self.p_provideFeedbackBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Provide Feedback"
+        self.ifa__provideFeedbackBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Provide Feedback"
                                                                                style:UIBarButtonItemStyleBordered
                                                                               target:self
                                                                               action:@selector(ifa_provideFeedbackButtonTap:)];
-        self.p_forceCrashBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Force Crash"
+        self.ifa_forceCrashBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Force Crash"
                                                                           style:UIBarButtonItemStyleBordered target:self
                                                                          action:@selector(ifa_forceCrashButtonTap:)];
         
         // Configure email manager
-        self.p_emailManager = [[IAEmailManager alloc ] initWithParentViewController:self];
+        self.ifa_emailManager = [[IAEmailManager alloc ] initWithParentViewController:self];
         
         // Configure custom view
         [[NSBundle mainBundle] loadNibNamed:@"IAUIAboutCustomView" owner:self options:nil];
@@ -107,9 +107,9 @@
 
 -(NSArray *)IFA_nonEditModeToolbarItems {
     UIBarButtonItem *l_flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    NSMutableArray *l_items = [NSMutableArray arrayWithArray:@[l_flexibleSpace, self.p_reportBugBarButtonItem, l_flexibleSpace, self.p_provideFeedbackBarButtonItem, l_flexibleSpace]];
+    NSMutableArray *l_items = [NSMutableArray arrayWithArray:@[l_flexibleSpace, self.ifa_reportBugBarButtonItem, l_flexibleSpace, self.ifa__provideFeedbackBarButtonItem, l_flexibleSpace]];
     if ([[[IAUtils infoPList] objectForKey:@"IAShowForceCrashButton"] boolValue]) {
-        [l_items addObjectsFromArray:@[self.p_forceCrashBarButtonItem, l_flexibleSpace]];
+        [l_items addObjectsFromArray:@[self.ifa_forceCrashBarButtonItem, l_flexibleSpace]];
     }
     return l_items;
 }

@@ -23,8 +23,8 @@
 @interface IAEntityConfig ()
 
 @property (strong) NSManagedObjectContext *managedObjectContext;
-@property (strong) NSMutableDictionary *p_entityToDependencyParentChildrenDict;
-@property (strong) NSMutableDictionary *p_entityToDependencyChildParentDict;
+@property (strong) NSMutableDictionary *ifa_entityToDependencyParentChildrenDict;
+@property (strong) NSMutableDictionary *ifa_entityToDependencyChildParentDict;
 
 @end
 
@@ -84,8 +84,8 @@
 
 		self.managedObjectContext = aManagedObjectContext;
         
-        self.p_entityToDependencyParentChildrenDict = [[NSMutableDictionary alloc] init];
-        self.p_entityToDependencyChildParentDict = [[NSMutableDictionary alloc] init];
+        self.ifa_entityToDependencyParentChildrenDict = [[NSMutableDictionary alloc] init];
+        self.ifa_entityToDependencyChildParentDict = [[NSMutableDictionary alloc] init];
 
         for (NSString *l_entityName in [[self entityConfigDictionary] allKeys]) {
 
@@ -106,14 +106,14 @@
             
             }
 
-            [self.p_entityToDependencyParentChildrenDict setValue:l_parentToChildrenDict forKey:l_entityName];
-            [self.p_entityToDependencyChildParentDict setValue:l_childToParentDict forKey:l_entityName];
+            [self.ifa_entityToDependencyParentChildrenDict setValue:l_parentToChildrenDict forKey:l_entityName];
+            [self.ifa_entityToDependencyChildParentDict setValue:l_childToParentDict forKey:l_entityName];
             
         
         }
         
-        //        NSLog(@"p_entityToDependencyParentChildrenDict: %@", [p_entityToDependencyParentChildrenDict description]);
-        //        NSLog(@"p_entityToDependencyChildParentDict: %@", [p_entityToDependencyChildParentDict description]);
+        //        NSLog(@"ifa_entityToDependencyParentChildrenDict: %@", [ifa_entityToDependencyParentChildrenDict description]);
+        //        NSLog(@"ifa_entityToDependencyChildParentDict: %@", [ifa_entityToDependencyChildParentDict description]);
     
     }
 	
@@ -199,7 +199,7 @@
 }
 
 - (NSArray*)dependentsForProperty:(NSString*)aPropertyName inObject:(NSObject*)anObject{
-    return [[self.p_entityToDependencyParentChildrenDict valueForKey:[anObject IFA_entityName]] valueForKey:aPropertyName];
+    return [[self.ifa_entityToDependencyParentChildrenDict valueForKey:[anObject IFA_entityName]] valueForKey:aPropertyName];
 }
 
 - (NSString*)displayValuePropertyForEntityProperty:(NSString*)aPropertyName inObject:(NSObject*)anObject{
@@ -207,7 +207,7 @@
 }
 
 - (NSString*)parentPropertyForDependent:(NSString*)aPropertyName inObject:(NSObject*)anObject{
-    return [[self.p_entityToDependencyChildParentDict valueForKey:[anObject IFA_entityName]] valueForKey:aPropertyName];
+    return [[self.ifa_entityToDependencyChildParentDict valueForKey:[anObject IFA_entityName]] valueForKey:aPropertyName];
 }
 
 - (NSString*)labelForForm:(NSString*)aFormName inObject:(NSObject*)anObject{

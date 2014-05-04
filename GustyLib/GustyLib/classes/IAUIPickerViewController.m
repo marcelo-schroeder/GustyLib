@@ -22,10 +22,10 @@
 
 @interface IAUIPickerViewController ()
 
-@property (nonatomic, strong) UIPickerView *p_pickerView;
-@property (nonatomic, strong) NSMutableArray *p_entities;
-@property (nonatomic) BOOL p_isEnumeration;
-@property (nonatomic, strong) NSObject *p_selectedObject;
+@property (nonatomic, strong) UIPickerView *ifa_pickerView;
+@property (nonatomic, strong) NSMutableArray *ifa_entities;
+@property (nonatomic) BOOL ifa_isEnumeration;
+@property (nonatomic, strong) NSObject *ifa_selectedObject;
 
 @end
 
@@ -48,23 +48,23 @@ static NSString * const k_valueCellId = @"valueCell";
 - (void) setPickerValue:(id)aValue{
 //    NSLog(@"aValue: %@", aValue);
 //    NSLog(@"[self.entities indexOfObject:aValue]: %u", [self.entities indexOfObject:aValue]);
-//    NSLog(@"self.p_pickerView: %@", [self.p_pickerView description]);
+//    NSLog(@"self.ifa_pickerView: %@", [self.ifa_pickerView description]);
     id l_value = nil;
-    if (self.p_isEnumeration) {
-        l_value = [IAEnumerationEntity enumerationEntityForId:aValue entities:self.p_entities];
+    if (self.ifa_isEnumeration) {
+        l_value = [IAEnumerationEntity enumerationEntityForId:aValue entities:self.ifa_entities];
     }else{
         l_value = aValue;
     }
-    [self.p_pickerView selectRow:[self.p_entities indexOfObject:l_value] inComponent:0 animated:NO];
-    self.p_selectedObject = l_value;
+    [self.ifa_pickerView selectRow:[self.ifa_entities indexOfObject:l_value] inComponent:0 animated:NO];
+    self.ifa_selectedObject = l_value;
 }
 
 - (id) pickerValue{
     //    NSLog(@"[((UIPickerView*)pickerView) selectedRowInComponent:0]: %u", [((UIPickerView*)pickerView) selectedRowInComponent:0]);
-    if (self.p_isEnumeration) {
-        return ((IAEnumerationEntity*)self.p_selectedObject).enumerationEntityId;
+    if (self.ifa_isEnumeration) {
+        return ((IAEnumerationEntity*)self.ifa_selectedObject).enumerationEntityId;
     }else{
-        return self.p_selectedObject;
+        return self.ifa_selectedObject;
     }
 }
 
@@ -76,28 +76,28 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
     if (self= [super initWithObject:anObject propertyName:aPropertyName useButtonForDismissal:a_useButtonForDismissal
                           presenter:a_presenter]) {
         
-        self.p_pickerView = [self newPickerView];
+        self.ifa_pickerView = [self newPickerView];
         
-        self.p_isEnumeration = [[IAPersistenceManager sharedInstance].entityConfig isEnumerationForProperty:aPropertyName inObject:anObject];
+        self.ifa_isEnumeration = [[IAPersistenceManager sharedInstance].entityConfig isEnumerationForProperty:aPropertyName inObject:anObject];
         NSString *l_entityName = [[IAPersistenceManager sharedInstance].entityConfig entityNameForProperty:aPropertyName inObject:anObject];
         //    NSLog(@"parent managed object name: %@", [aManagedObject IFA_entityName]);
-        if (self.p_isEnumeration) {
+        if (self.ifa_isEnumeration) {
             NSString *l_enumerationSource = [[IAPersistenceManager sharedInstance].entityConfig enumerationSourceForProperty:aPropertyName inObject:anObject];
 //            NSLog(@"enumeration entity! source: %@", l_enumerationSource);
-            self.p_entities = [anObject valueForKey:l_enumerationSource];
+            self.ifa_entities = [anObject valueForKey:l_enumerationSource];
         }else{
 //            NSLog(@"persistent entity!");
-            self.p_entities = [[IAPersistenceManager sharedInstance] findAllForEntity:l_entityName];
+            self.ifa_entities = [[IAPersistenceManager sharedInstance] findAllForEntity:l_entityName];
         }
 //        NSLog(@"entities: %@", self.entities);
         
-        [(UIPickerView*)self.p_pickerView reloadAllComponents];
+        [(UIPickerView*)self.ifa_pickerView reloadAllComponents];
 
         [self setPickerValue:[self.object valueForKey:self.propertyName]];
 
         // Configure view
-        [self.view addSubview:self.p_pickerView];
-        self.view.frame = self.p_pickerView.frame;
+        [self.view addSubview:self.ifa_pickerView];
+        self.view.frame = self.ifa_pickerView.frame;
 
         if (self.title) {
             self.title = [NSString stringWithFormat:@"%@ Selection", self.title];
@@ -110,10 +110,10 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
 }
 
 -(id)editedValue {
-    if (self.p_isEnumeration) {
-        return ((IAEnumerationEntity*)self.p_selectedObject).enumerationEntityId;
+    if (self.ifa_isEnumeration) {
+        return ((IAEnumerationEntity*)self.ifa_selectedObject).enumerationEntityId;
     }else{
-        return self.p_selectedObject;
+        return self.ifa_selectedObject;
     }
 }
 
@@ -128,17 +128,17 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IAUIPresenter
 }
 
 - (NSInteger) pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-	return [self.p_entities count];
+	return [self.ifa_entities count];
 }
 
 #pragma mark - UIPickerViewDelegate protocol
 
 - (NSString *) pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-	return [((NSObject *) [self.p_entities objectAtIndex:row]) IFA_displayValue];
+	return [((NSObject *) [self.ifa_entities objectAtIndex:row]) IFA_displayValue];
 }
 
 - (void) pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    self.p_selectedObject = [self.p_entities objectAtIndex:row];
+    self.ifa_selectedObject = [self.ifa_entities objectAtIndex:row];
     [self updateModel];
 }
 

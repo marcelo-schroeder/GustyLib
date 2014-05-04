@@ -22,9 +22,9 @@
 
 @interface IAUIBarButtonItemSavedState : NSObject
 
-@property (nonatomic) BOOL p_enabled;
-@property (nonatomic) id p_target;
-@property (nonatomic) SEL p_action;
+@property (nonatomic) BOOL ifa_enabled;
+@property (nonatomic) id ifa_target;
+@property (nonatomic) SEL ifa_action;
 
 @end
 
@@ -35,7 +35,7 @@
 
 @interface IAUIViewSavedState : NSObject
 
-@property (nonatomic) BOOL p_userInteractionEnabled;
+@property (nonatomic) BOOL ifa_userInteractionEnabled;
 
 @end
 
@@ -46,7 +46,7 @@
 
 @interface IAUITableViewCellSavedState : IAUIViewSavedState
 
-@property (nonatomic) BOOL p_selectionStyle;
+@property (nonatomic) BOOL ifa_selectionStyle;
 
 @end
 
@@ -57,29 +57,29 @@
 
 @interface IAHelpManager ()
 
-@property (nonatomic, readonly, strong) IAUIHelpModeOverlayView *p_helpModeOverlayView;
-@property (nonatomic, readonly, strong) UIView *p_userInteractionBlockingView;
-@property (nonatomic, readonly, strong) UITapGestureRecognizer *p_mainViewCatchAllGestureRecogniser;
-@property (nonatomic, readonly, strong) UITapGestureRecognizer *p_navigationBarCatchAllGestureRecogniser;
-@property (nonatomic, readonly, strong) UITapGestureRecognizer *p_toolbarCatchAllGestureRecogniser;
+@property (nonatomic, readonly, strong) IAUIHelpModeOverlayView *ifa_helpModeOverlayView;
+@property (nonatomic, readonly, strong) UIView *ifa_userInteractionBlockingView;
+@property (nonatomic, readonly, strong) UITapGestureRecognizer *ifa_mainViewCatchAllGestureRecogniser;
+@property (nonatomic, readonly, strong) UITapGestureRecognizer *ifa_navigationBarCatchAllGestureRecogniser;
+@property (nonatomic, readonly, strong) UITapGestureRecognizer *ifa_toolbarCatchAllGestureRecogniser;
 
-@property (nonatomic, strong) NSMutableArray *p_helpTargets;
-@property (nonatomic, strong) NSMutableArray *p_helpTargetSavedStates;
-@property (nonatomic, strong) NSMutableArray *p_tabBarItemProxyViews;
-@property (nonatomic, strong) NSMutableArray *p_helpTargetSelectionGestureRecognisers;
-@property (nonatomic, strong) IAUIHelpPopTipView *p_activePopTipView;
-@property (nonatomic, strong) UIView *p_helpTargetProxyView;
-@property (nonatomic, strong) UIButton *p_helpButton;
-@property (nonatomic, strong) UIButton *p_cancelButton;
-@property (nonatomic, strong) UIView *p_screenHelpButtonProxyView;  // Used to point the help pop tip at
-@property (nonatomic, strong) UIButton *p_screenHelpButton;
-@property (nonatomic, strong) MBProgressHUD *p_helpModeInstructionsHud;
-@property (nonatomic, strong) NSTimer *p_helpModeInstructionsTimer;
-@property (nonatomic, strong) NSString *p_savedTitle;
-@property (nonatomic, strong) UITapGestureRecognizer *p_simpleHelpBackgroundGestureRecogniser;
+@property (nonatomic, strong) NSMutableArray *ifa_helpTargets;
+@property (nonatomic, strong) NSMutableArray *ifa_helpTargetSavedStates;
+@property (nonatomic, strong) NSMutableArray *ifa_tabBarItemProxyViews;
+@property (nonatomic, strong) NSMutableArray *ifa_helpTargetSelectionGestureRecognisers;
+@property (nonatomic, strong) IAUIHelpPopTipView *ifa_activePopTipView;
+@property (nonatomic, strong) UIView *ifa_helpTargetProxyView;
+@property (nonatomic, strong) UIButton *ifa_helpButton;
+@property (nonatomic, strong) UIButton *ifa_cancelButton;
+@property (nonatomic, strong) UIView *ifa_screenHelpButtonProxyView;  // Used to point the help pop tip at
+@property (nonatomic, strong) UIButton *ifa_screenHelpButton;
+@property (nonatomic, strong) MBProgressHUD *ifa_helpModeInstructionsHud;
+@property (nonatomic, strong) NSTimer *ifa_helpModeInstructionsTimer;
+@property (nonatomic, strong) NSString *ifa_savedTitle;
+@property (nonatomic, strong) UITapGestureRecognizer *ifa_simpleHelpBackgroundGestureRecogniser;
 
 @property (nonatomic) BOOL helpMode;
-@property (nonatomic) BOOL p_savedHidesBackButton;
+@property (nonatomic) BOOL ifa_savedHidesBackButton;
 
 @end
 
@@ -96,25 +96,25 @@
 #pragma mark - Private
 
 -(void)ifa_scheduleHelpModeInstructions {
-    self.p_helpModeInstructionsTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self
+    self.ifa_helpModeInstructionsTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self
                                                                       selector:@selector(ifa_onHelpModeInstructionsTimerEvent:)
                                                                       userInfo:nil repeats:NO];
 //    NSLog(@"Help mode instructions scheduled to show");
 }
 
 -(void)ifa_cancelHelpModeInstructions {
-    [self.p_helpModeInstructionsTimer invalidate];
+    [self.ifa_helpModeInstructionsTimer invalidate];
 //    NSLog(@"Help mode instructions scheduling CANCELLED");
 }
 
--(UIView *)p_helpModeOverlayView{
+-(UIView *)ifa_helpModeOverlayView {
     if (!v_helpModeOverlayView) {
         v_helpModeOverlayView = [IAUIHelpModeOverlayView new];
     }
     return v_helpModeOverlayView;
 }
 
--(UIView *)p_userInteractionBlockingView{
+-(UIView *)ifa_userInteractionBlockingView {
     if (!v_userInteractionBlockingView) {
         v_userInteractionBlockingView = [UIView new];
 //        v_userInteractionBlockingView.backgroundColor = [UIColor redColor];
@@ -127,9 +127,9 @@
  */
 -(void)ifa_updateCancelButtonFrame {
     UIView *l_view = [self.observedHelpTargetContainer targetView];
-    CGRect l_helpButtonFrame = self.p_helpButton.frame;
-    CGRect l_convertedHelpButtonFrame = [self.p_helpButton.superview convertRect:l_helpButtonFrame toView:l_view];
-    self.p_cancelButton.frame = l_convertedHelpButtonFrame;
+    CGRect l_helpButtonFrame = self.ifa_helpButton.frame;
+    CGRect l_convertedHelpButtonFrame = [self.ifa_helpButton.superview convertRect:l_helpButtonFrame toView:l_view];
+    self.ifa_cancelButton.frame = l_convertedHelpButtonFrame;
 }
 
 /*
@@ -137,17 +137,17 @@
  */
 -(void)ifa_updateScreenHelpButtonFrame {
     UIViewController *l_observedViewController = (UIViewController*)self.observedHelpTargetContainer;
-    self.p_screenHelpButton.frame = CGRectMake(0, 0, IA_MINIMUM_TAP_AREA_DIMENSION, l_observedViewController.navigationController.navigationBar.frame.size.height);
-    self.p_screenHelpButton.center = l_observedViewController.navigationController.navigationBar.center;
-    self.p_screenHelpButtonProxyView.center = self.p_screenHelpButton.center;
+    self.ifa_screenHelpButton.frame = CGRectMake(0, 0, IA_MINIMUM_TAP_AREA_DIMENSION, l_observedViewController.navigationController.navigationBar.frame.size.height);
+    self.ifa_screenHelpButton.center = l_observedViewController.navigationController.navigationBar.center;
+    self.ifa_screenHelpButtonProxyView.center = self.ifa_screenHelpButton.center;
 }
 
 -(void)ifa_showHelpModeInstructions {
-    self.p_helpModeInstructionsHud = [IAUIUtils showHudWithText:@"Help mode on.\n\nTap anything you see on the screen for specific help.\n\nTap the '?' icon for generic help with this screen.\n\nTap the 'x' icon to quit Help mode."];
+    self.ifa_helpModeInstructionsHud = [IAUIUtils showHudWithText:@"Help mode on.\n\nTap anything you see on the screen for specific help.\n\nTap the '?' icon for generic help with this screen.\n\nTap the 'x' icon to quit Help mode."];
 }
 
 -(void)ifa_hideHelpModeInstructions {
-    [IAUIUtils hideHud:self.p_helpModeInstructionsHud animated:NO];
+    [IAUIUtils hideHud:self.ifa_helpModeInstructionsHud animated:NO];
 }
 
 -(void)ifa_transitionUiForHelpMode:(BOOL)a_helpMode{
@@ -158,12 +158,12 @@
 
     if (a_helpMode) {
         CGSize l_size = [IAUIUtils screenBoundsSizeForCurrentOrientation];
-        self.p_helpModeOverlayView.frame = CGRectMake(0, 0, l_size.width, l_size.height);
+        self.ifa_helpModeOverlayView.frame = CGRectMake(0, 0, l_size.width, l_size.height);
     }
 
     UIView *l_view = [self.observedHelpTargetContainer targetView];
     if (a_helpMode) {
-        self.p_helpButton = (UIButton*)[l_view viewWithTag:IA_UIVIEW_TAG_HELP_BUTTON];
+        self.ifa_helpButton = (UIButton*)[l_view viewWithTag:IA_UIVIEW_TAG_HELP_BUTTON];
         [self ifa_updateScreenHelpButtonFrame];
         [self ifa_updateCancelButtonFrame];
     }else{
@@ -177,32 +177,32 @@
             
             if(a_helpMode){
                 if (l_observedViewController.navigationItem) {
-                    self.p_savedTitle = l_observedViewController.navigationItem.title;
+                    self.ifa_savedTitle = l_observedViewController.navigationItem.title;
                     l_observedViewController.navigationItem.title = nil;
-                    self.p_savedHidesBackButton = l_observedViewController.navigationItem.hidesBackButton;
+                    self.ifa_savedHidesBackButton = l_observedViewController.navigationItem.hidesBackButton;
                     l_observedViewController.navigationItem.hidesBackButton = YES;
                 }
-                [l_view addSubview:self.p_helpModeOverlayView];
-                [l_view addSubview:self.p_cancelButton];
-                [l_view addSubview:self.p_screenHelpButtonProxyView];
-                [l_view addSubview:self.p_screenHelpButton];
-                self.p_helpButton.hidden = YES;
-                [l_observedViewController.view addGestureRecognizer:self.p_mainViewCatchAllGestureRecogniser];
-                [l_observedViewController.navigationController.navigationBar addGestureRecognizer:self.p_navigationBarCatchAllGestureRecogniser];
-                [l_observedViewController.navigationController.toolbar addGestureRecognizer:self.p_toolbarCatchAllGestureRecogniser];
+                [l_view addSubview:self.ifa_helpModeOverlayView];
+                [l_view addSubview:self.ifa_cancelButton];
+                [l_view addSubview:self.ifa_screenHelpButtonProxyView];
+                [l_view addSubview:self.ifa_screenHelpButton];
+                self.ifa_helpButton.hidden = YES;
+                [l_observedViewController.view addGestureRecognizer:self.ifa_mainViewCatchAllGestureRecogniser];
+                [l_observedViewController.navigationController.navigationBar addGestureRecognizer:self.ifa_navigationBarCatchAllGestureRecogniser];
+                [l_observedViewController.navigationController.toolbar addGestureRecognizer:self.ifa_toolbarCatchAllGestureRecogniser];
             }else{
                 if (l_observedViewController.navigationItem) {
-                    l_observedViewController.navigationItem.title = self.p_savedTitle;
-                    l_observedViewController.navigationItem.hidesBackButton = self.p_savedHidesBackButton;
+                    l_observedViewController.navigationItem.title = self.ifa_savedTitle;
+                    l_observedViewController.navigationItem.hidesBackButton = self.ifa_savedHidesBackButton;
                 }
-                [l_observedViewController.view removeGestureRecognizer:self.p_mainViewCatchAllGestureRecogniser];
-                [l_observedViewController.navigationController.navigationBar removeGestureRecognizer:self.p_navigationBarCatchAllGestureRecogniser];
-                [l_observedViewController.navigationController.toolbar removeGestureRecognizer:self.p_toolbarCatchAllGestureRecogniser];
-                self.p_helpButton.hidden = NO;
-                [self.p_screenHelpButton removeFromSuperview];
-                [self.p_screenHelpButtonProxyView removeFromSuperview];
-                [self.p_cancelButton removeFromSuperview];
-                [self.p_helpModeOverlayView removeFromSuperview];
+                [l_observedViewController.view removeGestureRecognizer:self.ifa_mainViewCatchAllGestureRecogniser];
+                [l_observedViewController.navigationController.navigationBar removeGestureRecognizer:self.ifa_navigationBarCatchAllGestureRecogniser];
+                [l_observedViewController.navigationController.toolbar removeGestureRecognizer:self.ifa_toolbarCatchAllGestureRecogniser];
+                self.ifa_helpButton.hidden = NO;
+                [self.ifa_screenHelpButton removeFromSuperview];
+                [self.ifa_screenHelpButtonProxyView removeFromSuperview];
+                [self.ifa_cancelButton removeFromSuperview];
+                [self.ifa_helpModeOverlayView removeFromSuperview];
             }
             
             if ([l_observedViewController isKindOfClass:[UITableViewController class]]) {
@@ -237,14 +237,14 @@
                        animatePopTipViewDismissal:(BOOL)a_animatePopTipViewDismissal{
     
     // Remove spotlight
-    [self.p_helpModeOverlayView removeSpotlightWithAnimation:a_animate];
+    [self.ifa_helpModeOverlayView removeSpotlightWithAnimation:a_animate];
     
     // Remove help target proxy view
-    [self.p_helpTargetProxyView removeFromSuperview];
+    [self.ifa_helpTargetProxyView removeFromSuperview];
 
     // Remove pop tip
     if (a_dismissPopTipView) {
-        [self.p_activePopTipView dismissAnimated:a_animatePopTipViewDismissal];
+        [self.ifa_activePopTipView dismissAnimated:a_animatePopTipViewDismissal];
     }else{  // Pop tip has already been dismissed by the user
         if (self.helpMode) {
             [self ifa_scheduleHelpModeInstructions];
@@ -252,16 +252,16 @@
             [self ifa_removeSimpleHelpBackground];
         }
     }
-    self.p_activePopTipView = nil;
+    self.ifa_activePopTipView = nil;
     
     // Get help overlay ticker going again
 //    [IAUtils dispatchAsyncMainThreadBlock:^{
-//        [self.p_helpModeOverlayView m_showTicker];
+//        [self.ifa_helpModeOverlayView m_showTicker];
 //    }];
 //    [IAUtils dispatchAsyncMainThreadBlock:^{
-//        [self.p_helpModeOverlayView m_showTicker];
+//        [self.ifa_helpModeOverlayView m_showTicker];
 //    } afterDelay:0.5];
-//    [self.p_helpModeOverlayView m_showTicker];
+//    [self.ifa_helpModeOverlayView m_showTicker];
 
 }
 
@@ -282,18 +282,18 @@
     
     // Hide help overlay ticker
 //    [IAUtils dispatchAsyncMainThreadBlock:^{
-//        [self.p_helpModeOverlayView m_hideTicker];
+//        [self.ifa_helpModeOverlayView m_hideTicker];
 //    }];
 //    [IAUtils dispatchAsyncMainThreadBlock:^{
-//        [self.p_helpModeOverlayView m_hideTicker];
+//        [self.ifa_helpModeOverlayView m_hideTicker];
 //    } afterDelay:0.5];
-//    [self.p_helpModeOverlayView m_hideTicker];
+//    [self.ifa_helpModeOverlayView m_hideTicker];
     
     UIView *l_pointingAtView = nil;
-    if (a_view==self.p_screenHelpButton || a_view.tag==IA_UIVIEW_TAG_HELP_BUTTON) {
+    if (a_view==self.ifa_screenHelpButton || a_view.tag==IA_UIVIEW_TAG_HELP_BUTTON) {
 
-        self.p_helpTargetProxyView = nil;
-        l_pointingAtView = a_view==self.p_screenHelpButton ? self.p_screenHelpButtonProxyView : a_view;
+        self.ifa_helpTargetProxyView = nil;
+        l_pointingAtView = a_view==self.ifa_screenHelpButton ? self.ifa_screenHelpButtonProxyView : a_view;
 
     }else{
         
@@ -305,30 +305,31 @@
         CGFloat l_width = a_view.frame.size.width + k_hPadding;
         CGFloat l_height = a_view.frame.size.height + k_vPadding;
         CGRect l_helpTargetProxyViewFrame = CGRectMake(l_x, l_y, l_width, l_height);
-        l_helpTargetProxyViewFrame = [self.p_helpModeOverlayView convertRect:l_helpTargetProxyViewFrame fromView:a_view.superview];
-        self.p_helpTargetProxyView = [[UIView alloc] initWithFrame:l_helpTargetProxyViewFrame];
-        [self.p_helpModeOverlayView addSubview:self.p_helpTargetProxyView];
+        l_helpTargetProxyViewFrame = [self.ifa_helpModeOverlayView convertRect:l_helpTargetProxyViewFrame
+                                                                      fromView:a_view.superview];
+        self.ifa_helpTargetProxyView = [[UIView alloc] initWithFrame:l_helpTargetProxyViewFrame];
+        [self.ifa_helpModeOverlayView addSubview:self.ifa_helpTargetProxyView];
         
         // Spotlight selection
-        [self.p_helpModeOverlayView spotlightAtRect:self.p_helpTargetProxyView.frame];
+        [self.ifa_helpModeOverlayView spotlightAtRect:self.ifa_helpTargetProxyView.frame];
         
-        l_pointingAtView = self.p_helpTargetProxyView;
+        l_pointingAtView = self.ifa_helpTargetProxyView;
         
     }
 
     // Present the help pop tip
-    self.p_activePopTipView = [IAUIHelpPopTipView new];
-    self.p_activePopTipView.maximised = a_view==self.p_screenHelpButton;
+    self.ifa_activePopTipView = [IAUIHelpPopTipView new];
+    self.ifa_activePopTipView.maximised = a_view==self.ifa_screenHelpButton;
     UIView *l_containerView = [self.observedHelpTargetContainer targetView];
-    [self.p_activePopTipView presentWithTitle:a_title description:a_description pointingAtView:l_pointingAtView
-                                       inView:l_containerView completionBlock:^{
+    [self.ifa_activePopTipView presentWithTitle:a_title description:a_description pointingAtView:l_pointingAtView
+                                         inView:l_containerView completionBlock:^{
         // Remove user interaction blocker
-        [self.p_userInteractionBlockingView removeFromSuperview];
+        [self.ifa_userInteractionBlockingView removeFromSuperview];
     }];
 
     // Block user interaction while the help pop tip is loading its contents
-    self.p_userInteractionBlockingView.frame = self.helpMode ? self.p_helpModeOverlayView.frame : CGRectMake(0, 0, l_containerView.frame.size.width, l_containerView.frame.size.height);
-    [l_containerView addSubview:self.p_userInteractionBlockingView];
+    self.ifa_userInteractionBlockingView.frame = self.helpMode ? self.ifa_helpModeOverlayView.frame : CGRectMake(0, 0, l_containerView.frame.size.width, l_containerView.frame.size.height);
+    [l_containerView addSubview:self.ifa_userInteractionBlockingView];
 
 }
 
@@ -351,7 +352,7 @@
 
 - (void)ifa_onHelpTargetSelectionForBarButtonItem:(UIBarButtonItem *)a_barButtonItem event:(UIEvent*)a_event{
     
-    if (self.p_activePopTipView.presentationRequestInProgress) {
+    if (self.ifa_activePopTipView.presentationRequestInProgress) {
         return;
     }
     
@@ -375,7 +376,7 @@
 
 - (void)ifa_onHelpTargetSelectionForTapGestureRecogniser:(UITapGestureRecognizer*)a_tapGestureRecogniser{
     
-    if (self.p_activePopTipView.presentationRequestInProgress) {
+    if (self.ifa_activePopTipView.presentationRequestInProgress) {
         return;
     }
     
@@ -407,7 +408,7 @@
 }
 
 -(void)ifa_onCatchAllGestureRecogniserTap:(UITapGestureRecognizer*)a_tapGestureRecognizer{
-    if (a_tapGestureRecognizer==self.p_navigationBarCatchAllGestureRecogniser || a_tapGestureRecognizer==self.p_toolbarCatchAllGestureRecogniser) {
+    if (a_tapGestureRecognizer==self.ifa_navigationBarCatchAllGestureRecogniser || a_tapGestureRecognizer==self.ifa_toolbarCatchAllGestureRecogniser) {
         UIView *l_view = [a_tapGestureRecognizer.view hitTest:[a_tapGestureRecognizer locationInView:a_tapGestureRecognizer.view] withEvent:nil];
 //        NSLog(@"view tapped on toolbar: %@", l_view);
         if (![l_view isKindOfClass:[UINavigationBar class]] && ![l_view isKindOfClass:[UIToolbar class]]) {
@@ -419,7 +420,7 @@
     [IAUIUtils showAndHideUserActionConfirmationHudWithText:@"No help available for selection"];
 }
 
--(UITapGestureRecognizer *)p_mainViewCatchAllGestureRecogniser{
+-(UITapGestureRecognizer *)ifa_mainViewCatchAllGestureRecogniser {
     if (!v_mainViewCatchAllGestureRecogniser) {
         v_mainViewCatchAllGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                       action:@selector(ifa_onCatchAllGestureRecogniserTap:)];
@@ -428,7 +429,7 @@
     return v_mainViewCatchAllGestureRecogniser;
 }
 
--(UITapGestureRecognizer *)p_navigationBarCatchAllGestureRecogniser{
+-(UITapGestureRecognizer *)ifa_navigationBarCatchAllGestureRecogniser {
     if (!v_navigationBarCatchAllGestureRecogniser) {
         v_navigationBarCatchAllGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                            action:@selector(ifa_onCatchAllGestureRecogniserTap:)];
@@ -437,7 +438,7 @@
     return v_navigationBarCatchAllGestureRecogniser;
 }
 
--(UITapGestureRecognizer *)p_toolbarCatchAllGestureRecogniser{
+-(UITapGestureRecognizer *)ifa_toolbarCatchAllGestureRecogniser {
     if (!v_toolbarCatchAllGestureRecogniser) {
         v_toolbarCatchAllGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                      action:@selector(ifa_onCatchAllGestureRecogniserTap:)];
@@ -469,13 +470,13 @@
 -(void)ifa_removeHelpTargets {
     
     // Remove the tab bar item proxy views first
-    for (UIView* l_view in self.p_tabBarItemProxyViews) {
+    for (UIView* l_view in self.ifa_tabBarItemProxyViews) {
         [l_view removeFromSuperview];
     }
-    [self.p_tabBarItemProxyViews removeAllObjects];
+    [self.ifa_tabBarItemProxyViews removeAllObjects];
     
     // Now remove the remaining help targets
-    for (id<IAHelpTarget> l_helpTarget in [self.p_helpTargets copy]) {
+    for (id<IAHelpTarget> l_helpTarget in [self.ifa_helpTargets copy]) {
         [self removeHelpTarget:l_helpTarget];
     }
     
@@ -488,8 +489,8 @@
 }
 
 -(void)ifa_onSimpleHelpGestureRecogniserAction:(id)sender{
-    [self.p_activePopTipView dismissAnimated:YES];
-    self.p_activePopTipView = nil;
+    [self.ifa_activePopTipView dismissAnimated:YES];
+    self.ifa_activePopTipView = nil;
     [self ifa_removeSimpleHelpBackground];
 }
 
@@ -503,10 +504,10 @@
 //        NSLog(@"  l_fieldEditorViewController.navigationController.view.frame: %@", NSStringFromCGRect(l_fieldEditorViewController.navigationController.view.frame));
 //        NSLog(@"  a_button.frame: %@", NSStringFromCGRect(a_button.frame));
 
-        NSAssert(self.p_activePopTipView==nil, @"self.p_activePopTipView no nil: %@", [self.p_activePopTipView description]);
+        NSAssert(self.ifa_activePopTipView ==nil, @"self.ifa_activePopTipView no nil: %@", [self.ifa_activePopTipView description]);
 
         // Configure tap gesture recogniser
-        self.p_simpleHelpBackgroundGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self
+        self.ifa_simpleHelpBackgroundGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                                action:@selector(ifa_onSimpleHelpGestureRecogniserAction:)];
         
         // Configure background view
@@ -514,7 +515,7 @@
         UIView *l_backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, l_frame.size.width, l_frame.size.height)];
         l_backgroundView.tag = IA_UIVIEW_TAG_HELP_BACKGROUND;
         l_backgroundView.backgroundColor = [UIColor clearColor];
-        [l_backgroundView addGestureRecognizer:self.p_simpleHelpBackgroundGestureRecogniser];
+        [l_backgroundView addGestureRecognizer:self.ifa_simpleHelpBackgroundGestureRecogniser];
         [l_fieldEditorViewController.navigationController.view addSubview:l_backgroundView];
         
         // Present pop tip view
@@ -539,7 +540,7 @@
     NSLog(@"m_onScreenHelpButtonTap for helpTargetId: %@", l_helpTargetId);
     NSString *l_title = [self ifa_helpTitleForKeyPath:l_helpTargetId];
     if (!l_title) {
-        l_title = self.p_savedTitle;
+        l_title = self.ifa_savedTitle;
     }
     NSString *l_description = [self ifa_helpDescriptionForKeyPath:l_helpTargetId];
     [self ifa_presentPopTipViewWithTitle:l_title description:l_description pointingAtView:a_button];
@@ -565,7 +566,7 @@
     self.observedHelpTargetContainer = a_helpTargetContainer;
     
     // Reset any pop tip views left over
-    self.p_activePopTipView = nil;
+    self.ifa_activePopTipView = nil;
     
 //    NSLog(@"Registered as target view controller for help: %@", [a_helpTargetContainer description]);
 
@@ -574,7 +575,7 @@
 - (void)helpRequestedForTabBarItemIndex:(NSUInteger)a_index helpTargetId:(NSString *)a_helpTargetId title:(NSString*)a_title{
     NSLog(@"m_helpRequestedForTabBarItemIndex: %@", a_helpTargetId);
     [self ifa_presentPopTipViewWithTitle:a_title description:[self ifa_helpDescriptionForKeyPath:a_helpTargetId]
-                          pointingAtView:[self.p_tabBarItemProxyViews objectAtIndex:a_index]];
+                          pointingAtView:[self.ifa_tabBarItemProxyViews objectAtIndex:a_index]];
 }
 
 -(void)addHelpTarget:(id<IAHelpTarget>)a_helpTarget{
@@ -592,7 +593,7 @@
                 UIView *l_view = [[UIView alloc] initWithFrame:l_frame];
                 l_view.userInteractionEnabled = NO;
                 [l_tabBar addSubview:l_view];
-                [self.p_tabBarItemProxyViews addObject:l_view];
+                [self.ifa_tabBarItemProxyViews addObject:l_view];
             }
         }
         
@@ -616,17 +617,17 @@
 //            NSLog(@"l_barButtonItem: %@, title: %@, target: %@, action: %@", [l_barButtonItem description], l_barButtonItem.title, [l_barButtonItem.target description], NSStringFromSelector(l_barButtonItem.action));
             
             IAUIBarButtonItemSavedState *l_barButtonItemSavedState = [IAUIBarButtonItemSavedState new];
-            l_barButtonItemSavedState.p_enabled = l_barButtonItem.enabled;
-            l_barButtonItemSavedState.p_target = l_barButtonItem.target;
-            l_barButtonItemSavedState.p_action = l_barButtonItem.action;
+            l_barButtonItemSavedState.ifa_enabled = l_barButtonItem.enabled;
+            l_barButtonItemSavedState.ifa_target = l_barButtonItem.target;
+            l_barButtonItemSavedState.ifa_action = l_barButtonItem.action;
             
             l_barButtonItem.enabled = YES;
             l_barButtonItem.target = self;
             l_barButtonItem.action = @selector(ifa_onHelpTargetSelectionForBarButtonItem:event:);
             
-            [self.p_helpTargets addObject:l_barButtonItem];
-            [self.p_helpTargetSavedStates addObject:l_barButtonItemSavedState];
-            [self.p_helpTargetSelectionGestureRecognisers addObject:[NSNull null]];
+            [self.ifa_helpTargets addObject:l_barButtonItem];
+            [self.ifa_helpTargetSavedStates addObject:l_barButtonItemSavedState];
+            [self.ifa_helpTargetSelectionGestureRecognisers addObject:[NSNull null]];
             
         }
         
@@ -654,7 +655,7 @@
                 }else{
                     
                     IAUITableViewCellSavedState *l_tableViewCellSavedState = [IAUITableViewCellSavedState new];
-                    l_tableViewCellSavedState.p_selectionStyle = l_tableViewCell.selectionStyle;
+                    l_tableViewCellSavedState.ifa_selectionStyle = l_tableViewCell.selectionStyle;
                     l_tableViewCell.selectionStyle = UITableViewCellSelectionStyleNone;
                     l_viewSavedState = l_tableViewCellSavedState;
                     
@@ -666,7 +667,7 @@
                 
             }
             
-            l_viewSavedState.p_userInteractionEnabled = l_view.userInteractionEnabled;
+            l_viewSavedState.ifa_userInteractionEnabled = l_view.userInteractionEnabled;
             
             l_view.userInteractionEnabled = YES;
 
@@ -676,9 +677,9 @@
                                                                                                  action:@selector(ifa_onHelpTargetSelectionForTapGestureRecogniser:)];
         [l_view addGestureRecognizer:l_tapGestureRecogniser];
         
-        [self.p_helpTargets addObject:l_view];
-        [self.p_helpTargetSavedStates addObject:l_viewSavedState?l_viewSavedState:[NSNull null]];
-        [self.p_helpTargetSelectionGestureRecognisers addObject:l_tapGestureRecogniser];
+        [self.ifa_helpTargets addObject:l_view];
+        [self.ifa_helpTargetSavedStates addObject:l_viewSavedState ? l_viewSavedState : [NSNull null]];
+        [self.ifa_helpTargetSelectionGestureRecognisers addObject:l_tapGestureRecogniser];
         
     }else{
         NSAssert(NO, @"Unexpected help target: %@", [a_helpTarget description]);
@@ -688,15 +689,15 @@
 
 -(void)removeHelpTarget:(id<IAHelpTarget>)a_helpTarget{
     
-    NSUInteger l_index = [self.p_helpTargets indexOfObject:a_helpTarget];
+    NSUInteger l_index = [self.ifa_helpTargets indexOfObject:a_helpTarget];
 
     if ([a_helpTarget isKindOfClass:[UIBarButtonItem class]]) {
         
         UIBarButtonItem *l_barButtonItem = (UIBarButtonItem*)a_helpTarget;
-        IAUIBarButtonItemSavedState *l_barButtonItemSavedState = [self.p_helpTargetSavedStates objectAtIndex:l_index];
-        l_barButtonItem.enabled = l_barButtonItemSavedState.p_enabled;
-        l_barButtonItem.target = l_barButtonItemSavedState.p_target;
-        l_barButtonItem.action = l_barButtonItemSavedState.p_action;
+        IAUIBarButtonItemSavedState *l_barButtonItemSavedState = [self.ifa_helpTargetSavedStates objectAtIndex:l_index];
+        l_barButtonItem.enabled = l_barButtonItemSavedState.ifa_enabled;
+        l_barButtonItem.target = l_barButtonItemSavedState.ifa_target;
+        l_barButtonItem.action = l_barButtonItemSavedState.ifa_action;
         
     }else if([a_helpTarget isKindOfClass:[UIView class]]){
         
@@ -705,25 +706,25 @@
             [l_view removeFromSuperview];
         }
         
-        id l_obj = [self.p_helpTargetSavedStates objectAtIndex:l_index];
+        id l_obj = [self.ifa_helpTargetSavedStates objectAtIndex:l_index];
         if ([l_obj isKindOfClass:[IAUIViewSavedState class]]) { // Safeguard against the cases where the object is a [NSNull null]
             IAUIViewSavedState *l_viewSavedState = l_obj;
-            l_view.userInteractionEnabled = l_viewSavedState.p_userInteractionEnabled;
+            l_view.userInteractionEnabled = l_viewSavedState.ifa_userInteractionEnabled;
             if ([a_helpTarget isKindOfClass:[UITableViewCell class]]) {
                 IAUITableViewCellSavedState *l_tableViewCellSavedState = (IAUITableViewCellSavedState*)l_viewSavedState;
-                ((UITableViewCell*)l_view).selectionStyle = l_tableViewCellSavedState.p_selectionStyle;
+                ((UITableViewCell*)l_view).selectionStyle = l_tableViewCellSavedState.ifa_selectionStyle;
             }
         }
         
-        [l_view removeGestureRecognizer:[self.p_helpTargetSelectionGestureRecognisers objectAtIndex:l_index]];
+        [l_view removeGestureRecognizer:[self.ifa_helpTargetSelectionGestureRecognisers objectAtIndex:l_index]];
         
     }else{
         NSAssert(NO, @"Unexpected help target: %@", [a_helpTarget description]);
     }
     
-    [self.p_helpTargets removeObjectAtIndex:l_index];
-    [self.p_helpTargetSavedStates removeObjectAtIndex:l_index];
-    [self.p_helpTargetSelectionGestureRecognisers removeObjectAtIndex:l_index];
+    [self.ifa_helpTargets removeObjectAtIndex:l_index];
+    [self.ifa_helpTargetSavedStates removeObjectAtIndex:l_index];
+    [self.ifa_helpTargetSelectionGestureRecognisers removeObjectAtIndex:l_index];
 
 }
 
@@ -839,34 +840,34 @@
 
     if (self=[super init]) {
 
-        self.p_helpTargets = [NSMutableArray new];
-        self.p_helpTargetSavedStates = [NSMutableArray new];
-        self.p_tabBarItemProxyViews = [NSMutableArray new];
-        self.p_helpTargetSelectionGestureRecognisers = [NSMutableArray new];
+        self.ifa_helpTargets = [NSMutableArray new];
+        self.ifa_helpTargetSavedStates = [NSMutableArray new];
+        self.ifa_tabBarItemProxyViews = [NSMutableArray new];
+        self.ifa_helpTargetSelectionGestureRecognisers = [NSMutableArray new];
         
         // Configure the cancel button
         UIImage *l_cancelButtonImage = [UIImage imageNamed:@"277-MultiplyCircle-white"];
-        self.p_cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.p_cancelButton.frame = CGRectZero;
-        self.p_cancelButton.accessibilityLabel = [self accessibilityLabelForKeyPath:[IAUIUtils helpTargetIdForName:@"closeHelpButton"]];
-        [self.p_cancelButton setImage:l_cancelButtonImage forState:UIControlStateNormal];
-        [self.p_cancelButton addTarget:self action:@selector(ifa_onCancelButtonTap:)
-                      forControlEvents:UIControlEventTouchUpInside];
+        self.ifa_cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.ifa_cancelButton.frame = CGRectZero;
+        self.ifa_cancelButton.accessibilityLabel = [self accessibilityLabelForKeyPath:[IAUIUtils helpTargetIdForName:@"closeHelpButton"]];
+        [self.ifa_cancelButton setImage:l_cancelButtonImage forState:UIControlStateNormal];
+        [self.ifa_cancelButton addTarget:self action:@selector(ifa_onCancelButtonTap:)
+                        forControlEvents:UIControlEventTouchUpInside];
         
         // Configure the screen help button
         UIImage *l_screenHelpButtonImage = [UIImage imageNamed:@"248-QuestionCircleAlt"];
-        self.p_screenHelpButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.p_screenHelpButton.frame = CGRectZero;
-        self.p_screenHelpButton.accessibilityLabel = [self accessibilityLabelForKeyPath:[IAUIUtils helpTargetIdForName:@"screenHelpButton"]];
-        [self.p_screenHelpButton setImage:l_screenHelpButtonImage forState:UIControlStateNormal];
-        [self.p_screenHelpButton addTarget:self action:@selector(ifa_onScreenHelpButtonTap:)
-                          forControlEvents:UIControlEventTouchUpInside];
-//        self.p_screenHelpButton.backgroundColor = [UIColor redColor];
+        self.ifa_screenHelpButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.ifa_screenHelpButton.frame = CGRectZero;
+        self.ifa_screenHelpButton.accessibilityLabel = [self accessibilityLabelForKeyPath:[IAUIUtils helpTargetIdForName:@"screenHelpButton"]];
+        [self.ifa_screenHelpButton setImage:l_screenHelpButtonImage forState:UIControlStateNormal];
+        [self.ifa_screenHelpButton addTarget:self action:@selector(ifa_onScreenHelpButtonTap:)
+                            forControlEvents:UIControlEventTouchUpInside];
+//        self.ifa_screenHelpButton.backgroundColor = [UIColor redColor];
         
         // Configure the screen help button proxy
         static NSUInteger const k_screenHelpButtonProxyViewPadding = 4;
-        self.p_screenHelpButtonProxyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, l_screenHelpButtonImage.size.width+k_screenHelpButtonProxyViewPadding, l_screenHelpButtonImage.size.height+k_screenHelpButtonProxyViewPadding)];
-//        self.p_screenHelpButtonProxyView.backgroundColor = [UIColor blueColor];
+        self.ifa_screenHelpButtonProxyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, l_screenHelpButtonImage.size.width+k_screenHelpButtonProxyViewPadding, l_screenHelpButtonImage.size.height+k_screenHelpButtonProxyViewPadding)];
+//        self.ifa_screenHelpButtonProxyView.backgroundColor = [UIColor blueColor];
 
     }
 

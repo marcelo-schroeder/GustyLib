@@ -19,7 +19,7 @@
 
 
 @interface IAUICustomLayoutSupport ()
-@property(nonatomic) CGFloat p_length;
+@property(nonatomic) CGFloat ifa_length;
 @end
 
 @implementation IAUICustomLayoutSupport {
@@ -31,7 +31,7 @@
 - (id)initWithLength:(CGFloat)a_length {
     self = [super init];
     if (self) {
-        self.p_length = a_length;
+        self.ifa_length = a_length;
     }
     return self;
 }
@@ -39,7 +39,7 @@
 #pragma mark - UILayoutSupport
 
 - (CGFloat)length {
-    return self.p_length;
+    return self.ifa_length;
 }
 
 @end

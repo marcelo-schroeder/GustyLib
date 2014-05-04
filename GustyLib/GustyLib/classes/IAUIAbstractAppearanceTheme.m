@@ -36,7 +36,7 @@
 @property (nonatomic, strong) UISegmentedControl *segmentedControlAppearance;
 @property (nonatomic, strong) UISwitch *switchAppearance;
 @property (nonatomic, strong) UISlider *sliderAppearance;
-@property (nonatomic, strong) IAUIColorScheme *p_colorScheme;
+@property (nonatomic, strong) IAUIColorScheme *ifa_colorScheme;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
 @property (nonatomic, strong) UIPageControl *pageControlAppearance;
 
@@ -652,10 +652,10 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 -(IAUIColorScheme*)colorScheme {
-    if (![self.p_colorScheme isEqual:[[IAUIApplicationDelegate sharedInstance] colorScheme]]) {
-        self.p_colorScheme = [[IAUIApplicationDelegate sharedInstance] colorScheme];
+    if (![self.ifa_colorScheme isEqual:[[IAUIApplicationDelegate sharedInstance] colorScheme]]) {
+        self.ifa_colorScheme = [[IAUIApplicationDelegate sharedInstance] colorScheme];
     }
-    return self.p_colorScheme;
+    return self.ifa_colorScheme;
 }
 
 -(UIColor*)colorWithIndex:(NSUInteger)a_colorIndex{
