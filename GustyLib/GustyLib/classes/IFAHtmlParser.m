@@ -20,9 +20,9 @@
 #import "IFAHtmlParser.h"
 
 typedef enum{
-    HtmlParserEventElementStarted,
-    HtmlParserEventElementEnded,
-}HtmlParserEvent;
+    IFAHtmlParserEventElementStarted,
+    IFAHtmlParserEventElementEnded,
+} IFAHtmlParserEvent;
 
 static NSString *const k_lineBreak = @"\n";
 
@@ -44,7 +44,7 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
 //@property(nonatomic, strong) HtmlDocumentPosition *ifa_topLevelTagStartPosition;
 @property(nonatomic, strong) IFAHtmlDocumentPosition *ifa_currentPosition;
 @property(nonatomic, strong) IFAHtmlParserEndElementBlock ifa_endElementBlock;
-@property(nonatomic) HtmlParserEvent ifa_lastParsingEvent;
+@property(nonatomic) IFAHtmlParserEvent ifa_lastParsingEvent;
 @property(nonatomic, strong) NSString *ifa_unparsedHtmlString;
 //@property(nonatomic) NSUInteger ifa_bodyElementLevel;
 
@@ -84,7 +84,7 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
     }
 
     // Prepare element start position for saving
-    if (self.ifa_lastParsingEvent == HtmlParserEventElementStarted) {
+    if (self.ifa_lastParsingEvent == IFAHtmlParserEventElementStarted) {
         self.ifa_currentPosition.column++;
     }
 
@@ -121,7 +121,7 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
                                                                column:(NSUInteger) parser.columnNumber];
 
     // Save last parsing event
-    self.ifa_lastParsingEvent = HtmlParserEventElementStarted;
+    self.ifa_lastParsingEvent = IFAHtmlParserEventElementStarted;
 
 }
 
@@ -155,7 +155,7 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
 //        self.ifa_bodyElementLevel--;
 //    }
 
-    self.ifa_lastParsingEvent = HtmlParserEventElementEnded;
+    self.ifa_lastParsingEvent = IFAHtmlParserEventElementEnded;
 
 }
 
