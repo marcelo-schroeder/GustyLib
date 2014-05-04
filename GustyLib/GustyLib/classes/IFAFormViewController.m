@@ -113,7 +113,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                             viewController:self
                              barButtonItem:nil
                                   delegate:self
-                                       tag:IFA_k_UIVIEW_TAG_ACTION_SHEET_DELETE];
+                                       tag:IFAViewTagActionSheetDelete];
 }
 
 - (void)restoreNonEditingState{
@@ -495,7 +495,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     if (self) {
         self.readOnlyMode = NO;
         self.createMode = YES;
-        self.formName = IFA_k_ENTITY_CONFIG_FORM_NAME_DEFAULT;
+        self.formName = IFAEntityConfigFormNameDefault;
         self.isSubForm = NO;
     }
     return self;
@@ -504,7 +504,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 /* Submission forms */
 
 - (id)initWithObject:(NSObject *)anObject {
-    return [self initWithObject:anObject readOnlyMode:NO createMode:YES inForm:IFA_k_ENTITY_CONFIG_FORM_NAME_DEFAULT
+    return [self initWithObject:anObject readOnlyMode:NO createMode:YES inForm:IFAEntityConfigFormNameDefault
                       isSubForm:NO];
 }
 
@@ -519,7 +519,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 }
 
 - (id)initWithObject:(NSObject *)anObject createMode:(BOOL)aCreateMode{
-	return [self initWithObject:anObject createMode:aCreateMode inForm:IFA_k_ENTITY_CONFIG_FORM_NAME_DEFAULT
+	return [self initWithObject:anObject createMode:aCreateMode inForm:IFAEntityConfigFormNameDefault
                       isSubForm:NO];
 }
 
@@ -528,7 +528,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 }
 
 - (id)initWithReadOnlyObject:(NSObject *)anObject{
-	return [self initWithReadOnlyObject:anObject inForm:IFA_k_ENTITY_CONFIG_FORM_NAME_DEFAULT isSubForm:NO];
+	return [self initWithReadOnlyObject:anObject inForm:IFAEntityConfigFormNameDefault isSubForm:NO];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -565,7 +565,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                 self.editButtonItem.title = [[IFAPersistenceManager sharedInstance].entityConfig submitButtonLabelForForm:self.formName inEntity:[self.object IFA_entityName]];
 //                self.editButtonItem.accessibilityLabel = self.editButtonItem.title;
             }else{
-                self.editButtonItem.title = IFA_k_BUTTON_LABEL_SAVE;
+                self.editButtonItem.title = IFAButtonLabelSave;
 //                self.editButtonItem.accessibilityLabel = @"Save Button";
                 self.doneButtonSaves = YES;
             }
@@ -831,7 +831,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
 	switch (actionSheet.tag) {
-		case IFA_k_UIVIEW_TAG_ACTION_SHEET_CANCEL:
+		case IFAViewTagActionSheetCancel:
 			if(buttonIndex==0){
 				[self restoreNonEditingState];
 			}else{
@@ -839,7 +839,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                 [self replyToContextSwitchRequestWithGranted:NO];
             }
 			break;
-		case IFA_k_UIVIEW_TAG_ACTION_SHEET_DELETE:
+		case IFAViewTagActionSheetDelete:
 			if(buttonIndex==0){
                 NSAssert([self.object isKindOfClass:NSManagedObject.class], @"Selection list editor type not yet implemented for non-NSManagedObject instances");
                 NSManagedObject *l_managedObject = (NSManagedObject*)self.object;
@@ -1132,7 +1132,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     NSString *l_title = [self tableView:tableView titleForHeaderInSection:section];
-    return l_title ? IFA_k_FORM_SECTION_HEADER_DEFAULT_HEIGHT : 0;
+    return l_title ? IFAFormSectionHeaderDefaultHeight : 0;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -1199,7 +1199,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     v_uiControlsWithTargets = [NSMutableArray new];
 
 	if (!self.readOnlyMode && !self.isSubForm) {
-        self.editButtonItem.tag = IFA_k_UIBAR_ITEM_TAG_EDIT_BUTTON;
+        self.editButtonItem.tag = IFABarItemTagEditButton;
         [self IFA_addRightBarButtonItem:self.editButtonItem];
 	}
     
@@ -1236,12 +1236,12 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         self.tableView.tableFooterView = l_label;
     }
     
-    self.ifa_dismissModalFormBarButtonItem = [IFAUIUtils isIPad] ? [IFAUIUtils barButtonItemForType:IFA_k_UIBAR_BUTTON_ITEM_DISMISS
+    self.ifa_dismissModalFormBarButtonItem = [IFAUIUtils isIPad] ? [IFAUIUtils barButtonItemForType:IFABarButtonItemDismiss
                                                                                              target:self
-                                                                                             action:@selector(onDismissButtonTap:)] : [IFAUIUtils barButtonItemForType:IFA_k_UIBAR_BUTTON_ITEM_BACK
+                                                                                             action:@selector(onDismissButtonTap:)] : [IFAUIUtils barButtonItemForType:IFABarButtonItemBack
                                                                                                                                                                 target:self
                                                                                                                                                                 action:@selector(onDismissButtonTap:)];
-    self.ifa_cancelBarButtonItem = [IFAUIUtils barButtonItemForType:IFA_k_UIBAR_BUTTON_ITEM_CANCEL target:self
+    self.ifa_cancelBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemCancel target:self
                                                              action:@selector(onCancelButtonTap:)];
     
     // Instantiate text field cells that will be reused.
@@ -1356,7 +1356,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 - (NSArray*)IFA_editModeToolbarItems {
 	if(!self.createMode){
-		UIBarButtonItem *deleteButtonItem = [IFAUIUtils barButtonItemForType:IFA_k_UIBAR_BUTTON_ITEM_DELETE target:self
+		UIBarButtonItem *deleteButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemDelete target:self
                                                                       action:@selector(onDeleteButtonTap:)];
 		return @[deleteButtonItem];
 	}else {
@@ -1372,7 +1372,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                                 viewController:self
                                  barButtonItem:nil
                                       delegate:self
-                                           tag:IFA_k_UIVIEW_TAG_ACTION_SHEET_CANCEL];
+                                           tag:IFAViewTagActionSheetCancel];
 	}else{
 		[self restoreNonEditingState];
 	}

@@ -35,11 +35,11 @@
 #pragma mark Private
 
 - (NSDictionary*)entityConfigDictionary{
-    NSMutableDictionary *l_dictionary = [[IFADynamicCache sharedInstance] objectForKey:(IFA_k_CACHE_KEY_ENTITY_CONFIG_DICTIONARY)];
+    NSMutableDictionary *l_dictionary = [[IFADynamicCache sharedInstance] objectForKey:(IFACacheKeyEntityConfigDictionary)];
 	if(!l_dictionary){
         l_dictionary = [NSMutableDictionary dictionaryWithDictionary:[IFAUtils getPlistAsDictionary:@"IFAEntityConfig"]];
         [l_dictionary addEntriesFromDictionary:[IFAUtils getPlistAsDictionary:@"EntityConfig"]];
-        [[IFADynamicCache sharedInstance] setObject:l_dictionary forKey:IFA_k_CACHE_KEY_ENTITY_CONFIG_DICTIONARY];
+        [[IFADynamicCache sharedInstance] setObject:l_dictionary forKey:IFACacheKeyEntityConfigDictionary];
 	}
 	return l_dictionary;
 }

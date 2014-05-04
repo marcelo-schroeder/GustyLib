@@ -332,9 +332,9 @@ enum {
 			}
 		}
 		
-		v_flexSpaceButtonItem = [IFAUIUtils barButtonItemForType:IFA_k_UIBAR_BUTTON_ITEM_FLEXIBLE_SPACE target:self
+		v_flexSpaceButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemFlexibleSpace target:self
                                                           action:nil];
-		v_selectAllButtonItem = [IFAUIUtils barButtonItemForType:IFA_k_UIBAR_BUTTON_ITEM_SELECT_ALL target:self
+		v_selectAllButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemSelectAll target:self
                                                           action:@selector(ifa_onSelectAllButtonTap:)];
 		self.editing = YES;
 		

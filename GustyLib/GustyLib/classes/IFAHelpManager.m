@@ -137,7 +137,7 @@
  */
 -(void)ifa_updateScreenHelpButtonFrame {
     UIViewController *l_observedViewController = (UIViewController*)self.observedHelpTargetContainer;
-    self.ifa_screenHelpButton.frame = CGRectMake(0, 0, IFA_k_MINIMUM_TAP_AREA_DIMENSION, l_observedViewController.navigationController.navigationBar.frame.size.height);
+    self.ifa_screenHelpButton.frame = CGRectMake(0, 0, IFAMinimumTapAreaDimension, l_observedViewController.navigationController.navigationBar.frame.size.height);
     self.ifa_screenHelpButton.center = l_observedViewController.navigationController.navigationBar.center;
     self.ifa_screenHelpButtonProxyView.center = self.ifa_screenHelpButton.center;
 }
@@ -163,7 +163,7 @@
 
     UIView *l_view = [self.observedHelpTargetContainer targetView];
     if (a_helpMode) {
-        self.ifa_helpButton = (UIButton*) [l_view viewWithTag:IFA_k_UIVIEW_TAG_HELP_BUTTON];
+        self.ifa_helpButton = (UIButton*) [l_view viewWithTag:IFAViewTagHelpButton];
         [self ifa_updateScreenHelpButtonFrame];
         [self ifa_updateCancelButtonFrame];
     }else{
@@ -290,7 +290,7 @@
 //    [self.ifa_helpModeOverlayView m_hideTicker];
     
     UIView *l_pointingAtView = nil;
-    if (a_view==self.ifa_screenHelpButton || a_view.tag== IFA_k_UIVIEW_TAG_HELP_BUTTON) {
+    if (a_view==self.ifa_screenHelpButton || a_view.tag== IFAViewTagHelpButton) {
 
         self.ifa_helpTargetProxyView = nil;
         l_pointingAtView = a_view==self.ifa_screenHelpButton ? self.ifa_screenHelpButtonProxyView : a_view;
@@ -485,7 +485,7 @@
 -(void)ifa_removeSimpleHelpBackground {
     IFAAbstractFieldEditorViewController *l_fieldEditorViewController = (IFAAbstractFieldEditorViewController *)self.observedHelpTargetContainer;
     NSAssert(l_fieldEditorViewController, @"l_fieldEditorViewController is nil");
-    [[l_fieldEditorViewController.navigationController.view viewWithTag:IFA_k_UIVIEW_TAG_HELP_BACKGROUND] removeFromSuperview];
+    [[l_fieldEditorViewController.navigationController.view viewWithTag:IFAViewTagHelpBackground] removeFromSuperview];
 }
 
 -(void)ifa_onSimpleHelpGestureRecogniserAction:(id)sender{
@@ -513,7 +513,7 @@
         // Configure background view
         CGRect l_frame = l_fieldEditorViewController.navigationController.view.frame;
         UIView *l_backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, l_frame.size.width, l_frame.size.height)];
-        l_backgroundView.tag = IFA_k_UIVIEW_TAG_HELP_BACKGROUND;
+        l_backgroundView.tag = IFAViewTagHelpBackground;
         l_backgroundView.backgroundColor = [UIColor clearColor];
         [l_backgroundView addGestureRecognizer:self.ifa_simpleHelpBackgroundGestureRecogniser];
         [l_fieldEditorViewController.navigationController.view addSubview:l_backgroundView];
@@ -776,7 +776,7 @@
 
     // Configure button
     UIButton *l_helpButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    l_helpButton.tag = IFA_k_UIVIEW_TAG_HELP_BUTTON;
+    l_helpButton.tag = IFAViewTagHelpButton;
     l_helpButton.frame = CGRectMake(0, 0, 20, 44);
     l_helpButton.accessibilityLabel = [self accessibilityLabelForKeyPath:[IFAUIUtils helpTargetIdForName:@"helpButton"]];
 //    l_helpButton.backgroundColor = [UIColor redColor];
@@ -785,7 +785,7 @@
     
     // Configure bar button item
     UIBarButtonItem *l_helpBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:l_helpButton];
-    l_helpBarButtonItem.tag = IFA_k_UIBAR_ITEM_TAG_HELP_BUTTON;
+    l_helpBarButtonItem.tag = IFABarItemTagHelpButton;
     
     return l_helpBarButtonItem;
     

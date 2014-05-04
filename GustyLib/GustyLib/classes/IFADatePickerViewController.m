@@ -138,13 +138,13 @@ static NSString * const k_valueCellId = @"valueCell";
 	
     NSMutableArray *l_toolbarItems = [NSMutableArray array];
     if (l_showSelectNowButton) {
-        UIBarButtonItem *selectNowButton = [IFAUIUtils barButtonItemForType:IFA_k_UIBAR_BUTTON_ITEM_SELECT_NOW
+        UIBarButtonItem *selectNowButton = [IFAUIUtils barButtonItemForType:IFABarButtonItemSelectNow
                                                                      target:a_target
                                                                      action:@selector(ifa_onSelectNowButtonTap:)];
         [l_toolbarItems addObject:selectNowButton];
     }
     if (l_showSelectTodayButton) {
-        UIBarButtonItem *selectTodayButton = [IFAUIUtils barButtonItemForType:IFA_k_UIBAR_BUTTON_ITEM_SELECT_TODAY
+        UIBarButtonItem *selectTodayButton = [IFAUIUtils barButtonItemForType:IFABarButtonItemSelectToday
                                                                        target:a_target
                                                                        action:@selector(ifa_onSelectTodayButtonTap:)];
         [l_toolbarItems addObject:selectTodayButton];
@@ -158,7 +158,7 @@ static NSString * const k_valueCellId = @"valueCell";
         [l_toolbarItems addObject:l_resetCountDownButton];
     }
     if (l_showClearDateButton || l_showSelectDistantPastButton || l_showSelectDistantFutureButton) {
-        UIBarButtonItem *flexibleSpace = [IFAUIUtils barButtonItemForType:IFA_k_UIBAR_BUTTON_ITEM_FLEXIBLE_SPACE
+        UIBarButtonItem *flexibleSpace = [IFAUIUtils barButtonItemForType:IFABarButtonItemFlexibleSpace
                                                                    target:nil
                                                                    action:nil];
         if (l_showClearDateButton) {

@@ -571,7 +571,7 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 - (UIBarButtonItem *)doneBarButtonItemWithTarget:(id)a_target action:(SEL)a_action
                                   viewController:(UIViewController *)a_viewController {
-    return [IFAUIUtils barButtonItemForType:IFA_k_UIBAR_BUTTON_ITEM_DONE target:a_target action:a_action];
+    return [IFAUIUtils barButtonItemForType:IFABarButtonItemDone target:a_target action:a_action];
 }
 
 - (UIBarButtonItem *)cancelBarButtonItemWithTarget:(id)a_target

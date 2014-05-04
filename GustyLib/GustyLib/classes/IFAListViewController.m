@@ -315,7 +315,7 @@
 }
 
 - (NSString*)editFormNameForCreateMode:(BOOL)aCreateMode{
-    return IFA_k_ENTITY_CONFIG_FORM_NAME_DEFAULT;
+    return IFAEntityConfigFormNameDefault;
 }
 
 -(void)showTipForEditing:(BOOL)a_editing{
@@ -363,7 +363,7 @@
     // Observe persistence notifications
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(ifa_onPersistenceChangeNotification:)
-                                                 name:IFA_k_NOTIFICATION_PERSISTENT_ENTITY_CHANGE
+                                                 name:IFANotificationPersistentEntityChange
                                                object:nil];
 //    NSLog(@"OBSERVER ADDED IN viewDidLoad for %@", [self description]);
     //    NSLog(@"  %@", [NSThread callStackSymbols]);
@@ -402,7 +402,7 @@
 -(void)dealloc{
     
     // Remove observers
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFA_k_NOTIFICATION_PERSISTENT_ENTITY_CHANGE
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationPersistentEntityChange
                                                   object:nil];
 //    NSLog(@"OBSERVER REMOVED IN dealloc for %@", [self description]);
 
@@ -506,7 +506,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     NSString *l_title = [self tableView:tableView titleForHeaderInSection:section];
-    return l_title ? IFA_k_TABLE_SECTION_HEADER_DEFAULT_HEIGHT : 0;
+    return l_title ? IFATableSectionHeaderDefaultHeight : 0;
 }
 
 #pragma mark - IFASelectionManagerDelegate

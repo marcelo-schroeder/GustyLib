@@ -32,7 +32,7 @@
     self.readOnlyMode = NO;
     self.createMode = NO;
     self.object = [[IFAPreferencesManager sharedInstance] preferences];
-    self.formName = IFA_k_ENTITY_CONFIG_FORM_NAME_DEFAULT;
+    self.formName = IFAEntityConfigFormNameDefault;
     self.isSubForm = NO;
     return self;
 }

@@ -25,8 +25,8 @@ typedef enum {
     IFAPagingStateManagerEventShowAll,
 } IFAPagingStateManagerEvent;
 
-static const NSUInteger IFA_k_pagingPageIndexFirst = 0;
-static const NSUInteger IFA_k_pagingPageSizeAll = 0;
+static const NSUInteger IFAPagingPageIndexFirst = 0;
+static const NSUInteger IFAPagingPageSizeAll = 0;
 
 @interface IFAPagingStateManager : NSObject
 

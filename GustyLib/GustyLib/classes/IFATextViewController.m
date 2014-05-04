@@ -147,7 +147,7 @@
                                 viewController:self
                                  barButtonItem:nil
                                       delegate:self
-                                           tag:IFA_k_UIVIEW_TAG_ACTION_SHEET_CANCEL];
+                                           tag:IFAViewTagActionSheetCancel];
     }else {
         [self ifa_quitEditing];
     }

@@ -125,7 +125,7 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
     if ([[IFAPersistenceManager sharedInstance].entityConfig shouldShowAddButtonInSelectionForEntity:self.entityName]) {
-        self.addBarButtonItem = [IFAUIUtils barButtonItemForType:IFA_k_UIBAR_BUTTON_ITEM_ADD target:self
+        self.addBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemAdd target:self
                                                           action:@selector(onAddButtonTap:)];
         [self IFA_addLeftBarButtonItem:self.addBarButtonItem];
     }
@@ -146,9 +146,9 @@
 -(NSString *)editFormNameForCreateMode:(BOOL)aCreateMode{
     NSString *l_formName = [super editFormNameForCreateMode:aCreateMode];
     if (aCreateMode) {
-        if ([[IFAPersistenceManager sharedInstance].entityConfig containsForm:IFA_k_ENTITY_CONFIG_FORM_NAME_CREATION_SHORTCUT
+        if ([[IFAPersistenceManager sharedInstance].entityConfig containsForm:IFAEntityConfigFormNameCreationShortcut
                                                                    forEntity:self.entityName]) {
-            l_formName = IFA_k_ENTITY_CONFIG_FORM_NAME_CREATION_SHORTCUT;
+            l_formName = IFAEntityConfigFormNameCreationShortcut;
         }
     }
     return l_formName;

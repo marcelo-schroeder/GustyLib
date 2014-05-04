@@ -96,11 +96,11 @@ static NSArray *c_pageDataLoadingOrder = nil;
     });
 
 	// Toolbar nav buttons
-    v_previousViewBarButtonItem = [IFAUIUtils barButtonItemForType:IFA_k_UIBAR_BUTTON_PREVIOUS_PAGE target:self
+    v_previousViewBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemPreviousPage target:self
                                                             action:NULL];
     [IFAUIUtils adjustImageInsetsForBarButtonItem:v_previousViewBarButtonItem insetValue:1];
     v_previousViewBarButtonItem.helpTargetId = [self IFA_helpTargetIdForName:@"previousPageButton"];
-    v_nextViewBarButtonItem = [IFAUIUtils barButtonItemForType:IFA_k_UIBAR_BUTTON_NEXT_PAGE target:self action:NULL];
+    v_nextViewBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemNextPage target:self action:NULL];
     [IFAUIUtils adjustImageInsetsForBarButtonItem:v_nextViewBarButtonItem insetValue:1];
     v_nextViewBarButtonItem.helpTargetId = [self IFA_helpTargetIdForName:@"nextPageButton"];
     [self ifa_enableNavigationButtonsAction:YES];
@@ -139,7 +139,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
 - (NSArray*)IFA_nonEditModeToolbarItems {
     
 	// Separator
-	UIBarButtonItem *spaceBarButtonItem = [IFAUIUtils barButtonItemForType:IFA_k_UIBAR_BUTTON_ITEM_FLEXIBLE_SPACE
+	UIBarButtonItem *spaceBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemFlexibleSpace
                                                                     target:nil action:nil];
 	
 	return @[v_previousViewBarButtonItem, 

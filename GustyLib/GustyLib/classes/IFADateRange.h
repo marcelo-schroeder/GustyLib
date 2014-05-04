@@ -33,7 +33,6 @@
 - (id)initWithStartTimestamp:(NSDate*)aStartTimestamp endTimestamp:(NSDate*)anEndTimestamp;
 - (id)initWithStartTimestamp:(NSDate*)aStartTimestamp endTimestamp:(NSDate*)anEndTimestamp exclusiveEnd:(BOOL)anExclusiveEndFlag;
 
-- (NSString*)IFA_displayValue;
 - (NSString*)durationStringWithFormat:(IFADurationFormat)aFormat calendar:(NSCalendar*)a_calendar;
 
 - (NSDecimalNumber*)decimalHoursForCalendar:(NSCalendar*)a_calendar;

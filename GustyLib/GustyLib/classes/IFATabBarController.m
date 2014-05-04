@@ -38,7 +38,7 @@
 }
 
 - (void)oncontextSwitchRequestGrantedNotification:(NSNotification*)aNotification{
-//    NSLog(@"IFA_k_NOTIFICATION_CONTEXT_SWITCH_REQUEST_GRANTED received by %@", [self description]);
+//    NSLog(@"IFANotificationContextSwitchRequestGranted received by %@", [self description]);
     [self ifa_selectViewController:aNotification.object];
 }
 
@@ -86,14 +86,14 @@
         IFANavigationController *l_selectedNavigationController = (IFANavigationController *)self.selectedViewController;
 //        NSLog(@"l_navigationController.contextSwitchRequestRequired: %u", l_selectedNavigationController.contextSwitchRequestRequired);
         if (l_selectedNavigationController.contextSwitchRequestRequired) {
-            NSNotification *l_notification = [NSNotification notificationWithName:IFA_k_NOTIFICATION_CONTEXT_SWITCH_REQUEST
+            NSNotification *l_notification = [NSNotification notificationWithName:IFANotificationContextSwitchRequest
                                                                            object:viewController userInfo:nil];
             [[NSNotificationQueue defaultQueue] enqueueNotification:l_notification 
                                                        postingStyle:NSPostASAP
                                                        coalesceMask:NSNotificationNoCoalescing 
                                                            forModes:nil];
 //            NSLog(@" ");
-//            NSLog(@"IFA_k_NOTIFICATION_CONTEXT_SWITCH_REQUEST sent by %@", [self description]);
+//            NSLog(@"IFANotificationContextSwitchRequest sent by %@", [self description]);
             return NO;
         }
     }
@@ -137,7 +137,7 @@
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(oncontextSwitchRequestGrantedNotification:)
-                                                 name:IFA_k_NOTIFICATION_CONTEXT_SWITCH_REQUEST_GRANTED
+                                                 name:IFANotificationContextSwitchRequestGranted
                                                object:nil];
 
     return self;
@@ -146,7 +146,7 @@
 -(void)dealloc{
     
     // Remove observers
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFA_k_NOTIFICATION_CONTEXT_SWITCH_REQUEST_GRANTED
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationContextSwitchRequestGranted
                                                   object:nil];
 
 }

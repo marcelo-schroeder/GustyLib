@@ -43,7 +43,7 @@
     NSUInteger l_pageIndex = 0, l_pageSize = 0;
     switch (a_event) {
         case IFAPagingStateManagerEventShowFirstPage:
-            l_pageIndex = IFA_k_pagingPageIndexFirst;
+            l_pageIndex = IFAPagingPageIndexFirst;
             l_pageSize = self.pageSize;
             break;
         case IFAPagingStateManagerEventShowNextPage:
@@ -52,8 +52,8 @@
             l_pageSize = self.pageSize;
             break;
         case IFAPagingStateManagerEventShowAll:
-            l_pageIndex = IFA_k_pagingPageIndexFirst;
-            l_pageSize = IFA_k_pagingPageSizeAll;
+            l_pageIndex = IFAPagingPageIndexFirst;
+            l_pageSize = IFAPagingPageSizeAll;
             break;
         default:
             NSAssert(NO, @"Unexpected event: %u", a_event);

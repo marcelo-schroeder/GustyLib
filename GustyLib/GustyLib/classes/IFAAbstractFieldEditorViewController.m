@@ -92,7 +92,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IFAPresenter>
 - (void)viewDidLoad {
     [super viewDidLoad];
     if (![IFAUIUtils isIPad] && self.useButtonForDismissal) {
-        self.editButtonItem.tag = IFA_k_UIBAR_ITEM_TAG_EDIT_BUTTON;
+        self.editButtonItem.tag = IFABarItemTagEditButton;
         [self IFA_addRightBarButtonItem:[self editButtonItem]];
     }
 }

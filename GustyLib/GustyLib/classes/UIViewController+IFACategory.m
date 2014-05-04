@@ -241,7 +241,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     
     NSMutableArray *l_objectsToRemove = [NSMutableArray new];
     for (UIBarButtonItem *l_barButtonItem in a_items) {
-        if (l_barButtonItem.tag== IFA_k_UIBAR_ITEM_TAG_FIXED_SPACE_BUTTON) {
+        if (l_barButtonItem.tag== IFABarItemTagFixedSpaceButton) {
             [l_objectsToRemove addObject:l_barButtonItem];
         }
     }
@@ -263,7 +263,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
                     self.ifa_slidingMenuBarButtonItem = [[self IFA_appearanceTheme] slidingMenuBarButtonItemForViewController:self];
                     self.ifa_slidingMenuBarButtonItem.target = self;
                     self.ifa_slidingMenuBarButtonItem.action = @selector(ifa_onSlidingMenuButtonAction:);
-                    self.ifa_slidingMenuBarButtonItem.tag = IFA_k_UIBAR_ITEM_TAG_LEFT_SLIDING_PANE_BUTTON;
+                    self.ifa_slidingMenuBarButtonItem.tag = IFABarItemTagLeftSlidingPaneButton;
                 }
                 [self IFA_addToNavigationBarForSlidingMenuBarButtonItem:self.ifa_slidingMenuBarButtonItem];
             }
@@ -479,7 +479,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     UINavigationItem *l_navigationItem = [self IFA_navigationItem];
     NSMutableArray *l_leftBarButtonItems = [l_navigationItem.leftBarButtonItems mutableCopy];
 
-    BOOL l_fixedPositionItem = a_barButtonItem.tag== IFA_k_UIBAR_ITEM_TAG_BACK_BUTTON || a_barButtonItem.tag== IFA_k_UIBAR_ITEM_TAG_LEFT_SLIDING_PANE_BUTTON;
+    BOOL l_fixedPositionItem = a_barButtonItem.tag== IFABarItemTagBackButton || a_barButtonItem.tag== IFABarItemTagLeftSlidingPaneButton;
     if (![l_navigationItem.leftBarButtonItems containsObject:a_barButtonItem] || l_fixedPositionItem) {
         
         if (l_leftBarButtonItems) {
@@ -502,10 +502,10 @@ static char c_shouldUseKeyboardPassthroughViewKey;
             UIBarButtonItem *l_backBarButtonItem, *l_leftSlidingPane;
             for (UIBarButtonItem *l_barButtonItem in l_leftBarButtonItems) {
                 switch (l_barButtonItem.tag) {
-                    case IFA_k_UIBAR_ITEM_TAG_BACK_BUTTON:
+                    case IFABarItemTagBackButton:
                         l_backBarButtonItem = l_barButtonItem;
                         break;
-                    case IFA_k_UIBAR_ITEM_TAG_LEFT_SLIDING_PANE_BUTTON:
+                    case IFABarItemTagLeftSlidingPaneButton:
                         l_leftSlidingPane = l_barButtonItem;
                         break;
                     default:
@@ -875,7 +875,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 -(void)IFA_dealloc {
     
     // Remove observers
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFA_k_NOTIFICATION_MENU_BAR_BUTTON_ITEM_INVALIDATED
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationMenuBarButtonItemInvalidated
                                                   object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -919,7 +919,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     l_navigationItem.backBarButtonItem = l_backBarButtonItem;
     if (l_backBarButtonItem.customView && self.navigationController.topViewController==self && self.navigationController.viewControllers.count>1) {
         l_navigationItem.hidesBackButton = YES;
-        l_backBarButtonItem.tag = IFA_k_UIBAR_ITEM_TAG_BACK_BUTTON;
+        l_backBarButtonItem.tag = IFABarItemTagBackButton;
         l_backBarButtonItem.target = self;
         l_backBarButtonItem.action = @selector(ifa_popViewController);
         [self IFA_addLeftBarButtonItem:l_backBarButtonItem];
@@ -938,7 +938,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(ifa_onMenuBarButtonItemInvalidated:)
-                                                 name:IFA_k_NOTIFICATION_MENU_BAR_BUTTON_ITEM_INVALIDATED
+                                                 name:IFANotificationMenuBarButtonItemInvalidated
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(IFA_onApplicationWillEnterForegroundNotification:)
@@ -972,7 +972,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     //    NSLog(@"IFA_viewDidUnload: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
     
     // Remove observers
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFA_k_NOTIFICATION_MENU_BAR_BUTTON_ITEM_INVALIDATED
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationMenuBarButtonItemInvalidated
                                                   object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -1003,11 +1003,11 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(ifa_onAdsSuspendRequest:)
-                                                 name:IFA_k_NOTIFICATION_ADS_SUSPEND_REQUEST
+                                                 name:IFANotificationAdsSuspendRequest
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(ifa_onAdsResumeRequest:)
-                                                 name:IFA_k_NOTIFICATION_ADS_RESUME_REQUEST
+                                                 name:IFANotificationAdsResumeRequest
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(IFA_onKeyboardNotification:)
@@ -1085,8 +1085,8 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 //    NSLog(@"IFA_viewDidDisappear: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
         
     // Remove observers
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFA_k_NOTIFICATION_ADS_SUSPEND_REQUEST object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFA_k_NOTIFICATION_ADS_RESUME_REQUEST object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationAdsSuspendRequest object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationAdsResumeRequest object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
@@ -1543,7 +1543,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 //    NSLog(@"Processing right bar button items in %@...", [self description]);
     for (UIBarButtonItem *l_barButtonItem in self.navigationItem.rightBarButtonItems) {
 //        NSLog(@" l_barButtonItem: %@", [l_barButtonItem description]);
-        if (l_barButtonItem.tag== IFA_k_UIBAR_ITEM_TAG_HELP_BUTTON) {
+        if (l_barButtonItem.tag== IFABarItemTagHelpButton) {
 //            NSLog(@" help button ignored");
             continue;
         }

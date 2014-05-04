@@ -275,11 +275,11 @@
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(ifa_onAdsSuspendRequest:)
-                                                 name:IFA_k_NOTIFICATION_ADS_SUSPEND_REQUEST
+                                                 name:IFANotificationAdsSuspendRequest
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(ifa_onAdsResumeRequest:)
-                                                 name:IFA_k_NOTIFICATION_ADS_RESUME_REQUEST
+                                                 name:IFANotificationAdsResumeRequest
                                                object:nil];
 
     // Configure the app's window
@@ -360,8 +360,8 @@
     // Remove observers
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFA_k_NOTIFICATION_ADS_SUSPEND_REQUEST object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFA_k_NOTIFICATION_ADS_RESUME_REQUEST object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationAdsSuspendRequest object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationAdsResumeRequest object:nil];
 
 }
 
@@ -378,7 +378,7 @@
 
 -(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
 //    NSLog(@"didChangeAuthorizationStatus: %u", status);
-    NSNotification *notification = [NSNotification notificationWithName:IFA_k_NOTIFICATION_LOCATION_AUTHORIZATION_STATUS_CHANGE
+    NSNotification *notification = [NSNotification notificationWithName:IFANotificationLocationAuthorizationStatusChange
                                                                  object:nil userInfo:@{@"status" : @(status)}];
     [[NSNotificationQueue defaultQueue] enqueueNotification:notification
                                                postingStyle:NSPostASAP

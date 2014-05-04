@@ -94,7 +94,7 @@
     }else{
         l_barButtonItem = barButtonItem;
     }
-    l_barButtonItem.tag = IFA_k_UIBAR_ITEM_TAG_LEFT_SLIDING_PANE_BUTTON;
+    l_barButtonItem.tag = IFABarItemTagLeftSlidingPaneButton;
 
     // Manage bar button item visibility
     UIViewController *l_visibleDetailTopViewController = [self ifa_visibleDetailTopViewController];
@@ -114,7 +114,7 @@
 //    NSLog(@"willShowViewController");
     
     // Notify view controllers of invalidated menu button
-    [[NSNotificationCenter defaultCenter] postNotificationName:IFA_k_NOTIFICATION_MENU_BAR_BUTTON_ITEM_INVALIDATED
+    [[NSNotificationCenter defaultCenter] postNotificationName:IFANotificationMenuBarButtonItemInvalidated
                                                         object:self.splitViewControllerPopoverControllerBarButtonItem];
     
     // Reset saved details

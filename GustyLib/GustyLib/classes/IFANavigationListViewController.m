@@ -163,11 +163,11 @@
     [super viewDidLoad];
 	
     if (![[[IFAPersistenceManager sharedInstance] entityConfig] disallowUserAdditionForEntity:self.entityName]) {
-        self.addBarButtonItem = [IFAUIUtils barButtonItemForType:IFA_k_UIBAR_BUTTON_ITEM_ADD target:self
+        self.addBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemAdd target:self
                                                           action:@selector(onAddButtonTap:)];
     }
 
-    self.editButtonItem.tag = IFA_k_UIBAR_ITEM_TAG_EDIT_BUTTON;
+    self.editButtonItem.tag = IFABarItemTagEditButton;
     [self IFA_addRightBarButtonItem:self.editButtonItem];
     
 }
@@ -180,7 +180,7 @@
 -(void)setEditing:(BOOL)editing animated:(BOOL)animated{
     [super setEditing:editing animated:animated];
     [self showTipForEditing:editing];
-//    UIButton *l_helpButton = (UIButton*)[self.navigationController.view viewWithTag:IFA_k_UIVIEW_TAG_HELP_BUTTON];
+//    UIButton *l_helpButton = (UIButton*)[self.navigationController.view viewWithTag:IFAViewTagHelpButton];
 //    l_helpButton.enabled = !editing;
 }
 
