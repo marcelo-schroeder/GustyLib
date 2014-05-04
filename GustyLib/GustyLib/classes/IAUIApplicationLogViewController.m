@@ -37,7 +37,7 @@
 #pragma mark Overrides
 
 -(id)init{
-    return [super initWithEntityName:@"IAApplicationLog"];
+    return [super initWithEntityName:@"IFAApplicationLog"];
 }
 
 - (UITableViewCellStyle)tableViewCellStyle {
@@ -47,7 +47,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *l_cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     [[self IFA_appearanceTheme] setAppearanceForView:l_cell.detailTextLabel];
-    IAApplicationLog *l_logEntry = [self.entities objectAtIndex:indexPath.row];
+    IFAApplicationLog *l_logEntry = [self.entities objectAtIndex:indexPath.row];
     l_cell.detailTextLabel.text = l_logEntry.message;
     return l_cell;
 }

@@ -59,15 +59,15 @@
 // Main
 #import "IAConstants.h"
 #import "IAUtils.h"
-#import "IAAssertionUtils.h"
+#import "IFAAssertionUtils.h"
 #import "IADynamicCache.h"
 #import "IAPurgeableObject.h"
 #import "IADateRange.h"
-#import "IAAppTerminator.h"
+#import "IFAAppTerminator.h"
 #import "IAOperation.h"
 
 // Model - gen
-#import "IAApplicationLog.h"
+#import "IFAApplicationLog.h"
 #import "S_SystemEntity.h"
 
 // Protocols
@@ -85,7 +85,7 @@
 #import "IAUIDefaultAppearanceTheme.h"
 #import "IAUIInternalWebBrowserActivity.h"
 #import "IAUICollectionViewFlowLayout.h"
-#import "IAAnalyticsUtils.h"
+#import "IFAAnalyticsUtils.h"
 #import "IAUICollectionViewFetchedResultsControllerDelegate.h"
 #import "IACurrentLocationManager.h"
 #import "IASemaphoreManager.h"
@@ -120,7 +120,7 @@
 #import "IAUITextViewContainer.h"
 
 // Controllers
-#import "IAAsynchronousWorkManager.h"
+#import "IFAAsynchronousWorkManager.h"
 #import "IAUIViewController.h"
 #import "IAUISelectionManagerDelegate.h"
 #import "IAUISelectionManager.h"
@@ -165,7 +165,7 @@
 #import "NSManagedObject+IACategory.h"
 #import "NSDate+IACategory.h"
 #import "NSCalendar+IACategory.h"
-#import "IAApplicationLog+IACategory.h"
+#import "IFAApplicationLog+IFACategory.h"
 #import "UIViewController+IACategory.h"
 #import "UITableView+IACategory.h"
 #import "NSFileManager+IACategory.h"
@@ -188,5 +188,5 @@
 #import "IAMapAnnotation.h"
 #import "IAEnumerationEntity.h"
 #import "IAHtmlDocument.h"
-#import "IAAboutInfoModel.h"
+#import "IFAAboutInfoModel.h"
 #import "IAUIColorScheme.h"

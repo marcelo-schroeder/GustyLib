@@ -778,8 +778,8 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     }
 }
 
--(IAAsynchronousWorkManager*)IFA_asynchronousWorkManager {
-    return [IAAsynchronousWorkManager instance];
+-(IFAAsynchronousWorkManager *)IFA_asynchronousWorkManager {
+    return [IFAAsynchronousWorkManager instance];
 }
 
 -(void)IFA_dismissMenuPopoverController {
@@ -1592,7 +1592,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 -(void)IFA_logAnalyticsScreenEntry {
     if (![self IFA_isReturningVisibleViewController]) {
-        [IAAnalyticsUtils logEntryForScreenName:self.navigationItem.title];
+        [IFAAnalyticsUtils logEntryForScreenName:self.navigationItem.title];
     }
 }
 

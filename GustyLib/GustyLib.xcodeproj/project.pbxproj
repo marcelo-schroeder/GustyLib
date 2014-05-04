@@ -12,6 +12,13 @@
 		107388484ACBBFDCEEEDDA5B /* IAUICircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073880F8FF005725200AB57 /* IAUICircleView.m */; };
 		10738B2F77E76E5157F7127C /* IBActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073880E22DD848DC3C2AF53 /* IBActionSheet.m */; };
 		3C07EA814F2645A5BD5C2174 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF387BE31CA84C679F50890D /* libPods.a */; };
+		F7085C9A1915DEBE0089BA8E /* IFAAboutInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F7085C8D1915DEBE0089BA8E /* IFAAboutInfoModel.m */; };
+		F7085C9B1915DEBE0089BA8E /* IFAAnalyticsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F7085C8F1915DEBE0089BA8E /* IFAAnalyticsUtils.m */; };
+		F7085C9C1915DEBE0089BA8E /* IFAApplicationLog.m in Sources */ = {isa = PBXBuildFile; fileRef = F7085C911915DEBE0089BA8E /* IFAApplicationLog.m */; };
+		F7085C9D1915DEBE0089BA8E /* IFAApplicationLog+IFACategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F7085C931915DEBE0089BA8E /* IFAApplicationLog+IFACategory.m */; };
+		F7085C9E1915DEBE0089BA8E /* IFAAppTerminator.m in Sources */ = {isa = PBXBuildFile; fileRef = F7085C951915DEBE0089BA8E /* IFAAppTerminator.m */; };
+		F7085C9F1915DEBE0089BA8E /* IFAAssertionUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F7085C971915DEBE0089BA8E /* IFAAssertionUtils.m */; };
+		F7085CA01915DEBE0089BA8E /* IFAAsynchronousWorkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F7085C991915DEBE0089BA8E /* IFAAsynchronousWorkManager.m */; };
 		F766D2FE18ECA3A700B3B590 /* IAPagingStateManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F766D2FD18ECA3A700B3B590 /* IAPagingStateManagerTests.m */; };
 		F766D30118ECA3DC00B3B590 /* IAPagingStateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F766D30018ECA3DC00B3B590 /* IAPagingStateManager.m */; };
 		F766D33E18ECA71000B3B590 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F766D33D18ECA71000B3B590 /* CoreLocation.framework */; };
@@ -37,13 +44,6 @@
 		F7D4DB6E18EA0E6400ABF401 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DA3C18EA0E6300ABF401 /* MBProgressHUD.m */; };
 		F7D4DB6F18EA0E6400ABF401 /* SVModalWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DA4118EA0E6300ABF401 /* SVModalWebViewController.m */; };
 		F7D4DB7018EA0E6400ABF401 /* SVWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DA4318EA0E6300ABF401 /* SVWebViewController.m */; };
-		F7D4DB7118EA0E6400ABF401 /* IAAboutInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DA4518EA0E6300ABF401 /* IAAboutInfoModel.m */; };
-		F7D4DB7218EA0E6400ABF401 /* IAAnalyticsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DA4718EA0E6300ABF401 /* IAAnalyticsUtils.m */; };
-		F7D4DB7318EA0E6400ABF401 /* IAApplicationLog+IACategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DA4918EA0E6300ABF401 /* IAApplicationLog+IACategory.m */; };
-		F7D4DB7418EA0E6400ABF401 /* IAApplicationLog.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DA4B18EA0E6300ABF401 /* IAApplicationLog.m */; };
-		F7D4DB7518EA0E6400ABF401 /* IAAppTerminator.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DA4D18EA0E6300ABF401 /* IAAppTerminator.m */; };
-		F7D4DB7618EA0E6400ABF401 /* IAAssertionUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DA4F18EA0E6300ABF401 /* IAAssertionUtils.m */; };
-		F7D4DB7718EA0E6400ABF401 /* IAAsynchronousWorkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DA5118EA0E6300ABF401 /* IAAsynchronousWorkManager.m */; };
 		F7D4DB7818EA0E6400ABF401 /* IAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DA5418EA0E6300ABF401 /* IAConstants.m */; };
 		F7D4DB7918EA0E6400ABF401 /* IACurrentLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DA5618EA0E6300ABF401 /* IACurrentLocationManager.m */; };
 		F7D4DB7A18EA0E6400ABF401 /* IADateRange.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D4DA5818EA0E6300ABF401 /* IADateRange.m */; };
@@ -203,6 +203,20 @@
 		10738AFB0A6D95B36D4863FD /* NSURL+IACategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+IACategory.h"; sourceTree = "<group>"; };
 		10738CF5078176436AA71336 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		A03BC960480144A4ABDD6917 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		F7085C8C1915DEBE0089BA8E /* IFAAboutInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAAboutInfoModel.h; sourceTree = "<group>"; };
+		F7085C8D1915DEBE0089BA8E /* IFAAboutInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAAboutInfoModel.m; sourceTree = "<group>"; };
+		F7085C8E1915DEBE0089BA8E /* IFAAnalyticsUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAAnalyticsUtils.h; sourceTree = "<group>"; };
+		F7085C8F1915DEBE0089BA8E /* IFAAnalyticsUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAAnalyticsUtils.m; sourceTree = "<group>"; };
+		F7085C901915DEBE0089BA8E /* IFAApplicationLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAApplicationLog.h; sourceTree = "<group>"; };
+		F7085C911915DEBE0089BA8E /* IFAApplicationLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAApplicationLog.m; sourceTree = "<group>"; };
+		F7085C921915DEBE0089BA8E /* IFAApplicationLog+IFACategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IFAApplicationLog+IFACategory.h"; sourceTree = "<group>"; };
+		F7085C931915DEBE0089BA8E /* IFAApplicationLog+IFACategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IFAApplicationLog+IFACategory.m"; sourceTree = "<group>"; };
+		F7085C941915DEBE0089BA8E /* IFAAppTerminator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAAppTerminator.h; sourceTree = "<group>"; };
+		F7085C951915DEBE0089BA8E /* IFAAppTerminator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAAppTerminator.m; sourceTree = "<group>"; };
+		F7085C961915DEBE0089BA8E /* IFAAssertionUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAAssertionUtils.h; sourceTree = "<group>"; };
+		F7085C971915DEBE0089BA8E /* IFAAssertionUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAAssertionUtils.m; sourceTree = "<group>"; };
+		F7085C981915DEBE0089BA8E /* IFAAsynchronousWorkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAAsynchronousWorkManager.h; sourceTree = "<group>"; };
+		F7085C991915DEBE0089BA8E /* IFAAsynchronousWorkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAAsynchronousWorkManager.m; sourceTree = "<group>"; };
 		F7446BD119085FA9008345FA /* GustyLib.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = GustyLib.podspec; path = ../GustyLib.podspec; sourceTree = "<group>"; };
 		F766D2FD18ECA3A700B3B590 /* IAPagingStateManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPagingStateManagerTests.m; sourceTree = "<group>"; };
 		F766D2FF18ECA3DC00B3B590 /* IAPagingStateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPagingStateManager.h; sourceTree = "<group>"; };
@@ -249,20 +263,6 @@
 		F7D4DA4118EA0E6300ABF401 /* SVModalWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVModalWebViewController.m; sourceTree = "<group>"; };
 		F7D4DA4218EA0E6300ABF401 /* SVWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVWebViewController.h; sourceTree = "<group>"; };
 		F7D4DA4318EA0E6300ABF401 /* SVWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVWebViewController.m; sourceTree = "<group>"; };
-		F7D4DA4418EA0E6300ABF401 /* IAAboutInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAAboutInfoModel.h; sourceTree = "<group>"; };
-		F7D4DA4518EA0E6300ABF401 /* IAAboutInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAAboutInfoModel.m; sourceTree = "<group>"; };
-		F7D4DA4618EA0E6300ABF401 /* IAAnalyticsUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAAnalyticsUtils.h; sourceTree = "<group>"; };
-		F7D4DA4718EA0E6300ABF401 /* IAAnalyticsUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAAnalyticsUtils.m; sourceTree = "<group>"; };
-		F7D4DA4818EA0E6300ABF401 /* IAApplicationLog+IACategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IAApplicationLog+IACategory.h"; sourceTree = "<group>"; };
-		F7D4DA4918EA0E6300ABF401 /* IAApplicationLog+IACategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IAApplicationLog+IACategory.m"; sourceTree = "<group>"; };
-		F7D4DA4A18EA0E6300ABF401 /* IAApplicationLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAApplicationLog.h; sourceTree = "<group>"; };
-		F7D4DA4B18EA0E6300ABF401 /* IAApplicationLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAApplicationLog.m; sourceTree = "<group>"; };
-		F7D4DA4C18EA0E6300ABF401 /* IAAppTerminator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAAppTerminator.h; sourceTree = "<group>"; };
-		F7D4DA4D18EA0E6300ABF401 /* IAAppTerminator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAAppTerminator.m; sourceTree = "<group>"; };
-		F7D4DA4E18EA0E6300ABF401 /* IAAssertionUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAAssertionUtils.h; sourceTree = "<group>"; };
-		F7D4DA4F18EA0E6300ABF401 /* IAAssertionUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAAssertionUtils.m; sourceTree = "<group>"; };
-		F7D4DA5018EA0E6300ABF401 /* IAAsynchronousWorkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAAsynchronousWorkManager.h; sourceTree = "<group>"; };
-		F7D4DA5118EA0E6300ABF401 /* IAAsynchronousWorkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAAsynchronousWorkManager.m; sourceTree = "<group>"; };
 		F7D4DA5218EA0E6300ABF401 /* IACommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IACommon.h; sourceTree = "<group>"; };
 		F7D4DA5318EA0E6300ABF401 /* IAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAConstants.h; sourceTree = "<group>"; };
 		F7D4DA5418EA0E6300ABF401 /* IAConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAConstants.m; sourceTree = "<group>"; };
@@ -662,6 +662,20 @@
 		F7D4DA2418EA0E6300ABF401 /* classes */ = {
 			isa = PBXGroup;
 			children = (
+				F7085C8C1915DEBE0089BA8E /* IFAAboutInfoModel.h */,
+				F7085C8D1915DEBE0089BA8E /* IFAAboutInfoModel.m */,
+				F7085C8E1915DEBE0089BA8E /* IFAAnalyticsUtils.h */,
+				F7085C8F1915DEBE0089BA8E /* IFAAnalyticsUtils.m */,
+				F7085C901915DEBE0089BA8E /* IFAApplicationLog.h */,
+				F7085C911915DEBE0089BA8E /* IFAApplicationLog.m */,
+				F7085C921915DEBE0089BA8E /* IFAApplicationLog+IFACategory.h */,
+				F7085C931915DEBE0089BA8E /* IFAApplicationLog+IFACategory.m */,
+				F7085C941915DEBE0089BA8E /* IFAAppTerminator.h */,
+				F7085C951915DEBE0089BA8E /* IFAAppTerminator.m */,
+				F7085C961915DEBE0089BA8E /* IFAAssertionUtils.h */,
+				F7085C971915DEBE0089BA8E /* IFAAssertionUtils.m */,
+				F7085C981915DEBE0089BA8E /* IFAAsynchronousWorkManager.h */,
+				F7085C991915DEBE0089BA8E /* IFAAsynchronousWorkManager.m */,
 				F7D14FD3190715BE00F5124C /* IASlidingFrostedGlassViewController.h */,
 				F7D14FD4190715BE00F5124C /* IASlidingFrostedGlassViewController.m */,
 				F7D14FD5190715BE00F5124C /* NSIndexPath+IACategory.h */,
@@ -671,20 +685,6 @@
 				F766D2FF18ECA3DC00B3B590 /* IAPagingStateManager.h */,
 				F766D30018ECA3DC00B3B590 /* IAPagingStateManager.m */,
 				F7D4DA2518EA0E6300ABF401 /* 3rd party */,
-				F7D4DA4418EA0E6300ABF401 /* IAAboutInfoModel.h */,
-				F7D4DA4518EA0E6300ABF401 /* IAAboutInfoModel.m */,
-				F7D4DA4618EA0E6300ABF401 /* IAAnalyticsUtils.h */,
-				F7D4DA4718EA0E6300ABF401 /* IAAnalyticsUtils.m */,
-				F7D4DA4818EA0E6300ABF401 /* IAApplicationLog+IACategory.h */,
-				F7D4DA4918EA0E6300ABF401 /* IAApplicationLog+IACategory.m */,
-				F7D4DA4A18EA0E6300ABF401 /* IAApplicationLog.h */,
-				F7D4DA4B18EA0E6300ABF401 /* IAApplicationLog.m */,
-				F7D4DA4C18EA0E6300ABF401 /* IAAppTerminator.h */,
-				F7D4DA4D18EA0E6300ABF401 /* IAAppTerminator.m */,
-				F7D4DA4E18EA0E6300ABF401 /* IAAssertionUtils.h */,
-				F7D4DA4F18EA0E6300ABF401 /* IAAssertionUtils.m */,
-				F7D4DA5018EA0E6300ABF401 /* IAAsynchronousWorkManager.h */,
-				F7D4DA5118EA0E6300ABF401 /* IAAsynchronousWorkManager.m */,
 				F7D4DA5218EA0E6300ABF401 /* IACommon.h */,
 				F7D4DA5318EA0E6300ABF401 /* IAConstants.h */,
 				F7D4DA5418EA0E6300ABF401 /* IAConstants.m */,
@@ -1241,7 +1241,6 @@
 				F7D4DB8818EA0E6400ABF401 /* IAPreferencesManager.m in Sources */,
 				F7D4DB8618EA0E6400ABF401 /* IAPersistenceManager.m in Sources */,
 				F7D4DB7918EA0E6400ABF401 /* IACurrentLocationManager.m in Sources */,
-				F7D4DB7518EA0E6400ABF401 /* IAAppTerminator.m in Sources */,
 				F7D4DBB518EA0E6400ABF401 /* IAUIPageViewController.m in Sources */,
 				F7D4DB6D18EA0E6400ABF401 /* UIViewController+KNSemiModal.m in Sources */,
 				F7D4DB7B18EA0E6400ABF401 /* IADirectionsManager.m in Sources */,
@@ -1280,18 +1279,21 @@
 				F7D4DBEB18EA0E6400ABF401 /* UIViewController+IACategory.m in Sources */,
 				F7D4DB9018EA0E6400ABF401 /* IAUIAbstractSelectionListViewController.m in Sources */,
 				F7D4DB9518EA0E6400ABF401 /* IAUIApplicationLogViewController.m in Sources */,
-				F7D4DB7218EA0E6400ABF401 /* IAAnalyticsUtils.m in Sources */,
 				F7D4DB6B18EA0E6400ABF401 /* HPGrowingTextView.m in Sources */,
 				F7D4DBC218EA0E6400ABF401 /* IAUIStaticPagingContainerViewController.m in Sources */,
 				F7D4DB9918EA0E6400ABF401 /* IAUICollectionViewFlowLayout.m in Sources */,
+				F7085C9A1915DEBE0089BA8E /* IFAAboutInfoModel.m in Sources */,
 				F7D4DBEA18EA0E6400ABF401 /* UIView+IACategory.m in Sources */,
 				F7D4DBDF18EA0E6400ABF401 /* UIBarButtonItem+IACategory.m in Sources */,
-				F7D4DB7318EA0E6400ABF401 /* IAApplicationLog+IACategory.m in Sources */,
+				F7085C9C1915DEBE0089BA8E /* IFAApplicationLog.m in Sources */,
 				F7D4DB6C18EA0E6400ABF401 /* HPTextViewInternal.m in Sources */,
+				F7085C9F1915DEBE0089BA8E /* IFAAssertionUtils.m in Sources */,
 				F7D4DBDE18EA0E6400ABF401 /* S_SystemEntity.m in Sources */,
 				F7D4DBAF18EA0E6400ABF401 /* IAUIMenuViewController.m in Sources */,
+				F7085CA01915DEBE0089BA8E /* IFAAsynchronousWorkManager.m in Sources */,
 				F7D4DBA518EA0E6400ABF401 /* IAUIGridViewController.m in Sources */,
 				F7D4DBDB18EA0E6400ABF401 /* NSNumberFormatter+IACategory.m in Sources */,
+				F7085C9D1915DEBE0089BA8E /* IFAApplicationLog+IFACategory.m in Sources */,
 				F7D4DBBB18EA0E6400ABF401 /* IAUISegmentedControlTableViewCell.m in Sources */,
 				F7D4DBCA18EA0E6400ABF401 /* IAUITextField.m in Sources */,
 				F7D14FDB190715BE00F5124C /* UITableViewController+IADynamicCellHeight.m in Sources */,
@@ -1304,16 +1306,15 @@
 				F7D14FDA190715BE00F5124C /* NSIndexPath+IACategory.m in Sources */,
 				F7D4DBAD18EA0E6400ABF401 /* IAUIManagedFormViewController.m in Sources */,
 				F7D4DBB018EA0E6400ABF401 /* IAUIModalViewController.m in Sources */,
+				F7085C9E1915DEBE0089BA8E /* IFAAppTerminator.m in Sources */,
 				F7D4DBC118EA0E6400ABF401 /* IAUISplitViewController.m in Sources */,
 				F7D4DBA018EA0E6400ABF401 /* IAUIFetchedResultsTableViewController.m in Sources */,
 				F7D4DBAB18EA0E6400ABF401 /* IAUIListViewController.m in Sources */,
-				F7D4DB7718EA0E6400ABF401 /* IAAsynchronousWorkManager.m in Sources */,
 				F7D4DBB818EA0E6400ABF401 /* IAUIPinAnnotationView.m in Sources */,
 				F7D4DBE618EA0E6400ABF401 /* UIScrollView+IACategory.m in Sources */,
 				F7D4DBA318EA0E6400ABF401 /* IAUIFormTextFieldTableViewCell.m in Sources */,
 				F7D4DB7C18EA0E6400ABF401 /* IADynamicCache.m in Sources */,
 				F7D4DB8018EA0E6400ABF401 /* IAExternalUrlManager.m in Sources */,
-				F7D4DB7118EA0E6400ABF401 /* IAAboutInfoModel.m in Sources */,
 				F7D4DB8C18EA0E6400ABF401 /* IAUIAboutViewController.m in Sources */,
 				F7D4DBCB18EA0E6400ABF401 /* IAUITextViewContainer.m in Sources */,
 				F7D4DB9B18EA0E6400ABF401 /* IAUICustomLayoutSupport.m in Sources */,
@@ -1331,7 +1332,6 @@
 				F7D4DBBA18EA0E6400ABF401 /* IAUISegmentedControl.m in Sources */,
 				F7D4DBEC18EA0E6400ABF401 /* UIWebView+IACategory.m in Sources */,
 				F7D4DBCD18EA0E6400ABF401 /* IAUIThirdPartyCodeCreditsViewController.m in Sources */,
-				F7D4DB7418EA0E6400ABF401 /* IAApplicationLog.m in Sources */,
 				F7D4DB9318EA0E6400ABF401 /* IAUIAppearanceThemeManager.m in Sources */,
 				F7D4DBA118EA0E6400ABF401 /* IAUIFormNumberFieldTableViewCell.m in Sources */,
 				F7D4DBBF18EA0E6400ABF401 /* IAUISliderTableViewCell.m in Sources */,
@@ -1342,7 +1342,6 @@
 				F7D4DBE418EA0E6400ABF401 /* UIImage+IACategory.m in Sources */,
 				F7D4DB6E18EA0E6400ABF401 /* MBProgressHUD.m in Sources */,
 				F7D4DBE718EA0E6400ABF401 /* UIStoryboard+IACategory.m in Sources */,
-				F7D4DB7618EA0E6400ABF401 /* IAAssertionUtils.m in Sources */,
 				F7D4DBA818EA0E6400ABF401 /* IAUIHelpTargetView.m in Sources */,
 				F7D4DB8118EA0E6400ABF401 /* IAHelpManager.m in Sources */,
 				F7D4DBB318EA0E6400ABF401 /* IAUINavigationItemTitleView.m in Sources */,
@@ -1365,6 +1364,7 @@
 				107388484ACBBFDCEEEDDA5B /* IAUICircleView.m in Sources */,
 				107381D9C57977A1D2826BC0 /* NSURL+IACategory.m in Sources */,
 				1073879C9EAD555138113DCD /* NSDictionary+IACategory.m in Sources */,
+				F7085C9B1915DEBE0089BA8E /* IFAAnalyticsUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

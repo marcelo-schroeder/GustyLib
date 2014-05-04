@@ -1,5 +1,5 @@
 //
-//  IAAsynchronousWorkManager.m
+//  IFAAsynchronousWorkManager.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 19/04/11.
@@ -20,7 +20,7 @@
 
 #import "IACommon.h"
 
-@interface IAAsynchronousWorkManager (){
+@interface IFAAsynchronousWorkManager (){
 }
 
 @property (strong) NSOperationQueue *ifa_operationQueue;
@@ -39,7 +39,7 @@
 
 @end
 
-@implementation IAAsynchronousWorkManager{
+@implementation IFAAsynchronousWorkManager {
     
 }
 
@@ -333,9 +333,9 @@ usePrivateManagedObjectContext:a_usePrivateManagedObjectContext];
 
 #pragma mark - Singleton functions
 
-+ (IAAsynchronousWorkManager*)instance {
++ (IFAAsynchronousWorkManager *)instance {
     static dispatch_once_t c_dispatchOncePredicate;
-    static IAAsynchronousWorkManager *c_instance = nil;
+    static IFAAsynchronousWorkManager *c_instance = nil;
     dispatch_once(&c_dispatchOncePredicate, ^{
         c_instance = [[self alloc] initAsSharedInstance];
     });

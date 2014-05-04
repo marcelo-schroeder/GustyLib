@@ -1,5 +1,5 @@
 //
-//  IAApplicationLog.h
+//  IFAApplicationLog.h
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 16/06/11.
@@ -22,7 +22,7 @@
 #import <CoreData/CoreData.h>
 
 
-@interface IAApplicationLog : NSManagedObject {
+@interface IFAApplicationLog : NSManagedObject {
 @private
 }
 @property (nonatomic, strong) NSNumber * isError;

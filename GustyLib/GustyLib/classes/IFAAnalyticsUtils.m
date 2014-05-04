@@ -1,5 +1,5 @@
 //
-//  IAAnalyticsUtils.h
+//  IFAAnalyticsUtils.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 22/02/13.
@@ -18,10 +18,16 @@
 //  limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+#import "IACommon.h"
 
-@interface IAAnalyticsUtils : NSObject
+@implementation IFAAnalyticsUtils {
+    
+}
 
-+(void)logEntryForScreenName:(NSString*)a_screenName;
+#pragma mark - Public
+
++(void)logEntryForScreenName:(NSString*)a_screenName{
+    [Flurry logEvent:@"screenEntry" withParameters:@{@"name":a_screenName}];
+}
 
 @end

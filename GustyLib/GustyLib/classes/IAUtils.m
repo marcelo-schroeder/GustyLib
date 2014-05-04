@@ -115,7 +115,7 @@
                  error:(NSError*)a_error 
              showAlert:(BOOL)a_showAlert{
 //    NSLog(@"%@ - %@", a_title, a_message);
-    IAApplicationLog *dbLogEntry = (IAApplicationLog*) [[IAPersistenceManager sharedInstance] instantiate:@"IAApplicationLog"];
+    IFAApplicationLog *dbLogEntry = (IFAApplicationLog *) [[IAPersistenceManager sharedInstance] instantiate:@"IFAApplicationLog"];
     dbLogEntry.date = [NSDate date];
     dbLogEntry.title = a_title;
     dbLogEntry.message = a_message;

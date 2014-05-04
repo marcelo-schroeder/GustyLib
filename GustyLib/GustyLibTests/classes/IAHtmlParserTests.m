@@ -246,10 +246,10 @@ typedef void (^IAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_na
     IAHtmlParser *l_htmlParser = [IAHtmlParser new];
     void (^l_endElementBlock)(IAHtmlElementParsingContext *) =
             ^(IAHtmlElementParsingContext *a_parsingContext) {
-                IAHtmlElementParsingMetadata *l_elementMetadata = a_parsingContext.p_elementMetadata;
-                NSString *l_name = l_elementMetadata.p_name;
-                NSDictionary *l_attributes = l_elementMetadata.p_attributes;
-                NSString *l_stringRepresentation = l_elementMetadata.p_stringRepresentation;
+                IAHtmlElementParsingMetadata *l_elementMetadata = a_parsingContext.elementMetadata;
+                NSString *l_name = l_elementMetadata.name;
+                NSDictionary *l_attributes = l_elementMetadata.attributes;
+                NSString *l_stringRepresentation = l_elementMetadata.stringRepresentation;
                 NSLog(@"l_name: %@, l_attributes: %@, string: %@", l_name, [l_attributes description], l_stringRepresentation);
                 [l_elementNames addObject:l_name];
                 [l_elementStringRepresentations addObject:l_stringRepresentation];

@@ -1,5 +1,5 @@
 //
-//  IAApplicationLog+IACategory.m
+//  IFAApplicationLog+IACategory.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 6/05/11.
@@ -21,7 +21,7 @@
 #import "IACommon.h"
 
 
-@implementation IAApplicationLog (IACategory)
+@implementation IFAApplicationLog (IFACategory)
 
 - (NSString*)IFA_displayValue {
     NSDateFormatter *l_dateFormatter = [[NSDateFormatter alloc] init];

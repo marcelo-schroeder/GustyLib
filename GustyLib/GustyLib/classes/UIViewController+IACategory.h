@@ -23,7 +23,7 @@
 #import "IAHelpManager.h"
 #import "CoreData/CoreData.h"
 
-@class IAAsynchronousWorkManager;
+@class IFAAsynchronousWorkManager;
 @class IAUINavigationItemTitleView;
 @class ODRefreshControl;
 
@@ -38,7 +38,7 @@
 @property (nonatomic, readonly) BOOL IFA_needsToolbar;
 @property (nonatomic, readonly) BOOL IFA_helpMode;
 @property (nonatomic, readonly) BOOL IFA_changesMadeByPresentedViewController;
-@property (nonatomic, readonly) IAAsynchronousWorkManager *IFA_asynchronousWorkManager;
+@property (nonatomic, readonly) IFAAsynchronousWorkManager *IFA_asynchronousWorkManager;
 @property (nonatomic) id<IAUIPresenter> IFA_presenter;
 @property (nonatomic, strong, readonly) UIPopoverController *IFA_activePopoverController;
 @property (nonatomic, strong, readonly) UIBarButtonItem *IFA_activePopoverControllerBarButtonItem;

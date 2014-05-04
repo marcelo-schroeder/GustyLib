@@ -28,6 +28,9 @@
     <content url="file://$MODULE_DIR$/Pods">
       <sourceFolder url="file://$MODULE_DIR$/Pods" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../IFATestingSupport/IFATestingSupport_development">
+      <sourceFolder url="file://$MODULE_DIR$/../../IFATestingSupport/IFATestingSupport_development" isTestSource="false" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

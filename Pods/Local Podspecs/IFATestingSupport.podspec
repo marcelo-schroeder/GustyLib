@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
     s.platform      = :ios, '7.0'
     s.source        = { :git => 'https://bitbucket.org/marcelo_schroeder/ifatestingsupport.git', :tag => '0.1.0' }
     s.source_files  = 'IFATestingSupport/**/*.{h,m}'
-    s.frameworks    = 'XCTest'
+    s.frameworks    = 'XCTest', 'CoreGraphics'
     s.requires_arc  = true
     s.dependency 'OCHamcrest'
     s.dependency 'OCMock'

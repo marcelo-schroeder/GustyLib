@@ -1,9 +1,9 @@
 //
-//  IAAnalyticsUtils.m
+//  IFAAppTerminator.m
 //  Gusty
 //
-//  Created by Marcelo Schroeder on 22/02/13.
-//  Copyright (c) 2013 InfoAccent Pty Limited. All rights reserved.
+//  Created by Marcelo Schroeder on 7/01/11.
+//  Copyright 2011 InfoAccent Pty Limited. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -20,14 +20,11 @@
 
 #import "IACommon.h"
 
-@implementation IAAnalyticsUtils{
-    
-}
 
-#pragma mark - Public
+@implementation IFAAppTerminator
 
-+(void)logEntryForScreenName:(NSString*)a_screenName{
-    [Flurry logEvent:@"screenEntry" withParameters:@{@"name":a_screenName}];
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+	exit(-1);  //TODO: is that it? are we losing important info here?
 }
 
 @end

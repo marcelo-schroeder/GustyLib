@@ -1,9 +1,9 @@
 //
-//  IAAppTerminator.m
+//  IFAApplicationLog.m
 //  Gusty
 //
-//  Created by Marcelo Schroeder on 7/01/11.
-//  Copyright 2011 InfoAccent Pty Limited. All rights reserved.
+//  Created by Marcelo Schroeder on 16/06/11.
+//  Copyright (c) 2011 InfoAccent Pty Limited. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -18,13 +18,19 @@
 //  limitations under the License.
 //
 
-#import "IACommon.h"
+#import "IFAApplicationLog.h"
 
 
-@implementation IAAppTerminator
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-	exit(-1);  //TODO: is that it? are we losing important info here?
-}
+@implementation IFAApplicationLog
+@dynamic isError;
+@dynamic longitude;
+@dynamic horizontalAccuracy;
+@dynamic errorDescription;
+@dynamic title;
+@dynamic message;
+@dynamic latitude;
+@dynamic date;
+@dynamic isLocationAware;
+@dynamic errorCode;
 
 @end

@@ -1,9 +1,9 @@
 //
-//  IAAssertionUtils.m
+//  IAAboutInfo.m
 //  Gusty
 //
-//  Created by Marcelo Schroeder on 6/07/10.
-//  Copyright 2010 InfoAccent Pty Limited. All rights reserved.
+//  Created by Marcelo Schroeder on 20/09/12.
+//  Copyright (c) 2012 InfoAccent Pty Limited. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -18,9 +18,8 @@
 //  limitations under the License.
 //
 
-#import "IACommon.h"
+#import "IFAAboutInfoModel.h"
 
-
-@implementation IAAssertionUtils
+@implementation IFAAboutInfoModel
 
 @end

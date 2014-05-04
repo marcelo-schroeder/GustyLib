@@ -64,7 +64,7 @@
     if (self=[super initWithCoder:aDecoder]) {
         
         // Populate model object
-        IAAboutInfoModel *l_model = [IAAboutInfoModel new];
+        IFAAboutInfoModel *l_model = [IFAAboutInfoModel new];
         l_model.edition = [IAUtils appEdition];
         l_model.version = [IAUtils appVersionAndBuildNumber];
         NSArray *l_appCreators = [[IAUtils infoPList] objectForKey:@"IAAppCreators"];

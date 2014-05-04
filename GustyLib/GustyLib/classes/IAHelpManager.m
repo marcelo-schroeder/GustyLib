@@ -753,7 +753,7 @@
 
         [self ifa_addHelpTargets];
 
-        [IAAnalyticsUtils logEntryForScreenName:@"Help"];
+        [IFAAnalyticsUtils logEntryForScreenName:@"Help"];
         
     }else{
 

@@ -1,5 +1,5 @@
 //
-//  IAAssertionUtils.h
+//  IFAAssertionUtils.h
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 6/07/10.
@@ -62,7 +62,7 @@
 #define AssertNotNull(OBJ) NSAssert1(OBJ!=NULL,@"%s is NULL",#OBJ)
 #define AssertTrue NSParameterAssert
 
-@interface IAAssertionUtils : NSObject {
+@interface IFAAssertionUtils : NSObject {
 
 }
 

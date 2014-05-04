@@ -1,5 +1,5 @@
 //
-//  IAAsynchronousWorkManager.h
+//  IFAAsynchronousWorkManager.h
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 19/04/11.
@@ -18,13 +18,13 @@
 //  limitations under the License.
 //
 
-@interface IAAsynchronousWorkManager : NSObject
+@interface IFAAsynchronousWorkManager : NSObject
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 @property (readonly) BOOL areAllBlocksCancelled;
 
-+ (IAAsynchronousWorkManager*)instance;
++ (IFAAsynchronousWorkManager *)instance;
 
 -(void)showNonModalProgressIndicatorInView:(UIView*)a_view;
 -(void)showNonModalProgressIndicator;
