@@ -68,7 +68,7 @@
 
 // Model - gen
 #import "IFAApplicationLog.h"
-#import "S_SystemEntity.h"
+#import "IFASystemEntity.h"
 
 // Protocols
 #import "IFADynamicPagingContainerViewControllerDataSource.h"

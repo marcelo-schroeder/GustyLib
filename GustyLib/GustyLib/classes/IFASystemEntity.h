@@ -1,5 +1,5 @@
 //
-//  S_SystemEntity.h
+//  IFASystemEntity.h
 //  TimeNBill
 //
 //  Created by Marcelo Schroeder on 16/06/11.
@@ -22,7 +22,7 @@
 #import <CoreData/CoreData.h>
 
 
-@interface S_SystemEntity : NSManagedObject {
+@interface IFASystemEntity : NSManagedObject {
 @private
 }
 @property (nonatomic, strong) NSNumber * systemEntityId;

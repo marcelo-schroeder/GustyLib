@@ -162,8 +162,8 @@
             
             id l_displayValue = a_value;
             if ([a_value isKindOfClass:[NSManagedObject class]]) {
-                if ([a_value isKindOfClass:[S_SystemEntity class]]) {
-                    l_displayValue = ((S_SystemEntity*)a_value).systemEntityId;
+                if ([a_value isKindOfClass:[IFASystemEntity class]]) {
+                    l_displayValue = ((IFASystemEntity *)a_value).systemEntityId;
                 }else{
                     l_displayValue = ((NSManagedObject*)a_value).IFA_stringId;
                 }

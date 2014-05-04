@@ -1,5 +1,5 @@
 //
-//  S_SystemEntity.m
+//  IFASystemEntity.m
 //  TimeNBill
 //
 //  Created by Marcelo Schroeder on 16/06/11.
@@ -18,10 +18,10 @@
 //  limitations under the License.
 //
 
-#import "S_SystemEntity.h"
+#import "IFASystemEntity.h"
 
 
-@implementation S_SystemEntity
+@implementation IFASystemEntity
 @dynamic systemEntityId;
 @dynamic name;
 @dynamic systemUseOnly;

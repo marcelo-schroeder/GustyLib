@@ -1094,7 +1094,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
                     NSLog(@"Row: %@", [l_row description]);
                     NSNumber *l_systemEntityId = [l_row valueForKey:@"systemEntityId"];
                     NSLog(@"  Checking if system entity instance with id %u already exists...", [l_systemEntityId unsignedIntegerValue]);
-                    S_SystemEntity *l_systemEntity = (S_SystemEntity*)[[IFAPersistenceManager sharedInstance] findSystemEntityById:[l_systemEntityId unsignedIntegerValue] entity:l_entityName];
+                    IFASystemEntity *l_systemEntity = (IFASystemEntity *)[[IFAPersistenceManager sharedInstance] findSystemEntityById:[l_systemEntityId unsignedIntegerValue] entity:l_entityName];
                     NSNumber *l_activeIndicator = [l_row objectForKey:@"active"];
                     BOOL l_isActive = l_activeIndicator ? [l_activeIndicator boolValue] : YES;
                     if (l_systemEntity) {
@@ -1109,7 +1109,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
                         NSLog(@"  Entity instance does NOT exist");
                         if (l_isActive) {
                             NSLog(@"    Entity instance will be created");
-                            l_systemEntity = (S_SystemEntity*) [[IFAPersistenceManager sharedInstance] instantiate:l_entityName];
+                            l_systemEntity = (IFASystemEntity *) [[IFAPersistenceManager sharedInstance] instantiate:l_entityName];
                         }else{
                             NSLog(@"    Entity instance will NOT be created (not active)");
                         }
