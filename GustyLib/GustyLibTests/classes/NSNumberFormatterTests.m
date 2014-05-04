@@ -18,7 +18,7 @@
 //
 
 #import "IFACommonTests.h"
-#import "NSNumberFormatter+IACategory.h"
+#import "NSNumberFormatter+IFACategory.h"
 
 @interface NSNumberFormatterTests : XCTestCase
 @end

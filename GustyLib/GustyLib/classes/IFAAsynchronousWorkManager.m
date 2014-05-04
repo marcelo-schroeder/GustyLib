@@ -18,16 +18,16 @@
 //  limitations under the License.
 //
 
-#import "IACommon.h"
+#import "IFACommon.h"
 
 @interface IFAAsynchronousWorkManager (){
 }
 
 @property (strong) NSOperationQueue *ifa_operationQueue;
 @property (strong) NSOperation *ifa_operation;
-@property (strong) IAUIWorkInProgressModalViewManager *ifa_wipViewManager;
+@property (strong) IFAWorkInProgressModalViewManager *ifa_wipViewManager;
 @property (strong) id ifa_callbackObject;
-@property (strong) MBProgressHUD *ifa_hud;
+@property (strong) IFA_MBProgressHUD *ifa_hud;
 @property (strong) NSString *ifa_nonModalProgressIndicatorOwnerUuid;
 @property (strong) NSString *ifa_cancelAllBlocksRequestOwnerUuid;
 
@@ -53,7 +53,7 @@
     // Remove KVO observers
     [self.ifa_operation removeObserver:self forKeyPath:@"isFinished"];
     if (self.ifa_showProgressIndicator) {
-        if ([self.ifa_operation isKindOfClass:[IAOperation class]]) {
+        if ([self.ifa_operation isKindOfClass:[IFAOperation class]]) {
             [self.ifa_operation removeObserver:self forKeyPath:@"determinateProgress"];
             [self.ifa_operation removeObserver:self forKeyPath:@"determinateProgressPercentage"];
             [self.ifa_operation removeObserver:self forKeyPath:@"progressMessage"];
@@ -120,7 +120,7 @@
     @synchronized(self){
 //        NSLog(@"m_showNonModalProgressIndicatorForOwner in view: %@", [a_view description]);
         if (!self.ifa_hud) {
-            self.ifa_hud = [[MBProgressHUD alloc] initWithView:a_view];
+            self.ifa_hud = [[IFA_MBProgressHUD alloc] initWithView:a_view];
             self.ifa_hud.opacity = 0.2;
             self.ifa_hud.removeFromSuperViewOnHide = YES;
             self.ifa_hud.animationType = MBProgressHUDAnimationFade;
@@ -134,7 +134,7 @@
 }
 
 -(void)showNonModalProgressIndicator {
-    [self showNonModalProgressIndicatorInView:[IAUIUtils nonModalHudContainerView]];
+    [self showNonModalProgressIndicatorInView:[IFAUIUtils nonModalHudContainerView]];
 }
 
 -(void)hideNonModalProgressIndicatorWithAnimation:(BOOL)a_animate{
@@ -171,7 +171,7 @@
     
     // Add observers for tracking progress
     if (self.ifa_showProgressIndicator) {
-        if ([self.ifa_operation isKindOfClass:[IAOperation class]]) {
+        if ([self.ifa_operation isKindOfClass:[IFAOperation class]]) {
             [self.ifa_operation addObserver:self forKeyPath:@"determinateProgress" options:0 context:nil];
             [self.ifa_operation addObserver:self forKeyPath:@"determinateProgressPercentage" options:0 context:nil];
             [self.ifa_operation addObserver:self forKeyPath:@"progressMessage" options:0 context:nil];
@@ -182,18 +182,18 @@
     if (self.ifa_showProgressIndicator) {
         NSString *l_message = nil;
         BOOL l_allowCancellation = NO;
-        if ([self.ifa_operation isKindOfClass:[IAOperation class]]) {
-            IAOperation *l_operation = ((IAOperation*)a_operation);
+        if ([self.ifa_operation isKindOfClass:[IFAOperation class]]) {
+            IFAOperation *l_operation = ((IFAOperation *)a_operation);
             l_message = l_operation.progressMessage;
             l_allowCancellation = l_operation.allowCancellation;
         }
         if (l_allowCancellation) {
-            self.ifa_wipViewManager = [[IAUIWorkInProgressModalViewManager alloc] initWithCancellationCallbackReceiver:self
+            self.ifa_wipViewManager = [[IFAWorkInProgressModalViewManager alloc] initWithCancellationCallbackReceiver:self
                                                                                         cancellationCallbackSelector:@selector(cancelAllOperations)
                                                                                         cancellationCallbackArgument:nil
                                                                                                              message:l_message];
         }else{
-            self.ifa_wipViewManager = [[IAUIWorkInProgressModalViewManager alloc] initWithMessage:l_message];
+            self.ifa_wipViewManager = [[IFAWorkInProgressModalViewManager alloc] initWithMessage:l_message];
         }
         [self.ifa_wipViewManager showView];
     }
@@ -223,7 +223,7 @@
 -(void)dispatchSerialBlock:(dispatch_block_t)a_block showProgressIndicator:(BOOL)a_showProgressIndicator
       cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks{
     [self  dispatchSerialBlock:a_block
-progressIndicatorContainerView:a_showProgressIndicator ? [IAUIUtils nonModalHudContainerView] : nil
+progressIndicatorContainerView:a_showProgressIndicator ? [IFAUIUtils nonModalHudContainerView] : nil
           cancelPreviousBlocks:a_cancelPreviousBlocks];
 }
 
@@ -238,7 +238,7 @@ progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView
           cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks usePrivateManagedObjectContext:(BOOL)a_usePrivateManagedObjectContext{
     
     // Generate a UUID to identify this block
-    NSString *l_blockUuid = [IAUtils generateUuid];
+    NSString *l_blockUuid = [IFAUtils generateUuid];
     
     // Cancel previous blocks if required
     if (a_cancelPreviousBlocks) {
@@ -284,7 +284,7 @@ progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView
 
         // Hide progress indicator if required
         if (a_progressIndicatorContainerView && [self.ifa_nonModalProgressIndicatorOwnerUuid isEqualToString:l_blockUuid]) {
-            [IAUtils dispatchAsyncMainThreadBlock:^{
+            [IFAUtils dispatchAsyncMainThreadBlock:^{
                 [self hideNonModalProgressIndicatorWithAnimation:YES];
             }];
 //            NSLog(@"m_hideNonModalProgressIndicator scheduled for UUID %@", l_blockUuid);
@@ -349,12 +349,12 @@ usePrivateManagedObjectContext:a_usePrivateManagedObjectContext];
     if (self=[super init]) {
 
         self.ifa_operationQueue = [[NSOperationQueue alloc] init];
-        NSString *l_mainSerialDispatchQueueId = [NSString stringWithFormat:@"com.infoaccent.IAAsynchronousOperationManager.mainSerialDispatchQueue.%@", [IAUtils generateUuid]];
+        NSString *l_mainSerialDispatchQueueId = [NSString stringWithFormat:@"com.infoaccent.IAAsynchronousOperationManager.mainSerialDispatchQueue.%@", [IFAUtils generateUuid]];
 //        NSLog(@"l_mainSerialDispatchQueueId: %@", l_mainSerialDispatchQueueId);
         self.ifa_mainSerialDispatchQueue = dispatch_queue_create([l_mainSerialDispatchQueueId UTF8String], DISPATCH_QUEUE_SERIAL);
         
         // Set default managed object context for this work manager's threads
-        self.managedObjectContext = [IAPersistenceManager sharedInstance].privateQueueManagedObjectContext;
+        self.managedObjectContext = [IFAPersistenceManager sharedInstance].privateQueueManagedObjectContext;
 
     }
 

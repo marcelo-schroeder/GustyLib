@@ -18,7 +18,7 @@
 //
 
 #import "IFACommonTests.h"
-#import "NSString+IACategory.h"
+#import "NSString+IFACategory.h"
 
 @interface NSStringTests : XCTestCase
 @end

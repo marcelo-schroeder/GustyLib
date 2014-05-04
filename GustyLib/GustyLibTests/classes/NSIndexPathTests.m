@@ -18,7 +18,7 @@
 //
 
 #import "IFACommonTests.h"
-#import "NSIndexPath+IACategory.h"
+#import "NSIndexPath+IFACategory.h"
 
 @interface NSIndexPathTests : XCTestCase
 @end

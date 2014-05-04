@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "IACommon.h"
+#import "IFACommon.h"
 
 @implementation IFAAnalyticsUtils {
     

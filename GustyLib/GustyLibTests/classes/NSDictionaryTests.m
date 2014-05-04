@@ -6,7 +6,7 @@
 //
 
 #import "IFACommonTests.h"
-#import "NSDictionary+IACategory.h"
+#import "NSDictionary+IFACategory.h"
 
 @interface NSDictionaryTests : XCTestCase 
 @end
