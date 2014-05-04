@@ -1154,6 +1154,7 @@
 		F7D4D82B18EA00E600ABF401 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = IFA;
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "InfoAccent Pty Ltd";
 			};
