@@ -19,10 +19,6 @@
 //
 
 @interface IFATabBarController : UITabBarController <UITabBarControllerDelegate> {
-    
-    @private
-    UIViewController *v_previousViewController;
-    
 }
 
 @end

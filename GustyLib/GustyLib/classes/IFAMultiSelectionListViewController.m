@@ -31,7 +31,21 @@ enum {
 
 @end
 
-@implementation IFAMultiSelectionListViewController
+@implementation IFAMultiSelectionListViewController{
+
+@private
+    NSString *v_destinationEntityName;
+    NSArray *v_destinationEntities;
+    NSMutableArray *v_selectedDestinationEntities;
+    NSMutableArray *v_unselectedDestinationEntities;
+    NSString *v_originRelationshipName;
+    NSString *v_destinationRelationshipName;
+    UIBarButtonItem *v_selectAllButtonItem;
+    UIBarButtonItem *v_flexSpaceButtonItem;
+    NSMutableArray *v_originalSortedEntities;
+    BOOL v_isJoinEntity;
+
+}
 
 #pragma mark - Private
 

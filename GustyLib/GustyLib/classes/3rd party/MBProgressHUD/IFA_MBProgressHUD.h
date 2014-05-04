@@ -115,7 +115,7 @@ typedef enum {
 	
 	CGAffineTransform rotationTransform;
     
-    UIView *v_userInteractionView;
+    UIView *userInteractionView;
 
 }
 

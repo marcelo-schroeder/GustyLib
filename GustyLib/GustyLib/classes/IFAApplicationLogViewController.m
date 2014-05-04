@@ -21,7 +21,13 @@
 #import "IFACommon.h"
 
 
-@implementation IFAApplicationLogViewController
+@implementation IFAApplicationLogViewController{
+
+@private
+    UIBarButtonItem *v_deleteAllButton;
+    UIBarButtonItem *v_refreshButton;
+
+}
 
 #pragma mark -
 #pragma mark Private

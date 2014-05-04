@@ -68,7 +68,7 @@
 @synthesize showStarted;
 
 - (UIView*)userInteractionView {
-    return v_userInteractionView;
+    return userInteractionView;
 }
 
 -(void)setModeInternal:(NSNumber*)l_modeNumber{
@@ -321,9 +321,9 @@
 		taskInProgress = NO;
 		rotationTransform = CGAffineTransformIdentity;
 
-        v_userInteractionView = [[UIView alloc] init];
-        v_userInteractionView.backgroundColor = [UIColor clearColor];
-        [self addSubview:v_userInteractionView];
+        userInteractionView = [[UIView alloc] init];
+        userInteractionView.backgroundColor = [UIColor clearColor];
+        [self addSubview:userInteractionView];
     }
     return self;
 }
@@ -441,8 +441,8 @@
         }
     }
     
-    v_userInteractionView.frame = [self boxRect];
-    [self bringSubviewToFront:v_userInteractionView];
+    userInteractionView.frame = [self boxRect];
+    [self bringSubviewToFront:userInteractionView];
 
 }
 

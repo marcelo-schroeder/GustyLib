@@ -21,7 +21,12 @@
 #import "IFACommon.h"
 
 
-@implementation IFATabBarController
+@implementation IFATabBarController{
+
+@private
+    UIViewController *v_previousViewController;
+
+}
 
 #pragma mark - Private
 

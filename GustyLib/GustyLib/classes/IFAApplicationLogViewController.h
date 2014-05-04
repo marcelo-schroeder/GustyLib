@@ -19,11 +19,6 @@
 //
 
 @interface IFAApplicationLogViewController : IFANavigationListViewController {
-    
-    @private
-    UIBarButtonItem *v_deleteAllButton;
-    UIBarButtonItem *v_refreshButton;
-    
 }
 
 @end
