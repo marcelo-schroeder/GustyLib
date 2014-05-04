@@ -149,6 +149,8 @@
 		F7085E331915ED120089BA8E /* IFA_ECSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7085E301915ED120089BA8E /* IFA_ECSlidingViewController.m */; };
 		F7085E341915ED120089BA8E /* UIImage+IFA_ECImageWithUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = F7085E321915ED120089BA8E /* UIImage+IFA_ECImageWithUIView.m */; };
 		F7085E411917008C0089BA8E /* IFASystemEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = F7085E401917008C0089BA8E /* IFASystemEntity.m */; };
+		F7085E46191705070089BA8E /* HtmlParser_testdata1.html in Resources */ = {isa = PBXBuildFile; fileRef = F7085E43191705070089BA8E /* HtmlParser_testdata1.html */; };
+		F7085E47191705070089BA8E /* HtmlParser_testdata2.html in Resources */ = {isa = PBXBuildFile; fileRef = F7085E44191705070089BA8E /* HtmlParser_testdata2.html */; };
 		F766D2FE18ECA3A700B3B590 /* IFAPagingStateManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F766D2FD18ECA3A700B3B590 /* IFAPagingStateManagerTests.m */; };
 		F766D33E18ECA71000B3B590 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F766D33D18ECA71000B3B590 /* CoreLocation.framework */; };
 		F766D33F18ECA7D700B3B590 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4DBED18EA11E100ABF401 /* MapKit.framework */; };
@@ -490,6 +492,8 @@
 		F7085E3C1915FCB90089BA8E /* IFATableSectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IFATableSectionHeaderView.xib; sourceTree = "<group>"; };
 		F7085E3F1917008C0089BA8E /* IFASystemEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFASystemEntity.h; sourceTree = "<group>"; };
 		F7085E401917008C0089BA8E /* IFASystemEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFASystemEntity.m; sourceTree = "<group>"; };
+		F7085E43191705070089BA8E /* HtmlParser_testdata1.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = HtmlParser_testdata1.html; sourceTree = "<group>"; };
+		F7085E44191705070089BA8E /* HtmlParser_testdata2.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = HtmlParser_testdata2.html; sourceTree = "<group>"; };
 		F7446BD119085FA9008345FA /* GustyLib.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = GustyLib.podspec; path = ../GustyLib.podspec; sourceTree = "<group>"; };
 		F766D2FD18ECA3A700B3B590 /* IFAPagingStateManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAPagingStateManagerTests.m; sourceTree = "<group>"; };
 		F766D33D18ECA71000B3B590 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -587,6 +591,15 @@
 			path = IBActionSheet;
 			sourceTree = "<group>";
 		};
+		F7085E42191705070089BA8E /* testdata */ = {
+			isa = PBXGroup;
+			children = (
+				F7085E43191705070089BA8E /* HtmlParser_testdata1.html */,
+				F7085E44191705070089BA8E /* HtmlParser_testdata2.html */,
+			);
+			path = testdata;
+			sourceTree = "<group>";
+		};
 		F7D4D82A18EA00E600ABF401 = {
 			isa = PBXGroup;
 			children = (
@@ -644,6 +657,7 @@
 		F7D4D84C18EA00E600ABF401 /* GustyLibTests */ = {
 			isa = PBXGroup;
 			children = (
+				F7085E42191705070089BA8E /* testdata */,
 				F7D4DBEF18EA195900ABF401 /* classes */,
 				F7D4D84D18EA00E600ABF401 /* Supporting Files */,
 			);
@@ -1181,6 +1195,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7085E46191705070089BA8E /* HtmlParser_testdata1.html in Resources */,
+				F7085E47191705070089BA8E /* HtmlParser_testdata2.html in Resources */,
 				F7D4D85118EA00E600ABF401 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -239,6 +239,8 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
                                                                encoding:NSUTF8StringEncoding
                                                                   error:nil];
 
+    assertThat(l_htmlOriginal, is(notNilValue()));
+
     NSMutableArray *l_elementNames = [@[] mutableCopy];
     NSMutableArray *l_elementStringRepresentations = [@[] mutableCopy];
     NSMutableArray *l_elementAttributes = [@[] mutableCopy];
