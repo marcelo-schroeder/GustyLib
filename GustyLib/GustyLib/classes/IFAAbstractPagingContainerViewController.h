@@ -1,5 +1,5 @@
 //
-//  IAUIPagingContainerViewController.h
+//  IFAAbstractPagingContainerViewController.h
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 31/05/12.

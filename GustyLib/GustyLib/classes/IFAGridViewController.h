@@ -17,18 +17,18 @@
 
 #import "IFACollectionViewController.h"
 
-@protocol IAUIGridViewDataSource;
-@protocol IAUIGridViewDelegate;
+@protocol IFAGridViewDataSource;
+@protocol IFAGridViewDelegate;
 
 @interface IFAGridViewController : IFACollectionViewController <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
-@property (nonatomic, weak) id<IAUIGridViewDataSource> gridViewDataSource;
-@property (nonatomic, weak) id<IAUIGridViewDelegate> gridViewDelegate;
+@property (nonatomic, weak) id<IFAGridViewDataSource> gridViewDataSource;
+@property (nonatomic, weak) id<IFAGridViewDelegate> gridViewDelegate;
 @property (nonatomic, strong, readonly) UICollectionViewFlowLayout *layout;
 
 @end
 
-@protocol IAUIGridViewDataSource <NSObject>
+@protocol IFAGridViewDataSource <NSObject>
 
 - (NSUInteger)numberOfRows;
 - (NSUInteger)numberOfColumns;
@@ -67,7 +67,7 @@
 
 @end
 
-@protocol IAUIGridViewDelegate <NSObject>
+@protocol IFAGridViewDelegate <NSObject>
 
 @optional
 

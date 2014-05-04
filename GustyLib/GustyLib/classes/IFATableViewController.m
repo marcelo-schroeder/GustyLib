@@ -47,14 +47,14 @@
 
 -(UIView*)newTableViewCellAccessoryView {
     UIButton *l_button = [[self IFA_appearanceTheme] newDetailDisclosureButton];
-    l_button.frame = CGRectMake(l_button.frame.origin.x, l_button.frame.origin.y, IA_MINIMUM_TAP_AREA_DIMENSION, IA_MINIMUM_TAP_AREA_DIMENSION);
+    l_button.frame = CGRectMake(l_button.frame.origin.x, l_button.frame.origin.y, IFA_k_MINIMUM_TAP_AREA_DIMENSION, IFA_k_MINIMUM_TAP_AREA_DIMENSION);
     [l_button addTarget:self action:@selector(ifa_onTableViewCellAccessoryButtonTap:withEvent:)
        forControlEvents:UIControlEventTouchUpInside];
     return l_button;
 }
 
 -(void)replyToContextSwitchRequestWithGranted:(BOOL)a_granted{
-    NSString *l_notificationName = a_granted ? IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST_GRANTED : IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST_DENIED;
+    NSString *l_notificationName = a_granted ? IFA_k_NOTIFICATION_CONTEXT_SWITCH_REQUEST_GRANTED : IFA_k_NOTIFICATION_CONTEXT_SWITCH_REQUEST_DENIED;
     NSNotification *l_notification = [NSNotification notificationWithName:l_notificationName
                                                                    object:self.contextSwitchRequestObject userInfo:nil];
     [[NSNotificationQueue defaultQueue] enqueueNotification:l_notification 
@@ -87,7 +87,7 @@
 }
 
 - (void)oncontextSwitchRequestNotification:(NSNotification*)aNotification{
-//    NSLog(@"IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST received by %@", [self description]);
+//    NSLog(@"IFA_k_NOTIFICATION_CONTEXT_SWITCH_REQUEST received by %@", [self description]);
     self.contextSwitchRequestPending = YES;
     self.contextSwitchRequestObject = aNotification.object;
     [self quitEditing];
@@ -161,7 +161,7 @@
 }
 
 -(CGFloat)sectionHeaderNonEditingXOffset {
-    return IA_TABLE_VIEW_EDITING_CELL_X_OFFSET;
+    return IFA_k_TABLE_VIEW_EDITING_CELL_X_OFFSET;
 }
 
 -(void)updateSectionHeaderBounds {
@@ -184,7 +184,7 @@
 -(void)reloadMovedCellAtIndexPath:(NSIndexPath*)a_indexPath{
     [IFAUtils dispatchAsyncMainThreadBlock:^{
         [self.tableView reloadRowsAtIndexPaths:@[a_indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    }                           afterDelay:IA_UI_ANIMATION_DURATION];
+    }                           afterDelay:IFA_k_UI_ANIMATION_DURATION];
 }
 
 -(void)beginRefreshing {
@@ -268,7 +268,7 @@
         // Add observers
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(oncontextSwitchRequestNotification:)
-                                                     name:IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST
+                                                     name:IFA_k_NOTIFICATION_CONTEXT_SWITCH_REQUEST
                                                    object:nil];
         
     }
@@ -287,7 +287,7 @@
     [self IFA_viewWillDisappear];
         
     // Remove observers
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFA_k_NOTIFICATION_CONTEXT_SWITCH_REQUEST object:nil];
 
 }
 
@@ -365,7 +365,7 @@
                                                       important:editing];
         
         if (self.sectionHeaderView) {
-            [UIView animateWithDuration:IA_UI_ANIMATION_DURATION animations:^{
+            [UIView animateWithDuration:IFA_k_UI_ANIMATION_DURATION animations:^{
                 [self updateSectionHeaderBounds];
             }];
         }

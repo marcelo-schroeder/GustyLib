@@ -34,7 +34,7 @@
 
 -(id)preferences {
 
-    NSString *l_preferencesClassName = [[IFAUtils infoPList] valueForKey:IA_INFOPLIST_PREFERENCES_CLASS_NAME];
+    NSString *l_preferencesClassName = [[IFAUtils infoPList] valueForKey:IFA_k_INFOPLIST_PREFERENCES_CLASS_NAME];
     Class l_preferencesClass = NSClassFromString(l_preferencesClassName);
     if (l_preferencesClass) {    // App uses preferences
 

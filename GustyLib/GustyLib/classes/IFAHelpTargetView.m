@@ -1,5 +1,5 @@
 //
-//  IAUIHelpTargetContainerView.m
+//  IFAHelpTargetView.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 10/09/12.

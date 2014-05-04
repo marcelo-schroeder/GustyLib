@@ -1,5 +1,5 @@
 //
-//  IFAApplicationLog+IACategory.m
+//  IFAApplicationLog+IFACategory.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 6/05/11.

@@ -1,5 +1,5 @@
 //
-//  UIImage+IACategory.m
+//  UIImage+IFACategory.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 13/07/12.

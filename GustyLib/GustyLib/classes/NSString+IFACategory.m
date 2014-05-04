@@ -1,5 +1,5 @@
 //
-//  NSString+IACategory.m
+//  NSString+IFACategory.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 24/11/12.

@@ -1,5 +1,5 @@
 //
-//  IAModalViewController.m
+//  IFAModalViewController.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 14/04/11.

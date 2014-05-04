@@ -88,7 +88,7 @@
 }
 
 -(void)reloadUiWithAnimationOptions:(UIViewAnimationOptions)a_animationOptions{
-    [self reloadUiWithAnimationDuration:IA_UI_ANIMATION_DURATION animationOptions:a_animationOptions
+    [self reloadUiWithAnimationDuration:IFA_k_UI_ANIMATION_DURATION animationOptions:a_animationOptions
                         completionBlock:nil];
 }
 

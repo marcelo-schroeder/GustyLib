@@ -1,5 +1,5 @@
 //
-//  UIView+IACategory.h
+//  UIView+IFACategory.h
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 26/03/12.
@@ -23,7 +23,7 @@
 
 @protocol IFAAppearanceTheme;
 
-@interface UIView (IFACategory) <IAHelpTarget>
+@interface UIView (IFACategory) <IFAHelpTarget>
 
 @property (nonatomic, strong) NSString *helpTargetId;
 @property (nonatomic, strong) NSString *IFA_appearanceId;

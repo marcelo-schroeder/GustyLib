@@ -24,18 +24,18 @@
 
 /*
  This method is called so the container view controller can obtain the title for each page.
- The method is called once for each page represented in the IAUIScrollPage enum, with the exception of IA_UISCROLL_PAGE_LEFT_FAR and IA_UISCROLL_PAGE_RIGHT_FAR.
+ The method is called once for each page represented in the IFAScrollPage enum, with the exception of IFAScrollPageLeftFar and IFAScrollPageRightFar.
  Those pages never fully appear so their titles do not appear either.
  */
--(NSString*)titleForPage:(IAUIScrollPage)a_page;
+-(NSString*)titleForPage:(IFAScrollPage)a_page;
 
 /* 
  This method is called so the container view controller can obtain an instance of a child view controller for each page.
- The method is called once for each page represented in the IAUIScrollPage enum.
- The child view controller for the centre page (i.e. IA_UISCROLL_PAGE_CENTRE) is always obtained first. That way the child view controller for the other pages can have their model
+ The method is called once for each page represented in the IFAScrollPage enum.
+ The child view controller for the centre page (i.e. IFAScrollPageCentre) is always obtained first. That way the child view controller for the other pages can have their model
     data generated relative to the centre page's child view controller.
  To indicate the left or right boundaries just return a nil value;
  */
--(UITableViewController*)childViewControlerForPage:(IAUIScrollPage)a_page;
+-(UITableViewController*)childViewControlerForPage:(IFAScrollPage)a_page;
 
 @end

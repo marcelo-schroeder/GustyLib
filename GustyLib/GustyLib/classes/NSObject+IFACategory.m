@@ -1,5 +1,5 @@
 //
-//  NSObject+IACategory.m
+//  NSObject+IFACategory.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 28/02/12.
@@ -46,9 +46,9 @@
 - (NSString *)stringValueForNumberPropertyNamed:(NSString *)a_propertyName a_calendar:(NSCalendar *)a_calendar a_value:(id)a_value {
     NSString *l_stringValue = nil;
     NSUInteger dataType = [[IFAPersistenceManager sharedInstance].entityConfig dataTypeForProperty:a_propertyName inObject:self];
-    if (dataType==IA_DATA_TYPE_TIME_INTERVAL) {
+    if (dataType== IFADataTypeTimeInterval) {
         l_stringValue = [IFADateRange durationStringForInterval:[a_value doubleValue]
-                                                         format:IA_DURATION_FORMAT_HOURS_MINUTES_LONG
+                                                         format:IFADurationFormatHoursMinutesLong
                                                        calendar:a_calendar];
     }else {
         l_stringValue = [[self IFA_numberFormatterForProperty:a_propertyName] stringFromNumber:a_value];

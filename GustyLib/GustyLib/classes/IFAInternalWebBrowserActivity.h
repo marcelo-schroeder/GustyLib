@@ -1,5 +1,5 @@
 //
-//  IAUIInternalBrowserActivity.h
+//  IFAInternalWebBrowserActivity.h
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 15/11/12.

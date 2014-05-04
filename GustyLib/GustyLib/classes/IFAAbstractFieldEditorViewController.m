@@ -1,5 +1,5 @@
 //
-//  IAUIFieldEditorViewController.m
+//  IFAAbstractFieldEditorViewController.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 12/03/12.
@@ -92,7 +92,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IFAPresenter>
 - (void)viewDidLoad {
     [super viewDidLoad];
     if (![IFAUIUtils isIPad] && self.useButtonForDismissal) {
-        self.editButtonItem.tag = IA_UIBAR_ITEM_TAG_EDIT_BUTTON;
+        self.editButtonItem.tag = IFA_k_UIBAR_ITEM_TAG_EDIT_BUTTON;
         [self IFA_addRightBarButtonItem:[self editButtonItem]];
     }
 }

@@ -1,5 +1,5 @@
 //
-//  NSManagedObject+IACategory.m
+//  NSManagedObject+IFACategory.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 30/07/10.

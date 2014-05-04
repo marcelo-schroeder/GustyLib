@@ -18,7 +18,7 @@
 #import <Foundation/Foundation.h>
 #import "IFA_SVWebViewController.h"
 
-@protocol IAUIInternalWebBrowserViewControllerDelegate <NSObject>
+@protocol IFAInternalWebBrowserViewControllerDelegate <NSObject>
 
 - (UIBarButtonItem *)newActionBarButtonItem;
 - (UIBarButtonItem *)newPreviousBarButtonItem;
@@ -27,6 +27,6 @@
 - (UIBarButtonItem *)newRefreshBarButtonItem;
 
 @end
-@interface IFAInternalWebBrowserViewController : IFA_SVWebViewController <IAUIInternalWebBrowserViewControllerDelegate>
-@property(nonatomic, weak) id<IAUIInternalWebBrowserViewControllerDelegate> delegate;
+@interface IFAInternalWebBrowserViewController : IFA_SVWebViewController <IFAInternalWebBrowserViewControllerDelegate>
+@property(nonatomic, weak) id<IFAInternalWebBrowserViewControllerDelegate> delegate;
 @end

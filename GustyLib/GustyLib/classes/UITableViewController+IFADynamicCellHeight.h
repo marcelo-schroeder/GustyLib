@@ -17,11 +17,11 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol IAUITableViewControllerDynamicCellHeightDelegate;
+@protocol IFATableViewControllerDynamicCellHeightDelegate;
 
 @interface UITableViewController (IFADynamicCellHeight)
 
-@property (nonatomic, weak) id<IAUITableViewControllerDynamicCellHeightDelegate> IFA_dynamicCellHeightDelegate;
+@property (nonatomic, weak) id<IFATableViewControllerDynamicCellHeightDelegate> IFA_dynamicCellHeightDelegate;
 
 /**
 * This dictionary contains cached heights per index path.
@@ -33,7 +33,7 @@
 
 /**
 * Calculates the height of a table view cell using auto layout.
-* Only works if the IAUITableViewControllerDynamicCellHeightDelegate protocol is implemented.
+* Only works if the IFATableViewControllerDynamicCellHeightDelegate protocol is implemented.
 *
 * @param a_indexPath Index path of cell to calculate the height of.
 * @param a_tableView Parent table view.
@@ -44,7 +44,7 @@
 
 /**
 * Sets the preferred maximum layout width for the multi-line UILabel instances in table view cell based on the prototype table view cell provided.
-* This method requires the IFA_multiLineLabelKeyPathsForCellWithReuseIdentifier: method of the IAUITableViewControllerDynamicCellHeightDelegate protocol to be implemented.
+* This method requires the IFA_multiLineLabelKeyPathsForCellWithReuseIdentifier: method of the IFATableViewControllerDynamicCellHeightDelegate protocol to be implemented.
 * Only the UILabel instances that match the key paths provided by the IFA_multiLineLabelKeyPathsForCellWithReuseIdentifier: will have their preferredMaxLayoutWidth property changed.
 *
 * @param a_cell Table view cell containing the UILabel instances that will have their preferredMaxLayoutWidth property changed.
@@ -54,7 +54,7 @@
 
 @end
 
-@protocol IAUITableViewControllerDynamicCellHeightDelegate <NSObject>
+@protocol IFATableViewControllerDynamicCellHeightDelegate <NSObject>
 
 /**
 * Provides the prototype table view cell to be used for height calculation.

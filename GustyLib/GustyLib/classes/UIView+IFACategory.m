@@ -1,5 +1,5 @@
 //
-//  UIView+IACategory.m
+//  UIView+IFACategory.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 26/03/12.

@@ -1,5 +1,5 @@
 //
-//  UIColor+IACategory.m
+//  UIColor+IFACategory.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 26/06/12.

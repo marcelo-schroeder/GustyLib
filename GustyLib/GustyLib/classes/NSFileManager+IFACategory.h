@@ -1,5 +1,5 @@
 //
-//  NSFileManager+IACategory.h
+//  NSFileManager+IFACategory.h
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 22/02/12.

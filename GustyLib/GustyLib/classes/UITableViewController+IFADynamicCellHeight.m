@@ -29,11 +29,11 @@ static char c_cachedHeightsKey;
 
 #pragma mark - Public
 
--(void)setIFA_dynamicCellHeightDelegate:(id<IAUITableViewControllerDynamicCellHeightDelegate>)a_dynamicCellHeightDelegate{
+-(void)setIFA_dynamicCellHeightDelegate:(id<IFATableViewControllerDynamicCellHeightDelegate>)a_dynamicCellHeightDelegate{
     objc_setAssociatedObject(self, &c_dynamicCellHeightDelegateKey, a_dynamicCellHeightDelegate, OBJC_ASSOCIATION_ASSIGN);
 }
 
--(id<IAUITableViewControllerDynamicCellHeightDelegate>)IFA_dynamicCellHeightDelegate {
+-(id<IFATableViewControllerDynamicCellHeightDelegate>)IFA_dynamicCellHeightDelegate {
     return objc_getAssociatedObject(self, &c_dynamicCellHeightDelegateKey);
 }
 

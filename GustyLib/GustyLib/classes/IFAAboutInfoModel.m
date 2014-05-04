@@ -1,5 +1,5 @@
 //
-//  IAAboutInfo.m
+//  IFAAboutInfoModel.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 20/09/12.

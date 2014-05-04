@@ -1,5 +1,5 @@
 //
-//  UIPopoverController+IACategory.m
+//  UIPopoverController+IFACategory.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 17/05/12.

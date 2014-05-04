@@ -1,5 +1,5 @@
 //
-//  IAUIMultiSelectionPickerViewController.m
+//  IFAMultiSelectionListViewController.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 10/01/11.
@@ -318,9 +318,9 @@ enum {
 			}
 		}
 		
-		v_flexSpaceButtonItem = [IFAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_ITEM_FLEXIBLE_SPACE target:self
+		v_flexSpaceButtonItem = [IFAUIUtils barButtonItemForType:IFA_k_UIBAR_BUTTON_ITEM_FLEXIBLE_SPACE target:self
                                                           action:nil];
-		v_selectAllButtonItem = [IFAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_ITEM_SELECT_ALL target:self
+		v_selectAllButtonItem = [IFAUIUtils barButtonItemForType:IFA_k_UIBAR_BUTTON_ITEM_SELECT_ALL target:self
                                                           action:@selector(ifa_onSelectAllButtonTap:)];
 		self.editing = YES;
 		

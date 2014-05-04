@@ -21,15 +21,15 @@
 #import "IFAView.h"
 
 typedef enum  {
-    IAUITableViewCellSelectedBackgroundStyleTop,
-    IAUITableViewCellSelectedBackgroundStyleMiddle,
-    IAUITableViewCellSelectedBackgroundStyleBottom,
-    IAUITableViewCellSelectedBackgroundStyleSingle
-} IAUITableViewCellSelectedBackgroundStyle;
+    IFATableViewCellSelectedBackgroundStyleTop,
+    IFATableViewCellSelectedBackgroundStyleMiddle,
+    IFATableViewCellSelectedBackgroundStyleBottom,
+    IFATableViewCellSelectedBackgroundStyleSingle
+} IFATableViewCellSelectedBackgroundStyle;
 
 @interface IFATableCellSelectedBackgroundView : UIView
 
 @property(nonatomic, strong) UIColor *borderColor, *fillColor;
-@property(nonatomic) IAUITableViewCellSelectedBackgroundStyle style;
+@property(nonatomic) IFATableViewCellSelectedBackgroundStyle style;
 
 @end

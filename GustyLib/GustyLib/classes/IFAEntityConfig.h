@@ -30,8 +30,8 @@
 - (NSIndexPath*)indexPathForProperty:(NSString*)aPropertyName inObject:(NSObject*)aObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;
 - (NSString*)labelForProperty:(NSString*)aPropertyName inEntity:(NSString*)anEntityName;
 - (NSString*)labelForProperty:(NSString*)aPropertyName inObject:(NSObject*)anObject;
-- (IADataType)dataTypeForProperty:(NSString*)aPropertyName inEntity:(NSString*)anEntityName;
-- (IADataType)dataTypeForProperty:(NSString*)aPropertyName inObject:(NSObject*)anObject;
+- (IFADataType)dataTypeForProperty:(NSString*)aPropertyName inEntity:(NSString*)anEntityName;
+- (IFADataType)dataTypeForProperty:(NSString*)aPropertyName inObject:(NSObject*)anObject;
 - (NSString*)valueFormatForProperty:(NSString*)aPropertyName inObject:(NSObject*)anObject;
 - (NSString*)editorTipTextForProperty:(NSString*)aPropertyName inObject:(NSObject*)anObject;
 - (NSString*)controlForProperty:(NSString*)aPropertyName inObject:(NSObject*)anObject;
@@ -50,7 +50,7 @@
 - (NSString*)listGroupedByForEntity:(NSString*)anEntityName;
 - (NSString*)labelForEntity:(NSString*)anEntityName;
 - (NSString*)indefiniteArticleForEntity:(NSString*)anEntityName;
-- (IAEditorType)fieldEditorForEntity:(NSString*)anEntityName;
+- (IFAEditorType)fieldEditorForEntity:(NSString*)anEntityName;
 - (NSString*)labelForObject:(NSObject*)anObject;
 - (BOOL)isFormFieldTypeForIndexPath:(NSIndexPath*)anIndexPath inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;
 - (BOOL)isViewControllerFieldTypeForIndexPath:(NSIndexPath*)anIndexPath inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;

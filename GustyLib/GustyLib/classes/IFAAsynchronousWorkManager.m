@@ -74,7 +74,7 @@
 }
 
 - (void)ifa_onNavigationEventNotification:(NSNotification*)aNotification{
-//    NSLog(@"IA_NOTIFICATION_NAVIGATION_EVENT received");
+//    NSLog(@"IFA_k_NOTIFICATION_NAVIGATION_EVENT received");
     [self cancelAllSerialBlocks];
 }
 
@@ -104,7 +104,7 @@
         // Add observers
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(ifa_onNavigationEventNotification:)
-                                                     name:IA_NOTIFICATION_NAVIGATION_EVENT
+                                                     name:IFA_k_NOTIFICATION_NAVIGATION_EVENT
                                                    object:nil];
         
     }
@@ -274,11 +274,11 @@ progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView
         NSMutableDictionary *l_threadDict = nil;
         if (a_usePrivateManagedObjectContext) {
             l_threadDict = [[NSThread currentThread] threadDictionary];
-            [l_threadDict setObject:self.managedObjectContext forKey:IA_KEY_SERIAL_QUEUE_MANAGED_OBJECT_CONTEXT];
+            [l_threadDict setObject:self.managedObjectContext forKey:IFA_k_KEY_SERIAL_QUEUE_MANAGED_OBJECT_CONTEXT];
         }
         a_block();
         if (l_threadDict) {
-            [l_threadDict removeObjectForKey:IA_KEY_SERIAL_QUEUE_MANAGED_OBJECT_CONTEXT];
+            [l_threadDict removeObjectForKey:IFA_k_KEY_SERIAL_QUEUE_MANAGED_OBJECT_CONTEXT];
         }
 //        NSLog(@"inner block executed!");
 
@@ -366,7 +366,7 @@ usePrivateManagedObjectContext:a_usePrivateManagedObjectContext];
     
     // Remove observers
     if (self.ifa_isSharedInstance) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:IA_NOTIFICATION_NAVIGATION_EVENT object:nil];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:IFA_k_NOTIFICATION_NAVIGATION_EVENT object:nil];
     }
 
 }

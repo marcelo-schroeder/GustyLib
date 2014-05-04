@@ -244,9 +244,9 @@ typedef void (^IAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_na
     NSMutableArray *l_elementAttributes = [@[] mutableCopy];
 
     IFAHtmlParser *l_htmlParser = [IFAHtmlParser new];
-    void (^l_endElementBlock)(IAHtmlElementParsingContext *) =
-            ^(IAHtmlElementParsingContext *a_parsingContext) {
-                IAHtmlElementParsingMetadata *l_elementMetadata = a_parsingContext.elementMetadata;
+    void (^l_endElementBlock)(IFAHtmlElementParsingContext *) =
+            ^(IFAHtmlElementParsingContext *a_parsingContext) {
+                IFAHtmlElementParsingMetadata *l_elementMetadata = a_parsingContext.elementMetadata;
                 NSString *l_name = l_elementMetadata.name;
                 NSDictionary *l_attributes = l_elementMetadata.attributes;
                 NSString *l_stringRepresentation = l_elementMetadata.stringRepresentation;

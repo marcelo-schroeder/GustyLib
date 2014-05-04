@@ -1,5 +1,5 @@
 //
-//  NSObject+IACategory.h
+//  NSObject+IFACategory.h
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 28/02/12.

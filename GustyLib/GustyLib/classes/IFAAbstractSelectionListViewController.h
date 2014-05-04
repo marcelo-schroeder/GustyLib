@@ -1,5 +1,5 @@
 //
-//  IAUIAbstractSelectionViewController.h
+//  IFAAbstractSelectionListViewController.h
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 10/01/11.

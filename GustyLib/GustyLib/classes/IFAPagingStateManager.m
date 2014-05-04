@@ -39,26 +39,26 @@
     return self;
 }
 
-- (IAPagingCriteria *)pagingCriteriaForEvent:(IAPagingStateManagerEvent)a_event {
+- (IFAPagingCriteria *)pagingCriteriaForEvent:(IFAPagingStateManagerEvent)a_event {
     NSUInteger l_pageIndex = 0, l_pageSize = 0;
     switch (a_event) {
-        case IAPagingStateManagerEventShowFirstPage:
-            l_pageIndex = k_IAPagingPageIndexFirst;
+        case IFAPagingStateManagerEventShowFirstPage:
+            l_pageIndex = IFA_k_pagingPageIndexFirst;
             l_pageSize = self.pageSize;
             break;
-        case IAPagingStateManagerEventShowNextPage:
+        case IFAPagingStateManagerEventShowNextPage:
             l_pageIndex = self.currentPageIndex;
             l_pageIndex++;
             l_pageSize = self.pageSize;
             break;
-        case IAPagingStateManagerEventShowAll:
-            l_pageIndex = k_IAPagingPageIndexFirst;
-            l_pageSize = k_IAPagingPageSizeAll;
+        case IFAPagingStateManagerEventShowAll:
+            l_pageIndex = IFA_k_pagingPageIndexFirst;
+            l_pageSize = IFA_k_pagingPageSizeAll;
             break;
         default:
             NSAssert(NO, @"Unexpected event: %u", a_event);
     }
-    IAPagingCriteria *l_pagingCriteria = [[IAPagingCriteria alloc] initWithPageIndex:l_pageIndex
+    IFAPagingCriteria *l_pagingCriteria = [[IFAPagingCriteria alloc] initWithPageIndex:l_pageIndex
                                                                             pageSize:l_pageSize];
     return l_pagingCriteria;
 }
@@ -73,12 +73,12 @@
 
 @end
 
-@interface IAPagingCriteria()
+@interface IFAPagingCriteria ()
 @property (nonatomic) NSUInteger pageIndex;
 @property (nonatomic) NSUInteger pageSize;
 @end
 
-@implementation IAPagingCriteria
+@implementation IFAPagingCriteria
 
 - (instancetype)initWithPageIndex:(NSUInteger)a_pageIndex pageSize:(NSUInteger)a_pageSize {
     self = [super init];

@@ -1,5 +1,5 @@
 //
-//  IAUIMenuMasterViewController.m
+//  IFAMenuViewController.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 11/05/12.
@@ -34,12 +34,12 @@
 #pragma mark - Private
 
 - (void)oncontextSwitchRequestGrantedNotification:(NSNotification*)aNotification{
-//    NSLog(@"IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST_GRANTED received by %@", [self description]);
+//    NSLog(@"IFA_k_NOTIFICATION_CONTEXT_SWITCH_REQUEST_GRANTED received by %@", [self description]);
     [self commitSelectionForIndexPath:aNotification.object];
 }
 
 - (void)oncontextSwitchRequestDeniedNotification:(NSNotification*)aNotification{
-//    NSLog(@"IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST_DENIED received by %@", [self description]);
+//    NSLog(@"IFA_k_NOTIFICATION_CONTEXT_SWITCH_REQUEST_DENIED received by %@", [self description]);
     [self restoreCurrentSelection];
 }
 
@@ -168,11 +168,11 @@
 }
 
 -(NSMutableDictionary *)indexPathToViewControllerDictionary {
-    id l_obj = [[IFADynamicCache sharedInstance] objectForKey:IA_CACHE_KEY_MENU_VIEW_CONTROLLERS_DICTIONARY];
+    id l_obj = [[IFADynamicCache sharedInstance] objectForKey:IFA_k_CACHE_KEY_MENU_VIEW_CONTROLLERS_DICTIONARY];
     if (!l_obj) {
 //        NSLog(@"Menu view controllers dictionary not in the cache. Creating a new one...");
         l_obj = [NSMutableDictionary new];
-        [[IFADynamicCache sharedInstance] setObject:l_obj forKey:IA_CACHE_KEY_MENU_VIEW_CONTROLLERS_DICTIONARY];
+        [[IFADynamicCache sharedInstance] setObject:l_obj forKey:IFA_k_CACHE_KEY_MENU_VIEW_CONTROLLERS_DICTIONARY];
     }
     return l_obj;
 }
@@ -190,11 +190,11 @@
     if (self.splitViewController || self.slidingViewController) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(oncontextSwitchRequestGrantedNotification:)
-                                                     name:IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST_GRANTED
+                                                     name:IFA_k_NOTIFICATION_CONTEXT_SWITCH_REQUEST_GRANTED
                                                    object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(oncontextSwitchRequestDeniedNotification:)
-                                                     name:IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST_DENIED
+                                                     name:IFA_k_NOTIFICATION_CONTEXT_SWITCH_REQUEST_DENIED
                                                    object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(onSlidingViewTopDidResetNotification:)
@@ -240,13 +240,14 @@
         if ([l_selectedViewController isKindOfClass:[IFANavigationController class]]) {
             //    NSLog(@"l_navigationController.contextSwitchRequestRequired: %u", l_selectedNavigationController.contextSwitchRequestRequired);
             if (((IFANavigationController *)l_selectedViewController).contextSwitchRequestRequired) {
-                NSNotification *l_notification = [NSNotification notificationWithName:IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST object:indexPath userInfo:nil];
+                NSNotification *l_notification = [NSNotification notificationWithName:IFA_k_NOTIFICATION_CONTEXT_SWITCH_REQUEST
+                                                                               object:indexPath userInfo:nil];
                 [[NSNotificationQueue defaultQueue] enqueueNotification:l_notification 
                                                            postingStyle:NSPostASAP
                                                            coalesceMask:NSNotificationNoCoalescing 
                                                                forModes:nil];
                 //        NSLog(@" ");
-                //        NSLog(@"IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST sent by %@", [self description]);
+                //        NSLog(@"IFA_k_NOTIFICATION_CONTEXT_SWITCH_REQUEST sent by %@", [self description]);
                 return;
             }
         }

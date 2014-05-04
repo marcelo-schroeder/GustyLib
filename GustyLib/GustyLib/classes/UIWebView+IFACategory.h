@@ -1,5 +1,5 @@
 //
-//  UIWebView+IACategory.h
+//  UIWebView+IFACategory.h
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 19/10/12.

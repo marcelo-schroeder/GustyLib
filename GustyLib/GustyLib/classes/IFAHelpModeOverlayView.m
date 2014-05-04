@@ -54,7 +54,7 @@
     if (self = [super initWithFrame:CGRectMake(0, 0, l_size.width, l_size.height)]) {
         
         self.userInteractionEnabled = NO;
-        self.tag = IA_UIVIEW_TAG_HELP_BACKGROUND;
+        self.tag = IFA_k_UIVIEW_TAG_HELP_BACKGROUND;
         self.opaque = NO;
         
         self.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;

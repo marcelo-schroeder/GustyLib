@@ -75,7 +75,7 @@
 	NSArray *keyArray = @[NSLocalizedDescriptionKey];
 	NSArray *objArray = @[anErrorMessage];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objArray forKeys:keyArray];
-	return [[NSError alloc] initWithDomain:IA_ERROR_DOMAIN_COMMON code:anErrorCode userInfo:userInfo];
+	return [[NSError alloc] initWithDomain:IFA_k_ERROR_DOMAIN_COMMON code:anErrorCode userInfo:userInfo];
 }
 
 + (NSError*) newErrorContainer{

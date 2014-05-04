@@ -46,7 +46,7 @@
 	return [self.endTimestamp timeIntervalSinceDate:self.startTimestamp];
 }
 
-- (NSString*)durationStringWithFormat:(IADurationFormat)aFormat calendar:(NSCalendar*)a_calendar{
+- (NSString*)durationStringWithFormat:(IFADurationFormat)aFormat calendar:(NSCalendar*)a_calendar{
 	return [IFADateRange durationStringForStartDate:self.startTimestamp endDate:self.endTimestamp format:aFormat
                                            calendar:a_calendar];
 }
@@ -82,7 +82,7 @@
 #pragma mark -
 #pragma mark Class Methods
 
-+ (NSString*)durationStringForStartDate:(NSDate*)aStartDate endDate:(NSDate*)anEndDate format:(IADurationFormat)aFormat calendar:(NSCalendar*)a_calendar{
++ (NSString*)durationStringForStartDate:(NSDate*)aStartDate endDate:(NSDate*)anEndDate format:(IFADurationFormat)aFormat calendar:(NSCalendar*)a_calendar{
     
 //	NSLog(@"durationStringForStartDate: %@", [aStartDate descriptionWithLocale:[NSLocale currentLocale]]);
 //	NSLog(@"                   endDate: %@", [anEndDate descriptionWithLocale:[NSLocale currentLocale]]);
@@ -91,7 +91,7 @@
 		return @"?";
 	}
 
-    if (aFormat==IA_DURATION_FORMAT_DECIMAL_HOURS) {
+    if (aFormat== IFADurationFormatDecimalHours) {
 
         return [IFADateRange decimalHoursStringForStartDate:aStartDate endDate:anEndDate calendar:a_calendar];
 
@@ -102,18 +102,18 @@
         
         BOOL dayUnitAdded = NO;
         BOOL secondUnitAdded = NO;
-        BOOL l_longFormat = aFormat==IA_DURATION_FORMAT_HOURS_MINUTES_LONG || aFormat==IA_DURATION_FORMAT_HOURS_MINUTES_SECONDS_LONG || aFormat==IA_DURATION_FORMAT_FULL_LONG;
+        BOOL l_longFormat = aFormat== IFADurationFormatHoursMinutesLong || aFormat== IFADurationFormatHoursMinutesSecondsLong || aFormat== IFADurationFormatFullLong;
         switch (aFormat) {
-            case IA_DURATION_FORMAT_FULL:
-            case IA_DURATION_FORMAT_FULL_LONG:
+            case IFADurationFormatFull:
+            case IFADurationFormatFullLong:
                 unitFlags = unitFlags | NSDayCalendarUnit;
                 dayUnitAdded = YES;
-            case IA_DURATION_FORMAT_HOURS_MINUTES_SECONDS:
-            case IA_DURATION_FORMAT_HOURS_MINUTES_SECONDS_LONG:
+            case IFADurationFormatHoursMinutesSeconds:
+            case IFADurationFormatHoursMinutesSecondsLong:
                 unitFlags = unitFlags | NSSecondCalendarUnit;
                 secondUnitAdded = YES;
-            case IA_DURATION_FORMAT_HOURS_MINUTES:
-            case IA_DURATION_FORMAT_HOURS_MINUTES_LONG:
+            case IFADurationFormatHoursMinutes:
+            case IFADurationFormatHoursMinutesLong:
                 unitFlags = unitFlags | NSMinuteCalendarUnit;
                 break;
             default:
@@ -121,7 +121,7 @@
         }
         
         BOOL l_secondsIncluded = YES;
-        if (aFormat==IA_DURATION_FORMAT_HOURS_MINUTES || aFormat==IA_DURATION_FORMAT_HOURS_MINUTES_LONG) {
+        if (aFormat== IFADurationFormatHoursMinutes || aFormat== IFADurationFormatHoursMinutesLong) {
             l_secondsIncluded = NO;
         }
         
@@ -138,7 +138,7 @@
         }
         //    NSLog(@"%i / %i / %i / %i", days, hours, minutes, seconds);
 
-        if (aFormat==IA_DURATION_FORMAT_FULL || aFormat==IA_DURATION_FORMAT_HOURS_MINUTES_SECONDS || aFormat==IA_DURATION_FORMAT_HOURS_MINUTES) {
+        if (aFormat== IFADurationFormatFull || aFormat== IFADurationFormatHoursMinutesSeconds || aFormat== IFADurationFormatHoursMinutes) {
             
             NSNumberFormatter *l_timeFormatter = [NSNumberFormatter new];
             l_timeFormatter.minimumIntegerDigits = 2;
@@ -152,15 +152,15 @@
             
             NSString *l_durationString = nil;
             switch (aFormat) {
-                case IA_DURATION_FORMAT_FULL:
+                case IFADurationFormatFull:
                     if (days>0) {
                         l_durationString = [NSString stringWithFormat:@"%@d %@:%@:%@", l_formattedDays, l_formattedHours, l_formattedMinutes, l_formattedSeconds];
                         break;
                     }
-                case IA_DURATION_FORMAT_HOURS_MINUTES_SECONDS:
+                case IFADurationFormatHoursMinutesSeconds:
                     l_durationString = [NSString stringWithFormat:@"%@:%@:%@", l_formattedHours, l_formattedMinutes, l_formattedSeconds];
                     break;
-                case IA_DURATION_FORMAT_HOURS_MINUTES:
+                case IFADurationFormatHoursMinutes:
                     l_durationString = [NSString stringWithFormat:@"%@:%@", l_formattedHours, l_formattedMinutes];
                     break;
                 default:
@@ -236,7 +236,7 @@
 
 }
 
-+ (NSString*)durationStringForInterval:(NSTimeInterval)anInterval format:(IADurationFormat)aFormat calendar:(NSCalendar*)a_calendar{
++ (NSString*)durationStringForInterval:(NSTimeInterval)anInterval format:(IFADurationFormat)aFormat calendar:(NSCalendar*)a_calendar{
 	NSDate *startDate = [NSDate date];
 	NSDate *endDate = [[NSDate alloc] initWithTimeInterval:anInterval sinceDate:startDate];
 	return [self durationStringForStartDate:startDate endDate:endDate format:aFormat calendar:a_calendar];

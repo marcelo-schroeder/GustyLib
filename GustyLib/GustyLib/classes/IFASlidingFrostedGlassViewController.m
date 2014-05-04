@@ -158,7 +158,7 @@
         self.modalPresentationStyle = UIModalPresentationCustom;
         self.transitioningDelegate = self;
 
-        self.blurEffect = IASlidingFrostedGlassViewControllerBlurEffectLight;
+        self.blurEffect = IFASlidingFrostedGlassViewControllerBlurEffectLight;
 
         // Used during development only
 //        UIView *l_view = [UIView new];
@@ -189,13 +189,13 @@
         l_blurredSnapshotImage = [l_snapshotImage IFA_applyTintBlurEffectWithColor:self.blurEffectTintColor];
     } else {
         switch (self.blurEffect) {
-            case IASlidingFrostedGlassViewControllerBlurEffectLight:
+            case IFASlidingFrostedGlassViewControllerBlurEffectLight:
                 l_blurredSnapshotImage = [l_snapshotImage IFA_applyLightBlurEffect];
                 break;
-            case IASlidingFrostedGlassViewControllerBlurEffectExtraLight:
+            case IFASlidingFrostedGlassViewControllerBlurEffectExtraLight:
                 l_blurredSnapshotImage = [l_snapshotImage IFA_applyExtraLightBlurEffect];
                 break;
-            case IASlidingFrostedGlassViewControllerBlurEffectDark:
+            case IFASlidingFrostedGlassViewControllerBlurEffectDark:
                 l_blurredSnapshotImage = [l_snapshotImage IFA_applyDarkBlurEffect];
                 break;
             default:

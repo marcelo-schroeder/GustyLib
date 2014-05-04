@@ -1,5 +1,5 @@
 //
-//  UITableView+IACategory.m
+//  UITableView+IFACategory.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 20/01/12.

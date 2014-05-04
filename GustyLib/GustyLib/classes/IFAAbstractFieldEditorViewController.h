@@ -1,5 +1,5 @@
 //
-//  IAUIFieldEditorViewController.h
+//  IFAAbstractFieldEditorViewController.h
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 12/03/12.

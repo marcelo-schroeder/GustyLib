@@ -20,42 +20,48 @@
 
 #import "IFACommon.h"
 
-
 @implementation IFAConstants
 
-NSString* const IA_BUTTON_LABEL_SAVE = @"Save";
-NSString* const IA_BUTTON_LABEL_CANCEL = @"Cancel";
+CGFloat const IFA_k_TABLE_VIEW_EDITING_CELL_X_OFFSET = 32;
+CGFloat const IFA_k_TABLE_SECTION_HEADER_DEFAULT_HEIGHT = 22;
+CGFloat const IFA_k_FORM_SECTION_HEADER_DEFAULT_HEIGHT = 39;
+CGFloat const IFA_k_MINIMUM_TAP_AREA_DIMENSION = 44;
+CGFloat const IFA_k_TABLE_VIEW_CELL_SEPARATOR_DEFAULT_INSET_LEFT = 15;
+NSTimeInterval const IFA_k_UI_ANIMATION_DURATION = 0.3;
 
-NSString* const IA_ERROR_DOMAIN_COMMON = @"IaCommonErrorDomain";
+NSString* const IFA_k_BUTTON_LABEL_SAVE = @"Save";
+NSString* const IFA_k_BUTTON_LABEL_CANCEL = @"Cancel";
 
-NSString* const IA_CACHE_KEY_ENTITY_CONFIG_DICTIONARY = @"ia.entityConfigDictionary";
-NSString* const IA_CACHE_KEY_MENU_VIEW_CONTROLLERS_DICTIONARY = @"ia.menuViewControllersDictionary";
+NSString* const IFA_k_ERROR_DOMAIN_COMMON = @"IaCommonErrorDomain";
+
+NSString* const IFA_k_CACHE_KEY_ENTITY_CONFIG_DICTIONARY = @"ia.entityConfigDictionary";
+NSString* const IFA_k_CACHE_KEY_MENU_VIEW_CONTROLLERS_DICTIONARY = @"ia.menuViewControllersDictionary";
 
 // Notifications
-NSString* const IA_NOTIFICATION_PERSISTENT_ENTITY_CHANGE = @"ia.persistentEntityChange";
-NSString* const IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST = @"ia.contextSwitchRequest";
-NSString* const IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST_GRANTED = @"ia.contextSwitchRequestGranted";
-NSString* const IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST_DENIED = @"ia.contextSwitchRequestDenied";
-NSString* const IA_NOTIFICATION_NAVIGATION_EVENT = @"ia.navigationEvent";
-NSString* const IA_NOTIFICATION_MENU_BAR_BUTTON_ITEM_INVALIDATED = @"ia.menuBarButtonItemInvalidated";
-NSString* const IA_NOTIFICATION_LOCATION_AUTHORIZATION_STATUS_CHANGE = @"ia.locationAuthorizationStatusChange";
-NSString* const IA_NOTIFICATION_ADS_SUSPEND_REQUEST = @"ia.adsSuspendRequest";
-NSString* const IA_NOTIFICATION_ADS_RESUME_REQUEST = @"ia.adsResumeRequest";
+NSString* const IFA_k_NOTIFICATION_PERSISTENT_ENTITY_CHANGE = @"ia.persistentEntityChange";
+NSString* const IFA_k_NOTIFICATION_CONTEXT_SWITCH_REQUEST = @"ia.contextSwitchRequest";
+NSString* const IFA_k_NOTIFICATION_CONTEXT_SWITCH_REQUEST_GRANTED = @"ia.contextSwitchRequestGranted";
+NSString* const IFA_k_NOTIFICATION_CONTEXT_SWITCH_REQUEST_DENIED = @"ia.contextSwitchRequestDenied";
+NSString* const IFA_k_NOTIFICATION_NAVIGATION_EVENT = @"ia.navigationEvent";
+NSString* const IFA_k_NOTIFICATION_MENU_BAR_BUTTON_ITEM_INVALIDATED = @"ia.menuBarButtonItemInvalidated";
+NSString* const IFA_k_NOTIFICATION_LOCATION_AUTHORIZATION_STATUS_CHANGE = @"ia.locationAuthorizationStatusChange";
+NSString* const IFA_k_NOTIFICATION_ADS_SUSPEND_REQUEST = @"ia.adsSuspendRequest";
+NSString* const IFA_k_NOTIFICATION_ADS_RESUME_REQUEST = @"ia.adsResumeRequest";
 
 // Dictionary Keys
-NSString* const IA_KEY_INSERTED_OBJECTS = @"ia.key.insertedObjects";
-NSString* const IA_KEY_UPDATED_OBJECTS = @"ia.key.updatedObjects";
-NSString* const IA_KEY_DELETED_OBJECTS = @"ia.key.deletedObjects";
-NSString* const IA_KEY_UPDATED_PROPERTIES = @"ia.key.updatedProperties";
-NSString* const IA_KEY_ORIGINAL_PROPERTIES = @"ia.key.originalProperties";
-NSString* const IA_KEY_THREAD_SAFE_CALENDAR = @"ia.key.threadSafeCalendar";
-NSString* const IA_KEY_SERIAL_QUEUE_MANAGED_OBJECT_CONTEXT = @"ia.key.serialQueueManagedObjectContext";
+NSString* const IFA_k_KEY_INSERTED_OBJECTS = @"ia.key.insertedObjects";
+NSString* const IFA_k_KEY_UPDATED_OBJECTS = @"ia.key.updatedObjects";
+NSString* const IFA_k_KEY_DELETED_OBJECTS = @"ia.key.deletedObjects";
+NSString* const IFA_k_KEY_UPDATED_PROPERTIES = @"ia.key.updatedProperties";
+NSString* const IFA_k_KEY_ORIGINAL_PROPERTIES = @"ia.key.originalProperties";
+NSString* const IFA_k_KEY_THREAD_SAFE_CALENDAR = @"ia.key.threadSafeCalendar";
+NSString* const IFA_k_KEY_SERIAL_QUEUE_MANAGED_OBJECT_CONTEXT = @"ia.key.serialQueueManagedObjectContext";
 
 // Entity Config
-NSString* const IA_ENTITY_CONFIG_FORM_NAME_DEFAULT = @"main";
-NSString* const IA_ENTITY_CONFIG_FORM_NAME_CREATION_SHORTCUT = @"creationShortcut";
+NSString* const IFA_k_ENTITY_CONFIG_FORM_NAME_DEFAULT = @"main";
+NSString* const IFA_k_ENTITY_CONFIG_FORM_NAME_CREATION_SHORTCUT = @"creationShortcut";
 
 // Entity Config
-NSString* const IA_INFOPLIST_PREFERENCES_CLASS_NAME = @"IAPreferencesClassName";
+NSString* const IFA_k_INFOPLIST_PREFERENCES_CLASS_NAME = @"IAPreferencesClassName";
 
 @end

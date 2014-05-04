@@ -1,5 +1,5 @@
 //
-//  NSData+IACategory.m
+//  NSData+IFACategory.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 11/12/12.

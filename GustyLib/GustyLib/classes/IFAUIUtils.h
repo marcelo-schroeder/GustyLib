@@ -28,7 +28,7 @@
 }
 
 // Size limit for UIWebView to be able to display images in iOS 7 and above (i.e. no devices have less than 256Mb of RAM)
-extern const CGFloat k_IAMaximumImageSizeInPixels;
+extern const CGFloat IFA_k_maximumImageSizeInPixels;
 
 + (void) showAlertWithMessage:(NSString*)aMessage title:(NSString*)aTitle;
 + (void) showAlertWithMessage:(NSString*)aMessage title:(NSString*)aTitle buttonLabel:(NSString*)aButtonLabel;

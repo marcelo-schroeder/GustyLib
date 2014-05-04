@@ -27,13 +27,13 @@
 @interface IFADynamicPagingContainerViewController : IFAAbstractPagingContainerViewController {
     
     @protected
-    IAUIScrollPage v_selectedPage;
+    IFAScrollPage v_selectedPage;
     IFATableViewController *v_childViewControllerLeftFar;
     IFATableViewController *v_childViewControllerLeftNear;
     IFATableViewController *v_childViewControllerCentre;
     IFATableViewController *v_childViewControllerRightNear;
     IFATableViewController *v_childViewControllerRightFar;
-    IAUIScrollPage v_firstPageWithContent;
+    IFAScrollPage v_firstPageWithContent;
     UIBarButtonItem *v_previousViewBarButtonItem;
     UIBarButtonItem *v_nextViewBarButtonItem;
     
@@ -43,7 +43,7 @@
 @property (nonatomic, strong) NSMutableArray *pagingContainerChildViewControllers;
 @property (nonatomic, strong, readonly) NSDate *lastFullChildViewControllerUpdate;
 
--(void)updateChildViewControllersForSelectedPage:(IAUIScrollPage)a_selectedPage;
+-(void)updateChildViewControllersForSelectedPage:(IFAScrollPage)a_selectedPage;
 -(UIViewController*)visibleChildViewController;
 
 @end

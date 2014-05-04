@@ -1,5 +1,5 @@
 //
-//  IAUIAbstractSelectionViewController.m
+//  IFAAbstractSelectionListViewController.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 10/01/11.
@@ -44,7 +44,7 @@
             [self IFA_addLeftBarButtonItem:l_barButtonItem];
         }
 		
-		self.selectNoneButtonItem = [IFAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_ITEM_SELECT_NONE target:self
+		self.selectNoneButtonItem = [IFAUIUtils barButtonItemForType:IFA_k_UIBAR_BUTTON_ITEM_SELECT_NONE target:self
                                                               action:@selector(onSelectNoneButtonTap:)];
 		
         NSString *l_propertyLabel = [[IFAPersistenceManager sharedInstance].entityConfig labelForProperty:self.propertyName

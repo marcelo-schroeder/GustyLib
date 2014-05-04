@@ -84,23 +84,23 @@
     return [IFAUIUtils colorForInfoPlistKey:a_infoPlistKey];
 }
 
-- (IAUITableViewCellSelectedBackgroundStyle)
+- (IFATableViewCellSelectedBackgroundStyle)
 ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
                                  tableViewController:(IFATableViewController *)a_tableViewController {
-    IAUITableViewCellSelectedBackgroundStyle l_cellPosition = IAUITableViewCellSelectedBackgroundStyleMiddle;
+    IFATableViewCellSelectedBackgroundStyle l_cellPosition = IFATableViewCellSelectedBackgroundStyleMiddle;
     if (![IFAUtils isIOS7OrGreater] && a_tableViewController.tableView.style == UITableViewStyleGrouped) {
         NSInteger l_rowCount = [a_tableViewController tableView:a_tableViewController.tableView
                                           numberOfRowsInSection:a_indexPath.section];
-        l_cellPosition = IAUITableViewCellSelectedBackgroundStyleBottom;
+        l_cellPosition = IFATableViewCellSelectedBackgroundStyleBottom;
         if (a_indexPath.row == 0) {
-            l_cellPosition = IAUITableViewCellSelectedBackgroundStyleTop;
+            l_cellPosition = IFATableViewCellSelectedBackgroundStyleTop;
         } else {
             if (a_indexPath.row < l_rowCount - 1) {
-                l_cellPosition = IAUITableViewCellSelectedBackgroundStyleMiddle;
+                l_cellPosition = IFATableViewCellSelectedBackgroundStyleMiddle;
             }
         }
         if (l_rowCount == 1) {
-            l_cellPosition = IAUITableViewCellSelectedBackgroundStyleSingle;
+            l_cellPosition = IFATableViewCellSelectedBackgroundStyleSingle;
         }
     }
     return l_cellPosition;
@@ -565,13 +565,13 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     return NO;
 }
 
--(UIBarButtonItem*)spacingBarButtonItemForType:(IAUISpacingBarButtonItemType)a_type viewController:(UIViewController*)a_viewController{
+-(UIBarButtonItem*)spacingBarButtonItemForType:(IFASpacingBarButtonItemType)a_type viewController:(UIViewController*)a_viewController{
     return nil;
 }
 
 - (UIBarButtonItem *)doneBarButtonItemWithTarget:(id)a_target action:(SEL)a_action
                                   viewController:(UIViewController *)a_viewController {
-    return [IFAUIUtils barButtonItemForType:IA_UIBAR_BUTTON_ITEM_DONE target:a_target action:a_action];
+    return [IFAUIUtils barButtonItemForType:IFA_k_UIBAR_BUTTON_ITEM_DONE target:a_target action:a_action];
 }
 
 - (UIBarButtonItem *)cancelBarButtonItemWithTarget:(id)a_target

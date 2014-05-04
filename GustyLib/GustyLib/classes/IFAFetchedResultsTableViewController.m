@@ -1,5 +1,5 @@
 //
-//  IAUIFetchedResultsViewController.m
+//  IFAFetchedResultsTableViewController.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 8/03/13.

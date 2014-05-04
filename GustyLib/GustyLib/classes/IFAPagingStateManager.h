@@ -17,16 +17,16 @@
 
 #import <Foundation/Foundation.h>
 
-@class IAPagingCriteria;
+@class IFAPagingCriteria;
 
 typedef enum {
-    IAPagingStateManagerEventShowFirstPage,
-    IAPagingStateManagerEventShowNextPage,
-    IAPagingStateManagerEventShowAll,
-} IAPagingStateManagerEvent;
+    IFAPagingStateManagerEventShowFirstPage,
+    IFAPagingStateManagerEventShowNextPage,
+    IFAPagingStateManagerEventShowAll,
+} IFAPagingStateManagerEvent;
 
-static const NSUInteger k_IAPagingPageIndexFirst = 0;
-static const NSUInteger k_IAPagingPageSizeAll = 0;
+static const NSUInteger IFA_k_pagingPageIndexFirst = 0;
+static const NSUInteger IFA_k_pagingPageSizeAll = 0;
 
 @interface IFAPagingStateManager : NSObject
 
@@ -37,7 +37,7 @@ static const NSUInteger k_IAPagingPageSizeAll = 0;
 
 - (id)initWithPageSize:(NSUInteger)a_pageSize;
 
-- (IAPagingCriteria *)pagingCriteriaForEvent:(IAPagingStateManagerEvent)a_event;
+- (IFAPagingCriteria *)pagingCriteriaForEvent:(IFAPagingStateManagerEvent)a_event;
 
 - (void)updatePagingStateWithResultsAtPageIndex:(NSUInteger)a_pageIndex
                                pageResultsCount:(NSUInteger)a_pageResultsCount
@@ -45,7 +45,7 @@ static const NSUInteger k_IAPagingPageSizeAll = 0;
 
 @end
 
-@interface IAPagingCriteria : NSObject
+@interface IFAPagingCriteria : NSObject
 @property (nonatomic, readonly) NSUInteger pageIndex;
 @property (nonatomic, readonly) NSUInteger pageSize;
 

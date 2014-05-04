@@ -19,10 +19,10 @@
 //
 
 typedef enum {
-    IAUISpacingBarButtonItemTypeLeft,
-    IAUISpacingBarButtonItemTypeMiddle,
-    IAUISpacingBarButtonItemTypeRight,
-} IAUISpacingBarButtonItemType;
+    IFASpacingBarButtonItemTypeLeft,
+    IFASpacingBarButtonItemTypeMiddle,
+    IFASpacingBarButtonItemTypeRight,
+} IFASpacingBarButtonItemType;
 
 @class IFATableViewController;
 @class GADBannerView;
@@ -100,7 +100,7 @@ typedef enum {
 
 // Bar button item spacing automation
 -(BOOL)shouldAutomateBarButtonItemSpacingForViewController:(UIViewController*)a_viewController;
--(UIBarButtonItem*)spacingBarButtonItemForType:(IAUISpacingBarButtonItemType)a_type viewController:(UIViewController*)a_viewController;
+-(UIBarButtonItem*)spacingBarButtonItemForType:(IFASpacingBarButtonItemType)a_type viewController:(UIViewController*)a_viewController;
 
 - (UIViewController *)newInternalWebBrowserViewControllerWithUrl:(NSURL *)a_url;
 - (UIViewController *)newInternalWebBrowserViewControllerWithUrl:(NSURL *)a_url completionBlock:(void(^)(void))a_completionBlock;
@@ -133,7 +133,7 @@ typedef enum {
 
 @end
 
-@protocol IAUIViewControllerAppearance <NSObject>
+@protocol IFAViewControllerAppearance <NSObject>
 @optional
 -(void)setAppearanceOnViewDidLoadForViewController:(UIViewController*)a_viewController;
 -(void)setAppearanceOnViewWillAppearForViewController:(UIViewController*)a_viewController;
@@ -141,7 +141,7 @@ typedef enum {
 -(void)setAppearanceOnWillAnimateRotationForViewController:(UIViewController *)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_toInterfaceOrientation;
 @end
 
-@protocol IAUITableViewControllerAppearance <IAUIViewControllerAppearance>
+@protocol IFATableViewControllerAppearance <IFAViewControllerAppearance>
 @optional
 -(void)setAppearanceOnInitReusableCellForViewController:(UITableViewController *)a_tableViewController cell:(UITableViewCell*)a_cell;
 -(void)setAppearanceOnWillDisplayCell:(UITableViewCell *)a_cell forRowAtIndexPath:(NSIndexPath *)a_indexPath
@@ -149,13 +149,13 @@ typedef enum {
 -(void)setAppearanceForCell:(UITableViewCell *)a_cell atIndexPath:(NSIndexPath *)a_indexPath viewController:(IFATableViewController *)a_tableViewController;
 @end
 
-@protocol IAUIViewAppearance <NSObject>
+@protocol IFAViewAppearance <NSObject>
 @optional
 -(void)setAppearanceOnAwakeFromNibForView:(UIView*)a_view;
 -(void)setAppearanceOnInitForView:(UIView*)a_view;
 @end
 
-@protocol IAUITableViewCellAppearance <IAUIViewAppearance>
+@protocol IFATableViewCellAppearance <IFAViewAppearance>
 @optional
 -(void)setAppearanceOnSetHighlightedForCell:(UITableViewCell *)a_cell;
 @end

@@ -1,5 +1,5 @@
 //
-//  IAAboutInfo.h
+//  IFAAboutInfoModel.h
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 20/09/12.

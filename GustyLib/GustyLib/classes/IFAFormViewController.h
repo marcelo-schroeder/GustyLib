@@ -1,5 +1,5 @@
 //
-//  IAFormViewController.h
+//  IFAFormViewController.h
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 25/08/09.
@@ -66,7 +66,7 @@
 
 // Management of different field types
 - (BOOL) hasOwnEditorViewForIndexPath:(NSIndexPath*)anIndexPath;
-- (IAEditorType) editorTypeForIndexPath:(NSIndexPath*)anIndexPath;
+- (IFAEditorType) editorTypeForIndexPath:(NSIndexPath*)anIndexPath;
 - (IFATableViewController *) editorViewControllerForIndexPath:(NSIndexPath*)anIndexPath;
 
 -(IFAFormTableViewCell *)populateCell:(IFAFormTableViewCell *)a_cell;

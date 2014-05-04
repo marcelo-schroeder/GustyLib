@@ -1,5 +1,5 @@
 //
-//  IAUIPreferencesFormViewControllerViewController.h
+//  IFAPreferencesFormViewController.h
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 30/04/12.

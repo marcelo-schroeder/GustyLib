@@ -1,5 +1,5 @@
 //
-//  NSCalendar+IACategory.m
+//  NSCalendar+IFACategory.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 24/11/10.
@@ -58,11 +58,11 @@ static NSUInteger c_minimumDaysInFirstWeek = NSNotFound;
 + (NSCalendar *)IFA_threadSafeCalendar {
 //    NSLog(@"IFA_threadSafeCalendar for thread: %@", [[NSThread currentThread] description]);
     NSMutableDictionary *l_threadDictionary = [[NSThread currentThread] threadDictionary] ;
-    NSCalendar *l_calendar = [l_threadDictionary objectForKey:IA_KEY_THREAD_SAFE_CALENDAR] ;
+    NSCalendar *l_calendar = [l_threadDictionary objectForKey:IFA_k_KEY_THREAD_SAFE_CALENDAR] ;
     if (!l_calendar){
 //        NSLog(@"   calendar cache miss for thread: %@", [[NSThread currentThread] description]);
         l_calendar = [NSCalendar autoupdatingCurrentCalendar];
-        [l_threadDictionary setObject:l_calendar forKey:IA_KEY_THREAD_SAFE_CALENDAR];
+        [l_threadDictionary setObject:l_calendar forKey:IFA_k_KEY_THREAD_SAFE_CALENDAR];
 //        NSLog(@"   %@", [l_threadDictionary description]);
     }
 //    NSLog(@" timeZone: %@", [l_calendar.timeZone description]);

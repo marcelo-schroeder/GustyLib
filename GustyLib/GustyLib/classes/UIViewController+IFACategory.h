@@ -1,5 +1,5 @@
 //
-//  UIViewController+IACategory.h
+//  UIViewController+IFACategory.h
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 16/11/11.
@@ -30,7 +30,7 @@
 @protocol IFAAppearanceTheme;
 @class IFAPassthroughView;
 
-@interface UIViewController (IFACategory) <IAHelpTargetContainer, IFAPresenter, GADBannerViewDelegate, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate>
+@interface UIViewController (IFACategory) <IFAHelpTargetContainer, IFAPresenter, GADBannerViewDelegate, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate>
 
 @property (nonatomic, readonly) BOOL IFA_presentedAsModal;
 @property (nonatomic, readonly) BOOL IFA_isMasterViewController;
@@ -212,7 +212,7 @@
 -(void)IFA_startAdRequests;
 -(void)IFA_stopAdRequests;
 
-#pragma mark - IAHelpTargetContainer
+#pragma mark - IFAHelpTargetContainer
 
 - (BOOL)IFA_isVisibleTopViewController;
 

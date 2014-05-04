@@ -34,14 +34,14 @@
 - (id)initWithStartTimestamp:(NSDate*)aStartTimestamp endTimestamp:(NSDate*)anEndTimestamp exclusiveEnd:(BOOL)anExclusiveEndFlag;
 
 - (NSString*)IFA_displayValue;
-- (NSString*)durationStringWithFormat:(IADurationFormat)aFormat calendar:(NSCalendar*)a_calendar;
+- (NSString*)durationStringWithFormat:(IFADurationFormat)aFormat calendar:(NSCalendar*)a_calendar;
 
 - (NSDecimalNumber*)decimalHoursForCalendar:(NSCalendar*)a_calendar;
 - (NSString*)decimalHoursStringForCalendar:(NSCalendar*)a_calendar;
 - (NSString*)formattedDecimalHoursForCalendar:(NSCalendar*)a_calendar;
 
-+ (NSString*)durationStringForStartDate:(NSDate*)aStartDate endDate:(NSDate*)anEndDate format:(IADurationFormat)aFormat calendar:(NSCalendar*)a_calendar;
-+ (NSString*)durationStringForInterval:(NSTimeInterval)anInterval format:(IADurationFormat)aFormat calendar:(NSCalendar*)a_calendar;
++ (NSString*)durationStringForStartDate:(NSDate*)aStartDate endDate:(NSDate*)anEndDate format:(IFADurationFormat)aFormat calendar:(NSCalendar*)a_calendar;
++ (NSString*)durationStringForInterval:(NSTimeInterval)anInterval format:(IFADurationFormat)aFormat calendar:(NSCalendar*)a_calendar;
 + (NSDecimalNumber*)decimalHoursForStartDate:(NSDate*)aStartDate endDate:(NSDate*)anEndDate calendar:(NSCalendar*)a_calendar;
 + (NSDecimalNumber*)decimalHoursForInterval:(NSTimeInterval)anInterval calendar:(NSCalendar*)a_calendar;
 + (NSString*)decimalHoursStringForStartDate:(NSDate*)aStartDate endDate:(NSDate*)anEndDate calendar:(NSCalendar*)a_calendar;

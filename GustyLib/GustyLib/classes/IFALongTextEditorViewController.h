@@ -1,5 +1,5 @@
 //
-//  IAUITextEditorViewController.h
+//  IFALongTextEditorViewController.h
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 2/06/12.

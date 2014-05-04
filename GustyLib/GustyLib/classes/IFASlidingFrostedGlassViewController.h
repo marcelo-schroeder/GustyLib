@@ -18,27 +18,27 @@
 #import <Foundation/Foundation.h>
 #import "IFAViewController.h"
 
-@protocol IASlidingFrostedGlassViewControllerDelegate;
+@protocol IFASlidingFrostedGlassViewControllerDelegate;
 
 typedef enum{
-    IASlidingFrostedGlassViewControllerBlurEffectLight,
-    IASlidingFrostedGlassViewControllerBlurEffectExtraLight,
-    IASlidingFrostedGlassViewControllerBlurEffectDark,
-}IASlidingFrostedGlassViewControllerBlurEffect;
+    IFASlidingFrostedGlassViewControllerBlurEffectLight,
+    IFASlidingFrostedGlassViewControllerBlurEffectExtraLight,
+    IFASlidingFrostedGlassViewControllerBlurEffectDark,
+} IFASlidingFrostedGlassViewControllerBlurEffect;
 
-typedef UIImage *(^IASlidingFrostedGlassViewControllerSnapshotEffectBlock)(UIImage *);
+typedef UIImage *(^IFASlidingFrostedGlassViewControllerSnapshotEffectBlock)(UIImage *);
 
 @interface IFASlidingFrostedGlassViewController : IFAViewController <UIViewControllerTransitioningDelegate, UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning>
 
-@property (nonatomic, weak) id<IASlidingFrostedGlassViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<IFASlidingFrostedGlassViewControllerDelegate> delegate;
 @property(nonatomic, strong, readonly) UIImageView *frostedGlassImageView;
 
 /**
 * Defines the type of blur effect to be applied on the frosted glass.
-* Default: IASlidingFrostedGlassViewControllerBlurEffectLight.
+* Default: IFASlidingFrostedGlassViewControllerBlurEffectLight.
 * It is overridden by setting the blurEffectTintColor property or the snapshotEffectBlock property.
 */
-@property (nonatomic) IASlidingFrostedGlassViewControllerBlurEffect blurEffect;
+@property (nonatomic) IFASlidingFrostedGlassViewControllerBlurEffect blurEffect;
 
 /**
 * Defines the tint colour of the blur effect to be applied on the frosted glass.
@@ -54,7 +54,7 @@ typedef UIImage *(^IASlidingFrostedGlassViewControllerSnapshotEffectBlock)(UIIma
 * If set, it takes precedence over the blurEffect and blurEffectTintColor properties.
 * The block receives UIImage instance as an argument (the snapshot image) and returns a UIImage instance, allowing for the manipulation of the snapshot.
 */
-@property (nonatomic, strong) IASlidingFrostedGlassViewControllerSnapshotEffectBlock snapshotEffectBlock;
+@property (nonatomic, strong) IFASlidingFrostedGlassViewControllerSnapshotEffectBlock snapshotEffectBlock;
 
 - (id)initWithChildViewController:(UIViewController *)a_childViewController
          slidingAnimationDuration:(NSTimeInterval)a_slidingAnimationDuration;
@@ -62,7 +62,7 @@ typedef UIImage *(^IASlidingFrostedGlassViewControllerSnapshotEffectBlock)(UIIma
 - (UIImage *)newBlurredSnapshotImageFrom:(UIView *)a_viewToSnapshot;
 @end
 
-@protocol IASlidingFrostedGlassViewControllerDelegate <NSObject>
+@protocol IFASlidingFrostedGlassViewControllerDelegate <NSObject>
 
 @optional
 - (CGFloat)frostedGlassViewHeight;

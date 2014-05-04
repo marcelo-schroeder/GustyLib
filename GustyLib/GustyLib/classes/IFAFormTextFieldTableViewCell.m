@@ -1,5 +1,5 @@
 //
-//  IAUIFormTextFieldTableViewCellView.m
+//  IFAFormTextFieldTableViewCell.m
 //  TimeNBill
 //
 //  Created by Marcelo Schroeder on 18/05/12.

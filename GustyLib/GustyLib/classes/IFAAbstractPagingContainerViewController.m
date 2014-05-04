@@ -1,5 +1,5 @@
 //
-//  IAUIPagingContainerViewController.m
+//  IFAAbstractPagingContainerViewController.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 31/05/12.
@@ -116,7 +116,7 @@
 
 -(NSUInteger)calculateSelectedPageIndex {
     CGFloat l_contentWidth = self.view.frame.size.width;
-    IAUIScrollPage l_selectedPageIndex = floor((self.scrollView.contentOffset.x - l_contentWidth / 2) / l_contentWidth) + 1;
+    IFAScrollPage l_selectedPageIndex = floor((self.scrollView.contentOffset.x - l_contentWidth / 2) / l_contentWidth) + 1;
     return l_selectedPageIndex;
 }
 
@@ -208,7 +208,7 @@
         return;
     }
     
-    IAUIScrollPage l_newSelectedPageIndex = [self calculateSelectedPageIndex];
+    IFAScrollPage l_newSelectedPageIndex = [self calculateSelectedPageIndex];
     if (self.selectedPageIndex !=l_newSelectedPageIndex) {
         self.selectedPageIndex = l_newSelectedPageIndex;
         [self IFA_updateScreenDecorationState];

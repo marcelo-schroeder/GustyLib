@@ -20,7 +20,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol IAHelpTargetContainer <NSObject>
+@protocol IFAHelpTargetContainer <NSObject>
 
 -(NSArray*)helpTargets;
 -(UINavigationBar*)helpModeToggleView;
@@ -33,7 +33,7 @@
 
 @end
 
-@protocol IAHelpTarget <NSObject>
+@protocol IFAHelpTarget <NSObject>
 
 @property (nonatomic, strong) NSString *helpTargetId;
 
@@ -43,13 +43,13 @@
 
 @property (nonatomic) BOOL helpEnabled;
 @property (nonatomic, readonly) BOOL helpMode;
-@property (nonatomic, weak) id<IAHelpTargetContainer> observedHelpTargetContainer;
+@property (nonatomic, weak) id<IFAHelpTargetContainer> observedHelpTargetContainer;
 
--(void)observeHelpTargetContainer:(id<IAHelpTargetContainer>)a_helpTargetContainer;
+-(void)observeHelpTargetContainer:(id<IFAHelpTargetContainer>)a_helpTargetContainer;
 - (void)helpRequestedForTabBarItemIndex:(NSUInteger)a_index helpTargetId:(NSString *)a_helpTargetId title:(NSString*)a_title;
 
--(void)addHelpTarget:(id<IAHelpTarget>)a_helpTarget;
--(void)removeHelpTarget:(id<IAHelpTarget>)a_helpTarget;
+-(void)addHelpTarget:(id<IFAHelpTarget>)a_helpTarget;
+-(void)removeHelpTarget:(id<IFAHelpTarget>)a_helpTarget;
 
 -(void)refreshHelpTargets;
 

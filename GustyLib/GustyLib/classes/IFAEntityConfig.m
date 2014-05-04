@@ -35,11 +35,11 @@
 #pragma mark Private
 
 - (NSDictionary*)entityConfigDictionary{
-    NSMutableDictionary *l_dictionary = [[IFADynamicCache sharedInstance] objectForKey:(IA_CACHE_KEY_ENTITY_CONFIG_DICTIONARY)];
+    NSMutableDictionary *l_dictionary = [[IFADynamicCache sharedInstance] objectForKey:(IFA_k_CACHE_KEY_ENTITY_CONFIG_DICTIONARY)];
 	if(!l_dictionary){
         l_dictionary = [NSMutableDictionary dictionaryWithDictionary:[IFAUtils getPlistAsDictionary:@"IFAEntityConfig"]];
         [l_dictionary addEntriesFromDictionary:[IFAUtils getPlistAsDictionary:@"EntityConfig"]];
-		[[IFADynamicCache sharedInstance] setObject:l_dictionary forKey:IA_CACHE_KEY_ENTITY_CONFIG_DICTIONARY];
+        [[IFADynamicCache sharedInstance] setObject:l_dictionary forKey:IFA_k_CACHE_KEY_ENTITY_CONFIG_DICTIONARY];
 	}
 	return l_dictionary;
 }
@@ -173,12 +173,12 @@
 	return label;
 }
 
-- (IADataType)dataTypeForProperty:(NSString*)aPropertyName inEntity:(NSString*)anEntityName{
+- (IFADataType)dataTypeForProperty:(NSString*)aPropertyName inEntity:(NSString*)anEntityName{
 	NSString *dataTypeName = [[[[[self entityConfigDictionary] valueForKey:anEntityName] valueForKey:@"properties"] valueForKey:aPropertyName] valueForKey:@"dataType"];
-	IADataType dataType = NSNotFound;
+	IFADataType dataType = NSNotFound;
 	if (dataTypeName) {
 		if ([dataTypeName isEqualToString:@"timeInterval"]) {
-			dataType = IA_DATA_TYPE_TIME_INTERVAL;
+			dataType = IFADataTypeTimeInterval;
 		}else {
 			NSAssert(NO, @"Unexpected data type name: %@", dataTypeName);
 		}
@@ -186,7 +186,7 @@
 	return dataType;
 }
 
-- (IADataType)dataTypeForProperty:(NSString*)aPropertyName inObject:(NSObject*)anObject{
+- (IFADataType)dataTypeForProperty:(NSString*)aPropertyName inObject:(NSObject*)anObject{
 	return [self dataTypeForProperty:aPropertyName inEntity:[[anObject class] description]];
 }
 
@@ -274,16 +274,16 @@
 	return [[[self entityConfigDictionary] valueForKey:anEntityName] valueForKey:@"indefiniteArticle"];
 }
 
-- (IAEditorType)fieldEditorForEntity:(NSString*)anEntityName{
+- (IFAEditorType)fieldEditorForEntity:(NSString*)anEntityName{
 	NSString *fieldEditorName = [[[self entityConfigDictionary] valueForKey:anEntityName] valueForKey:@"fieldEditor"];
-	IAEditorType fieldEditor = NSNotFound;
+	IFAEditorType fieldEditor = NSNotFound;
 	if (fieldEditorName) {
 		if ([fieldEditorName isEqualToString:@"selectionList"]) {
-			fieldEditor = IA_EDITOR_TYPE_SELECTION_LIST;
+			fieldEditor = IFAEditorTypeSelectionList;
 		}else if ([fieldEditorName isEqualToString:@"segmented"]) {
-			fieldEditor = IA_EDITOR_TYPE_SEGMENTED;
+			fieldEditor = IFAEditorTypeSegmented;
 		}else if ([fieldEditorName isEqualToString:@"picker"]) {
-			fieldEditor = IA_EDITOR_TYPE_PICKER;
+			fieldEditor = IFAEditorTypePicker;
 		}else {
 			NSAssert(NO, @"Unexpected field editor name: %@", fieldEditorName);
 		}

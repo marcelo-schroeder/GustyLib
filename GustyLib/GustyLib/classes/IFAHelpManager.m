@@ -137,7 +137,7 @@
  */
 -(void)ifa_updateScreenHelpButtonFrame {
     UIViewController *l_observedViewController = (UIViewController*)self.observedHelpTargetContainer;
-    self.ifa_screenHelpButton.frame = CGRectMake(0, 0, IA_MINIMUM_TAP_AREA_DIMENSION, l_observedViewController.navigationController.navigationBar.frame.size.height);
+    self.ifa_screenHelpButton.frame = CGRectMake(0, 0, IFA_k_MINIMUM_TAP_AREA_DIMENSION, l_observedViewController.navigationController.navigationBar.frame.size.height);
     self.ifa_screenHelpButton.center = l_observedViewController.navigationController.navigationBar.center;
     self.ifa_screenHelpButtonProxyView.center = self.ifa_screenHelpButton.center;
 }
@@ -163,7 +163,7 @@
 
     UIView *l_view = [self.observedHelpTargetContainer targetView];
     if (a_helpMode) {
-        self.ifa_helpButton = (UIButton*)[l_view viewWithTag:IA_UIVIEW_TAG_HELP_BUTTON];
+        self.ifa_helpButton = (UIButton*) [l_view viewWithTag:IFA_k_UIVIEW_TAG_HELP_BUTTON];
         [self ifa_updateScreenHelpButtonFrame];
         [self ifa_updateCancelButtonFrame];
     }else{
@@ -290,7 +290,7 @@
 //    [self.ifa_helpModeOverlayView m_hideTicker];
     
     UIView *l_pointingAtView = nil;
-    if (a_view==self.ifa_screenHelpButton || a_view.tag==IA_UIVIEW_TAG_HELP_BUTTON) {
+    if (a_view==self.ifa_screenHelpButton || a_view.tag== IFA_k_UIVIEW_TAG_HELP_BUTTON) {
 
         self.ifa_helpTargetProxyView = nil;
         l_pointingAtView = a_view==self.ifa_screenHelpButton ? self.ifa_screenHelpButtonProxyView : a_view;
@@ -451,14 +451,14 @@
     
     NSArray *l_helpTargets = [self.observedHelpTargetContainer helpTargets];
     //        NSLog(@"l_helpTargets: %@", [l_helpTargets description]);
-    for (id<IAHelpTarget> l_helpTarget in l_helpTargets) {
+    for (id<IFAHelpTarget> l_helpTarget in l_helpTargets) {
         [self addHelpTarget:l_helpTarget];
     }
 
     [IFAUIUtils traverseHierarchyForView:[self.observedHelpTargetContainer targetView] withBlock:^(UIView *a_view) {
         [self addHelpTarget:a_view];
-        if ([a_view conformsToProtocol:@protocol(IAHelpTargetContainer)]) {
-            id <IAHelpTargetContainer> l_helpTargetContainer = (id <IAHelpTargetContainer>) a_view;
+        if ([a_view conformsToProtocol:@protocol(IFAHelpTargetContainer)]) {
+            id <IFAHelpTargetContainer> l_helpTargetContainer = (id <IFAHelpTargetContainer>) a_view;
             for (UIView *l_view in [l_helpTargetContainer helpTargets]) {
                 [self addHelpTarget:l_view];
             }
@@ -476,7 +476,7 @@
     [self.ifa_tabBarItemProxyViews removeAllObjects];
     
     // Now remove the remaining help targets
-    for (id<IAHelpTarget> l_helpTarget in [self.ifa_helpTargets copy]) {
+    for (id<IFAHelpTarget> l_helpTarget in [self.ifa_helpTargets copy]) {
         [self removeHelpTarget:l_helpTarget];
     }
     
@@ -485,7 +485,7 @@
 -(void)ifa_removeSimpleHelpBackground {
     IFAAbstractFieldEditorViewController *l_fieldEditorViewController = (IFAAbstractFieldEditorViewController *)self.observedHelpTargetContainer;
     NSAssert(l_fieldEditorViewController, @"l_fieldEditorViewController is nil");
-    [[l_fieldEditorViewController.navigationController.view viewWithTag:IA_UIVIEW_TAG_HELP_BACKGROUND] removeFromSuperview];
+    [[l_fieldEditorViewController.navigationController.view viewWithTag:IFA_k_UIVIEW_TAG_HELP_BACKGROUND] removeFromSuperview];
 }
 
 -(void)ifa_onSimpleHelpGestureRecogniserAction:(id)sender{
@@ -513,7 +513,7 @@
         // Configure background view
         CGRect l_frame = l_fieldEditorViewController.navigationController.view.frame;
         UIView *l_backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, l_frame.size.width, l_frame.size.height)];
-        l_backgroundView.tag = IA_UIVIEW_TAG_HELP_BACKGROUND;
+        l_backgroundView.tag = IFA_k_UIVIEW_TAG_HELP_BACKGROUND;
         l_backgroundView.backgroundColor = [UIColor clearColor];
         [l_backgroundView addGestureRecognizer:self.ifa_simpleHelpBackgroundGestureRecogniser];
         [l_fieldEditorViewController.navigationController.view addSubview:l_backgroundView];
@@ -560,7 +560,7 @@
 
 #pragma mark - Public
 
--(void)observeHelpTargetContainer:(id<IAHelpTargetContainer>)a_helpTargetContainer{
+-(void)observeHelpTargetContainer:(id<IFAHelpTargetContainer>)a_helpTargetContainer{
     
     // Store view controller to be observed
     self.observedHelpTargetContainer = a_helpTargetContainer;
@@ -578,7 +578,7 @@
                           pointingAtView:[self.ifa_tabBarItemProxyViews objectAtIndex:a_index]];
 }
 
--(void)addHelpTarget:(id<IAHelpTarget>)a_helpTarget{
+-(void)addHelpTarget:(id<IFAHelpTarget>)a_helpTarget{
     
 //    NSLog(@"addHelpTarget: %@", [a_helpTarget description]);
     
@@ -687,7 +687,7 @@
     
 }
 
--(void)removeHelpTarget:(id<IAHelpTarget>)a_helpTarget{
+-(void)removeHelpTarget:(id<IFAHelpTarget>)a_helpTarget{
     
     NSUInteger l_index = [self.ifa_helpTargets indexOfObject:a_helpTarget];
 
@@ -776,7 +776,7 @@
 
     // Configure button
     UIButton *l_helpButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    l_helpButton.tag = IA_UIVIEW_TAG_HELP_BUTTON;
+    l_helpButton.tag = IFA_k_UIVIEW_TAG_HELP_BUTTON;
     l_helpButton.frame = CGRectMake(0, 0, 20, 44);
     l_helpButton.accessibilityLabel = [self accessibilityLabelForKeyPath:[IFAUIUtils helpTargetIdForName:@"helpButton"]];
 //    l_helpButton.backgroundColor = [UIColor redColor];
@@ -785,7 +785,7 @@
     
     // Configure bar button item
     UIBarButtonItem *l_helpBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:l_helpButton];
-    l_helpBarButtonItem.tag = IA_UIBAR_ITEM_TAG_HELP_BUTTON;
+    l_helpBarButtonItem.tag = IFA_k_UIBAR_ITEM_TAG_HELP_BUTTON;
     
     return l_helpBarButtonItem;
     

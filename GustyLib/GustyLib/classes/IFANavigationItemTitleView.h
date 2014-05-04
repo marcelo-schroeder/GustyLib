@@ -1,5 +1,5 @@
 //
-//  IAUITitleView.h
+//  IFANavigationItemTitleView.h
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 12/07/12.

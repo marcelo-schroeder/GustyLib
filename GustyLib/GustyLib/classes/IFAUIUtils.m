@@ -25,7 +25,7 @@ static UIImage *c_menuBarButtonItemImage = nil;
 // 5Mb seems to be limit for UIWebView to be able to display images in iOS 7 (i.e. no devices have less than 256Mb of RAM)
 // Based on the "Know iOS Resource Limits" section at https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html
 // JPEG's have a higher limit, but I have not taken that into consideration yet.
-const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
+CGFloat const IFA_k_maximumImageSizeInPixels = 5 * 1024 * 1024;
 
 @implementation IFAUIUtils
 
@@ -232,12 +232,12 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
 + (UIBarButtonItem*) barButtonItemForType:(NSUInteger)aType target:(id)aTarget action:(SEL)anAction{
 	UIBarButtonItem *barButtonItem;
 	switch (aType) {
-		case IA_UIBAR_BUTTON_ITEM_CANCEL:
+		case IFA_k_UIBAR_BUTTON_ITEM_CANCEL:
 			barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:aTarget action:anAction];
             barButtonItem.helpTargetId = [self helpTargetIdForName:@"cancelButton"];
 //			barButtonItem.accessibilityLabel = @"Cancel Button";
 			break;
-		case IA_UIBAR_BUTTON_ITEM_DONE:
+		case IFA_k_UIBAR_BUTTON_ITEM_DONE:
 			barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:aTarget action:anAction];
             barButtonItem.helpTargetId = [self helpTargetIdForName:@"doneButton"];
             [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceForBarButtonItem:barButtonItem
@@ -245,25 +245,25 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
                                                                                                    important:YES ];
 //			barButtonItem.accessibilityLabel = @"Done Button";
 			break;
-		case IA_UIBAR_BUTTON_ITEM_DELETE:
+		case IFA_k_UIBAR_BUTTON_ITEM_DELETE:
 			barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"310-RemoveButton.png"] style:UIBarButtonItemStylePlain target:aTarget action:anAction];
             barButtonItem.helpTargetId = [self helpTargetIdForName:@"deleteButton"];
 //			barButtonItem.accessibilityLabel = @"Delete Button";
 			break;
-		case IA_UIBAR_BUTTON_ITEM_FLEXIBLE_SPACE:
+		case IFA_k_UIBAR_BUTTON_ITEM_FLEXIBLE_SPACE:
 			barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:aTarget action:anAction];
 			break;
-		case IA_UIBAR_BUTTON_ITEM_FIXED_SPACE:
+		case IFA_k_UIBAR_BUTTON_ITEM_FIXED_SPACE:
 			barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:aTarget action:anAction];
 			barButtonItem.width = 5;
 			break;
-		case IA_UIBAR_BUTTON_ITEM_ADD:
+		case IFA_k_UIBAR_BUTTON_ITEM_ADD:
 			barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:aTarget action:anAction];
             barButtonItem.tag = 10000;
             barButtonItem.helpTargetId = [self helpTargetIdForName:@"addButton"];
 //			barButtonItem.accessibilityLabel = @"Add Button";
 			break;
-		case IA_UIBAR_BUTTON_ITEM_SELECT_NONE:
+		case IFA_k_UIBAR_BUTTON_ITEM_SELECT_NONE:
 		{
 			NSString *l_title = [IFAUtils infoPList][@"IAUISelectNoneButtonLabel"];
             if (!l_title) {
@@ -274,7 +274,7 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
 //			barButtonItem.accessibilityLabel = @"Select None Button";
 			break;
 		}
-		case IA_UIBAR_BUTTON_ITEM_SELECT_ALL:
+		case IFA_k_UIBAR_BUTTON_ITEM_SELECT_ALL:
 		{
 			NSString *l_title = @"Select All";
 			barButtonItem = [[UIBarButtonItem alloc] initWithTitle:l_title style:UIBarButtonItemStyleBordered target:aTarget action:anAction];
@@ -282,38 +282,38 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
 //			barButtonItem.accessibilityLabel = @"Select All Button";
 			break;
 		}
-		case IA_UIBAR_BUTTON_PREVIOUS_PAGE:
+		case IFA_k_UIBAR_BUTTON_PREVIOUS_PAGE:
 			barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"191-ArrowHead-left"] style:UIBarButtonItemStylePlain target:aTarget action:anAction];
 //			barButtonItem.accessibilityLabel = @"Previous Page Button";
 			break;
-		case IA_UIBAR_BUTTON_NEXT_PAGE:
+		case IFA_k_UIBAR_BUTTON_NEXT_PAGE:
 			barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"191-ArrowHead-right"] style:UIBarButtonItemStylePlain target:aTarget action:anAction];
 //			barButtonItem.accessibilityLabel = @"Next Page Button";
 			break;
-		case IA_UIBAR_BUTTON_ITEM_SELECT_NOW:
+		case IFA_k_UIBAR_BUTTON_ITEM_SELECT_NOW:
 			barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Now" style:UIBarButtonItemStyleBordered target:aTarget action:anAction];
             barButtonItem.helpTargetId = [self helpTargetIdForName:@"nowButton"];
 //			barButtonItem.accessibilityLabel = @"Now Button";
 			break;
-		case IA_UIBAR_BUTTON_ITEM_SELECT_TODAY:
+		case IFA_k_UIBAR_BUTTON_ITEM_SELECT_TODAY:
 			barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Today" style:UIBarButtonItemStyleBordered target:aTarget action:anAction];
             barButtonItem.helpTargetId = [self helpTargetIdForName:@"todaySelectionButton"];
 //			barButtonItem.accessibilityLabel = @"Today Button";
 			break;
-		case IA_UIBAR_BUTTON_ITEM_ACTION:
+		case IFA_k_UIBAR_BUTTON_ITEM_ACTION:
 			barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:aTarget action:anAction];
 //			barButtonItem.accessibilityLabel = @"Action Button";
 			break;
-		case IA_UIBAR_BUTTON_ITEM_REFRESH:
+		case IFA_k_UIBAR_BUTTON_ITEM_REFRESH:
 			barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:aTarget action:anAction];
 //			barButtonItem.accessibilityLabel = @"Refresh Button";
 			break;
-		case IA_UIBAR_BUTTON_ITEM_DISMISS:
+		case IFA_k_UIBAR_BUTTON_ITEM_DISMISS:
 			barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Dismiss" style:UIBarButtonItemStyleBordered target:aTarget action:anAction];
             barButtonItem.helpTargetId = [self helpTargetIdForName:@"dismissButton"];
 //			barButtonItem.accessibilityLabel = @"Dismiss Button";
 			break;
-		case IA_UIBAR_BUTTON_ITEM_BACK:
+		case IFA_k_UIBAR_BUTTON_ITEM_BACK:
 			barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:aTarget action:anAction];
             barButtonItem.helpTargetId = [self helpTargetIdForName:@"backButton"];
 //			barButtonItem.accessibilityLabel = @"Back Button";
@@ -463,8 +463,8 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
 }
 
 +(void)postNavigationEventNotification {
-    [[NSNotificationCenter defaultCenter] postNotificationName:IA_NOTIFICATION_NAVIGATION_EVENT object:nil];
-//    NSLog(@"IA_NOTIFICATION_NAVIGATION_EVENT sent");
+    [[NSNotificationCenter defaultCenter] postNotificationName:IFA_k_NOTIFICATION_NAVIGATION_EVENT object:nil];
+//    NSLog(@"IFA_k_NOTIFICATION_NAVIGATION_EVENT sent");
 }
 
 +(void)traverseHierarchyForView:(UIView *)a_view withBlock:(void (^) (UIView*))a_block{
@@ -553,7 +553,7 @@ const CGFloat k_IAMaximumImageSizeInPixels = 5 * 1024 * 1024;
 
 + (BOOL)isImageWithinSafeMemoryThresholdForSizeInPixels:(CGSize)a_imageSizeInPixels {
     CGFloat l_imageSizeInPixels = a_imageSizeInPixels.width * a_imageSizeInPixels.height;
-    BOOL l_ok = l_imageSizeInPixels <= k_IAMaximumImageSizeInPixels;
+    BOOL l_ok = l_imageSizeInPixels <= IFA_k_maximumImageSizeInPixels;
     return l_ok;
 }
 

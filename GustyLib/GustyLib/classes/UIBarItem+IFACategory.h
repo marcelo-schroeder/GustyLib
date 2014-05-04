@@ -1,5 +1,5 @@
 //
-//  UIBarItem+IACategory.h
+//  UIBarItem+IFACategory.h
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 27/03/12.
@@ -20,7 +20,7 @@
 
 #import "IFAHelpManager.h"
 
-@interface UIBarItem (IFACategory) <IAHelpTarget>
+@interface UIBarItem (IFACategory) <IFAHelpTarget>
 
 @property (nonatomic, strong) NSString *helpTargetId;
 

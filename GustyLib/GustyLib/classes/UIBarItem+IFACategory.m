@@ -1,5 +1,5 @@
 //
-//  UIBarItem+IACategory.m
+//  UIBarItem+IFACategory.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 27/03/12.

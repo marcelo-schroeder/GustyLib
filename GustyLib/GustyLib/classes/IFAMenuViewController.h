@@ -1,5 +1,5 @@
 //
-//  IAUIMenuMasterViewController.h
+//  IFAMenuViewController.h
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 11/05/12.

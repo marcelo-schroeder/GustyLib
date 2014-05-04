@@ -1,5 +1,5 @@
 //
-//  IAUIPreferencesFormViewControllerViewController.m
+//  IFAPreferencesFormViewController.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 30/04/12.
@@ -32,7 +32,7 @@
     self.readOnlyMode = NO;
     self.createMode = NO;
     self.object = [[IFAPreferencesManager sharedInstance] preferences];
-    self.formName = IA_ENTITY_CONFIG_FORM_NAME_DEFAULT;
+    self.formName = IFA_k_ENTITY_CONFIG_FORM_NAME_DEFAULT;
     self.isSubForm = NO;
     return self;
 }
