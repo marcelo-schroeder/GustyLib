@@ -57,7 +57,7 @@
 }
 
 -(id)initWithHtmlStyleResourceName:(NSString*)a_htmlStyleResourceName{
-    return [self initWithHtmlTemplateResourceName:@"IAHtmlTemplate.txt" htmlStyleResourceName:a_htmlStyleResourceName];
+    return [self initWithHtmlTemplateResourceName:@"IFAHtmlTemplate.txt" htmlStyleResourceName:a_htmlStyleResourceName];
 }
 
 -(id)initWithHtmlTemplateResourceName:(NSString*)a_htmlTemplateResourceName htmlStyleResourceName:(NSString*)a_htmlStyleResourceName{

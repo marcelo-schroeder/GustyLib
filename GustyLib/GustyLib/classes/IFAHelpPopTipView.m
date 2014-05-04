@@ -113,7 +113,7 @@
         self.cornerRadius = 8;
         
         // Load the XIB
-        [[NSBundle mainBundle] loadNibNamed:@"IAUIHelpPopTipCustomView" owner:self options:nil];
+        [[NSBundle mainBundle] loadNibNamed:@"IFAHelpPopTipCustomView" owner:self options:nil];
         self.helpTargetTitleLabel.textColor = [IFAUIUtils colorForInfoPlistKey:@"IAUIHelpPopTipTitleColour"];
         if (!self.helpTargetTitleLabel.textColor) {
             self.helpTargetTitleLabel.textColor = [UIColor blackColor];

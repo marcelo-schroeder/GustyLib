@@ -480,6 +480,14 @@
 		F7085E301915ED120089BA8E /* IFA_ECSlidingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFA_ECSlidingViewController.m; sourceTree = "<group>"; };
 		F7085E311915ED120089BA8E /* UIImage+IFA_ECImageWithUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+IFA_ECImageWithUIView.h"; sourceTree = "<group>"; };
 		F7085E321915ED120089BA8E /* UIImage+IFA_ECImageWithUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+IFA_ECImageWithUIView.m"; sourceTree = "<group>"; };
+		F7085E351915FCB90089BA8E /* IFAAboutCustomView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IFAAboutCustomView.xib; sourceTree = "<group>"; };
+		F7085E361915FCB90089BA8E /* IFAEntityConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = IFAEntityConfig.plist; sourceTree = "<group>"; };
+		F7085E371915FCB90089BA8E /* IFAFormSectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IFAFormSectionHeaderView.xib; sourceTree = "<group>"; };
+		F7085E381915FCB90089BA8E /* IFAHelpPopTipCustomView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IFAHelpPopTipCustomView.xib; sourceTree = "<group>"; };
+		F7085E391915FCB90089BA8E /* IFAHelpPopTipView.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = IFAHelpPopTipView.css; sourceTree = "<group>"; };
+		F7085E3A1915FCB90089BA8E /* IFAHtmlTemplate.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = IFAHtmlTemplate.txt; sourceTree = "<group>"; };
+		F7085E3B1915FCB90089BA8E /* IFASliderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IFASliderView.xib; sourceTree = "<group>"; };
+		F7085E3C1915FCB90089BA8E /* IFATableSectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IFATableSectionHeaderView.xib; sourceTree = "<group>"; };
 		F7446BD119085FA9008345FA /* GustyLib.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = GustyLib.podspec; path = ../GustyLib.podspec; sourceTree = "<group>"; };
 		F766D2FD18ECA3A700B3B590 /* IFAPagingStateManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAPagingStateManagerTests.m; sourceTree = "<group>"; };
 		F766D33D18ECA71000B3B590 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -526,14 +534,6 @@
 		F7D4DB5A18EA0E6400ABF401 /* internalWebBrowserActivity~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "internalWebBrowserActivity~ipad.png"; sourceTree = "<group>"; };
 		F7D4DB5B18EA0E6400ABF401 /* internalWebBrowserActivity~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "internalWebBrowserActivity~iphone.png"; sourceTree = "<group>"; };
 		F7D4DB5D18EA0E6400ABF401 /* SVWebViewController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVWebViewController.bundle; sourceTree = "<group>"; };
-		F7D4DB5E18EA0E6400ABF401 /* IAEntityConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = IAEntityConfig.plist; sourceTree = "<group>"; };
-		F7D4DB5F18EA0E6400ABF401 /* IAHtmlTemplate.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = IAHtmlTemplate.txt; sourceTree = "<group>"; };
-		F7D4DB6018EA0E6400ABF401 /* IAUIAboutCustomView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IAUIAboutCustomView.xib; sourceTree = "<group>"; };
-		F7D4DB6118EA0E6400ABF401 /* IAUIFormSectionHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IAUIFormSectionHeaderView.xib; sourceTree = "<group>"; };
-		F7D4DB6218EA0E6400ABF401 /* IAUIHelpPopTipCustomView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IAUIHelpPopTipCustomView.xib; sourceTree = "<group>"; };
-		F7D4DB6318EA0E6400ABF401 /* IAUIHelpPopTipView.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = IAUIHelpPopTipView.css; sourceTree = "<group>"; };
-		F7D4DB6418EA0E6400ABF401 /* IAUISliderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IAUISliderView.xib; sourceTree = "<group>"; };
-		F7D4DB6518EA0E6400ABF401 /* IAUITableSectionHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IAUITableSectionHeaderView.xib; sourceTree = "<group>"; };
 		F7D4DB6618EA0E6400ABF401 /* textViewBorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textViewBorder.png; sourceTree = "<group>"; };
 		F7D4DB6718EA0E6400ABF401 /* textViewBorder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "textViewBorder@2x.png"; sourceTree = "<group>"; };
 		F7D4DBED18EA11E100ABF401 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -1017,15 +1017,15 @@
 		F7D4DB4118EA0E6400ABF401 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				F7085E351915FCB90089BA8E /* IFAAboutCustomView.xib */,
+				F7085E361915FCB90089BA8E /* IFAEntityConfig.plist */,
+				F7085E371915FCB90089BA8E /* IFAFormSectionHeaderView.xib */,
+				F7085E381915FCB90089BA8E /* IFAHelpPopTipCustomView.xib */,
+				F7085E391915FCB90089BA8E /* IFAHelpPopTipView.css */,
+				F7085E3A1915FCB90089BA8E /* IFAHtmlTemplate.txt */,
+				F7085E3B1915FCB90089BA8E /* IFASliderView.xib */,
+				F7085E3C1915FCB90089BA8E /* IFATableSectionHeaderView.xib */,
 				F7D4DB4218EA0E6400ABF401 /* 3rd party */,
-				F7D4DB5E18EA0E6400ABF401 /* IAEntityConfig.plist */,
-				F7D4DB5F18EA0E6400ABF401 /* IAHtmlTemplate.txt */,
-				F7D4DB6018EA0E6400ABF401 /* IAUIAboutCustomView.xib */,
-				F7D4DB6118EA0E6400ABF401 /* IAUIFormSectionHeaderView.xib */,
-				F7D4DB6218EA0E6400ABF401 /* IAUIHelpPopTipCustomView.xib */,
-				F7D4DB6318EA0E6400ABF401 /* IAUIHelpPopTipView.css */,
-				F7D4DB6418EA0E6400ABF401 /* IAUISliderView.xib */,
-				F7D4DB6518EA0E6400ABF401 /* IAUITableSectionHeaderView.xib */,
 				F7D4DB6618EA0E6400ABF401 /* textViewBorder.png */,
 				F7D4DB6718EA0E6400ABF401 /* textViewBorder@2x.png */,
 			);

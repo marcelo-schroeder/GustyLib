@@ -31,7 +31,7 @@
         self.textLabel.hidden = YES;
         self.detailTextLabel.hidden = YES;
 //        self.selectionStyle = UITableViewCellEditingStyleNone;
-        [[NSBundle mainBundle] loadNibNamed:@"IAUISliderView" owner:self options:nil];
+        [[NSBundle mainBundle] loadNibNamed:@"IFASliderView" owner:self options:nil];
 //        NSDictionary *l_options = [[IFAPersistenceManager sharedInstance].entityConfig optionsForProperty:a_propertyName inManagedObject:a_managedObject];
 //        self.minLabel.text = [l_options valueForKey:@"minimumValueLabel"];
 //        self.maxLabel.text = [l_options valueForKey:@"maximumValueLabel"];
