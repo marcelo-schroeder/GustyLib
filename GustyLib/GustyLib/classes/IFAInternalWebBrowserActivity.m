@@ -50,7 +50,7 @@
 #pragma mark - Overrides
 
 -(NSString *)activityType{
-    return @"IAInternalWebBrowser";
+    return @"IFAInternalWebBrowser";
 }
 
 - (UIViewController *)activityViewController {

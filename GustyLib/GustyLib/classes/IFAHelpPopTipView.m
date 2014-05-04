@@ -106,7 +106,7 @@
         // Configure the superclass
         self.delegate = self;
         self.disableTapToDismiss = YES;
-        self.backgroundColor = [IFAUIUtils colorForInfoPlistKey:@"IAUIHelpPopTipBackgroundColour"];
+        self.backgroundColor = [IFAUIUtils colorForInfoPlistKey:@"IFAHelpPopTipBackgroundColour"];
         if (!self.backgroundColor) {
             self.backgroundColor = [UIColor lightGrayColor];
         }
@@ -114,7 +114,7 @@
         
         // Load the XIB
         [[NSBundle mainBundle] loadNibNamed:@"IFAHelpPopTipCustomView" owner:self options:nil];
-        self.helpTargetTitleLabel.textColor = [IFAUIUtils colorForInfoPlistKey:@"IAUIHelpPopTipTitleColour"];
+        self.helpTargetTitleLabel.textColor = [IFAUIUtils colorForInfoPlistKey:@"IFAHelpPopTipTitleColour"];
         if (!self.helpTargetTitleLabel.textColor) {
             self.helpTargetTitleLabel.textColor = [UIColor blackColor];
         }
@@ -123,7 +123,7 @@
         self.ifa_webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, [self ifa_calculateWidth], 1)];
         self.ifa_webView.delegate = self;
         self.ifa_webView.opaque = NO;
-        self.ifa_webView.backgroundColor = [IFAUIUtils colorForInfoPlistKey:@"IAUIHelpPopTipContentBackgroundColour"];
+        self.ifa_webView.backgroundColor = [IFAUIUtils colorForInfoPlistKey:@"IFAHelpPopTipContentBackgroundColour"];
         if (!self.ifa_webView.backgroundColor) {
             self.ifa_webView.backgroundColor = [UIColor clearColor];
         }
@@ -134,7 +134,7 @@
         self.ifa_webView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, -2);
         
         // Configure the HTML document
-        NSString *l_htmlStyleResourceName = [[IFAUtils infoPList] valueForKey:@"IAUIHelpPopTipBodyCss"];
+        NSString *l_htmlStyleResourceName = [[IFAUtils infoPList] valueForKey:@"IFAHelpPopTipBodyCss"];
         if (!l_htmlStyleResourceName) {
             l_htmlStyleResourceName = @"IFAHelpPopTipView.css";
         }

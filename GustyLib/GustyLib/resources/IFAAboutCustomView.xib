@@ -205,8 +205,8 @@
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
-					<string key="className">IAUIAboutFormViewController</string>
-					<string key="superclassName">IAUIFormViewController</string>
+					<string key="className">IFAAboutFormViewController</string>
+					<string key="superclassName">IFAFormViewController</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="appNameLabel">UILabel</string>
 						<string key="copyrightNoticeLabel">UILabel</string>
@@ -228,23 +228,23 @@
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/IAUIAboutFormViewController.h</string>
+						<string key="minorKey">./Classes/IFAAboutFormViewController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">IAUIFormViewController</string>
-					<string key="superclassName">IAUITableViewController</string>
+					<string key="className">IFAFormViewController</string>
+					<string key="superclassName">IFATableViewController</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/IAUIFormViewController.h</string>
+						<string key="minorKey">./Classes/IFAFormViewController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">IAUITableViewController</string>
+					<string key="className">IFATableViewController</string>
 					<string key="superclassName">UITableViewController</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/IAUITableViewController.h</string>
+						<string key="minorKey">./Classes/IFATableViewController.h</string>
 					</object>
 				</object>
 			</array>

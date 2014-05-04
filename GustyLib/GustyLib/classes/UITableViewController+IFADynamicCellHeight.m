@@ -18,7 +18,7 @@
 #import "IFACommon.h"
 #import "UITableViewController+IFADynamicCellHeight.h"
 
-@interface UITableViewController (IADynamicCellHeight_Priate)
+@interface UITableViewController (IFADynamicCellHeight_Private)
 @property (nonatomic, strong) NSMutableDictionary *IFA_cachedCellHeights;
 @end
 

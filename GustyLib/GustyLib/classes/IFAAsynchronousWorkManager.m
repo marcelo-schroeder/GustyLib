@@ -349,7 +349,7 @@ usePrivateManagedObjectContext:a_usePrivateManagedObjectContext];
     if (self=[super init]) {
 
         self.ifa_operationQueue = [[NSOperationQueue alloc] init];
-        NSString *l_mainSerialDispatchQueueId = [NSString stringWithFormat:@"com.infoaccent.IAAsynchronousOperationManager.mainSerialDispatchQueue.%@", [IFAUtils generateUuid]];
+        NSString *l_mainSerialDispatchQueueId = [NSString stringWithFormat:@"com.infoaccent.IFAAsynchronousOperationManager.mainSerialDispatchQueue.%@", [IFAUtils generateUuid]];
 //        NSLog(@"l_mainSerialDispatchQueueId: %@", l_mainSerialDispatchQueueId);
         self.ifa_mainSerialDispatchQueue = dispatch_queue_create([l_mainSerialDispatchQueueId UTF8String], DISPATCH_QUEUE_SERIAL);
         

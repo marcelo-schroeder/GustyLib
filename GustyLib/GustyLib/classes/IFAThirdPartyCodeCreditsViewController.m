@@ -39,7 +39,7 @@
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if (self) {
-        self.ifa_credits = [[IFAUtils infoPList] objectForKey:@"IAThirdPartyCodeCredits"];
+        self.ifa_credits = [[IFAUtils infoPList] objectForKey:@"IFAThirdPartyCodeCredits"];
     }
     return self;
 }

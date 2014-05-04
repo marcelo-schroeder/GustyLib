@@ -24,7 +24,7 @@ static char c_helpTargetIdKey;
 
 @implementation UIBarItem (IFACategory)
 
-#pragma mark - IAHelpTarget protocol
+#pragma mark - IFAHelpTarget protocol
 
 -(void)setHelpTargetId:(NSString *)a_helpTargetId{
     objc_setAssociatedObject(self, &c_helpTargetIdKey, a_helpTargetId, OBJC_ASSOCIATION_RETAIN_NONATOMIC);

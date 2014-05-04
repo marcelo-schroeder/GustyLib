@@ -132,7 +132,7 @@ static char c_presentedAsSemiModalKey;
         
         // Dismiss button
         // Don't use UITapGestureRecognizer to avoid complex handling
-        if (((NSNumber*)[IFAUtils infoPList][@"IAUIAllowSemiModalDismissalWithOutsideTap"]).boolValue) {
+        if (((NSNumber*)[IFAUtils infoPList][@"IFAAllowSemiModalDismissalWithOutsideTap"]).boolValue) {
             UIButton * dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
             [dismissButton addTarget:self action:@selector(dismissSemiModalView) forControlEvents:UIControlEventTouchUpInside];
             dismissButton.backgroundColor = [UIColor clearColor];

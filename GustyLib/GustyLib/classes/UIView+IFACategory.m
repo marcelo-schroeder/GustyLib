@@ -196,7 +196,7 @@ static char c_appearanceIdKey;
     [IFAUIUtils traverseHierarchyForView:self withBlock:a_block];
 }
 
-#pragma mark - IAHelpTarget protocol
+#pragma mark - IFAHelpTarget protocol
 
 -(void)setHelpTargetId:(NSString *)a_helpTargetId{
     objc_setAssociatedObject(self, &c_helpTargetIdKey, a_helpTargetId, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -212,7 +212,7 @@ static char c_appearanceIdKey;
     return objc_getAssociatedObject(self, &c_helpTargetIdKey);
 }
 
-#pragma mark - IAHelpTargetContainer
+#pragma mark - IFAHelpTargetContainer
 
 -(NSArray*)IFA_helpTargets {
     return nil;

@@ -24,7 +24,7 @@
 #pragma mark - Overrides
 
 -(NSString *)activityType{
-    return @"IAExternalWebBrowser";
+    return @"IFAExternalWebBrowser";
 }
 
 - (void)performActivity {

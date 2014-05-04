@@ -47,7 +47,7 @@ static char c_activeFetchedResultsControllerKey;
 static char c_keyboardPassthroughViewKey;
 static char c_shouldUseKeyboardPassthroughViewKey;
 
-@interface UIViewController (IACategory_Private)
+@interface UIViewController (IFACategory_Private)
 
 @property (nonatomic, strong) UIPopoverController *IFA_activePopoverController;
 @property (nonatomic, strong) UIBarButtonItem *IFA_activePopoverControllerBarButtonItem;
@@ -1523,7 +1523,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 //    
 //}
 
-#pragma mark - IAHelpTargetContainer
+#pragma mark - IFAHelpTargetContainer
 
 -(NSArray*)helpTargets {
 
@@ -1598,7 +1598,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     }
 }
 
-#pragma mark - IAUIPresenter protocol
+#pragma mark - IFAPresenter protocol
 
 -(void)changesMadeByViewController:(UIViewController *)a_viewController{
     // Subclasses to override

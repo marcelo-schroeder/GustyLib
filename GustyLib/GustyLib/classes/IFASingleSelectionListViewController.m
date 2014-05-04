@@ -64,14 +64,14 @@
 }
 
 #pragma mark -
-#pragma mark IAUISingleSelectionManagerDelegate
+#pragma mark IFASingleSelectionManagerDelegate
 
 - (UITableViewCell*)decorateSelectionForCell:(UITableViewCell*)aCell selected:(BOOL)aSelectedFlag targetObject:(id)aTargetObject{
     aCell.accessoryView = nil;  // Reset the accessory view
 	if (aSelectedFlag) {
-        UIImage *l_imageNormal = self.selectedIconImageNormal ? self.selectedIconImageNormal : [UIImage imageNamed:[[IFAUtils infoPList] valueForKey:@"IAUIThemeSingleSelectionListCheckmarkImageNameNormal"]];
+        UIImage *l_imageNormal = self.selectedIconImageNormal ? self.selectedIconImageNormal : [UIImage imageNamed:[[IFAUtils infoPList] valueForKey:@"IFAThemeSingleSelectionListCheckmarkImageNameNormal"]];
         if (l_imageNormal) {
-            UIImage *l_imageHighlighted = self.selectedIconImageHighlighted ? self.selectedIconImageHighlighted : [UIImage imageNamed:[[IFAUtils infoPList] valueForKey:@"IAUIThemeSingleSelectionListCheckmarkImageNameHighlighted"]];
+            UIImage *l_imageHighlighted = self.selectedIconImageHighlighted ? self.selectedIconImageHighlighted : [UIImage imageNamed:[[IFAUtils infoPList] valueForKey:@"IFAThemeSingleSelectionListCheckmarkImageNameHighlighted"]];
             aCell.accessoryView = [[UIImageView alloc] initWithImage:l_imageNormal highlightedImage:l_imageHighlighted];
         }else{
             aCell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -159,7 +159,7 @@
     selectionManager.disallowDeselection = self.disallowDeselection;
 }
 
-#pragma mark - IAUIPresenter protocol
+#pragma mark - IFAPresenter protocol
 
 - (void)didDismissViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
                               data:(id)a_data {

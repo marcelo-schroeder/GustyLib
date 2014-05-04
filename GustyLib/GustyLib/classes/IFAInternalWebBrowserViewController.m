@@ -133,7 +133,7 @@
     [self.ifa_activityIndicatorView stopAnimating];
 }
 
-#pragma mark - IAUIInternalWebBrowserViewControllerDelegate
+#pragma mark - IFAInternalWebBrowserViewControllerDelegate
 
 - (UIBarButtonItem *)newActionBarButtonItem {
     return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction

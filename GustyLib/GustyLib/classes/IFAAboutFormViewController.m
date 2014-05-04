@@ -36,7 +36,7 @@
 #pragma mark - Private
 
 -(NSString*)ifa_supportEmailAddress {
-    return [[IFAUtils infoPList] objectForKey:@"IASupportEmailAddress"];
+    return [[IFAUtils infoPList] objectForKey:@"IFASupportEmailAddress"];
 }
 
 - (void)ifa_ReportBugButtonTap:(id)sender{
@@ -67,10 +67,10 @@
         IFAAboutInfoModel *l_model = [IFAAboutInfoModel new];
         l_model.edition = [IFAUtils appEdition];
         l_model.version = [IFAUtils appVersionAndBuildNumber];
-        NSArray *l_appCreators = [[IFAUtils infoPList] objectForKey:@"IAAppCreators"];
+        NSArray *l_appCreators = [[IFAUtils infoPList] objectForKey:@"IFAAppCreators"];
         l_model.creatorName = l_appCreators[0][@"name"];
         l_model.creatorUrl = l_appCreators[0][@"url"];
-        NSArray *l_appVisualDesigners = [[IFAUtils infoPList] objectForKey:@"IAAppVisualDesigners"];
+        NSArray *l_appVisualDesigners = [[IFAUtils infoPList] objectForKey:@"IFAAppVisualDesigners"];
         l_model.visualDesignerName = l_appVisualDesigners[0][@"name"];
         l_model.visualDesignerUrl = l_appVisualDesigners[0][@"url"];
         
@@ -97,7 +97,7 @@
         // Configure custom view
         [[NSBundle mainBundle] loadNibNamed:@"IFAAboutCustomView" owner:self options:nil];
         self.appNameLabel.text = [IFAUtils appName];
-        self.copyrightNoticeLabel.text = [[IFAUtils infoPList] objectForKey:@"IACopyrightNotice"];
+        self.copyrightNoticeLabel.text = [[IFAUtils infoPList] objectForKey:@"IFACopyrightNotice"];
         
     }
     
@@ -108,7 +108,7 @@
 -(NSArray *)IFA_nonEditModeToolbarItems {
     UIBarButtonItem *l_flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     NSMutableArray *l_items = [NSMutableArray arrayWithArray:@[l_flexibleSpace, self.ifa_reportBugBarButtonItem, l_flexibleSpace, self.ifa__provideFeedbackBarButtonItem, l_flexibleSpace]];
-    if ([[[IFAUtils infoPList] objectForKey:@"IAShowForceCrashButton"] boolValue]) {
+    if ([[[IFAUtils infoPList] objectForKey:@"IFAShowForceCrashButton"] boolValue]) {
         [l_items addObjectsFromArray:@[self.ifa_forceCrashBarButtonItem, l_flexibleSpace]];
     }
     return l_items;

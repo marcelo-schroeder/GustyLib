@@ -204,8 +204,8 @@
 
     NSLog(@"Configuring crash reporting...");
     
-    NSString *l_apiKey = [[IFAUtils infoPList] valueForKey:@"IACrashlyticsApiKey"];
-    NSAssert(l_apiKey, @"IACrashlyticsApiKey not found");
+    NSString *l_apiKey = [[IFAUtils infoPList] valueForKey:@"IFACrashlyticsApiKey"];
+    NSAssert(l_apiKey, @"IFACrashlyticsApiKey not found");
     
     NSString *l_vendorDeviceId = [UIDevice currentDevice].identifierForVendor.UUIDString;
     
@@ -218,18 +218,18 @@
     // Bundle version
     // Crashlytics should derive this automatically from the app bundle, but it is not at the moment. I'm adding this info here so it does not get lost.
     NSString *l_bundleVersion = [IFAUtils infoPList][@"CFBundleVersion"];
-//    [Crashlytics setObjectValue:l_bundleVersion forKey:@"IA_bundle_version"];
-    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:l_bundleVersion withObject:@"IA_bundle_version"];
+//    [Crashlytics setObjectValue:l_bundleVersion forKey:@"IFA_bundle_version"];
+    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:l_bundleVersion withObject:@"IFA_bundle_version"];
 
     // Locale info
-//    [Crashlytics setObjectValue:[self m_formatCrashReportValue:l_vendorDeviceId] forKey:@"IA_vendor_Device_Id"];
-    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:[self formatCrashReportValue:l_vendorDeviceId] withObject:@"IA_vendor_Device_Id"];
-//    [Crashlytics setObjectValue:[self formatCrashReportValue:[NSLocale systemLocale]] forKey:@"IA_system_Locale"];
-    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:[self formatCrashReportValue:[NSLocale systemLocale]] withObject:@"IA_system_Locale"];
-//    [Crashlytics setObjectValue:[self formatCrashReportValue:[NSLocale currentLocale]] forKey:@"IA_current_Locale"];
-    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:[self formatCrashReportValue:[NSLocale currentLocale]] withObject:@"IA_current_Locale"];
-//    [Crashlytics setObjectValue:[self formatCrashReportValue:[NSLocale preferredLanguages]] forKey:@"IA_preferred_Languages"];
-    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:[self formatCrashReportValue:[NSLocale preferredLanguages]] withObject:@"IA_preferred_Languages"];
+//    [Crashlytics setObjectValue:[self m_formatCrashReportValue:l_vendorDeviceId] forKey:@"IFA_vendor_Device_Id"];
+    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:[self formatCrashReportValue:l_vendorDeviceId] withObject:@"IFA_vendor_Device_Id"];
+//    [Crashlytics setObjectValue:[self formatCrashReportValue:[NSLocale systemLocale]] forKey:@"IFA_system_Locale"];
+    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:[self formatCrashReportValue:[NSLocale systemLocale]] withObject:@"IFA_system_Locale"];
+//    [Crashlytics setObjectValue:[self formatCrashReportValue:[NSLocale currentLocale]] forKey:@"IFA_current_Locale"];
+    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:[self formatCrashReportValue:[NSLocale currentLocale]] withObject:@"IFA_current_Locale"];
+//    [Crashlytics setObjectValue:[self formatCrashReportValue:[NSLocale preferredLanguages]] forKey:@"IFA_preferred_Languages"];
+    [l_crashlyticsClass performSelector:@selector(setObjectValue:forKey:) withObject:[self formatCrashReportValue:[NSLocale preferredLanguages]] withObject:@"IFA_preferred_Languages"];
 
     // User info
     for (NSString *l_key in a_userInfo.allKeys) {
@@ -248,8 +248,8 @@
 
     NSLog(@"Configuring analytics...");
     
-    NSString *l_apiKey = [[IFAUtils infoPList] valueForKey:@"IAAnalyticsApiKey"];
-    NSAssert(l_apiKey, @"IAAnalyticsApiKey not found");
+    NSString *l_apiKey = [[IFAUtils infoPList] valueForKey:@"IFAAnalyticsApiKey"];
+    NSAssert(l_apiKey, @"IFAAnalyticsApiKey not found");
 
     [Flurry startSession:l_apiKey];
 
@@ -262,7 +262,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
     
     // Save some info plist settings
-    self.useDeviceAgnosticMainStoryboard = [[[IFAUtils infoPList] objectForKey:@"IAUseDeviceAgnosticMainStoryboard"] boolValue];
+    self.useDeviceAgnosticMainStoryboard = [[[IFAUtils infoPList] objectForKey:@"IFAUseDeviceAgnosticMainStoryboard"] boolValue];
     
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self 
@@ -303,7 +303,7 @@
     }
     
     // Configure help
-    [IFAHelpManager sharedInstance].helpEnabled = [[[IFAUtils infoPList] objectForKey:@"IAHelpEnabled"] boolValue];
+    [IFAHelpManager sharedInstance].helpEnabled = [[[IFAUtils infoPList] objectForKey:@"IFAHelpEnabled"] boolValue];
     
     return YES;
 	

@@ -20,7 +20,7 @@
 
 #import "IFACommon.h"
 
-@interface IAUIBarButtonItemSavedState : NSObject
+@interface IFABarButtonItemSavedState : NSObject
 
 @property (nonatomic) BOOL ifa_enabled;
 @property (nonatomic) id ifa_target;
@@ -28,29 +28,29 @@
 
 @end
 
-@implementation IAUIBarButtonItemSavedState
+@implementation IFABarButtonItemSavedState
 
 
 @end
 
-@interface IAUIViewSavedState : NSObject
+@interface IFAViewSavedState : NSObject
 
 @property (nonatomic) BOOL ifa_userInteractionEnabled;
 
 @end
 
-@implementation IAUIViewSavedState
+@implementation IFAViewSavedState
 
 
 @end
 
-@interface IAUITableViewCellSavedState : IAUIViewSavedState
+@interface IFATableViewCellSavedState : IFAViewSavedState
 
 @property (nonatomic) BOOL ifa_selectionStyle;
 
 @end
 
-@implementation IAUITableViewCellSavedState
+@implementation IFATableViewCellSavedState
 
 
 @end
@@ -616,7 +616,7 @@
             
 //            NSLog(@"l_barButtonItem: %@, title: %@, target: %@, action: %@", [l_barButtonItem description], l_barButtonItem.title, [l_barButtonItem.target description], NSStringFromSelector(l_barButtonItem.action));
             
-            IAUIBarButtonItemSavedState *l_barButtonItemSavedState = [IAUIBarButtonItemSavedState new];
+            IFABarButtonItemSavedState *l_barButtonItemSavedState = [IFABarButtonItemSavedState new];
             l_barButtonItemSavedState.ifa_enabled = l_barButtonItem.enabled;
             l_barButtonItemSavedState.ifa_target = l_barButtonItem.target;
             l_barButtonItemSavedState.ifa_action = l_barButtonItem.action;
@@ -634,7 +634,7 @@
     }else if([a_helpTarget isKindOfClass:[UIView class]]){
         
         UIView *l_view = nil;
-        IAUIViewSavedState *l_viewSavedState = nil;
+        IFAViewSavedState *l_viewSavedState = nil;
 
         if ([a_helpTarget isKindOfClass:[UIControl class]]) {
             
@@ -654,7 +654,7 @@
 
                 }else{
                     
-                    IAUITableViewCellSavedState *l_tableViewCellSavedState = [IAUITableViewCellSavedState new];
+                    IFATableViewCellSavedState *l_tableViewCellSavedState = [IFATableViewCellSavedState new];
                     l_tableViewCellSavedState.ifa_selectionStyle = l_tableViewCell.selectionStyle;
                     l_tableViewCell.selectionStyle = UITableViewCellSelectionStyleNone;
                     l_viewSavedState = l_tableViewCellSavedState;
@@ -663,7 +663,7 @@
                 
             }else{
                 
-                l_viewSavedState = [IAUIViewSavedState new];
+                l_viewSavedState = [IFAViewSavedState new];
                 
             }
             
@@ -694,7 +694,7 @@
     if ([a_helpTarget isKindOfClass:[UIBarButtonItem class]]) {
         
         UIBarButtonItem *l_barButtonItem = (UIBarButtonItem*)a_helpTarget;
-        IAUIBarButtonItemSavedState *l_barButtonItemSavedState = [self.ifa_helpTargetSavedStates objectAtIndex:l_index];
+        IFABarButtonItemSavedState *l_barButtonItemSavedState = [self.ifa_helpTargetSavedStates objectAtIndex:l_index];
         l_barButtonItem.enabled = l_barButtonItemSavedState.ifa_enabled;
         l_barButtonItem.target = l_barButtonItemSavedState.ifa_target;
         l_barButtonItem.action = l_barButtonItemSavedState.ifa_action;
@@ -707,11 +707,11 @@
         }
         
         id l_obj = [self.ifa_helpTargetSavedStates objectAtIndex:l_index];
-        if ([l_obj isKindOfClass:[IAUIViewSavedState class]]) { // Safeguard against the cases where the object is a [NSNull null]
-            IAUIViewSavedState *l_viewSavedState = l_obj;
+        if ([l_obj isKindOfClass:[IFAViewSavedState class]]) { // Safeguard against the cases where the object is a [NSNull null]
+            IFAViewSavedState *l_viewSavedState = l_obj;
             l_view.userInteractionEnabled = l_viewSavedState.ifa_userInteractionEnabled;
             if ([a_helpTarget isKindOfClass:[UITableViewCell class]]) {
-                IAUITableViewCellSavedState *l_tableViewCellSavedState = (IAUITableViewCellSavedState*)l_viewSavedState;
+                IFATableViewCellSavedState *l_tableViewCellSavedState = (IFATableViewCellSavedState *)l_viewSavedState;
                 ((UITableViewCell*)l_view).selectionStyle = l_tableViewCellSavedState.ifa_selectionStyle;
             }
         }
@@ -792,7 +792,7 @@
 }
 
 -(BOOL)isHelpEnabledForViewController:(UIViewController*)a_viewController{
-    NSArray *l_helpEnabledViewControllerClassNames = [[IFAUtils infoPList] objectForKey:@"IAHelpEnabledViewControllers"];
+    NSArray *l_helpEnabledViewControllerClassNames = [[IFAUtils infoPList] objectForKey:@"IFAHelpEnabledViewControllers"];
     return [l_helpEnabledViewControllerClassNames containsObject:[a_viewController.class description]];
 }
 

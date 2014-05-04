@@ -41,11 +41,11 @@
 }
 
 
-NSString* const IA_TT_CELL_IDENTIFIER_GENERIC = @"genericCell";
-NSString* const IA_TT_CELL_IDENTIFIER_SEGMENTED_CONTROL = @"segmentedControlCell";
-NSString* const IA_TT_CELL_IDENTIFIER_SWITCH = @"switchCell";
-NSString* const IA_TT_CELL_IDENTIFIER_VIEW_CONTROLLER = @"viewControllerCell";
-NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
+static NSString* const k_TT_CELL_IDENTIFIER_GENERIC = @"genericCell";
+static NSString* const k_TT_CELL_IDENTIFIER_SEGMENTED_CONTROL = @"segmentedControlCell";
+static NSString* const k_TT_CELL_IDENTIFIER_SWITCH = @"switchCell";
+static NSString* const k_TT_CELL_IDENTIFIER_VIEW_CONTROLLER = @"viewControllerCell";
+static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 #pragma mark - Private
 
@@ -888,9 +888,10 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
 	if ([l_entityConfig isViewControllerFieldTypeForIndexPath:indexPath inObject:self.object inForm:self.formName
                                                    createMode:self.createMode]) {
-        UITableViewCell *l_cell = [self.tableView dequeueReusableCellWithIdentifier:IA_TT_CELL_IDENTIFIER_VIEW_CONTROLLER];
+        UITableViewCell *l_cell = [self.tableView dequeueReusableCellWithIdentifier:k_TT_CELL_IDENTIFIER_VIEW_CONTROLLER];
         if (!l_cell) {
-            l_cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:IA_TT_CELL_IDENTIFIER_VIEW_CONTROLLER];
+            l_cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                            reuseIdentifier:k_TT_CELL_IDENTIFIER_VIEW_CONTROLLER];
             l_cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             l_cell.textLabel.textColor = [[self IFA_appearanceTheme] tableCellTextColor];
             // Set appearance
@@ -904,9 +905,10 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         return l_cell;
     }else if ([l_entityConfig isCustomFieldTypeForIndexPath:indexPath inObject:self.object inForm:self.formName
                                                  createMode:self.createMode]){
-        UITableViewCell *l_cell = [self.tableView dequeueReusableCellWithIdentifier:IA_TT_CELL_IDENTIFIER_CUSTOM];
+        UITableViewCell *l_cell = [self.tableView dequeueReusableCellWithIdentifier:k_TT_CELL_IDENTIFIER_CUSTOM];
         if (!l_cell) {
-            l_cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:IA_TT_CELL_IDENTIFIER_CUSTOM];
+            l_cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                            reuseIdentifier:k_TT_CELL_IDENTIFIER_CUSTOM];
             l_cell.userInteractionEnabled = NO;
             // Set appearance
             [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
@@ -956,7 +958,9 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
             {
                 
                 // Create reusable cell
-                NSString *cellIdentifier = [NSString stringWithFormat:@"%@+%@", IA_TT_CELL_IDENTIFIER_SEGMENTED_CONTROL, propertyName];
+                NSString *cellIdentifier = [NSString stringWithFormat:@"%@+%@",
+                                                                      k_TT_CELL_IDENTIFIER_SEGMENTED_CONTROL,
+                                                                      propertyName];
                 IFAFormTableViewCell *cell = (IFAFormTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
                 if (cell == nil) {
 
@@ -1117,7 +1121,7 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     IFATableSectionHeaderView *l_view = nil;
     NSString *l_title = [self tableView:tableView titleForHeaderInSection:section];
     if (l_title) {
-        NSString *l_xibName = [[IFAUtils infoPList] objectForKey:@"IAUIThemeFormSectionHeaderViewXib"];
+        NSString *l_xibName = [[IFAUtils infoPList] objectForKey:@"IFAThemeFormSectionHeaderViewXib"];
         if (l_xibName) {
             l_view = [[NSBundle mainBundle] loadNibNamed:l_xibName owner:self options:nil][0];
             l_view.titleLabel.text = l_title;
@@ -1148,7 +1152,7 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     
 }
 
-#pragma mark - IAUIPresenter
+#pragma mark - IFAPresenter
 
 -(void)changesMadeByViewController:(UIViewController *)a_viewController{
 //    NSLog(@"changesMadeByViewController: %@", [a_viewController description]);
@@ -1214,7 +1218,7 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         l_label.textAlignment = NSTextAlignmentCenter;
         l_label.backgroundColor = [UIColor clearColor];
         l_label.text = l_formHeader;
-        l_label.textColor = [IFAUIUtils colorForInfoPlistKey:@"IAUIThemeFormHeaderTextColor"];
+        l_label.textColor = [IFAUIUtils colorForInfoPlistKey:@"IFAThemeFormHeaderTextColor"];
         [l_label sizeToFit];
         self.tableView.tableHeaderView = l_label;
     }
@@ -1227,7 +1231,7 @@ NSString* const IA_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         l_label.textAlignment = NSTextAlignmentCenter;
         l_label.backgroundColor = [UIColor clearColor];
         l_label.text = l_formFooter;
-        l_label.textColor = [IFAUIUtils colorForInfoPlistKey:@"IAUIThemeFormFooterTextColor"];
+        l_label.textColor = [IFAUIUtils colorForInfoPlistKey:@"IFAThemeFormFooterTextColor"];
         [l_label sizeToFit];
         self.tableView.tableFooterView = l_label;
     }

@@ -20,7 +20,7 @@
 
 #import "IFACommon.h"
 
-@interface IAUIHelpModeOverlaySpotlightMaskView : UIView
+@interface IFAHelpModeOverlaySpotlightMaskView : UIView
 
 @end
 
@@ -32,7 +32,7 @@
 @property (nonatomic) BOOL ifa_removeSpotlightWithAnimation;
 @property (nonatomic) CGRect ifa_spotlightRect;
 
-@property (nonatomic, strong) IAUIHelpModeOverlaySpotlightMaskView *ifa_spotlightMask;
+@property (nonatomic, strong) IFAHelpModeOverlaySpotlightMaskView *ifa_spotlightMask;
 
 @end
 
@@ -75,7 +75,7 @@
     CGContextSetFillColorWithColor(l_context, [IFAHelpModeOverlayView ifa_backgroundColour].CGColor);
     CGContextFillRect(l_context, rect);
     
-    IAUIHelpModeOverlaySpotlightMaskView *l_previousSpotlightMask = nil;
+    IFAHelpModeOverlaySpotlightMaskView *l_previousSpotlightMask = nil;
     if (!self.ifa_finalDrawing) {
         
         if (self.ifa_showingSpotlight && self.ifa_removeSpotlightWithAnimation) {
@@ -91,7 +91,7 @@
         
         // Add spotlight mask
         if (self.ifa_shouldSpotlight) {
-            self.ifa_spotlightMask = [[IAUIHelpModeOverlaySpotlightMaskView alloc] initWithFrame:self.ifa_spotlightRect];
+            self.ifa_spotlightMask = [[IFAHelpModeOverlaySpotlightMaskView alloc] initWithFrame:self.ifa_spotlightRect];
             [self addSubview:self.ifa_spotlightMask];
         }
         
@@ -178,7 +178,7 @@
 
 @end
 
-@implementation IAUIHelpModeOverlaySpotlightMaskView
+@implementation IFAHelpModeOverlaySpotlightMaskView
 
 #pragma mark - Overrides
 

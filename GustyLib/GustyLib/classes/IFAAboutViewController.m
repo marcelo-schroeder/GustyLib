@@ -35,11 +35,11 @@
 #pragma mark - Private
 
 -(NSString*)ifa_supportEmailAddress {
-    return [[IFAUtils infoPList] objectForKey:@"IASupportEmailAddress"];
+    return [[IFAUtils infoPList] objectForKey:@"IFASupportEmailAddress"];
 }
 
 -(NSString*)ifa_bugReportEmailAddress {
-    NSString *l_emailAddress = [[IFAUtils infoPList] objectForKey:@"IABugReportEmailAddress"];
+    NSString *l_emailAddress = [[IFAUtils infoPList] objectForKey:@"IFABugReportEmailAddress"];
     if (!l_emailAddress) {
         l_emailAddress = [self ifa_supportEmailAddress];
     }
@@ -47,7 +47,7 @@
 }
 
 -(NSString*)ifa_feedbackEmailAddress {
-    NSString *l_emailAddress = [[IFAUtils infoPList] objectForKey:@"IAFeedbackEmailAddress"];
+    NSString *l_emailAddress = [[IFAUtils infoPList] objectForKey:@"IFAFeedbackEmailAddress"];
     if (!l_emailAddress) {
         l_emailAddress = [self ifa_supportEmailAddress];
     }
@@ -97,14 +97,14 @@
     self.appNameLabel.text = [IFAUtils appName];
     self.editionLabel.text = [IFAUtils appEdition];
     self.versionLabel.text = [IFAUtils appVersionAndBuildNumber];
-    self.copyrightNoticeLabel.text = [[IFAUtils infoPList] objectForKey:@"IACopyrightNotice"];
-    self.createdByLabel.text = [[IFAUtils infoPList] objectForKey:@"IACreatedBy"];
-    self.visualDesignByLabel.text = [[IFAUtils infoPList] objectForKey:@"IAVisualDesignBy"];
+    self.copyrightNoticeLabel.text = [[IFAUtils infoPList] objectForKey:@"IFACopyrightNotice"];
+    self.createdByLabel.text = [[IFAUtils infoPList] objectForKey:@"IFACreatedBy"];
+    self.visualDesignByLabel.text = [[IFAUtils infoPList] objectForKey:@"IFAVisualDesignBy"];
     
     // Set email manager
     v_emailManager = [[IFAEmailManager alloc] initWithParentViewController:self];
 
-    self.forceCrashButton.hidden = ![[[IFAUtils infoPList] objectForKey:@"IAShowForceCrashButton"] boolValue];
+    self.forceCrashButton.hidden = ![[[IFAUtils infoPList] objectForKey:@"IFAShowForceCrashButton"] boolValue];
 
 }
 

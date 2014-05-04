@@ -106,13 +106,13 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     return l_cellPosition;
 }
 
-#pragma mark - IAUIAppearanceTheme
+#pragma mark - IFAAppearanceTheme
 
 -(void)setAppearance {
     
     // Navigation bar
     {
-        NSString *l_imageName = [[IFAUtils infoPList] objectForKey:@"IAUIThemeNavigationBarBackgroundImageName"];
+        NSString *l_imageName = [[IFAUtils infoPList] objectForKey:@"IFAThemeNavigationBarBackgroundImageName"];
         if (l_imageName) {
             [self.navigationBarAppearance setBackgroundImage:[UIImage imageNamed:l_imageName]
                                                forBarMetrics:UIBarMetricsDefault];
@@ -121,7 +121,7 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     
     // Toolbar
     {
-        NSString *l_imageName = [[IFAUtils infoPList] objectForKey:@"IAUIThemeToolbarBackgroundImageName"];
+        NSString *l_imageName = [[IFAUtils infoPList] objectForKey:@"IFAThemeToolbarBackgroundImageName"];
         if (l_imageName) {
             [self.toolbarAppearance setBackgroundImage:[UIImage imageNamed:l_imageName]
                                     forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
@@ -130,7 +130,7 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     
     // Tab bar
     {
-        NSString *l_imageName = [[IFAUtils infoPList] objectForKey:@"IAUIThemeTabBarBackgroundImageName"];
+        NSString *l_imageName = [[IFAUtils infoPList] objectForKey:@"IFAThemeTabBarBackgroundImageName"];
         if (l_imageName) {
             self.tabBarAppearance.backgroundImage = [UIImage imageNamed:l_imageName];
         }
@@ -146,14 +146,14 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     {
         NSString *l_imageName = nil;
         
-        l_imageName = [[IFAUtils infoPList] objectForKey:@"IAUIThemeBackBarButtonItemBackgroundImageNormalDefaultImageName"];
+        l_imageName = [[IFAUtils infoPList] objectForKey:@"IFAThemeBackBarButtonItemBackgroundImageNormalDefaultImageName"];
         if (l_imageName) {
             UIImage *l_image = [[UIImage imageNamed:l_imageName] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 14, 0, 4)];
             [self.barButtonItemAppearance setBackButtonBackgroundImage:l_image forState:UIControlStateNormal
                                                             barMetrics:UIBarMetricsDefault];
         }
         
-        l_imageName = [[IFAUtils infoPList] objectForKey:@"IAUIThemeBackBarButtonItemBackgroundImageNormalLandscapeIphoneImageName"];
+        l_imageName = [[IFAUtils infoPList] objectForKey:@"IFAThemeBackBarButtonItemBackgroundImageNormalLandscapeIphoneImageName"];
         if (l_imageName) {
             UIImage *l_image = [[UIImage imageNamed:l_imageName] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 14, 0, 4)];
             [self.barButtonItemAppearance setBackButtonBackgroundImage:l_image forState:UIControlStateNormal
@@ -165,35 +165,35 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     {
         NSString *l_imageName = nil;
         
-        l_imageName = [[IFAUtils infoPList] objectForKey:@"IAUIThemeBarButtonItemBackgroundImageNormalDefaultImageName"];
+        l_imageName = [[IFAUtils infoPList] objectForKey:@"IFAThemeBarButtonItemBackgroundImageNormalDefaultImageName"];
         if (l_imageName) {
             UIImage *l_image = [[UIImage imageNamed:l_imageName] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
             [self.barSegmentedControlAppearance setBackgroundImage:l_image forState:UIControlStateNormal
                                                         barMetrics:UIBarMetricsDefault];
         }
         
-        l_imageName = [[IFAUtils infoPList] objectForKey:@"IAUIThemeBarButtonItemBackgroundImageNormalLandscapeIphoneImageName"];
+        l_imageName = [[IFAUtils infoPList] objectForKey:@"IFAThemeBarButtonItemBackgroundImageNormalLandscapeIphoneImageName"];
         if (l_imageName) {
             UIImage *l_image = [[UIImage imageNamed:l_imageName] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
             [self.barSegmentedControlAppearance setBackgroundImage:l_image forState:UIControlStateNormal
                                                         barMetrics:UIBarMetricsLandscapePhone];
         }
         
-        l_imageName = [[IFAUtils infoPList] objectForKey:@"IAUIThemeBarButtonItemBackgroundImageSelectedDefaultImageName"];
+        l_imageName = [[IFAUtils infoPList] objectForKey:@"IFAThemeBarButtonItemBackgroundImageSelectedDefaultImageName"];
         if (l_imageName) {
             UIImage *l_image = [[UIImage imageNamed:l_imageName] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
             [self.barSegmentedControlAppearance setBackgroundImage:l_image forState:UIControlStateSelected
                                                         barMetrics:UIBarMetricsDefault];
         }
         
-        l_imageName = [[IFAUtils infoPList] objectForKey:@"IAUIThemeBarButtonItemBackgroundImageSelectedLandscapeIphoneImageName"];
+        l_imageName = [[IFAUtils infoPList] objectForKey:@"IFAThemeBarButtonItemBackgroundImageSelectedLandscapeIphoneImageName"];
         if (l_imageName) {
             UIImage *l_image = [[UIImage imageNamed:l_imageName] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
             [self.barSegmentedControlAppearance setBackgroundImage:l_image forState:UIControlStateSelected
                                                         barMetrics:UIBarMetricsLandscapePhone];
         }
         
-        l_imageName = [[IFAUtils infoPList] objectForKey:@"IAUIThemeBarSegmentedControlDividerImageName"];
+        l_imageName = [[IFAUtils infoPList] objectForKey:@"IFAThemeBarSegmentedControlDividerImageName"];
         if (l_imageName) {
             [self.barSegmentedControlAppearance setDividerImage:[UIImage imageNamed:l_imageName]
                                             forLeftSegmentState:UIControlStateNormal
@@ -210,21 +210,21 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     {
         NSString *l_imageName = nil;
         
-        l_imageName = [[IFAUtils infoPList] objectForKey:@"IAUIThemeSegmentedControlBackgroundImageNormalImageName"];
+        l_imageName = [[IFAUtils infoPList] objectForKey:@"IFAThemeSegmentedControlBackgroundImageNormalImageName"];
         if (l_imageName) {
             UIImage *l_image = [[UIImage imageNamed:l_imageName] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
             [self.segmentedControlAppearance setBackgroundImage:l_image forState:UIControlStateNormal
                                                      barMetrics:UIBarMetricsDefault];
         }
         
-        l_imageName = [[IFAUtils infoPList] objectForKey:@"IAUIThemeSegmentedControlBackgroundImageSelectedImageName"];
+        l_imageName = [[IFAUtils infoPList] objectForKey:@"IFAThemeSegmentedControlBackgroundImageSelectedImageName"];
         if (l_imageName) {
             UIImage *l_image = [[UIImage imageNamed:l_imageName] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
             [self.segmentedControlAppearance setBackgroundImage:l_image forState:UIControlStateSelected
                                                      barMetrics:UIBarMetricsDefault];
         }
         
-        l_imageName = [[IFAUtils infoPList] objectForKey:@"IAUIThemeSegmentedControlDividerImageName"];
+        l_imageName = [[IFAUtils infoPList] objectForKey:@"IFAThemeSegmentedControlDividerImageName"];
         if (l_imageName) {
             [self.segmentedControlAppearance setDividerImage:[UIImage imageNamed:l_imageName]
                                          forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal
@@ -234,10 +234,10 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }
     
     // Switch
-    self.switchAppearance.onTintColor = [self ifa_colorForInfoPlistKey:@"IAUIThemeSwitchOnTintColor"];
+    self.switchAppearance.onTintColor = [self ifa_colorForInfoPlistKey:@"IFAThemeSwitchOnTintColor"];
     
     // Slider
-    self.sliderAppearance.minimumTrackTintColor = [self ifa_colorForInfoPlistKey:@"IAUIThemeSliderMinimumTrackTintColor"];
+    self.sliderAppearance.minimumTrackTintColor = [self ifa_colorForInfoPlistKey:@"IFAThemeSliderMinimumTrackTintColor"];
     
     
 
@@ -252,7 +252,7 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     if ([a_viewController isKindOfClass:[UITableViewController class]]) {
         UITableViewController *l_tableViewController = (UITableViewController*)a_viewController;
         if (l_tableViewController.tableView.style==UITableViewStyleGrouped) {
-            l_tableViewController.tableView.separatorColor = [self ifa_colorForInfoPlistKey:@"IAUIThemeGroupedTableSeparatorColor"];
+            l_tableViewController.tableView.separatorColor = [self ifa_colorForInfoPlistKey:@"IFAThemeGroupedTableSeparatorColor"];
         }
     }else if([a_viewController isKindOfClass:[IFAMasterDetailViewController class]]) {
 
@@ -274,7 +274,7 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
                                      interfaceOrientation:[UIApplication sharedApplication].statusBarOrientation];
     
     if ([a_viewController isKindOfClass:[IFAAbstractFieldEditorViewController class]]) {
-        NSString *l_imageName = [[IFAUtils infoPList] objectForKey:@"IAUIThemeFieldEditorToolbarBackgroundImageName"];
+        NSString *l_imageName = [[IFAUtils infoPList] objectForKey:@"IFAThemeFieldEditorToolbarBackgroundImageName"];
         if (l_imageName) {
             [a_viewController.navigationController.toolbar setBackgroundImage:[UIImage imageNamed:l_imageName] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
         }
@@ -315,7 +315,7 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     
     // Cell background color
     if (![a_tableViewController isKindOfClass:[IFAMenuViewController class]] && a_tableViewController.tableView.style==UITableViewStyleGrouped) {
-        a_cell.backgroundColor = [self ifa_colorForInfoPlistKey:@"IAUIThemeGroupedTableCellBackgroundColor"];
+        a_cell.backgroundColor = [self ifa_colorForInfoPlistKey:@"IFAThemeGroupedTableCellBackgroundColor"];
     }
     
     // Label text color
@@ -324,7 +324,7 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         if (a_cell.detailTextLabel) {   // Is it a cell style that has text and detail?
             // textLabel here in this context refers to the form field label
             //  So, it is setting the form field label colour
-            a_cell.textLabel.textColor = [self ifa_colorForInfoPlistKey:@"IAUIThemeFormFieldLabelColor"];
+            a_cell.textLabel.textColor = [self ifa_colorForInfoPlistKey:@"IFAThemeFormFieldLabelColor"];
         }
     }
     
@@ -344,7 +344,7 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
     // Set table cell background image
     if ([a_tableViewController isKindOfClass:[IFAListViewController class]]) {
-        NSString *l_imageName = [[IFAUtils infoPList] objectForKey:@"IAUIThemeListTableCellBackgroundImageName"];
+        NSString *l_imageName = [[IFAUtils infoPList] objectForKey:@"IFAThemeListTableCellBackgroundImageName"];
         if (l_imageName) {
             a_cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:l_imageName]];
         }
@@ -359,7 +359,7 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     
     // Cell background color
     if ([a_tableViewController isKindOfClass:[IFAMenuViewController class]] && a_tableViewController.tableView.style==UITableViewStyleGrouped) {
-        a_cell.backgroundColor = [self ifa_colorForInfoPlistKey:@"IAUIThemeGroupedTableCellBackgroundColor"];
+        a_cell.backgroundColor = [self ifa_colorForInfoPlistKey:@"IFAThemeGroupedTableCellBackgroundColor"];
     }
     
     // Set selected table cell background color
@@ -390,11 +390,11 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     NSString *l_imageNameDefault = nil;
     NSString *l_imageNameLandscapeIphone = nil;
     if (a_important) {
-        l_imageNameDefault = [[IFAUtils infoPList] objectForKey:@"IAUIThemeImportantBarButtonItemBackgroundImageNormalDefaultImageName"];
-        l_imageNameLandscapeIphone = [[IFAUtils infoPList] objectForKey:@"IAUIThemeImportantBarButtonItemBackgroundImageNormalLandscapeIphoneImageName"];
+        l_imageNameDefault = [[IFAUtils infoPList] objectForKey:@"IFAThemeImportantBarButtonItemBackgroundImageNormalDefaultImageName"];
+        l_imageNameLandscapeIphone = [[IFAUtils infoPList] objectForKey:@"IFAThemeImportantBarButtonItemBackgroundImageNormalLandscapeIphoneImageName"];
     }else{
-        l_imageNameDefault = [[IFAUtils infoPList] objectForKey:@"IAUIThemeBarButtonItemBackgroundImageNormalDefaultImageName"];
-        l_imageNameLandscapeIphone = [[IFAUtils infoPList] objectForKey:@"IAUIThemeBarButtonItemBackgroundImageNormalLandscapeIphoneImageName"];
+        l_imageNameDefault = [[IFAUtils infoPList] objectForKey:@"IFAThemeBarButtonItemBackgroundImageNormalDefaultImageName"];
+        l_imageNameLandscapeIphone = [[IFAUtils infoPList] objectForKey:@"IFAThemeBarButtonItemBackgroundImageNormalLandscapeIphoneImageName"];
     }
     if (l_imageNameDefault) {
         UIImage *l_image = [[UIImage imageNamed:l_imageNameDefault] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
@@ -408,11 +408,11 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 -(void)setAppearanceForToolbarButtonItem:(UIBarButtonItem*)a_barButtonItem{
-    NSNumber *l_backgroundVerticalPositionAdjustmentDefault = [[IFAUtils infoPList] objectForKey:@"IAUIThemeBarButtonItemBackgroundVerticalPositionAdjustmentDefault"];
+    NSNumber *l_backgroundVerticalPositionAdjustmentDefault = [[IFAUtils infoPList] objectForKey:@"IFAThemeBarButtonItemBackgroundVerticalPositionAdjustmentDefault"];
     if (l_backgroundVerticalPositionAdjustmentDefault) {
         [a_barButtonItem setBackgroundVerticalPositionAdjustment:l_backgroundVerticalPositionAdjustmentDefault.floatValue forBarMetrics:UIBarMetricsDefault];
     }
-    NSNumber *l_backgroundVerticalPositionAdjustmentLandscapeIphone = [[IFAUtils infoPList] objectForKey:@"IAUIThemeBarButtonItemBackgroundVerticalPositionAdjustmentLandscapeIphone"];
+    NSNumber *l_backgroundVerticalPositionAdjustmentLandscapeIphone = [[IFAUtils infoPList] objectForKey:@"IFAThemeBarButtonItemBackgroundVerticalPositionAdjustmentLandscapeIphone"];
     if (l_backgroundVerticalPositionAdjustmentLandscapeIphone) {
         [a_barButtonItem setBackgroundVerticalPositionAdjustment:l_backgroundVerticalPositionAdjustmentLandscapeIphone.floatValue forBarMetrics:UIBarMetricsLandscapePhone];
     }
@@ -420,7 +420,7 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 -(void)setAppearanceForPopoverController:(UIPopoverController*)a_popoverController{
     if ([a_popoverController.contentViewController isKindOfClass:[UINavigationController class]]) {
-        Class l_backgroundViewClass = NSClassFromString([IFAUtils infoPList][@"IAUIPopoverControllerBackgroundViewClass"]);
+        Class l_backgroundViewClass = NSClassFromString([IFAUtils infoPList][@"IFAPopoverControllerBackgroundViewClass"]);
         if (l_backgroundViewClass) {
             a_popoverController.popoverBackgroundViewClass = l_backgroundViewClass;
         }
@@ -462,7 +462,7 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 -(UIColor*)tableCellTextColor {
-    return [self ifa_colorForInfoPlistKey:@"IAUIThemeTableCellTextColor"];
+    return [self ifa_colorForInfoPlistKey:@"IFAThemeTableCellTextColor"];
 }
 
 // To be implemented by subclasses
@@ -472,10 +472,10 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 -(UIButton*)newDetailDisclosureButton {
     UIButton *l_button = nil;
-    NSString *l_imageNameNormal = [[IFAUtils infoPList] objectForKey:@"IAUIThemeDetailDisclosureButtonImageNormal"];
+    NSString *l_imageNameNormal = [[IFAUtils infoPList] objectForKey:@"IFAThemeDetailDisclosureButtonImageNormal"];
     if (l_imageNameNormal) {
         UIImage *l_imageNormal = [UIImage imageNamed:l_imageNameNormal];
-        UIImage *l_imageHighlighted = [UIImage imageNamed:[[IFAUtils infoPList] objectForKey:@"IAUIThemeDetailDisclosureButtonImageHighlighted"]];
+        UIImage *l_imageHighlighted = [UIImage imageNamed:[[IFAUtils infoPList] objectForKey:@"IFAThemeDetailDisclosureButtonImageHighlighted"]];
         l_button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, l_imageNormal.size.width, l_imageNormal.size.height)];
         [l_button setImage:l_imageNormal forState:UIControlStateNormal];
         [l_button setImage:l_imageHighlighted forState:UIControlStateHighlighted];
@@ -486,9 +486,9 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 -(UIView*)newDisclosureIndicatorView {
     UIImageView *l_view = nil;
-    NSString *l_imageNameNormal = [[IFAUtils infoPList] objectForKey:@"IAUIThemeDisclosureIndicatorImageNormal"];
+    NSString *l_imageNameNormal = [[IFAUtils infoPList] objectForKey:@"IFAThemeDisclosureIndicatorImageNormal"];
     if (l_imageNameNormal) {
-        NSString *l_imageNameSelected = [[IFAUtils infoPList] objectForKey:@"IAUIThemeDisclosureIndicatorImageSelected"];
+        NSString *l_imageNameSelected = [[IFAUtils infoPList] objectForKey:@"IFAThemeDisclosureIndicatorImageSelected"];
         l_view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:l_imageNameNormal] highlightedImage:[UIImage imageNamed:l_imageNameSelected]];
     }
     return l_view;
@@ -499,9 +499,9 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     // Determine the info plist's key
     NSString *l_infoPlistKey = nil;
     if ([a_viewController isKindOfClass:[IFAFormViewController class]]) {
-        l_infoPlistKey = [IFAUIUtils isDeviceInLandscapeOrientation] ? @"IAUIThemeFormBackgroundImageNameLandscape" : @"IAUIThemeFormBackgroundImageNamePortrait";
+        l_infoPlistKey = [IFAUIUtils isDeviceInLandscapeOrientation] ? @"IFAThemeFormBackgroundImageNameLandscape" : @"IFAThemeFormBackgroundImageNamePortrait";
     }else{
-        l_infoPlistKey = [IFAUIUtils isDeviceInLandscapeOrientation] ? @"IAUIThemeTableBackgroundImageNameLandscape" : @"IAUIThemeTableBackgroundImageNamePortrait";
+        l_infoPlistKey = [IFAUIUtils isDeviceInLandscapeOrientation] ? @"IFAThemeTableBackgroundImageNameLandscape" : @"IFAThemeTableBackgroundImageNamePortrait";
     }
     
     // Determine the image name
@@ -538,7 +538,7 @@ ifa_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 -(UIColor*)selectedTableCellBackgroundColor {
-    return [self ifa_colorForInfoPlistKey:@"IAUIThemeSelectedTableCellBackgroundColor"];
+    return [self ifa_colorForInfoPlistKey:@"IFAThemeSelectedTableCellBackgroundColor"];
 }
 
 -(UIBarButtonItem*)backBarButtonItem {

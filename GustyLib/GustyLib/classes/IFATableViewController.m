@@ -63,7 +63,7 @@
                                                    forModes:nil];
     self.contextSwitchRequestPending = NO;
     self.contextSwitchRequestObject = nil;
-//    NSLog(@"IA_NOTIFICATION_CONTEXT_SWITCH_REQUEST_%@ sent by %@", a_granted?@"GRANTED":@"DENIED", [self description]);
+//    NSLog(@"IFA_NOTIFICATION_CONTEXT_SWITCH_REQUEST_%@ sent by %@", a_granted?@"GRANTED":@"DENIED", [self description]);
 }
 
 -(BOOL)contextSwitchRequestRequired {

@@ -234,8 +234,8 @@
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
-					<string key="className">IAUISliderTableViewCell</string>
-					<string key="superclassName">IAUITableViewCell</string>
+					<string key="className">IFASliderTableViewCell</string>
+					<string key="superclassName">IFATableViewCell</string>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
@@ -284,15 +284,15 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/IAUISliderTableViewCell.h</string>
+						<string key="minorKey">./Classes/IFASliderTableViewCell.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">IAUITableViewCell</string>
+					<string key="className">IFATableViewCell</string>
 					<string key="superclassName">UITableViewCell</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/IAUITableViewCell.h</string>
+						<string key="minorKey">./Classes/IFATableViewCell.h</string>
 					</object>
 				</object>
 			</object>

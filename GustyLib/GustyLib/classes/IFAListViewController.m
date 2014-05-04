@@ -73,7 +73,7 @@
 //        NSLog(@"going to sleep...");
 //        [NSThread sleepForTimeInterval:5];
 //        NSLog(@"woke up!");
-//        if ([IAAsynchronousOperationManager sharedInstance].areAllBlocksCancelled) {
+//        if ([IFAAsynchronousOperationManager sharedInstance].areAllBlocksCancelled) {
 //            NSLog(@"all blocks cancelled - exiting block - after sleeping!");
 //            return;
 //        }
@@ -408,7 +408,7 @@
 
 }
 
-#pragma mark - IAUIPresenter
+#pragma mark - IFAPresenter
 
 - (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
                                          data:(id)a_data {
@@ -495,7 +495,7 @@
     IFATableSectionHeaderView *l_view = nil;
     NSString *l_title = [self tableView:tableView titleForHeaderInSection:section];
     if (l_title) {
-        NSString *l_xibName = [[IFAUtils infoPList] objectForKey:@"IAUIThemeListSectionHeaderViewXib"];
+        NSString *l_xibName = [[IFAUtils infoPList] objectForKey:@"IFAThemeListSectionHeaderViewXib"];
         if (l_xibName) {
             l_view = [[NSBundle mainBundle] loadNibNamed:l_xibName owner:self options:nil][0];
             l_view.titleLabel.text = l_title;
@@ -509,7 +509,7 @@
     return l_title ? IFA_k_TABLE_SECTION_HEADER_DEFAULT_HEIGHT : 0;
 }
 
-#pragma mark - IAUISelectionManagerDelegate
+#pragma mark - IFASelectionManagerDelegate
 
 - (NSObject*)selectionManagerObjectForIndexPath:(NSIndexPath*)a_indexPath{
     return [self objectForIndexPath:a_indexPath];
@@ -523,7 +523,7 @@
 	return self.tableView;
 }
 
-#pragma mark - IAHelpTargetContainer
+#pragma mark - IFAHelpTargetContainer
 
 -(void)willEnterHelpMode{
     [IFAUIUtils hideHud:self.ifa_hud animated:NO];

@@ -191,7 +191,7 @@
 }
 
 +(NSString*)appEdition{
-    return [[self infoPList] objectForKey:@"IAAppEdition"];
+    return [[self infoPList] objectForKey:@"IFAAppEdition"];
 }
 
 +(NSString*)appVersion{

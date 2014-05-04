@@ -265,7 +265,7 @@ CGFloat const IFA_k_maximumImageSizeInPixels = 5 * 1024 * 1024;
 			break;
 		case IFA_k_UIBAR_BUTTON_ITEM_SELECT_NONE:
 		{
-			NSString *l_title = [IFAUtils infoPList][@"IAUISelectNoneButtonLabel"];
+			NSString *l_title = [IFAUtils infoPList][@"IFASelectNoneButtonLabel"];
             if (!l_title) {
                 l_title = @"Select None";
             }
@@ -499,7 +499,7 @@ CGFloat const IFA_k_maximumImageSizeInPixels = 5 * 1024 * 1024;
 }
 
 +(NSString*)menuBarButtonItemImageName {
-    NSString *l_imageName = [[IFAUtils infoPList] objectForKey:@"IAMenuButtonImage"];
+    NSString *l_imageName = [[IFAUtils infoPList] objectForKey:@"IFAMenuButtonImage"];
     if (!l_imageName) {
         l_imageName = @"271-ThreeColumn.png";
     }

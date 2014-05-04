@@ -20,7 +20,7 @@
 #import "IFACommonTests.h"
 #import "IFAHtmlParser.h"
 
-typedef void (^IAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes);
+typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes);
 
 @interface IFAHtmlParserTests : XCTestCase
 @end
@@ -29,7 +29,7 @@ typedef void (^IAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_na
 }
 
 - (void)testSimpleHtmlParsing {
-    IAHtmlParserTestsElementBlock l_elementBlock = ^(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes) {
+    IFAHtmlParserTestsElementBlock l_elementBlock = ^(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes) {
         switch (a_index) {
             case 0:
                 assertThat(a_name, is(equalTo(@"title")));
@@ -159,7 +159,7 @@ typedef void (^IAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_na
 - (void)testComplexHtmlParsing{
     __block BOOL l_hasTestStarted = NO;
     __block NSUInteger l_firstIndex = 0;
-    IAHtmlParserTestsElementBlock l_elementBlock = ^(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes) {
+    IFAHtmlParserTestsElementBlock l_elementBlock = ^(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes) {
         if ([a_name isEqualToString:@"param"] && !l_hasTestStarted){
             l_hasTestStarted = YES;
             l_firstIndex = a_index;
@@ -231,7 +231,7 @@ typedef void (^IAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_na
 #pragma mark - Private
 
 - (void)parseHtmlFileNamed:(NSString *)a_htmlFileName
-            withElementBlock:(IAHtmlParserTestsElementBlock)a_elementBlock {
+            withElementBlock:(IFAHtmlParserTestsElementBlock)a_elementBlock {
 
     NSString *l_htmlOriginalFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:a_htmlFileName
                                                                                         ofType:@"html"];
