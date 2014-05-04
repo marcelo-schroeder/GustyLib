@@ -36,4 +36,52 @@
     assertThat([@"1.4l5(0 12" IFA_stringWithNumbersOnly], is(equalTo(@"145012")));
 }
 
+- (void)testStringByReplacingOccurrencesOfRegexPattern {
+
+    // given
+    NSString *l_inputString = @"\
+<html>\
+<body>\
+<a href=\"http://meganews.cloudcms4apps.com/files/2013/10/Instagram-ads.jpg\">\
+<img class=\"alignleft size-medium wp-image-1578\" src=\"http://meganews.cloudcms4apps.com/files/2013/10/Instagram-ads-300x237.jpg\" alt=\"Instagram-ads\" width=\"300\" height=\"237\" />\
+</a>\
+<a href=\"http://meganews.cloudcms4apps.com/files/2013/10/Instagram-ads.jpg\">\
+<img class=\"fullwidth\" alt=\"Instagram-ads\" src=\"http://meganews.cloudcms4apps.com/files/2013/10/Instagram-ads.jpg\" />\
+</a>\
+</body>\
+</html>\
+";
+
+    // when
+    __block NSUInteger l_counter = 0;
+    NSMutableArray *l_matchedStrings = [@[] mutableCopy];
+    NSString *l_outputString = [l_inputString IFA_stringByReplacingOccurrencesOfRegexPattern:@"<img[^>]*>"
+                                                                                  usingBlock:^NSString *(NSString *a_matchedString) {
+                                                                                      [l_matchedStrings addObject:a_matchedString];
+                                                                                      return [NSString stringWithFormat:@"TEST%u",
+                                                                                                                        ++l_counter];
+                                                                                  }];
+
+    // then
+    NSString *l_expectedOutputString = @"\
+<html>\
+<body>\
+<a href=\"http://meganews.cloudcms4apps.com/files/2013/10/Instagram-ads.jpg\">\
+TEST1\
+</a>\
+<a href=\"http://meganews.cloudcms4apps.com/files/2013/10/Instagram-ads.jpg\">\
+TEST2\
+</a>\
+</body>\
+</html>\
+";
+    assertThat(l_outputString, is(equalTo(l_expectedOutputString)));
+    NSArray *l_expectedMatchedString = @[
+            @"<img class=\"alignleft size-medium wp-image-1578\" src=\"http://meganews.cloudcms4apps.com/files/2013/10/Instagram-ads-300x237.jpg\" alt=\"Instagram-ads\" width=\"300\" height=\"237\" />",
+            @"<img class=\"fullwidth\" alt=\"Instagram-ads\" src=\"http://meganews.cloudcms4apps.com/files/2013/10/Instagram-ads.jpg\" />"
+    ];
+    assertThat(l_matchedStrings, is(equalTo(l_expectedMatchedString)));
+
+}
+
 @end
