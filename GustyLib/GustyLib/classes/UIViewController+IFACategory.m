@@ -24,6 +24,7 @@
 #import "IFASubjectActivityItem.h"
 #import "IFAExternalWebBrowserActivity.h"
 #import "IFAPassthroughView.h"
+#import "UIViewController+IFACategory.h"
 
 //static UIPopoverArrowDirection  const k_arrowDirectionWithoutKeyboard   = UIPopoverArrowDirectionAny;
 static UIPopoverArrowDirection  const k_arrowDirectionWithoutKeyboard   = UIPopoverArrowDirectionUp | UIPopoverArrowDirectionDown;
@@ -46,6 +47,7 @@ static char c_refreshControlKey;
 static char c_activeFetchedResultsControllerKey;
 static char c_keyboardPassthroughViewKey;
 static char c_shouldUseKeyboardPassthroughViewKey;
+static char c_delegateKey;
 
 @interface UIViewController (IFACategory_Private)
 
@@ -329,6 +331,14 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 -(id<IFAPresenter>)IFA_presenter {
     return objc_getAssociatedObject(self, &c_presenterKey);
+}
+
+-(void)setIFA_delegate:(id<IFAViewControllerDelegate>)a_delegate{
+    objc_setAssociatedObject(self, &c_delegateKey, a_delegate, OBJC_ASSOCIATION_ASSIGN);
+}
+
+-(id<IFAViewControllerDelegate>)IFA_delegate {
+    return objc_getAssociatedObject(self, &c_delegateKey);
 }
 
 -(UIPopoverController*)IFA_activePopoverController {
@@ -882,6 +892,10 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
 
+    if ([self.IFA_delegate respondsToSelector:@selector(removeObserversOnDealloc)]) {
+        [self.IFA_delegate removeObserversOnDealloc];
+    }
+
 }
 
 // To be overriden by subclasses
@@ -963,6 +977,10 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     // Configure keyboard passthrough view
     if (self.IFA_shouldUseKeyboardPassthroughView) {
         self.ifa_keyboardPassthroughView.shouldDismissKeyboardOnNonTextInputInteractions = YES;
+    }
+
+    if ([self.IFA_delegate respondsToSelector:@selector(addObserversOnViewDidLoad)]) {
+        [self.IFA_delegate addObserversOnViewDidLoad];
     }
 
 }

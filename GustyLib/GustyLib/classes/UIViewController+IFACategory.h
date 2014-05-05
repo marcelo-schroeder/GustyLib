@@ -29,6 +29,7 @@
 
 @protocol IFAAppearanceTheme;
 @class IFAPassthroughView;
+@protocol IFAViewControllerDelegate;
 
 @interface UIViewController (IFACategory) <IFAHelpTargetContainer, IFAPresenter, GADBannerViewDelegate, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate>
 
@@ -39,7 +40,8 @@
 @property (nonatomic, readonly) BOOL IFA_helpMode;
 @property (nonatomic, readonly) BOOL IFA_changesMadeByPresentedViewController;
 @property (nonatomic, readonly) IFAAsynchronousWorkManager *IFA_asynchronousWorkManager;
-@property (nonatomic) id<IFAPresenter> IFA_presenter;
+@property (nonatomic, weak) id<IFAPresenter> IFA_presenter;
+@property (nonatomic, weak) id<IFAViewControllerDelegate> IFA_delegate;
 @property (nonatomic, strong, readonly) UIPopoverController *IFA_activePopoverController;
 @property (nonatomic, strong, readonly) UIBarButtonItem *IFA_activePopoverControllerBarButtonItem;
 @property (nonatomic, strong) NSString *IFA_subTitle;
@@ -228,5 +230,26 @@
 -(id<NSFetchedResultsControllerDelegate>)IFA_fetchedResultsControllerDelegate;
 // This can also be overriden by subclasses to provide custom behaviour
 -(void)IFA_configureFetchedResultsControllerAndPerformFetch;
+
+@end
+
+/**
+* Delegate that extends UIViewController functionality.
+*/
+@protocol IFAViewControllerDelegate <NSObject>
+
+@optional
+
+/**
+* Convenience method to add observers.
+* This method is called when viewDidLoad runs and it can be paired up with removeObserversOnDealloc, which removes observers.
+*/
+- (void)addObserversOnViewDidLoad;
+
+/**
+* Convenience method to remove observers.
+* This method is called when dealloc runs and it can be paired up with addObserversOnViewDidLoad, which adds observers.
+*/
+- (void)removeObserversOnDealloc;
 
 @end
