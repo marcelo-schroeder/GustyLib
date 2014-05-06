@@ -46,8 +46,9 @@ static char c_adContainerViewKey;
 static char c_refreshControlKey;
 static char c_activeFetchedResultsControllerKey;
 static char c_keyboardPassthroughViewKey;
+static char c_notificationObserversToRemoveOnDeallocKey;
 static char c_shouldUseKeyboardPassthroughViewKey;
-static char c_delegateKey;
+//static char c_delegateKey;
 
 @interface UIViewController (IFACategory_Private)
 
@@ -58,6 +59,7 @@ static char c_delegateKey;
 @property (nonatomic) BOOL IFA_changesMadeByPresentedViewController;
 @property (nonatomic, strong) NSFetchedResultsController *IFA_activeFetchedResultsController;
 @property (nonatomic, strong) IFAPassthroughView *ifa_keyboardPassthroughView;
+@property (nonatomic, strong) NSMutableArray *ifa_notificationObserversToRemoveOnDealloc;
 
 @end
 
@@ -333,13 +335,13 @@ static char c_delegateKey;
     return objc_getAssociatedObject(self, &c_presenterKey);
 }
 
--(void)setIFA_delegate:(id<IFAViewControllerDelegate>)a_delegate{
-    objc_setAssociatedObject(self, &c_delegateKey, a_delegate, OBJC_ASSOCIATION_ASSIGN);
-}
-
--(id<IFAViewControllerDelegate>)IFA_delegate {
-    return objc_getAssociatedObject(self, &c_delegateKey);
-}
+//-(void)setIFA_delegate:(id<IFAViewControllerDelegate>)a_delegate{
+//    objc_setAssociatedObject(self, &c_delegateKey, a_delegate, OBJC_ASSOCIATION_ASSIGN);
+//}
+//
+//-(id<IFAViewControllerDelegate>)IFA_delegate {
+//    return objc_getAssociatedObject(self, &c_delegateKey);
+//}
 
 -(UIPopoverController*)IFA_activePopoverController {
     return objc_getAssociatedObject(self, &c_activePopoverControllerKey);
@@ -401,6 +403,19 @@ static char c_delegateKey;
 
 -(void)setIfa_keyboardPassthroughView:(IFAPassthroughView *)a_keyboardPassthroughView{
     objc_setAssociatedObject(self, &c_keyboardPassthroughViewKey, a_keyboardPassthroughView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+-(NSMutableArray *)ifa_notificationObserversToRemoveOnDealloc {
+    NSMutableArray *l_obj = objc_getAssociatedObject(self, &c_notificationObserversToRemoveOnDeallocKey);
+    if (!l_obj) {
+        l_obj = [NSMutableArray new];
+        self.ifa_notificationObserversToRemoveOnDealloc = l_obj;
+    }
+    return l_obj;
+}
+
+-(void)setIfa_notificationObserversToRemoveOnDealloc:(NSMutableArray *)a_notificationObserversToRemoveOnDealloc{
+    objc_setAssociatedObject(self, &c_notificationObserversToRemoveOnDeallocKey, a_notificationObserversToRemoveOnDealloc, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 -(UIBarButtonItem*)ifa_helpBarButtonItem {
@@ -892,8 +907,8 @@ static char c_delegateKey;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
 
-    if ([self.IFA_delegate respondsToSelector:@selector(removeObserversOnDealloc)]) {
-        [self.IFA_delegate removeObserversOnDealloc];
+    for (id l_observer in self.ifa_notificationObserversToRemoveOnDealloc) {
+        [[NSNotificationCenter defaultCenter] removeObserver:l_observer];
     }
 
 }
@@ -977,10 +992,6 @@ static char c_delegateKey;
     // Configure keyboard passthrough view
     if (self.IFA_shouldUseKeyboardPassthroughView) {
         self.ifa_keyboardPassthroughView.shouldDismissKeyboardOnNonTextInputInteractions = YES;
-    }
-
-    if ([self.IFA_delegate respondsToSelector:@selector(addObserversOnViewDidLoad)]) {
-        [self.IFA_delegate addObserversOnViewDidLoad];
     }
 
 }
@@ -1423,6 +1434,23 @@ static char c_delegateKey;
         
     }
     
+}
+
+- (void)addNotificationObserverForName:(NSString *)a_name object:(id)a_obj queue:(NSOperationQueue *)a_queue
+                            usingBlock:(void (^)(NSNotification *a_note))a_block
+                           removalTime:(IFAViewControllerNotificationObserverRemovalTime)a_removalTime {
+    BOOL l_isObserverRemovalAutomationSupported =
+            [self isKindOfClass:[IFACollectionViewController class]]
+                    || [self isKindOfClass:[IFAPageViewController class]]
+                    || [self isKindOfClass:[IFATableViewController class]]
+                    || [self isKindOfClass:[IFAViewController class]];
+    NSAssert(l_isObserverRemovalAutomationSupported, @"Notification observer removal automation not supported by this class: %@", [self.class description]);
+    id l_observer = [[NSNotificationCenter defaultCenter] addObserverForName:a_name object:a_obj
+                                                       queue:a_queue
+                                                  usingBlock:a_block];
+    if (a_removalTime==IFAViewControllerNotificationObserverRemovalTimeDealloc) {
+        [self.ifa_notificationObserversToRemoveOnDealloc addObject:l_observer];
+    }
 }
 
 - (BOOL)IFA_isVisibleTopViewController {

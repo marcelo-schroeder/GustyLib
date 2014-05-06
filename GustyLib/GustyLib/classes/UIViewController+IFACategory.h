@@ -41,7 +41,6 @@
 @property (nonatomic, readonly) BOOL IFA_changesMadeByPresentedViewController;
 @property (nonatomic, readonly) IFAAsynchronousWorkManager *IFA_asynchronousWorkManager;
 @property (nonatomic, weak) id<IFAPresenter> IFA_presenter;
-@property (nonatomic, weak) id<IFAViewControllerDelegate> IFA_delegate;
 @property (nonatomic, strong, readonly) UIPopoverController *IFA_activePopoverController;
 @property (nonatomic, strong, readonly) UIBarButtonItem *IFA_activePopoverControllerBarButtonItem;
 @property (nonatomic, strong) NSString *IFA_subTitle;
@@ -214,6 +213,30 @@
 -(void)IFA_startAdRequests;
 -(void)IFA_stopAdRequests;
 
+/**
+* Indicates the various times when notification observers should be removed at.
+*/
+typedef enum{
+    IFAViewControllerNotificationObserverRemovalTimeNone,               // The observer will not be removed.
+    IFAViewControllerNotificationObserverRemovalTimeDealloc,            // The observer will be removed when this object's dealloc method runs.
+} IFAViewControllerNotificationObserverRemovalTime;
+
+/**
+* Convenience method for adding notification observers with automated removal.
+* The initial parameters are identical to the ones taken by addObserverForName:object:queue:usingBlock: from NSNotificationCenter.
+* The observer created will then be removed at the time indicated.
+* Observer removal automation only works with certain GustyLib classes or subclasses.
+* Currently these are the classes that support observer removal automation: IFACollectionViewController, IFAPageViewController, IFATableViewController and IFAViewController.
+* @param a_name The name of the notification for which to register the observer; that is, only notifications with this name are used to add the block to the operation queue. If you pass nil, the notification center doesn’t use a notification’s name to decide whether to add the block to the operation queue.
+* @param a_obj The object whose notifications you want to add the block to the operation queue. If you pass nil, the notification center doesn’t use a notification’s sender to decide whether to add the block to the operation queue.
+* @param a_queue The operation queue to which block should be added. If you pass nil, the block is run synchronously on the posting thread.
+* @param a_block The block to be executed when the notification is received. The block is copied by the notification center and (the copy) held until the observer registration is removed. The block takes one argument: notification. The notification.
+* @param a_removalTime Indicates when the observer should be removed. Please read the typedef's declaration comments for further details.
+*/
+- (void)addNotificationObserverForName:(NSString *)a_name object:(id)a_obj queue:(NSOperationQueue *)a_queue
+                            usingBlock:(void (^)(NSNotification *a_note))a_block
+                           removalTime:(IFAViewControllerNotificationObserverRemovalTime)a_removalTime;
+
 #pragma mark - IFAHelpTargetContainer
 
 - (BOOL)IFA_isVisibleTopViewController;
@@ -230,26 +253,5 @@
 -(id<NSFetchedResultsControllerDelegate>)IFA_fetchedResultsControllerDelegate;
 // This can also be overriden by subclasses to provide custom behaviour
 -(void)IFA_configureFetchedResultsControllerAndPerformFetch;
-
-@end
-
-/**
-* Delegate that extends UIViewController functionality.
-*/
-@protocol IFAViewControllerDelegate <NSObject>
-
-@optional
-
-/**
-* Convenience method to add observers.
-* This method is called when viewDidLoad runs and it can be paired up with removeObserversOnDealloc, which removes observers.
-*/
-- (void)addObserversOnViewDidLoad;
-
-/**
-* Convenience method to remove observers.
-* This method is called when dealloc runs and it can be paired up with addObserversOnViewDidLoad, which adds observers.
-*/
-- (void)removeObserversOnDealloc;
 
 @end
