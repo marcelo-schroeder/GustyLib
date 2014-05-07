@@ -22,6 +22,6 @@
 
 @interface NSData (IFACategory)
 
--(NSString*)IFA_hexString;
+-(NSString*)ifa_hexString;
 
 @end

@@ -22,8 +22,8 @@
 
 @interface UIWebView (IFACategory)
 
--(void)IFA_removeShadow;
--(void)IFA_updateViewPortWidth;
+-(void)ifa_removeShadow;
+-(void)ifa_updateViewPortWidth;
 
-- (NSString *)IFA_html;
+- (NSString *)ifa_html;
 @end

@@ -105,7 +105,7 @@
     
 }
 
--(NSArray *)IFA_nonEditModeToolbarItems {
+-(NSArray *)ifa_nonEditModeToolbarItems {
     UIBarButtonItem *l_flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     NSMutableArray *l_items = [NSMutableArray arrayWithArray:@[l_flexibleSpace, self.XYZ_reportBugBarButtonItem, l_flexibleSpace, self.XYZ__provideFeedbackBarButtonItem, l_flexibleSpace]];
     if ([[[IFAUtils infoPList] objectForKey:@"IFAShowForceCrashButton"] boolValue]) {
@@ -116,7 +116,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self IFA_logAnalyticsScreenEntry];
+    [self ifa_logAnalyticsScreenEntry];
 }
 
 #pragma mark - UITableViewDataSource
@@ -133,7 +133,7 @@
     UITableViewCell *l_cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     if ([[self nameForIndexPath:indexPath] isEqualToString:@"appName"]) {
         [l_cell.contentView addSubview:self.customView];
-        [[self IFA_appearanceTheme] setLabelTextStyleForChildrenOfView:self.customView];
+        [[self ifa_appearanceTheme] setLabelTextStyleForChildrenOfView:self.customView];
     }
     return l_cell;
 }

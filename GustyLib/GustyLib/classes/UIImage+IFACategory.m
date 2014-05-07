@@ -25,7 +25,7 @@
 
 #pragma mark - Public
 
--(UIImage*)IFA_imageWithOverlayColor:(UIColor*)a_color{
+-(UIImage*)ifa_imageWithOverlayColor:(UIColor*)a_color{
 
     CGRect rect = CGRectMake(0.0f, 0.0f, self.size.width, self.size.height);
     
@@ -47,12 +47,12 @@
 
 }
 
--(UIImage*)IFA_imageWithHue:(CGFloat)a_hue{
+-(UIImage*)ifa_imageWithHue:(CGFloat)a_hue{
     float l_hueInDegrees = a_hue * 360; // convert hue from percentage to degrees
-    return [self IFA_imageWithHueInDegrees:l_hueInDegrees];
+    return [self ifa_imageWithHueInDegrees:l_hueInDegrees];
 }
 
--(UIImage*)IFA_imageWithHueInDegrees:(CGFloat)a_hueInDegrees{
+-(UIImage*)ifa_imageWithHueInDegrees:(CGFloat)a_hueInDegrees{
 
     CIImage *l_inputImage = [[CIImage alloc] initWithImage:self];
     CIFilter *l_hueAdjust = [CIFilter filterWithName:@"CIHueAdjust"];
@@ -71,7 +71,7 @@
 
 }
 
-- (UIImage *)IFA_imageWithOrientationUp {
+- (UIImage *)ifa_imageWithOrientationUp {
     // No-op if the orientation is already correct
     if (self.imageOrientation == UIImageOrientationUp) return self;
 
@@ -155,11 +155,11 @@
     return img;
 }
 
-- (CGFloat)IFA_aspectRatio {
+- (CGFloat)ifa_aspectRatio {
     return self.size.width / self.size.height;
 }
 
-+(UIImage*)IFA_imageWithColor:(UIColor *)a_color rect:(CGRect)a_rect{
++(UIImage*)ifa_imageWithColor:(UIColor *)a_color rect:(CGRect)a_rect{
     UIGraphicsBeginImageContext(a_rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetFillColorWithColor(context, [a_color CGColor]);
@@ -169,32 +169,32 @@
     return l_image;
 }
 
-+(UIImage*)IFA_imageWithColor:(UIColor*)a_color{
-    return [self IFA_imageWithColor:a_color rect:CGRectMake(0, 0, 1, 1)];
++(UIImage*)ifa_imageWithColor:(UIColor*)a_color{
+    return [self ifa_imageWithColor:a_color rect:CGRectMake(0, 0, 1, 1)];
 }
 
-- (UIImage *)IFA_applyLightBlurEffect
+- (UIImage *)ifa_applyLightBlurEffect
 {
     UIColor *tintColor = [UIColor colorWithWhite:1.0 alpha:0.3];
-    return [self IFA_applyBlurEffectWithRadius:30 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
+    return [self ifa_applyBlurEffectWithRadius:30 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
 }
 
 
-- (UIImage *)IFA_applyExtraLightBlurEffect
+- (UIImage *)ifa_applyExtraLightBlurEffect
 {
     UIColor *tintColor = [UIColor colorWithWhite:0.97 alpha:0.82];
-    return [self IFA_applyBlurEffectWithRadius:20 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
+    return [self ifa_applyBlurEffectWithRadius:20 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
 }
 
 
-- (UIImage *)IFA_applyDarkBlurEffect
+- (UIImage *)ifa_applyDarkBlurEffect
 {
     UIColor *tintColor = [UIColor colorWithWhite:0.11 alpha:0.73];
-    return [self IFA_applyBlurEffectWithRadius:20 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
+    return [self ifa_applyBlurEffectWithRadius:20 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
 }
 
 
-- (UIImage *)IFA_applyTintBlurEffectWithColor:(UIColor *)tintColor
+- (UIImage *)ifa_applyTintBlurEffectWithColor:(UIColor *)tintColor
 {
     const CGFloat EffectColorAlpha = 0.6;
     UIColor *effectColor = tintColor;
@@ -211,10 +211,10 @@
             effectColor = [UIColor colorWithRed:r green:g blue:b alpha:EffectColorAlpha];
         }
     }
-    return [self IFA_applyBlurEffectWithRadius:10 tintColor:effectColor saturationDeltaFactor:-1.0 maskImage:nil];
+    return [self ifa_applyBlurEffectWithRadius:10 tintColor:effectColor saturationDeltaFactor:-1.0 maskImage:nil];
 }
 
-- (UIImage *)IFA_applyBlurEffectWithRadius:(CGFloat)blurRadius tintColor:(UIColor *)tintColor
+- (UIImage *)ifa_applyBlurEffectWithRadius:(CGFloat)blurRadius tintColor:(UIColor *)tintColor
                      saturationDeltaFactor:(CGFloat)saturationDeltaFactor maskImage:(UIImage *)maskImage
 {
     // Check pre-conditions.

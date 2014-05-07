@@ -61,7 +61,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 		self.formName = aFormName;
 		self.isSubForm = aSubFormFlag;
 
-        self.IFA_helpTargetId = [IFAUIUtils helpTargetIdForName:[@"form" stringByAppendingString:self.createMode ? @".new" : @".existing"]];
+        self.ifa_helpTargetId = [IFAUIUtils helpTargetIdForName:[@"form" stringByAppendingString:self.createMode ? @".new" : @".existing"]];
 
     }
 	
@@ -83,7 +83,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
                                                                                                                        cell:l_cell];
     }
-    l_cell.helpTargetId = [IFAHelpManager helpTargetIdForPropertyName:l_propertyName inObject:self.object];
+    l_cell.ifa_helpTargetId = [IFAHelpManager helpTargetIdForPropertyName:l_propertyName inObject:self.object];
     
     return l_cell;
     
@@ -106,7 +106,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 }
 
 - (void)onDeleteButtonTap:(id)sender{
-	NSString *entityName = [[self.object IFA_entityLabel] lowercaseString];
+	NSString *entityName = [[self.object ifa_entityLabel] lowercaseString];
 	NSString *message = [NSString stringWithFormat:@"Are you sure you want to delete the %@?", entityName];
     [IFAUIUtils showActionSheetWithMessage:message
               destructiveButtonLabelSuffix:@"delete"
@@ -121,7 +121,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     v_restoringNonEditingState = YES;
     [self setEditing:NO animated:YES];
     v_restoringNonEditingState = NO;
-    [self IFA_notifySessionCompletion];
+    [self ifa_notifySessionCompletion];
 }
 
 - (void)onCancelButtonTap:(id)sender {
@@ -129,7 +129,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 }
 
 - (void)onDismissButtonTap:(id)sender {
-    [self IFA_notifySessionCompletion];
+    [self ifa_notifySessionCompletion];
 }
 
 - (UIViewController*) editorViewControllerForIndexPath:(NSIndexPath*)anIndexPath{
@@ -216,7 +216,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     // Set the help target ID for the view controller, if required
     if (l_shouldSetHelpTargetId) {
         UITableViewCell *l_cell = [self visibleCellForIndexPath:anIndexPath];
-        controller.IFA_helpTargetId = l_cell.helpTargetId;
+        controller.ifa_helpTargetId = l_cell.ifa_helpTargetId;
     }
     
 	return controller;
@@ -290,7 +290,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         
 	}else if ([self.object isKindOfClass:NSManagedObject.class]) {
         
-        NSPropertyDescription *propertyDescription = [self.object IFA_descriptionForProperty:propertyName];
+        NSPropertyDescription *propertyDescription = [self.object ifa_descriptionForProperty:propertyName];
         //            NSLog(@"propertyDescription: %@", [propertyDescription validationPredicates]);
         
         if ([propertyDescription isKindOfClass:[NSAttributeDescription class]] && [(NSAttributeDescription*)propertyDescription attributeType]==NSBooleanAttributeType && ![self isReadOnlyForIndexPath:anIndexPath]) {
@@ -339,7 +339,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 	NSString *entityName = [self entityNameForProperty:segmentedControl.propertyName];
 	NSManagedObject *selectedManagedObject = [[[IFAPersistenceManager sharedInstance] findAllForEntity:entityName]
 											  objectAtIndex:[segmentedControl selectedSegmentIndex]];
-    [self.object IFA_setValue:selectedManagedObject forProperty:segmentedControl.propertyName];
+    [self.object ifa_setValue:selectedManagedObject forProperty:segmentedControl.propertyName];
 }
 
 -(NSInteger)tagForIndexPath:(NSIndexPath*)a_indexPath{
@@ -402,19 +402,19 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     if (self.isSubForm) {
         [self.navigationItem setHidesBackButton:NO animated:YES];
     }else{
-        [self IFA_removeLeftBarButtonItem:self.XYZ_dismissModalFormBarButtonItem];
-        [self IFA_removeLeftBarButtonItem:self.XYZ_cancelBarButtonItem];
+        [self ifa_removeLeftBarButtonItem:self.XYZ_dismissModalFormBarButtonItem];
+        [self ifa_removeLeftBarButtonItem:self.XYZ_cancelBarButtonItem];
         if (self.editing) {
-            if (v_isManagedObject || ((!v_isManagedObject) && self.IFA_presentedAsModal)) {
+            if (v_isManagedObject || ((!v_isManagedObject) && self.ifa_presentedAsModal)) {
                 if (self.navigationItem.leftItemsSupplementBackButton) {
                     [self.navigationItem setHidesBackButton:YES animated:YES];
                 }
-                [self IFA_addLeftBarButtonItem:self.XYZ_cancelBarButtonItem];
+                [self ifa_addLeftBarButtonItem:self.XYZ_cancelBarButtonItem];
             }
         }else {
             [self.navigationItem setHidesBackButton:NO animated:YES];
-            if(self.IFA_presentedAsModal) {
-                [self IFA_addLeftBarButtonItem:self.XYZ_dismissModalFormBarButtonItem];
+            if(self.ifa_presentedAsModal) {
+                [self ifa_addLeftBarButtonItem:self.XYZ_dismissModalFormBarButtonItem];
             }
         }
     }
@@ -537,11 +537,11 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                                                                                createMode:self.createMode];
 }
 
--(NSString *)IFA_editBarButtonItemHelpTargetId {
-    if([[IFAPersistenceManager sharedInstance].entityConfig hasSubmitButtonForForm:self.formName inEntity:[self.object IFA_entityName]]) {
-        return [self IFA_helpTargetIdForName:@"submitButton"];
+-(NSString *)ifa_editBarButtonItemHelpTargetId {
+    if([[IFAPersistenceManager sharedInstance].entityConfig hasSubmitButtonForForm:self.formName inEntity:[self.object ifa_entityName]]) {
+        return [self ifa_helpTargetIdForName:@"submitButton"];
     }else{
-        return [super IFA_editBarButtonItemHelpTargetId];
+        return [super ifa_editBarButtonItemHelpTargetId];
     }
 }
 
@@ -561,8 +561,8 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 		[super setEditing:editing animated:animated];
 
 		if (!self.isSubForm) {
-            if([[IFAPersistenceManager sharedInstance].entityConfig hasSubmitButtonForForm:self.formName inEntity:[self.object IFA_entityName]]) {
-                self.editButtonItem.title = [[IFAPersistenceManager sharedInstance].entityConfig submitButtonLabelForForm:self.formName inEntity:[self.object IFA_entityName]];
+            if([[IFAPersistenceManager sharedInstance].entityConfig hasSubmitButtonForForm:self.formName inEntity:[self.object ifa_entityName]]) {
+                self.editButtonItem.title = [[IFAPersistenceManager sharedInstance].entityConfig submitButtonLabelForForm:self.formName inEntity:[self.object ifa_entityName]];
 //                self.editButtonItem.accessibilityLabel = self.editButtonItem.title;
             }else{
                 self.editButtonItem.title = IFAButtonLabelSave;
@@ -628,10 +628,10 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 //                self.editButtonItem.accessibilityLabel = self.editButtonItem.title;
                 [self XYZ_updateLeftBarButtonItemsStates];
             }
-            BOOL l_canDismissView = self.IFA_presentedAsModal || [self.navigationController.viewControllers objectAtIndex:0]!=self;
+            BOOL l_canDismissView = self.ifa_presentedAsModal || [self.navigationController.viewControllers objectAtIndex:0]!=self;
             if ((v_saveButtonTapped || self.createMode) && l_canDismissView && !v_restoringNonEditingState) {
                 if (!l_contextSwitchRequestPending) {    // Make sure this controller has not already been popped by a context switch request somewhere else
-                    [self IFA_notifySessionCompletionWithChangesMade:v_objectSaved data:nil ];
+                    [self ifa_notifySessionCompletionWithChangesMade:v_objectSaved data:nil ];
                 }
             }
             
@@ -661,7 +661,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         a_cell.textLabel.text = l_label;
         NSString *l_valueFormat = [[IFAPersistenceManager sharedInstance].entityConfig valueFormatForProperty:a_cell.propertyName
                                                                                                     inObject:self.object];
-        NSString *l_valueString = [self.object IFA_propertyStringValueForIndexPath:a_cell.indexPath
+        NSString *l_valueString = [self.object ifa_propertyStringValueForIndexPath:a_cell.indexPath
                                                                             inForm:self.formName
                                                                         createMode:self.createMode
                                                                           calendar:[self calendar]];
@@ -770,7 +770,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 //    NSLog(@"onSwitchAction with tag: %u", a_switch.tag);
     NSString *l_propertyName = [v_tagToPropertyName objectForKey:@(a_switch.tag)];
 //    NSLog(@"  property name: %@", l_propertyName);
-    [self.object IFA_setValue:@((a_switch.on)) forProperty:l_propertyName];
+    [self.object ifa_setValue:@((a_switch.on)) forProperty:l_propertyName];
     NSArray *l_dependentPropertyNames = [[IFAPersistenceManager sharedInstance].entityConfig dependentsForProperty:l_propertyName
                                                                                                          inObject:self.object];
 //    NSLog(@"  dependents: %@", l_dependentPropertyNames);
@@ -846,7 +846,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 				if (![[IFAPersistenceManager sharedInstance] deleteAndSaveObject:l_managedObject]) {
 					return;
 				}
-                [self IFA_notifySessionCompletionWithChangesMade:YES data:nil ];
+                [self ifa_notifySessionCompletionWithChangesMade:YES data:nil ];
                 [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:@"%@ deleted",
                                                                                                     self.title]];
 			}
@@ -893,7 +893,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
             l_cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                             reuseIdentifier:k_TT_CELL_IDENTIFIER_VIEW_CONTROLLER];
             l_cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            l_cell.textLabel.textColor = [[self IFA_appearanceTheme] tableCellTextColor];
+            l_cell.textLabel.textColor = [[self ifa_appearanceTheme] tableCellTextColor];
             // Set appearance
             [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
                                                                                                                            cell:l_cell];
@@ -967,7 +967,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                     // Load segmented UI control items
                     NSMutableArray *segmentControlItems = [NSMutableArray array];
                     for (NSManagedObject *mo in [[IFAPersistenceManager sharedInstance] findAllForEntity:[self entityNameForProperty:propertyName]]) {
-                        [segmentControlItems addObject:[mo IFA_displayValue]];
+                        [segmentControlItems addObject:[mo ifa_displayValue]];
                     }
                     
                     // Instantiate segmented UI control
@@ -980,7 +980,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                                                                     reuseIdentifier:cellIdentifier object:self.object
                                                                        propertyName:propertyName indexPath:indexPath
                                                                    segmentedControl:segmentedControl];
-                    cell.helpTargetId = [IFAHelpManager helpTargetIdForPropertyName:propertyName
+                    cell.ifa_helpTargetId = [IFAHelpManager helpTargetIdForPropertyName:propertyName
                                                                            inObject:self.object];
                     cell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
 
@@ -1027,7 +1027,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         NSString *l_urlPropertyName = [self XYZ_urlPropertyNameForIndexPath:indexPath];
         NSString *l_urlString = [self.object valueForKeyPath:l_urlPropertyName];
         NSURL *l_url = [NSURL URLWithString:l_urlString];
-        [self IFA_openUrl:l_url];
+        [self ifa_openUrl:l_url];
         return;
     }
     
@@ -1056,7 +1056,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         }
         if ([l_entityConfig isModalForViewControllerFieldTypeAtIndexPath:indexPath inObject:self.object
                                                                   inForm:self.formName createMode:self.createMode]) {
-            [self IFA_presentModalViewController:l_viewController presentationStyle:UIModalPresentationFullScreen
+            [self ifa_presentModalViewController:l_viewController presentationStyle:UIModalPresentationFullScreen
                                  transitionStyle:UIModalTransitionStyleCoverVertical];
         }else{
             [self.navigationController pushViewController:l_viewController animated:YES];
@@ -1079,16 +1079,16 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                 __weak IFAFormViewController *l_weakSelf = self;
                 
                 UIViewController *l_viewController = [self editorViewControllerForIndexPath:indexPath];
-                l_viewController.IFA_presenter = l_weakSelf;
+                l_viewController.ifa_presenter = l_weakSelf;
                 
                 self.XYZ_indexPathForPopoverController = indexPath;
                 CGRect l_fromPopoverRect = [self XYZ_fromPopoverRectForIndexPath:self.XYZ_indexPathForPopoverController];
                 
-                if ([l_viewController IFA_hasFixedSize]) {
+                if ([l_viewController ifa_hasFixedSize]) {
                     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
                 }
 
-                [self IFA_presentModalSelectionViewController:l_viewController fromRect:l_fromPopoverRect
+                [self ifa_presentModalSelectionViewController:l_viewController fromRect:l_fromPopoverRect
                                                        inView:l_weakSelf.tableView];
                 
             }else{
@@ -1140,7 +1140,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
     
     // Set custom disclosure indicator for cell
-    [[self IFA_appearanceTheme] setCustomDisclosureIndicatorForCell:cell tableViewController:self];
+    [[self ifa_appearanceTheme] setCustomDisclosureIndicatorForCell:cell tableViewController:self];
     
     // Clear custom view if required
     if (cell.accessoryType==UITableViewCellAccessoryNone) {
@@ -1200,7 +1200,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 	if (!self.readOnlyMode && !self.isSubForm) {
         self.editButtonItem.tag = IFABarItemTagEditButton;
-        [self IFA_addRightBarButtonItem:self.editButtonItem];
+        [self ifa_addRightBarButtonItem:self.editButtonItem];
 	}
     
     //	self.tableView.allowsSelection = NO;
@@ -1273,7 +1273,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 - (void)viewWillAppear:(BOOL)animated {
 
-//    [TestFlight passCheckpoint:[NSString stringWithFormat:@"IFAFormViewController.viewWillAppear.%@", [managedObject IFA_entityName]]];
+//    [TestFlight passCheckpoint:[NSString stringWithFormat:@"IFAFormViewController.viewWillAppear.%@", [managedObject ifa_entityName]]];
 //    NSLog(@"self: %@", [self description]);
 //    NSLog(@"self.presentedViewController: %@", [self.presentedViewController description]);
 //    NSLog(@"self.presentingViewController: %@", [self.presentingViewController description]);
@@ -1284,7 +1284,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     
     if (!self.readOnlyMode && !self.editing) {
         self.editing = YES;
-    }else if(self.editing && ![self IFA_isReturningVisibleViewController] && [self contextSwitchRequestRequiredInEditMode]) {
+    }else if(self.editing && ![self ifa_isReturningVisibleViewController] && [self contextSwitchRequestRequiredInEditMode]) {
         // If it's already in editing mode, need to make sure context switch request is required (e.g. the view controller could be cached by the menu)
         self.contextSwitchRequestRequired = YES;
     }
@@ -1329,7 +1329,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
     [super viewWillDisappear:animated];
 
-    if (!v_isManagedObject && !self.IFA_presentedAsModal) {
+    if (!v_isManagedObject && !self.ifa_presentedAsModal) {
         [self updateAndSaveBackingPreferences];
     }
     
@@ -1354,7 +1354,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 }
 
-- (NSArray*)IFA_editModeToolbarItems {
+- (NSArray*)ifa_editModeToolbarItems {
 	if(!self.createMode){
 		UIBarButtonItem *deleteButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemDelete target:self
                                                                       action:@selector(onDeleteButtonTap:)];
@@ -1382,13 +1382,13 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 
-    if (self.IFA_activePopoverController && !self.IFA_activePopoverControllerBarButtonItem) {
+    if (self.ifa_activePopoverController && !self.ifa_activePopoverControllerBarButtonItem) {
         
         // Present popover controller in the new interface orientation
         [self.tableView scrollToRowAtIndexPath:self.XYZ_indexPathForPopoverController
                               atScrollPosition:UITableViewScrollPositionBottom animated:NO];
         CGRect l_fromPopoverRect = [self XYZ_fromPopoverRectForIndexPath:self.XYZ_indexPathForPopoverController];
-        [self IFA_presentPopoverController:self.IFA_activePopoverController fromRect:l_fromPopoverRect
+        [self ifa_presentPopoverController:self.ifa_activePopoverController fromRect:l_fromPopoverRect
                                     inView:self.tableView];
         
     }
@@ -1407,9 +1407,9 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     [super setContextSwitchRequestRequired:v_isManagedObject ? a_contextSwitchRequestRequired : NO];
 }
 
--(void)IFA_onKeyboardNotification:(NSNotification*)a_notification{
+-(void)ifa_onKeyboardNotification:(NSNotification*)a_notification{
 
-    [super IFA_onKeyboardNotification:a_notification];
+    [super ifa_onKeyboardNotification:a_notification];
 
 //    NSLog(@"m_onKeyboardNotification");
 
@@ -1422,10 +1422,10 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
     }else if ([a_notification.name isEqualToString:UIKeyboardDidHideNotification]) {
 
-        if (self.IFA_activePopoverController && !self.IFA_activePopoverControllerBarButtonItem) {
+        if (self.ifa_activePopoverController && !self.ifa_activePopoverControllerBarButtonItem) {
 
             CGRect l_fromPopoverRect = [self XYZ_fromPopoverRectForIndexPath:self.XYZ_indexPathForPopoverController];
-            [self IFA_presentPopoverController:self.IFA_activePopoverController fromRect:l_fromPopoverRect
+            [self ifa_presentPopoverController:self.ifa_activePopoverController fromRect:l_fromPopoverRect
                                         inView:self.tableView];
 
         }

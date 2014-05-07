@@ -52,12 +52,12 @@
 
 -(void)XYZ_setNavigationItemTitleViewForViewController:(UIViewController *)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation{
     
-    if (a_viewController.IFA_titleViewDefault && a_viewController.IFA_titleViewLandscapePhone) {
+    if (a_viewController.ifa_titleViewDefault && a_viewController.ifa_titleViewLandscapePhone) {
         
         // Determine which title view to use
         BOOL l_isIPhoneLandscape = ![IFAUIUtils isIPad] && UIInterfaceOrientationIsLandscape(a_interfaceOrientation);
 //        NSLog(@"l_isIPhoneLandscape: %u", l_isIPhoneLandscape);
-        UIView *l_titleView = l_isIPhoneLandscape ? a_viewController.IFA_titleViewLandscapePhone : a_viewController.IFA_titleViewDefault;
+        UIView *l_titleView = l_isIPhoneLandscape ? a_viewController.ifa_titleViewLandscapePhone : a_viewController.ifa_titleViewDefault;
         
         // Resize the title view according to the greatest label width
         CGFloat l_greatestMaxWidth = 0;
@@ -244,9 +244,9 @@ XYZ_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 -(void)setAppearanceOnViewDidLoadForViewController:(UIViewController*)a_viewController{
-    a_viewController.IFA_titleViewDefault = [self navigationItemTitleViewForViewController:a_viewController
+    a_viewController.ifa_titleViewDefault = [self navigationItemTitleViewForViewController:a_viewController
                                                                               barMetrics:UIBarMetricsDefault];
-    a_viewController.IFA_titleViewLandscapePhone = [self navigationItemTitleViewForViewController:a_viewController
+    a_viewController.ifa_titleViewLandscapePhone = [self navigationItemTitleViewForViewController:a_viewController
                                                                                      barMetrics:UIBarMetricsLandscapePhone];
     [self setOrientationDependentBackgroundImagesForViewController:a_viewController];
     if ([a_viewController isKindOfClass:[UITableViewController class]]) {
@@ -265,10 +265,10 @@ XYZ_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 -(void)setAppearanceOnViewWillAppearForViewController:(UIViewController*)a_viewController{
     
     // Navigation item title view titles and subtitle, if applicable
-    a_viewController.IFA_titleViewDefault.titleLabel.text = a_viewController.title;
-    a_viewController.IFA_titleViewDefault.subTitleLabel.text = a_viewController.IFA_subTitle;
-    a_viewController.IFA_titleViewLandscapePhone.titleLabel.text = a_viewController.title;
-    a_viewController.IFA_titleViewLandscapePhone.subTitleLabel.text = a_viewController.IFA_subTitle;
+    a_viewController.ifa_titleViewDefault.titleLabel.text = a_viewController.title;
+    a_viewController.ifa_titleViewDefault.subTitleLabel.text = a_viewController.ifa_subTitle;
+    a_viewController.ifa_titleViewLandscapePhone.titleLabel.text = a_viewController.title;
+    a_viewController.ifa_titleViewLandscapePhone.subTitleLabel.text = a_viewController.ifa_subTitle;
 
     [self XYZ_setNavigationItemTitleViewForViewController:a_viewController
                                      interfaceOrientation:[UIApplication sharedApplication].statusBarOrientation];
@@ -480,7 +480,7 @@ XYZ_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         [l_button setImage:l_imageNormal forState:UIControlStateNormal];
         [l_button setImage:l_imageHighlighted forState:UIControlStateHighlighted];
     }
-    l_button.helpTargetId = [IFAUIUtils helpTargetIdForName:@"detailDisclosureButton"];
+    l_button.ifa_helpTargetId = [IFAUIUtils helpTargetIdForName:@"detailDisclosureButton"];
     return l_button;
 }
 
@@ -703,7 +703,7 @@ XYZ_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 + (UIColor *)splitViewControllerDividerColour {
-    return [UIColor IFA_colorWithRed:191 green:191 blue:191];
+    return [UIColor ifa_colorWithRed:191 green:191 blue:191];
 }
 
 

@@ -27,6 +27,6 @@
 *
 * @returns Array of NSIndexPath instances created based on the parameters provided.
 */
-+ (NSArray *)IFA_indexPathsForRowRange:(NSRange)a_rowRange section:(NSInteger)a_section;
++ (NSArray *)ifa_indexPathsForRowRange:(NSRange)a_rowRange section:(NSInteger)a_section;
 
 @end

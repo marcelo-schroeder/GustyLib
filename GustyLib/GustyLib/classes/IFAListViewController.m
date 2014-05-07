@@ -64,7 +64,7 @@
     
     dispatch_block_t l_block = [^{
         
-        if (l_weakSelf.IFA_asynchronousWorkManager.areAllBlocksCancelled) {
+        if (l_weakSelf.ifa_asynchronousWorkManager.areAllBlocksCancelled) {
             //            NSLog(@"all blocks cancelled - exiting block!");
             return;
         }
@@ -84,7 +84,7 @@
         }];
         //        NSLog(@"find done");
         
-        if (l_weakSelf.IFA_asynchronousWorkManager.areAllBlocksCancelled) {
+        if (l_weakSelf.ifa_asynchronousWorkManager.areAllBlocksCancelled) {
             //            NSLog(@"all blocks cancelled - exiting block - after find!");
             return;
         }
@@ -113,7 +113,7 @@
         
 //        NSLog(@"block dispatched for %@", [self description]);
 
-        [self.IFA_asynchronousWorkManager dispatchSerialBlock:l_block progressIndicatorContainerView:self.view
+        [self.ifa_asynchronousWorkManager dispatchSerialBlock:l_block progressIndicatorContainerView:self.view
                                          cancelPreviousBlocks:YES];
         
     }
@@ -207,8 +207,8 @@
 }
 
 - (NSObject*)objectForIndexPath:(NSIndexPath*)a_indexPath{
-    if (self.IFA_activeFetchedResultsController) {
-        return [self.IFA_activeFetchedResultsController objectAtIndexPath:a_indexPath];
+    if (self.ifa_activeFetchedResultsController) {
+        return [self.ifa_activeFetchedResultsController objectAtIndexPath:a_indexPath];
     }else{
         return [[self.sectionsWithRows objectAtIndex:a_indexPath.section] objectAtIndex:a_indexPath.row];
     }
@@ -262,7 +262,7 @@
 }
 
 - (IFAFormViewController *)formViewControllerForManagedObject:(NSManagedObject *)aManagedObject createMode:(BOOL)aCreateMode{
-    Class l_formViewControllerClass = [[IFAPersistenceManager sharedInstance].entityConfig formViewControllerClassForEntity:[aManagedObject IFA_entityName]];
+    Class l_formViewControllerClass = [[IFAPersistenceManager sharedInstance].entityConfig formViewControllerClassForEntity:[aManagedObject ifa_entityName]];
     if (!l_formViewControllerClass) {
         l_formViewControllerClass = NSClassFromString(@"IFAFormViewController");
     }
@@ -298,7 +298,7 @@
     
     // Present form view controller
     UIViewController *l_viewController = [self formViewControllerForManagedObject:l_mo createMode:l_isCreateMode];
-    [self IFA_presentModalFormViewController:l_viewController];
+    [self ifa_presentModalFormViewController:l_viewController];
 
 }
 
@@ -350,9 +350,9 @@
         NSString *l_sectionHeaderTitle = nil;
         if (a_sectionObject == [NSNull null]) {
             NSString *l_relatedEntityName = [[IFAPersistenceManager sharedInstance].entityConfig entityNameForProperty:a_sectionGroupedBy inEntity:l_entityName];
-            l_sectionHeaderTitle = [NSClassFromString(l_relatedEntityName) IFA_displayValueForNil];
+            l_sectionHeaderTitle = [NSClassFromString(l_relatedEntityName) ifa_displayValueForNil];
         }else{
-            l_sectionHeaderTitle = [a_sectionObject IFA_longDisplayValue];
+            l_sectionHeaderTitle = [a_sectionObject ifa_longDisplayValue];
         }
         [a_sectionHeaderTitles addObject:l_sectionHeaderTitle];
         [a_sectionsWithRows addObject:a_sectionRows];
@@ -374,7 +374,7 @@
 
     [super viewWillAppear:animated];
     
-    if( !self.IFA_activeFetchedResultsController && self.staleData && ![self IFA_isReturningVisibleViewController] ){
+    if( !self.ifa_activeFetchedResultsController && self.staleData && ![self ifa_isReturningVisibleViewController] ){
         [self willRefreshAndReloadDataAsync];
     }
 
@@ -384,7 +384,7 @@
 
     [super viewDidAppear:animated];
 
-    if( !self.IFA_activeFetchedResultsController && self.staleData && ![self IFA_isReturningVisibleViewController] ){
+    if( !self.ifa_activeFetchedResultsController && self.staleData && ![self ifa_isReturningVisibleViewController] ){
         [self XYZ_refreshAndReloadDataAsyncWithContainerCoordination:YES];
         self.refreshAndReloadDataAsyncRequested = YES;
     }else{
@@ -433,7 +433,7 @@
 
     }
 
-    if (!self.IFA_activeFetchedResultsController && a_changesMade) {
+    if (!self.ifa_activeFetchedResultsController && a_changesMade) {
         if (self.pagingContainerViewController) {
 //            NSLog(@"  => calling refreshAndReloadChildData on container FOR SESSION COMPLETE...");
             [self.pagingContainerViewController refreshAndReloadChildData];
@@ -448,7 +448,7 @@
 - (void)didDismissViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
                               data:(id)a_data {
     [super didDismissViewController:a_viewController changesMade:a_changesMade data:a_data];
-    if (!self.IFA_changesMadeByPresentedViewController) { // If changes have been made by the presented view controller, then showTipForEditing will be called somewhere else
+    if (!self.ifa_changesMadeByPresentedViewController) { // If changes have been made by the presented view controller, then showTipForEditing will be called somewhere else
         [self showTipForEditing:self.editing];
     }
     self.editedManagedObjectId = nil;
@@ -457,7 +457,7 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (self.IFA_activeFetchedResultsController) {
+    if (self.ifa_activeFetchedResultsController) {
         return [super numberOfSectionsInTableView:tableView];
     }else {
         return [self.sectionsWithRows count];
@@ -466,7 +466,7 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.IFA_activeFetchedResultsController) {
+    if (self.ifa_activeFetchedResultsController) {
         return [super tableView:tableView numberOfRowsInSection:section];
     }else {
         return [self.sectionsWithRows count] ? [[self.sectionsWithRows objectAtIndex:section] count] : 0;
@@ -474,7 +474,7 @@
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    if (self.IFA_activeFetchedResultsController) {
+    if (self.ifa_activeFetchedResultsController) {
         return [super tableView:tableView titleForHeaderInSection:section];
     }else{
         return [self.sectionHeaderTitles count] ? [self.sectionHeaderTitles objectAtIndex:section] : nil;
@@ -484,8 +484,8 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [self cellForTableView:tableView];
-	cell.textLabel.text = self.listGroupedBy ? [[self objectForIndexPath:indexPath] IFA_displayValue] : [[self objectForIndexPath:indexPath] IFA_longDisplayValue];
-    [[self IFA_appearanceTheme] setAppearanceForView:cell.textLabel];
+	cell.textLabel.text = self.listGroupedBy ? [[self objectForIndexPath:indexPath] ifa_displayValue] : [[self objectForIndexPath:indexPath] ifa_longDisplayValue];
+    [[self ifa_appearanceTheme] setAppearanceForView:cell.textLabel];
     return cell;
 }
 

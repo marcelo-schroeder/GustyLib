@@ -99,9 +99,9 @@ static NSString *const k_LocationServiceDisableAlertMessage = @" Location Servic
 #pragma mark - Public
 
 - (void)currentLocationWithCompletionBlock:(CurrentLocationBlock)a_completionBlock {
-    [self currentLocationWithHorizontalAccuracy:k_DefaultCurrentLocationHorizontalAccuracyThreshold
-                           locationAgeThreshold:k_DefaultCurrentLocationAgeThreshold
-                locationUpdatesTimeoutThreshold:k_DefaultCurrentLocationUpdatesTimeoutThreshold
+    [self currentLocationWithHorizontalAccuracy:IFADefaultCurrentLocationHorizontalAccuracyThreshold
+                           locationAgeThreshold:IFADefaultCurrentLocationAgeThreshold
+                locationUpdatesTimeoutThreshold:IFADefaultCurrentLocationUpdatesTimeoutThreshold
                                 completionBlock:a_completionBlock];
 }
 

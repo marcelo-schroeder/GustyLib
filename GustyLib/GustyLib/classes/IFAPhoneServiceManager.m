@@ -47,7 +47,7 @@
     } else {
         NSString *l_alertMessage = nil;
         NSString *l_alertTitle = @"";
-        NSString *l_formattedPhoneNumber = [NSNumberFormatter IFA_stringFromAustralianPhoneNumberString:a_phoneNumber];
+        NSString *l_formattedPhoneNumber = [NSNumberFormatter ifa_stringFromAustralianPhoneNumberString:a_phoneNumber];
         l_alertMessage = [NSString stringWithFormat:@"Please call %@ using a phone", l_formattedPhoneNumber];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:l_alertTitle message:l_alertMessage delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert show];

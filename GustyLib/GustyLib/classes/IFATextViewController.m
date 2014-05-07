@@ -76,7 +76,7 @@
 }
 
 - (void)XYZ_quitEditing {
-    [self IFA_notifySessionCompletion];
+    [self ifa_notifySessionCompletion];
 }
 
 - (void)XYZ_configureContentView {
@@ -96,7 +96,7 @@
 
 - (void)XYZ_scrollToCaret {
     if (self.growingTextView.internalTextView.isFirstResponder) {
-        [self.scrollView IFA_scrollToCaretInTextView:self.growingTextView.internalTextView];
+        [self.scrollView ifa_scrollToCaretInTextView:self.growingTextView.internalTextView];
     }
 }
 
@@ -191,7 +191,7 @@
     
 }
 
--(void)IFA_onKeyboardNotification:(NSNotification*)a_notification {
+-(void)ifa_onKeyboardNotification:(NSNotification*)a_notification {
     if ([a_notification.name isEqualToString:UIKeyboardDidShowNotification]) {
         [self XYZ_onKeyboardDidShowNotification:a_notification];
     } else if ([a_notification.name isEqualToString:UIKeyboardWillHideNotification]) {

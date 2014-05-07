@@ -27,7 +27,7 @@
 #pragma mark - Overrides
 
 -(void)awakeFromNib{
-    [self IFA_awakeFromNib];
+    [self ifa_awakeFromNib];
 }
 
 @end

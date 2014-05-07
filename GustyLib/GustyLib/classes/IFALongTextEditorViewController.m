@@ -62,7 +62,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IFAPresenter>
     return self.textView.text;
 }
 
--(BOOL)IFA_hasFixedSize {
+-(BOOL)ifa_hasFixedSize {
     return NO;
 }
 

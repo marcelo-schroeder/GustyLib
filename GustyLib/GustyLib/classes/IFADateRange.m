@@ -51,11 +51,11 @@
                                            calendar:a_calendar];
 }
 
-- (NSString*)IFA_displayValue {
+- (NSString*)ifa_displayValue {
 	if (self.startTimestamp || self.endTimestamp) {
-		NSString* fromString = self.startTimestamp ? [[NSDate IFA_dateAndTimeFormatter] stringFromDate:self.startTimestamp] : @"";
-		NSString* toString = self.endTimestamp ? [([self.endTimestamp IFA_isSameDay:self.startTimestamp
-                                                                           calendar:[NSCalendar IFA_threadSafeCalendar]]? [NSDate IFA_timeFormatter]: [NSDate IFA_dateAndTimeFormatter]) stringFromDate:self.endTimestamp] : @"";
+		NSString* fromString = self.startTimestamp ? [[NSDate ifa_dateAndTimeFormatter] stringFromDate:self.startTimestamp] : @"";
+		NSString* toString = self.endTimestamp ? [([self.endTimestamp ifa_isSameDay:self.startTimestamp
+                                                                           calendar:[NSCalendar ifa_threadSafeCalendar]]? [NSDate ifa_timeFormatter]: [NSDate ifa_dateAndTimeFormatter]) stringFromDate:self.endTimestamp] : @"";
 		return [NSString stringWithFormat:@"%@ - %@", fromString, toString];
 	}else {
 		return @"";

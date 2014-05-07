@@ -238,7 +238,7 @@
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
                                          duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self.collectionView IFA_updateContentOffsetForPagination];
+    [self.collectionView ifa_updateContentOffsetForPagination];
     [self XYZ_updateCollectionViewLayout];
     // Need to reload data here because the item order might change if orientation changes
     [self.collectionView reloadData];

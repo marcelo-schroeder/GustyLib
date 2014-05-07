@@ -18,6 +18,6 @@
 #import <Foundation/Foundation.h>
 
 @interface NSNumberFormatter (IFACategory)
-+ (NSString *)IFA_stringFromAustralianPhoneNumber:(NSNumber *)a_number;
-+ (NSString *)IFA_stringFromAustralianPhoneNumberString:(NSString *)a_phoneNumberString;
++ (NSString *)ifa_stringFromAustralianPhoneNumber:(NSNumber *)a_number;
++ (NSString *)ifa_stringFromAustralianPhoneNumberString:(NSString *)a_phoneNumberString;
 @end

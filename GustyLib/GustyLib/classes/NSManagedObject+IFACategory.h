@@ -20,20 +20,20 @@
 
 @interface NSManagedObject (IFACategory)
 
-@property (nonatomic, readonly) NSString *IFA_stringId;
-@property (nonatomic, readonly) NSURL *IFA_urlId;
+@property (nonatomic, readonly) NSString *ifa_stringId;
+@property (nonatomic, readonly) NSURL *ifa_urlId;
 
-- (NSString*)IFA_labelForKeys:(NSArray*)aKeyArray;
-- (BOOL)IFA_validateForSave:(NSError**)anError;
-- (void)IFA_willDelete;
-- (void)IFA_didDelete;
-- (BOOL)IFA_delete;
-- (BOOL)IFA_deleteAndSave;
-- (BOOL)IFA_hasValueChangedForKey:(NSString*)a_key;
+- (NSString*)ifa_labelForKeys:(NSArray*)aKeyArray;
+- (BOOL)ifa_validateForSave:(NSError**)anError;
+- (void)ifa_willDelete;
+- (void)ifa_didDelete;
+- (BOOL)ifa_delete;
+- (BOOL)ifa_deleteAndSave;
+- (BOOL)ifa_hasValueChangedForKey:(NSString*)a_key;
 
-+ (NSManagedObject*)IFA_instantiate;
-+ (NSMutableArray *)IFA_findAll;
-+ (void)IFA_deleteAll;
-+ (void)IFA_deleteAllAndSave;
++ (NSManagedObject*)ifa_instantiate;
++ (NSMutableArray *)ifa_findAll;
++ (void)ifa_deleteAll;
++ (void)ifa_deleteAllAndSave;
 
 @end

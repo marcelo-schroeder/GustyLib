@@ -26,17 +26,17 @@
 #pragma mark - Public
 
 - (void)onDoneButtonTap:(id)sender {
-    [self IFA_notifySessionCompletionWithChangesMade:YES data:nil ];
+    [self ifa_notifySessionCompletionWithChangesMade:YES data:nil ];
 }
 
 #pragma mark - Overrides
 
 -(void)awakeFromNib{
     [super awakeFromNib];
-    UIBarButtonItem *l_barButtonItem = [[self IFA_appearanceTheme] doneBarButtonItemWithTarget:self
+    UIBarButtonItem *l_barButtonItem = [[self ifa_appearanceTheme] doneBarButtonItemWithTarget:self
                                                                                       action:@selector(onDoneButtonTap:)
                                                                               viewController:self];
-    [self IFA_addRightBarButtonItem:l_barButtonItem];
+    [self ifa_addRightBarButtonItem:l_barButtonItem];
 }
 
 @end

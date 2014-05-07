@@ -75,7 +75,7 @@
     
     self.previousVisibleViewController = nil;
 
-    [self IFA_updateScreenDecorationState];
+    [self ifa_updateScreenDecorationState];
     
 }
 
@@ -100,7 +100,7 @@
                 BOOL l_shouldShowProgressIndicator = l_firstChildViewController && l_childListViewController==self.selectedViewController;
                 //                NSLog(@"    l_shouldShowProgressIndicator: %u", l_shouldShowProgressIndicator);
                 //                NSLog(@"    l_childViewController.refreshAndReloadDataAsyncBlock: %@", [l_childViewController.refreshAndReloadDataAsyncBlock description]);
-                [self.IFA_asynchronousWorkManager dispatchSerialBlock:l_childListViewController.refreshAndReloadDataAsyncBlock
+                [self.ifa_asynchronousWorkManager dispatchSerialBlock:l_childListViewController.refreshAndReloadDataAsyncBlock
                                                 showProgressIndicator:l_shouldShowProgressIndicator
                                                  cancelPreviousBlocks:l_firstChildViewController];
                 l_firstChildViewController = NO;
@@ -211,7 +211,7 @@
     IFAScrollPage l_newSelectedPageIndex = [self calculateSelectedPageIndex];
     if (self.selectedPageIndex !=l_newSelectedPageIndex) {
         self.selectedPageIndex = l_newSelectedPageIndex;
-        [self IFA_updateScreenDecorationState];
+        [self ifa_updateScreenDecorationState];
 //        NSLog(@" self.selectedPageIndex CHANGED: %u, title: %@", self.selectedPageIndex, self.navigationItem.title);
     }
     

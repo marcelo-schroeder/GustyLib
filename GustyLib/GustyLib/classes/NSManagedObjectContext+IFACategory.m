@@ -26,11 +26,11 @@ static char c_isCurrentManagedObjectDirtyKey;
 
 #pragma mark - Public
 
--(BOOL)IFA_isCurrentManagedObjectDirty {
+-(BOOL)ifa_isCurrentManagedObjectDirty {
     return ((NSNumber*)objc_getAssociatedObject(self, &c_isCurrentManagedObjectDirtyKey)).boolValue;
 }
 
--(void)setIFA_isCurrentManagedObjectDirty:(BOOL)a_isCurrentManagedObjectDirty{
+-(void)setIfa_isCurrentManagedObjectDirty:(BOOL)a_isCurrentManagedObjectDirty{
     objc_setAssociatedObject(self, &c_isCurrentManagedObjectDirtyKey, @(a_isCurrentManagedObjectDirty), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 

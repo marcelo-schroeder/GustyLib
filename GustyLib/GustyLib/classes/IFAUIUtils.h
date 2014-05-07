@@ -24,7 +24,7 @@
 // 5Mb seems to be limit for UIWebView to be able to display images in iOS 7 (i.e. no devices have less than 256Mb of RAM)
 // Based on the "Know iOS Resource Limits" section at https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html
 // JPEG's have a higher limit, but I have not taken that into consideration yet.
-static const CGFloat IFA_k_maximumImageSizeInPixels =  5 * 1024 * 1024;
+static const CGFloat IFAMaximumImageSizeInPixels =  5 * 1024 * 1024;
 
 @class IFAMenuViewController;
 @class IFA_MBProgressHUD;

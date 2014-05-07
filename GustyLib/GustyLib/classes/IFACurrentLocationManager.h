@@ -17,9 +17,9 @@
 
 #import <CoreLocation/CoreLocation.h>
 
-static CLLocationAccuracy const k_DefaultCurrentLocationHorizontalAccuracyThreshold = 1000.0; //metres
-static NSTimeInterval  const k_DefaultCurrentLocationAgeThreshold = 60.0; //seconds
-static NSTimeInterval  const k_DefaultCurrentLocationUpdatesTimeoutThreshold = 10.0; //seconds
+static CLLocationAccuracy const IFADefaultCurrentLocationHorizontalAccuracyThreshold = 1000.0; //metres
+static NSTimeInterval  const IFADefaultCurrentLocationAgeThreshold = 60.0; //seconds
+static NSTimeInterval  const IFADefaultCurrentLocationUpdatesTimeoutThreshold = 10.0; //seconds
 
 typedef void (^CurrentLocationBlock)(CLLocation *a_location);
 

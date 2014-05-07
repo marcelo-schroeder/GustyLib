@@ -22,7 +22,7 @@
 
 #pragma mark - Public
 
-- (void)IFA_updateContentOffsetForPagination {
+- (void)ifa_updateContentOffsetForPagination {
     CGFloat l_contentOffsetX = self.contentOffset.x;
     CGFloat l_contentOffsetY = self.contentOffset.y;
     CGFloat l_width = self.frame.size.width;

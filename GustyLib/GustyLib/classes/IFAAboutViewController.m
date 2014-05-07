@@ -77,7 +77,7 @@
 - (IBAction)thirdPartyCreditsButtonTap:(id)sender {
     UIViewController *l_viewController = [[IFAThirdPartyCodeCreditsViewController alloc] init];
     l_viewController.title = @"Third Party Credits";
-    [self IFA_presentModalViewController:l_viewController
+    [self ifa_presentModalViewController:l_viewController
                        presentationStyle:UIModalPresentationCurrentContext
                          transitionStyle:UIModalTransitionStyleCoverVertical
                      shouldAddDoneButton:YES];
@@ -85,7 +85,7 @@
 
 #pragma mark - Overrides
 
--(BOOL)IFA_manageToolbar {
+-(BOOL)ifa_manageToolbar {
     return NO;
 }
 

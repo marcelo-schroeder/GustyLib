@@ -52,12 +52,12 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 @interface UIViewController (IFACategory_Private)
 
-@property (nonatomic, strong) UIPopoverController *IFA_activePopoverController;
-@property (nonatomic, strong) UIBarButtonItem *IFA_activePopoverControllerBarButtonItem;
+@property (nonatomic, strong) UIPopoverController *ifa_activePopoverController;
+@property (nonatomic, strong) UIBarButtonItem *ifa_activePopoverControllerBarButtonItem;
 @property (nonatomic, strong) UIBarButtonItem *XYZ_slidingMenuBarButtonItem;
 @property (nonatomic, strong) UIBarButtonItem *XYZ_helpBarButtonItem;
-@property (nonatomic) BOOL IFA_changesMadeByPresentedViewController;
-@property (nonatomic, strong) NSFetchedResultsController *IFA_activeFetchedResultsController;
+@property (nonatomic) BOOL ifa_changesMadeByPresentedViewController;
+@property (nonatomic, strong) NSFetchedResultsController *ifa_activeFetchedResultsController;
 @property (nonatomic, strong) IFAPassthroughView *XYZ_keyboardPassthroughView;
 @property (nonatomic, strong) NSMutableArray *XYZ_notificationObserversToRemoveOnDealloc;
 
@@ -72,25 +72,25 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 //    NSLog(@"m_presentModalSelectionViewController: %@", [a_viewController description]);
 
-    UIViewController *l_viewController = [a_viewController isKindOfClass:[UIActivityViewController class]] ? a_viewController : [[[[self IFA_appearanceTheme] navigationControllerClass] alloc] initWithRootViewController:a_viewController];
+    UIViewController *l_viewController = [a_viewController isKindOfClass:[UIActivityViewController class]] ? a_viewController : [[[[self ifa_appearanceTheme] navigationControllerClass] alloc] initWithRootViewController:a_viewController];
 //    NSLog(@"  l_viewController: %@", [l_viewController description]);
 
-    if ([a_viewController IFA_hasFixedSize]) {
+    if ([a_viewController ifa_hasFixedSize]) {
         CGFloat l_width = a_viewController.view.frame.size.width;
-        CGFloat l_height = a_viewController.view.frame.size.height + a_viewController.navigationController.navigationBar.frame.size.height + (a_viewController.IFA_needsToolbar ? a_viewController.navigationController.toolbar.frame.size.height : 0);
+        CGFloat l_height = a_viewController.view.frame.size.height + a_viewController.navigationController.navigationBar.frame.size.height + (a_viewController.ifa_needsToolbar ? a_viewController.navigationController.toolbar.frame.size.height : 0);
         l_viewController.view.frame = CGRectMake(0, 0, l_width, l_height);
 //        NSLog(@"  l_viewController.view.frame: %@", NSStringFromCGRect(l_viewController.view.frame));
 //        NSLog(@"  a_viewController.view.frame: %@", NSStringFromCGRect(a_viewController.view.frame));
     }
     
     if ([self conformsToProtocol:@protocol(IFAPresenter)]) {
-        a_viewController.IFA_presenter = (id<IFAPresenter>)self;
+        a_viewController.ifa_presenter = (id<IFAPresenter>)self;
     }
 
     if ([IFAUIUtils isIPad]) { // If iPad present controller in a popover
         
         // Instantiate and configure popover controller
-        UIPopoverController *l_popoverController = [self IFA_newPopoverControllerWithContentViewController:l_viewController];
+        UIPopoverController *l_popoverController = [self ifa_newPopoverControllerWithContentViewController:l_viewController];
         
         // Set the delegate
         if ([a_viewController conformsToProtocol:@protocol(UIPopoverControllerDelegate)]) {
@@ -102,26 +102,26 @@ static char c_shouldUseKeyboardPassthroughViewKey;
             // Popover controllers "merge" the navigation bar from the navigation controller with its border at the top.
             // Therefore we need to reduce the content height by that amount otherwise a small gap is shown at the bottom of the popover view.
             // The same goes for the toolbar when it exists.
-            CGFloat l_newHeight = l_viewController.view.frame.size.height - (l_popoverController.IFA_borderThickness * (a_viewController.IFA_needsToolbar ? 2 : 1));
+            CGFloat l_newHeight = l_viewController.view.frame.size.height - (l_popoverController.ifa_borderThickness * (a_viewController.ifa_needsToolbar ? 2 : 1));
             l_popoverController.popoverContentSize = CGSizeMake(l_viewController.view.frame.size.width, l_newHeight);
         }
         
         // Present popover controller
         if (a_fromBarButtonItem) {
-            [self IFA_presentPopoverController:l_popoverController fromBarButtonItem:a_fromBarButtonItem];
+            [self ifa_presentPopoverController:l_popoverController fromBarButtonItem:a_fromBarButtonItem];
         }else{
-            [self IFA_presentPopoverController:l_popoverController fromRect:a_fromRect inView:a_view];
+            [self ifa_presentPopoverController:l_popoverController fromRect:a_fromRect inView:a_view];
         }
         
     }else { // If not iPad present as modal
         
-        if ([a_viewController IFA_hasFixedSize]) {
+        if ([a_viewController ifa_hasFixedSize]) {
             [self presentSemiModalViewController:l_viewController];
         }else {
             if ([a_viewController isKindOfClass:[UIActivityViewController class]]) {
                 [self presentViewController:a_viewController animated:YES completion:NULL];
             }else{
-                [self IFA_presentModalViewController:a_viewController presentationStyle:UIModalPresentationFullScreen
+                [self ifa_presentModalViewController:a_viewController presentationStyle:UIModalPresentationFullScreen
                                      transitionStyle:UIModalTransitionStyleCoverVertical];
             }
         }
@@ -139,11 +139,11 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 //    }
 //}
 
--(void)setIFA_activePopoverController:(UIPopoverController*)a_activePopoverController{
+-(void)setIfa_activePopoverController:(UIPopoverController*)a_activePopoverController{
     objc_setAssociatedObject(self, &c_activePopoverControllerKey, a_activePopoverController, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(void)setIFA_activePopoverControllerBarButtonItem:(UIBarButtonItem*)a_activePopoverControllerBarButtonItem{
+-(void)setIfa_activePopoverControllerBarButtonItem:(UIBarButtonItem*)a_activePopoverControllerBarButtonItem{
     objc_setAssociatedObject(self, &c_activePopoverControllerBarButtonItemKey, a_activePopoverControllerBarButtonItem, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
@@ -151,15 +151,15 @@ static char c_shouldUseKeyboardPassthroughViewKey;
                             presenter:(UIViewController *)a_presenter barButtonItem:(UIBarButtonItem*)a_barButtonItem{
 //    NSLog(@"a_popoverController.popoverContentSize: %@", NSStringFromCGSize(a_popoverController.popoverContentSize));
 //    NSLog(@"a_popoverController.contentViewController.view.frame.size: %@", NSStringFromCGSize(a_popoverController.contentViewController.view.frame.size));
-    self.IFA_activePopoverController = a_popoverController;
+    self.ifa_activePopoverController = a_popoverController;
     [IFAApplicationDelegate sharedInstance].popoverControllerPresenter = a_presenter;
-    self.IFA_activePopoverControllerBarButtonItem = a_barButtonItem;
+    self.ifa_activePopoverControllerBarButtonItem = a_barButtonItem;
 }
 
 -(void)XYZ_resizePopoverContent {
-    UIPopoverController *l_popoverController = self.IFA_activePopoverController;
+    UIPopoverController *l_popoverController = self.ifa_activePopoverController;
     UIViewController *l_contentViewController = l_popoverController.contentViewController;
-    BOOL l_hasFixedSize =  [l_contentViewController isKindOfClass:[UINavigationController class]] ? [((UINavigationController *) l_contentViewController).topViewController IFA_hasFixedSize] : [l_contentViewController IFA_hasFixedSize];
+    BOOL l_hasFixedSize =  [l_contentViewController isKindOfClass:[UINavigationController class]] ? [((UINavigationController *) l_contentViewController).topViewController ifa_hasFixedSize] : [l_contentViewController ifa_hasFixedSize];
     CGSize l_contentViewControllerSize = l_contentViewController.view.frame.size;
     if (l_hasFixedSize) {
         l_popoverController.popoverContentSize = l_contentViewControllerSize;
@@ -169,7 +169,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 -(void)XYZ_onMenuBarButtonItemInvalidated:(NSNotification*)a_notification{
 //    NSLog(@"menu button invalidated - removing it...");
-    [self IFA_removeLeftBarButtonItem:a_notification.object];
+    [self ifa_removeLeftBarButtonItem:a_notification.object];
 }
 
 -(void)XYZ_onSlidingMenuButtonAction:(UIBarButtonItem*)a_button{
@@ -179,14 +179,14 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 -(void)XYZ_releaseViewForController:(UIViewController*)a_viewController{
 //    NSLog(@"XYZ_releaseViewForController: %@", [a_viewController description]);
     a_viewController.view = nil;
-    a_viewController.IFA_previousVisibleViewController = nil;
+    a_viewController.ifa_previousVisibleViewController = nil;
     for (UIViewController *l_childViewController in a_viewController.childViewControllers) {
 //        NSLog(@"   going to release view for child view controller: %@", [l_childViewController description]);
         [self XYZ_releaseViewForController:l_childViewController];
     }
 }
 
--(CGSize)IFA_gadAdFrameSize {
+-(CGSize)ifa_gadAdFrameSize {
     CGFloat l_width, l_height;
     if ([IFAUIUtils isIPad]) {
         l_width = self.view.frame.size.width;
@@ -201,10 +201,10 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 -(GADAdSize)XYZ_gadAdSize {
-    return GADAdSizeFromCGSize([self IFA_gadAdFrameSize]);
+    return GADAdSizeFromCGSize([self ifa_gadAdFrameSize]);
 }
 
--(GADBannerView *)IFA_gadBannerView {
+-(GADBannerView *)ifa_gadBannerView {
     return [[IFAApplicationDelegate sharedInstance] gadBannerView];
 }
 
@@ -214,7 +214,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 -(void)XYZ_spaceBarButtonItems:(NSMutableArray *)a_items firstItemSpacingType:(IFASpacingBarButtonItemType)a_firstItemSpacingType{
     
-    if (![[self IFA_appearanceTheme] shouldAutomateBarButtonItemSpacingForViewController:self]) {
+    if (![[self ifa_appearanceTheme] shouldAutomateBarButtonItemSpacingForViewController:self]) {
         return;
     }
     
@@ -223,10 +223,10 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     for (int i=0; i<l_items.count; i++) {
         UIBarButtonItem *l_spacingBarButtonItem;
         if (i==0) {
-            l_spacingBarButtonItem = [[self IFA_appearanceTheme] spacingBarButtonItemForType:a_firstItemSpacingType
+            l_spacingBarButtonItem = [[self ifa_appearanceTheme] spacingBarButtonItemForType:a_firstItemSpacingType
                                                                             viewController:self];
         }else{
-            l_spacingBarButtonItem = [[self IFA_appearanceTheme] spacingBarButtonItemForType:IFASpacingBarButtonItemTypeMiddle
+            l_spacingBarButtonItem = [[self ifa_appearanceTheme] spacingBarButtonItemForType:IFASpacingBarButtonItemTypeMiddle
                                                                             viewController:self];
         }
         if (l_spacingBarButtonItem) {
@@ -239,7 +239,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 -(void)XYZ_removeAutomatedSpacingFromBarButtonItemArray:(NSMutableArray*)a_items{
     
-    if (![[self IFA_appearanceTheme] shouldAutomateBarButtonItemSpacingForViewController:self]) {
+    if (![[self ifa_appearanceTheme] shouldAutomateBarButtonItemSpacingForViewController:self]) {
         return;
     }
     
@@ -254,7 +254,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 - (void)XYZ_showLeftSlidingPaneButtonIfRequired {
-    if ([self IFA_shouldShowLeftSlidingPaneButton]) {
+    if ([self ifa_shouldShowLeftSlidingPaneButton]) {
         if (self.slidingViewController) {
             self.navigationController.view.layer.shadowOpacity = 0.75f;
             self.navigationController.view.layer.shadowRadius = 10.0f;
@@ -264,21 +264,21 @@ static char c_shouldUseKeyboardPassthroughViewKey;
             BOOL l_shouldShowMenuButton = self.navigationController.topViewController==[self.navigationController.viewControllers objectAtIndex:0];
             if (l_shouldShowMenuButton) {
                 if (!self.XYZ_slidingMenuBarButtonItem) {
-                    self.XYZ_slidingMenuBarButtonItem = [[self IFA_appearanceTheme] slidingMenuBarButtonItemForViewController:self];
+                    self.XYZ_slidingMenuBarButtonItem = [[self ifa_appearanceTheme] slidingMenuBarButtonItemForViewController:self];
                     self.XYZ_slidingMenuBarButtonItem.target = self;
                     self.XYZ_slidingMenuBarButtonItem.action = @selector(XYZ_onSlidingMenuButtonAction:);
                     self.XYZ_slidingMenuBarButtonItem.tag = IFABarItemTagLeftSlidingPaneButton;
                 }
-                [self IFA_addToNavigationBarForSlidingMenuBarButtonItem:self.XYZ_slidingMenuBarButtonItem];
+                [self ifa_addToNavigationBarForSlidingMenuBarButtonItem:self.XYZ_slidingMenuBarButtonItem];
             }
         }else if (self.splitViewController) {
-            [self IFA_addLeftBarButtonItem:((IFASplitViewController *) self.splitViewController).splitViewControllerPopoverControllerBarButtonItem];
+            [self ifa_addLeftBarButtonItem:((IFASplitViewController *) self.splitViewController).splitViewControllerPopoverControllerBarButtonItem];
         }
     }
 }
 
 - (void)XYZ_updateAdContainerViewFrameWithAdBannerViewHeight:(CGFloat)a_adBannerViewHeight {
-    UIView *l_adContainerView = self.IFA_adContainerView;
+    UIView *l_adContainerView = self.ifa_adContainerView;
     CGRect l_newAdContainerViewFrame = l_adContainerView.frame;
     l_newAdContainerViewFrame.origin.y = self.view.frame.size.height - a_adBannerViewHeight;
     l_newAdContainerViewFrame.size.height = a_adBannerViewHeight;
@@ -288,12 +288,12 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 - (void)XYZ_updateAdBannerSize {
 //    NSLog(@"XYZ_updateAdBannerSize");
-    GADBannerView *l_bannerView = [self IFA_gadBannerView];
+    GADBannerView *l_bannerView = [self ifa_gadBannerView];
     CGRect l_newAdBannerViewFrame = CGRectZero;
-    l_newAdBannerViewFrame.size = [self IFA_gadAdFrameSize];
+    l_newAdBannerViewFrame.size = [self ifa_gadAdFrameSize];
     l_bannerView.frame = l_newAdBannerViewFrame;
 //    NSLog(@"          l_bannerView.frame: %@", NSStringFromCGRect(l_bannerView.frame));
-//    NSLog(@"self.IFA_adContainerView.frame: %@", NSStringFromCGRect(self.IFA_adContainerView.frame));
+//    NSLog(@"self.ifa_adContainerView.frame: %@", NSStringFromCGRect(self.ifa_adContainerView.frame));
     l_bannerView.adSize = [self XYZ_gadAdSize];
 //    NSLog(@"    l_bannerView.adSize.size: %@", NSStringFromCGSize(l_bannerView.adSize.size));
 //    NSLog(@"   l_bannerView.adSize.flags: %u", l_bannerView.adSize.flags);
@@ -327,11 +327,11 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 #pragma mark - Public
 
--(void)setIFA_presenter:(id<IFAPresenter>)a_presenter{
+-(void)setIfa_presenter:(id<IFAPresenter>)a_presenter{
     objc_setAssociatedObject(self, &c_presenterKey, a_presenter, OBJC_ASSOCIATION_ASSIGN);
 }
 
--(id<IFAPresenter>)IFA_presenter {
+-(id<IFAPresenter>)ifa_presenter {
     return objc_getAssociatedObject(self, &c_presenterKey);
 }
 
@@ -343,51 +343,51 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 //    return objc_getAssociatedObject(self, &c_delegateKey);
 //}
 
--(UIPopoverController*)IFA_activePopoverController {
+-(UIPopoverController*)ifa_activePopoverController {
     return objc_getAssociatedObject(self, &c_activePopoverControllerKey);
 }
 
--(UIBarButtonItem*)IFA_activePopoverControllerBarButtonItem {
+-(UIBarButtonItem*)ifa_activePopoverControllerBarButtonItem {
     return objc_getAssociatedObject(self, &c_activePopoverControllerBarButtonItemKey);
 }
 
--(NSString*)IFA_subTitle {
+-(NSString*)ifa_subTitle {
     return objc_getAssociatedObject(self, &c_subTitleKey);
 }
 
--(void)setIFA_subTitle:(NSString*)a_subTitle{
+-(void)setIfa_subTitle:(NSString*)a_subTitle{
     objc_setAssociatedObject(self, &c_subTitleKey, a_subTitle, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(IFANavigationItemTitleView *)IFA_titleViewDefault {
+-(IFANavigationItemTitleView *)ifa_titleViewDefault {
     return objc_getAssociatedObject(self, &c_titleViewDefaultKey);
 }
 
--(void)setIFA_titleViewDefault:(IFANavigationItemTitleView *)a_titleViewDefault{
+-(void)setIfa_titleViewDefault:(IFANavigationItemTitleView *)a_titleViewDefault{
     objc_setAssociatedObject(self, &c_titleViewDefaultKey, a_titleViewDefault, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(NSString*)IFA_helpTargetId {
+-(NSString*)ifa_helpTargetId {
     return objc_getAssociatedObject(self, &c_helpTargetIdKey);
 }
 
--(void)setIFA_helpTargetId:(NSString*)a_helpTargetId{
+-(void)setIfa_helpTargetId:(NSString*)a_helpTargetId{
     objc_setAssociatedObject(self, &c_helpTargetIdKey, a_helpTargetId, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(ODRefreshControl*)IFA_refreshControl {
+-(ODRefreshControl*)ifa_refreshControl {
     return objc_getAssociatedObject(self, &c_refreshControlKey);
 }
 
--(void)setIFA_refreshControl:(ODRefreshControl*)a_refreshControl{
+-(void)setIfa_refreshControl:(ODRefreshControl*)a_refreshControl{
     objc_setAssociatedObject(self, &c_refreshControlKey, a_refreshControl, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(BOOL)IFA_shouldUseKeyboardPassthroughView {
+-(BOOL)ifa_shouldUseKeyboardPassthroughView {
     return ((NSNumber*)objc_getAssociatedObject(self, &c_shouldUseKeyboardPassthroughViewKey)).boolValue;
 }
 
--(void)setIFA_shouldUseKeyboardPassthroughView:(BOOL)a_shouldUseKeyboardPassthroughView{
+-(void)setIfa_shouldUseKeyboardPassthroughView:(BOOL)a_shouldUseKeyboardPassthroughView{
     objc_setAssociatedObject(self, &c_shouldUseKeyboardPassthroughViewKey, @(a_shouldUseKeyboardPassthroughView), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
@@ -426,22 +426,22 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     objc_setAssociatedObject(self, &c_helpBarButtonItemKey, a_helpBarButtonItem, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(NSFetchedResultsController*)IFA_activeFetchedResultsController {
+-(NSFetchedResultsController*)ifa_activeFetchedResultsController {
     return objc_getAssociatedObject(self, &c_activeFetchedResultsControllerKey);
 }
 
--(void)setIFA_activeFetchedResultsController:(NSFetchedResultsController*)a_activeFetchedResultsController {
+-(void)setIfa_activeFetchedResultsController:(NSFetchedResultsController*)a_activeFetchedResultsController {
     objc_setAssociatedObject(self, &c_activeFetchedResultsControllerKey, a_activeFetchedResultsController, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(UIView*)IFA_adContainerView {
+-(UIView*)ifa_adContainerView {
 
     UIView *l_adContainerView = objc_getAssociatedObject(self, &c_adContainerViewKey);
 
-    if (!l_adContainerView && [self IFA_shouldEnableAds]) {
+    if (!l_adContainerView && [self ifa_shouldEnableAds]) {
         
         // Create ad container
-        CGSize l_gadAdFrameSize = [self IFA_gadAdFrameSize];
+        CGSize l_gadAdFrameSize = [self ifa_gadAdFrameSize];
         CGFloat l_adContainerViewX = 0;
         CGFloat l_adContainerViewY = self.view.frame.size.height-l_gadAdFrameSize.height;
         CGFloat l_adContainerViewWidth = self.view.frame.size.width;
@@ -456,7 +456,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
         l_adContainerView.layer.shadowOffset = CGSizeMake(0, 2);
         l_adContainerView.layer.shadowOpacity = 1;
 
-        self.IFA_adContainerView = l_adContainerView;
+        self.ifa_adContainerView = l_adContainerView;
     
     }
 
@@ -464,23 +464,23 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 }
 
--(void)setIFA_adContainerView:(UIView*)a_adContainerView{
+-(void)setIfa_adContainerView:(UIView*)a_adContainerView{
     objc_setAssociatedObject(self, &c_adContainerViewKey, a_adContainerView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(BOOL)IFA_changesMadeByPresentedViewController {
+-(BOOL)ifa_changesMadeByPresentedViewController {
     return ((NSNumber*)objc_getAssociatedObject(self, &c_changesMadeByPresentedViewControllerKey)).boolValue;
 }
 
--(void)setIFA_changesMadeByPresentedViewController:(BOOL)a_changesMadeByPresentedViewController{
+-(void)setIfa_changesMadeByPresentedViewController:(BOOL)a_changesMadeByPresentedViewController{
     objc_setAssociatedObject(self, &c_changesMadeByPresentedViewControllerKey, @(a_changesMadeByPresentedViewController), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(IFANavigationItemTitleView *)IFA_titleViewLandscapePhone {
+-(IFANavigationItemTitleView *)ifa_titleViewLandscapePhone {
     return objc_getAssociatedObject(self, &c_titleViewLandscapePhoneKey);
 }
 
--(void)setIFA_titleViewLandscapePhone:(IFANavigationItemTitleView *)a_titleViewLandscapePhone{
+-(void)setIfa_titleViewLandscapePhone:(IFANavigationItemTitleView *)a_titleViewLandscapePhone{
     objc_setAssociatedObject(self, &c_titleViewLandscapePhoneKey, a_titleViewLandscapePhone, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
@@ -492,16 +492,16 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     objc_setAssociatedObject(self, &c_slidingMenuBarButtonItemKey, a_slidingMenuBarButtonItem, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(void)IFA_addLeftBarButtonItem:(UIBarButtonItem*)a_barButtonItem{
-    [self IFA_insertLeftBarButtonItem:a_barButtonItem atIndex:NSNotFound];
+-(void)ifa_addLeftBarButtonItem:(UIBarButtonItem*)a_barButtonItem{
+    [self ifa_insertLeftBarButtonItem:a_barButtonItem atIndex:NSNotFound];
 }
 
--(void)IFA_insertLeftBarButtonItem:(UIBarButtonItem *)a_barButtonItem atIndex:(NSUInteger)a_index{
+-(void)ifa_insertLeftBarButtonItem:(UIBarButtonItem *)a_barButtonItem atIndex:(NSUInteger)a_index{
 
     if (!a_barButtonItem) {
         return;
     }
-    UINavigationItem *l_navigationItem = [self IFA_navigationItem];
+    UINavigationItem *l_navigationItem = [self ifa_navigationItem];
     NSMutableArray *l_leftBarButtonItems = [l_navigationItem.leftBarButtonItems mutableCopy];
 
     BOOL l_fixedPositionItem = a_barButtonItem.tag== IFABarItemTagBackButton || a_barButtonItem.tag== IFABarItemTagLeftSlidingPaneButton;
@@ -560,13 +560,13 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 }
 
--(void)IFA_removeLeftBarButtonItem:(UIBarButtonItem*)a_barButtonItem{
+-(void)ifa_removeLeftBarButtonItem:(UIBarButtonItem*)a_barButtonItem{
 
     if (!a_barButtonItem) {
         return;
     }
 
-    UINavigationItem *l_navigationItem = [self IFA_navigationItem];
+    UINavigationItem *l_navigationItem = [self ifa_navigationItem];
     NSMutableArray *l_leftBarButtonItems = [l_navigationItem.leftBarButtonItems mutableCopy];
     if (l_leftBarButtonItems) {
         [self XYZ_removeAutomatedSpacingFromBarButtonItemArray:l_leftBarButtonItems];
@@ -578,17 +578,17 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 }
 
--(void)IFA_addRightBarButtonItem:(UIBarButtonItem*)a_barButtonItem{
-    [self IFA_insertRightBarButtonItem:a_barButtonItem atIndex:NSNotFound];
+-(void)ifa_addRightBarButtonItem:(UIBarButtonItem*)a_barButtonItem{
+    [self ifa_insertRightBarButtonItem:a_barButtonItem atIndex:NSNotFound];
 }
 
--(void)IFA_insertRightBarButtonItem:(UIBarButtonItem *)a_barButtonItem atIndex:(NSUInteger)a_index{
+-(void)ifa_insertRightBarButtonItem:(UIBarButtonItem *)a_barButtonItem atIndex:(NSUInteger)a_index{
 
     if (!a_barButtonItem) {
         return;
     }
 
-    UINavigationItem *l_navigationItem = [self IFA_navigationItem];
+    UINavigationItem *l_navigationItem = [self ifa_navigationItem];
     NSMutableArray *l_rightBarButtonItems = [l_navigationItem.rightBarButtonItems mutableCopy];
     if (![l_navigationItem.rightBarButtonItems containsObject:a_barButtonItem]) {
 
@@ -622,13 +622,13 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 }
 
--(void)IFA_removeRightBarButtonItem:(UIBarButtonItem*)a_barButtonItem{
+-(void)ifa_removeRightBarButtonItem:(UIBarButtonItem*)a_barButtonItem{
 
     if (!a_barButtonItem) {
         return;
     }
 
-    UINavigationItem *l_navigationItem = [self IFA_navigationItem];
+    UINavigationItem *l_navigationItem = [self ifa_navigationItem];
     NSMutableArray *l_rightBarButtonItems = [l_navigationItem.rightBarButtonItems mutableCopy];
     if (l_rightBarButtonItems) {
         [self XYZ_removeAutomatedSpacingFromBarButtonItemArray:l_rightBarButtonItems];
@@ -640,34 +640,34 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 }
 
--(BOOL)IFA_isMasterViewController {
+-(BOOL)ifa_isMasterViewController {
     return [self.splitViewController.viewControllers objectAtIndex:0]==self.navigationController && self.navigationController.viewControllers[0]==self;
 }
 
--(BOOL)IFA_isDetailViewController {
+-(BOOL)ifa_isDetailViewController {
     return [self.splitViewController.viewControllers objectAtIndex:1]==self.navigationController && self.navigationController.viewControllers[0]==self;
 }
 
--(NSString*)IFA_helpTargetIdForName:(NSString*)a_name{
+-(NSString*)ifa_helpTargetIdForName:(NSString*)a_name{
     return [NSString stringWithFormat:@"controllers.%@.%@", [[self class] description], a_name];
 }
 
--(BOOL)IFA_presentedAsModal {
+-(BOOL)ifa_presentedAsModal {
     //    NSLog(@"presentingViewController: %@, presentedViewController: %@, self: %@, topViewController: %@, visibleViewController: %@, viewController[0]: %@, navigationController.parentViewController: %@, parentViewController: %@, presentedAsSemiModal: %u", [self.presentingViewController description], [self.presentedViewController description], [self description], self.navigationController.topViewController, self.navigationController.visibleViewController, [self.navigationController.viewControllers objectAtIndex:0], self.navigationController.parentViewController, self.parentViewController, self.presentedAsSemiModal);
-    return [IFAApplicationDelegate sharedInstance].popoverControllerPresenter.IFA_activePopoverController.contentViewController==self.navigationController || ( self.navigationController.presentingViewController!=nil && [self.navigationController.viewControllers objectAtIndex:0]==self) || self.parentViewController.presentedAsSemiModal || [[IFAApplicationDelegate sharedInstance].popoverControllerPresenter.IFA_activePopoverController.contentViewController isKindOfClass:[UIActivityViewController class]];
+    return [IFAApplicationDelegate sharedInstance].popoverControllerPresenter.ifa_activePopoverController.contentViewController==self.navigationController || ( self.navigationController.presentingViewController!=nil && [self.navigationController.viewControllers objectAtIndex:0]==self) || self.parentViewController.presentedAsSemiModal || [[IFAApplicationDelegate sharedInstance].popoverControllerPresenter.ifa_activePopoverController.contentViewController isKindOfClass:[UIActivityViewController class]];
 }
 
-- (void)IFA_updateToolbarForMode:(BOOL)anEditModeFlag animated:(BOOL)anAnimatedFlag{
+- (void)ifa_updateToolbarForMode:(BOOL)anEditModeFlag animated:(BOOL)anAnimatedFlag{
 //    NSLog(@" ");
 //    NSLog(@"toolbar items before: %@", [self.toolbarItems description]);
-    if(self.IFA_manageToolbar || anEditModeFlag){
-        NSArray *toolbarItems = anEditModeFlag ? [self IFA_editModeToolbarItems] : [self IFA_nonEditModeToolbarItems];
+    if(self.ifa_manageToolbar || anEditModeFlag){
+        NSArray *toolbarItems = anEditModeFlag ? [self ifa_editModeToolbarItems] : [self ifa_nonEditModeToolbarItems];
 //        NSLog(@"self.navigationController.toolbar: %@", [self.navigationController.toolbar description]);
 //        NSLog(@" self.navigationController.toolbarHidden: %u, animated: %u", self.navigationController.toolbarHidden, anAnimatedFlag);
         [self.navigationController setToolbarHidden:(![toolbarItems count]) animated:anAnimatedFlag];
 //        NSLog(@" self.navigationController.toolbarHidden: %u", self.navigationController.toolbarHidden);
         if ([toolbarItems count]) {
-            if (self.IFA_manageToolbar) {
+            if (self.ifa_manageToolbar) {
                 if (![self.toolbarItems isEqualToArray:toolbarItems]) {
                     [self setToolbarItems:toolbarItems animated:anAnimatedFlag];
                 }
@@ -683,92 +683,92 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 //    NSLog(@"toolbar items after: %@", [self.toolbarItems description]);
 }
 
--(BOOL)IFA_hasFixedSize {
+-(BOOL)ifa_hasFixedSize {
     return NO;
 }
 
--(void)IFA_presentPopoverController:(UIPopoverController *)a_popoverController fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem{
+-(void)ifa_presentPopoverController:(UIPopoverController *)a_popoverController fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem{
     [self XYZ_setActivePopoverController:a_popoverController presenter:self barButtonItem:a_fromBarButtonItem];
     [self XYZ_resizePopoverContent];
     [a_popoverController presentPopoverFromBarButtonItem:a_fromBarButtonItem
-                                permittedArrowDirections:[self IFA_permittedPopoverArrowDirectionForViewController:nil ]
+                                permittedArrowDirections:[self ifa_permittedPopoverArrowDirectionForViewController:nil ]
                                                 animated:k_animated];
     __weak UIViewController *l_weakSelf = self;
     [IFAUtils dispatchAsyncMainThreadBlock:^{
-        [l_weakSelf IFA_didPresentPopoverController:a_popoverController];
+        [l_weakSelf ifa_didPresentPopoverController:a_popoverController];
     }];
 }
 
--(void)IFA_presentPopoverController:(UIPopoverController *)a_popoverController fromRect:(CGRect)a_fromRect inView:(UIView *)a_view{
+-(void)ifa_presentPopoverController:(UIPopoverController *)a_popoverController fromRect:(CGRect)a_fromRect inView:(UIView *)a_view{
     [self XYZ_setActivePopoverController:a_popoverController presenter:self barButtonItem:nil];
     [self XYZ_resizePopoverContent];
     [a_popoverController presentPopoverFromRect:a_fromRect inView:a_view
-                       permittedArrowDirections:[self IFA_permittedPopoverArrowDirectionForViewController:nil ] animated:k_animated];
+                       permittedArrowDirections:[self ifa_permittedPopoverArrowDirectionForViewController:nil ] animated:k_animated];
     __weak UIViewController *l_weakSelf = self;
     [IFAUtils dispatchAsyncMainThreadBlock:^{
-        [l_weakSelf IFA_didPresentPopoverController:a_popoverController];
+        [l_weakSelf ifa_didPresentPopoverController:a_popoverController];
     }];
 }
 
--(void)IFA_didPresentPopoverController:(UIPopoverController*)a_popoverController{
+-(void)ifa_didPresentPopoverController:(UIPopoverController*)a_popoverController{
     // Remove the navigation bar or toolbar that owns the button from the passthrough view list
     a_popoverController.passthroughViews = nil;
 }
 
--(void)IFA_presentModalFormViewController:(UIViewController*)a_viewController{
-    [self IFA_presentModalViewController:a_viewController presentationStyle:UIModalPresentationPageSheet
+-(void)ifa_presentModalFormViewController:(UIViewController*)a_viewController{
+    [self ifa_presentModalViewController:a_viewController presentationStyle:UIModalPresentationPageSheet
                          transitionStyle:UIModalTransitionStyleCoverVertical];
 }
 
--(void)IFA_presentModalSelectionViewController:(UIViewController *)a_viewController fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem{
+-(void)ifa_presentModalSelectionViewController:(UIViewController *)a_viewController fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem{
     [self XYZ_presentModalSelectionViewController:a_viewController fromBarButtonItem:a_fromBarButtonItem
                                          fromRect:CGRectZero inView:nil];
 }
 
--(void)IFA_presentModalSelectionViewController:(UIViewController *)a_viewController fromRect:(CGRect)a_fromRect inView:(UIView *)a_view{
+-(void)ifa_presentModalSelectionViewController:(UIViewController *)a_viewController fromRect:(CGRect)a_fromRect inView:(UIView *)a_view{
     [self XYZ_presentModalSelectionViewController:a_viewController fromBarButtonItem:nil fromRect:a_fromRect
                                            inView:a_view];
 }
 
--(void)IFA_presentModalViewController:(UIViewController *)a_viewController
+-(void)ifa_presentModalViewController:(UIViewController *)a_viewController
                     presentationStyle:(UIModalPresentationStyle)a_presentationStyle transitionStyle:(UIModalTransitionStyle)a_transitionStyle{
-    [self IFA_presentModalViewController:a_viewController presentationStyle:a_presentationStyle
+    [self ifa_presentModalViewController:a_viewController presentationStyle:a_presentationStyle
                          transitionStyle:a_transitionStyle shouldAddDoneButton:NO];
 }
 
-- (void)IFA_presentModalViewController:(UIViewController *)a_viewController
+- (void)ifa_presentModalViewController:(UIViewController *)a_viewController
                      presentationStyle:(UIModalPresentationStyle)a_presentationStyle
                        transitionStyle:(UIModalTransitionStyle)a_transitionStyle
                    shouldAddDoneButton:(BOOL)a_shouldAddDoneButton {
-    [self IFA_presentModalViewController:a_viewController
+    [self ifa_presentModalViewController:a_viewController
                        presentationStyle:a_presentationStyle
                          transitionStyle:a_transitionStyle
                      shouldAddDoneButton:a_shouldAddDoneButton
                               customSize:CGSizeZero];
 }
 
-- (void)IFA_presentModalViewController:(UIViewController *)a_viewController
+- (void)ifa_presentModalViewController:(UIViewController *)a_viewController
                      presentationStyle:(UIModalPresentationStyle)a_presentationStyle
                        transitionStyle:(UIModalTransitionStyle)a_transitionStyle
                    shouldAddDoneButton:(BOOL)a_shouldAddDoneButton
                             customSize:(CGSize)a_customSize{
     UIViewController *l_presentingViewController = [self XYZ_appropriatePresentingViewController];
     if ([l_presentingViewController conformsToProtocol:@protocol(IFAPresenter)]) {
-        a_viewController.IFA_presenter = (id <IFAPresenter>) l_presentingViewController;
+        a_viewController.ifa_presenter = (id <IFAPresenter>) l_presentingViewController;
         if (a_shouldAddDoneButton) {
-            UIBarButtonItem *l_barButtonItem = [[l_presentingViewController IFA_appearanceTheme] doneBarButtonItemWithTarget:a_viewController
-                                                                                                                    action:@selector(IFA_onDoneButtonTap:)
+            UIBarButtonItem *l_barButtonItem = [[l_presentingViewController ifa_appearanceTheme] doneBarButtonItemWithTarget:a_viewController
+                                                                                                                    action:@selector(ifa_onDoneButtonTap:)
                                                                                                             viewController:a_viewController];
-            [a_viewController IFA_addLeftBarButtonItem:l_barButtonItem];
+            [a_viewController ifa_addLeftBarButtonItem:l_barButtonItem];
         }
     }
-    id <IFAAppearanceTheme> l_appearanceTheme = [self IFA_appearanceTheme];
+    id <IFAAppearanceTheme> l_appearanceTheme = [self ifa_appearanceTheme];
     Class l_navigationControllerClass = [l_appearanceTheme navigationControllerClass];
     IFANavigationController *l_navigationController = [[l_navigationControllerClass alloc] initWithRootViewController:a_viewController];
     l_navigationController.modalPresentationStyle = a_presentationStyle;
     l_navigationController.modalTransitionStyle = a_transitionStyle;
     [l_presentingViewController presentViewController:l_navigationController animated:YES completion:^{
-        [a_viewController.IFA_presenter didPresentViewController:l_navigationController];
+        [a_viewController.ifa_presenter didPresentViewController:l_navigationController];
     }];
     if (a_customSize.width && a_customSize.height) {
         l_navigationController.view.superview.backgroundColor = [UIColor clearColor];
@@ -776,15 +776,15 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     }
 }
 
-- (void)IFA_notifySessionCompletionWithChangesMade:(BOOL)a_changesMade data:(id)a_data {
-    [self.IFA_presenter sessionDidCompleteForViewController:self changesMade:a_changesMade data:a_data];
+- (void)ifa_notifySessionCompletionWithChangesMade:(BOOL)a_changesMade data:(id)a_data {
+    [self.ifa_presenter sessionDidCompleteForViewController:self changesMade:a_changesMade data:a_data];
 }
 
--(void)IFA_notifySessionCompletion {
-    [self IFA_notifySessionCompletionWithChangesMade:NO data:nil ];
+-(void)ifa_notifySessionCompletion {
+    [self ifa_notifySessionCompletionWithChangesMade:NO data:nil ];
 }
 
-- (void)IFA_dismissModalViewControllerWithChangesMade:(BOOL)a_changesMade data:(id)a_data {
+- (void)ifa_dismissModalViewControllerWithChangesMade:(BOOL)a_changesMade data:(id)a_data {
     if (self.presentedViewController) {
         __weak UIViewController *l_weakSelf = self;
         UIViewController *l_presentedViewController = self.presentedViewController; // Add retain cycle
@@ -793,9 +793,9 @@ static char c_shouldUseKeyboardPassthroughViewKey;
                 [l_weakSelf didDismissViewController:l_presentedViewController changesMade:a_changesMade data:a_data];
             }
         }];
-    }else if(self.IFA_activePopoverController){
-        [self.IFA_activePopoverController dismissPopoverAnimated:YES];
-        [self IFA_resetActivePopoverController];
+    }else if(self.ifa_activePopoverController){
+        [self.ifa_activePopoverController dismissPopoverAnimated:YES];
+        [self ifa_resetActivePopoverController];
     }else if(self.presentingSemiModal){
         [self dismissSemiModalViewWithChangesMade:a_changesMade data:a_data];
     }else{
@@ -803,101 +803,101 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     }
 }
 
--(IFAAsynchronousWorkManager *)IFA_asynchronousWorkManager {
+-(IFAAsynchronousWorkManager *)ifa_asynchronousWorkManager {
     return [IFAAsynchronousWorkManager instance];
 }
 
--(void)IFA_dismissMenuPopoverController {
-    [self IFA_dismissMenuPopoverControllerWithAnimation:YES];
+-(void)ifa_dismissMenuPopoverController {
+    [self ifa_dismissMenuPopoverControllerWithAnimation:YES];
 }
 
--(void)IFA_dismissMenuPopoverControllerWithAnimation:(BOOL)a_animated{
+-(void)ifa_dismissMenuPopoverControllerWithAnimation:(BOOL)a_animated{
     // Dismiss the popover controller if a split view controller is used and this controller is not presented as modal
-    if (!self.IFA_presentedAsModal) {
+    if (!self.ifa_presentedAsModal) {
         [((IFASplitViewController *)self.splitViewController).splitViewControllerPopoverController dismissPopoverAnimated:a_animated];
     }
 }
 
--(void)IFA_resetActivePopoverController {
+-(void)ifa_resetActivePopoverController {
     [self XYZ_setActivePopoverController:nil presenter:nil barButtonItem:nil];
 }
 
--(void)IFA_prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    [self IFA_dismissMenuPopoverController];
+-(void)ifa_prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    [self ifa_dismissMenuPopoverController];
 }
 
--(id<IFAAppearanceTheme>)IFA_appearanceTheme {
+-(id<IFAAppearanceTheme>)ifa_appearanceTheme {
     return [[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme];
 }
 
 // To be overriden by subclasses
--(BOOL)IFA_manageToolbar {
+-(BOOL)ifa_manageToolbar {
     return YES;
 }
 
 // To be overriden by subclasses
--(UIViewController*)IFA_previousVisibleViewController {
+-(UIViewController*)ifa_previousVisibleViewController {
     return nil;
 }
 
 // To be overriden by subclasses
--(BOOL)IFA_doneButtonSaves {
+-(BOOL)ifa_doneButtonSaves {
     return NO;
 }
 
 // To be overriden by subclasses
--(void)setIFA_previousVisibleViewController:(UIViewController *)IFA_previousVisibleViewController {
+-(void)setIfa_previousVisibleViewController:(UIViewController *)ifa_previousVisibleViewController {
 }
 
 // To be overriden by subclasses
-- (NSArray*)IFA_editModeToolbarItems {
+- (NSArray*)ifa_editModeToolbarItems {
 	return nil;
 }
 
 // To be overriden by subclasses
-- (NSArray*)IFA_nonEditModeToolbarItems {
+- (NSArray*)ifa_nonEditModeToolbarItems {
 	return nil;
 }
 
 // To be overriden by subclasses
--(void)IFA_updateScreenDecorationState {
+-(void)ifa_updateScreenDecorationState {
 }
 
 // To be overriden by subclasses
--(void)IFA_updateNavigationItemState {
+-(void)ifa_updateNavigationItemState {
 }
 
 // To be overriden by subclasses
--(void)IFA_updateToolbarNavigationButtonState {
+-(void)ifa_updateToolbarNavigationButtonState {
 }
 
 // To be overriden by subclasses
-- (void)IFA_onApplicationWillEnterForegroundNotification:(NSNotification*)aNotification{
+- (void)ifa_onApplicationWillEnterForegroundNotification:(NSNotification*)aNotification{
 }
 
 // To be overriden by subclasses
-- (void)IFA_onApplicationDidBecomeActiveNotification:(NSNotification*)aNotification{
+- (void)ifa_onApplicationDidBecomeActiveNotification:(NSNotification*)aNotification{
 }
 
 // To be overriden by subclasses
-- (void)IFA_onApplicationWillResignActiveNotification:(NSNotification*)aNotification{
+- (void)ifa_onApplicationWillResignActiveNotification:(NSNotification*)aNotification{
 }
 
 // To be overriden by subclasses
-- (void)IFA_onApplicationDidEnterBackgroundNotification:(NSNotification*)aNotification{
+- (void)ifa_onApplicationDidEnterBackgroundNotification:(NSNotification*)aNotification{
 }
 
 - (void)XYZ_onAdsSuspendRequest:(NSNotification*)aNotification{
-    [self IFA_stopAdRequests];
+    [self ifa_stopAdRequests];
 }
 
 - (void)XYZ_onAdsResumeRequest:(NSNotification*)aNotification{
-    if ([self IFA_shouldEnableAds]) {
-        [self IFA_startAdRequests];
+    if ([self ifa_shouldEnableAds]) {
+        [self ifa_startAdRequests];
     }
 }
 
--(void)IFA_dealloc {
+-(void)ifa_dealloc {
     
     // Remove observers
     [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationMenuBarButtonItemInvalidated
@@ -914,12 +914,12 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 // To be overriden by subclasses
--(UIView*)IFA_nonAdContainerView {
+-(UIView*)ifa_nonAdContainerView {
     return nil;
 }
 
 // To be overriden by subclasses
--(BOOL)IFA_shouldEnableAds {
+-(BOOL)ifa_shouldEnableAds {
     return NO;
 }
 
@@ -936,22 +936,22 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 //    [self XYZ_editBarButtonItem].accessibilityLabel = self.editing ? @"Done Button" : @"Edit Button";
 //}
 
-- (void)IFA_viewDidLoad {
+- (void)ifa_viewDidLoad {
     
-//    NSLog(@"IFA_viewDidLoad: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
+//    NSLog(@"ifa_viewDidLoad: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
     
 //    [self m_updateEditButtonItemAccessibilityLabel];
 
-    UINavigationItem *l_navigationItem = [self IFA_navigationItem];
+    UINavigationItem *l_navigationItem = [self ifa_navigationItem];
     l_navigationItem.leftItemsSupplementBackButton = YES;
-    UIBarButtonItem *l_backBarButtonItem = [[self IFA_appearanceTheme] backBarButtonItemForViewController:self];
+    UIBarButtonItem *l_backBarButtonItem = [[self ifa_appearanceTheme] backBarButtonItemForViewController:self];
     l_navigationItem.backBarButtonItem = l_backBarButtonItem;
     if (l_backBarButtonItem.customView && self.navigationController.topViewController==self && self.navigationController.viewControllers.count>1) {
         l_navigationItem.hidesBackButton = YES;
         l_backBarButtonItem.tag = IFABarItemTagBackButton;
         l_backBarButtonItem.target = self;
         l_backBarButtonItem.action = @selector(XYZ_popViewController);
-        [self IFA_addLeftBarButtonItem:l_backBarButtonItem];
+        [self ifa_addLeftBarButtonItem:l_backBarButtonItem];
     }
 
     // Configure help button
@@ -970,35 +970,35 @@ static char c_shouldUseKeyboardPassthroughViewKey;
                                                  name:IFANotificationMenuBarButtonItemInvalidated
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(IFA_onApplicationWillEnterForegroundNotification:)
+                                             selector:@selector(ifa_onApplicationWillEnterForegroundNotification:)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(IFA_onApplicationDidBecomeActiveNotification:)
+                                             selector:@selector(ifa_onApplicationDidBecomeActiveNotification:)
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(IFA_onApplicationWillResignActiveNotification:)
+                                             selector:@selector(ifa_onApplicationWillResignActiveNotification:)
                                                  name:UIApplicationWillResignActiveNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(IFA_onApplicationDidEnterBackgroundNotification:)
+                                             selector:@selector(ifa_onApplicationDidEnterBackgroundNotification:)
                                                  name:UIApplicationDidEnterBackgroundNotification
                                                object:nil];
 
     // Configure fetched results controller and perform fetch
-    [self IFA_configureFetchedResultsControllerAndPerformFetch];
+    [self ifa_configureFetchedResultsControllerAndPerformFetch];
 
     // Configure keyboard passthrough view
-    if (self.IFA_shouldUseKeyboardPassthroughView) {
+    if (self.ifa_shouldUseKeyboardPassthroughView) {
         self.XYZ_keyboardPassthroughView.shouldDismissKeyboardOnNonTextInputInteractions = YES;
     }
 
 }
 
--(void)IFA_viewDidUnload {
+-(void)ifa_viewDidUnload {
 
-    //    NSLog(@"IFA_viewDidUnload: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
+    //    NSLog(@"ifa_viewDidUnload: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
     
     // Remove observers
     [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationMenuBarButtonItemInvalidated
@@ -1008,13 +1008,13 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
 
-    self.IFA_activeFetchedResultsController = nil;
+    self.ifa_activeFetchedResultsController = nil;
 
 }
 
-- (void)IFA_viewWillAppear {
+- (void)ifa_viewWillAppear {
     
-//    NSLog(@"IFA_viewWillAppear: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
+//    NSLog(@"ifa_viewWillAppear: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
     
     // Add the help button if help is enabled for this view controller
     if (self.XYZ_helpBarButtonItem) {
@@ -1023,9 +1023,9 @@ static char c_shouldUseKeyboardPassthroughViewKey;
                 CGRect l_customViewFrame = self.XYZ_helpBarButtonItem.customView.frame;
                 self.XYZ_helpBarButtonItem.customView.frame = CGRectMake(l_customViewFrame.origin.x, l_customViewFrame.origin.y, 34, self.navigationController.navigationBar.frame.size.height);
             }
-            [self IFA_addLeftBarButtonItem:self.XYZ_helpBarButtonItem];
+            [self ifa_addLeftBarButtonItem:self.XYZ_helpBarButtonItem];
         }else{
-            [self IFA_insertRightBarButtonItem:self.XYZ_helpBarButtonItem atIndex:0];
+            [self ifa_insertRightBarButtonItem:self.XYZ_helpBarButtonItem atIndex:0];
         }
     }
     
@@ -1039,25 +1039,25 @@ static char c_shouldUseKeyboardPassthroughViewKey;
                                                  name:IFANotificationAdsResumeRequest
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(IFA_onKeyboardNotification:)
+                                             selector:@selector(ifa_onKeyboardNotification:)
                                                  name:UIKeyboardWillShowNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(IFA_onKeyboardNotification:)
+                                             selector:@selector(ifa_onKeyboardNotification:)
                                                  name:UIKeyboardDidShowNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(IFA_onKeyboardNotification:)
+                                             selector:@selector(ifa_onKeyboardNotification:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(IFA_onKeyboardNotification:)
+                                             selector:@selector(ifa_onKeyboardNotification:)
                                                  name:UIKeyboardDidHideNotification
                                                object:nil];
 
-    if (self.IFA_manageToolbar && [self.navigationController.viewControllers count]==1 && ![self IFA_isReturningVisibleViewController]) {
-        //            NSLog(@"About to call m_updateToolbarForMode in IFA_viewWillAppear...");
-        [self IFA_updateToolbarForMode:self.editing animated:NO];
+    if (self.ifa_manageToolbar && [self.navigationController.viewControllers count]==1 && ![self ifa_isReturningVisibleViewController]) {
+        //            NSLog(@"About to call m_updateToolbarForMode in ifa_viewWillAppear...");
+        [self ifa_updateToolbarForMode:self.editing animated:NO];
     }
 
     // Manage left sliding menu button visibility
@@ -1067,51 +1067,51 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnViewWillAppearForViewController:self];
 
     // Configure help target
-    [self IFA_registerForHelp];
+    [self ifa_registerForHelp];
 
 }
 
-- (BOOL)IFA_shouldShowLeftSlidingPaneButton {
+- (BOOL)ifa_shouldShowLeftSlidingPaneButton {
     BOOL l_shouldShowIt = NO;
     if (self.slidingViewController) {
         l_shouldShowIt = self.slidingViewController.topViewController==self.navigationController && self.navigationController.viewControllers[0]==self;
     }else if (self.splitViewController) {
-        l_shouldShowIt = [self IFA_isDetailViewController];
+        l_shouldShowIt = [self ifa_isDetailViewController];
     }
-//    NSLog(@"  [self IFA_shouldShowLeftSlidingPaneButton] for %@: %u", [self description], l_shouldShowIt);
+//    NSLog(@"  [self ifa_shouldShowLeftSlidingPaneButton] for %@: %u", [self description], l_shouldShowIt);
     return l_shouldShowIt;
 }
 
-- (void)IFA_addToNavigationBarForSlidingMenuBarButtonItem:(UIBarButtonItem *)a_slidingMenuBarButtonItem {
-    [self IFA_insertLeftBarButtonItem:a_slidingMenuBarButtonItem atIndex:0];
+- (void)ifa_addToNavigationBarForSlidingMenuBarButtonItem:(UIBarButtonItem *)a_slidingMenuBarButtonItem {
+    [self ifa_insertLeftBarButtonItem:a_slidingMenuBarButtonItem atIndex:0];
 }
 
-- (void)IFA_viewDidAppear {
+- (void)ifa_viewDidAppear {
     
-//    NSLog(@"IFA_viewDidAppear: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
+//    NSLog(@"ifa_viewDidAppear: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
     
-    if ([self IFA_shouldEnableAds]) {
-        [self IFA_startAdRequests];
+    if ([self ifa_shouldEnableAds]) {
+        [self ifa_startAdRequests];
     }
     
-    if (self.IFA_manageToolbar && !([self.navigationController.viewControllers count]==1 && ![self IFA_isReturningVisibleViewController]) ) {
-        //            NSLog(@"About to call m_updateToolbarForMode in IFA_viewDidAppear...");
-        [self IFA_updateToolbarForMode:self.editing animated:YES];
+    if (self.ifa_manageToolbar && !([self.navigationController.viewControllers count]==1 && ![self ifa_isReturningVisibleViewController]) ) {
+        //            NSLog(@"About to call m_updateToolbarForMode in ifa_viewDidAppear...");
+        [self ifa_updateToolbarForMode:self.editing animated:YES];
     }
     
 }
 
-- (void)IFA_viewWillDisappear {
+- (void)ifa_viewWillDisappear {
     
-//    NSLog(@"IFA_viewWillDisappear: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
+//    NSLog(@"ifa_viewWillDisappear: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
         
-    self.IFA_previousVisibleViewController = self.navigationController.visibleViewController;
+    self.ifa_previousVisibleViewController = self.navigationController.visibleViewController;
     
 }
 
-- (void)IFA_viewDidDisappear {
+- (void)ifa_viewDidDisappear {
     
-//    NSLog(@"IFA_viewDidDisappear: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
+//    NSLog(@"ifa_viewDidDisappear: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
         
     // Remove observers
     [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationAdsSuspendRequest object:nil];
@@ -1121,17 +1121,17 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
 
-    if (self.IFA_manageToolbar && [self.toolbarItems count]>0) {
+    if (self.ifa_manageToolbar && [self.toolbarItems count]>0) {
         self.toolbarItems = @[];
     }
     
     // Remove ad container
-    if ([self IFA_shouldEnableAds]) {
-        [self IFA_stopAdRequests];
+    if ([self ifa_shouldEnableAds]) {
+        [self ifa_stopAdRequests];
     }
 
     // Remove keyboard passthrough view if required
-    if (self.IFA_shouldUseKeyboardPassthroughView) {
+    if (self.ifa_shouldUseKeyboardPassthroughView) {
         [self XYZ_removeKeyboardPassthroughView]; // Keyboard dismissal is doing this already - this is just a safety net in case of any unforeseen scenarios out there.
     }
 
@@ -1139,12 +1139,12 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     
 }
 
--(BOOL)IFA_isReturningVisibleViewController {
+-(BOOL)ifa_isReturningVisibleViewController {
 //    NSLog(@"m_isReturningTopViewController: %@, previousVisibleViewController: %@", self, self.previousVisibleViewController);
     if ([self.parentViewController isKindOfClass:[IFAAbstractPagingContainerViewController class]]) {
-        return [((IFAAbstractPagingContainerViewController *) self.parentViewController) IFA_isReturningVisibleViewController];
+        return [((IFAAbstractPagingContainerViewController *) self.parentViewController) ifa_isReturningVisibleViewController];
     }else {
-        return self.IFA_previousVisibleViewController && self!=self.IFA_previousVisibleViewController && ![self.IFA_previousVisibleViewController isKindOfClass:[IFAMenuViewController class]];
+        return self.ifa_previousVisibleViewController && self!=self.ifa_previousVisibleViewController && ![self.ifa_previousVisibleViewController isKindOfClass:[IFAMenuViewController class]];
     }
 }
 
@@ -1153,12 +1153,12 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 //    return self.previousVisibleViewController && self!=self.previousVisibleViewController;
 //}
 
--(UIView*)IFA_viewForActionSheet {
+-(UIView*)ifa_viewForActionSheet {
     return [IFAUIUtils actionSheetShowInViewForViewController:self];
 }
 
--(UIViewController*)IFA_mainViewController {
-    if (((UIViewController*)[self.navigationController.viewControllers objectAtIndex:0]).IFA_presentedAsModal) {
+-(UIViewController*)ifa_mainViewController {
+    if (((UIViewController*)[self.navigationController.viewControllers objectAtIndex:0]).ifa_presentedAsModal) {
         return self.navigationController;
     }else{
         return [UIApplication sharedApplication].delegate.window.rootViewController;
@@ -1166,7 +1166,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 // iOS 5 (the next method is for iOS 6 or greater)
--(BOOL)IFA_shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
+-(BOOL)ifa_shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
     BOOL l_shouldAutorotate = NO;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
         l_shouldAutorotate = YES;
@@ -1182,7 +1182,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 // iOS 6 or greater (the previous method is for iOS 5)
--(NSUInteger)IFA_supportedInterfaceOrientations {
+-(NSUInteger)ifa_supportedInterfaceOrientations {
     if ([IFAApplicationDelegate sharedInstance].semiModalViewController) {
         if (UIInterfaceOrientationIsLandscape([IFAApplicationDelegate sharedInstance].semiModalInterfaceOrientation)) {
             return UIInterfaceOrientationMaskLandscape;
@@ -1198,10 +1198,10 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     }
 }
 
--(void)IFA_willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+-(void)ifa_willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     
     // Tell help manager about the interface orientation change
-    if (self.IFA_helpMode && [IFAHelpManager sharedInstance].observedHelpTargetContainer ==self) {
+    if (self.ifa_helpMode && [IFAHelpManager sharedInstance].observedHelpTargetContainer ==self) {
         [[IFAHelpManager sharedInstance] observedViewControllerWillRotateToInterfaceOrientation:toInterfaceOrientation
                                                                                   duration:duration];
     }
@@ -1211,60 +1211,60 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 }
 
-- (void)IFA_willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration{
+- (void)ifa_willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration{
 
     [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnWillAnimateRotationForViewController:self
                                                                                                       interfaceOrientation:interfaceOrientation];
 
-    if ([self IFA_shouldEnableAds]) {
-        [self IFA_stopAdRequests];
+    if ([self ifa_shouldEnableAds]) {
+        [self ifa_stopAdRequests];
     }
 
 }
 
--(void)IFA_didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+-(void)ifa_didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     
     // Tell help manager about the interface orientation change
-    if (self.IFA_helpMode && [IFAHelpManager sharedInstance].observedHelpTargetContainer ==self) {
+    if (self.ifa_helpMode && [IFAHelpManager sharedInstance].observedHelpTargetContainer ==self) {
         [[IFAHelpManager sharedInstance] observedViewControllerDidRotateFromInterfaceOrientation:fromInterfaceOrientation];
     }
     
-    if (self.IFA_activePopoverController && self.IFA_activePopoverControllerBarButtonItem) {
+    if (self.ifa_activePopoverController && self.ifa_activePopoverControllerBarButtonItem) {
         
         // Present popover controller in the new interface orientation
         // Also need to reset content size as iOS will attempt to resize it automatically due to the fact the popover was triggered by a bar button item
-        [self IFA_presentPopoverController:self.IFA_activePopoverController
-                         fromBarButtonItem:self.IFA_activePopoverControllerBarButtonItem];
+        [self ifa_presentPopoverController:self.ifa_activePopoverController
+                         fromBarButtonItem:self.ifa_activePopoverControllerBarButtonItem];
         
     }
     
     // Hide ad container (but it should be offscreen at this point)
-    self.IFA_adContainerView.hidden = YES;
+    self.ifa_adContainerView.hidden = YES;
 
-    if ([self IFA_shouldEnableAds]) {
-        [self IFA_startAdRequests];
+    if ([self ifa_shouldEnableAds]) {
+        [self ifa_startAdRequests];
     }
 
 }
 
--(BOOL)IFA_needsToolbar {
-    return [(self.editing ? [self IFA_editModeToolbarItems] : [self IFA_nonEditModeToolbarItems]) count] > 0;
+-(BOOL)ifa_needsToolbar {
+    return [(self.editing ? [self ifa_editModeToolbarItems] : [self ifa_nonEditModeToolbarItems]) count] > 0;
 }
 
--(BOOL)IFA_helpMode {
+-(BOOL)ifa_helpMode {
     return [IFAHelpManager sharedInstance].helpMode;
 }
 
--(UIStoryboard*)IFA_commonStoryboard {
+-(UIStoryboard*)ifa_commonStoryboard {
     static NSString * const k_storyboardName = @"CommonStoryboard";
-    return [UIStoryboard storyboardWithName:k_storyboardName bundle:[[self IFA_appearanceTheme] bundle]];
+    return [UIStoryboard storyboardWithName:k_storyboardName bundle:[[self ifa_appearanceTheme] bundle]];
 }
 
--(void)IFA_reset {
-    self.IFA_previousVisibleViewController = nil;
+-(void)ifa_reset {
+    self.ifa_previousVisibleViewController = nil;
 }
 
--(UINavigationItem*)IFA_navigationItem {
+-(UINavigationItem*)ifa_navigationItem {
     if ([self.parentViewController isKindOfClass:[IFAAbstractPagingContainerViewController class]] || [self.parentViewController isKindOfClass:[UITabBarController class]]) {
         return self.parentViewController.navigationItem;
     }else{
@@ -1272,20 +1272,20 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     }
 }
 
--(void)IFA_registerForHelp {
+-(void)ifa_registerForHelp {
     if (![self.parentViewController isKindOfClass:[IFAAbstractPagingContainerViewController class]]) {
         UIViewController *l_helpTargetViewController = [[IFAHelpManager sharedInstance] isHelpEnabledForViewController:self] ? self : nil;
         [[IFAHelpManager sharedInstance] observeHelpTargetContainer:l_helpTargetViewController];
     }
 }
 
--(NSString*)IFA_editBarButtonItemHelpTargetId {
+-(NSString*)ifa_editBarButtonItemHelpTargetId {
     NSString *l_helpTargetId = nil;
     if (self.editing) {
-        BOOL l_doneButtonSaves = self.IFA_doneButtonSaves;
+        BOOL l_doneButtonSaves = self.ifa_doneButtonSaves;
         if ([self isKindOfClass:[IFADynamicPagingContainerViewController class]]) {
             IFADynamicPagingContainerViewController *l_pagingContainerViewController = (IFADynamicPagingContainerViewController *)self;
-            l_doneButtonSaves = [l_pagingContainerViewController visibleChildViewController].IFA_doneButtonSaves;
+            l_doneButtonSaves = [l_pagingContainerViewController visibleChildViewController].ifa_doneButtonSaves;
         }
         if (l_doneButtonSaves) {
             l_helpTargetId = [IFAUIUtils helpTargetIdForName:@"saveButton"];
@@ -1298,59 +1298,59 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     return l_helpTargetId;
 }
 
--(void)IFA_openUrl:(NSURL*)a_url{
+-(void)ifa_openUrl:(NSURL*)a_url{
     [[IFAExternalUrlManager sharedInstance] openUrl:a_url];
 }
 
--(void)IFA_releaseView {
+-(void)ifa_releaseView {
     [self XYZ_releaseViewForController:self];
 }
 
--(NSString*)IFA_accessibilityLabelForKeyPath:(NSString*)a_keyPath{
+-(NSString*)ifa_accessibilityLabelForKeyPath:(NSString*)a_keyPath{
     return [[IFAHelpManager sharedInstance] accessibilityLabelForKeyPath:a_keyPath];
 }
 
--(NSString*)IFA_accessibilityLabelForName:(NSString*)a_name{
-    return [self IFA_accessibilityLabelForKeyPath:[self IFA_helpTargetIdForName:a_name]];
+-(NSString*)ifa_accessibilityLabelForName:(NSString*)a_name{
+    return [self ifa_accessibilityLabelForKeyPath:[self ifa_helpTargetIdForName:a_name]];
 }
 
--(void)IFA_showRefreshControl:(UIControl *)a_control inScrollView:(UIScrollView*)a_scrollView{
+-(void)ifa_showRefreshControl:(UIControl *)a_control inScrollView:(UIScrollView*)a_scrollView{
 //    NSLog(@"m_showRefreshControl - a_control: %@", [a_control description]);
     CGFloat l_controlHeight = [a_control isKindOfClass:[ODRefreshControl class]] ? 44 : a_control.frame.size.height;
     [a_scrollView setContentOffset:CGPointMake(0, -(l_controlHeight)) animated:YES];
 }
 
--(void)IFA_beginRefreshingWithScrollView:(UIScrollView*)a_scrollView{
-    [self IFA_beginRefreshingWithScrollView:a_scrollView showControl:YES];
+-(void)ifa_beginRefreshingWithScrollView:(UIScrollView*)a_scrollView{
+    [self ifa_beginRefreshingWithScrollView:a_scrollView showControl:YES];
 }
 
--(void)IFA_beginRefreshingWithScrollView:(UIScrollView *)a_scrollView showControl:(BOOL)a_shouldShowControl{
-    if (!self.IFA_refreshControl.refreshing) {
-        [self.IFA_refreshControl beginRefreshing];
+-(void)ifa_beginRefreshingWithScrollView:(UIScrollView *)a_scrollView showControl:(BOOL)a_shouldShowControl{
+    if (!self.ifa_refreshControl.refreshing) {
+        [self.ifa_refreshControl beginRefreshing];
         if (a_shouldShowControl) {
-            [self IFA_showRefreshControl:self.IFA_refreshControl inScrollView:a_scrollView];
+            [self ifa_showRefreshControl:self.ifa_refreshControl inScrollView:a_scrollView];
         }
     }
 }
 
--(UIPopoverController*)IFA_newPopoverControllerWithContentViewController:(UIViewController*)a_contentViewController{
+-(UIPopoverController*)ifa_newPopoverControllerWithContentViewController:(UIViewController*)a_contentViewController{
     UIPopoverController *l_popoverController = [[UIPopoverController alloc] initWithContentViewController:a_contentViewController];
-    [[self IFA_appearanceTheme] setAppearanceForPopoverController:l_popoverController];
+    [[self ifa_appearanceTheme] setAppearanceForPopoverController:l_popoverController];
     return l_popoverController;
 }
 
--(void)IFA_onDoneButtonTap:(UIBarButtonItem*)a_barButtonItem{
-    [self IFA_notifySessionCompletion];
+-(void)ifa_onDoneButtonTap:(UIBarButtonItem*)a_barButtonItem{
+    [self ifa_notifySessionCompletion];
 }
 
--(void)IFA_startAdRequests {
+-(void)ifa_startAdRequests {
     
-    if (![self IFA_shouldEnableAds] || [self IFA_gadBannerView].superview) {
+    if (![self ifa_shouldEnableAds] || [self ifa_gadBannerView].superview) {
         return;
     }
     
     // Add ad container subview
-    UIView *l_adContainerView = self.IFA_adContainerView;
+    UIView *l_adContainerView = self.ifa_adContainerView;
     if (l_adContainerView) {
         l_adContainerView.hidden = YES;
         l_adContainerView.frame = CGRectMake(0, self.view.frame.size.height, l_adContainerView.frame.size.width, l_adContainerView.frame.size.height);
@@ -1361,7 +1361,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     [self XYZ_updateAdBannerSize];
 
     // Add the ad view to the container view
-    [self.IFA_adContainerView addSubview:[self IFA_gadBannerView]];
+    [self.ifa_adContainerView addSubview:[self ifa_gadBannerView]];
     
     // Make a note of the owner view controller
     [IFAApplicationDelegate sharedInstance].adsOwnerViewController = self;
@@ -1380,55 +1380,55 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 //#endif
     
     // Initiate a generic Google ad request
-    [self IFA_gadBannerView].delegate = self;
-    [self IFA_gadBannerView].rootViewController = self;
-    [[self IFA_gadBannerView] loadRequest:l_gadRequest];
+    [self ifa_gadBannerView].delegate = self;
+    [self ifa_gadBannerView].rootViewController = self;
+    [[self ifa_gadBannerView] loadRequest:l_gadRequest];
     
 }
 
--(void)IFA_stopAdRequests {
+-(void)ifa_stopAdRequests {
     
-    if (![self IFA_shouldEnableAds] || ![self IFA_gadBannerView].superview) {
+    if (![self ifa_shouldEnableAds] || ![self ifa_gadBannerView].superview) {
         return;
     }
     
-    UIView *l_adContainerView = self.IFA_adContainerView;
+    UIView *l_adContainerView = self.ifa_adContainerView;
     if (l_adContainerView) {
         [l_adContainerView removeFromSuperview];
-        [self IFA_updateNonAdContainerViewFrameWithAdBannerViewHeight:0];
+        [self ifa_updateNonAdContainerViewFrameWithAdBannerViewHeight:0];
     }
     
-    [[self IFA_gadBannerView] removeFromSuperview]; // This seems to stop ad loading
-    [self IFA_gadBannerView].delegate = nil;
-    [self IFA_gadBannerView].rootViewController = nil;
+    [[self ifa_gadBannerView] removeFromSuperview]; // This seems to stop ad loading
+    [self ifa_gadBannerView].delegate = nil;
+    [self ifa_gadBannerView].rootViewController = nil;
 
     [IFAApplicationDelegate sharedInstance].adsOwnerViewController = self;
     
 }
 
 // To be overriden by subclasses
--(NSFetchedResultsController*)IFA_fetchedResultsController {
+-(NSFetchedResultsController*)ifa_fetchedResultsController {
     return nil;
 }
 
 // Can be overriden by subclasses
--(id<NSFetchedResultsControllerDelegate>)IFA_fetchedResultsControllerDelegate {
+-(id<NSFetchedResultsControllerDelegate>)ifa_fetchedResultsControllerDelegate {
     return self;
 }
 
 // Can be overriden by subclasses
--(void)IFA_configureFetchedResultsControllerAndPerformFetch {
+-(void)ifa_configureFetchedResultsControllerAndPerformFetch {
     
-    self.IFA_activeFetchedResultsController = [self IFA_fetchedResultsController];
+    self.ifa_activeFetchedResultsController = [self ifa_fetchedResultsController];
     
-    if (self.IFA_activeFetchedResultsController) {
+    if (self.ifa_activeFetchedResultsController) {
         
         // Configure delegate
-        self.IFA_activeFetchedResultsController.delegate = [self IFA_fetchedResultsControllerDelegate];
+        self.ifa_activeFetchedResultsController.delegate = [self ifa_fetchedResultsControllerDelegate];
         
         // Perform fetch
         NSError *l_error;
-        if (![self.IFA_activeFetchedResultsController performFetch:&l_error]) {
+        if (![self.ifa_activeFetchedResultsController performFetch:&l_error]) {
             [IFAUtils handleUnrecoverableError:l_error];
         };
         
@@ -1436,9 +1436,9 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     
 }
 
-- (void)addNotificationObserverForName:(NSString *)a_name object:(id)a_obj queue:(NSOperationQueue *)a_queue
-                            usingBlock:(void (^)(NSNotification *a_note))a_block
-                           removalTime:(IFAViewControllerNotificationObserverRemovalTime)a_removalTime {
+- (void)ifa_addNotificationObserverForName:(NSString *)a_name object:(id)a_obj queue:(NSOperationQueue *)a_queue
+                                usingBlock:(void (^)(NSNotification *a_note))a_block
+                               removalTime:(IFAViewControllerNotificationObserverRemovalTime)a_removalTime {
     BOOL l_isObserverRemovalAutomationSupported =
             [self isKindOfClass:[IFACollectionViewController class]]
                     || [self isKindOfClass:[IFAPageViewController class]]
@@ -1453,108 +1453,108 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     }
 }
 
-- (BOOL)IFA_isVisibleTopViewController {
+- (BOOL)ifa_isVisibleTopViewController {
     return self.navigationController.topViewController==self && self.navigationController.viewControllers[0]==self;
 }
 
-- (void)IFA_updateNonAdContainerViewFrameWithAdBannerViewHeight:(CGFloat)a_adBannerViewHeight {
-//    NSLog(@"m_updateNonAdContainerViewFrameWithAdBannerViewHeight BEFORE: self m_nonAdContainerView.frame: %@", NSStringFromCGRect([self IFA_nonAdContainerView].frame));
-    CGRect l_newNonAdContainerViewFrame = [self IFA_nonAdContainerView].frame;
+- (void)ifa_updateNonAdContainerViewFrameWithAdBannerViewHeight:(CGFloat)a_adBannerViewHeight {
+//    NSLog(@"m_updateNonAdContainerViewFrameWithAdBannerViewHeight BEFORE: self m_nonAdContainerView.frame: %@", NSStringFromCGRect([self ifa_nonAdContainerView].frame));
+    CGRect l_newNonAdContainerViewFrame = [self ifa_nonAdContainerView].frame;
     l_newNonAdContainerViewFrame.size.height = self.view.frame.size.height - a_adBannerViewHeight;
-    [self IFA_nonAdContainerView].frame = l_newNonAdContainerViewFrame;
-//    NSLog(@"m_updateNonAdContainerViewFrameWithAdBannerViewHeight AFTER: self m_nonAdContainerView.frame: %@", NSStringFromCGRect([self IFA_nonAdContainerView].frame));
+    [self ifa_nonAdContainerView].frame = l_newNonAdContainerViewFrame;
+//    NSLog(@"m_updateNonAdContainerViewFrameWithAdBannerViewHeight AFTER: self m_nonAdContainerView.frame: %@", NSStringFromCGRect([self ifa_nonAdContainerView].frame));
 }
 
-- (UIPopoverArrowDirection)IFA_permittedPopoverArrowDirectionForViewController:(UIViewController *)a_viewController {
+- (UIPopoverArrowDirection)ifa_permittedPopoverArrowDirectionForViewController:(UIViewController *)a_viewController {
     return [IFAApplicationDelegate sharedInstance].keyboardVisible ? k_arrowDirectionWithKeyboard : k_arrowDirectionWithoutKeyboard;
 }
 
-- (void)IFA_presentActivityViewControllerFromBarButtonItem:(UIBarButtonItem *)a_barButtonItem
+- (void)ifa_presentActivityViewControllerFromBarButtonItem:(UIBarButtonItem *)a_barButtonItem
                                                    webView:(UIWebView *)a_webView {
     NSString *l_subjectString = [a_webView stringByEvaluatingJavaScriptFromString:@"document.title"];
     NSURL *l_url = a_webView.request.URL;
-    [self IFA_presentActivityViewControllerFromBarButtonItem:a_barButtonItem subject:l_subjectString url:l_url];
+    [self ifa_presentActivityViewControllerFromBarButtonItem:a_barButtonItem subject:l_subjectString url:l_url];
 }
 
-- (void)IFA_presentActivityViewControllerFromBarButtonItem:(UIBarButtonItem *)a_barButtonItem
+- (void)ifa_presentActivityViewControllerFromBarButtonItem:(UIBarButtonItem *)a_barButtonItem
                                                    subject:(NSString *)a_subject url:(NSURL *)a_url {
     IFASubjectActivityItem *l_subject = [[IFASubjectActivityItem alloc] initWithSubject:a_subject];
     NSArray *l_activityItems = @[l_subject, a_url];
     id l_externalWebBrowserActivity = [IFAExternalWebBrowserActivity new];
     NSArray *l_applicationActivities = @[l_externalWebBrowserActivity];
     UIActivityViewController *l_activityVC = [[UIActivityViewController alloc] initWithActivityItems:l_activityItems applicationActivities:l_applicationActivities];
-    l_activityVC.IFA_presenter = self;
-    [self IFA_presentModalSelectionViewController:l_activityVC fromBarButtonItem:a_barButtonItem];
+    l_activityVC.ifa_presenter = self;
+    [self ifa_presentModalSelectionViewController:l_activityVC fromBarButtonItem:a_barButtonItem];
 }
 
-- (void)IFA_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView {
-    [self IFA_addChildViewController:a_childViewController parentView:a_parentView
+- (void)ifa_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView {
+    [self ifa_addChildViewController:a_childViewController parentView:a_parentView
                  shouldFillSuperview:YES];
 }
 
-- (void)IFA_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView
+- (void)ifa_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView
                shouldFillSuperview:(BOOL)a_shouldFillParentView {
     [self addChildViewController:a_childViewController];
     [a_parentView addSubview:a_childViewController.view];
     if (a_shouldFillParentView) {
-        [a_childViewController.view IFA_addLayoutConstraintsToFillSuperview];
+        [a_childViewController.view ifa_addLayoutConstraintsToFillSuperview];
     }
     [a_childViewController didMoveToParentViewController:self];
 }
 
-- (void)IFA_removeFromParentViewController {
+- (void)ifa_removeFromParentViewController {
     [self willMoveToParentViewController:nil];
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
 }
 
--(void)IFA_onKeyboardNotification:(NSNotification*)a_notification {
-    if (self.IFA_shouldUseKeyboardPassthroughView) {
+-(void)ifa_onKeyboardNotification:(NSNotification*)a_notification {
+    if (self.ifa_shouldUseKeyboardPassthroughView) {
         if ([a_notification.name isEqualToString:UIKeyboardDidShowNotification]) {
             [self.navigationController.view addSubview:self.XYZ_keyboardPassthroughView];
-            [self.XYZ_keyboardPassthroughView IFA_addLayoutConstraintsToFillSuperview];
+            [self.XYZ_keyboardPassthroughView ifa_addLayoutConstraintsToFillSuperview];
         } else if ([a_notification.name isEqualToString:UIKeyboardDidHideNotification]) {
             [self XYZ_removeKeyboardPassthroughView];
         }
     }
 }
 
-+ (instancetype)IFA_instantiateFromStoryboard {
-    NSString *l_storyboardName = [self IFA_storyboardName];
-    id l_viewController = [UIStoryboard IFA_instantiateInitialViewControllerFromStoryboardNamed:l_storyboardName];
++ (instancetype)ifa_instantiateFromStoryboard {
+    NSString *l_storyboardName = [self ifa_storyboardName];
+    id l_viewController = [UIStoryboard ifa_instantiateInitialViewControllerFromStoryboardNamed:l_storyboardName];
     NSAssert(l_viewController, @"It was not possible to instantiate view controller from storyboard named %@", l_storyboardName);
     return l_viewController;
 }
 
-+ (id)IFA_instantiateFromStoryboardWithViewControllerIdentifier:(NSString *)a_viewControllerIdentifier {
-    NSString *l_storyboardName = [self IFA_storyboardName];
-    id l_viewController = [UIStoryboard IFA_instantiateViewControllerWithIdentifier:a_viewControllerIdentifier
++ (id)ifa_instantiateFromStoryboardWithViewControllerIdentifier:(NSString *)a_viewControllerIdentifier {
+    NSString *l_storyboardName = [self ifa_storyboardName];
+    id l_viewController = [UIStoryboard ifa_instantiateViewControllerWithIdentifier:a_viewControllerIdentifier
                                                                 fromStoryboardNamed:l_storyboardName];
     NSAssert(l_viewController, @"It was not possible to instantiate view controller with identifier %@ from storyboard named %@", a_viewControllerIdentifier, l_storyboardName);
     return l_viewController;
 }
 
-+ (NSString *)IFA_storyboardName {
++ (NSString *)ifa_storyboardName {
     NSMutableString *l_storyboardName = [NSMutableString stringWithString:[self description]];
-    if ([self IFA_isStoryboardDeviceSpecific]) {
+    if ([self ifa_isStoryboardDeviceSpecific]) {
         if ([IFAUIUtils isIPad]) {
-            [l_storyboardName appendString:[self IFA_storyboardNameIPadSuffix]];
+            [l_storyboardName appendString:[self ifa_storyboardNameIPadSuffix]];
         }else{
-            [l_storyboardName appendString:[self IFA_storyboardNameIPhoneSuffix]];
+            [l_storyboardName appendString:[self ifa_storyboardNameIPhoneSuffix]];
         }
     }
     return l_storyboardName;
 }
 
-+ (NSString *)IFA_storyboardNameIPhoneSuffix {
++ (NSString *)ifa_storyboardNameIPhoneSuffix {
     return @"_iPhone";
 }
 
-+ (NSString *)IFA_storyboardNameIPadSuffix {
++ (NSString *)ifa_storyboardNameIPadSuffix {
     return @"_iPad";
 }
 
-+ (BOOL)IFA_isStoryboardDeviceSpecific {
++ (BOOL)ifa_isStoryboardDeviceSpecific {
     return NO;
 }
 
@@ -1595,7 +1595,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
         }
 //        NSLog(@" XYZ_editBarButtonItem: %@", [[self m_editBarButtonItem] description]);
         if (l_barButtonItem== [self XYZ_editBarButtonItem]) {
-            l_barButtonItem.helpTargetId = [self IFA_editBarButtonItemHelpTargetId];
+            l_barButtonItem.helpTargetId = [self ifa_editBarButtonItemHelpTargetId];
         }
         [l_helpTargets addObject:l_barButtonItem];
     }
@@ -1619,7 +1619,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 -(UIView*)targetView {
-    return [self IFA_mainViewController].view;
+    return [self ifa_mainViewController].view;
 }
 
 -(void)willEnterHelpMode {
@@ -1638,8 +1638,8 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     // does nothing
 }
 
--(void)IFA_logAnalyticsScreenEntry {
-    if (![self IFA_isReturningVisibleViewController]) {
+-(void)ifa_logAnalyticsScreenEntry {
+    if (![self ifa_isReturningVisibleViewController]) {
         [IFAAnalyticsUtils logEntryForScreenName:self.navigationItem.title];
     }
 }
@@ -1652,10 +1652,10 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 - (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
                                        data:(id)a_data {
-    self.IFA_changesMadeByPresentedViewController = a_changesMade;
-    [self IFA_registerForHelp];
-    if (a_viewController.IFA_presentedAsModal) {
-        [self IFA_dismissModalViewControllerWithChangesMade:a_changesMade data:a_data];
+    self.ifa_changesMadeByPresentedViewController = a_changesMade;
+    [self ifa_registerForHelp];
+    if (a_viewController.ifa_presentedAsModal) {
+        [self ifa_dismissModalViewControllerWithChangesMade:a_changesMade data:a_data];
     }else{
         [a_viewController.navigationController popViewControllerAnimated:YES];
     }
@@ -1676,15 +1676,15 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     
 //    NSLog(@"adViewDidReceiveAd in %@ - bannerView.frame: %@", [self description], NSStringFromCGRect(bannerView.frame));
     
-    if ([self IFA_shouldEnableAds]) {
+    if ([self ifa_shouldEnableAds]) {
         
         if (![IFAApplicationDelegate sharedInstance].adsSuspended) {
-            UIView *l_adContainerView = self.IFA_adContainerView;
+            UIView *l_adContainerView = self.ifa_adContainerView;
             if (l_adContainerView.hidden) {
                 [UIView animateWithDuration:0.2 animations:^{
                     l_adContainerView.hidden = NO;
                     CGFloat l_bannerViewHeight = bannerView.frame.size.height;
-                    [self IFA_updateNonAdContainerViewFrameWithAdBannerViewHeight:l_bannerViewHeight];
+                    [self ifa_updateNonAdContainerViewFrameWithAdBannerViewHeight:l_bannerViewHeight];
                     [self XYZ_updateAdContainerViewFrameWithAdBannerViewHeight:l_bannerViewHeight];
                 }];
             }
@@ -1693,7 +1693,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     }else{
 
         // This can occur if ads were previously enabled but have now been disabled and the UI has not been reloaded yet
-        [self IFA_stopAdRequests];
+        [self ifa_stopAdRequests];
 
     }
     
@@ -1703,9 +1703,9 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
     NSLog(@"didFailToReceiveAdWithError: %@", [error description]);
 
-    if ([self IFA_shouldEnableAds]) {
+    if ([self ifa_shouldEnableAds]) {
         // This can occur if ads were previously enabled but have now been disabled and the UI has not been reloaded yet
-        [self IFA_stopAdRequests];
+        [self ifa_stopAdRequests];
     }
 
 }
@@ -1722,7 +1722,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 #pragma mark - UIPopoverControllerDelegate
 
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    [self.IFA_presenter sessionDidCompleteForViewController:self changesMade:NO data:nil ];
+    [self.ifa_presenter sessionDidCompleteForViewController:self changesMade:NO data:nil ];
 }
 
 @end

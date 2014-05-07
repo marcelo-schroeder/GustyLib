@@ -22,29 +22,29 @@
 
 @interface UIImage (IFACategory)
 
--(UIImage*)IFA_imageWithOverlayColor:(UIColor*)a_color;
--(UIImage*)IFA_imageWithHue:(CGFloat)a_hue;
--(UIImage*)IFA_imageWithHueInDegrees:(CGFloat)a_hueInDegrees;
+-(UIImage*)ifa_imageWithOverlayColor:(UIColor*)a_color;
+-(UIImage*)ifa_imageWithHue:(CGFloat)a_hue;
+-(UIImage*)ifa_imageWithHueInDegrees:(CGFloat)a_hueInDegrees;
 
-- (UIImage *)IFA_applyLightBlurEffect;
+- (UIImage *)ifa_applyLightBlurEffect;
 
-- (UIImage *)IFA_applyExtraLightBlurEffect;
+- (UIImage *)ifa_applyExtraLightBlurEffect;
 
-- (UIImage *)IFA_applyDarkBlurEffect;
+- (UIImage *)ifa_applyDarkBlurEffect;
 
-- (UIImage *)IFA_applyTintBlurEffectWithColor:(UIColor *)tintColor;
+- (UIImage *)ifa_applyTintBlurEffectWithColor:(UIColor *)tintColor;
 
-- (UIImage *)IFA_applyBlurEffectWithRadius:(CGFloat)blurRadius tintColor:(UIColor *)tintColor
+- (UIImage *)ifa_applyBlurEffectWithRadius:(CGFloat)blurRadius tintColor:(UIColor *)tintColor
                      saturationDeltaFactor:(CGFloat)saturationDeltaFactor maskImage:(UIImage *)maskImage;
 
-- (UIImage *)IFA_imageWithOrientationUp;
+- (UIImage *)ifa_imageWithOrientationUp;
 
 /**
 * @returns Image's aspect ratio (width divided by height)
 */
-- (CGFloat)IFA_aspectRatio;
+- (CGFloat)ifa_aspectRatio;
 
-+(UIImage*)IFA_imageWithColor:(UIColor *)a_color rect:(CGRect)a_rect;
-+(UIImage*)IFA_imageWithColor:(UIColor*)a_color;
++(UIImage*)ifa_imageWithColor:(UIColor *)a_color rect:(CGRect)a_rect;
++(UIImage*)ifa_imageWithColor:(UIColor*)a_color;
 
 @end

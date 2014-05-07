@@ -24,7 +24,7 @@ static const CGFloat k_caretScrollBottomInset = 7;
 
 #pragma mark - Public
 
-- (void)IFA_scrollToCaretInTextView:(UITextView *)a_textView {
+- (void)ifa_scrollToCaretInTextView:(UITextView *)a_textView {
     NSRange l_selectedRange = a_textView.selectedRange;
     UITextPosition *l_positionUpToCaret = [a_textView positionFromPosition:a_textView.beginningOfDocument
                                                                     offset:l_selectedRange.location];

@@ -52,7 +52,7 @@ static NSNumberFormatter *c_australianPhoneNumberFormatterMobileAndSpecialWithou
 
 #pragma mark - Public
 
-+ (NSString *)IFA_stringFromAustralianPhoneNumber:(NSNumber *)a_number{
++ (NSString *)ifa_stringFromAustralianPhoneNumber:(NSNumber *)a_number{
     [self XYZ_createAustralianPhoneNumberFormattersIfRequired];
     CGFloat l_number = a_number.floatValue;
     NSString *l_numberString = a_number.stringValue;
@@ -76,11 +76,11 @@ static NSNumberFormatter *c_australianPhoneNumberFormatterMobileAndSpecialWithou
     }
 }
 
-+ (NSString *)IFA_stringFromAustralianPhoneNumberString:(NSString *)a_phoneNumberString {
-    NSString *l_normalisedPhoneNumberString = [a_phoneNumberString IFA_stringWithNumbersOnly];
++ (NSString *)ifa_stringFromAustralianPhoneNumberString:(NSString *)a_phoneNumberString {
+    NSString *l_normalisedPhoneNumberString = [a_phoneNumberString ifa_stringWithNumbersOnly];
     NSInteger l_phoneNumberInteger = l_normalisedPhoneNumberString.integerValue;
     if (l_phoneNumberInteger) {
-        return [NSNumberFormatter IFA_stringFromAustralianPhoneNumber:@(l_phoneNumberInteger)];
+        return [NSNumberFormatter ifa_stringFromAustralianPhoneNumber:@(l_phoneNumberInteger)];
     }else{  // Not possible to format
         return a_phoneNumberString;
     }

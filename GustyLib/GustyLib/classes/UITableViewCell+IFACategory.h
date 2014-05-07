@@ -19,6 +19,6 @@
 
 @interface UITableViewCell (IFACategory)
 
-- (void)IFA_prepareForReuse;
+- (void)ifa_prepareForReuse;
 
 @end

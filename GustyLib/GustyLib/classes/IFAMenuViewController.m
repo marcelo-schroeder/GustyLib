@@ -54,7 +54,7 @@
     [self highlightCurrentSelection];
     
     // Dismiss the popover controller if a split view controller is used
-    [self IFA_dismissMenuPopoverController];
+    [self ifa_dismissMenuPopoverController];
     
 }
 
@@ -66,11 +66,11 @@
 -(UIViewController*)newViewControllerForIndexPath:(NSIndexPath*)a_indexPath{
     UITableViewCell *l_cell = [self tableView:self.tableView cellForRowAtIndexPath:a_indexPath];
     BOOL l_useDeviceAgnosticMainStoryboard = [IFAApplicationDelegate sharedInstance].useDeviceAgnosticMainStoryboard;
-    UIStoryboard *l_storyboard = l_useDeviceAgnosticMainStoryboard ? self.storyboard : [self IFA_commonStoryboard];
+    UIStoryboard *l_storyboard = l_useDeviceAgnosticMainStoryboard ? self.storyboard : [self ifa_commonStoryboard];
     UIViewController *l_viewController = [l_storyboard instantiateViewControllerWithIdentifier:l_cell.reuseIdentifier];
     if ((self.splitViewController || self.slidingViewController) && ![l_viewController isKindOfClass:[UINavigationController class]]) {
         // Automatically add a navigation controller as the parent
-        l_viewController = [[[[self IFA_appearanceTheme] navigationControllerClass] alloc] initWithRootViewController:l_viewController];
+        l_viewController = [[[[self ifa_appearanceTheme] navigationControllerClass] alloc] initWithRootViewController:l_viewController];
     }
     return l_viewController;
 }
@@ -84,11 +84,11 @@
     if (l_viewController) { // A view controller is cached
         //        NSLog(@"   view controller is cached: %@", [l_viewController description]);
         // Reset view controller's state
-        [l_viewController IFA_reset];
+        [l_viewController ifa_reset];
     }else{
         // Configure a new view controller
         l_viewController = [self newViewControllerForIndexPath:a_indexPath];
-        l_viewController.IFA_presenter = self;
+        l_viewController.ifa_presenter = self;
         [self.indexPathToViewControllerDictionary setObject:l_viewController forKey:a_indexPath];
         //        NSLog(@"   indexPathToViewControllerDictionary: %@", [self.indexPathToViewControllerDictionary description]);
     }
@@ -138,7 +138,7 @@
     }
     
     // Dismiss the popover controller if a split view controller is used
-    [self IFA_dismissMenuPopoverController];
+    [self ifa_dismissMenuPopoverController];
     
 }
 

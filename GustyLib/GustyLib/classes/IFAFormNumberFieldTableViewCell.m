@@ -35,7 +35,7 @@
 -(void)XYZ_onStepperValueChange {
     //    NSLog(@"onStepperValueChange: %f", v_stepper.value);
     NSNumber *l_value = @(self.stepper.value);
-    [self.object IFA_setValue:l_value forProperty:self.propertyName];
+    [self.object ifa_setValue:l_value forProperty:self.propertyName];
     [self reloadData];
 }
 
@@ -49,7 +49,7 @@
 	UISlider *l_slider = aSender;
     NSNumber *l_value = @(l_slider.value);
     if (self.XYZ_sliderIncrement) {
-        NSNumberFormatter *l_numberFormatter = [self.object IFA_numberFormatterForProperty:self.propertyName];
+        NSNumberFormatter *l_numberFormatter = [self.object ifa_numberFormatterForProperty:self.propertyName];
         [l_numberFormatter setRoundingIncrement:self.XYZ_sliderIncrement];
         NSString *l_formattedValue = [l_numberFormatter stringFromNumber:l_value];
         l_value = [l_numberFormatter numberFromString:l_formattedValue];
@@ -60,7 +60,7 @@
             l_value = @(l_slider.maximumValue);
         }
     }
-    [self.object IFA_setValue:l_value forProperty:self.propertyName];
+    [self.object ifa_setValue:l_value forProperty:self.propertyName];
     [self reloadData];
 }
 
@@ -81,8 +81,8 @@
     }
     
     // Min & max values
-    NSNumber *l_minValue = [self.object IFA_minimumValueForProperty:self.propertyName];
-    NSNumber *l_maxValue = [self.object IFA_maximumValueForProperty:self.propertyName];
+    NSNumber *l_minValue = [self.object ifa_minimumValueForProperty:self.propertyName];
+    NSNumber *l_maxValue = [self.object ifa_maximumValueForProperty:self.propertyName];
 
     // Configure stepper
     self.stepper = [UIStepper new];
@@ -124,7 +124,7 @@
 
 -(id)parsedValue {
 
-    NSNumberFormatter *l_numberFormatter = [self.object IFA_numberFormatterForProperty:self.propertyName];
+    NSNumberFormatter *l_numberFormatter = [self.object ifa_numberFormatterForProperty:self.propertyName];
     [l_numberFormatter setRoundingIncrement:self.XYZ_roundingIncrement];
     return [l_numberFormatter numberFromString:self.textField.text];
     

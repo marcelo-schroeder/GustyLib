@@ -227,7 +227,7 @@ enum {
         // Firstly, delete the managed objects in the original set
         for (NSManagedObject *l_managedObject in v_originalSortedEntities) {
 //            NSLog(@"deleting managed object: %@", l_managedObject);
-            [l_managedObject IFA_delete];
+            [l_managedObject ifa_delete];
         }
         
         //            NSLog(@"hasChanges1: %u", [IFAPersistenceManager sharedInstance].managedObjectContext.hasChanges);
@@ -266,7 +266,7 @@ enum {
         
     }
 
-    [[self IFA_presenter] changesMadeByViewController:self];
+    [[self ifa_presenter] changesMadeByViewController:self];
     
 }
 
@@ -278,7 +278,7 @@ enum {
 	if((self=[super initWithManagedObject:aManagedObject propertyName:aPropertyName])){
 		
 		// First determine whether this controller is managing a pure many-to-many relationship or one which uses a join table
-		NSDictionary *l_parentRelationshipDictionary = [[IFAPersistenceManager sharedInstance].entityConfig relationshipDictionaryForEntity:[self.managedObject IFA_entityName]];
+		NSDictionary *l_parentRelationshipDictionary = [[IFAPersistenceManager sharedInstance].entityConfig relationshipDictionaryForEntity:[self.managedObject ifa_entityName]];
 		NSRelationshipDescription *l_parentRelationship = [l_parentRelationshipDictionary valueForKey:self.propertyName];
 		v_isJoinEntity = ! [[l_parentRelationship inverseRelationship] isToMany];
 
@@ -291,7 +291,7 @@ enum {
 				@autoreleasepool {
 					NSRelationshipDescription *l_relationship = [l_relationshipDictionary valueForKey:l_relationshipName];
 					NSEntityDescription *l_destinationEntity = [l_relationship destinationEntity];
-					if ([[self.managedObject IFA_entityName] isEqualToString:[l_destinationEntity name]]) {
+					if ([[self.managedObject ifa_entityName] isEqualToString:[l_destinationEntity name]]) {
 						v_originRelationshipName = l_relationshipName;
 					}else {
 						// Assume that there is only one destination to-many relationship for the moment
@@ -365,7 +365,7 @@ enum {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:k_cellId];
 
         // See cell appearance
-        [[self IFA_appearanceTheme] setAppearanceForView:cell.textLabel];
+        [[self ifa_appearanceTheme] setAppearanceForView:cell.textLabel];
 
         // Add custom delete button (hidden for now)
         UIButton *l_deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -392,14 +392,14 @@ enum {
 		managedObject = [v_unselectedDestinationEntities objectAtIndex:(NSUInteger) indexPath.row];
         l_deleteButtonView.hidden = YES;
 	}
-	cell.textLabel.text = [managedObject IFA_longDisplayValue];
-    cell.helpTargetId = [[self IFA_helpTargetIdForName:@"tableCell."] stringByAppendingString:indexPath.section==0?@"selected":@"unselected"];
+	cell.textLabel.text = [managedObject ifa_longDisplayValue];
+    cell.ifa_helpTargetId = [[self ifa_helpTargetIdForName:@"tableCell."] stringByAppendingString:indexPath.section==0?@"selected":@"unselected"];
 	
     return cell;
 
 }
 
-- (NSArray*)IFA_editModeToolbarItems {
+- (NSArray*)ifa_editModeToolbarItems {
 	return @[self.selectNoneButtonItem, v_flexSpaceButtonItem, v_selectAllButtonItem];
 }
 
@@ -413,7 +413,7 @@ enum {
 -(void)done{
 	
     BOOL l_valueChanged = [self XYZ_hasValueChanged];
-    [self IFA_notifySessionCompletionWithChangesMade:l_valueChanged data:nil ];
+    [self ifa_notifySessionCompletionWithChangesMade:l_valueChanged data:nil ];
 
 }
 

@@ -7,6 +7,6 @@
 
 @interface NSURL (IFACategory)
 
-- (BOOL)IFA_isAppleUrlScheme;
+- (BOOL)ifa_isAppleUrlScheme;
 
 @end

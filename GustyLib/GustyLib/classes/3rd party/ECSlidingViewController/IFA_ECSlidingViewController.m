@@ -416,7 +416,7 @@ NSString *const ECSlidingViewTopDidReset          = @"ECSlidingViewTopDidReset";
 {
   if (!self.topViewSnapshot.superview && !self.shouldAllowUserInteractionsWhenAnchored) {
     self.topViewSnapshot.frame = self.topView.bounds;   // Makes sure the frame is up to date - had issues at the first time when the frame was zero in some cases
-    self.topViewSnapshot.layer.contents = (id) [UIImage IFA_imageWithUIView:self.topView].CGImage;
+    self.topViewSnapshot.layer.contents = (id) [UIImage ifa_imageWithUIView:self.topView].CGImage;
     [self.topView addSubview:self.topViewSnapshot];
   }
 }

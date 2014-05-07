@@ -38,10 +38,10 @@
 		self.propertyName = aPropertyName;
 		
         if (![IFAUIUtils isIPad]) {
-            UIBarButtonItem *l_barButtonItem = [[self IFA_appearanceTheme] doneBarButtonItemWithTarget:self
+            UIBarButtonItem *l_barButtonItem = [[self ifa_appearanceTheme] doneBarButtonItemWithTarget:self
                                                                                               action:@selector(onDoneButtonTap:)
                                                                                       viewController:self];
-            [self IFA_addLeftBarButtonItem:l_barButtonItem];
+            [self ifa_addLeftBarButtonItem:l_barButtonItem];
         }
 		
 		self.selectNoneButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemSelectNone target:self
@@ -77,7 +77,7 @@
 #pragma mark -
 #pragma mark Overrides
 
-- (NSArray*)IFA_nonEditModeToolbarItems {
+- (NSArray*)ifa_nonEditModeToolbarItems {
     if ([[IFAPersistenceManager sharedInstance].entityConfig shouldShowSelectNoneButtonInSelectionForEntity:self.entityName]) {
         return @[self.selectNoneButtonItem];
     }else{

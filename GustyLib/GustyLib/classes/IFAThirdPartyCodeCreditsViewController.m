@@ -56,7 +56,7 @@
     NSIndexPath *l_selectedIndexPath = self.tableView.indexPathForSelectedRow;
     NSDictionary *l_credit = self.XYZ_credits[(NSUInteger) l_selectedIndexPath.row];
     NSURL *l_url = [NSURL URLWithString:l_credit[@"url"]];
-    [self IFA_openUrl:l_url];
+    [self ifa_openUrl:l_url];
 }
 
 #pragma mark - UITableViewDataSource

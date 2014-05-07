@@ -46,7 +46,7 @@
 #pragma mark - Public
 
 -(UIView*)newTableViewCellAccessoryView {
-    UIButton *l_button = [[self IFA_appearanceTheme] newDetailDisclosureButton];
+    UIButton *l_button = [[self ifa_appearanceTheme] newDetailDisclosureButton];
     l_button.frame = CGRectMake(l_button.frame.origin.x, l_button.frame.origin.y, IFAMinimumTapAreaDimension, IFAMinimumTapAreaDimension);
     [l_button addTarget:self action:@selector(XYZ_onTableViewCellAccessoryButtonTap:withEvent:)
        forControlEvents:UIControlEventTouchUpInside];
@@ -109,7 +109,7 @@
 }
 
 -(NSCalendar*)calendar {
-    return [NSCalendar IFA_threadSafeCalendar];
+    return [NSCalendar ifa_threadSafeCalendar];
 }
 
 - (NSUInteger)numberOfRows {
@@ -144,7 +144,7 @@
         l_cell = [self createReusableCellWithIdentifier:a_reuseIdentifier atIndexPath:a_indexPath];
 
         // Set help target ID
-        l_cell.helpTargetId = [self IFA_helpTargetIdForName:@"tableCell"];
+        l_cell.ifa_helpTargetId = [self ifa_helpTargetIdForName:@"tableCell"];
        
         // Set appearance
         [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
@@ -195,7 +195,7 @@
     if (!self.refreshControl.refreshing) {
         [self.refreshControl beginRefreshing];
         if (a_shouldShowControl) {
-            [self IFA_showRefreshControl:self.refreshControl inScrollView:self.tableView];
+            [self ifa_showRefreshControl:self.refreshControl inScrollView:self.tableView];
         }
     }
 }
@@ -207,7 +207,7 @@
 #pragma mark - Overrides
 
 -(void)XYZ_init {
-    if ([self IFA_shouldEnableAds]) {
+    if ([self ifa_shouldEnableAds]) {
         self.shouldCreateContainerViewOnLoadView = YES;
     }
 }
@@ -241,7 +241,7 @@
 }
 
 -(void)dealloc{
-    [self IFA_dealloc];
+    [self ifa_dealloc];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -249,10 +249,10 @@
     v_initDone = YES;
 
     [super viewWillAppear:animated];
-    [self IFA_viewWillAppear];
+    [self ifa_viewWillAppear];
     
 //    // Scroll back to top
-//    if (![self IFA_isReturningVisibleViewController] && [self.tableView.visibleCells count]) {
+//    if (![self ifa_isReturningVisibleViewController] && [self.tableView.visibleCells count]) {
 //        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
 //    }
 
@@ -261,9 +261,9 @@
 -(void)viewDidAppear:(BOOL)animated{
 
     [super viewDidAppear:animated];
-    [self IFA_viewDidAppear];
+    [self ifa_viewDidAppear];
         
-    if ( (!self.pagingContainerViewController || self.selectedViewControllerInPagingContainer) && (![IFAUIUtils isIPad] || self.IFA_isDetailViewController) ) {
+    if ( (!self.pagingContainerViewController || self.selectedViewControllerInPagingContainer) && (![IFAUIUtils isIPad] || self.ifa_isDetailViewController) ) {
         
         // Add observers
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -284,7 +284,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     
 	[super viewWillDisappear:animated];
-    [self IFA_viewWillDisappear];
+    [self ifa_viewWillDisappear];
         
     // Remove observers
     [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationContextSwitchRequest object:nil];
@@ -294,7 +294,7 @@
 -(void)viewDidDisappear:(BOOL)animated{
 
     [super viewDidDisappear:animated];
-    [self IFA_viewDidDisappear];
+    [self ifa_viewDidDisappear];
     
 }
 
@@ -323,7 +323,7 @@
         self.XYZ_tableView = [[UITableView alloc] initWithFrame:l_frame style:UITableViewStylePlain];
         self.XYZ_tableView.autoresizingMask = [IFAUIUtils fullAutoresizingMask];
         [l_view addSubview:self.XYZ_tableView];
-        NSArray *l_constraints = [self.XYZ_tableView IFA_addLayoutConstraintsToFillSuperview];
+        NSArray *l_constraints = [self.XYZ_tableView ifa_addLayoutConstraintsToFillSuperview];
         for (NSLayoutConstraint *l_constraint in l_constraints) {
             if (l_constraint.firstAttribute == NSLayoutAttributeBottom) {
                 self.XYZ_tableViewBottomLayoutConstraint = l_constraint;
@@ -337,9 +337,9 @@
 
 -(void)viewDidLoad{
 
-    self.tableCellTextColor = [[self IFA_appearanceTheme] tableCellTextColor];
+    self.tableCellTextColor = [[self ifa_appearanceTheme] tableCellTextColor];
     [super viewDidLoad];
-    [self IFA_viewDidLoad];
+    [self ifa_viewDidLoad];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
 
@@ -351,7 +351,7 @@
 
 -(void)viewDidUnload{
     [super viewDidUnload];
-    [self IFA_viewDidUnload];
+    [self ifa_viewDidUnload];
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
@@ -361,7 +361,7 @@
 //        [super m_updateEditButtonItemAccessibilityLabel];
         
         // Set edit button's appearance
-        [[self IFA_appearanceTheme] setAppearanceForBarButtonItem:self.editButtonItem viewController:nil
+        [[self ifa_appearanceTheme] setAppearanceForBarButtonItem:self.editButtonItem viewController:nil
                                                       important:editing];
         
         if (self.sectionHeaderView) {
@@ -372,10 +372,10 @@
     }
 
     if (v_initDone && !self.skipEditingUiStateChange) {
-        if (self.IFA_manageToolbar) {
-            [self IFA_updateToolbarForMode:editing animated:animated];
+        if (self.ifa_manageToolbar) {
+            [self ifa_updateToolbarForMode:editing animated:animated];
         }else{
-            [((IFAViewController *) self.parentViewController) IFA_updateToolbarForMode:editing animated:animated];
+            [((IFAViewController *) self.parentViewController) ifa_updateToolbarForMode:editing animated:animated];
         }
     }
 
@@ -396,14 +396,14 @@
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
-    return [self IFA_shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
+    return [self ifa_shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
 }
 
 -(NSUInteger)supportedInterfaceOrientations{
-    return [self IFA_supportedInterfaceOrientations];
+    return [self ifa_supportedInterfaceOrientations];
 }
 
--(BOOL)IFA_manageToolbar {
+-(BOOL)ifa_manageToolbar {
     return !self.pagingContainerViewController;
 }
 
@@ -413,34 +413,34 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     [super prepareForSegue:segue sender:sender];
-    [self IFA_prepareForSegue:segue sender:sender];
+    [self ifa_prepareForSegue:segue sender:sender];
 }
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self IFA_willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self ifa_willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self IFA_willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self ifa_willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    [self IFA_didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [self ifa_didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
 
--(UIView*)IFA_nonAdContainerView {
+-(UIView*)ifa_nonAdContainerView {
     return self.tableView;
 }
 
-- (void)IFA_updateNonAdContainerViewFrameWithAdBannerViewHeight:(CGFloat)a_adBannerViewHeight {
+- (void)ifa_updateNonAdContainerViewFrameWithAdBannerViewHeight:(CGFloat)a_adBannerViewHeight {
     if (self.XYZ_tableViewBottomLayoutConstraint) {
         self.XYZ_tableViewBottomLayoutConstraint.constant = a_adBannerViewHeight;
-        [[self IFA_nonAdContainerView] layoutIfNeeded];   // Done so that this change can be animated
+        [[self ifa_nonAdContainerView] layoutIfNeeded];   // Done so that this change can be animated
     }else{
-        [super IFA_updateNonAdContainerViewFrameWithAdBannerViewHeight:a_adBannerViewHeight];
+        [super ifa_updateNonAdContainerViewFrameWithAdBannerViewHeight:a_adBannerViewHeight];
     }
 }
 

@@ -26,7 +26,7 @@
 
 - (NSNumber*)validationPredicateParameterProperty:(NSString*)a_propertyName string:(NSString*)a_string{
     NSNumber *l_value = nil;
-    for (NSPredicate *l_validationPredicate in [[self IFA_descriptionForProperty:a_propertyName] validationPredicates]) {
+    for (NSPredicate *l_validationPredicate in [[self ifa_descriptionForProperty:a_propertyName] validationPredicates]) {
         NSString *l_predicateFormat = [l_validationPredicate predicateFormat];
         NSRange l_range = [l_predicateFormat rangeOfString:a_string];
         if (l_range.location!=NSNotFound) {
@@ -40,15 +40,15 @@
 
 #pragma mark - Public
 
--(NSString*)IFA_stringId {
-    return [self.IFA_urlId description];
+-(NSString*)ifa_stringId {
+    return [self.ifa_urlId description];
 }
 
--(NSURL*)IFA_urlId {
+-(NSURL*)ifa_urlId {
     return [[self objectID] URIRepresentation];
 }
 
-- (NSString*)IFA_labelForKeys:(NSArray*)aKeyArray{
+- (NSString*)ifa_labelForKeys:(NSArray*)aKeyArray{
 	NSMutableString *label = [NSMutableString string];
 	for (int i = 0; i < [aKeyArray count]; i++) {
 		if (i>0) {
@@ -64,55 +64,55 @@
 	return label;
 }
 
-- (BOOL)IFA_validateForSave:(NSError**)anError{
+- (BOOL)ifa_validateForSave:(NSError**)anError{
 	// does nothing here, but the subclass can override and implement its own custom validation
 	return YES;
 }
 
-- (void)IFA_willDelete {
+- (void)ifa_willDelete {
 	// does nothing here, but the subclass can override it
 }
 
-- (void)IFA_didDelete {
+- (void)ifa_didDelete {
 	// does nothing here, but the subclass can override it
 }
 
-- (BOOL)IFA_delete {
+- (BOOL)ifa_delete {
 	return [[IFAPersistenceManager sharedInstance] deleteObject:self];
 }
 
-- (BOOL)IFA_deleteAndSave {
+- (BOOL)ifa_deleteAndSave {
 	return [[IFAPersistenceManager sharedInstance] deleteAndSaveObject:self];
 }
 
-- (BOOL)IFA_hasValueChangedForKey:(NSString*)a_key{
+- (BOOL)ifa_hasValueChangedForKey:(NSString*)a_key{
     return [self.changedValues objectForKey:a_key]!=nil;
 }
 
-- (NSNumber*)IFA_minimumValueForProperty:(NSString*)a_propertyName{
+- (NSNumber*)ifa_minimumValueForProperty:(NSString*)a_propertyName{
     return [self validationPredicateParameterProperty:a_propertyName string:@"SELF >= "];
 }
 
-- (NSNumber*)IFA_maximumValueForProperty:(NSString*)a_propertyName{
+- (NSNumber*)ifa_maximumValueForProperty:(NSString*)a_propertyName{
     return [self validationPredicateParameterProperty:a_propertyName string:@"SELF <= "];
 }
 
-+ (NSManagedObject*)IFA_instantiate {
++ (NSManagedObject*)ifa_instantiate {
 	return [[IFAPersistenceManager sharedInstance] instantiate:[self description]];
 }
 
-+ (NSMutableArray *)IFA_findAll {
-    return [[IFAPersistenceManager sharedInstance] findAllForEntity:[self IFA_entityName]];
++ (NSMutableArray *)ifa_findAll {
+    return [[IFAPersistenceManager sharedInstance] findAllForEntity:[self ifa_entityName]];
 }
 
-+ (void)IFA_deleteAll {
-    for (NSManagedObject *l_mo in [[IFAPersistenceManager sharedInstance] findAllForEntity:[self IFA_entityName]]) {
-        [l_mo IFA_delete];
++ (void)ifa_deleteAll {
+    for (NSManagedObject *l_mo in [[IFAPersistenceManager sharedInstance] findAllForEntity:[self ifa_entityName]]) {
+        [l_mo ifa_delete];
     }
 }
 
-+ (void)IFA_deleteAllAndSave {
-    [self IFA_deleteAll];
++ (void)ifa_deleteAllAndSave {
+    [self ifa_deleteAll];
     [[IFAPersistenceManager sharedInstance] save];
 }
 

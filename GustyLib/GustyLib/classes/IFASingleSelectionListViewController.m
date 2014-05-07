@@ -53,7 +53,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
 	BOOL selected = [[selectionManager selectedIndexPath] isEqual:indexPath];
-    cell.helpTargetId = [[self IFA_helpTargetIdForName:@"tableCell."] stringByAppendingString:selected?@"selected":@"unselected"];
+    cell.ifa_helpTargetId = [[self IFA_helpTargetIdForName:@"tableCell."] stringByAppendingString:selected?@"selected":@"unselected"];
 	return [self decorateSelectionForCell:cell selected:selected targetObject:[selectionManager selectedObject]];
 }
 
@@ -109,10 +109,10 @@
 	[super done];
 	NSManagedObject *l_previousManagedObject = [self.managedObject valueForKey:self.propertyName];
 	BOOL l_valueChanged = [selectionManager selectedObject]!=l_previousManagedObject && ![[selectionManager selectedObject] isEqual:l_previousManagedObject];
-    [self.managedObject IFA_setValue:[selectionManager selectedObject] forProperty:self.propertyName];
+    [self.managedObject ifa_setValue:[selectionManager selectedObject] forProperty:self.propertyName];
     [self XYZ_updateBackingPreference];
     if (l_valueChanged) {
-        [[self IFA_presenter] changesMadeByViewController:self];
+        [[self ifa_presenter] changesMadeByViewController:self];
     }
     [self IFA_notifySessionCompletionWithChangesMade:l_valueChanged data:nil ];
 }
@@ -174,7 +174,7 @@
         __weak IFASingleSelectionListViewController *l_weakSelf = self;
         
         // Using the serial queue here will guarantee that the data would have been loaded by the main thread
-        [self.IFA_asynchronousWorkManager dispatchSerialBlock:^{
+        [self.ifa_asynchronousWorkManager dispatchSerialBlock:^{
 
             [IFAUtils dispatchAsyncMainThreadBlock:^{
 

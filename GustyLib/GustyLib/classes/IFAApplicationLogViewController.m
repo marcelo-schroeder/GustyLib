@@ -52,13 +52,13 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *l_cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    [[self IFA_appearanceTheme] setAppearanceForView:l_cell.detailTextLabel];
+    [[self ifa_appearanceTheme] setAppearanceForView:l_cell.detailTextLabel];
     IFAApplicationLog *l_logEntry = [self.entities objectAtIndex:indexPath.row];
     l_cell.detailTextLabel.text = l_logEntry.message;
     return l_cell;
 }
 
-- (NSArray*)IFA_nonEditModeToolbarItems {
+- (NSArray*)ifa_nonEditModeToolbarItems {
     
     if (!v_deleteAllButton) {
         v_deleteAllButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(onAction:)];

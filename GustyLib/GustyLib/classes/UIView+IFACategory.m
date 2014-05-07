@@ -54,7 +54,7 @@ static char c_appearanceIdKey;
 
 #pragma mark - Public
 
--(id)IFA_init {
+-(id)ifa_init {
     
     // Set appearance
     [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitForView:self];
@@ -63,18 +63,18 @@ static char c_appearanceIdKey;
 
 }
 
--(void)IFA_awakeFromNib {
+-(void)ifa_awakeFromNib {
     
     // Set appearance
     [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnAwakeFromNibForView:self];
     
 }
 
--(void)IFA_roundCorners {
-    [self IFA_roundCornersWithRadius:8];
+-(void)ifa_roundCorners {
+    [self ifa_roundCornersWithRadius:8];
 }
 
--(void)IFA_roundCornersWithRadius:(CGFloat)a_radius{
+-(void)ifa_roundCornersWithRadius:(CGFloat)a_radius{
     self.layer.masksToBounds = NO;
     self.layer.cornerRadius = a_radius;
     self.layer.shadowColor = [UIColor grayColor].CGColor;
@@ -83,7 +83,7 @@ static char c_appearanceIdKey;
     self.layer.shadowRadius = a_radius;
 }
 
--(CGPoint)IFA_centerInSuperview:(UIView*)a_superview{
+-(CGPoint)ifa_centerInSuperview:(UIView*)a_superview{
     return [a_superview convertPoint:a_superview.center fromView:a_superview.superview];
 }
 
@@ -104,7 +104,7 @@ static char c_appearanceIdKey;
     It was a table view cell separator view, at the bottom
 
  */
-- (void)IFA_changeFrameTo1PixelTall {
+- (void)ifa_changeFrameTo1PixelTall {
     CGFloat l_screenScale = [UIScreen mainScreen].scale;
     if (l_screenScale!=1) {
         CGRect l_newFrame = self.frame;
@@ -114,19 +114,19 @@ static char c_appearanceIdKey;
     }
 }
 
-- (id <IFAAppearanceTheme>)IFA_appearanceTheme {
+- (id <IFAAppearanceTheme>)ifa_appearanceTheme {
     return [[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme];
 }
 
--(void)setIFA_appearanceId:(NSString *)a_appearanceId{
+-(void)setIfa_appearanceId:(NSString *)a_appearanceId{
     objc_setAssociatedObject(self, &c_appearanceIdKey, a_appearanceId, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(NSString *)IFA_appearanceId {
+-(NSString *)ifa_appearanceId {
     return objc_getAssociatedObject(self, &c_appearanceIdKey);
 }
 
--(NSArray *)IFA_addLayoutConstraintsToFillSuperview {
+-(NSArray *)ifa_addLayoutConstraintsToFillSuperview {
     self.translatesAutoresizingMaskIntoConstraints = NO;
     NSArray *l_horizontalConstraints = [self XYZ_addLayoutConstraintsToFillSuperviewForOrientation:k_layoutConstraintVisualFormatOrientationHorizontal];
     NSArray *l_verticalConstraints = [self XYZ_addLayoutConstraintsToFillSuperviewForOrientation:k_layoutConstraintVisualFormatOrientationVertical];
@@ -136,35 +136,35 @@ static char c_appearanceIdKey;
     return l_constraints;
 }
 
--(NSArray *)IFA_addLayoutConstraintsToFillSuperviewHorizontally {
+-(NSArray *)ifa_addLayoutConstraintsToFillSuperviewHorizontally {
     self.translatesAutoresizingMaskIntoConstraints = NO;
     return [self XYZ_addLayoutConstraintsToFillSuperviewForOrientation:k_layoutConstraintVisualFormatOrientationHorizontal];
 }
 
--(NSArray *)IFA_addLayoutConstraintsToFillSuperviewVertically {
+-(NSArray *)ifa_addLayoutConstraintsToFillSuperviewVertically {
     self.translatesAutoresizingMaskIntoConstraints = NO;
     return [self XYZ_addLayoutConstraintsToFillSuperviewForOrientation:k_layoutConstraintVisualFormatOrientationVertical];
 }
 
--(NSArray *)IFA_addLayoutConstraintsToCenterInSuperview {
+-(NSArray *)ifa_addLayoutConstraintsToCenterInSuperview {
     self.translatesAutoresizingMaskIntoConstraints = NO;
     NSMutableArray *l_constraints = [@[] mutableCopy];
-    NSLayoutConstraint *l_horizontalLayoutConstraint = [self IFA_addLayoutConstraintToCenterInSuperviewHorizontally];
+    NSLayoutConstraint *l_horizontalLayoutConstraint = [self ifa_addLayoutConstraintToCenterInSuperviewHorizontally];
     [l_constraints addObject:l_horizontalLayoutConstraint];
-    NSLayoutConstraint *l_verticalLayoutConstraint = [self IFA_addLayoutConstraintToCenterInSuperviewVertically];
+    NSLayoutConstraint *l_verticalLayoutConstraint = [self ifa_addLayoutConstraintToCenterInSuperviewVertically];
     [l_constraints addObject:l_verticalLayoutConstraint];
     return l_constraints;
 }
 
-- (NSLayoutConstraint *)IFA_addLayoutConstraintToCenterInSuperviewHorizontally {
+- (NSLayoutConstraint *)ifa_addLayoutConstraintToCenterInSuperviewHorizontally {
     return [self XYZ_addSuperviewEqualityLayoutConstraintForAttribute:NSLayoutAttributeCenterX];
 }
 
-- (NSLayoutConstraint *)IFA_addLayoutConstraintToCenterInSuperviewVertically {
+- (NSLayoutConstraint *)ifa_addLayoutConstraintToCenterInSuperviewVertically {
     return [self XYZ_addSuperviewEqualityLayoutConstraintForAttribute:NSLayoutAttributeCenterY];
 }
 
-- (NSLayoutConstraint *)IFA_newLayoutConstraintWithAttribute:(NSLayoutAttribute)a_attribute toItem:(id)a_item {
+- (NSLayoutConstraint *)ifa_newLayoutConstraintWithAttribute:(NSLayoutAttribute)a_attribute toItem:(id)a_item {
     return [NSLayoutConstraint constraintWithItem:self
                                         attribute:a_attribute
                                         relatedBy:NSLayoutRelationEqual
@@ -173,12 +173,12 @@ static char c_appearanceIdKey;
                                        multiplier:1 constant:0];
 }
 
-- (UIImage *)IFA_snapshotImage {
+- (UIImage *)ifa_snapshotImage {
     CGRect l_rectToSnapshot = self.bounds;
-    return [self IFA_snapshotImageFromRect:l_rectToSnapshot];
+    return [self ifa_snapshotImageFromRect:l_rectToSnapshot];
 }
 
-- (UIImage *)IFA_snapshotImageFromRect:(CGRect)a_rectToSnapshot {
+- (UIImage *)ifa_snapshotImageFromRect:(CGRect)a_rectToSnapshot {
     UIGraphicsBeginImageContextWithOptions(a_rectToSnapshot.size, YES, 0.0);
     [self drawViewHierarchyInRect:a_rectToSnapshot afterScreenUpdates:NO];
     UIImage *l_snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -186,51 +186,51 @@ static char c_appearanceIdKey;
     return l_snapshotImage;
 }
 
-- (BOOL)IFA_frameIntersectsWithView:(UIView *)a_theOtherView{
+- (BOOL)ifa_frameIntersectsWithView:(UIView *)a_theOtherView{
     CGRect l_frame1 = [self.superview convertRect:self.frame toView:nil];
     CGRect l_frame2 = [a_theOtherView.superview convertRect:a_theOtherView.frame toView:nil];
     return CGRectIntersectsRect(l_frame1, l_frame2);
 }
 
-- (void)IFA_traverseViewHierarchyWithBlock:(void (^) (UIView *))a_block {
+- (void)ifa_traverseViewHierarchyWithBlock:(void (^) (UIView *))a_block {
     [IFAUIUtils traverseHierarchyForView:self withBlock:a_block];
 }
 
 #pragma mark - IFAHelpTarget protocol
 
--(void)setHelpTargetId:(NSString *)a_helpTargetId{
-    objc_setAssociatedObject(self, &c_helpTargetIdKey, a_helpTargetId, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+-(void)setIfa_helpTargetId:(NSString *)a_ifa_helpTargetId {
+    objc_setAssociatedObject(self, &c_helpTargetIdKey, a_ifa_helpTargetId, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     if ([self isKindOfClass:[UIButton class]]) {
-        NSString *l_accessibilityLabel = [[IFAHelpManager sharedInstance] accessibilityLabelForKeyPath:a_helpTargetId];
+        NSString *l_accessibilityLabel = [[IFAHelpManager sharedInstance] accessibilityLabelForKeyPath:a_ifa_helpTargetId];
         if (l_accessibilityLabel) {
             self.accessibilityLabel = l_accessibilityLabel;
         }
     }
 }
 
--(NSString *)helpTargetId {
+-(NSString *)ifa_helpTargetId {
     return objc_getAssociatedObject(self, &c_helpTargetIdKey);
 }
 
 #pragma mark - IFAHelpTargetContainer
 
--(NSArray*)IFA_helpTargets {
+-(NSArray*)ifa_helpTargets {
     return nil;
 }
 
--(UIView*)IFA_helpModeToggleView {
+-(UIView*)ifa_helpModeToggleView {
     return nil;
 }
 
--(UIView*)IFA_view {
+-(UIView*)ifa_view {
     return nil;
 }
 
--(void)IFA_didEnterHelpMode {
+-(void)ifa_didEnterHelpMode {
     // does nothing
 }
 
--(void)IFA_willExitHelpMode {
+-(void)ifa_willExitHelpMode {
     // does nothing
 }
 

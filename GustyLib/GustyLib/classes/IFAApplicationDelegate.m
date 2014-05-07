@@ -156,7 +156,7 @@
         
         if ([a_value isKindOfClass:[NSDate class]]) {
             
-            return [a_value IFA_descriptionWithCurrentLocale];
+            return [a_value ifa_descriptionWithCurrentLocale];
             
         }else{
             
@@ -165,7 +165,7 @@
                 if ([a_value isKindOfClass:[IFASystemEntity class]]) {
                     l_displayValue = ((IFASystemEntity *)a_value).systemEntityId;
                 }else{
-                    l_displayValue = ((NSManagedObject*)a_value).IFA_stringId;
+                    l_displayValue = ((NSManagedObject*)a_value).ifa_stringId;
                 }
             }else if ([a_value isKindOfClass:[NSLocale class]]){
                 l_displayValue = ((NSLocale*)a_value).localeIdentifier;
@@ -175,7 +175,7 @@
             NSString *l_unformattedString = [l_displayValue description];
 //            NSLog(@"  l_unformattedString: %@", l_unformattedString);
             // Remove new line characters
-            NSString *l_formattedString = [l_unformattedString IFA_stringByRemovingNewLineCharacters];
+            NSString *l_formattedString = [l_unformattedString ifa_stringByRemovingNewLineCharacters];
             // Remove double quotes to avoid issues with displaying the values on the Crashlytics web site
             l_formattedString = [l_formattedString stringByReplacingOccurrencesOfString:@"\"" withString:@"'"];
 //            NSLog(@"  l_formattedString: %@", l_formattedString);

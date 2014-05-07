@@ -55,11 +55,11 @@
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
-    return [self IFA_shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
+    return [self ifa_shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
 }
 
 -(NSUInteger)supportedInterfaceOrientations{
-    return [self IFA_supportedInterfaceOrientations];
+    return [self ifa_supportedInterfaceOrientations];
 }
 
 -(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated{

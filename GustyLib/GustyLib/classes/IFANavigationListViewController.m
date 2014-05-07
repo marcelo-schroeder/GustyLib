@@ -33,7 +33,7 @@
 
 -(void)XYZ_updateLeftBarButtonItemsStates {
     if (!self.pagingContainerViewController || self.selectedViewControllerInPagingContainer) {
-        [self IFA_addLeftBarButtonItem:self.addBarButtonItem];
+        [self ifa_addLeftBarButtonItem:self.addBarButtonItem];
     }
 }
 
@@ -83,7 +83,7 @@
 
         // Update the table view
         [self.tableView beginUpdates];
-        [self.tableView IFA_deleteRowsAtIndexPaths:@[indexPath]];
+        [self.tableView ifa_deleteRowsAtIndexPaths:@[indexPath]];
         if (self.listGroupedBy && [l_sectionRows count]==0) {
             [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
@@ -154,7 +154,7 @@
         l_cell.accessoryType = [self XYZ_tableViewCellAccessoryType];
     }
 	l_cell.showsReorderControl = YES;
-    [[self IFA_appearanceTheme] setAppearanceForView:l_cell.textLabel];
+    [[self ifa_appearanceTheme] setAppearanceForView:l_cell.textLabel];
 	return l_cell;
 }
 
@@ -168,7 +168,7 @@
     }
 
     self.editButtonItem.tag = IFABarItemTagEditButton;
-    [self IFA_addRightBarButtonItem:self.editButtonItem];
+    [self ifa_addRightBarButtonItem:self.editButtonItem];
     
 }
 
@@ -186,17 +186,17 @@
 
 -(void)didRefreshAndReloadDataAsync {
     [super didRefreshAndReloadDataAsync];
-    if (![self IFA_isReturningVisibleViewController] && self.editing) { // If it was left editing previously, reset it to non-editing mode.
+    if (![self ifa_isReturningVisibleViewController] && self.editing) { // If it was left editing previously, reset it to non-editing mode.
         [self quitEditing];
     }else{
         [self showTipForEditing:NO];
     }
 }
 
--(void)IFA_reset {
-    [super IFA_reset];
+-(void)ifa_reset {
+    [super ifa_reset];
     // If it was left editing previously, reset it to non-editing mode.
-    if (![self IFA_isReturningVisibleViewController] && self.editing && !self.staleData) {  // If it's stale data, then quitEditing will be performed by the didRefreshAndReloadDataAsync method
+    if (![self ifa_isReturningVisibleViewController] && self.editing && !self.staleData) {  // If it's stale data, then quitEditing will be performed by the didRefreshAndReloadDataAsync method
         [self quitEditing];
     }
 }

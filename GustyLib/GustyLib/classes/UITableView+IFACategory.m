@@ -24,11 +24,11 @@
 
 #pragma mark - Public
 
--(void)IFA_deleteRowsAtIndexPaths:(NSArray *)indexPaths{
+-(void)ifa_deleteRowsAtIndexPaths:(NSArray *)indexPaths{
     [self deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationRight];
 }
 
--(BOOL)IFA_isCellFullyVisibleForRowAtIndexPath:(NSIndexPath*)a_indexPath{
+-(BOOL)ifa_isCellFullyVisibleForRowAtIndexPath:(NSIndexPath*)a_indexPath{
 
     BOOL l_fullyVisible = NO;
 

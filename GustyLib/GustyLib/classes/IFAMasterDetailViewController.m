@@ -43,9 +43,9 @@
                                                                                metrics:nil
                                                                                  views:l_views];
     [self.view addConstraints:l_horizontalConstraints];
-    [l_masterView IFA_addLayoutConstraintsToFillSuperviewVertically];
-    [l_detailView IFA_addLayoutConstraintsToFillSuperviewVertically];
-    [l_separatorView IFA_addLayoutConstraintsToFillSuperviewVertically];
+    [l_masterView ifa_addLayoutConstraintsToFillSuperviewVertically];
+    [l_detailView ifa_addLayoutConstraintsToFillSuperviewVertically];
+    [l_separatorView ifa_addLayoutConstraintsToFillSuperviewVertically];
 }
 
 //- (UISwipeGestureRecognizer *)p_swipeGestureRecogniser {
@@ -94,12 +94,12 @@
 
 - (void)setMasterViewController:(UIViewController *)masterViewController {
     _masterViewController = masterViewController;
-    [self IFA_addChildViewController:_masterViewController parentView:self.masterContainerView];
+    [self ifa_addChildViewController:_masterViewController parentView:self.masterContainerView];
 }
 
 - (void)setDetailViewController:(UIViewController *)detailViewController {
     _detailViewController = detailViewController;
-    [self IFA_addChildViewController:_detailViewController parentView:self.detailContainerView];
+    [self ifa_addChildViewController:_detailViewController parentView:self.detailContainerView];
 }
 
 @end

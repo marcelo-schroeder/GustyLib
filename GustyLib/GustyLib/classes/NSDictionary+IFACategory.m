@@ -10,7 +10,7 @@
 
 #pragma mark - Public
 
-+ (NSDictionary *)IFA_dictionaryFromObjects:(NSArray *)a_objects groupedByPath:(NSString *)a_pathToGroupBy
++ (NSDictionary *)ifa_dictionaryFromObjects:(NSArray *)a_objects groupedByPath:(NSString *)a_pathToGroupBy
                              sortDescriptor:(NSSortDescriptor *)a_sortDescriptor {
     NSMutableDictionary *l_dictionary = [@{} mutableCopy];
     NSString *l_arrayOperationPath = [NSString stringWithFormat:@"@distinctUnionOfObjects.%@", a_pathToGroupBy];

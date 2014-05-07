@@ -24,13 +24,13 @@
 
 #pragma mark - Public
 
-- (void)IFA_removeItemAtURL:(NSURL *)a_url{
+- (void)ifa_removeItemAtURL:(NSURL *)a_url{
     if (a_url.isFileURL) {
-        [self IFA_removeItemAtPath:a_url.path];
+        [self ifa_removeItemAtPath:a_url.path];
     }
 }
 
-- (void)IFA_removeItemAtPath:(NSString *)a_path{
+- (void)ifa_removeItemAtPath:(NSString *)a_path{
     if (a_path && [self fileExistsAtPath:a_path]) {
         NSError *l_error = nil;
         if (![self removeItemAtPath:a_path error:&l_error]) {
@@ -39,12 +39,12 @@
     }
 }
 
-- (NSURL *)IFA_temporaryDirectoryUrl {
+- (NSURL *)ifa_temporaryDirectoryUrl {
     return [[NSURL alloc] initFileURLWithPath:NSTemporaryDirectory()];
 }
 
-- (NSURL *)IFA_urlForTemporaryFileNamed:(NSString *)a_fileName{
-    return [NSURL URLWithString:a_fileName relativeToURL:[self IFA_temporaryDirectoryUrl]];
+- (NSURL *)ifa_urlForTemporaryFileNamed:(NSString *)a_fileName{
+    return [NSURL URLWithString:a_fileName relativeToURL:[self ifa_temporaryDirectoryUrl]];
 }
 
 @end

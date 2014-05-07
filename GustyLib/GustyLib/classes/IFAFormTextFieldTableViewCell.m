@@ -30,15 +30,15 @@
 #pragma mark - Public
 
 -(void)reloadData {
-    self.textField.text = [self.object IFA_propertyStringValueForName:self.propertyName
-                                                             calendar:[NSCalendar IFA_threadSafeCalendar]];
+    self.textField.text = [self.object ifa_propertyStringValueForName:self.propertyName
+                                                             calendar:[NSCalendar ifa_threadSafeCalendar]];
 }
 
 -(BOOL)valueChanged {
     
 	// Old text
-	NSString* l_oldText = [self.object IFA_propertyStringValueForName:self.propertyName
-                                                             calendar:[NSCalendar IFA_threadSafeCalendar]];
+	NSString* l_oldText = [self.object ifa_propertyStringValueForName:self.propertyName
+                                                             calendar:[NSCalendar ifa_threadSafeCalendar]];
     
 	// New text
 	NSString* l_newText = self.textField.text;
@@ -118,7 +118,7 @@
 
     if (!self.formViewController.textFieldCommitSuspended && [self valueChanged]) {
 
-        [self.object IFA_setValue:[self parsedValue] forProperty:self.propertyName];
+        [self.object ifa_setValue:[self parsedValue] forProperty:self.propertyName];
 //        NSLog(@"  value set: %@", [self.object valueForKey:self.propertyName]);
 
     }

@@ -46,7 +46,7 @@
 }
 
 -(void)XYZ_onActionBarButtonTap:(UIBarButtonItem*)a_button{
-    [self IFA_presentActivityViewControllerFromBarButtonItem:a_button webView:self.mainWebView];
+    [self ifa_presentActivityViewControllerFromBarButtonItem:a_button webView:self.mainWebView];
 }
 
 - (void)XYZ_configureBrowserButtons {
@@ -90,11 +90,11 @@
     self.delegate = self;
     [self XYZ_configureBrowserButtons];
     [super viewDidLoad];
-    if (self.IFA_presentedAsModal) {
+    if (self.ifa_presentedAsModal) {
         self.navigationItem.leftBarButtonItems = nil;
-        [self IFA_addLeftBarButtonItem:[[self IFA_appearanceTheme] doneBarButtonItemWithTarget:self
-                                                                                      action:@selector(doneButtonClicked:)
-                                                                              viewController:self]];
+        [self ifa_addLeftBarButtonItem:[[self ifa_appearanceTheme] doneBarButtonItemWithTarget:self
+                                                                                        action:@selector(doneButtonClicked:)
+                                                                                viewController:self]];
     }
 }
 
@@ -107,14 +107,14 @@
     [super updateToolbarItems];
     self.XYZ_previousBarButtonItem.enabled = self.mainWebView.canGoBack;
     self.XYZ_nextBarButtonItem.enabled = self.mainWebView.canGoForward;
-    [self IFA_removeRightBarButtonItem:self.XYZ_refreshStopBarButtonItem];
+    [self ifa_removeRightBarButtonItem:self.XYZ_refreshStopBarButtonItem];
     self.XYZ_refreshStopBarButtonItem = self.urlLoadCount ? self.XYZ_stopBarButtonItem : self.XYZ_refreshBarButtonItem;
     NSUInteger i = 0;
-    [self IFA_insertRightBarButtonItem:self.XYZ_actionBarButtonItem atIndex:i++];
-    [self IFA_insertRightBarButtonItem:self.XYZ_nextBarButtonItem atIndex:i++];
-    [self IFA_insertRightBarButtonItem:self.XYZ_previousBarButtonItem atIndex:i++];
-    [self IFA_insertRightBarButtonItem:self.XYZ_refreshStopBarButtonItem atIndex:i++];
-    [self IFA_insertRightBarButtonItem:self.XYZ_activityIndicatorBarButtonItem atIndex:i];
+    [self ifa_insertRightBarButtonItem:self.XYZ_actionBarButtonItem atIndex:i++];
+    [self ifa_insertRightBarButtonItem:self.XYZ_nextBarButtonItem atIndex:i++];
+    [self ifa_insertRightBarButtonItem:self.XYZ_previousBarButtonItem atIndex:i++];
+    [self ifa_insertRightBarButtonItem:self.XYZ_refreshStopBarButtonItem atIndex:i++];
+    [self ifa_insertRightBarButtonItem:self.XYZ_activityIndicatorBarButtonItem atIndex:i];
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {

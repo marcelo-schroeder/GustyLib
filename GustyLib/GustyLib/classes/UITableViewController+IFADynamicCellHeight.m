@@ -19,7 +19,7 @@
 #import "UITableViewController+IFADynamicCellHeight.h"
 
 @interface UITableViewController (IFADynamicCellHeight_Private)
-@property (nonatomic, strong) NSMutableDictionary *IFA_cachedCellHeights;
+@property (nonatomic, strong) NSMutableDictionary *ifa_cachedCellHeights;
 @end
 
 @implementation UITableViewController (IFADynamicCellHeight)
@@ -29,39 +29,39 @@ static char c_cachedHeightsKey;
 
 #pragma mark - Public
 
--(void)setIFA_dynamicCellHeightDelegate:(id<IFATableViewControllerDynamicCellHeightDelegate>)a_dynamicCellHeightDelegate{
+-(void)setIfa_dynamicCellHeightDelegate:(id<IFATableViewControllerDynamicCellHeightDelegate>)a_dynamicCellHeightDelegate{
     objc_setAssociatedObject(self, &c_dynamicCellHeightDelegateKey, a_dynamicCellHeightDelegate, OBJC_ASSOCIATION_ASSIGN);
 }
 
--(id<IFATableViewControllerDynamicCellHeightDelegate>)IFA_dynamicCellHeightDelegate {
+-(id<IFATableViewControllerDynamicCellHeightDelegate>)ifa_dynamicCellHeightDelegate {
     return objc_getAssociatedObject(self, &c_dynamicCellHeightDelegateKey);
 }
 
--(NSMutableDictionary*)IFA_cachedCellHeights {
+-(NSMutableDictionary*)ifa_cachedCellHeights {
     NSMutableDictionary *l_obj = objc_getAssociatedObject(self, &c_cachedHeightsKey);
     if (!l_obj) {
         l_obj = [@{} mutableCopy];
-        self.IFA_cachedCellHeights = l_obj;
+        self.ifa_cachedCellHeights = l_obj;
     }
     return l_obj;
 }
 
--(void)setIFA_cachedCellHeights:(NSMutableDictionary*)a_cachedHeights{
+-(void)setIfa_cachedCellHeights:(NSMutableDictionary*)a_cachedHeights{
     objc_setAssociatedObject(self, &c_cachedHeightsKey, a_cachedHeights, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (CGFloat)IFA_heightForCellAtIndexPath:(NSIndexPath *)a_indexPath tableView:(UITableView *)a_tableView {
+- (CGFloat)ifa_heightForCellAtIndexPath:(NSIndexPath *)a_indexPath tableView:(UITableView *)a_tableView {
 
-    if (!self.IFA_dynamicCellHeightDelegate) {
+    if (!self.ifa_dynamicCellHeightDelegate) {
         return 0;
     }
 
     // Obtain prototype cell from delegate
-    UITableViewCell *l_cell = [self.IFA_dynamicCellHeightDelegate IFA_prototypeCellForIndexPath:a_indexPath
+    UITableViewCell *l_cell = [self.ifa_dynamicCellHeightDelegate ifa_prototypeCellForIndexPath:a_indexPath
                                                                                       tableView:a_tableView];
 
     // Ask delegate to populate prototype cell
-    [self.IFA_dynamicCellHeightDelegate IFA_populateCell:l_cell atIndexPath:a_indexPath
+    [self.ifa_dynamicCellHeightDelegate ifa_populateCell:l_cell atIndexPath:a_indexPath
                                                tableView:a_tableView];
 
     // Configure cell's content view for auto layout
@@ -70,8 +70,8 @@ static char c_cachedHeightsKey;
 
     // Constraint the content view width for correct height calculation
     NSLayoutConstraint *l_contentViewWidthConstraint = nil;
-    if ([self.IFA_dynamicCellHeightDelegate respondsToSelector:@selector(IFA_cellContentViewWidthForPrototypeCell:)]) {
-        CGFloat l_contentViewWidthConstraintConstant = [self.IFA_dynamicCellHeightDelegate IFA_cellContentViewWidthForPrototypeCell:l_cell];
+    if ([self.ifa_dynamicCellHeightDelegate respondsToSelector:@selector(ifa_cellContentViewWidthForPrototypeCell:)]) {
+        CGFloat l_contentViewWidthConstraintConstant = [self.ifa_dynamicCellHeightDelegate ifa_cellContentViewWidthForPrototypeCell:l_cell];
         l_contentViewWidthConstraint = [NSLayoutConstraint constraintWithItem:l_contentView
                                                                     attribute:NSLayoutAttributeWidth
                                                                     relatedBy:NSLayoutRelationEqual
@@ -87,7 +87,7 @@ static char c_cachedHeightsKey;
     [l_contentView layoutIfNeeded];
 
     // Set preferred max layout width for multi-line labels
-    [self IFA_setPreferredMaxLayoutWidthForMultiLineLabelsInCell:l_cell
+    [self ifa_setPreferredMaxLayoutWidthForMultiLineLabelsInCell:l_cell
                                             basedOnPrototypeCell:l_cell];
 
     // Calculate size
@@ -100,16 +100,16 @@ static char c_cachedHeightsKey;
     [l_contentView removeConstraint:l_contentViewWidthConstraint];
 
     // Cache height
-    self.IFA_cachedCellHeights[a_indexPath] = @(l_height);
+    self.ifa_cachedCellHeights[a_indexPath] = @(l_height);
 
     return l_height;
 
 }
 
-- (void)IFA_setPreferredMaxLayoutWidthForMultiLineLabelsInCell:(UITableViewCell *)a_cell
+- (void)ifa_setPreferredMaxLayoutWidthForMultiLineLabelsInCell:(UITableViewCell *)a_cell
                                           basedOnPrototypeCell:(UITableViewCell *)a_prototypeCell {
-    if ([self.IFA_dynamicCellHeightDelegate respondsToSelector:@selector(IFA_multiLineLabelKeyPathsForCellWithReuseIdentifier:)]) {
-        NSArray *l_multiLineLabelKeyPaths = [self.IFA_dynamicCellHeightDelegate IFA_multiLineLabelKeyPathsForCellWithReuseIdentifier:a_prototypeCell.reuseIdentifier];
+    if ([self.ifa_dynamicCellHeightDelegate respondsToSelector:@selector(ifa_multiLineLabelKeyPathsForCellWithReuseIdentifier:)]) {
+        NSArray *l_multiLineLabelKeyPaths = [self.ifa_dynamicCellHeightDelegate ifa_multiLineLabelKeyPathsForCellWithReuseIdentifier:a_prototypeCell.reuseIdentifier];
         for (NSString *l_keyPath in l_multiLineLabelKeyPaths) {
             UILabel *l_label = [a_cell valueForKeyPath:l_keyPath];
             if ([l_label isKindOfClass:[UILabel class]]) {

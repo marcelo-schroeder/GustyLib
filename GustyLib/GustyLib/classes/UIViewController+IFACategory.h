@@ -33,29 +33,29 @@
 
 @interface UIViewController (IFACategory) <IFAHelpTargetContainer, IFAPresenter, GADBannerViewDelegate, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate>
 
-@property (nonatomic, readonly) BOOL IFA_presentedAsModal;
-@property (nonatomic, readonly) BOOL IFA_isMasterViewController;
-@property (nonatomic, readonly) BOOL IFA_isDetailViewController;
-@property (nonatomic, readonly) BOOL IFA_needsToolbar;
-@property (nonatomic, readonly) BOOL IFA_helpMode;
-@property (nonatomic, readonly) BOOL IFA_changesMadeByPresentedViewController;
-@property (nonatomic, readonly) IFAAsynchronousWorkManager *IFA_asynchronousWorkManager;
-@property (nonatomic, weak) id<IFAPresenter> IFA_presenter;
-@property (nonatomic, strong, readonly) UIPopoverController *IFA_activePopoverController;
-@property (nonatomic, strong, readonly) UIBarButtonItem *IFA_activePopoverControllerBarButtonItem;
-@property (nonatomic, strong) NSString *IFA_subTitle;
-@property (nonatomic, strong) NSString *IFA_helpTargetId;
-@property (nonatomic, strong) IFANavigationItemTitleView *IFA_titleViewDefault;
-@property (nonatomic, strong) IFANavigationItemTitleView *IFA_titleViewLandscapePhone;
-@property (nonatomic, strong) UIView *IFA_adContainerView;
-@property (nonatomic, strong) ODRefreshControl *IFA_refreshControl;
-@property (nonatomic, strong, readonly) NSFetchedResultsController *IFA_activeFetchedResultsController;
-@property (nonatomic) BOOL IFA_shouldUseKeyboardPassthroughView;
+@property (nonatomic, readonly) BOOL ifa_presentedAsModal;
+@property (nonatomic, readonly) BOOL ifa_isMasterViewController;
+@property (nonatomic, readonly) BOOL ifa_isDetailViewController;
+@property (nonatomic, readonly) BOOL ifa_needsToolbar;
+@property (nonatomic, readonly) BOOL ifa_helpMode;
+@property (nonatomic, readonly) BOOL ifa_changesMadeByPresentedViewController;
+@property (nonatomic, readonly) IFAAsynchronousWorkManager *ifa_asynchronousWorkManager;
+@property (nonatomic, weak) id<IFAPresenter> ifa_presenter;
+@property (nonatomic, strong, readonly) UIPopoverController *ifa_activePopoverController;
+@property (nonatomic, strong, readonly) UIBarButtonItem *ifa_activePopoverControllerBarButtonItem;
+@property (nonatomic, strong) NSString *ifa_subTitle;
+@property (nonatomic, strong) NSString *ifa_helpTargetId;
+@property (nonatomic, strong) IFANavigationItemTitleView *ifa_titleViewDefault;
+@property (nonatomic, strong) IFANavigationItemTitleView *ifa_titleViewLandscapePhone;
+@property (nonatomic, strong) UIView *ifa_adContainerView;
+@property (nonatomic, strong) ODRefreshControl *ifa_refreshControl;
+@property (nonatomic, strong, readonly) NSFetchedResultsController *ifa_activeFetchedResultsController;
+@property (nonatomic) BOOL ifa_shouldUseKeyboardPassthroughView;
 
 // to be overriden by subclasses
-@property (nonatomic, readonly) BOOL IFA_manageToolbar;
-@property (nonatomic, readonly) BOOL IFA_doneButtonSaves;
-@property (nonatomic, weak) UIViewController *IFA_previousVisibleViewController;
+@property (nonatomic, readonly) BOOL ifa_manageToolbar;
+@property (nonatomic, readonly) BOOL ifa_doneButtonSaves;
+@property (nonatomic, weak) UIViewController *ifa_previousVisibleViewController;
 
 /**
 * Adds a child view controller to self.
@@ -64,154 +64,154 @@
 * @param a_childViewController Child view controller to add to self.
 * @param a_parentView Parent view to add the child view controller's view as a subview of.
 */
-- (void)IFA_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView;
+- (void)ifa_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView;
 
-- (void)IFA_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView
+- (void)ifa_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView
                shouldFillSuperview:(BOOL)a_shouldFillParentView;
 
 /**
 * Removes this view controller from its parent.
 */
-- (void)IFA_removeFromParentViewController;
+- (void)ifa_removeFromParentViewController;
 
-+ (instancetype)IFA_instantiateFromStoryboard;
++ (instancetype)ifa_instantiateFromStoryboard;
 
-+ (id)IFA_instantiateFromStoryboardWithViewControllerIdentifier:(NSString *)a_viewControllerIdentifier;
++ (id)ifa_instantiateFromStoryboardWithViewControllerIdentifier:(NSString *)a_viewControllerIdentifier;
 
-+ (NSString *)IFA_storyboardName;
++ (NSString *)ifa_storyboardName;
 
-+ (NSString *)IFA_storyboardNameIPhoneSuffix;
++ (NSString *)ifa_storyboardNameIPhoneSuffix;
 
-+ (NSString *)IFA_storyboardNameIPadSuffix;
++ (NSString *)ifa_storyboardNameIPadSuffix;
 
-+ (BOOL)IFA_isStoryboardDeviceSpecific;
++ (BOOL)ifa_isStoryboardDeviceSpecific;
 
-- (void)IFA_onKeyboardNotification:(NSNotification *)a_notification;
+- (void)ifa_onKeyboardNotification:(NSNotification *)a_notification;
 
--(NSString*)IFA_helpTargetIdForName:(NSString*)a_name;
+-(NSString*)ifa_helpTargetIdForName:(NSString*)a_name;
 
-- (void)IFA_updateToolbarForMode:(BOOL)anEditModeFlag animated:(BOOL)anAnimatedFlag;
+- (void)ifa_updateToolbarForMode:(BOOL)anEditModeFlag animated:(BOOL)anAnimatedFlag;
 
--(BOOL)IFA_isReturningVisibleViewController;
--(UIView*)IFA_viewForActionSheet;
+-(BOOL)ifa_isReturningVisibleViewController;
+-(UIView*)ifa_viewForActionSheet;
 
--(BOOL)IFA_hasFixedSize;
+-(BOOL)ifa_hasFixedSize;
 
 // This callback can be used to customise, for instance, the popover controller's passthroughViews array
-- (void)IFA_didPresentPopoverController:(UIPopoverController *)a_popoverController;
+- (void)ifa_didPresentPopoverController:(UIPopoverController *)a_popoverController;
 
--(void)IFA_presentModalFormViewController:(UIViewController*)a_viewController;
--(void)IFA_presentModalSelectionViewController:(UIViewController *)a_viewController fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem;
--(void)IFA_presentModalSelectionViewController:(UIViewController *)a_viewController fromRect:(CGRect)a_fromRect inView:(UIView *)a_view;
--(void)IFA_presentModalViewController:(UIViewController *)a_viewController
+-(void)ifa_presentModalFormViewController:(UIViewController*)a_viewController;
+-(void)ifa_presentModalSelectionViewController:(UIViewController *)a_viewController fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem;
+-(void)ifa_presentModalSelectionViewController:(UIViewController *)a_viewController fromRect:(CGRect)a_fromRect inView:(UIView *)a_view;
+-(void)ifa_presentModalViewController:(UIViewController *)a_viewController
                     presentationStyle:(UIModalPresentationStyle)a_presentationStyle transitionStyle:(UIModalTransitionStyle)a_transitionStyle;
--(void)IFA_presentModalViewController:(UIViewController *)a_viewController
+-(void)ifa_presentModalViewController:(UIViewController *)a_viewController
                     presentationStyle:(UIModalPresentationStyle)a_presentationStyle
                       transitionStyle:(UIModalTransitionStyle)a_transitionStyle shouldAddDoneButton:(BOOL)a_shouldAddDoneButton;
 
-- (void)IFA_presentModalViewController:(UIViewController *)a_viewController
+- (void)ifa_presentModalViewController:(UIViewController *)a_viewController
                      presentationStyle:(UIModalPresentationStyle)a_presentationStyle
                        transitionStyle:(UIModalTransitionStyle)a_transitionStyle
                    shouldAddDoneButton:(BOOL)a_shouldAddDoneButton customSize:(CGSize)a_customSize;
 
--(void)IFA_presentPopoverController:(UIPopoverController *)a_popoverController fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem;
--(void)IFA_presentPopoverController:(UIPopoverController *)a_popoverController fromRect:(CGRect)a_fromRect inView:(UIView *)a_view;
+-(void)ifa_presentPopoverController:(UIPopoverController *)a_popoverController fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem;
+-(void)ifa_presentPopoverController:(UIPopoverController *)a_popoverController fromRect:(CGRect)a_fromRect inView:(UIView *)a_view;
 
 /* Presenting view controller methods */
-- (void)IFA_dismissModalViewControllerWithChangesMade:(BOOL)a_changesMade data:(id)a_data;
+- (void)ifa_dismissModalViewControllerWithChangesMade:(BOOL)a_changesMade data:(id)a_data;
 
 /* Presented view controller methods */
-- (void)IFA_notifySessionCompletionWithChangesMade:(BOOL)a_changesMade data:(id)a_data;
--(void)IFA_notifySessionCompletion;
+- (void)ifa_notifySessionCompletionWithChangesMade:(BOOL)a_changesMade data:(id)a_data;
+-(void)ifa_notifySessionCompletion;
 
--(UIViewController*)IFA_mainViewController;
--(BOOL)IFA_shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation;
--(NSUInteger)IFA_supportedInterfaceOrientations;
--(void)IFA_willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration;
--(void)IFA_willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration;
--(void)IFA_didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation;
--(void)IFA_dismissMenuPopoverController;
--(void)IFA_dismissMenuPopoverControllerWithAnimation:(BOOL)a_animated;
--(void)IFA_resetActivePopoverController;
+-(UIViewController*)ifa_mainViewController;
+-(BOOL)ifa_shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation;
+-(NSUInteger)ifa_supportedInterfaceOrientations;
+-(void)ifa_willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration;
+-(void)ifa_willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration;
+-(void)ifa_didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation;
+-(void)ifa_dismissMenuPopoverController;
+-(void)ifa_dismissMenuPopoverControllerWithAnimation:(BOOL)a_animated;
+-(void)ifa_resetActivePopoverController;
 
--(void)IFA_addLeftBarButtonItem:(UIBarButtonItem*)a_barButtonItem;
--(void)IFA_insertLeftBarButtonItem:(UIBarButtonItem *)a_barButtonItem atIndex:(NSUInteger)a_index;
--(void)IFA_removeLeftBarButtonItem:(UIBarButtonItem*)a_barButtonItem;
+-(void)ifa_addLeftBarButtonItem:(UIBarButtonItem*)a_barButtonItem;
+-(void)ifa_insertLeftBarButtonItem:(UIBarButtonItem *)a_barButtonItem atIndex:(NSUInteger)a_index;
+-(void)ifa_removeLeftBarButtonItem:(UIBarButtonItem*)a_barButtonItem;
 
--(void)IFA_addRightBarButtonItem:(UIBarButtonItem*)a_barButtonItem;
--(void)IFA_insertRightBarButtonItem:(UIBarButtonItem *)a_barButtonItem atIndex:(NSUInteger)a_index;
--(void)IFA_removeRightBarButtonItem:(UIBarButtonItem*)a_barButtonItem;
+-(void)ifa_addRightBarButtonItem:(UIBarButtonItem*)a_barButtonItem;
+-(void)ifa_insertRightBarButtonItem:(UIBarButtonItem *)a_barButtonItem atIndex:(NSUInteger)a_index;
+-(void)ifa_removeRightBarButtonItem:(UIBarButtonItem*)a_barButtonItem;
 
--(void)IFA_prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender;
--(id<IFAAppearanceTheme>)IFA_appearanceTheme;
--(UIStoryboard*)IFA_commonStoryboard;
+-(void)ifa_prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender;
+-(id<IFAAppearanceTheme>)ifa_appearanceTheme;
+-(UIStoryboard*)ifa_commonStoryboard;
 
--(void)IFA_reset;
+-(void)ifa_reset;
 
--(UINavigationItem*)IFA_navigationItem;
--(void)IFA_registerForHelp;
--(NSString*)IFA_editBarButtonItemHelpTargetId;
+-(UINavigationItem*)ifa_navigationItem;
+-(void)ifa_registerForHelp;
+-(NSString*)ifa_editBarButtonItemHelpTargetId;
 
--(void)IFA_openUrl:(NSURL*)a_url;
+-(void)ifa_openUrl:(NSURL*)a_url;
 
--(void)IFA_releaseView;
+-(void)ifa_releaseView;
 
--(NSString*)IFA_accessibilityLabelForKeyPath:(NSString*)a_keyPath;
--(NSString*)IFA_accessibilityLabelForName:(NSString*)a_name;
+-(NSString*)ifa_accessibilityLabelForKeyPath:(NSString*)a_keyPath;
+-(NSString*)ifa_accessibilityLabelForName:(NSString*)a_name;
 
-- (UIPopoverArrowDirection)IFA_permittedPopoverArrowDirectionForViewController:(UIViewController *)a_viewController;
+- (UIPopoverArrowDirection)ifa_permittedPopoverArrowDirectionForViewController:(UIViewController *)a_viewController;
 
-- (void)IFA_presentActivityViewControllerFromBarButtonItem:(UIBarButtonItem *)a_barButtonItem
+- (void)ifa_presentActivityViewControllerFromBarButtonItem:(UIBarButtonItem *)a_barButtonItem
                                                    webView:(UIWebView *)a_webView;
 
-- (void)IFA_presentActivityViewControllerFromBarButtonItem:(UIBarButtonItem *)a_barButtonItem
+- (void)ifa_presentActivityViewControllerFromBarButtonItem:(UIBarButtonItem *)a_barButtonItem
                                                    subject:(NSString *)a_subject url:(NSURL *)a_url;
 
-- (CGSize)IFA_gadAdFrameSize;
+- (CGSize)ifa_gadAdFrameSize;
 
-- (GADBannerView*)IFA_gadBannerView;
+- (GADBannerView*)ifa_gadBannerView;
 
-// Message "beginRefreshing" to self.IFA_refreshControl but does not show control
--(void)IFA_beginRefreshingWithScrollView:(UIScrollView*)a_scrollView;
-// Message "beginRefreshing" to self.IFA_refreshControl with option to show control or not
--(void)IFA_beginRefreshingWithScrollView:(UIScrollView *)a_scrollView showControl:(BOOL)a_shouldShowControl;
--(void)IFA_showRefreshControl:(UIControl *)a_control inScrollView:(UIScrollView*)a_scrollView;
+// Message "beginRefreshing" to self.ifa_refreshControl but does not show control
+-(void)ifa_beginRefreshingWithScrollView:(UIScrollView*)a_scrollView;
+// Message "beginRefreshing" to self.ifa_refreshControl with option to show control or not
+-(void)ifa_beginRefreshingWithScrollView:(UIScrollView *)a_scrollView showControl:(BOOL)a_shouldShowControl;
+-(void)ifa_showRefreshControl:(UIControl *)a_control inScrollView:(UIScrollView*)a_scrollView;
 
--(UIPopoverController*)IFA_newPopoverControllerWithContentViewController:(UIViewController*)a_contentViewController;
+-(UIPopoverController*)ifa_newPopoverControllerWithContentViewController:(UIViewController*)a_contentViewController;
 
 /* to be overriden by subclasses */
 
-- (NSArray*)IFA_editModeToolbarItems;
-- (NSArray*)IFA_nonEditModeToolbarItems;
-- (void)IFA_viewWillAppear;
+- (NSArray*)ifa_editModeToolbarItems;
+- (NSArray*)ifa_nonEditModeToolbarItems;
+- (void)ifa_viewWillAppear;
 
-- (BOOL)IFA_shouldShowLeftSlidingPaneButton;
+- (BOOL)ifa_shouldShowLeftSlidingPaneButton;
 
-- (void)IFA_addToNavigationBarForSlidingMenuBarButtonItem:(UIBarButtonItem *)a_slidingMenuBarButtonItem;
+- (void)ifa_addToNavigationBarForSlidingMenuBarButtonItem:(UIBarButtonItem *)a_slidingMenuBarButtonItem;
 
-- (void)IFA_viewDidAppear;
-- (void)IFA_viewWillDisappear;
-- (void)IFA_viewDidDisappear;
-- (void)IFA_viewDidLoad;
-- (void)IFA_viewDidUnload;
-- (void)IFA_onApplicationWillEnterForegroundNotification:(NSNotification*)aNotification;
-- (void)IFA_onApplicationDidBecomeActiveNotification:(NSNotification*)aNotification;
-- (void)IFA_onApplicationWillResignActiveNotification:(NSNotification*)aNotification;
-- (void)IFA_onApplicationDidEnterBackgroundNotification:(NSNotification *)aNotification;
+- (void)ifa_viewDidAppear;
+- (void)ifa_viewWillDisappear;
+- (void)ifa_viewDidDisappear;
+- (void)ifa_viewDidLoad;
+- (void)ifa_viewDidUnload;
+- (void)ifa_onApplicationWillEnterForegroundNotification:(NSNotification*)aNotification;
+- (void)ifa_onApplicationDidBecomeActiveNotification:(NSNotification*)aNotification;
+- (void)ifa_onApplicationWillResignActiveNotification:(NSNotification*)aNotification;
+- (void)ifa_onApplicationDidEnterBackgroundNotification:(NSNotification *)aNotification;
 
-- (void)IFA_dealloc;
--(UIView*)IFA_nonAdContainerView;
--(BOOL)IFA_shouldEnableAds;
+- (void)ifa_dealloc;
+-(UIView*)ifa_nonAdContainerView;
+-(BOOL)ifa_shouldEnableAds;
 
 // UI state update callbacks
--(void)IFA_updateScreenDecorationState;
--(void)IFA_updateNavigationItemState;
--(void)IFA_updateToolbarNavigationButtonState;
+-(void)ifa_updateScreenDecorationState;
+-(void)ifa_updateNavigationItemState;
+-(void)ifa_updateToolbarNavigationButtonState;
 
--(void)IFA_onDoneButtonTap:(UIBarButtonItem*)a_barButtonItem;
+-(void)ifa_onDoneButtonTap:(UIBarButtonItem*)a_barButtonItem;
 
--(void)IFA_startAdRequests;
--(void)IFA_stopAdRequests;
+-(void)ifa_startAdRequests;
+-(void)ifa_stopAdRequests;
 
 /**
 * Indicates the various times when notification observers should be removed at.
@@ -233,25 +233,25 @@ typedef enum{
 * @param a_block The block to be executed when the notification is received. The block is copied by the notification center and (the copy) held until the observer registration is removed. The block takes one argument: notification. The notification.
 * @param a_removalTime Indicates when the observer should be removed. Please read the typedef's declaration comments for further details.
 */
-- (void)addNotificationObserverForName:(NSString *)a_name object:(id)a_obj queue:(NSOperationQueue *)a_queue
-                            usingBlock:(void (^)(NSNotification *a_note))a_block
-                           removalTime:(IFAViewControllerNotificationObserverRemovalTime)a_removalTime;
+- (void)ifa_addNotificationObserverForName:(NSString *)a_name object:(id)a_obj queue:(NSOperationQueue *)a_queue
+                                usingBlock:(void (^)(NSNotification *a_note))a_block
+                               removalTime:(IFAViewControllerNotificationObserverRemovalTime)a_removalTime;
 
 #pragma mark - IFAHelpTargetContainer
 
-- (BOOL)IFA_isVisibleTopViewController;
+- (BOOL)ifa_isVisibleTopViewController;
 
-- (void)IFA_updateNonAdContainerViewFrameWithAdBannerViewHeight:(CGFloat)a_adBannerViewHeight;
+- (void)ifa_updateNonAdContainerViewFrameWithAdBannerViewHeight:(CGFloat)a_adBannerViewHeight;
 
 // Analytics
--(void)IFA_logAnalyticsScreenEntry;
+-(void)ifa_logAnalyticsScreenEntry;
 
 /* NSFetchedResultsController */
 // Override and return one instance here if you want to enable fetched results controller functionality
--(NSFetchedResultsController*)IFA_fetchedResultsController;
+-(NSFetchedResultsController*)ifa_fetchedResultsController;
 // This can be overriden to provide a different delegate for the fetched results controller or even to nil it to prevent the standard UI updates from occurring
--(id<NSFetchedResultsControllerDelegate>)IFA_fetchedResultsControllerDelegate;
+-(id<NSFetchedResultsControllerDelegate>)ifa_fetchedResultsControllerDelegate;
 // This can also be overriden by subclasses to provide custom behaviour
--(void)IFA_configureFetchedResultsControllerAndPerformFetch;
+-(void)ifa_configureFetchedResultsControllerAndPerformFetch;
 
 @end

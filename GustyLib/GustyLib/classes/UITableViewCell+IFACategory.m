@@ -21,8 +21,8 @@
 
 #pragma mark - Public
 
-- (void)IFA_prepareForReuse {
-    [[self IFA_appearanceTheme] setAppearanceOnPrepareForReuseForCell:self];
+- (void)ifa_prepareForReuse {
+    [[self ifa_appearanceTheme] setAppearanceOnPrepareForReuseForCell:self];
 }
 
 @end

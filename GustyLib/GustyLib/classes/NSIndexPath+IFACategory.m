@@ -22,7 +22,7 @@
 
 #pragma mark - Public
 
-+ (NSArray *)IFA_indexPathsForRowRange:(NSRange)a_rowRange section:(NSInteger)a_section {
++ (NSArray *)ifa_indexPathsForRowRange:(NSRange)a_rowRange section:(NSInteger)a_section {
     NSMutableArray *l_indexPaths = [@[] mutableCopy];
     for (NSUInteger l_row = a_rowRange.location; l_row < a_rowRange.location + a_rowRange.length; l_row++) {
         [l_indexPaths addObject:[NSIndexPath indexPathForRow:l_row inSection:a_section]];

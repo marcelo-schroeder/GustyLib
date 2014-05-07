@@ -20,7 +20,7 @@
 
 @interface UITableView (IFACategory)
 
--(void)IFA_deleteRowsAtIndexPaths:(NSArray *)indexPaths;
--(BOOL)IFA_isCellFullyVisibleForRowAtIndexPath:(NSIndexPath*)a_indexPath;
+-(void)ifa_deleteRowsAtIndexPaths:(NSArray *)indexPaths;
+-(BOOL)ifa_isCellFullyVisibleForRowAtIndexPath:(NSIndexPath*)a_indexPath;
 
 @end

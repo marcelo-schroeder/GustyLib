@@ -130,7 +130,7 @@
         self.XYZ_webView.hidden = YES;
         self.XYZ_webView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         self.XYZ_webView.scrollView.alwaysBounceVertical = NO;
-        [self.XYZ_webView IFA_removeShadow];
+        [self.XYZ_webView ifa_removeShadow];
         self.XYZ_webView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, -2);
         
         // Configure the HTML document

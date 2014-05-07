@@ -20,11 +20,11 @@
 
 @interface NSCalendar (IFACategory)
 
-+(void)IFA_setThreadSafeCalendarFirstWeekday:(NSUInteger)a_firstWeekday;
-+(void)IFA_setThreadSafeCalendarMinimumDaysInFirstWeek:(NSUInteger)a_minimumDaysInFirstWeek;
-+(NSUInteger)IFA_threadSafeCalendarFirstWeekday;
-+(NSUInteger)IFA_threadSafeCalendarMinimumDaysInFirstWeek;
++(void)ifa_setThreadSafeCalendarFirstWeekday:(NSUInteger)a_firstWeekday;
++(void)ifa_setThreadSafeCalendarMinimumDaysInFirstWeek:(NSUInteger)a_minimumDaysInFirstWeek;
++(NSUInteger)ifa_threadSafeCalendarFirstWeekday;
++(NSUInteger)ifa_threadSafeCalendarMinimumDaysInFirstWeek;
 
-+ (NSCalendar *)IFA_threadSafeCalendar;
++ (NSCalendar *)ifa_threadSafeCalendar;
 
 @end

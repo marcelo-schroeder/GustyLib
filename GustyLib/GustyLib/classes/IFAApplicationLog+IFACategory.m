@@ -23,7 +23,7 @@
 
 @implementation IFAApplicationLog (IFACategory)
 
-- (NSString*)IFA_displayValue {
+- (NSString*)ifa_displayValue {
     NSDateFormatter *l_dateFormatter = [[NSDateFormatter alloc] init];
     [l_dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     [l_dateFormatter setTimeStyle:NSDateFormatterMediumStyle];

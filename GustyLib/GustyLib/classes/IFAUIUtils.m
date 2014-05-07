@@ -383,12 +383,12 @@ static UIImage *c_menuBarButtonItemImage = nil;
 		[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
 		return [dateFormatter stringFromDate:anObject];
 	}else if ([anObject isKindOfClass:[NSManagedObject class]]) {
-		return [anObject IFA_longDisplayValue];
+		return [anObject ifa_longDisplayValue];
 	}else if ([anObject isKindOfClass:[NSSet class]]) {
 		if ([anObject count]==0) {
 			return @"";
 		}else {
-			NSString *l_entityName = [((NSManagedObject *) [anObject anyObject]) IFA_entityName];
+			NSString *l_entityName = [((NSManagedObject *) [anObject anyObject]) ifa_entityName];
 			NSArray *sortDescriptors = [[IFAPersistenceManager sharedInstance] listSortDescriptorsForEntity:l_entityName];
 			NSArray *sortedArray = [[anObject allObjects] sortedArrayUsingDescriptors:sortDescriptors];
 			NSMutableString *l_string = [NSMutableString string];
@@ -399,7 +399,7 @@ static UIImage *c_menuBarButtonItemImage = nil;
 				}else {
 					[l_string appendString:@", "];
 				}
-				[l_string appendString:[l_managedObject IFA_displayValue]];
+				[l_string appendString:[l_managedObject ifa_displayValue]];
 			}
 			return l_string;
 		}
@@ -541,14 +541,14 @@ static UIImage *c_menuBarButtonItemImage = nil;
         CGFloat l_green = [[l_colorDictionary objectForKey:@"green"] floatValue];
         CGFloat l_blue = [[l_colorDictionary objectForKey:@"blue"] floatValue];
         CGFloat l_alpha = [[l_colorDictionary objectForKey:@"alpha"] floatValue];
-        l_color = [UIColor IFA_colorWithRed:l_red green:l_green blue:l_blue alpha:l_alpha];
+        l_color = [UIColor ifa_colorWithRed:l_red green:l_green blue:l_blue alpha:l_alpha];
     }
     return l_color;
 }
 
 + (BOOL)isImageWithinSafeMemoryThresholdForSizeInPixels:(CGSize)a_imageSizeInPixels {
     CGFloat l_imageSizeInPixels = a_imageSizeInPixels.width * a_imageSizeInPixels.height;
-    BOOL l_ok = l_imageSizeInPixels <= IFA_k_maximumImageSizeInPixels;
+    BOOL l_ok = l_imageSizeInPixels <= IFAMaximumImageSizeInPixels;
     return l_ok;
 }
 

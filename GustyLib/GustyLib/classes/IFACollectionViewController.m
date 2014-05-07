@@ -61,68 +61,68 @@
 #pragma mark - Overrides
 
 -(void)dealloc{
-    [self IFA_dealloc];
+    [self ifa_dealloc];
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
-    return [self IFA_shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
+    return [self ifa_shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
 }
 
 -(NSUInteger)supportedInterfaceOrientations{
-    return [self IFA_supportedInterfaceOrientations];
+    return [self ifa_supportedInterfaceOrientations];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    [self IFA_viewWillAppear];
+    [self ifa_viewWillAppear];
     
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     
     [super viewDidAppear:animated];
-    [self IFA_viewDidAppear];
+    [self ifa_viewDidAppear];
     
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     
     [super viewWillDisappear:animated];
-    [self IFA_viewWillDisappear];
+    [self ifa_viewWillDisappear];
     
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
     
     [super viewDidDisappear:animated];
-    [self IFA_viewDidDisappear];
+    [self ifa_viewDidDisappear];
     
 }
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-    [self IFA_viewDidLoad];
+    [self ifa_viewDidLoad];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     [super prepareForSegue:segue sender:sender];
-    [self IFA_prepareForSegue:segue sender:sender];
+    [self ifa_prepareForSegue:segue sender:sender];
 }
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self IFA_willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self ifa_willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self IFA_willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self ifa_willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    [self IFA_didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [self ifa_didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
 
 @end

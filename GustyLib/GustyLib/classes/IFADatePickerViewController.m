@@ -58,11 +58,11 @@ static NSString * const k_valueCellId = @"valueCell";
 }
 
 -(void)XYZ_onSelectNowButtonTap:(id)aSender{
-    self.XYZ_dateAndTime = [NSDate IFA_dateWithSecondPrecision];
+    self.XYZ_dateAndTime = [NSDate ifa_dateWithSecondPrecision];
 }
 
 -(void)XYZ_onSelectTodayButtonTap:(id)aSender{
-    self.XYZ_dateAndTime = [[NSDate date] IFA_lastMidnightForCalendar:[self calendar]] ;
+    self.XYZ_dateAndTime = [[NSDate date] ifa_lastMidnightForCalendar:[self calendar]] ;
 }
 
 -(void)XYZ_onSelectDistantPastButtonTap:(id)aSender{
@@ -115,9 +115,9 @@ static NSString * const k_valueCellId = @"valueCell";
         BOOL l_preventFutureDateSelectionExceptTomorrow = [[l_optionsDict objectForKey:@"preventFutureDateSelectionExceptTomorrow"] boolValue];
         if (l_preventFutureDateSelection || l_preventFutureDateSelectionExceptTomorrow) {
             if (l_preventFutureDateSelection) {
-                l_datePicker.maximumDate = [[NSDate date] IFA_lastMidnightForCalendar:[NSCalendar IFA_threadSafeCalendar]];
+                l_datePicker.maximumDate = [[NSDate date] ifa_lastMidnightForCalendar:[NSCalendar ifa_threadSafeCalendar]];
             }else{
-                l_datePicker.maximumDate = [[NSDate date] IFA_nextMidnightForCalendar:[NSCalendar IFA_threadSafeCalendar]];
+                l_datePicker.maximumDate = [[NSDate date] ifa_nextMidnightForCalendar:[NSCalendar ifa_threadSafeCalendar]];
             }
         }else{
             l_datePicker.maximumDate = [NSDate distantFuture];
@@ -235,18 +235,18 @@ static NSString * const k_valueCellId = @"valueCell";
                                                                                   style:UIBarButtonItemStylePlain
                                                                                  target:self
                                                                                  action:@selector(XYZ_onDateAndTimeToggleButtonTap:)];
-            self.XYZ_showDatePickerBarButtonItem.accessibilityLabel = [self IFA_accessibilityLabelForName:@"showDatePickerButton"];
+            self.XYZ_showDatePickerBarButtonItem.accessibilityLabel = [self ifa_accessibilityLabelForName:@"showDatePickerButton"];
 
             self.XYZ_showTimePickerBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"11-clock.png"]
                                                                                   style:UIBarButtonItemStylePlain
                                                                                  target:self
                                                                                  action:@selector(XYZ_onDateAndTimeToggleButtonTap:)];
-            self.XYZ_showTimePickerBarButtonItem.accessibilityLabel = [self IFA_accessibilityLabelForName:@"showTimePickerButton"];
+            self.XYZ_showTimePickerBarButtonItem.accessibilityLabel = [self ifa_accessibilityLabelForName:@"showTimePickerButton"];
             
             self.XYZ_dateAndTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             self.XYZ_dateAndTimeLabel.backgroundColor = [UIColor clearColor];
             self.XYZ_dateAndTimeLabel.textColor = [UIColor whiteColor];
-            [[self IFA_appearanceTheme] setAppearanceForView:self.XYZ_dateAndTimeLabel];
+            [[self ifa_appearanceTheme] setAppearanceForView:self.XYZ_dateAndTimeLabel];
             self.XYZ_dateAndTimeLabel.textAlignment = NSTextAlignmentCenter;
             
             UIBarButtonItem *l_dateAndTimeBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.XYZ_dateAndTimeLabel];
@@ -291,7 +291,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IFAPresenter>
     return [self initWithObject:anObject propertyName:aPropertyName useButtonForDismissal:a_useButtonForDismissal datePickerMode:UIDatePickerModeDate showTimePicker:NO];
 }
 
-- (NSArray*)IFA_editModeToolbarItems {
+- (NSArray*)ifa_editModeToolbarItems {
     return v_toolbarItems;
 }
 
@@ -311,7 +311,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IFAPresenter>
     }
 }
 
--(BOOL)IFA_hasFixedSize {
+-(BOOL)ifa_hasFixedSize {
     return YES;
 }
 
@@ -333,10 +333,10 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IFAPresenter>
 
         if (v_seconds) {
             unsigned l_unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
-            NSDateComponents *l_dateComponents = [[NSCalendar IFA_threadSafeCalendar] components:l_unitFlags
+            NSDateComponents *l_dateComponents = [[NSCalendar ifa_threadSafeCalendar] components:l_unitFlags
                                                                                         fromDate:self.XYZ_dateAndTime];
             [l_dateComponents setSecond:[v_seconds intValue]];
-            _XYZ_dateAndTime = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_dateComponents];
+            _XYZ_dateAndTime = [[NSCalendar ifa_threadSafeCalendar] dateFromComponents:l_dateComponents];
         }
         
         v_datePicker.date = self.XYZ_dateAndTime;

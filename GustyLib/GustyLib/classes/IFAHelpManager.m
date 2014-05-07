@@ -380,7 +380,7 @@
         return;
     }
     
-    NSLog(@"m_onHelpTargetSelectionForTapGestureRecogniser - view: %@, helpTargetId: %@", a_tapGestureRecogniser.view, a_tapGestureRecogniser.view.helpTargetId);
+    NSLog(@"m_onHelpTargetSelectionForTapGestureRecogniser - view: %@, helpTargetId: %@", a_tapGestureRecogniser.view, a_tapGestureRecogniser.view.ifa_helpTargetId);
 //    NSLog(@"XYZ_onHelpTargetSelectionForTapGestureRecogniser: %@, helpTargetId: %@", [a_tapGestureRecogniser description], a_tapGestureRecogniser.view.helpTargetId);
     
 //    NSDictionary *l_helpDictionary = [IFAUtils getPlistAsDictionary:@"Help"];
@@ -388,7 +388,7 @@
 
     UIViewController *l_viewController = (UIViewController*)self.observedHelpTargetContainer;
     UIView *l_view = a_tapGestureRecogniser.view;
-    NSString *l_helpTargetId = l_view.helpTargetId;
+    NSString *l_helpTargetId = l_view.ifa_helpTargetId;
     
     NSString *l_title = [self XYZ_helpTitleForKeyPath:l_helpTargetId];
     if (!l_title) {
@@ -519,7 +519,7 @@
         [l_fieldEditorViewController.navigationController.view addSubview:l_backgroundView];
         
         // Present pop tip view
-        NSString *l_description = [self XYZ_helpDescriptionForKeyPath:l_fieldEditorViewController.IFA_helpTargetId];
+        NSString *l_description = [self XYZ_helpDescriptionForKeyPath:l_fieldEditorViewController.ifa_helpTargetId];
         [self XYZ_presentPopTipViewWithTitle:nil description:l_description pointingAtView:a_button];
 
     }else{  // Help Mode
@@ -533,9 +533,9 @@
 
 -(void)XYZ_onScreenHelpButtonTap:(UIButton*)a_button{
     UIViewController *l_observedViewController = (UIViewController*)self.observedHelpTargetContainer;
-    NSString *l_helpTargetId = l_observedViewController.IFA_helpTargetId;
+    NSString *l_helpTargetId = l_observedViewController.ifa_helpTargetId;
     if (!l_helpTargetId) {
-        l_helpTargetId = [l_observedViewController IFA_helpTargetIdForName:@"screen"];
+        l_helpTargetId = [l_observedViewController ifa_helpTargetIdForName:@"screen"];
     }
     NSLog(@"m_onScreenHelpButtonTap for helpTargetId: %@", l_helpTargetId);
     NSString *l_title = [self XYZ_helpTitleForKeyPath:l_helpTargetId];
@@ -550,7 +550,7 @@
 //    NSLog(@"m_insertHelpTargetViewForView: %@", a_view);
     IFAHelpTargetView *l_helpTargetView = [[IFAHelpTargetView alloc] initWithFrame:a_view.frame];
 //    l_helpTargetView.backgroundColor = [UIColor redColor];
-    l_helpTargetView.helpTargetId = a_view.helpTargetId;
+    l_helpTargetView.ifa_helpTargetId = a_view.ifa_helpTargetId;
     if (a_title) {
         l_helpTargetView.accessibilityLabel = a_title;
     }
@@ -831,7 +831,7 @@
 }
 
 + (NSString*)helpTargetIdForPropertyName:(NSString *)a_propertyName inObject:(NSObject*)a_object{
-    return [NSString stringWithFormat:@"entities.%@.%@", [a_object IFA_entityName], a_propertyName];
+    return [NSString stringWithFormat:@"entities.%@.%@", [a_object ifa_entityName], a_propertyName];
 }
 
 #pragma mark - Overrides

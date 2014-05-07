@@ -16,7 +16,7 @@
 *
 * @returns Dictionary where keys are distinct values for given path and values are arrays of objects grouped by the given path.
 */
-+ (NSDictionary *)IFA_dictionaryFromObjects:(NSArray *)a_objects groupedByPath:(NSString *)a_pathToGroupBy
++ (NSDictionary *)ifa_dictionaryFromObjects:(NSArray *)a_objects groupedByPath:(NSString *)a_pathToGroupBy
                              sortDescriptor:(NSSortDescriptor *)a_sortDescriptor;
 
 @end

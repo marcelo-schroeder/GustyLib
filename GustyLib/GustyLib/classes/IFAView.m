@@ -25,19 +25,19 @@
 #pragma mark - Overrides
 
 -(id)init{
-    return [[super init] IFA_init];
+    return [[super init] ifa_init];
 }
 
 -(id)initWithFrame:(CGRect)frame{
-    return [[super initWithFrame:frame] IFA_init];
+    return [[super initWithFrame:frame] ifa_init];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder{
-    return [[super initWithCoder:aDecoder] IFA_init];
+    return [[super initWithCoder:aDecoder] ifa_init];
 }
 
 -(void)awakeFromNib{
-    [self IFA_awakeFromNib];
+    [self ifa_awakeFromNib];
 }
 
 @end

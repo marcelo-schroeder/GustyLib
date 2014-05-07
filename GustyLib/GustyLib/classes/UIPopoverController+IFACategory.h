@@ -22,6 +22,6 @@
 
 @interface UIPopoverController (IFACategory)
 
-@property (nonatomic, readonly) NSUInteger IFA_borderThickness;
+@property (nonatomic, readonly) NSUInteger ifa_borderThickness;
 
 @end

@@ -24,7 +24,7 @@ static char c_buttonKey;
 
 @interface UIBarButtonItem (IFACategory_Private)
 
-@property (nonatomic, strong) UIButton *IFA_button;
+@property (nonatomic, strong) UIButton *ifa_button;
 
 @end
 
@@ -32,7 +32,7 @@ static char c_buttonKey;
 
 #pragma mark - Private
 
--(void)setIFA_button:(UIColor*)a_button{
+-(void)setIfa_button:(UIColor*)a_button{
     objc_setAssociatedObject(self, &c_buttonKey, a_button, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
@@ -42,7 +42,7 @@ static char c_buttonKey;
 
 #pragma mark - Public
 
--(UIColor*)IFA_button {
+-(UIColor*)ifa_button {
     return objc_getAssociatedObject(self, &c_buttonKey);
 }
 
@@ -58,15 +58,15 @@ static char c_buttonKey;
 
     // Create the underlying button
     UIImage *l_buttonImage = [UIImage imageNamed:a_imageName];
-    self.IFA_button = [UIButton IFA_buttonWithType:UIButtonTypeCustom appearanceId:a_appearanceId];
-    [self.IFA_button addTarget:self action:@selector(XYZ_onButtonAction) forControlEvents:UIControlEventTouchUpInside];
-    self.IFA_button.IFA_appearanceId = a_appearanceId;
-    [self.IFA_button setImage:l_buttonImage forState:UIControlStateNormal];
-    [self.IFA_button sizeToFit];
-    self.IFA_button.adjustsImageWhenHighlighted = YES;
+    self.ifa_button = [UIButton ifa_buttonWithType:UIButtonTypeCustom appearanceId:a_appearanceId];
+    [self.ifa_button addTarget:self action:@selector(XYZ_onButtonAction) forControlEvents:UIControlEventTouchUpInside];
+    self.ifa_button.ifa_appearanceId = a_appearanceId;
+    [self.ifa_button setImage:l_buttonImage forState:UIControlStateNormal];
+    [self.ifa_button sizeToFit];
+    self.ifa_button.adjustsImageWhenHighlighted = YES;
 
     // Create the bar button item
-    if (self= [self initWithCustomView:self.IFA_button]) {
+    if (self= [self initWithCustomView:self.ifa_button]) {
         self.target = a_target;
         self.action = a_action;
         // Style it

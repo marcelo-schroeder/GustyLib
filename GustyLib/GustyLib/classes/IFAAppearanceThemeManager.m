@@ -184,8 +184,8 @@
     }
 
     // Dismiss activity view controller popover
-    [[IFAApplicationDelegate sharedInstance].popoverControllerPresenter IFA_dismissModalViewControllerWithChangesMade:NO
-                                                                                                                  data:nil ];
+    [[IFAApplicationDelegate sharedInstance].popoverControllerPresenter ifa_dismissModalViewControllerWithChangesMade:NO
+                                                                                                                 data:nil ];
 
     // Dismiss popover menu if using the custom split view controller
     [IFAUIUtils dismissSplitViewControllerPopover];

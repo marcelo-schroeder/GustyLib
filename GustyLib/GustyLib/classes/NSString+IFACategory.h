@@ -22,22 +22,22 @@
 
 @interface NSString (IFACategory)
 
--(NSString*)IFA_stringByKeepingCharactersInSet:(NSCharacterSet*)a_characterSet;
--(NSString*)IFA_stringByRemovingNewLineCharacters;
--(NSString*)IFA_stringByTrimming;
--(BOOL)IFA_isEmpty;
+-(NSString*)ifa_stringByKeepingCharactersInSet:(NSCharacterSet*)a_characterSet;
+-(NSString*)ifa_stringByRemovingNewLineCharacters;
+-(NSString*)ifa_stringByTrimming;
+-(BOOL)ifa_isEmpty;
 
--(BOOL)IFA_validateEmailAddress;
+-(BOOL)ifa_validateEmailAddress;
 
-- (NSString *)IFA_stringByReplacingOccurrencesOfRegexPattern:(NSString *)a_regexPattern
+- (NSString *)ifa_stringByReplacingOccurrencesOfRegexPattern:(NSString *)a_regexPattern
                                                   usingBlock:(NSString * (^)(NSString *a_matchedString))a_block;
 
-- (NSArray *)IFA_characters;
+- (NSArray *)ifa_characters;
 
-- (NSString *)IFA_stringMatchingSet:(NSCharacterSet *)a_characterSet;
+- (NSString *)ifa_stringMatchingSet:(NSCharacterSet *)a_characterSet;
 
-- (NSString *)IFA_stringWithNumbersOnly;
+- (NSString *)ifa_stringWithNumbersOnly;
 
-+ (id)IFA_stringWithFormat:(NSString *)format array:(NSArray*)arguments;
++ (id)ifa_stringWithFormat:(NSString *)format array:(NSArray*)arguments;
 
 @end

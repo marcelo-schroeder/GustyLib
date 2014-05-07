@@ -22,7 +22,7 @@
 
 @implementation UIPopoverController (IFACategory)
 
--(NSUInteger)IFA_borderThickness {
+-(NSUInteger)ifa_borderThickness {
     return 7;  // Default thickness provided by Apple
 }
 

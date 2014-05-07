@@ -126,11 +126,11 @@
 }
 
 - (NSString*)headerForForm:(NSString*)aFormName inObject:(NSObject*)anObject{
-	return [[[[[self entityConfigDictionary] valueForKey:[anObject IFA_entityName]] valueForKey:@"forms"] valueForKey:aFormName] valueForKey:@"formHeader"];
+	return [[[[[self entityConfigDictionary] valueForKey:[anObject ifa_entityName]] valueForKey:@"forms"] valueForKey:aFormName] valueForKey:@"formHeader"];
 }
 
 - (NSString*)footerForForm:(NSString*)aFormName inObject:(NSObject*)anObject{
-	return [[[[[self entityConfigDictionary] valueForKey:[anObject IFA_entityName]] valueForKey:@"forms"] valueForKey:aFormName] valueForKey:@"formFooter"];
+	return [[[[[self entityConfigDictionary] valueForKey:[anObject ifa_entityName]] valueForKey:@"forms"] valueForKey:aFormName] valueForKey:@"formFooter"];
 }
 
 - (NSString*)viewControllerForForm:(NSString*)aFormName inEntity:(NSString*)anEntityName{
@@ -199,7 +199,7 @@
 }
 
 - (NSArray*)dependentsForProperty:(NSString*)aPropertyName inObject:(NSObject*)anObject{
-    return [[self.XYZ_entityToDependencyParentChildrenDict valueForKey:[anObject IFA_entityName]] valueForKey:aPropertyName];
+    return [[self.XYZ_entityToDependencyParentChildrenDict valueForKey:[anObject ifa_entityName]] valueForKey:aPropertyName];
 }
 
 - (NSString*)displayValuePropertyForEntityProperty:(NSString*)aPropertyName inObject:(NSObject*)anObject{
@@ -207,7 +207,7 @@
 }
 
 - (NSString*)parentPropertyForDependent:(NSString*)aPropertyName inObject:(NSObject*)anObject{
-    return [[self.XYZ_entityToDependencyChildParentDict valueForKey:[anObject IFA_entityName]] valueForKey:aPropertyName];
+    return [[self.XYZ_entityToDependencyChildParentDict valueForKey:[anObject ifa_entityName]] valueForKey:aPropertyName];
 }
 
 - (NSString*)labelForForm:(NSString*)aFormName inObject:(NSObject*)anObject{
@@ -313,7 +313,7 @@
 }
 
 - (BOOL)isEnumerationForProperty:(NSString*)aPropertyName inObject:(NSObject*)anObject{
-    return [self isEnumerationForProperty:aPropertyName inEntity:[anObject IFA_entityName]];
+    return [self isEnumerationForProperty:aPropertyName inEntity:[anObject ifa_entityName]];
 }
 
 - (BOOL)isEnumerationForProperty:(NSString*)aPropertyName inEntity:(NSString*)anEntityName{
@@ -321,7 +321,7 @@
 }
 
 - (BOOL)shouldTriggerChangeNotificationForProperty:(NSString*)aPropertyName inManagedObject:(NSManagedObject*)aManagedObject{
-    return [self shouldTriggerChangeNotificationForProperty:aPropertyName inEntity:[aManagedObject IFA_entityName]];
+    return [self shouldTriggerChangeNotificationForProperty:aPropertyName inEntity:[aManagedObject ifa_entityName]];
 }
 
 - (BOOL)shouldTriggerChangeNotificationForProperty:(NSString*)aPropertyName inEntity:(NSString*)anEntityName{
@@ -337,7 +337,7 @@
 }
 
 - (BOOL)shouldTriggerChangeNotificationForManagedObject:(NSManagedObject*)aManagedObject{
-    return [self shouldTriggerChangeNotificationForEntity:[aManagedObject IFA_entityName]];
+    return [self shouldTriggerChangeNotificationForEntity:[aManagedObject ifa_entityName]];
 }
 
 - (BOOL)shouldTriggerChangeNotificationForEntity:(NSString*)anEntityName{
@@ -467,7 +467,7 @@
 }
 
 - (NSPropertyDescription*)descriptionForProperty:(NSString*)aPropertyName inObject:(NSObject*)anObject{
-	return [self descriptionForProperty:aPropertyName inEntity:[anObject IFA_entityName]];
+	return [self descriptionForProperty:aPropertyName inEntity:[anObject ifa_entityName]];
 }
 
 - (NSPropertyDescription*)descriptionForProperty:(NSString*)aPropertyName inEntity:(NSString*)anEntityName{
@@ -484,7 +484,7 @@
 
 - (NSArray*)propertiesWithBackingPreferencesForObject:(NSObject*)anObject{
     NSMutableArray *l_propertiesWithBackingPreferences = [NSMutableArray array];
-    NSDictionary *l_propertiesDict = [[[self entityConfigDictionary] valueForKey:[anObject IFA_entityName]] valueForKey:@"properties"];
+    NSDictionary *l_propertiesDict = [[[self entityConfigDictionary] valueForKey:[anObject ifa_entityName]] valueForKey:@"properties"];
     for (NSString *l_propertyName in [l_propertiesDict allKeys]) {
         NSDictionary *l_propertyDict = [l_propertiesDict valueForKey:l_propertyName];
         NSArray *l_backingPreferencesProperty = [l_propertyDict valueForKey:@"backingPreferencesProperty"];
@@ -496,7 +496,7 @@
 }
 
 - (NSString*)backingPreferencesPropertyForProperty:(NSString*)aPropertyName inObject:(NSObject*)anObject{
-	return [[[[[self entityConfigDictionary] valueForKey:[anObject IFA_entityName]] valueForKey:@"properties"] valueForKey:aPropertyName] valueForKey:@"backingPreferencesProperty"];
+	return [[[[[self entityConfigDictionary] valueForKey:[anObject ifa_entityName]] valueForKey:@"properties"] valueForKey:aPropertyName] valueForKey:@"backingPreferencesProperty"];
 }
 
 - (NSString*)backingPreferencesPropertyForEntity:(NSString*)anEntityName{

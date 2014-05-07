@@ -81,11 +81,11 @@
 //    NSLog(@"l_htmlMetaString: %@", l_htmlMetaString);
     NSString *l_htmlStyleString = self.htmlStyleString;
     if (self.htmlStyleStringFormatArguments) {
-        l_htmlStyleString = [NSString IFA_stringWithFormat:l_htmlStyleString
+        l_htmlStyleString = [NSString ifa_stringWithFormat:l_htmlStyleString
                                                      array:self.htmlStyleStringFormatArguments];
     }
     NSArray *l_arguments = @[l_htmlMetaString, l_htmlStyleString, self.htmlBodyString];
-    NSString *l_htmlString = [NSString IFA_stringWithFormat:self.htmlTemplateString array:l_arguments];
+    NSString *l_htmlString = [NSString ifa_stringWithFormat:self.htmlTemplateString array:l_arguments];
 //    NSLog(@"l_htmlString: %@", l_htmlString);
     return l_htmlString;
 }

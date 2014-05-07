@@ -10,7 +10,7 @@
 
 #pragma mark - Public
 
-- (BOOL)IFA_isAppleUrlScheme {
+- (BOOL)ifa_isAppleUrlScheme {
     if (
             [self.scheme isEqualToString:@"mailto"]
                     || [self.scheme isEqualToString:@"tel"]
