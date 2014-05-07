@@ -20,7 +20,7 @@
 
 
 @interface IFASubjectActivityItem ()
-@property(nonatomic, copy) NSString *ifa_subject;
+@property(nonatomic, copy) NSString *XYZ_subject;
 @end
 
 @implementation IFASubjectActivityItem {
@@ -32,7 +32,7 @@
 - (id)initWithSubject:(NSString *)a_subject {
     self = [super init];
     if (self) {
-        self.ifa_subject = a_subject;
+        self.XYZ_subject = a_subject;
     }
     return self;
 }
@@ -46,7 +46,7 @@
 
 - (id)activityViewController:(UIActivityViewController *)activityViewController
          itemForActivityType:(NSString *)activityType {
-    return self.ifa_subject;
+    return self.XYZ_subject;
 }
 
 // Provides the Subject value for when sharing via email (iOS 7 or greater)

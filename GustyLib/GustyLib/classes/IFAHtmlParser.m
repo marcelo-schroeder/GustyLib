@@ -37,16 +37,16 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
 // HTML element parsing stack
 @property(nonatomic, strong) NSMutableArray *elementMetadataStack;
 
-@property(nonatomic, strong) NSArray *ifa_unparsedHtmlStringLines;
-@property(nonatomic, strong) NSMutableArray *ifa_unparsedHtmlStringLinesMetadata;
+@property(nonatomic, strong) NSArray *XYZ_unparsedHtmlStringLines;
+@property(nonatomic, strong) NSMutableArray *XYZ_unparsedHtmlStringLinesMetadata;
 @property(nonatomic, strong) NSMutableString *mutableHtmlString;
-//@property(nonatomic) BOOL ifa_isInBody;
-//@property(nonatomic, strong) HtmlDocumentPosition *ifa_topLevelTagStartPosition;
-@property(nonatomic, strong) IFAHtmlDocumentPosition *ifa_currentPosition;
-@property(nonatomic, strong) IFAHtmlParserEndElementBlock ifa_endElementBlock;
-@property(nonatomic) IFAHtmlParserEvent ifa_lastParsingEvent;
-@property(nonatomic, strong) NSString *ifa_unparsedHtmlString;
-//@property(nonatomic) NSUInteger ifa_bodyElementLevel;
+//@property(nonatomic) BOOL XYZ_isInBody;
+//@property(nonatomic, strong) HtmlDocumentPosition *XYZ_topLevelTagStartPosition;
+@property(nonatomic, strong) IFAHtmlDocumentPosition *XYZ_currentPosition;
+@property(nonatomic, strong) IFAHtmlParserEndElementBlock XYZ_endElementBlock;
+@property(nonatomic) IFAHtmlParserEvent XYZ_lastParsingEvent;
+@property(nonatomic, strong) NSString *XYZ_unparsedHtmlString;
+//@property(nonatomic) NSUInteger XYZ_bodyElementLevel;
 
 @end
 
@@ -56,21 +56,21 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
 
 #pragma mark - Private
 
-- (IFAHtmlDocumentPosition *)ifa_currentPosition {
-    if (!_ifa_currentPosition) {
-        _ifa_currentPosition = [IFAHtmlDocumentPosition new];
+- (IFAHtmlDocumentPosition *)XYZ_currentPosition {
+    if (!_XYZ_currentPosition) {
+        _XYZ_currentPosition = [IFAHtmlDocumentPosition new];
     }
-    return _ifa_currentPosition;
+    return _XYZ_currentPosition;
 }
 
-- (NSMutableArray *)ifa_unparsedHtmlStringLinesMetadata {
-    if (!_ifa_unparsedHtmlStringLinesMetadata) {
-        _ifa_unparsedHtmlStringLinesMetadata = [@[] mutableCopy];
+- (NSMutableArray *)XYZ_unparsedHtmlStringLinesMetadata {
+    if (!_XYZ_unparsedHtmlStringLinesMetadata) {
+        _XYZ_unparsedHtmlStringLinesMetadata = [@[] mutableCopy];
     }
-    return _ifa_unparsedHtmlStringLinesMetadata;
+    return _XYZ_unparsedHtmlStringLinesMetadata;
 }
 
-- (void)ifa_pushElementMetadataStackWith:(NSString *)a_elementName attributes:(NSDictionary *)a_attributes {
+- (void)XYZ_pushElementMetadataStackWith:(NSString *)a_elementName attributes:(NSDictionary *)a_attributes {
 
     // Prepare element attributes for saving
     NSMutableDictionary *l_attributes = nil;
@@ -84,14 +84,14 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
     }
 
     // Prepare element start position for saving
-    if (self.ifa_lastParsingEvent == IFAHtmlParserEventElementStarted) {
-        self.ifa_currentPosition.column++;
+    if (self.XYZ_lastParsingEvent == IFAHtmlParserEventElementStarted) {
+        self.XYZ_currentPosition.column++;
     }
 
     // Save element parsing metadata
     IFAHtmlElementParsingMetadata *l_elementMetadata = [[IFAHtmlElementParsingMetadata alloc] initWithName:a_elementName
                                                                                           attributes:l_attributes
-                                                                                       startPosition:self.ifa_currentPosition];
+                                                                                       startPosition:self.XYZ_currentPosition];
     [self.elementMetadataStack addObject:l_elementMetadata];
 
 }
@@ -100,28 +100,28 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
 
 - (void)parser:(DTHTMLParser *)parser didStartElement:(NSString *)elementName attributes:(NSDictionary *)attributeDict {
 
-//    if (self.ifa_isInBody) {
-//        self.ifa_bodyElementLevel++;
+//    if (self.XYZ_isInBody) {
+//        self.XYZ_bodyElementLevel++;
 //    }
 //    if ([elementName isEqualToString:k_tagNameBody]) {
-//        self.ifa_isInBody = YES;
+//        self.XYZ_isInBody = YES;
 //    }
 //    NSLog(@"didStartElement: %@, attributeDict: %@", elementName, [attributeDict description]);
 //    NSLog(@"    line: %u, column: %u", parser.lineNumber, parser.columnNumber);
 
-    [self ifa_pushElementMetadataStackWith:elementName attributes:attributeDict];
+    [self XYZ_pushElementMetadataStackWith:elementName attributes:attributeDict];
 
-//    if (self.ifa_bodyElementLevel == 1) {
-//        self.ifa_topLevelTagStartPosition = self.ifa_currentPosition;
-//        self.ifa_topLevelTagStartPosition.column++;
+//    if (self.XYZ_bodyElementLevel == 1) {
+//        self.XYZ_topLevelTagStartPosition = self.XYZ_currentPosition;
+//        self.XYZ_topLevelTagStartPosition.column++;
 //    }
 
     // Save element current position
-    self.ifa_currentPosition = [IFAHtmlDocumentPosition positionWithLine:(NSUInteger) parser.lineNumber
+    self.XYZ_currentPosition = [IFAHtmlDocumentPosition positionWithLine:(NSUInteger) parser.lineNumber
                                                                column:(NSUInteger) parser.columnNumber];
 
     // Save last parsing event
-    self.ifa_lastParsingEvent = IFAHtmlParserEventElementStarted;
+    self.XYZ_lastParsingEvent = IFAHtmlParserEventElementStarted;
 
 }
 
@@ -130,7 +130,7 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
 //    NSLog(@"didEndElement: %@", elementName);
 //    NSLog(@"  line: %u, column: %u", parser.lineNumber, parser.columnNumber);
 
-    self.ifa_currentPosition = [IFAHtmlDocumentPosition positionWithLine:(NSUInteger) parser.lineNumber
+    self.XYZ_currentPosition = [IFAHtmlDocumentPosition positionWithLine:(NSUInteger) parser.lineNumber
                                                                column:(NSUInteger) parser.columnNumber];
 
     IFAHtmlElementParsingMetadata *l_elementMetadata = [self.elementMetadataStack lastObject];
@@ -138,24 +138,24 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
     [self.elementMetadataStack removeLastObject];
 
     // Set the missing properties in the element metadata
-    l_elementMetadata.endPosition = self.ifa_currentPosition;
+    l_elementMetadata.endPosition = self.XYZ_currentPosition;
     l_elementMetadata.stringRepresentation = [self stringForStartPosition:l_elementMetadata.startPosition
                                                               endPosition:l_elementMetadata.endPosition];
 
 //    NSLog(@"  l_stringRepresentation: %@", l_stringRepresentation);
 //    NSLog(@"  l_attributeDict: %@", [l_attributeDict description]);
 
-    if (self.ifa_endElementBlock) {
+    if (self.XYZ_endElementBlock) {
         IFAHtmlElementParsingContext *l_parsingContext = [[IFAHtmlElementParsingContext alloc] initWithElementMetadata:l_elementMetadata
                                                                                                           parser:self];
-        self.ifa_endElementBlock(l_parsingContext);
+        self.XYZ_endElementBlock(l_parsingContext);
     }
 
-//    if (self.ifa_isInBody) {
-//        self.ifa_bodyElementLevel--;
+//    if (self.XYZ_isInBody) {
+//        self.XYZ_bodyElementLevel--;
 //    }
 
-    self.ifa_lastParsingEvent = IFAHtmlParserEventElementEnded;
+    self.XYZ_lastParsingEvent = IFAHtmlParserEventElementEnded;
 
 }
 
@@ -168,21 +168,21 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
 
 - (NSString *)parseHtmlString:(NSString *)a_htmlString endElementBlock:(IFAHtmlParserEndElementBlock)a_endElementBlock {
 
-    self.ifa_unparsedHtmlStringLines = [a_htmlString componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    self.XYZ_unparsedHtmlStringLines = [a_htmlString componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     NSUInteger l_accumulatedLength = 0;
-    for (int i = 0; i < self.ifa_unparsedHtmlStringLines.count; i++) {
-        NSString *l_line = self.ifa_unparsedHtmlStringLines[(NSUInteger) i];
+    for (int i = 0; i < self.XYZ_unparsedHtmlStringLines.count; i++) {
+        NSString *l_line = self.XYZ_unparsedHtmlStringLines[(NSUInteger) i];
         IFAHtmlLineParsingMetadata *l_lineMetadata = [IFAHtmlLineParsingMetadata new];
         l_lineMetadata.lengthBeforeThisLine = l_accumulatedLength;
-        [self.ifa_unparsedHtmlStringLinesMetadata addObject:l_lineMetadata];
+        [self.XYZ_unparsedHtmlStringLinesMetadata addObject:l_lineMetadata];
         l_accumulatedLength += l_line.length + 1;   // Adds line break character
     }
 
-    self.ifa_unparsedHtmlString = [self.ifa_unparsedHtmlStringLines componentsJoinedByString:k_lineBreak];
-    self.mutableHtmlString = [self.ifa_unparsedHtmlString mutableCopy];
-    self.ifa_endElementBlock = a_endElementBlock;
+    self.XYZ_unparsedHtmlString = [self.XYZ_unparsedHtmlStringLines componentsJoinedByString:k_lineBreak];
+    self.mutableHtmlString = [self.XYZ_unparsedHtmlString mutableCopy];
+    self.XYZ_endElementBlock = a_endElementBlock;
 
-    DTHTMLParser *l_htmlParser = [[DTHTMLParser alloc] initWithData:[self.ifa_unparsedHtmlString dataUsingEncoding:NSUTF8StringEncoding]
+    DTHTMLParser *l_htmlParser = [[DTHTMLParser alloc] initWithData:[self.XYZ_unparsedHtmlString dataUsingEncoding:NSUTF8StringEncoding]
                                                            encoding:NSUTF8StringEncoding];
     l_htmlParser.delegate = self;
     [l_htmlParser parse];
@@ -209,15 +209,15 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
         l_startLineIndex = l_startLine - 1;
     }
     NSUInteger l_endLineIndex = l_endLine - 1;
-    IFAHtmlLineParsingMetadata *l_startLineMetadata = self.ifa_unparsedHtmlStringLinesMetadata[l_startLineIndex];
-    IFAHtmlLineParsingMetadata *l_endLineMetadata = self.ifa_unparsedHtmlStringLinesMetadata[l_endLineIndex];
+    IFAHtmlLineParsingMetadata *l_startLineMetadata = self.XYZ_unparsedHtmlStringLinesMetadata[l_startLineIndex];
+    IFAHtmlLineParsingMetadata *l_endLineMetadata = self.XYZ_unparsedHtmlStringLinesMetadata[l_endLineIndex];
     NSUInteger l_location = l_startLineMetadata.lengthBeforeThisLine + (l_startColumn - 1);
     NSUInteger l_length = ( l_endLineMetadata.lengthBeforeThisLine + (l_endColumn - 1) ) - l_location;
 
     // Fix line break position mismatch that occurs with tags that are not properly closed (e.g. <p>)
     if ((((NSInteger)l_location) - 2) >= 0) {
         NSRange l_range2 = NSMakeRange(l_location - 2, 1);
-        NSString *l_string2 = [self.ifa_unparsedHtmlString substringWithRange:l_range2];
+        NSString *l_string2 = [self.XYZ_unparsedHtmlString substringWithRange:l_range2];
         if ([l_string2 isEqualToString:@"\n"]) {
             l_location--;
             l_length++;
@@ -226,7 +226,7 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
 
     // Remove line breaks at the edges
     NSRange l_range = NSMakeRange(l_location, l_length);
-    NSString *l_string = [self.ifa_unparsedHtmlString substringWithRange:l_range];
+    NSString *l_string = [self.XYZ_unparsedHtmlString substringWithRange:l_range];
     if ([[l_string substringWithRange:NSMakeRange(0, 1)] isEqualToString:@"\n"]) {
         l_string = [l_string substringFromIndex:1];
     }

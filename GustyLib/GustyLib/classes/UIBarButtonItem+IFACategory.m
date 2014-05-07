@@ -36,7 +36,7 @@ static char c_buttonKey;
     objc_setAssociatedObject(self, &c_buttonKey, a_button, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(void)ifa_onButtonAction {
+-(void)XYZ_onButtonAction {
     objc_msgSend(self.target, self.action, self);
 }
 
@@ -59,7 +59,7 @@ static char c_buttonKey;
     // Create the underlying button
     UIImage *l_buttonImage = [UIImage imageNamed:a_imageName];
     self.IFA_button = [UIButton IFA_buttonWithType:UIButtonTypeCustom appearanceId:a_appearanceId];
-    [self.IFA_button addTarget:self action:@selector(ifa_onButtonAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.IFA_button addTarget:self action:@selector(XYZ_onButtonAction) forControlEvents:UIControlEventTouchUpInside];
     self.IFA_button.IFA_appearanceId = a_appearanceId;
     [self.IFA_button setImage:l_buttonImage forState:UIControlStateNormal];
     [self.IFA_button sizeToFit];

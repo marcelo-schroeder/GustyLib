@@ -31,7 +31,7 @@
 
 #pragma mark - Private
 
--(void)ifa_updateLeftBarButtonItemsStates {
+-(void)XYZ_updateLeftBarButtonItemsStates {
     if (!self.pagingContainerViewController || self.selectedViewControllerInPagingContainer) {
         [self IFA_addLeftBarButtonItem:self.addBarButtonItem];
     }
@@ -141,7 +141,7 @@
 
 #pragma mark - Overrides
 
--(UITableViewCellAccessoryType)ifa_tableViewCellAccessoryType {
+-(UITableViewCellAccessoryType)XYZ_tableViewCellAccessoryType {
     return UITableViewCellAccessoryDisclosureIndicator;
 }
 
@@ -151,7 +151,7 @@
         l_cell.accessoryType = UITableViewCellAccessoryNone;
         l_cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }else {
-        l_cell.accessoryType = [self ifa_tableViewCellAccessoryType];
+        l_cell.accessoryType = [self XYZ_tableViewCellAccessoryType];
     }
 	l_cell.showsReorderControl = YES;
     [[self IFA_appearanceTheme] setAppearanceForView:l_cell.textLabel];
@@ -174,7 +174,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self ifa_updateLeftBarButtonItemsStates];
+    [self XYZ_updateLeftBarButtonItemsStates];
 }
 
 -(void)setEditing:(BOOL)editing animated:(BOOL)animated{

@@ -34,22 +34,22 @@
 
 #pragma mark - Private
 
--(NSString*)ifa_supportEmailAddress {
+-(NSString*)XYZ_supportEmailAddress {
     return [[IFAUtils infoPList] objectForKey:@"IFASupportEmailAddress"];
 }
 
--(NSString*)ifa_bugReportEmailAddress {
+-(NSString*)XYZ_bugReportEmailAddress {
     NSString *l_emailAddress = [[IFAUtils infoPList] objectForKey:@"IFABugReportEmailAddress"];
     if (!l_emailAddress) {
-        l_emailAddress = [self ifa_supportEmailAddress];
+        l_emailAddress = [self XYZ_supportEmailAddress];
     }
     return l_emailAddress;
 }
 
--(NSString*)ifa_feedbackEmailAddress {
+-(NSString*)XYZ_feedbackEmailAddress {
     NSString *l_emailAddress = [[IFAUtils infoPList] objectForKey:@"IFAFeedbackEmailAddress"];
     if (!l_emailAddress) {
-        l_emailAddress = [self ifa_supportEmailAddress];
+        l_emailAddress = [self XYZ_supportEmailAddress];
     }
     return l_emailAddress;
 }
@@ -60,14 +60,14 @@
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nPlease fix the following bug I have found in %@:", [IFAUtils appFullName]];
     [v_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Bug Report",
                                                                        [IFAUtils appNameAndEdition]]
-                                  recipient:[self ifa_bugReportEmailAddress] body:l_body];
+                                  recipient:[self XYZ_bugReportEmailAddress] body:l_body];
 }
 
 - (IBAction)feedbackButtonTap:(id)sender{
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nI have the following feedback to provide for %@:", [IFAUtils appFullName]];
     [v_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Feedback",
                                                                        [IFAUtils appNameAndEdition]]
-                                  recipient:[self ifa_feedbackEmailAddress] body:l_body];
+                                  recipient:[self XYZ_feedbackEmailAddress] body:l_body];
 }
 
 - (IBAction)forceCrashButtonTap:(id)sender {

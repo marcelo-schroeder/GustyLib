@@ -19,14 +19,14 @@
 #import "IFACommon.h"
 
 @interface IFAInternalWebBrowserViewController ()
-@property(nonatomic, strong) UIBarButtonItem *ifa_actionBarButtonItem;
-@property(nonatomic, strong) UIBarButtonItem *ifa_previousBarButtonItem;
-@property(nonatomic, strong) UIBarButtonItem *ifa_nextBarButtonItem;
-@property(nonatomic, strong) UIBarButtonItem *ifa_stopBarButtonItem;
-@property(nonatomic, strong) UIBarButtonItem *ifa_refreshBarButtonItem;
-@property(nonatomic, strong) UIBarButtonItem *ifa_refreshStopBarButtonItem;
-@property(nonatomic, strong) UIActivityIndicatorView *ifa_activityIndicatorView;
-@property(nonatomic, strong) UIBarButtonItem *ifa_activityIndicatorBarButtonItem;
+@property(nonatomic, strong) UIBarButtonItem *XYZ_actionBarButtonItem;
+@property(nonatomic, strong) UIBarButtonItem *XYZ_previousBarButtonItem;
+@property(nonatomic, strong) UIBarButtonItem *XYZ_nextBarButtonItem;
+@property(nonatomic, strong) UIBarButtonItem *XYZ_stopBarButtonItem;
+@property(nonatomic, strong) UIBarButtonItem *XYZ_refreshBarButtonItem;
+@property(nonatomic, strong) UIBarButtonItem *XYZ_refreshStopBarButtonItem;
+@property(nonatomic, strong) UIActivityIndicatorView *XYZ_activityIndicatorView;
+@property(nonatomic, strong) UIBarButtonItem *XYZ_activityIndicatorBarButtonItem;
 
 @end
 
@@ -35,44 +35,44 @@
 }
 #pragma mark - Private
 
-- (UIActivityIndicatorView *)ifa_activityIndicatorView {
-    if (!_ifa_activityIndicatorView) {
-        _ifa_activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        _ifa_activityIndicatorView.color = [UIColor blackColor];
-        [_ifa_activityIndicatorView sizeToFit];
-        [_ifa_activityIndicatorView startAnimating];
+- (UIActivityIndicatorView *)XYZ_activityIndicatorView {
+    if (!_XYZ_activityIndicatorView) {
+        _XYZ_activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        _XYZ_activityIndicatorView.color = [UIColor blackColor];
+        [_XYZ_activityIndicatorView sizeToFit];
+        [_XYZ_activityIndicatorView startAnimating];
     }
-    return _ifa_activityIndicatorView;
+    return _XYZ_activityIndicatorView;
 }
 
--(void)ifa_onActionBarButtonTap:(UIBarButtonItem*)a_button{
+-(void)XYZ_onActionBarButtonTap:(UIBarButtonItem*)a_button{
     [self IFA_presentActivityViewControllerFromBarButtonItem:a_button webView:self.mainWebView];
 }
 
-- (void)ifa_configureBrowserButtons {
+- (void)XYZ_configureBrowserButtons {
 
-    self.ifa_actionBarButtonItem = [self.delegate newActionBarButtonItem];
-    self.ifa_actionBarButtonItem.target = self;
-    self.ifa_actionBarButtonItem.action = @selector(ifa_onActionBarButtonTap:);
+    self.XYZ_actionBarButtonItem = [self.delegate newActionBarButtonItem];
+    self.XYZ_actionBarButtonItem.target = self;
+    self.XYZ_actionBarButtonItem.action = @selector(XYZ_onActionBarButtonTap:);
 
-    self.ifa_previousBarButtonItem = [self.delegate newPreviousBarButtonItem];
-    self.ifa_previousBarButtonItem.target = self;
-    self.ifa_previousBarButtonItem.action = @selector(goBackClicked:);
+    self.XYZ_previousBarButtonItem = [self.delegate newPreviousBarButtonItem];
+    self.XYZ_previousBarButtonItem.target = self;
+    self.XYZ_previousBarButtonItem.action = @selector(goBackClicked:);
 
-    self.ifa_nextBarButtonItem = [self.delegate newNextBarButtonItem];
-    self.ifa_nextBarButtonItem.target = self;
-    self.ifa_nextBarButtonItem.action = @selector(goForwardClicked:);
+    self.XYZ_nextBarButtonItem = [self.delegate newNextBarButtonItem];
+    self.XYZ_nextBarButtonItem.target = self;
+    self.XYZ_nextBarButtonItem.action = @selector(goForwardClicked:);
 
-    self.ifa_stopBarButtonItem = [self.delegate newStopBarButtonItem];
-    self.ifa_stopBarButtonItem.target = self;
-    self.ifa_stopBarButtonItem.action = @selector(stopClicked:);
+    self.XYZ_stopBarButtonItem = [self.delegate newStopBarButtonItem];
+    self.XYZ_stopBarButtonItem.target = self;
+    self.XYZ_stopBarButtonItem.action = @selector(stopClicked:);
 
-    self.ifa_refreshBarButtonItem = [self.delegate newRefreshBarButtonItem];
-    self.ifa_refreshBarButtonItem.target = self;
-    self.ifa_refreshBarButtonItem.action = @selector(reloadClicked:);
+    self.XYZ_refreshBarButtonItem = [self.delegate newRefreshBarButtonItem];
+    self.XYZ_refreshBarButtonItem.target = self;
+    self.XYZ_refreshBarButtonItem.action = @selector(reloadClicked:);
 
-    self.ifa_activityIndicatorBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.ifa_activityIndicatorView];
-    self.ifa_activityIndicatorBarButtonItem.width = self.ifa_activityIndicatorView.frame.size.width;
+    self.XYZ_activityIndicatorBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.XYZ_activityIndicatorView];
+    self.XYZ_activityIndicatorBarButtonItem.width = self.XYZ_activityIndicatorView.frame.size.width;
 
 }
 
@@ -88,7 +88,7 @@
 
 - (void)viewDidLoad {
     self.delegate = self;
-    [self ifa_configureBrowserButtons];
+    [self XYZ_configureBrowserButtons];
     [super viewDidLoad];
     if (self.IFA_presentedAsModal) {
         self.navigationItem.leftBarButtonItems = nil;
@@ -105,32 +105,32 @@
 
 - (void)updateToolbarItems {
     [super updateToolbarItems];
-    self.ifa_previousBarButtonItem.enabled = self.mainWebView.canGoBack;
-    self.ifa_nextBarButtonItem.enabled = self.mainWebView.canGoForward;
-    [self IFA_removeRightBarButtonItem:self.ifa_refreshStopBarButtonItem];
-    self.ifa_refreshStopBarButtonItem = self.urlLoadCount ? self.ifa_stopBarButtonItem : self.ifa_refreshBarButtonItem;
+    self.XYZ_previousBarButtonItem.enabled = self.mainWebView.canGoBack;
+    self.XYZ_nextBarButtonItem.enabled = self.mainWebView.canGoForward;
+    [self IFA_removeRightBarButtonItem:self.XYZ_refreshStopBarButtonItem];
+    self.XYZ_refreshStopBarButtonItem = self.urlLoadCount ? self.XYZ_stopBarButtonItem : self.XYZ_refreshBarButtonItem;
     NSUInteger i = 0;
-    [self IFA_insertRightBarButtonItem:self.ifa_actionBarButtonItem atIndex:i++];
-    [self IFA_insertRightBarButtonItem:self.ifa_nextBarButtonItem atIndex:i++];
-    [self IFA_insertRightBarButtonItem:self.ifa_previousBarButtonItem atIndex:i++];
-    [self IFA_insertRightBarButtonItem:self.ifa_refreshStopBarButtonItem atIndex:i++];
-    [self IFA_insertRightBarButtonItem:self.ifa_activityIndicatorBarButtonItem atIndex:i];
+    [self IFA_insertRightBarButtonItem:self.XYZ_actionBarButtonItem atIndex:i++];
+    [self IFA_insertRightBarButtonItem:self.XYZ_nextBarButtonItem atIndex:i++];
+    [self IFA_insertRightBarButtonItem:self.XYZ_previousBarButtonItem atIndex:i++];
+    [self IFA_insertRightBarButtonItem:self.XYZ_refreshStopBarButtonItem atIndex:i++];
+    [self IFA_insertRightBarButtonItem:self.XYZ_activityIndicatorBarButtonItem atIndex:i];
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     [super webViewDidStartLoad:webView];
-    [self.ifa_activityIndicatorView startAnimating];
+    [self.XYZ_activityIndicatorView startAnimating];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [super webViewDidFinishLoad:webView];
 //    self.navigationItem.title = nil;
-    [self.ifa_activityIndicatorView stopAnimating];
+    [self.XYZ_activityIndicatorView stopAnimating];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [super webView:webView didFailLoadWithError:error];
-    [self.ifa_activityIndicatorView stopAnimating];
+    [self.XYZ_activityIndicatorView stopAnimating];
 }
 
 #pragma mark - IFAInternalWebBrowserViewControllerDelegate

@@ -22,7 +22,7 @@
 
 @interface IFAThirdPartyCodeCreditsViewController ()
 
-@property (nonatomic, strong) NSArray *ifa_credits;
+@property (nonatomic, strong) NSArray *XYZ_credits;
 
 @end
 
@@ -39,7 +39,7 @@
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if (self) {
-        self.ifa_credits = [[IFAUtils infoPList] objectForKey:@"IFAThirdPartyCodeCredits"];
+        self.XYZ_credits = [[IFAUtils infoPList] objectForKey:@"IFAThirdPartyCodeCredits"];
     }
     return self;
 }
@@ -54,7 +54,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSIndexPath *l_selectedIndexPath = self.tableView.indexPathForSelectedRow;
-    NSDictionary *l_credit = self.ifa_credits[(NSUInteger) l_selectedIndexPath.row];
+    NSDictionary *l_credit = self.XYZ_credits[(NSUInteger) l_selectedIndexPath.row];
     NSURL *l_url = [NSURL URLWithString:l_credit[@"url"]];
     [self IFA_openUrl:l_url];
 }
@@ -68,7 +68,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString * const k_cellId = @"cell";
     UITableViewCell *l_cell = [self dequeueAndCreateReusableCellWithIdentifier:k_cellId atIndexPath:indexPath];
-    NSDictionary *l_credit = self.ifa_credits[(NSUInteger) indexPath.row];
+    NSDictionary *l_credit = self.XYZ_credits[(NSUInteger) indexPath.row];
     l_cell.textLabel.text = l_credit[@"name"];
     return l_cell;
 }
@@ -78,7 +78,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.ifa_credits.count;
+    return self.XYZ_credits.count;
 }
 
 @end

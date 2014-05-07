@@ -22,13 +22,13 @@
 
 @interface IFAFormViewController ()
 
-@property (nonatomic, strong) NSIndexPath *ifa_indexPathForPopoverController;
-@property (nonatomic, strong) UIBarButtonItem *ifa_dismissModalFormBarButtonItem;
-@property (nonatomic, strong) UIBarButtonItem *ifa_cancelBarButtonItem;
-@property (nonatomic) BOOL ifa_textFieldEditing;
-@property (nonatomic) BOOL ifa_textFieldTextChanged;
-@property (nonatomic, strong) NSMutableDictionary *ifa_indexPathToTextFieldCellDictionary;
-@property (nonatomic, strong) NSMutableArray *ifa_editableTextFieldCells;
+@property (nonatomic, strong) NSIndexPath *XYZ_indexPathForPopoverController;
+@property (nonatomic, strong) UIBarButtonItem *XYZ_dismissModalFormBarButtonItem;
+@property (nonatomic, strong) UIBarButtonItem *XYZ_cancelBarButtonItem;
+@property (nonatomic) BOOL XYZ_textFieldEditing;
+@property (nonatomic) BOOL XYZ_textFieldTextChanged;
+@property (nonatomic, strong) NSMutableDictionary *XYZ_indexPathToTextFieldCellDictionary;
+@property (nonatomic, strong) NSMutableArray *XYZ_editableTextFieldCells;
 
 @end
 
@@ -383,7 +383,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 //    NSLog(@"backing preferences saved");
 }
 
--(CGRect)ifa_fromPopoverRectForIndexPath:(NSIndexPath*)a_indexPath{
+-(CGRect)XYZ_fromPopoverRectForIndexPath:(NSIndexPath*)a_indexPath{
     UITableViewCell *l_cell = [self visibleCellForIndexPath:a_indexPath];
     CGRect l_cellContentRect = l_cell.contentView.bounds;
 //    NSLog(@"l_cellContentRect: %@", NSStringFromCGRect(l_cellContentRect));
@@ -398,31 +398,31 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     return l_rect;
 }
 
--(void)ifa_updateLeftBarButtonItemsStates {
+-(void)XYZ_updateLeftBarButtonItemsStates {
     if (self.isSubForm) {
         [self.navigationItem setHidesBackButton:NO animated:YES];
     }else{
-        [self IFA_removeLeftBarButtonItem:self.ifa_dismissModalFormBarButtonItem];
-        [self IFA_removeLeftBarButtonItem:self.ifa_cancelBarButtonItem];
+        [self IFA_removeLeftBarButtonItem:self.XYZ_dismissModalFormBarButtonItem];
+        [self IFA_removeLeftBarButtonItem:self.XYZ_cancelBarButtonItem];
         if (self.editing) {
             if (v_isManagedObject || ((!v_isManagedObject) && self.IFA_presentedAsModal)) {
                 if (self.navigationItem.leftItemsSupplementBackButton) {
                     [self.navigationItem setHidesBackButton:YES animated:YES];
                 }
-                [self IFA_addLeftBarButtonItem:self.ifa_cancelBarButtonItem];
+                [self IFA_addLeftBarButtonItem:self.XYZ_cancelBarButtonItem];
             }
         }else {
             [self.navigationItem setHidesBackButton:NO animated:YES];
             if(self.IFA_presentedAsModal) {
-                [self IFA_addLeftBarButtonItem:self.ifa_dismissModalFormBarButtonItem];
+                [self IFA_addLeftBarButtonItem:self.XYZ_dismissModalFormBarButtonItem];
             }
         }
     }
 }
 
--(BOOL)ifa_endTextFieldEditingWithCommit:(BOOL)a_commit{
+-(BOOL)XYZ_endTextFieldEditingWithCommit:(BOOL)a_commit{
 
-    if (self.ifa_textFieldEditing) {
+    if (self.XYZ_textFieldEditing) {
 
         if (!a_commit) {
             self.textFieldCommitSuspended = YES;
@@ -441,19 +441,19 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 }
 
--(void)ifa_onTextFieldNotification:(NSNotification*)a_notification{
-//    NSLog(@"ifa_onTextFieldNotification: %@", a_notification.name);
+-(void)XYZ_onTextFieldNotification:(NSNotification*)a_notification{
+//    NSLog(@"XYZ_onTextFieldNotification: %@", a_notification.name);
     if ([a_notification.name isEqualToString:UITextFieldTextDidBeginEditingNotification] || [a_notification.name isEqualToString:UITextFieldTextDidEndEditingNotification]) {
-        self.ifa_textFieldEditing = [a_notification.name isEqualToString:UITextFieldTextDidBeginEditingNotification];
-        self.ifa_textFieldTextChanged = NO;
+        self.XYZ_textFieldEditing = [a_notification.name isEqualToString:UITextFieldTextDidBeginEditingNotification];
+        self.XYZ_textFieldTextChanged = NO;
     }else if ([a_notification.name isEqualToString:UITextFieldTextDidChangeNotification]){
-        self.ifa_textFieldTextChanged = YES;
+        self.XYZ_textFieldTextChanged = YES;
     }else{
         NSAssert(NO, @"Unexpected notification name: %@", a_notification.name);
     }
 }
 
--(UITableViewCell*)ifa_updateEditingStateForCell:(UITableViewCell *)a_cell indexPath:(NSIndexPath *)a_indexPath{
+-(UITableViewCell*)XYZ_updateEditingStateForCell:(UITableViewCell *)a_cell indexPath:(NSIndexPath *)a_indexPath{
     if ([a_cell isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
         IFAFormTextFieldTableViewCell *l_textFieldCell = (IFAFormTextFieldTableViewCell *)a_cell;
 //        NSLog(@"a_cell: %@, a_indexPath: %@", [a_cell description], [a_indexPath description]);
@@ -472,18 +472,18 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     return a_cell;
 }
 
--(NSString*)ifa_urlPropertyNameForIndexPath:(NSIndexPath*)a_indexPath{
+-(NSString*)XYZ_urlPropertyNameForIndexPath:(NSIndexPath*)a_indexPath{
     NSString *l_urlPropertyName = [[IFAPersistenceManager sharedInstance].entityConfig urlPropertyNameForIndexPath:a_indexPath
                                                                                                          inObject:self.object
                                                                                                            inForm:self.formName
                                                                                                        createMode:self.createMode];
-//    NSLog(@"ifa_urlPropertyNameForIndexPath: %@, l_urlPropertyName: %@", [a_indexPath description], l_urlPropertyName);
+//    NSLog(@"XYZ_urlPropertyNameForIndexPath: %@, l_urlPropertyName: %@", [a_indexPath description], l_urlPropertyName);
     return l_urlPropertyName;
 }
 
--(BOOL)ifa_shouldLinkToUrlForIndexPath:(NSIndexPath*)a_indexPath{
-    BOOL l_b = [self ifa_urlPropertyNameForIndexPath:a_indexPath]!=nil;
-//    NSLog(@"ifa_shouldLinkToUrlForIndexPath: %@, bool: %u", [a_indexPath description], l_b);
+-(BOOL)XYZ_shouldLinkToUrlForIndexPath:(NSIndexPath*)a_indexPath{
+    BOOL l_b = [self XYZ_urlPropertyNameForIndexPath:a_indexPath]!=nil;
+//    NSLog(@"XYZ_shouldLinkToUrlForIndexPath: %@, bool: %u", [a_indexPath description], l_b);
     return l_b;
 }
 
@@ -569,12 +569,12 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 //                self.editButtonItem.accessibilityLabel = @"Save Button";
                 self.doneButtonSaves = YES;
             }
-            [self ifa_updateLeftBarButtonItemsStates];
+            [self XYZ_updateLeftBarButtonItemsStates];
 		}
 
 	}else {
         
-        if (![self ifa_endTextFieldEditingWithCommit:!v_restoringNonEditingState]) {
+        if (![self XYZ_endTextFieldEditingWithCommit:!v_restoringNonEditingState]) {
             return;
         };
         
@@ -626,7 +626,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
             
             if (!self.skipEditingUiStateChange) {
 //                self.editButtonItem.accessibilityLabel = self.editButtonItem.title;
-                [self ifa_updateLeftBarButtonItemsStates];
+                [self XYZ_updateLeftBarButtonItemsStates];
             }
             BOOL l_canDismissView = self.IFA_presentedAsModal || [self.navigationController.viewControllers objectAtIndex:0]!=self;
             if ((v_saveButtonTapped || self.createMode) && l_canDismissView && !v_restoringNonEditingState) {
@@ -647,7 +647,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     
 }
 
--(BOOL)ifa_isFormEditorTypeForIndexPath:(NSIndexPath*)a_indexPath{
+-(BOOL)XYZ_isFormEditorTypeForIndexPath:(NSIndexPath*)a_indexPath{
     return [self editorTypeForIndexPath:a_indexPath]== IFAEditorTypeForm;
 }
 
@@ -669,7 +669,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         
         if ([a_cell isMemberOfClass:[IFAFormTableViewCell class]]) {
 
-            if ([self ifa_isFormEditorTypeForIndexPath:a_cell.indexPath]) {
+            if ([self XYZ_isFormEditorTypeForIndexPath:a_cell.indexPath]) {
                 a_cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 a_cell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }else{
@@ -690,7 +690,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
             
         }else {
 
-            if ([self ifa_shouldLinkToUrlForIndexPath:a_cell.indexPath]) {
+            if ([self XYZ_shouldLinkToUrlForIndexPath:a_cell.indexPath]) {
                 a_cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 a_cell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }else{
@@ -726,7 +726,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 		l_isSelectable = [self allowUserInteractionInEditModeForIndexPath:a_cell.indexPath inForm:self.formName];
 	}else {
         //        NSLog(@"NOT editing");
-		l_isSelectable = [self ifa_isFormEditorTypeForIndexPath:a_cell.indexPath] || [self ifa_shouldLinkToUrlForIndexPath:a_cell.indexPath];
+		l_isSelectable = [self XYZ_isFormEditorTypeForIndexPath:a_cell.indexPath] || [self XYZ_shouldLinkToUrlForIndexPath:a_cell.indexPath];
 	}
     //    NSLog(@"l_isSelectable: %u", l_isSelectable);
     a_cell.userInteractionEnabled = l_isSelectable;
@@ -790,16 +790,16 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 -(void)handleReturnKeyForTextFieldCell:(IFAFormTextFieldTableViewCell *)a_cell{
     
     // My index
-    NSUInteger l_myIndex = [self.ifa_editableTextFieldCells indexOfObject:a_cell];
+    NSUInteger l_myIndex = [self.XYZ_editableTextFieldCells indexOfObject:a_cell];
     
     // The next index
-    NSUInteger l_nextIndex = l_myIndex+1==[self.ifa_editableTextFieldCells count] ? 0 : l_myIndex+1;
+    NSUInteger l_nextIndex = l_myIndex+1==[self.XYZ_editableTextFieldCells count] ? 0 : l_myIndex+1;
     
     // The next cell containing a text field
-    IFAFormTextFieldTableViewCell *l_nextTextFieldCell = [self.ifa_editableTextFieldCells objectAtIndex:l_nextIndex];
+    IFAFormTextFieldTableViewCell *l_nextTextFieldCell = [self.XYZ_editableTextFieldCells objectAtIndex:l_nextIndex];
     
     // The next index path
-    NSIndexPath *l_nextIndexPath = [[self.ifa_indexPathToTextFieldCellDictionary allKeysForObject:l_nextTextFieldCell] objectAtIndex:0];
+    NSIndexPath *l_nextIndexPath = [[self.XYZ_indexPathToTextFieldCellDictionary allKeysForObject:l_nextTextFieldCell] objectAtIndex:0];
     
     // Scroll to the next index path to make sure the next field will be visible
     [self.tableView scrollToRowAtIndexPath:l_nextIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
@@ -937,13 +937,13 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                 
             case IFAEditorTypeText:
             {
-                l_cellToReturn = (IFAFormTextFieldTableViewCell *)[self.ifa_indexPathToTextFieldCellDictionary objectForKey:indexPath];
+                l_cellToReturn = (IFAFormTextFieldTableViewCell *)[self.XYZ_indexPathToTextFieldCellDictionary objectForKey:indexPath];
                 break;
             }
                 
             case IFAEditorTypeNumber:
             {
-                l_cellToReturn = (IFAFormNumberFieldTableViewCell *)[self.ifa_indexPathToTextFieldCellDictionary objectForKey:indexPath];
+                l_cellToReturn = (IFAFormNumberFieldTableViewCell *)[self.XYZ_indexPathToTextFieldCellDictionary objectForKey:indexPath];
                 break;
             }
                 
@@ -1012,7 +1012,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     [v_propertyNameToIndexPath setObject:indexPath forKey:propertyName];
     
     l_cellToReturn.formViewController = self;
-    return [self ifa_updateEditingStateForCell:[self populateCell:l_cellToReturn] indexPath:indexPath];
+    return [self XYZ_updateEditingStateForCell:[self populateCell:l_cellToReturn] indexPath:indexPath];
     
 }
 
@@ -1023,8 +1023,8 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
     IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
 
-	if ([self ifa_shouldLinkToUrlForIndexPath:indexPath]) {
-        NSString *l_urlPropertyName = [self ifa_urlPropertyNameForIndexPath:indexPath];
+	if ([self XYZ_shouldLinkToUrlForIndexPath:indexPath]) {
+        NSString *l_urlPropertyName = [self XYZ_urlPropertyNameForIndexPath:indexPath];
         NSString *l_urlString = [self.object valueForKeyPath:l_urlPropertyName];
         NSURL *l_url = [NSURL URLWithString:l_urlString];
         [self IFA_openUrl:l_url];
@@ -1066,7 +1066,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 	if ([self showDetailDisclosureInEditModeForIndexPath:indexPath inForm:self.formName]) {
 
-        if ([self ifa_isFormEditorTypeForIndexPath:indexPath]) {
+        if ([self XYZ_isFormEditorTypeForIndexPath:indexPath]) {
             
             // Push appropriate editor view controller
             UIViewController *l_viewController = [self editorViewControllerForIndexPath:indexPath];
@@ -1074,15 +1074,15 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
             
         }else{
             
-            if ([self ifa_endTextFieldEditingWithCommit:YES]) {
+            if ([self XYZ_endTextFieldEditingWithCommit:YES]) {
 
                 __weak IFAFormViewController *l_weakSelf = self;
                 
                 UIViewController *l_viewController = [self editorViewControllerForIndexPath:indexPath];
                 l_viewController.IFA_presenter = l_weakSelf;
                 
-                self.ifa_indexPathForPopoverController = indexPath;
-                CGRect l_fromPopoverRect = [self ifa_fromPopoverRectForIndexPath:self.ifa_indexPathForPopoverController];
+                self.XYZ_indexPathForPopoverController = indexPath;
+                CGRect l_fromPopoverRect = [self XYZ_fromPopoverRectForIndexPath:self.XYZ_indexPathForPopoverController];
                 
                 if ([l_viewController IFA_hasFixedSize]) {
                     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -1236,18 +1236,18 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         self.tableView.tableFooterView = l_label;
     }
     
-    self.ifa_dismissModalFormBarButtonItem = [IFAUIUtils isIPad] ? [IFAUIUtils barButtonItemForType:IFABarButtonItemDismiss
+    self.XYZ_dismissModalFormBarButtonItem = [IFAUIUtils isIPad] ? [IFAUIUtils barButtonItemForType:IFABarButtonItemDismiss
                                                                                              target:self
                                                                                              action:@selector(onDismissButtonTap:)] : [IFAUIUtils barButtonItemForType:IFABarButtonItemBack
                                                                                                                                                                 target:self
                                                                                                                                                                 action:@selector(onDismissButtonTap:)];
-    self.ifa_cancelBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemCancel target:self
+    self.XYZ_cancelBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemCancel target:self
                                                              action:@selector(onCancelButtonTap:)];
     
     // Instantiate text field cells that will be reused.
     //  Text fields, which are properties in the text field cells, must be know in advance to provide the functionality to cycle through text fields with the Return key.
-    self.ifa_indexPathToTextFieldCellDictionary = [NSMutableDictionary new];
-    self.ifa_editableTextFieldCells = [NSMutableArray new];
+    self.XYZ_indexPathToTextFieldCellDictionary = [NSMutableDictionary new];
+    self.XYZ_editableTextFieldCells = [NSMutableArray new];
     for (int l_section=0; l_section<[self numberOfSectionsInTableView:self.tableView]; l_section++) {
         for (int l_row=0; l_row<[self tableView:self.tableView numberOfRowsInSection:l_section]; l_row++) {
             @autoreleasepool {
@@ -1257,17 +1257,17 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                 if (l_editorType== IFAEditorTypeText || l_editorType== IFAEditorTypeNumber) {
                     NSString *l_className = [(l_editorType== IFAEditorTypeText ?[IFAFormTextFieldTableViewCell class]:[IFAFormNumberFieldTableViewCell class]) description];
                     IFAFormTextFieldTableViewCell *l_cell = (IFAFormTextFieldTableViewCell *)[self cellForTable:self.tableView indexPath:l_indexPath className:l_className];
-                    [self.ifa_indexPathToTextFieldCellDictionary setObject:l_cell forKey:l_indexPath];
+                    [self.XYZ_indexPathToTextFieldCellDictionary setObject:l_cell forKey:l_indexPath];
                     if ([self isReadOnlyForIndexPath:l_indexPath]) {
                         [l_cell.textField removeFromSuperview];
                     }else {
-                        [self.ifa_editableTextFieldCells addObject:l_cell];
+                        [self.XYZ_editableTextFieldCells addObject:l_cell];
                     }
                 }
             }
         }
     }
-//    NSLog(@"ifa_editableTextFieldCells: %@", [self.ifa_editableTextFieldCells description]);
+//    NSLog(@"XYZ_editableTextFieldCells: %@", [self.XYZ_editableTextFieldCells description]);
 
 }
 
@@ -1289,20 +1289,20 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         self.contextSwitchRequestRequired = YES;
     }
 
-    [self ifa_updateLeftBarButtonItemsStates];
+    [self XYZ_updateLeftBarButtonItemsStates];
     [self reloadData];
     
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(ifa_onTextFieldNotification:)
+                                             selector:@selector(XYZ_onTextFieldNotification:)
                                                  name:UITextFieldTextDidBeginEditingNotification 
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(ifa_onTextFieldNotification:)
+                                             selector:@selector(XYZ_onTextFieldNotification:)
                                                  name:UITextFieldTextDidChangeNotification 
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(ifa_onTextFieldNotification:)
+                                             selector:@selector(XYZ_onTextFieldNotification:)
                                                  name:UITextFieldTextDidEndEditingNotification 
                                                object:nil];
 
@@ -1366,7 +1366,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 }
 
 - (void)quitEditing{
-	if (v_isManagedObject && ([IFAPersistenceManager sharedInstance].isCurrentManagedObjectDirty || self.ifa_textFieldTextChanged)) {
+	if (v_isManagedObject && ([IFAPersistenceManager sharedInstance].isCurrentManagedObjectDirty || self.XYZ_textFieldTextChanged)) {
         [IFAUIUtils showActionSheetWithMessage:@"Are you sure you want to discard your changes?"
                   destructiveButtonLabelSuffix:@"discard"
                                 viewController:self
@@ -1385,9 +1385,9 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     if (self.IFA_activePopoverController && !self.IFA_activePopoverControllerBarButtonItem) {
         
         // Present popover controller in the new interface orientation
-        [self.tableView scrollToRowAtIndexPath:self.ifa_indexPathForPopoverController
+        [self.tableView scrollToRowAtIndexPath:self.XYZ_indexPathForPopoverController
                               atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-        CGRect l_fromPopoverRect = [self ifa_fromPopoverRectForIndexPath:self.ifa_indexPathForPopoverController];
+        CGRect l_fromPopoverRect = [self XYZ_fromPopoverRectForIndexPath:self.XYZ_indexPathForPopoverController];
         [self IFA_presentPopoverController:self.IFA_activePopoverController fromRect:l_fromPopoverRect
                                     inView:self.tableView];
         
@@ -1424,7 +1424,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
         if (self.IFA_activePopoverController && !self.IFA_activePopoverControllerBarButtonItem) {
 
-            CGRect l_fromPopoverRect = [self ifa_fromPopoverRectForIndexPath:self.ifa_indexPathForPopoverController];
+            CGRect l_fromPopoverRect = [self XYZ_fromPopoverRectForIndexPath:self.XYZ_indexPathForPopoverController];
             [self IFA_presentPopoverController:self.IFA_activePopoverController fromRect:l_fromPopoverRect
                                         inView:self.tableView];
 

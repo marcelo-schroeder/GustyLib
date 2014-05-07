@@ -39,12 +39,12 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 @property (strong) NSManagedObjectContext *privateQueueManagedObjectContext;
 //@property BOOL p_isPrivateQueueManagedObjectContextStale;
 @property (strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property (strong) NSURL *ifa_storeUrl;
-@property (strong) NSMutableDictionary *ifa_managedObjectChangedValuesDictionary;
-@property (strong) NSMutableDictionary *ifa_managedObjectCommittedValuesDictionary;
+@property (strong) NSURL *XYZ_storeUrl;
+@property (strong) NSMutableDictionary *XYZ_managedObjectChangedValuesDictionary;
+@property (strong) NSMutableDictionary *XYZ_managedObjectCommittedValuesDictionary;
 @property (strong) IFAEntityConfig *entityConfig;
-@property (strong) NSDictionary *ifa_metadata;
-@property (strong) NSMutableArray *ifa_childManagedObjectContexts;
+@property (strong) NSDictionary *XYZ_metadata;
+@property (strong) NSMutableArray *XYZ_childManagedObjectContexts;
 
 @end
 
@@ -56,14 +56,14 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     self = [super init];
     if (self) {
         self.savesInMainThreadOnly = YES;
-        self.ifa_childManagedObjectContexts = [NSMutableArray new];
+        self.XYZ_childManagedObjectContexts = [NSMutableArray new];
     }
     return self;
 }
 
 #pragma mark - Private
 
--(void (^)())ifa_wrapperForBlock:(void (^)())a_block managedObjectContext:(NSManagedObjectContext*)a_managedObjectContext{
+-(void (^)())XYZ_wrapperForBlock:(void (^)())a_block managedObjectContext:(NSManagedObjectContext*)a_managedObjectContext{
     return ^{
         NSMutableDictionary *l_threadDict = [[NSThread currentThread] threadDictionary];
         [l_threadDict setObject:a_managedObjectContext forKey:k_threadDictKeyManagedObjectContext];
@@ -92,26 +92,26 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 //    NSLog(@"### onNotification: %@", [aNotification name]);
     
     if ([[aNotification name] isEqual:NSManagedObjectContextWillSaveNotification]) {
-        self.ifa_managedObjectChangedValuesDictionary = [[NSMutableDictionary alloc] init];
-        self.ifa_managedObjectCommittedValuesDictionary = [[NSMutableDictionary alloc] init];
+        self.XYZ_managedObjectChangedValuesDictionary = [[NSMutableDictionary alloc] init];
+        self.XYZ_managedObjectCommittedValuesDictionary = [[NSMutableDictionary alloc] init];
         for (NSManagedObject *l_managedObject in [self.managedObjectContext updatedObjects]) {
-            [self.ifa_managedObjectChangedValuesDictionary setObject:[l_managedObject changedValues]
+            [self.XYZ_managedObjectChangedValuesDictionary setObject:[l_managedObject changedValues]
                                                               forKey:l_managedObject.IFA_stringId];
             // The self.savesInMainThreadOnly check below is to avoid core data errors such as "statement is still active" and "no database channel is available"
             // If updates are done in threads other than the main thread, then the original properties will not be available in the notification sent by this method
             NSDictionary *l_committedValuesDictionary = self.savesInMainThreadOnly ? [l_managedObject committedValuesForKeys:nil] : @{};
-            [self.ifa_managedObjectCommittedValuesDictionary setObject:l_committedValuesDictionary
+            [self.XYZ_managedObjectCommittedValuesDictionary setObject:l_committedValuesDictionary
                                                                 forKey:l_managedObject.IFA_stringId];
         }
         for (NSManagedObject *l_managedObject in [self.managedObjectContext deletedObjects]) {
             // The self.savesInMainThreadOnly check below is to avoid core data errors such as "statement is still active" and "no database channel is available"
             // If updates are done in threads other than the main thread, then the original properties will not be available in the notification sent by this method
             NSDictionary *l_committedValuesDictionary = self.savesInMainThreadOnly ? [l_managedObject committedValuesForKeys:nil] : @{};
-            [self.ifa_managedObjectCommittedValuesDictionary setObject:l_committedValuesDictionary
+            [self.XYZ_managedObjectCommittedValuesDictionary setObject:l_committedValuesDictionary
                                                                 forKey:l_managedObject.IFA_stringId];
         }
-//        NSLog(@"self.ifa_managedObjectChangedValuesDictionary: %@", [self.ifa_managedObjectChangedValuesDictionary description]);
-//        NSLog(@"self.ifa_managedObjectCommittedValuesDictionary: %@", [self.ifa_managedObjectCommittedValuesDictionary description]);
+//        NSLog(@"self.XYZ_managedObjectChangedValuesDictionary: %@", [self.XYZ_managedObjectChangedValuesDictionary description]);
+//        NSLog(@"self.XYZ_managedObjectCommittedValuesDictionary: %@", [self.XYZ_managedObjectCommittedValuesDictionary description]);
     }else if ([[aNotification name] isEqual:NSManagedObjectContextDidSaveNotification]) {
 
         NSMutableDictionary *l_entityUserInfoDict = [[NSMutableDictionary alloc] init];
@@ -133,9 +133,9 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
             NSString *l_entityName = [l_managedObject IFA_entityName];
             NSMutableDictionary *l_userInfoDict = [self userInfoForEntityName:l_entityName entityUserInfo:l_entityUserInfoDict];
             [((NSMutableSet*) [l_userInfoDict valueForKey:IFAKeyUpdatedObjects]) addObject:l_managedObject];
-            [((NSMutableDictionary *) [l_userInfoDict valueForKey:IFAKeyUpdatedProperties]) setObject:[self.ifa_managedObjectChangedValuesDictionary objectForKey:l_managedObject.IFA_stringId]
+            [((NSMutableDictionary *) [l_userInfoDict valueForKey:IFAKeyUpdatedProperties]) setObject:[self.XYZ_managedObjectChangedValuesDictionary objectForKey:l_managedObject.IFA_stringId]
                                                                                                  forKey:l_managedObject.IFA_stringId];
-            [((NSMutableDictionary *) [l_userInfoDict valueForKey:IFAKeyOriginalProperties]) setObject:[self.ifa_managedObjectCommittedValuesDictionary objectForKey:l_managedObject.IFA_stringId]
+            [((NSMutableDictionary *) [l_userInfoDict valueForKey:IFAKeyOriginalProperties]) setObject:[self.XYZ_managedObjectCommittedValuesDictionary objectForKey:l_managedObject.IFA_stringId]
                                                                                                   forKey:l_managedObject.IFA_stringId];
 
         }
@@ -148,7 +148,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
             NSString *l_entityName = [l_managedObject IFA_entityName];
             NSMutableDictionary *l_userInfoDict = [self userInfoForEntityName:l_entityName entityUserInfo:l_entityUserInfoDict];
             [((NSMutableSet*) [l_userInfoDict valueForKey:IFAKeyDeletedObjects]) addObject:l_managedObject];
-            [((NSMutableDictionary *) [l_userInfoDict valueForKey:IFAKeyOriginalProperties]) setObject:[self.ifa_managedObjectCommittedValuesDictionary objectForKey:l_managedObject.IFA_stringId]
+            [((NSMutableDictionary *) [l_userInfoDict valueForKey:IFAKeyOriginalProperties]) setObject:[self.XYZ_managedObjectCommittedValuesDictionary objectForKey:l_managedObject.IFA_stringId]
                                                                                                   forKey:l_managedObject.IFA_stringId];
             //            NSLog(@"l_userInfoDict: %@", [l_userInfoDict description]);
 
@@ -529,7 +529,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 	[[IFAPersistenceManager sharedInstance] setMetadataValue:@(a_version) forKey:METADATA_KEY_SYSTEM_DB_TABLES_VERSION];
 }
 
--(NSManagedObjectContext*)ifa_privateQueueManagedObjectContext {
+-(NSManagedObjectContext*)XYZ_privateQueueManagedObjectContext {
     NSManagedObjectContext *l_managedObjectContext = [[NSThread currentThread] threadDictionary][IFAKeySerialQueueManagedObjectContext];
     NSAssert(l_managedObjectContext!=nil, @"Thread managed object context must be not nil");
     NSAssert(l_managedObjectContext!=self.managedObjectContext, @"Thread managed object context must be different than main one");
@@ -924,26 +924,26 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 	
 }
 
-- (NSDictionary*)ifa_metadata {
+- (NSDictionary*)XYZ_metadata {
 	return [[self persistentStore] metadata];
 }
 
-- (void) setIfa_metadata:(NSDictionary*)aMetadataDictionary{
+- (void) setXYZ_metadata:(NSDictionary*)aMetadataDictionary{
 	[[self persistentStore] setMetadata:aMetadataDictionary];
 }
 
 - (id) metadataValueForKey:(NSString *)aKey{
-	return [self.ifa_metadata valueForKey:aKey];
+	return [self.XYZ_metadata valueForKey:aKey];
 }
 
 - (void) setMetadataValue:(id)aValue forKey:(NSString *)aKey{
-	NSMutableDictionary *mutableMetadataDictionary = [self.ifa_metadata mutableCopy];
+	NSMutableDictionary *mutableMetadataDictionary = [self.XYZ_metadata mutableCopy];
 	[mutableMetadataDictionary setValue:aValue forKey:aKey];
-	[self setIfa_metadata:mutableMetadataDictionary];
+	[self setXYZ_metadata:mutableMetadataDictionary];
 }
 
 - (NSPersistentStore*) persistentStore{
-	return [self.persistentStoreCoordinator persistentStoreForURL:self.ifa_storeUrl];
+	return [self.persistentStoreCoordinator persistentStoreForURL:self.XYZ_storeUrl];
 }
 
 - (BOOL)isSystemEntityForEntity:(NSString*)anEntityName{
@@ -992,19 +992,19 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 }
 
 - (void)performBlockInPrivateQueue:(void (^)())a_block{
-    [self performBlock:a_block managedObjectContext:[self ifa_privateQueueManagedObjectContext]];
+    [self performBlock:a_block managedObjectContext:[self XYZ_privateQueueManagedObjectContext]];
 }
 
 - (void)performBlockInPrivateQueueAndWait:(void (^)())a_block{
-    [self performBlockAndWait:a_block managedObjectContext:[self ifa_privateQueueManagedObjectContext]];
+    [self performBlockAndWait:a_block managedObjectContext:[self XYZ_privateQueueManagedObjectContext]];
 }
 
 - (void)performBlock:(void (^)())a_block managedObjectContext:(NSManagedObjectContext*)a_managedObjectContext{
-    [a_managedObjectContext performBlock:[self ifa_wrapperForBlock:a_block managedObjectContext:a_managedObjectContext]];
+    [a_managedObjectContext performBlock:[self XYZ_wrapperForBlock:a_block managedObjectContext:a_managedObjectContext]];
 }
 
 - (void)performBlockAndWait:(void (^)())a_block managedObjectContext:(NSManagedObjectContext*)a_managedObjectContext{
-    [a_managedObjectContext performBlockAndWait:[self ifa_wrapperForBlock:a_block
+    [a_managedObjectContext performBlockAndWait:[self XYZ_wrapperForBlock:a_block
                                                      managedObjectContext:a_managedObjectContext]];
 }
 
@@ -1029,10 +1029,10 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     NSURL *momURL = [NSURL fileURLWithPath:path];
     self.managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];
     
-    self.ifa_storeUrl = [NSURL fileURLWithPath:[[self applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite", a_databaseFileName]]];
+    self.XYZ_storeUrl = [NSURL fileURLWithPath:[[self applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite", a_databaseFileName]]];
     
     //	#ifdef DEBUG
-    //	[self resetTestDatabase:ifa_storeUrl];
+    //	[self resetTestDatabase:XYZ_storeUrl];
     //	#endif
     
     // Configure persistentStoreCoordinator
@@ -1041,7 +1041,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @(YES),
                              NSInferMappingModelAutomaticallyOption: @(YES)};
     if (![self.persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil
-                                                                 URL:self.ifa_storeUrl options:options error:&error]) {
+                                                                 URL:self.XYZ_storeUrl options:options error:&error]) {
         [IFAUtils handleUnrecoverableError:error];
     }    
     
@@ -1168,11 +1168,11 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 -(void)pushChildManagedObjectContext{
     NSManagedObjectContext *l_moc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     l_moc.parentContext = self.managedObjectContext;
-    [self.ifa_childManagedObjectContexts addObject:l_moc];
+    [self.XYZ_childManagedObjectContexts addObject:l_moc];
 }
 
 -(void)popChildManagedObjectContext{
-    [self.ifa_childManagedObjectContexts removeLastObject];
+    [self.XYZ_childManagedObjectContexts removeLastObject];
 }
 
 -(void)setIsCurrentManagedObjectDirty:(BOOL)isCurrentManagedObjectDirty{
@@ -1189,8 +1189,8 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     NSManagedObjectContext *l_managedObjectContext = [[NSThread currentThread] threadDictionary][k_threadDictKeyManagedObjectContext];
 //    NSLog(@"  from threadDictionary: %@", [l_managedObjectContext description]);
     if (!l_managedObjectContext) {
-        if (self.ifa_childManagedObjectContexts.count>0) {
-            l_managedObjectContext = [self.ifa_childManagedObjectContexts lastObject];
+        if (self.XYZ_childManagedObjectContexts.count>0) {
+            l_managedObjectContext = [self.XYZ_childManagedObjectContexts lastObject];
 //            NSLog(@"  from stack: %@", [l_managedObjectContext description]);
         }else{
             l_managedObjectContext = self.managedObjectContext;

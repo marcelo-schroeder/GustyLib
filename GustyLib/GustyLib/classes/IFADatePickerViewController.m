@@ -22,11 +22,11 @@
 
 @interface IFADatePickerViewController ()
 
-@property (nonatomic, strong) NSDate *ifa_dateAndTime;
-@property (nonatomic) NSTimeInterval ifa_countDownDuration;
-@property (nonatomic, strong) UIBarButtonItem *ifa_showDatePickerBarButtonItem;
-@property (nonatomic, strong) UIBarButtonItem *ifa_showTimePickerBarButtonItem;
-@property (nonatomic, strong) UILabel *ifa_dateAndTimeLabel;
+@property (nonatomic, strong) NSDate *XYZ_dateAndTime;
+@property (nonatomic) NSTimeInterval XYZ_countDownDuration;
+@property (nonatomic, strong) UIBarButtonItem *XYZ_showDatePickerBarButtonItem;
+@property (nonatomic, strong) UIBarButtonItem *XYZ_showTimePickerBarButtonItem;
+@property (nonatomic, strong) UILabel *XYZ_dateAndTimeLabel;
 
 @end
 
@@ -45,63 +45,63 @@ static NSString * const k_valueCellId = @"valueCell";
 
 #pragma mark - Private
 
--(void)ifa_onDatePickerValueChanged {
+-(void)XYZ_onDatePickerValueChanged {
     if (self.datePickerMode ==UIDatePickerModeCountDownTimer) {
-        self.ifa_countDownDuration = v_datePicker.countDownDuration;
+        self.XYZ_countDownDuration = v_datePicker.countDownDuration;
     }else{
-        self.ifa_dateAndTime = v_datePicker.date;
+        self.XYZ_dateAndTime = v_datePicker.date;
     }
 }
 
--(void)ifa_onTimePickerValueChanged {
-    self.ifa_dateAndTime = v_timePicker.date;
+-(void)XYZ_onTimePickerValueChanged {
+    self.XYZ_dateAndTime = v_timePicker.date;
 }
 
--(void)ifa_onSelectNowButtonTap:(id)aSender{
-    self.ifa_dateAndTime = [NSDate IFA_dateWithSecondPrecision];
+-(void)XYZ_onSelectNowButtonTap:(id)aSender{
+    self.XYZ_dateAndTime = [NSDate IFA_dateWithSecondPrecision];
 }
 
--(void)ifa_onSelectTodayButtonTap:(id)aSender{
-    self.ifa_dateAndTime = [[NSDate date] IFA_lastMidnightForCalendar:[self calendar]] ;
+-(void)XYZ_onSelectTodayButtonTap:(id)aSender{
+    self.XYZ_dateAndTime = [[NSDate date] IFA_lastMidnightForCalendar:[self calendar]] ;
 }
 
--(void)ifa_onSelectDistantPastButtonTap:(id)aSender{
-    self.ifa_dateAndTime = [NSDate distantPast];
+-(void)XYZ_onSelectDistantPastButtonTap:(id)aSender{
+    self.XYZ_dateAndTime = [NSDate distantPast];
 }
 
--(void)ifa_onSelectDistantFutureButtonTap:(id)aSender{
-    self.ifa_dateAndTime = [NSDate distantFuture];
+-(void)XYZ_onSelectDistantFutureButtonTap:(id)aSender{
+    self.XYZ_dateAndTime = [NSDate distantFuture];
 }
 
--(void)ifa_onClearDateButtonTap:(id)aSender{
-    self.ifa_dateAndTime = nil;
+-(void)XYZ_onClearDateButtonTap:(id)aSender{
+    self.XYZ_dateAndTime = nil;
     [self done];
 }
 
--(void)ifa_onResetCountDownButtonTap:(id)aSender{
-    self.ifa_countDownDuration = 0;
+-(void)XYZ_onResetCountDownButtonTap:(id)aSender{
+    self.XYZ_countDownDuration = 0;
     [self done];
 }
 
--(void)ifa_updateToolbarLabelForDate:(NSDate *)a_date shouldShowTime:(BOOL)a_shouldShowTime{
+-(void)XYZ_updateToolbarLabelForDate:(NSDate *)a_date shouldShowTime:(BOOL)a_shouldShowTime{
     NSDateFormatter *l_dateFormatter = [[NSDateFormatter alloc] init];
     [l_dateFormatter setDateStyle:(a_shouldShowTime ? NSDateFormatterNoStyle : NSDateFormatterMediumStyle)];
     [l_dateFormatter setTimeStyle:(a_shouldShowTime ? NSDateFormatterMediumStyle : NSDateFormatterNoStyle)];
-    self.ifa_dateAndTimeLabel.text = [l_dateFormatter stringFromDate:a_date];
-    [self.ifa_dateAndTimeLabel sizeToFit];
+    self.XYZ_dateAndTimeLabel.text = [l_dateFormatter stringFromDate:a_date];
+    [self.XYZ_dateAndTimeLabel sizeToFit];
 }
 
--(void)ifa_updateToolbarLabel {
-    [self ifa_updateToolbarLabelForDate:self.ifa_dateAndTime shouldShowTime:v_timePicker.hidden];
+-(void)XYZ_updateToolbarLabel {
+    [self XYZ_updateToolbarLabelForDate:self.XYZ_dateAndTime shouldShowTime:v_timePicker.hidden];
 }
 
--(void)ifa_onDateAndTimeToggleButtonTap:(UIBarButtonItem*)a_barButtonItem{
+-(void)XYZ_onDateAndTimeToggleButtonTap:(UIBarButtonItem*)a_barButtonItem{
     v_datePicker.hidden = v_timePicker.hidden;
     v_timePicker.hidden = !v_datePicker.hidden;
     NSMutableArray *l_tooolbarItems = [self.toolbarItems mutableCopy];
     [l_tooolbarItems removeObject:a_barButtonItem];
-    [l_tooolbarItems insertObject:(v_datePicker.hidden?self.ifa_showDatePickerBarButtonItem :self.ifa_showTimePickerBarButtonItem) atIndex:0];
-    [self ifa_updateToolbarLabel];
+    [l_tooolbarItems insertObject:(v_datePicker.hidden?self.XYZ_showDatePickerBarButtonItem :self.XYZ_showTimePickerBarButtonItem) atIndex:0];
+    [self XYZ_updateToolbarLabel];
     [self setToolbarItems:l_tooolbarItems animated:YES];
 }
 
@@ -126,7 +126,7 @@ static NSString * const k_valueCellId = @"valueCell";
     return l_datePicker;
 }
 
--(NSArray*)ifa_datePickerToolbarItemsForProperty:(NSString *)a_propertyName inObject:(NSObject *)a_object target:(id)a_target{
+-(NSArray*)XYZ_datePickerToolbarItemsForProperty:(NSString *)a_propertyName inObject:(NSObject *)a_object target:(id)a_target{
     
     NSDictionary *l_optionsDict = [[IFAPersistenceManager sharedInstance].entityConfig optionsForProperty:a_propertyName inObject:a_object];
 	BOOL l_showSelectNowButton = [[l_optionsDict objectForKey:@"showSelectNowButton"] boolValue];
@@ -140,20 +140,20 @@ static NSString * const k_valueCellId = @"valueCell";
     if (l_showSelectNowButton) {
         UIBarButtonItem *selectNowButton = [IFAUIUtils barButtonItemForType:IFABarButtonItemSelectNow
                                                                      target:a_target
-                                                                     action:@selector(ifa_onSelectNowButtonTap:)];
+                                                                     action:@selector(XYZ_onSelectNowButtonTap:)];
         [l_toolbarItems addObject:selectNowButton];
     }
     if (l_showSelectTodayButton) {
         UIBarButtonItem *selectTodayButton = [IFAUIUtils barButtonItemForType:IFABarButtonItemSelectToday
                                                                        target:a_target
-                                                                       action:@selector(ifa_onSelectTodayButtonTap:)];
+                                                                       action:@selector(XYZ_onSelectTodayButtonTap:)];
         [l_toolbarItems addObject:selectTodayButton];
     }
     if (l_showResetCountDownButton) {
         UIBarButtonItem *l_resetCountDownButton = [[UIBarButtonItem alloc] initWithTitle:@"Set To Zero"
                                                                                    style:UIBarButtonItemStyleBordered
                                                                                   target:a_target
-                                                                                  action:@selector(ifa_onResetCountDownButtonTap:)];
+                                                                                  action:@selector(XYZ_onResetCountDownButtonTap:)];
 //        l_resetCountDownButton.accessibilityLabel = @"Set To Zero";
         [l_toolbarItems addObject:l_resetCountDownButton];
     }
@@ -165,7 +165,7 @@ static NSString * const k_valueCellId = @"valueCell";
             UIBarButtonItem *clearDateButton = [[UIBarButtonItem alloc] initWithTitle:@"Clear Date"
                                                                                 style:UIBarButtonItemStyleBordered
                                                                                target:a_target
-                                                                               action:@selector(ifa_onClearDateButtonTap:)];
+                                                                               action:@selector(XYZ_onClearDateButtonTap:)];
 //            clearDateButton.accessibilityLabel = @"Clear Date";
             [l_toolbarItems addObjectsFromArray:@[flexibleSpace, clearDateButton]];
         }
@@ -173,7 +173,7 @@ static NSString * const k_valueCellId = @"valueCell";
             UIBarButtonItem *l_selectDistantPastButton = [[UIBarButtonItem alloc] initWithTitle:@"Distant Past"
                                                                                           style:UIBarButtonItemStyleBordered
                                                                                          target:a_target
-                                                                                         action:@selector(ifa_onSelectDistantPastButtonTap:)];
+                                                                                         action:@selector(XYZ_onSelectDistantPastButtonTap:)];
 //            l_selectDistantPastButton.accessibilityLabel = @"Distant Past";
             [l_toolbarItems addObjectsFromArray:@[flexibleSpace, l_selectDistantPastButton]];
         }
@@ -181,7 +181,7 @@ static NSString * const k_valueCellId = @"valueCell";
             UIBarButtonItem *l_selectDistantFutureButton = [[UIBarButtonItem alloc] initWithTitle:@"Distant Future"
                                                                                             style:UIBarButtonItemStyleBordered
                                                                                            target:a_target
-                                                                                           action:@selector(ifa_onSelectDistantFutureButtonTap:)];
+                                                                                           action:@selector(XYZ_onSelectDistantFutureButtonTap:)];
 //            l_selectDistantFutureButton.accessibilityLabel = @"Distant Future";
             [l_toolbarItems addObjectsFromArray:@[flexibleSpace, l_selectDistantFutureButton]];
         }
@@ -210,7 +210,7 @@ static NSString * const k_valueCellId = @"valueCell";
             v_timePicker = [self newDatePickerForProperty:aPropertyName inObject:anObject pickerMode:UIDatePickerModeTime];
 //            v_timePicker.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
             v_timePicker.hidden = YES;
-            [v_timePicker addTarget:self action:@selector(ifa_onTimePickerValueChanged)
+            [v_timePicker addTarget:self action:@selector(XYZ_onTimePickerValueChanged)
                    forControlEvents:UIControlEventValueChanged];
 
         }
@@ -218,11 +218,11 @@ static NSString * const k_valueCellId = @"valueCell";
         v_datePicker = [self newDatePickerForProperty:aPropertyName inObject:anObject pickerMode:self.datePickerMode];
 //        v_datePicker.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
         v_datePicker.hidden = NO;
-        [v_datePicker addTarget:self action:@selector(ifa_onDatePickerValueChanged)
+        [v_datePicker addTarget:self action:@selector(XYZ_onDatePickerValueChanged)
                forControlEvents:UIControlEventValueChanged];
         
         // Customise toolbar items
-        v_toolbarItems = [NSMutableArray arrayWithArray:[self ifa_datePickerToolbarItemsForProperty:aPropertyName
+        v_toolbarItems = [NSMutableArray arrayWithArray:[self XYZ_datePickerToolbarItemsForProperty:aPropertyName
                                                                                            inObject:anObject
                                                                                              target:self]];
         if (self.showTimePicker) {
@@ -231,38 +231,38 @@ static NSString * const k_valueCellId = @"valueCell";
 
             UIBarButtonItem *l_flexibleSpace = [v_toolbarItems objectAtIndex:1];
 
-            self.ifa_showDatePickerBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Calendar-Month.png"]
+            self.XYZ_showDatePickerBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Calendar-Month.png"]
                                                                                   style:UIBarButtonItemStylePlain
                                                                                  target:self
-                                                                                 action:@selector(ifa_onDateAndTimeToggleButtonTap:)];
-            self.ifa_showDatePickerBarButtonItem.accessibilityLabel = [self IFA_accessibilityLabelForName:@"showDatePickerButton"];
+                                                                                 action:@selector(XYZ_onDateAndTimeToggleButtonTap:)];
+            self.XYZ_showDatePickerBarButtonItem.accessibilityLabel = [self IFA_accessibilityLabelForName:@"showDatePickerButton"];
 
-            self.ifa_showTimePickerBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"11-clock.png"]
+            self.XYZ_showTimePickerBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"11-clock.png"]
                                                                                   style:UIBarButtonItemStylePlain
                                                                                  target:self
-                                                                                 action:@selector(ifa_onDateAndTimeToggleButtonTap:)];
-            self.ifa_showTimePickerBarButtonItem.accessibilityLabel = [self IFA_accessibilityLabelForName:@"showTimePickerButton"];
+                                                                                 action:@selector(XYZ_onDateAndTimeToggleButtonTap:)];
+            self.XYZ_showTimePickerBarButtonItem.accessibilityLabel = [self IFA_accessibilityLabelForName:@"showTimePickerButton"];
             
-            self.ifa_dateAndTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-            self.ifa_dateAndTimeLabel.backgroundColor = [UIColor clearColor];
-            self.ifa_dateAndTimeLabel.textColor = [UIColor whiteColor];
-            [[self IFA_appearanceTheme] setAppearanceForView:self.ifa_dateAndTimeLabel];
-            self.ifa_dateAndTimeLabel.textAlignment = NSTextAlignmentCenter;
+            self.XYZ_dateAndTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+            self.XYZ_dateAndTimeLabel.backgroundColor = [UIColor clearColor];
+            self.XYZ_dateAndTimeLabel.textColor = [UIColor whiteColor];
+            [[self IFA_appearanceTheme] setAppearanceForView:self.XYZ_dateAndTimeLabel];
+            self.XYZ_dateAndTimeLabel.textAlignment = NSTextAlignmentCenter;
             
-            UIBarButtonItem *l_dateAndTimeBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.ifa_dateAndTimeLabel];
+            UIBarButtonItem *l_dateAndTimeBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.XYZ_dateAndTimeLabel];
             [v_toolbarItems removeObject:l_flexibleSpace];
-            [v_toolbarItems insertObject:self.ifa_showTimePickerBarButtonItem atIndex:0];
+            [v_toolbarItems insertObject:self.XYZ_showTimePickerBarButtonItem atIndex:0];
             [v_toolbarItems insertObject:l_dateAndTimeBarButtonItem atIndex:1];
             [v_toolbarItems insertObject:l_flexibleSpace atIndex:2];
 
         }
         
         if (self.datePickerMode ==UIDatePickerModeCountDownTimer) {
-            [self addObserver:self forKeyPath:@"ifa_countDownDuration" options:0 context:nil];
-            self.ifa_countDownDuration = [[self.object valueForKey:self.propertyName] doubleValue];
+            [self addObserver:self forKeyPath:@"XYZ_countDownDuration" options:0 context:nil];
+            self.XYZ_countDownDuration = [[self.object valueForKey:self.propertyName] doubleValue];
         }else{
-            [self addObserver:self forKeyPath:@"ifa_dateAndTime" options:0 context:nil];
-            self.ifa_dateAndTime = [self.object valueForKey:self.propertyName];
+            [self addObserver:self forKeyPath:@"XYZ_dateAndTime" options:0 context:nil];
+            self.XYZ_dateAndTime = [self.object valueForKey:self.propertyName];
         }
 
         NSDictionary *l_options = [[IFAPersistenceManager sharedInstance].entityConfig optionsForProperty:self.propertyName
@@ -297,17 +297,17 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IFAPresenter>
 
 -(id)editedValue {
     if (self.datePickerMode ==UIDatePickerModeCountDownTimer) {
-        return @(self.ifa_countDownDuration);
+        return @(self.XYZ_countDownDuration);
     }else{
-        return self.ifa_dateAndTime;
+        return self.XYZ_dateAndTime;
     }
 }
 
 -(void)dealloc{
     if (self.datePickerMode ==UIDatePickerModeCountDownTimer) {
-        [self removeObserver:self forKeyPath:@"ifa_countDownDuration"];
+        [self removeObserver:self forKeyPath:@"XYZ_countDownDuration"];
     }else {
-        [self removeObserver:self forKeyPath:@"ifa_dateAndTime"];
+        [self removeObserver:self forKeyPath:@"XYZ_dateAndTime"];
     }
 }
 
@@ -327,22 +327,22 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IFAPresenter>
     
     if (self.datePickerMode ==UIDatePickerModeCountDownTimer) {
 
-        v_datePicker.countDownDuration = self.ifa_countDownDuration;
+        v_datePicker.countDownDuration = self.XYZ_countDownDuration;
     
     }else {
 
         if (v_seconds) {
             unsigned l_unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
             NSDateComponents *l_dateComponents = [[NSCalendar IFA_threadSafeCalendar] components:l_unitFlags
-                                                                                        fromDate:self.ifa_dateAndTime];
+                                                                                        fromDate:self.XYZ_dateAndTime];
             [l_dateComponents setSecond:[v_seconds intValue]];
-            _ifa_dateAndTime = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_dateComponents];
+            _XYZ_dateAndTime = [[NSCalendar IFA_threadSafeCalendar] dateFromComponents:l_dateComponents];
         }
         
-        v_datePicker.date = self.ifa_dateAndTime;
-        v_timePicker.date = self.ifa_dateAndTime;
+        v_datePicker.date = self.XYZ_dateAndTime;
+        v_timePicker.date = self.XYZ_dateAndTime;
 
-        [self ifa_updateToolbarLabel];
+        [self XYZ_updateToolbarLabel];
 
     }
 

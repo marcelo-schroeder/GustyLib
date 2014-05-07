@@ -25,14 +25,14 @@
 
 #pragma mark - Private
 
-- (NSURL *)ifa_buildTelURL:(NSString *)a_phoneNumber {
+- (NSURL *)XYZ_buildTelURL:(NSString *)a_phoneNumber {
     NSString *l_urlString = [@"tel:" stringByAppendingString:[a_phoneNumber stringByReplacingOccurrencesOfString:@" " withString:@""]];
     NSURL *l_url = [NSURL URLWithString:l_urlString];
     return l_url;
 }
 
-- (BOOL)ifa_isPhoneServiceAvailable {
-    NSURL *l_dummyTelURL = [self ifa_buildTelURL:@"12345678"];
+- (BOOL)XYZ_isPhoneServiceAvailable {
+    NSURL *l_dummyTelURL = [self XYZ_buildTelURL:@"12345678"];
     UIApplication *l_sharedApplication = [UIApplication sharedApplication];
     return [l_sharedApplication canOpenURL:l_dummyTelURL];
 }
@@ -40,8 +40,8 @@
 #pragma mark - Public
 
 - (void)dialPhoneNumber:(NSString *)a_phoneNumber {
-    if ([self ifa_isPhoneServiceAvailable]) {
-        NSURL *l_url = [self ifa_buildTelURL:a_phoneNumber];
+    if ([self XYZ_isPhoneServiceAvailable]) {
+        NSURL *l_url = [self XYZ_buildTelURL:a_phoneNumber];
         UIApplication *l_sharedApplication = [UIApplication sharedApplication];
         [l_sharedApplication openURL:l_url];
     } else {

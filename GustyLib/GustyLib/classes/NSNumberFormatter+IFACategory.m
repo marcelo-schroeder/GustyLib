@@ -25,26 +25,26 @@ static NSNumberFormatter *c_australianPhoneNumberFormatterMobileAndSpecialWithou
 
 #pragma mark - Private
 
-+ (void)ifa_configureAustralianPhoneNumberFormatter:(NSNumberFormatter *)a_numberFormatter{
++ (void)XYZ_configureAustralianPhoneNumberFormatter:(NSNumberFormatter *)a_numberFormatter{
     a_numberFormatter.groupingSeparator = @" ";
 }
 
-+ (void)ifa_createAustralianPhoneNumberFormattersIfRequired {
++ (void)XYZ_createAustralianPhoneNumberFormattersIfRequired {
 
     static dispatch_once_t c_dispatchOncePredicate;
     dispatch_once(&c_dispatchOncePredicate, ^{
 
         c_australianPhoneNumberFormatterLandLineWithoutAreaCode = [[NSNumberFormatter alloc] init];
         c_australianPhoneNumberFormatterLandLineWithoutAreaCode.positiveFormat = @"0000,0000";
-        [self ifa_configureAustralianPhoneNumberFormatter:c_australianPhoneNumberFormatterLandLineWithoutAreaCode];
+        [self XYZ_configureAustralianPhoneNumberFormatter:c_australianPhoneNumberFormatterLandLineWithoutAreaCode];
 
         c_australianPhoneNumberFormatterLandLineWithAreaCode = [[NSNumberFormatter alloc] init];
         c_australianPhoneNumberFormatterLandLineWithAreaCode.positiveFormat = @"00,0000,0000";
-        [self ifa_configureAustralianPhoneNumberFormatter:c_australianPhoneNumberFormatterLandLineWithAreaCode];
+        [self XYZ_configureAustralianPhoneNumberFormatter:c_australianPhoneNumberFormatterLandLineWithAreaCode];
 
         c_australianPhoneNumberFormatterMobileAndSpecialWithoutGrouping = [[NSNumberFormatter alloc] init];
         c_australianPhoneNumberFormatterMobileAndSpecialWithoutGrouping.positiveFormat = @"0000000000";
-        [self ifa_configureAustralianPhoneNumberFormatter:c_australianPhoneNumberFormatterMobileAndSpecialWithoutGrouping];
+        [self XYZ_configureAustralianPhoneNumberFormatter:c_australianPhoneNumberFormatterMobileAndSpecialWithoutGrouping];
 
     });
 
@@ -53,7 +53,7 @@ static NSNumberFormatter *c_australianPhoneNumberFormatterMobileAndSpecialWithou
 #pragma mark - Public
 
 + (NSString *)IFA_stringFromAustralianPhoneNumber:(NSNumber *)a_number{
-    [self ifa_createAustralianPhoneNumberFormattersIfRequired];
+    [self XYZ_createAustralianPhoneNumberFormattersIfRequired];
     CGFloat l_number = a_number.floatValue;
     NSString *l_numberString = a_number.stringValue;
     if (l_number>=10000000 && l_number<=99999999) {

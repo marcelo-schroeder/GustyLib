@@ -22,7 +22,7 @@
 
 @interface IFASingleSelectionListViewController ()
 
-@property (nonatomic) BOOL ifa_hasInitialLoadBeenDone;
+@property (nonatomic) BOOL XYZ_hasInitialLoadBeenDone;
 
 @end
 
@@ -32,7 +32,7 @@
 
 #pragma mark - Private
 
--(void)ifa_updateBackingPreference {
+-(void)XYZ_updateBackingPreference {
     IFAPersistenceManager *l_pm = [IFAPersistenceManager sharedInstance];
     NSString *l_backingPreferencesProperty = [l_pm.entityConfig backingPreferencesPropertyForEntity:self.entityName];
 //    NSLog(@"l_backingPreferencesProperty: %@", l_backingPreferencesProperty);
@@ -110,7 +110,7 @@
 	NSManagedObject *l_previousManagedObject = [self.managedObject valueForKey:self.propertyName];
 	BOOL l_valueChanged = [selectionManager selectedObject]!=l_previousManagedObject && ![[selectionManager selectedObject] isEqual:l_previousManagedObject];
     [self.managedObject IFA_setValue:[selectionManager selectedObject] forProperty:self.propertyName];
-    [self ifa_updateBackingPreference];
+    [self XYZ_updateBackingPreference];
     if (l_valueChanged) {
         [[self IFA_presenter] changesMadeByViewController:self];
     }
@@ -133,13 +133,13 @@
 
 -(void)didRefreshAndReloadDataAsync {
     [super didRefreshAndReloadDataAsync];
-    if (self.ifa_hasInitialLoadBeenDone) {
+    if (self.XYZ_hasInitialLoadBeenDone) {
         [self showTipForEditing:NO];
     }else{
         if (self.entities.count==0) {
             [self showCreateManagedObjectForm];
         }
-        self.ifa_hasInitialLoadBeenDone = YES;
+        self.XYZ_hasInitialLoadBeenDone = YES;
     }
 }
 

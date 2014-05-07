@@ -26,13 +26,13 @@
 
 @interface IFAHelpModeOverlayView ()
 
-@property (nonatomic) BOOL ifa_shouldSpotlight;
-@property (nonatomic) BOOL ifa_showingSpotlight;
-@property (nonatomic) BOOL ifa_finalDrawing;
-@property (nonatomic) BOOL ifa_removeSpotlightWithAnimation;
-@property (nonatomic) CGRect ifa_spotlightRect;
+@property (nonatomic) BOOL XYZ_shouldSpotlight;
+@property (nonatomic) BOOL XYZ_showingSpotlight;
+@property (nonatomic) BOOL XYZ_finalDrawing;
+@property (nonatomic) BOOL XYZ_removeSpotlightWithAnimation;
+@property (nonatomic) CGRect XYZ_spotlightRect;
 
-@property (nonatomic, strong) IFAHelpModeOverlaySpotlightMaskView *ifa_spotlightMask;
+@property (nonatomic, strong) IFAHelpModeOverlaySpotlightMaskView *XYZ_spotlightMask;
 
 @end
 
@@ -42,7 +42,7 @@
 
 #pragma mark - Private
 
-+(UIColor*)ifa_backgroundColour {
++(UIColor*)XYZ_backgroundColour {
     return [UIColor colorWithRed:0 green:0 blue:0 alpha:0.70];
 }
 
@@ -72,15 +72,15 @@
     CGContextRef l_context = UIGraphicsGetCurrentContext();
     
     // Fill the rect with the background colour
-    CGContextSetFillColorWithColor(l_context, [IFAHelpModeOverlayView ifa_backgroundColour].CGColor);
+    CGContextSetFillColorWithColor(l_context, [IFAHelpModeOverlayView XYZ_backgroundColour].CGColor);
     CGContextFillRect(l_context, rect);
     
     IFAHelpModeOverlaySpotlightMaskView *l_previousSpotlightMask = nil;
-    if (!self.ifa_finalDrawing) {
+    if (!self.XYZ_finalDrawing) {
         
-        if (self.ifa_showingSpotlight && self.ifa_removeSpotlightWithAnimation) {
+        if (self.XYZ_showingSpotlight && self.XYZ_removeSpotlightWithAnimation) {
             
-            l_previousSpotlightMask = self.ifa_spotlightMask;
+            l_previousSpotlightMask = self.XYZ_spotlightMask;
             
             // Draw spotlight
             CGContextSetFillColorWithColor(l_context, [UIColor clearColor].CGColor);
@@ -90,38 +90,38 @@
         }
         
         // Add spotlight mask
-        if (self.ifa_shouldSpotlight) {
-            self.ifa_spotlightMask = [[IFAHelpModeOverlaySpotlightMaskView alloc] initWithFrame:self.ifa_spotlightRect];
-            [self addSubview:self.ifa_spotlightMask];
+        if (self.XYZ_shouldSpotlight) {
+            self.XYZ_spotlightMask = [[IFAHelpModeOverlaySpotlightMaskView alloc] initWithFrame:self.XYZ_spotlightRect];
+            [self addSubview:self.XYZ_spotlightMask];
         }
         
     }
     
     // Draw spotlight if required
-    if (self.ifa_shouldSpotlight) {
+    if (self.XYZ_shouldSpotlight) {
         CGContextSetFillColorWithColor(l_context, [UIColor clearColor].CGColor);
         CGContextSetBlendMode(l_context, kCGBlendModeClear);
-        CGContextFillEllipseInRect(l_context, self.ifa_spotlightRect);
-        self.ifa_showingSpotlight = YES;
+        CGContextFillEllipseInRect(l_context, self.XYZ_spotlightRect);
+        self.XYZ_showingSpotlight = YES;
     }else {
-        self.ifa_showingSpotlight = NO;
+        self.XYZ_showingSpotlight = NO;
     }
     
-    if (!self.ifa_finalDrawing) {
+    if (!self.XYZ_finalDrawing) {
         
-        self.ifa_finalDrawing = YES;
+        self.XYZ_finalDrawing = YES;
         
         // Schedule animations
         [IFAUtils dispatchAsyncMainThreadBlock:^{
 
-            BOOL l_removeSpotlightWithAnimation = self.ifa_removeSpotlightWithAnimation;
+            BOOL l_removeSpotlightWithAnimation = self.XYZ_removeSpotlightWithAnimation;
 
             [UIView transitionWithView:self duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve
                             animations:^{
-                                if (self.ifa_shouldSpotlight) {
-                                    [self.ifa_spotlightMask removeFromSuperview];
+                                if (self.XYZ_shouldSpotlight) {
+                                    [self.XYZ_spotlightMask removeFromSuperview];
                                 }
-                                if (self.ifa_removeSpotlightWithAnimation) {
+                                if (self.XYZ_removeSpotlightWithAnimation) {
                                     if (l_previousSpotlightMask) {
                                         [self addSubview:l_previousSpotlightMask];
                                     }
@@ -156,22 +156,22 @@
     CGRect l_correctedRect = CGRectMake(l_x, a_rect.origin.y, l_width, a_rect.size.height);
 
     // Set up correct state for the spotlight to be drawn
-    self.ifa_spotlightRect = l_correctedRect;
-    self.ifa_shouldSpotlight = YES;
-    [self.ifa_spotlightMask setNeedsDisplay];
+    self.XYZ_spotlightRect = l_correctedRect;
+    self.XYZ_shouldSpotlight = YES;
+    [self.XYZ_spotlightMask setNeedsDisplay];
     
     // Draw spotlight
-    self.ifa_finalDrawing = NO;
-    self.ifa_removeSpotlightWithAnimation = NO;
+    self.XYZ_finalDrawing = NO;
+    self.XYZ_removeSpotlightWithAnimation = NO;
     [self setNeedsDisplay];
     
 }
 
 -(void)removeSpotlightWithAnimation:(BOOL)a_animate{
     
-    self.ifa_shouldSpotlight = NO;
-    self.ifa_finalDrawing = NO;
-    self.ifa_removeSpotlightWithAnimation = a_animate;
+    self.XYZ_shouldSpotlight = NO;
+    self.XYZ_finalDrawing = NO;
+    self.XYZ_removeSpotlightWithAnimation = a_animate;
     [self setNeedsDisplay];
     
 }
@@ -208,7 +208,7 @@
     CGContextFillRect(l_context, rect);
     
     // Draw spotlight mask
-    CGContextSetFillColorWithColor(l_context, [IFAHelpModeOverlayView ifa_backgroundColour].CGColor);
+    CGContextSetFillColorWithColor(l_context, [IFAHelpModeOverlayView XYZ_backgroundColour].CGColor);
     CGContextFillEllipseInRect(l_context, rect);
     
 }

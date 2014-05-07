@@ -25,8 +25,8 @@
     BOOL v_initDone;
 }
 
-@property (nonatomic, strong) UITableView *ifa_tableView;
-@property(nonatomic, strong) NSLayoutConstraint *ifa_tableViewBottomLayoutConstraint;
+@property (nonatomic, strong) UITableView *XYZ_tableView;
+@property(nonatomic, strong) NSLayoutConstraint *XYZ_tableViewBottomLayoutConstraint;
 
 @end
 
@@ -36,7 +36,7 @@
 
 #pragma mark - Private
 
--(void)ifa_onTableViewCellAccessoryButtonTap:(UIButton *)l_button withEvent:(UIEvent*)l_event{
+-(void)XYZ_onTableViewCellAccessoryButtonTap:(UIButton *)l_button withEvent:(UIEvent*)l_event{
     NSIndexPath *l_indexPath = [self.tableView indexPathForRowAtPoint:[[[l_event touchesForView:l_button] anyObject] locationInView:self.tableView]];
     if (l_indexPath){
         [self.tableView.delegate tableView: self.tableView accessoryButtonTappedForRowWithIndexPath:l_indexPath];
@@ -48,7 +48,7 @@
 -(UIView*)newTableViewCellAccessoryView {
     UIButton *l_button = [[self IFA_appearanceTheme] newDetailDisclosureButton];
     l_button.frame = CGRectMake(l_button.frame.origin.x, l_button.frame.origin.y, IFAMinimumTapAreaDimension, IFAMinimumTapAreaDimension);
-    [l_button addTarget:self action:@selector(ifa_onTableViewCellAccessoryButtonTap:withEvent:)
+    [l_button addTarget:self action:@selector(XYZ_onTableViewCellAccessoryButtonTap:withEvent:)
        forControlEvents:UIControlEventTouchUpInside];
     return l_button;
 }
@@ -206,7 +206,7 @@
 
 #pragma mark - Overrides
 
--(void)ifa_init {
+-(void)XYZ_init {
     if ([self IFA_shouldEnableAds]) {
         self.shouldCreateContainerViewOnLoadView = YES;
     }
@@ -214,28 +214,28 @@
 
 -(id)init{
     if (self=[super init]) {
-        [self ifa_init];
+        [self XYZ_init];
     }
     return self;
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder{
     if (self=[super initWithCoder:aDecoder]) {
-        [self ifa_init];
+        [self XYZ_init];
     }
     return self;
 }
 
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     if (self=[super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        [self ifa_init];
+        [self XYZ_init];
     }
     return self;
 }
 
 -(id)initWithStyle:(UITableViewStyle)style{
     if (self=[super initWithStyle:style]) {
-        [self ifa_init];
+        [self XYZ_init];
     }
     return self;
 }
@@ -303,7 +303,7 @@
         if (!self.view) {
             [self loadView];
         }
-        return self.ifa_tableView;
+        return self.XYZ_tableView;
     }else{
         return [super tableView];
     }
@@ -320,13 +320,13 @@
         }
         UIView *l_view = [[UIView alloc] initWithFrame:l_frame];
         l_view.autoresizingMask = [IFAUIUtils fullAutoresizingMask];
-        self.ifa_tableView = [[UITableView alloc] initWithFrame:l_frame style:UITableViewStylePlain];
-        self.ifa_tableView.autoresizingMask = [IFAUIUtils fullAutoresizingMask];
-        [l_view addSubview:self.ifa_tableView];
-        NSArray *l_constraints = [self.ifa_tableView IFA_addLayoutConstraintsToFillSuperview];
+        self.XYZ_tableView = [[UITableView alloc] initWithFrame:l_frame style:UITableViewStylePlain];
+        self.XYZ_tableView.autoresizingMask = [IFAUIUtils fullAutoresizingMask];
+        [l_view addSubview:self.XYZ_tableView];
+        NSArray *l_constraints = [self.XYZ_tableView IFA_addLayoutConstraintsToFillSuperview];
         for (NSLayoutConstraint *l_constraint in l_constraints) {
             if (l_constraint.firstAttribute == NSLayoutAttributeBottom) {
-                self.ifa_tableViewBottomLayoutConstraint = l_constraint;
+                self.XYZ_tableViewBottomLayoutConstraint = l_constraint;
             }
         }
         self.view = l_view;
@@ -436,8 +436,8 @@
 }
 
 - (void)IFA_updateNonAdContainerViewFrameWithAdBannerViewHeight:(CGFloat)a_adBannerViewHeight {
-    if (self.ifa_tableViewBottomLayoutConstraint) {
-        self.ifa_tableViewBottomLayoutConstraint.constant = a_adBannerViewHeight;
+    if (self.XYZ_tableViewBottomLayoutConstraint) {
+        self.XYZ_tableViewBottomLayoutConstraint.constant = a_adBannerViewHeight;
         [[self IFA_nonAdContainerView] layoutIfNeeded];   // Done so that this change can be animated
     }else{
         [super IFA_updateNonAdContainerViewFrameWithAdBannerViewHeight:a_adBannerViewHeight];

@@ -28,10 +28,10 @@
     
 }
 
-@property (nonatomic, strong, readonly) NSMutableArray *ifa_savedToolbarItemEnabledStates;
+@property (nonatomic, strong, readonly) NSMutableArray *XYZ_savedToolbarItemEnabledStates;
 @property (nonatomic, strong) dispatch_block_t refreshAndReloadDataAsyncBlock;
 @property (nonatomic) BOOL refreshAndReloadDataAsyncRequested;
-@property (nonatomic, strong) IFA_MBProgressHUD *ifa_hud;
+@property (nonatomic, strong) IFA_MBProgressHUD *XYZ_hud;
 
 @end
 
@@ -42,7 +42,7 @@
 
 #pragma mark - Private
 
-- (void)ifa_refreshAndReloadDataAsyncWithContainerCoordination:(BOOL)a_withContainerCoordination{
+- (void)XYZ_refreshAndReloadDataAsyncWithContainerCoordination:(BOOL)a_withContainerCoordination{
 //    NSLog(@" ");
 //    NSLog(@"m_refreshAndReloadDataAsyncWithContainerCoordination for %@ - self.selectedViewControllerInPagingContainer: %u", [self description], self.selectedViewControllerInPagingContainer);
     
@@ -120,7 +120,7 @@
     
 }
 
--(void)ifa_onPersistenceChangeNotification:(NSNotification*)a_notification{
+-(void)XYZ_onPersistenceChangeNotification:(NSNotification*)a_notification{
     
 //    NSLog(@"m_onPersistenceChangeNotification for %@ in %@", [a_notification.object description], [self description]);
 
@@ -129,7 +129,7 @@
 }
 
 -(void)showTipWithText:(NSString*)a_text{
-    self.ifa_hud = [IFAUIUtils showHudWithText:a_text inView:self.tableView animated:YES];
+    self.XYZ_hud = [IFAUIUtils showHudWithText:a_text inView:self.tableView animated:YES];
 }
 
 #pragma mark - Public
@@ -152,7 +152,7 @@
 
 - (void)refreshAndReloadDataAsync {
     [self willRefreshAndReloadDataAsync];
-    [self ifa_refreshAndReloadDataAsyncWithContainerCoordination:NO];
+    [self XYZ_refreshAndReloadDataAsyncWithContainerCoordination:NO];
 }
 
 - (UITableViewStyle)tableViewStyle {
@@ -199,7 +199,7 @@
     return [NSString stringWithFormat:l_textTemplate, l_indefiniteArticle, l_entityName];
 }
 
--(NSMutableArray *)ifa_savedToolbarItemEnabledStates {
+-(NSMutableArray *)XYZ_savedToolbarItemEnabledStates {
     if (!v_savedToolbarItemEnabledStates) {
         v_savedToolbarItemEnabledStates = [NSMutableArray new];
     }
@@ -320,7 +320,7 @@
 
 -(void)showTipForEditing:(BOOL)a_editing{
     //    NSLog(@"showTipForEditing");
-    [IFAUIUtils hideHud:self.ifa_hud animated:NO];
+    [IFAUIUtils hideHud:self.XYZ_hud animated:NO];
     if ([self shouldShowTipsForEditing:a_editing]) {
         //        NSLog(@"showTipWithText for %@", [self description]);
         [self showTipWithText:[self tipTextForEditing:a_editing]];
@@ -362,7 +362,7 @@
     
     // Observe persistence notifications
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(ifa_onPersistenceChangeNotification:)
+                                             selector:@selector(XYZ_onPersistenceChangeNotification:)
                                                  name:IFANotificationPersistentEntityChange
                                                object:nil];
 //    NSLog(@"OBSERVER ADDED IN viewDidLoad for %@", [self description]);
@@ -385,7 +385,7 @@
     [super viewDidAppear:animated];
 
     if( !self.IFA_activeFetchedResultsController && self.staleData && ![self IFA_isReturningVisibleViewController] ){
-        [self ifa_refreshAndReloadDataAsyncWithContainerCoordination:YES];
+        [self XYZ_refreshAndReloadDataAsyncWithContainerCoordination:YES];
         self.refreshAndReloadDataAsyncRequested = YES;
     }else{
         self.refreshAndReloadDataAsyncRequested = NO;
@@ -395,8 +395,8 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    [IFAUIUtils hideHud:self.ifa_hud animated:NO];
-    self.ifa_hud = nil;
+    [IFAUIUtils hideHud:self.XYZ_hud animated:NO];
+    self.XYZ_hud = nil;
 }
 
 -(void)dealloc{
@@ -526,7 +526,7 @@
 #pragma mark - IFAHelpTargetContainer
 
 -(void)willEnterHelpMode{
-    [IFAUIUtils hideHud:self.ifa_hud animated:NO];
+    [IFAUIUtils hideHud:self.XYZ_hud animated:NO];
 }
 
 -(void)didExitHelpMode{

@@ -25,27 +25,27 @@
 @property (nonatomic, strong) id<IFAAppearanceTheme> loadedAppearanceTheme;
 @property (nonatomic, strong) IFAColorScheme *loadedColorScheme;
 
-@property(nonatomic, strong) NSMutableSet *ifa_alreadyLoadedThemeNames;
+@property(nonatomic, strong) NSMutableSet *XYZ_alreadyLoadedThemeNames;
 @end
 
 @implementation IFAAppearanceThemeManager
 
 #pragma mark - Private
 
-- (void)ifa_setThemeAppearanceIfRequired {
+- (void)XYZ_setThemeAppearanceIfRequired {
     NSString *l_themeName = [self.loadedAppearanceTheme themeName];
-    if (![self.ifa_alreadyLoadedThemeNames containsObject:l_themeName]) {
+    if (![self.XYZ_alreadyLoadedThemeNames containsObject:l_themeName]) {
 //        NSLog(@"Setting appearance theme: %@", l_themeName);
         [self.loadedAppearanceTheme setAppearance];
-        [self.ifa_alreadyLoadedThemeNames addObject:l_themeName];
+        [self.XYZ_alreadyLoadedThemeNames addObject:l_themeName];
     }
 }
 
-- (void)ifa_transitionViewsWithAnimationDuration:(NSTimeInterval)a_animationDuration
+- (void)XYZ_transitionViewsWithAnimationDuration:(NSTimeInterval)a_animationDuration
                                 animationOptions:(UIViewAnimationOptions)a_animationOptions
                                  completionBlock:(void (^)(BOOL finished))a_completionBlock {
 
-    UIWindow *l_window = [self ifa_window];
+    UIWindow *l_window = [self XYZ_window];
     [UIView
             transitionWithView:l_window
                       duration:a_animationDuration
@@ -64,7 +64,7 @@
 
 }
 
-- (UIWindow *)ifa_window {
+- (UIWindow *)XYZ_window {
     return [UIApplication sharedApplication].delegate.window;
 }
 
@@ -73,7 +73,7 @@
 - (id)init{
     self = [super init];
     if (self) {
-        self.ifa_alreadyLoadedThemeNames = [NSMutableSet new];
+        self.XYZ_alreadyLoadedThemeNames = [NSMutableSet new];
     }
     return self;
 }
@@ -82,7 +82,7 @@
 
 - (void)reloadUiWithNoTransitionAnimation {
     [self applyAppearanceTheme];
-    UIWindow *l_window = [self ifa_window];
+    UIWindow *l_window = [self XYZ_window];
     UIViewController *l_newViewController = [[self.loadedAppearanceTheme storyboard] instantiateInitialViewController];
     l_window.rootViewController = l_newViewController;
 }
@@ -96,7 +96,7 @@
                      animationOptions:(UIViewAnimationOptions)a_animationOptions
                       completionBlock:(void (^)(BOOL finished))a_completionBlock {
     [self applyAppearanceTheme];
-    [self ifa_transitionViewsWithAnimationDuration:a_animationDuration animationOptions:a_animationOptions
+    [self XYZ_transitionViewsWithAnimationDuration:a_animationDuration animationOptions:a_animationOptions
                                    completionBlock:a_completionBlock];
 }
 
@@ -190,7 +190,7 @@
     // Dismiss popover menu if using the custom split view controller
     [IFAUIUtils dismissSplitViewControllerPopover];
 
-    [self ifa_setThemeAppearanceIfRequired];
+    [self XYZ_setThemeAppearanceIfRequired];
 
 }
 
