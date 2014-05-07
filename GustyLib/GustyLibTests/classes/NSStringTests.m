@@ -27,13 +27,13 @@
 }
 
 - (void)testCharacters {
-    assertThat([@"Test me!" IFA_characters], contains(@"T", @"e", @"s", @"t", @" ", @"m", @"e", @"!", nil));
+    assertThat([@"Test me!" ifa_characters], contains(@"T", @"e", @"s", @"t", @" ", @"m", @"e", @"!", nil));
 }
 
 - (void)testStringWithNumbersOnly{
-    assertThat([@"abcd" IFA_stringWithNumbersOnly], is(equalTo(@"")));
-    assertThat([@"1234" IFA_stringWithNumbersOnly], is(equalTo(@"1234")));
-    assertThat([@"1.4l5(0 12" IFA_stringWithNumbersOnly], is(equalTo(@"145012")));
+    assertThat([@"abcd" ifa_stringWithNumbersOnly], is(equalTo(@"")));
+    assertThat([@"1234" ifa_stringWithNumbersOnly], is(equalTo(@"1234")));
+    assertThat([@"1.4l5(0 12" ifa_stringWithNumbersOnly], is(equalTo(@"145012")));
 }
 
 - (void)testStringByReplacingOccurrencesOfRegexPattern {
@@ -55,7 +55,7 @@
     // when
     __block NSUInteger l_counter = 0;
     NSMutableArray *l_matchedStrings = [@[] mutableCopy];
-    NSString *l_outputString = [l_inputString IFA_stringByReplacingOccurrencesOfRegexPattern:@"<img[^>]*>"
+    NSString *l_outputString = [l_inputString ifa_stringByReplacingOccurrencesOfRegexPattern:@"<img[^>]*>"
                                                                                   usingBlock:^NSString *(NSString *a_matchedString) {
                                                                                       [l_matchedStrings addObject:a_matchedString];
                                                                                       return [NSString stringWithFormat:@"TEST%u",

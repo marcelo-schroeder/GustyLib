@@ -53,7 +53,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
 	BOOL selected = [[selectionManager selectedIndexPath] isEqual:indexPath];
-    cell.ifa_helpTargetId = [[self IFA_helpTargetIdForName:@"tableCell."] stringByAppendingString:selected?@"selected":@"unselected"];
+    cell.ifa_helpTargetId = [[self ifa_helpTargetIdForName:@"tableCell."] stringByAppendingString:selected?@"selected":@"unselected"];
 	return [self decorateSelectionForCell:cell selected:selected targetObject:[selectionManager selectedObject]];
 }
 
@@ -114,7 +114,7 @@
     if (l_valueChanged) {
         [[self ifa_presenter] changesMadeByViewController:self];
     }
-    [self IFA_notifySessionCompletionWithChangesMade:l_valueChanged data:nil ];
+    [self ifa_notifySessionCompletionWithChangesMade:l_valueChanged data:nil ];
 }
 
 - (void) updateUiState{
@@ -127,7 +127,7 @@
     if ([[IFAPersistenceManager sharedInstance].entityConfig shouldShowAddButtonInSelectionForEntity:self.entityName]) {
         self.addBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemAdd target:self
                                                           action:@selector(onAddButtonTap:)];
-        [self IFA_addLeftBarButtonItem:self.addBarButtonItem];
+        [self ifa_addLeftBarButtonItem:self.addBarButtonItem];
     }
 }
 

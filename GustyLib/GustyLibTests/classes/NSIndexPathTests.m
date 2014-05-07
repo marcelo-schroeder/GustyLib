@@ -33,7 +33,7 @@
     NSInteger l_section = 1;
 
     // when
-    NSArray *l_indexPaths = [NSIndexPath IFA_indexPathsForRowRange:l_rowRange
+    NSArray *l_indexPaths = [NSIndexPath ifa_indexPathsForRowRange:l_rowRange
                                                          section:l_section];
     // then
     assertThat(l_indexPaths,
