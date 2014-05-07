@@ -19,8 +19,8 @@
 
 @interface IFASemaphoreManager ()
 
-@property(nonatomic, strong) IFAWorkInProgressModalViewManager *XYZ_progressIndicatorManager;
-@property(nonatomic) BOOL XYZ_isWaitingForSemaphore;
+@property(nonatomic, strong) IFAWorkInProgressModalViewManager *IFA_progressIndicatorManager;
+@property(nonatomic) BOOL IFA_isWaitingForSemaphore;
 
 @end
 
@@ -30,11 +30,11 @@
 
 #pragma mark - Private
 
-- (IFAWorkInProgressModalViewManager *)XYZ_progressIndicatorManager {
-    if (!_XYZ_progressIndicatorManager) {
-        _XYZ_progressIndicatorManager = [IFAWorkInProgressModalViewManager new];
+- (IFAWorkInProgressModalViewManager *)IFA_progressIndicatorManager {
+    if (!_IFA_progressIndicatorManager) {
+        _IFA_progressIndicatorManager = [IFAWorkInProgressModalViewManager new];
     }
-    return _XYZ_progressIndicatorManager;
+    return _IFA_progressIndicatorManager;
 }
 
 #pragma mark - Public
@@ -46,7 +46,7 @@ shouldShowModalProgressIndicator:(BOOL)a_shouldShowModalProgressIndicator
           semaphoreWaitOverBlock:(void (^)())a_semaphoreWaitOverBlock
            userCancellationBlock:(void (^)())a_userCancellationBlock {
 
-    if (self.XYZ_isWaitingForSemaphore) {
+    if (self.IFA_isWaitingForSemaphore) {
         return NO;
     }
 
@@ -54,17 +54,17 @@ shouldShowModalProgressIndicator:(BOOL)a_shouldShowModalProgressIndicator
 
     long l_semaphoreTimeout = dispatch_semaphore_wait(a_semaphore, DISPATCH_TIME_NOW);
     if (l_semaphoreTimeout) {
-        self.XYZ_isWaitingForSemaphore = YES;
+        self.IFA_isWaitingForSemaphore = YES;
         if (a_shouldShowModalProgressIndicator) {
-            self.XYZ_progressIndicatorManager.progressMessage = a_progressIndicatorMessage;
-            self.XYZ_progressIndicatorManager.cancelationCompletionBlock = ^{
-                [l_weakSelf.XYZ_progressIndicatorManager removeView];
-                l_weakSelf.XYZ_isWaitingForSemaphore = NO;
+            self.IFA_progressIndicatorManager.progressMessage = a_progressIndicatorMessage;
+            self.IFA_progressIndicatorManager.cancelationCompletionBlock = ^{
+                [l_weakSelf.IFA_progressIndicatorManager removeView];
+                l_weakSelf.IFA_isWaitingForSemaphore = NO;
                 if (a_userCancellationBlock) {
                     a_userCancellationBlock();
                 }
             };
-            [self.XYZ_progressIndicatorManager showView];
+            [self.IFA_progressIndicatorManager showView];
         }
     } else {
         dispatch_semaphore_signal(a_semaphore);
@@ -78,11 +78,11 @@ shouldShowModalProgressIndicator:(BOOL)a_shouldShowModalProgressIndicator
         dispatch_semaphore_wait(a_semaphore, DISPATCH_TIME_FOREVER);
         dispatch_semaphore_signal(a_semaphore);
         [IFAUtils dispatchAsyncMainThreadBlock:^{
-            if (l_weakSelf.XYZ_isWaitingForSemaphore) {
+            if (l_weakSelf.IFA_isWaitingForSemaphore) {
                 if (a_shouldShowModalProgressIndicator) {
-                    [l_weakSelf.XYZ_progressIndicatorManager removeView];
+                    [l_weakSelf.IFA_progressIndicatorManager removeView];
                 }
-                l_weakSelf.XYZ_isWaitingForSemaphore = NO;
+                l_weakSelf.IFA_isWaitingForSemaphore = NO;
                 if (a_semaphoreWaitOverBlock) {
                     a_semaphoreWaitOverBlock();
                 }

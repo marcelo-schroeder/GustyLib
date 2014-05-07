@@ -49,7 +49,7 @@ enum {
 
 #pragma mark - Private
 
-- (BOOL)XYZ_isSelectedOptionsSection:(NSInteger)a_section{
+- (BOOL)IFA_isSelectedOptionsSection:(NSInteger)a_section{
 	NSInteger l_numberOfSections = [self numberOfSectionsInTableView:self.tableView];
 	if (l_numberOfSections==2) {	// If both arrays (selected & unselected) are not empty, then the "selected" section is the first one
 		return a_section==0;
@@ -58,7 +58,7 @@ enum {
 	}
 }
 
-- (void)XYZ_onSelectAllButtonTap:(id)sender{
+- (void)IFA_onSelectAllButtonTap:(id)sender{
 	[IFAUIUtils showActionSheetWithMessage:@"Are you sure you want to select all options available?"
               destructiveButtonLabelSuffix:@"select all"
                             viewController:self
@@ -67,16 +67,16 @@ enum {
                                        tag:ACTION_SHEET_TAG_SELECT_ALL];
 }
 
-- (void)XYZ_selectNone {
-    [self XYZ_handleUserSelectionForManagedObjects:[NSArray arrayWithArray:v_selectedDestinationEntities] isAdding:NO];
+- (void)IFA_selectNone {
+    [self IFA_handleUserSelectionForManagedObjects:[NSArray arrayWithArray:v_selectedDestinationEntities] isAdding:NO];
 }
 
-- (void)XYZ_selectAll {
-    [self XYZ_handleUserSelectionForManagedObjects:[NSArray arrayWithArray:v_unselectedDestinationEntities]
+- (void)IFA_selectAll {
+    [self IFA_handleUserSelectionForManagedObjects:[NSArray arrayWithArray:v_unselectedDestinationEntities]
                                           isAdding:YES];
 }
 
-- (BOOL)XYZ_hasValueChanged {
+- (BOOL)IFA_hasValueChanged {
 	
 	if ([v_originalSortedEntities count]==[v_selectedDestinationEntities count]) {
 		for (NSUInteger i = 0; i < [v_originalSortedEntities count]; i++) {
@@ -104,7 +104,7 @@ enum {
 	
 }
 
-- (void)XYZ_handleUserSelectionForManagedObjects:(NSArray *)a_managedObjects isAdding:(BOOL)a_isAdding{
+- (void)IFA_handleUserSelectionForManagedObjects:(NSArray *)a_managedObjects isAdding:(BOOL)a_isAdding{
 	
 	BOOL l_selectedSectionVisibleBefore = [v_selectedDestinationEntities count]>0;
 	BOOL l_unselectedSectionVisibleBefore = [v_unselectedDestinationEntities count]>0;
@@ -213,12 +213,12 @@ enum {
 	
 	[self.tableView endUpdates];
 
-    [self XYZ_updateModel];
+    [self IFA_updateModel];
 	[self updateUiState];
 	
 }
 
--(void)XYZ_updateModel {
+-(void)IFA_updateModel {
     
     if (v_isJoinEntity) {
         
@@ -335,7 +335,7 @@ enum {
 		v_flexSpaceButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemFlexibleSpace target:self
                                                           action:nil];
 		v_selectAllButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemSelectAll target:self
-                                                          action:@selector(XYZ_onSelectAllButtonTap:)];
+                                                          action:@selector(IFA_onSelectAllButtonTap:)];
 		self.editing = YES;
 		
 	}
@@ -349,7 +349,7 @@ enum {
 	
 }
 
--(void)XYZ_onDeleteButtonAction:(UIButton*)a_button{
+-(void)IFA_onDeleteButtonAction:(UIButton*)a_button{
     UITableViewCell *l_cell = (UITableViewCell*)a_button.superview;
     [self tableView:self.tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:[self.tableView indexPathForCell:l_cell]];
 }
@@ -373,7 +373,7 @@ enum {
         UIImage *l_deleteButtonImage = [UIImage imageNamed:l_deleteButtonImageName];
         [l_deleteButton setImage:l_deleteButtonImage forState:UIControlStateNormal];
         [l_deleteButton setImage:l_deleteButtonImage forState:UIControlStateHighlighted];
-        [l_deleteButton addTarget:self action:@selector(XYZ_onDeleteButtonAction:)
+        [l_deleteButton addTarget:self action:@selector(IFA_onDeleteButtonAction:)
                  forControlEvents:UIControlEventTouchUpInside];
         l_deleteButton.frame = CGRectMake(7, 9, l_deleteButtonImage.size.width, l_deleteButtonImage.size.height);
         l_deleteButton.hidden = YES;
@@ -385,7 +385,7 @@ enum {
     // Set up the cell...
 	NSManagedObject *managedObject;
     UIView *l_deleteButtonView = [cell viewWithTag:k_deleteButtonTag];
-	if ([self XYZ_isSelectedOptionsSection:indexPath.section]) {
+	if ([self IFA_isSelectedOptionsSection:indexPath.section]) {
 		managedObject = [v_selectedDestinationEntities objectAtIndex:(NSUInteger) indexPath.row];
         l_deleteButtonView.hidden = NO;
 	}else {
@@ -412,7 +412,7 @@ enum {
 
 -(void)done{
 	
-    BOOL l_valueChanged = [self XYZ_hasValueChanged];
+    BOOL l_valueChanged = [self IFA_hasValueChanged];
     [self ifa_notifySessionCompletionWithChangesMade:l_valueChanged data:nil ];
 
 }
@@ -445,7 +445,7 @@ enum {
 #pragma mark UITableViewDelegate
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
-	if ([self XYZ_isSelectedOptionsSection:indexPath.section]) {
+	if ([self IFA_isSelectedOptionsSection:indexPath.section]) {
 		return UITableViewCellEditingStyleNone;
 	}else {
 		return UITableViewCellEditingStyleInsert;
@@ -476,7 +476,7 @@ enum {
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-	if ([self XYZ_isSelectedOptionsSection:section]) {
+	if ([self IFA_isSelectedOptionsSection:section]) {
 		return [v_selectedDestinationEntities count];
 	}else {
 		return [v_unselectedDestinationEntities count];
@@ -490,12 +490,12 @@ enum {
 	}else {
 		l_managedObjects = @[[v_selectedDestinationEntities objectAtIndex:(NSUInteger) indexPath.row]];
 	}
-    [self XYZ_handleUserSelectionForManagedObjects:l_managedObjects
+    [self IFA_handleUserSelectionForManagedObjects:l_managedObjects
                                           isAdding:editingStyle == UITableViewCellEditingStyleInsert];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
-	return v_isJoinEntity && [self XYZ_isSelectedOptionsSection:indexPath.section];
+	return v_isJoinEntity && [self IFA_isSelectedOptionsSection:indexPath.section];
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath{
@@ -504,14 +504,14 @@ enum {
 	NSManagedObject *toManagedObject = [v_selectedDestinationEntities objectAtIndex:(NSUInteger) toIndexPath.row];
     [v_selectedDestinationEntities replaceObjectAtIndex:(NSUInteger) toIndexPath.row withObject:fromManagedObject];
     [v_selectedDestinationEntities replaceObjectAtIndex:(NSUInteger) fromIndexPath.row withObject:toManagedObject];
-    [self XYZ_updateModel];
+    [self IFA_updateModel];
 
     [self reloadMovedCellAtIndexPath:toIndexPath];
 
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-	return [self XYZ_isSelectedOptionsSection:section] ? @"Selected entries" : @"Available entries";
+	return [self IFA_isSelectedOptionsSection:section] ? @"Selected entries" : @"Available entries";
 }
 
 #pragma mark -
@@ -521,12 +521,12 @@ enum {
 	switch (actionSheet.tag) {
 		case ACTION_SHEET_TAG_SELECT_NONE:
 			if(buttonIndex==0){
-                [self XYZ_selectNone];
+                [self IFA_selectNone];
 			}
 			break;
 		case ACTION_SHEET_TAG_SELECT_ALL:
 			if(buttonIndex==0){
-                [self XYZ_selectAll];
+                [self IFA_selectAll];
 			}
 			break;
 		default:

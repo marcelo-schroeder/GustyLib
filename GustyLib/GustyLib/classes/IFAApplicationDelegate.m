@@ -22,9 +22,9 @@
 
 @interface IFAApplicationDelegate ()
 
-@property (nonatomic, strong) id<IFAAppearanceTheme> XYZ_appearanceTheme;
+@property (nonatomic, strong) id<IFAAppearanceTheme> IFA_appearanceTheme;
 @property (nonatomic) BOOL useDeviceAgnosticMainStoryboard;
-@property (nonatomic, strong) GADBannerView *XYZ_gadBannerView;
+@property (nonatomic, strong) GADBannerView *IFA_gadBannerView;
 
 @end
 
@@ -33,7 +33,7 @@
 
 #pragma mark - Private
 
--(void)XYZ_onKeyboardNotification:(NSNotification*)a_notification{
+-(void)IFA_onKeyboardNotification:(NSNotification*)a_notification{
     
     //    NSLog(@"m_onKeyboardNotification");
     
@@ -58,11 +58,11 @@
     
 }
 
-- (void)XYZ_onAdsSuspendRequest:(NSNotification*)aNotification{
+- (void)IFA_onAdsSuspendRequest:(NSNotification*)aNotification{
     self.adsSuspended = YES;
 }
 
-- (void)XYZ_onAdsResumeRequest:(NSNotification*)aNotification{
+- (void)IFA_onAdsResumeRequest:(NSNotification*)aNotification{
     self.adsSuspended = NO;
 }
 
@@ -89,21 +89,21 @@
 }
 
 -(GADBannerView*)gadBannerView {
-    if (!self.XYZ_gadBannerView) {
-        self.XYZ_gadBannerView = [GADBannerView new];
-        self.XYZ_gadBannerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        [[self appearanceTheme] setAppearanceForAdBannerView:self.XYZ_gadBannerView];
+    if (!self.IFA_gadBannerView) {
+        self.IFA_gadBannerView = [GADBannerView new];
+        self.IFA_gadBannerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        [[self appearanceTheme] setAppearanceForAdBannerView:self.IFA_gadBannerView];
     }
-    self.XYZ_gadBannerView.adUnitID = [self gadUnitId];
-    return self.XYZ_gadBannerView;
+    self.IFA_gadBannerView.adUnitID = [self gadUnitId];
+    return self.IFA_gadBannerView;
 }
 
 -(id<IFAAppearanceTheme>)appearanceTheme {
     Class l_appearanceThemeClass = [self appearanceThemeClass];
-    if (!self.XYZ_appearanceTheme || ![self.XYZ_appearanceTheme isMemberOfClass:l_appearanceThemeClass]) {
-        self.XYZ_appearanceTheme = [l_appearanceThemeClass new];
+    if (!self.IFA_appearanceTheme || ![self.IFA_appearanceTheme isMemberOfClass:l_appearanceThemeClass]) {
+        self.IFA_appearanceTheme = [l_appearanceThemeClass new];
     }
-    return self.XYZ_appearanceTheme;
+    return self.IFA_appearanceTheme;
 }
 
 +(IFAApplicationDelegate *)sharedInstance {
@@ -266,19 +266,19 @@
     
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(XYZ_onKeyboardNotification:)
+                                             selector:@selector(IFA_onKeyboardNotification:)
                                                  name:UIKeyboardDidShowNotification 
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(XYZ_onKeyboardNotification:)
+                                             selector:@selector(IFA_onKeyboardNotification:)
                                                  name:UIKeyboardDidHideNotification 
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(XYZ_onAdsSuspendRequest:)
+                                             selector:@selector(IFA_onAdsSuspendRequest:)
                                                  name:IFANotificationAdsSuspendRequest
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(XYZ_onAdsResumeRequest:)
+                                             selector:@selector(IFA_onAdsResumeRequest:)
                                                  name:IFANotificationAdsResumeRequest
                                                object:nil];
 

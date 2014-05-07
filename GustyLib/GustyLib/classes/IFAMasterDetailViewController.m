@@ -30,7 +30,7 @@
 
 #pragma mark - Private
 
-- (void)XYZ_configureSubViews {
+- (void)IFA_configureSubViews {
     UIView *l_masterView = self.masterContainerView;
     UIView *l_detailView = self.detailContainerView;
     UIView *l_separatorView = self.separatorView;
@@ -65,7 +65,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self XYZ_configureSubViews];
+    [self IFA_configureSubViews];
 //    [self.view addGestureRecognizer:self.p_swipeGestureRecogniser];
 }
 

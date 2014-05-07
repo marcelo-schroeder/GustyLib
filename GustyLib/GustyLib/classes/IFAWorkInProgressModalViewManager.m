@@ -35,7 +35,7 @@
 #pragma mark - Private
 
 - (void)onCancelTap:(id)aSender{
-    [self XYZ_removeGestureRecogniser];
+    [self IFA_removeGestureRecogniser];
     v_hud.mode = MBProgressHUDModeIndeterminate;
     v_hud.labelText = @"Cancelling...";
     v_hud.detailsLabelText = @"";
@@ -48,7 +48,7 @@
     }
 }
 
-- (void)XYZ_removeGestureRecogniser {
+- (void)IFA_removeGestureRecogniser {
     if ([v_hud.userInteractionView.gestureRecognizers count]==1) {
         [v_hud.userInteractionView removeGestureRecognizer:[[v_hud.userInteractionView gestureRecognizers] objectAtIndex:0]];
     }
@@ -194,7 +194,7 @@
 
 - (void)removeViewWithAnimation:(BOOL)a_animate{
     [v_hud hide:a_animate];
-    [self XYZ_removeGestureRecogniser];
+    [self IFA_removeGestureRecogniser];
 }
 
 @end

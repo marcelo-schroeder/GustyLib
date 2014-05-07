@@ -30,7 +30,7 @@
 
 #pragma mark - Private
 
--(void)XYZ_selectViewController:(UIViewController*)a_viewController{
+-(void)IFA_selectViewController:(UIViewController*)a_viewController{
 //    NSLog(@"going to select tab view controller...");
     self.selectedViewController = a_viewController;
     [self tabBarController:self didSelectViewController:self.selectedViewController];
@@ -39,11 +39,11 @@
 
 - (void)oncontextSwitchRequestGrantedNotification:(NSNotification*)aNotification{
 //    NSLog(@"IFANotificationContextSwitchRequestGranted received by %@", [self description]);
-    [self XYZ_selectViewController:aNotification.object];
+    [self IFA_selectViewController:aNotification.object];
 }
 
--(void)XYZ_releaseMemory {
-//    NSLog(@"XYZ_releaseMemory in %@", [self description]);
+-(void)IFA_releaseMemory {
+//    NSLog(@"IFA_releaseMemory in %@", [self description]);
     for (UIViewController *l_viewController in self.viewControllers) {
 //        NSLog(@"   inspecting view controller: %@", [l_viewController description]);
         if (l_viewController!=self.selectedViewController) {
@@ -55,7 +55,7 @@
 
 -(void)ifa_onApplicationDidEnterBackgroundNotification:(NSNotification *)aNotification{
     [super ifa_onApplicationDidEnterBackgroundNotification:aNotification];
-    [self XYZ_releaseMemory];
+    [self IFA_releaseMemory];
 }
 
 #pragma mark - UITabBarControllerDelegate
@@ -168,7 +168,7 @@
 -(void)didReceiveMemoryWarning{
 //    NSLog(@"didReceiveMemoryWarning in %@", [self description]);
     [super didReceiveMemoryWarning];
-    [self XYZ_releaseMemory];
+    [self IFA_releaseMemory];
 }
 
 @end

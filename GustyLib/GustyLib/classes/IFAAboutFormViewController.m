@@ -22,10 +22,10 @@
 
 @interface IFAAboutFormViewController ()
 
-@property (nonatomic, strong) UIBarButtonItem *XYZ_reportBugBarButtonItem;
-@property (nonatomic, strong) UIBarButtonItem *XYZ__provideFeedbackBarButtonItem;
-@property (nonatomic, strong) UIBarButtonItem *XYZ_forceCrashBarButtonItem;
-@property (nonatomic, strong) IFAEmailManager *XYZ_emailManager;
+@property (nonatomic, strong) UIBarButtonItem *IFA_reportBugBarButtonItem;
+@property (nonatomic, strong) UIBarButtonItem *IFA_provideFeedbackBarButtonItem;
+@property (nonatomic, strong) UIBarButtonItem *IFA_forceCrashBarButtonItem;
+@property (nonatomic, strong) IFAEmailManager *IFA_emailManager;
 
 @end
 
@@ -35,25 +35,25 @@
 
 #pragma mark - Private
 
--(NSString*)XYZ_supportEmailAddress {
+-(NSString*)IFA_supportEmailAddress {
     return [[IFAUtils infoPList] objectForKey:@"IFASupportEmailAddress"];
 }
 
-- (void)XYZ_ReportBugButtonTap:(id)sender{
+- (void)IFA_ReportBugButtonTap:(id)sender{
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nPlease fix the following bug I have found in %@:", [IFAUtils appFullName]];
-    [self.XYZ_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Bug Report",
+    [self.IFA_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Bug Report",
                                                                               [IFAUtils appNameAndEdition]]
-                                         recipient:[self XYZ_supportEmailAddress] body:l_body];
+                                         recipient:[self IFA_supportEmailAddress] body:l_body];
 }
 
-- (void)XYZ_provideFeedbackButtonTap:(id)sender{
+- (void)IFA_provideFeedbackButtonTap:(id)sender{
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nI have the following feedback to provide for %@:", [IFAUtils appFullName]];
-    [self.XYZ_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Feedback",
+    [self.IFA_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Feedback",
                                                                               [IFAUtils appNameAndEdition]]
-                                         recipient:[self XYZ_supportEmailAddress] body:l_body];
+                                         recipient:[self IFA_supportEmailAddress] body:l_body];
 }
 
-- (void)XYZ_forceCrashButtonTap:(id)sender{
+- (void)IFA_forceCrashButtonTap:(id)sender{
     [IFAUtils forceCrash];
 }
 
@@ -80,19 +80,19 @@
         self.createMode = NO;
         
         // Configure toolbar buttons
-        self.XYZ_reportBugBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Report Bug"
+        self.IFA_reportBugBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Report Bug"
                                                                          style:UIBarButtonItemStyleBordered target:self
-                                                                        action:@selector(XYZ_ReportBugButtonTap:)];
-        self.XYZ__provideFeedbackBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Provide Feedback"
+                                                                        action:@selector(IFA_ReportBugButtonTap:)];
+        self.IFA_provideFeedbackBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Provide Feedback"
                                                                                style:UIBarButtonItemStyleBordered
                                                                               target:self
-                                                                              action:@selector(XYZ_provideFeedbackButtonTap:)];
-        self.XYZ_forceCrashBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Force Crash"
+                                                                              action:@selector(IFA_provideFeedbackButtonTap:)];
+        self.IFA_forceCrashBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Force Crash"
                                                                           style:UIBarButtonItemStyleBordered target:self
-                                                                         action:@selector(XYZ_forceCrashButtonTap:)];
+                                                                         action:@selector(IFA_forceCrashButtonTap:)];
         
         // Configure email manager
-        self.XYZ_emailManager = [[IFAEmailManager alloc] initWithParentViewController:self];
+        self.IFA_emailManager = [[IFAEmailManager alloc] initWithParentViewController:self];
         
         // Configure custom view
         [[NSBundle mainBundle] loadNibNamed:@"IFAAboutCustomView" owner:self options:nil];
@@ -107,9 +107,9 @@
 
 -(NSArray *)ifa_nonEditModeToolbarItems {
     UIBarButtonItem *l_flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    NSMutableArray *l_items = [NSMutableArray arrayWithArray:@[l_flexibleSpace, self.XYZ_reportBugBarButtonItem, l_flexibleSpace, self.XYZ__provideFeedbackBarButtonItem, l_flexibleSpace]];
+    NSMutableArray *l_items = [NSMutableArray arrayWithArray:@[l_flexibleSpace, self.IFA_reportBugBarButtonItem, l_flexibleSpace, self.IFA_provideFeedbackBarButtonItem, l_flexibleSpace]];
     if ([[[IFAUtils infoPList] objectForKey:@"IFAShowForceCrashButton"] boolValue]) {
-        [l_items addObjectsFromArray:@[self.XYZ_forceCrashBarButtonItem, l_flexibleSpace]];
+        [l_items addObjectsFromArray:@[self.IFA_forceCrashBarButtonItem, l_flexibleSpace]];
     }
     return l_items;
 }

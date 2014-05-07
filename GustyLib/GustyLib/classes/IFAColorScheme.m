@@ -22,7 +22,7 @@
 
 @interface IFAColorScheme ()
 
-@property (nonatomic, strong) NSArray *XYZ_colors;
+@property (nonatomic, strong) NSArray *IFA_colors;
 
 @end
 
@@ -35,7 +35,7 @@
 -(BOOL)isEqual:(id)object{
     if ([object isKindOfClass:[self class]]) {
         IFAColorScheme *l_theOtherColorScheme = (IFAColorScheme *)object;
-        return [self.XYZ_colors isEqual:l_theOtherColorScheme.XYZ_colors];
+        return [self.IFA_colors isEqual:l_theOtherColorScheme.IFA_colors];
     }else{
         return [super isEqual:object];
     }
@@ -46,13 +46,13 @@
 - (id)initWithColors:(NSArray*)a_colors{
     self = [super init];
     if (self) {
-        self.XYZ_colors = a_colors;
+        self.IFA_colors = a_colors;
     }
     return self;
 }
 
 -(UIColor*)colorAtIndex:(NSUInteger)a_index{
-    return [self.XYZ_colors objectAtIndex:a_index];
+    return [self.IFA_colors objectAtIndex:a_index];
 }
 
 @end

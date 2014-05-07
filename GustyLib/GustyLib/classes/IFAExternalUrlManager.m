@@ -18,7 +18,7 @@
 #import "IFACommon.h"
 
 @interface IFAExternalUrlManager ()
-@property(nonatomic, strong) NSURL *XYZ_urlToOpen;
+@property(nonatomic, strong) NSURL *IFA_urlToOpen;
 @end
 
 @implementation IFAExternalUrlManager {
@@ -27,17 +27,17 @@
 
 #pragma mark - Private
 
--(void)XYZ_openSavedUrl {
-    if (self.XYZ_urlToOpen) {
-        [[UIApplication sharedApplication] openURL:self.XYZ_urlToOpen];
-        self.XYZ_urlToOpen = nil;
+-(void)IFA_openSavedUrl {
+    if (self.IFA_urlToOpen) {
+        [[UIApplication sharedApplication] openURL:self.IFA_urlToOpen];
+        self.IFA_urlToOpen = nil;
     }
 }
 
 #pragma mark - Public
 
 -(void)openUrl:(NSURL*)a_url{
-    self.XYZ_urlToOpen = a_url;
+    self.IFA_urlToOpen = a_url;
     NSString *l_message = [NSString stringWithFormat:@"You will now leave the %@ app", [IFAUtils appName]];
     UIAlertView *l_alert = [[UIAlertView alloc] initWithTitle:nil message:l_message
                                                      delegate:self
@@ -59,7 +59,7 @@
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex==1) {
-        [self XYZ_openSavedUrl];
+        [self IFA_openSavedUrl];
     }
 }
 

@@ -36,7 +36,7 @@
 @property (nonatomic, strong) UISegmentedControl *segmentedControlAppearance;
 @property (nonatomic, strong) UISwitch *switchAppearance;
 @property (nonatomic, strong) UISlider *sliderAppearance;
-@property (nonatomic, strong) IFAColorScheme *XYZ_colorScheme;
+@property (nonatomic, strong) IFAColorScheme *IFA_colorScheme;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
 @property (nonatomic, strong) UIPageControl *pageControlAppearance;
 
@@ -50,7 +50,7 @@
 
 #pragma mark - Private
 
--(void)XYZ_setNavigationItemTitleViewForViewController:(UIViewController *)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation{
+-(void)IFA_setNavigationItemTitleViewForViewController:(UIViewController *)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation{
     
     if (a_viewController.ifa_titleViewDefault && a_viewController.ifa_titleViewLandscapePhone) {
         
@@ -80,12 +80,12 @@
     }
 }
 
--(UIColor*)XYZ_colorForInfoPlistKey:(NSString*)a_infoPlistKey{
+-(UIColor*)IFA_colorForInfoPlistKey:(NSString*)a_infoPlistKey{
     return [IFAUIUtils colorForInfoPlistKey:a_infoPlistKey];
 }
 
 - (IFATableViewCellSelectedBackgroundStyle)
-XYZ_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
+IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
                                  tableViewController:(IFATableViewController *)a_tableViewController {
     IFATableViewCellSelectedBackgroundStyle l_cellPosition = IFATableViewCellSelectedBackgroundStyleMiddle;
     if (![IFAUtils isIOS7OrGreater] && a_tableViewController.tableView.style == UITableViewStyleGrouped) {
@@ -234,10 +234,10 @@ XYZ_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }
     
     // Switch
-    self.switchAppearance.onTintColor = [self XYZ_colorForInfoPlistKey:@"IFAThemeSwitchOnTintColor"];
+    self.switchAppearance.onTintColor = [self IFA_colorForInfoPlistKey:@"IFAThemeSwitchOnTintColor"];
     
     // Slider
-    self.sliderAppearance.minimumTrackTintColor = [self XYZ_colorForInfoPlistKey:@"IFAThemeSliderMinimumTrackTintColor"];
+    self.sliderAppearance.minimumTrackTintColor = [self IFA_colorForInfoPlistKey:@"IFAThemeSliderMinimumTrackTintColor"];
     
     
 
@@ -252,7 +252,7 @@ XYZ_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     if ([a_viewController isKindOfClass:[UITableViewController class]]) {
         UITableViewController *l_tableViewController = (UITableViewController*)a_viewController;
         if (l_tableViewController.tableView.style==UITableViewStyleGrouped) {
-            l_tableViewController.tableView.separatorColor = [self XYZ_colorForInfoPlistKey:@"IFAThemeGroupedTableSeparatorColor"];
+            l_tableViewController.tableView.separatorColor = [self IFA_colorForInfoPlistKey:@"IFAThemeGroupedTableSeparatorColor"];
         }
     }else if([a_viewController isKindOfClass:[IFAMasterDetailViewController class]]) {
 
@@ -270,7 +270,7 @@ XYZ_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     a_viewController.ifa_titleViewLandscapePhone.titleLabel.text = a_viewController.title;
     a_viewController.ifa_titleViewLandscapePhone.subTitleLabel.text = a_viewController.ifa_subTitle;
 
-    [self XYZ_setNavigationItemTitleViewForViewController:a_viewController
+    [self IFA_setNavigationItemTitleViewForViewController:a_viewController
                                      interfaceOrientation:[UIApplication sharedApplication].statusBarOrientation];
     
     if ([a_viewController isKindOfClass:[IFAAbstractFieldEditorViewController class]]) {
@@ -283,7 +283,7 @@ XYZ_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 -(void)setAppearanceOnWillRotateForViewController:(UIViewController *)a_viewController toInterfaceOrientation:(UIInterfaceOrientation)a_toInterfaceOrientation{
-    [self XYZ_setNavigationItemTitleViewForViewController:a_viewController
+    [self IFA_setNavigationItemTitleViewForViewController:a_viewController
                                      interfaceOrientation:a_toInterfaceOrientation];
 }
 
@@ -315,7 +315,7 @@ XYZ_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     
     // Cell background color
     if (![a_tableViewController isKindOfClass:[IFAMenuViewController class]] && a_tableViewController.tableView.style==UITableViewStyleGrouped) {
-        a_cell.backgroundColor = [self XYZ_colorForInfoPlistKey:@"IFAThemeGroupedTableCellBackgroundColor"];
+        a_cell.backgroundColor = [self IFA_colorForInfoPlistKey:@"IFAThemeGroupedTableCellBackgroundColor"];
     }
     
     // Label text color
@@ -324,7 +324,7 @@ XYZ_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         if (a_cell.detailTextLabel) {   // Is it a cell style that has text and detail?
             // textLabel here in this context refers to the form field label
             //  So, it is setting the form field label colour
-            a_cell.textLabel.textColor = [self XYZ_colorForInfoPlistKey:@"IFAThemeFormFieldLabelColor"];
+            a_cell.textLabel.textColor = [self IFA_colorForInfoPlistKey:@"IFAThemeFormFieldLabelColor"];
         }
     }
     
@@ -359,7 +359,7 @@ XYZ_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     
     // Cell background color
     if ([a_tableViewController isKindOfClass:[IFAMenuViewController class]] && a_tableViewController.tableView.style==UITableViewStyleGrouped) {
-        a_cell.backgroundColor = [self XYZ_colorForInfoPlistKey:@"IFAThemeGroupedTableCellBackgroundColor"];
+        a_cell.backgroundColor = [self IFA_colorForInfoPlistKey:@"IFAThemeGroupedTableCellBackgroundColor"];
     }
     
     // Set selected table cell background color
@@ -369,7 +369,7 @@ XYZ_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         IFATableCellSelectedBackgroundView *l_selectedBackgroundView = [[IFATableCellSelectedBackgroundView alloc] initWithFrame:a_cell.frame];
         l_selectedBackgroundView.fillColor = l_selectedTableCellBackgroundColor;
         l_selectedBackgroundView.borderColor = [UIColor clearColor];
-        l_selectedBackgroundView.style = ([self XYZ_tableViewCellSelectedBackgroundStyleForIndexPath:a_indexPath
+        l_selectedBackgroundView.style = ([self IFA_tableViewCellSelectedBackgroundStyleForIndexPath:a_indexPath
                                                                                    tableViewController:a_tableViewController]);
         a_cell.selectedBackgroundView = l_selectedBackgroundView;
     }
@@ -462,7 +462,7 @@ XYZ_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 -(UIColor*)tableCellTextColor {
-    return [self XYZ_colorForInfoPlistKey:@"IFAThemeTableCellTextColor"];
+    return [self IFA_colorForInfoPlistKey:@"IFAThemeTableCellTextColor"];
 }
 
 // To be implemented by subclasses
@@ -538,7 +538,7 @@ XYZ_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 -(UIColor*)selectedTableCellBackgroundColor {
-    return [self XYZ_colorForInfoPlistKey:@"IFAThemeSelectedTableCellBackgroundColor"];
+    return [self IFA_colorForInfoPlistKey:@"IFAThemeSelectedTableCellBackgroundColor"];
 }
 
 -(UIBarButtonItem*)backBarButtonItem {
@@ -652,10 +652,10 @@ XYZ_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 -(IFAColorScheme *)colorScheme {
-    if (![self.XYZ_colorScheme isEqual:[[IFAApplicationDelegate sharedInstance] colorScheme]]) {
-        self.XYZ_colorScheme = [[IFAApplicationDelegate sharedInstance] colorScheme];
+    if (![self.IFA_colorScheme isEqual:[[IFAApplicationDelegate sharedInstance] colorScheme]]) {
+        self.IFA_colorScheme = [[IFAApplicationDelegate sharedInstance] colorScheme];
     }
-    return self.XYZ_colorScheme;
+    return self.IFA_colorScheme;
 }
 
 -(UIColor*)colorWithIndex:(NSUInteger)a_colorIndex{

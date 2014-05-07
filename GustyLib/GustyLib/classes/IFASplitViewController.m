@@ -22,7 +22,7 @@
 
 @interface IFASplitViewController ()
 
-@property(nonatomic) BOOL XYZ_firstLoadDone;
+@property(nonatomic) BOOL IFA_firstLoadDone;
 @end
 
 @implementation IFASplitViewController {
@@ -32,7 +32,7 @@
 
 #pragma mark - Private
 
--(UIViewController*)XYZ_visibleDetailTopViewController {
+-(UIViewController*)IFA_visibleDetailTopViewController {
     UIViewController *l_visibleDetailViewController = nil;
     UIViewController *l_detailViewController = [self.viewControllers objectAtIndex:1];
     if ([l_detailViewController isKindOfClass:[UINavigationController class]]) {
@@ -66,13 +66,13 @@
 
     [super viewDidAppear:animated];
 
-    if (!self.XYZ_firstLoadDone) {
+    if (!self.IFA_firstLoadDone) {
         UIViewController *l_masterViewController = self.viewControllers[0];
         if ([l_masterViewController isKindOfClass:[UINavigationController class]]) {
             UIViewController *l_masterRootViewController = ((UINavigationController*)l_masterViewController).viewControllers[0];
             if ([l_masterRootViewController isKindOfClass:[IFAMenuViewController class]]) {
                 [((IFAMenuViewController *) l_masterRootViewController) selectMenuItemAtIndex:0];
-                self.XYZ_firstLoadDone = YES;
+                self.IFA_firstLoadDone = YES;
             }
         }
     }
@@ -97,9 +97,9 @@
     l_barButtonItem.tag = IFABarItemTagLeftSlidingPaneButton;
 
     // Manage bar button item visibility
-    UIViewController *l_visibleDetailTopViewController = [self XYZ_visibleDetailTopViewController];
+    UIViewController *l_visibleDetailTopViewController = [self IFA_visibleDetailTopViewController];
     if ([l_visibleDetailTopViewController ifa_shouldShowLeftSlidingPaneButton]) {
-        [[self XYZ_visibleDetailTopViewController] ifa_addLeftBarButtonItem:l_barButtonItem];
+        [[self IFA_visibleDetailTopViewController] ifa_addLeftBarButtonItem:l_barButtonItem];
     }
 
     // Save details for later

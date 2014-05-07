@@ -20,7 +20,7 @@
 
 @interface IFAPassthroughView ()
 
-@property(nonatomic) BOOL XYZ_excludeMyself;
+@property(nonatomic) BOOL IFA_excludeMyself;
 @end
 
 @implementation IFAPassthroughView {
@@ -30,7 +30,7 @@
 #pragma mark - Private
 
 - (UIView *)hitTestChildrenOfView:(UIView *)a_parentView point:(CGPoint)a_point withEvent:(UIEvent *)a_event {
-    self.XYZ_excludeMyself = YES;
+    self.IFA_excludeMyself = YES;
     UIView *l_view = nil;
     for (UIView *l_subView in a_parentView.subviews) {
         CGPoint l_point = [l_subView convertPoint:a_point fromView:self];
@@ -39,7 +39,7 @@
             break;
         }
     }
-    self.XYZ_excludeMyself = NO;
+    self.IFA_excludeMyself = NO;
     return l_view;
 }
 
@@ -75,7 +75,7 @@
 }
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-    if (self.XYZ_excludeMyself) {
+    if (self.IFA_excludeMyself) {
         return nil;
     }
     UIView *l_topLevelView = self.window;

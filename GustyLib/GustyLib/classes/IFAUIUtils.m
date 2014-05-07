@@ -49,7 +49,7 @@ static UIImage *c_menuBarButtonItemImage = nil;
     return l_hud;
 }
 
-+(void)XYZ_traverseHierarchyForView:(UIView *)a_view withBlock:(void (^) (UIView *))a_block level:(NSUInteger)a_level{
++(void)IFA_traverseHierarchyForView:(UIView *)a_view withBlock:(void (^) (UIView *))a_block level:(NSUInteger)a_level{
 
 //    NSMutableString *l_indentation = [NSMutableString string];
 //    for (int i=0; i<a_level; i++) {
@@ -68,7 +68,7 @@ static UIImage *c_menuBarButtonItemImage = nil;
         for (UITableViewCell *l_tableViewCell in l_tableView.visibleCells) {
             NSIndexPath *l_indexPath = [l_tableView indexPathForCell:l_tableViewCell];
 //            if ([l_tableView m_isCellFullyVisibleForRowAtIndexPath:l_indexPath]) {
-            [self XYZ_traverseHierarchyForView:l_tableViewCell withBlock:a_block level:l_subviewLevel];
+            [self IFA_traverseHierarchyForView:l_tableViewCell withBlock:a_block level:l_subviewLevel];
                 [l_fullyVisibleIndexPaths addObject:l_indexPath];
 //            }
         }
@@ -84,17 +84,17 @@ static UIImage *c_menuBarButtonItemImage = nil;
                 if ([l_tableView.delegate respondsToSelector:@selector(tableView:viewForHeaderInSection:)]) {
                     UIView *l_sectionHeaderView = [l_tableView.delegate tableView:l_tableView
                                                            viewForHeaderInSection:[l_section unsignedIntegerValue]];
-                    [self XYZ_traverseHierarchyForView:l_sectionHeaderView withBlock:a_block level:l_subviewLevel];
+                    [self IFA_traverseHierarchyForView:l_sectionHeaderView withBlock:a_block level:l_subviewLevel];
                 }
                 if ([l_tableView.delegate respondsToSelector:@selector(tableView:viewForFooterInSection:)]) {
                     UIView *l_sectionFooterView = [l_tableView.delegate tableView:l_tableView
                                                            viewForFooterInSection:[l_section unsignedIntegerValue]];
-                    [self XYZ_traverseHierarchyForView:l_sectionFooterView withBlock:a_block level:l_subviewLevel];
+                    [self IFA_traverseHierarchyForView:l_sectionFooterView withBlock:a_block level:l_subviewLevel];
                 }
             }
         }
-        [self XYZ_traverseHierarchyForView:l_tableView.tableHeaderView withBlock:a_block level:l_subviewLevel];
-        [self XYZ_traverseHierarchyForView:l_tableView.tableFooterView withBlock:a_block level:l_subviewLevel];
+        [self IFA_traverseHierarchyForView:l_tableView.tableHeaderView withBlock:a_block level:l_subviewLevel];
+        [self IFA_traverseHierarchyForView:l_tableView.tableFooterView withBlock:a_block level:l_subviewLevel];
 
     }else {
         
@@ -105,7 +105,7 @@ static UIImage *c_menuBarButtonItemImage = nil;
         
         // Go deeper...
         for (UIView *l_subview in a_view.subviews) {
-            [self XYZ_traverseHierarchyForView:l_subview withBlock:a_block level:l_subviewLevel];
+            [self IFA_traverseHierarchyForView:l_subview withBlock:a_block level:l_subviewLevel];
         }
 
     }
@@ -463,7 +463,7 @@ static UIImage *c_menuBarButtonItemImage = nil;
 }
 
 +(void)traverseHierarchyForView:(UIView *)a_view withBlock:(void (^) (UIView*))a_block{
-    [self XYZ_traverseHierarchyForView:a_view withBlock:a_block level:0];
+    [self IFA_traverseHierarchyForView:a_view withBlock:a_block level:0];
 }
 
 +(CGFloat)widthForPortraitNumerator:(float)a_portraitNumerator

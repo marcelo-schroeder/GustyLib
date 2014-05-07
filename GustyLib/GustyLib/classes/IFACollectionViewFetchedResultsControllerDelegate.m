@@ -22,8 +22,8 @@
 
 @interface IFACollectionViewFetchedResultsControllerDelegate ()
 
-@property (nonatomic, strong) NSMutableArray *XYZ_objectChanges;
-@property (nonatomic, strong) NSMutableArray *XYZ_sectionChanges;
+@property (nonatomic, strong) NSMutableArray *IFA_objectChanges;
+@property (nonatomic, strong) NSMutableArray *IFA_sectionChanges;
 
 @end
 
@@ -36,8 +36,8 @@
 -(id)initWithCollectionView:(UICollectionView*)a_collectionView{
     if (self=[super init]) {
         self.collectionView = a_collectionView;
-        self.XYZ_objectChanges = [NSMutableArray array];
-        self.XYZ_sectionChanges = [NSMutableArray array];
+        self.IFA_objectChanges = [NSMutableArray array];
+        self.IFA_sectionChanges = [NSMutableArray array];
     }
     return self;
 }
@@ -59,7 +59,7 @@
             break;
     }
     
-    [self.XYZ_sectionChanges addObject:change];
+    [self.IFA_sectionChanges addObject:change];
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
@@ -83,16 +83,16 @@
             change[@(type)] = @[indexPath, newIndexPath];
             break;
     }
-    [self.XYZ_objectChanges addObject:change];
+    [self.IFA_objectChanges addObject:change];
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-    if ([self.XYZ_sectionChanges count] > 0)
+    if ([self.IFA_sectionChanges count] > 0)
     {
         [self.collectionView performBatchUpdates:^{
 
-            for (NSDictionary *change in self.XYZ_sectionChanges) {
+            for (NSDictionary *change in self.IFA_sectionChanges) {
                 [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
 
                     NSFetchedResultsChangeType type = [key unsignedIntegerValue];
@@ -112,7 +112,7 @@
         }                             completion:nil];
     }
     
-    if ([self.XYZ_objectChanges count] > 0 && [self.XYZ_sectionChanges count] == 0)
+    if ([self.IFA_objectChanges count] > 0 && [self.IFA_sectionChanges count] == 0)
     {
         
         if ([self shouldReloadCollectionViewToPreventKnownIssue]) {
@@ -127,7 +127,7 @@
             
             [self.collectionView performBatchUpdates:^{
 
-                for (NSDictionary *change in self.XYZ_objectChanges) {
+                for (NSDictionary *change in self.IFA_objectChanges) {
                     [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
 
                         NSFetchedResultsChangeType type = [key unsignedIntegerValue];
@@ -150,14 +150,14 @@
             }                             completion:nil];
         }
         
-        [self.XYZ_sectionChanges removeAllObjects];
-        [self.XYZ_objectChanges removeAllObjects];
+        [self.IFA_sectionChanges removeAllObjects];
+        [self.IFA_objectChanges removeAllObjects];
     }
 }
 
 - (BOOL)shouldReloadCollectionViewToPreventKnownIssue {
     __block BOOL shouldReload = NO;
-    for (NSDictionary *change in self.XYZ_objectChanges) {
+    for (NSDictionary *change in self.IFA_objectChanges) {
         [change enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
             NSFetchedResultsChangeType type = [key unsignedIntegerValue];
             NSIndexPath *indexPath = obj;

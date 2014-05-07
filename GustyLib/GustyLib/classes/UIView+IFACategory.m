@@ -29,7 +29,7 @@ static char c_appearanceIdKey;
 
 #pragma mark - Private
 
--(NSArray *)XYZ_addLayoutConstraintsToFillSuperviewForOrientation:(NSString *)a_orientation{
+-(NSArray *)IFA_addLayoutConstraintsToFillSuperviewForOrientation:(NSString *)a_orientation{
     UIView *l_self = self;
     NSDictionary *l_views = NSDictionaryOfVariableBindings(l_self);
     NSArray *l_layoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"%@:|[l_self]|", a_orientation]
@@ -40,7 +40,7 @@ static char c_appearanceIdKey;
     return l_layoutConstraints;
 }
 
-- (NSLayoutConstraint *)XYZ_addSuperviewEqualityLayoutConstraintForAttribute:(NSLayoutAttribute)a_attribute {
+- (NSLayoutConstraint *)IFA_addSuperviewEqualityLayoutConstraintForAttribute:(NSLayoutAttribute)a_attribute {
     NSLayoutConstraint *l_layoutConstraint = [NSLayoutConstraint constraintWithItem:self
                                                                           attribute:a_attribute
                                                                           relatedBy:NSLayoutRelationEqual
@@ -128,8 +128,8 @@ static char c_appearanceIdKey;
 
 -(NSArray *)ifa_addLayoutConstraintsToFillSuperview {
     self.translatesAutoresizingMaskIntoConstraints = NO;
-    NSArray *l_horizontalConstraints = [self XYZ_addLayoutConstraintsToFillSuperviewForOrientation:k_layoutConstraintVisualFormatOrientationHorizontal];
-    NSArray *l_verticalConstraints = [self XYZ_addLayoutConstraintsToFillSuperviewForOrientation:k_layoutConstraintVisualFormatOrientationVertical];
+    NSArray *l_horizontalConstraints = [self IFA_addLayoutConstraintsToFillSuperviewForOrientation:k_layoutConstraintVisualFormatOrientationHorizontal];
+    NSArray *l_verticalConstraints = [self IFA_addLayoutConstraintsToFillSuperviewForOrientation:k_layoutConstraintVisualFormatOrientationVertical];
     NSMutableArray *l_constraints = [@[] mutableCopy];
     [l_constraints addObjectsFromArray:l_horizontalConstraints];
     [l_constraints addObjectsFromArray:l_verticalConstraints];
@@ -138,12 +138,12 @@ static char c_appearanceIdKey;
 
 -(NSArray *)ifa_addLayoutConstraintsToFillSuperviewHorizontally {
     self.translatesAutoresizingMaskIntoConstraints = NO;
-    return [self XYZ_addLayoutConstraintsToFillSuperviewForOrientation:k_layoutConstraintVisualFormatOrientationHorizontal];
+    return [self IFA_addLayoutConstraintsToFillSuperviewForOrientation:k_layoutConstraintVisualFormatOrientationHorizontal];
 }
 
 -(NSArray *)ifa_addLayoutConstraintsToFillSuperviewVertically {
     self.translatesAutoresizingMaskIntoConstraints = NO;
-    return [self XYZ_addLayoutConstraintsToFillSuperviewForOrientation:k_layoutConstraintVisualFormatOrientationVertical];
+    return [self IFA_addLayoutConstraintsToFillSuperviewForOrientation:k_layoutConstraintVisualFormatOrientationVertical];
 }
 
 -(NSArray *)ifa_addLayoutConstraintsToCenterInSuperview {
@@ -157,11 +157,11 @@ static char c_appearanceIdKey;
 }
 
 - (NSLayoutConstraint *)ifa_addLayoutConstraintToCenterInSuperviewHorizontally {
-    return [self XYZ_addSuperviewEqualityLayoutConstraintForAttribute:NSLayoutAttributeCenterX];
+    return [self IFA_addSuperviewEqualityLayoutConstraintForAttribute:NSLayoutAttributeCenterX];
 }
 
 - (NSLayoutConstraint *)ifa_addLayoutConstraintToCenterInSuperviewVertically {
-    return [self XYZ_addSuperviewEqualityLayoutConstraintForAttribute:NSLayoutAttributeCenterY];
+    return [self IFA_addSuperviewEqualityLayoutConstraintForAttribute:NSLayoutAttributeCenterY];
 }
 
 - (NSLayoutConstraint *)ifa_newLayoutConstraintWithAttribute:(NSLayoutAttribute)a_attribute toItem:(id)a_item {

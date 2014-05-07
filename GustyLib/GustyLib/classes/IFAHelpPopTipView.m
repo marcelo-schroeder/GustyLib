@@ -22,12 +22,12 @@
 
 @interface IFAHelpPopTipView ()
 
-@property (strong, nonatomic) UIWebView *XYZ_webView;
-@property (strong, nonatomic) UIView *XYZ_viewPointedAt;
-@property (strong, nonatomic) UIView *XYZ_viewPresentedIn;
-@property (strong, nonatomic) IFAHtmlDocument *XYZ_htmlDocument;
-@property (strong, nonatomic) UITapGestureRecognizer *XYZ_tapGestureRecognizer;
-@property (strong, nonatomic) void (^XYZ_completionBlock)(void);
+@property (strong, nonatomic) UIWebView *IFA_webView;
+@property (strong, nonatomic) UIView *IFA_viewPointedAt;
+@property (strong, nonatomic) UIView *IFA_viewPresentedIn;
+@property (strong, nonatomic) IFAHtmlDocument *IFA_htmlDocument;
+@property (strong, nonatomic) UITapGestureRecognizer *IFA_tapGestureRecognizer;
+@property (strong, nonatomic) void (^IFA_completionBlock)(void);
 
 @end
 
@@ -38,11 +38,11 @@
 
 #pragma mark - Private
 
-- (void)XYZ_onTapGestureRecognizerAction:(id)sender {
+- (void)IFA_onTapGestureRecognizerAction:(id)sender {
     [self onUserDismissal];
 }
 
--(CGFloat)XYZ_calculateWidth {
+-(CGFloat)IFA_calculateWidth {
     CGFloat l_width = 0;
     if (self.maximised) {
         l_width = [IFAUIUtils widthForPortraitNumerator:0.9 portraitDenominator:1 landscapeNumerator:0.9
@@ -59,8 +59,8 @@
 -(void)setMaximised:(BOOL)a_maximised{
     v_maximised = a_maximised;
     // Recalculate web view frame
-    CGRect l_webViewFrame = self.XYZ_webView.frame;
-    self.XYZ_webView.frame = CGRectMake(l_webViewFrame.origin.x, l_webViewFrame.origin.y, [self XYZ_calculateWidth], l_webViewFrame.size.height);
+    CGRect l_webViewFrame = self.IFA_webView.frame;
+    self.IFA_webView.frame = CGRectMake(l_webViewFrame.origin.x, l_webViewFrame.origin.y, [self IFA_calculateWidth], l_webViewFrame.size.height);
 }
 
 -(BOOL)maximised {
@@ -73,9 +73,9 @@
     self.presentationRequestInProgress = YES;
     
     // Save this infor for later when the webview has finished loading
-    self.XYZ_viewPointedAt = a_viewPointedAt;
-    self.XYZ_viewPresentedIn = a_viewPresentedIn;
-    self.XYZ_completionBlock = a_completionBlock;
+    self.IFA_viewPointedAt = a_viewPointedAt;
+    self.IFA_viewPresentedIn = a_viewPresentedIn;
+    self.IFA_completionBlock = a_completionBlock;
     
     // Set the title
     self.helpTargetTitleLabel.text = a_title;
@@ -88,12 +88,12 @@
     }else{
         l_htmlBody = a_description;
     }
-    NSString  *l_htmlString = [self.XYZ_htmlDocument htmlStringWithBody:l_htmlBody];
-    [self.XYZ_webView loadHTMLString:l_htmlString baseURL:nil];
+    NSString  *l_htmlString = [self.IFA_htmlDocument htmlStringWithBody:l_htmlBody];
+    [self.IFA_webView loadHTMLString:l_htmlString baseURL:nil];
 
     // Add the web view to the container view provided temporarily so its size can be recalculated automatically once the contents load
     //  At this point the web view is hidden
-    [a_viewPresentedIn addSubview:self.XYZ_webView];
+    [a_viewPresentedIn addSubview:self.IFA_webView];
     
 }
 
@@ -120,32 +120,32 @@
         }
 
         // Configure the webview
-        self.XYZ_webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, [self XYZ_calculateWidth], 1)];
-        self.XYZ_webView.delegate = self;
-        self.XYZ_webView.opaque = NO;
-        self.XYZ_webView.backgroundColor = [IFAUIUtils colorForInfoPlistKey:@"IFAHelpPopTipContentBackgroundColour"];
-        if (!self.XYZ_webView.backgroundColor) {
-            self.XYZ_webView.backgroundColor = [UIColor clearColor];
+        self.IFA_webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, [self IFA_calculateWidth], 1)];
+        self.IFA_webView.delegate = self;
+        self.IFA_webView.opaque = NO;
+        self.IFA_webView.backgroundColor = [IFAUIUtils colorForInfoPlistKey:@"IFAHelpPopTipContentBackgroundColour"];
+        if (!self.IFA_webView.backgroundColor) {
+            self.IFA_webView.backgroundColor = [UIColor clearColor];
         }
-        self.XYZ_webView.hidden = YES;
-        self.XYZ_webView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-        self.XYZ_webView.scrollView.alwaysBounceVertical = NO;
-        [self.XYZ_webView ifa_removeShadow];
-        self.XYZ_webView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, -2);
+        self.IFA_webView.hidden = YES;
+        self.IFA_webView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        self.IFA_webView.scrollView.alwaysBounceVertical = NO;
+        [self.IFA_webView ifa_removeShadow];
+        self.IFA_webView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, -2);
         
         // Configure the HTML document
         NSString *l_htmlStyleResourceName = [[IFAUtils infoPList] valueForKey:@"IFAHelpPopTipBodyCss"];
         if (!l_htmlStyleResourceName) {
             l_htmlStyleResourceName = @"IFAHelpPopTipView.css";
         }
-        self.XYZ_htmlDocument = [[IFAHtmlDocument alloc] initWithHtmlStyleResourceName:l_htmlStyleResourceName];
-        self.XYZ_htmlDocument.htmlMetaString = @"";
+        self.IFA_htmlDocument = [[IFAHtmlDocument alloc] initWithHtmlStyleResourceName:l_htmlStyleResourceName];
+        self.IFA_htmlDocument.htmlMetaString = @"";
         
         // Configure tap gesture recognizer
-        self.XYZ_tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                              action:@selector(XYZ_onTapGestureRecognizerAction:)];
-        self.XYZ_tapGestureRecognizer.delegate = self;
-        [self addGestureRecognizer:self.XYZ_tapGestureRecognizer];
+        self.IFA_tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                              action:@selector(IFA_onTapGestureRecognizerAction:)];
+        self.IFA_tapGestureRecognizer.delegate = self;
+        [self addGestureRecognizer:self.IFA_tapGestureRecognizer];
 
     }
 
@@ -158,15 +158,15 @@
 -(void)webViewDidFinishLoad:(UIWebView *)webView{
     
     // Resize the web view now that its contents have loaded (it is still hidden at this point)
-    [self.XYZ_webView sizeToFit];
+    [self.IFA_webView sizeToFit];
     
     // Reposition the web view
     CGFloat l_webViewY = (self.helpTargetTitleLabel.hidden ? 0 : self.helpTargetTitleLabel.frame.size.height);
-    self.XYZ_webView.frame = CGRectMake(self.XYZ_webView.frame.origin.x, l_webViewY, self.XYZ_webView.frame.size.width, self.XYZ_webView.frame.size.height);
+    self.IFA_webView.frame = CGRectMake(self.IFA_webView.frame.origin.x, l_webViewY, self.IFA_webView.frame.size.width, self.IFA_webView.frame.size.height);
     
     // Configure views
-    self.customContainerView.frame = CGRectMake(0, 0, self.XYZ_webView.frame.size.width, self.XYZ_webView.frame.origin.y+self.XYZ_webView.frame.size.height);
-    [self.customContainerView addSubview:self.XYZ_webView];
+    self.customContainerView.frame = CGRectMake(0, 0, self.IFA_webView.frame.size.width, self.IFA_webView.frame.origin.y+self.IFA_webView.frame.size.height);
+    [self.customContainerView addSubview:self.IFA_webView];
     self.customView = self.customContainerView;
     [self addSubview:self.customView];
     
@@ -176,11 +176,11 @@
     }
     
     // Check final height and make any adjustments if required
-    CGRect l_finalFrame = [self finalFramePointingAtView:self.XYZ_viewPointedAt inView:self.XYZ_viewPresentedIn
+    CGRect l_finalFrame = [self finalFramePointingAtView:self.IFA_viewPointedAt inView:self.IFA_viewPresentedIn
                               shouldInvertLandscapeFrame:l_shouldInvertLandscapeFrame];
 //    NSLog(@"l_finalFrame: %@", NSStringFromCGRect(l_finalFrame));
     NSInteger l_offScreenHeight = 0;
-    CGFloat l_height = [IFAUIUtils isDeviceInLandscapeOrientation] && l_shouldInvertLandscapeFrame ? self.XYZ_viewPresentedIn.frame.size.width : self.XYZ_viewPresentedIn.frame.size.height;
+    CGFloat l_height = [IFAUIUtils isDeviceInLandscapeOrientation] && l_shouldInvertLandscapeFrame ? self.IFA_viewPresentedIn.frame.size.width : self.IFA_viewPresentedIn.frame.size.height;
     if ( ( l_offScreenHeight = (l_finalFrame.origin.y + l_finalFrame.size.height) - l_height) > 0 ) {
         // Handles offscreen bottom
         self.customContainerView.frame = CGRectMake(self.customContainerView.frame.origin.x, self.customContainerView.frame.origin.y, self.customContainerView.frame.size.width, self.customContainerView.frame.size.height - l_offScreenHeight);
@@ -190,20 +190,20 @@
     }
     
     // Present the pop tip view
-    [self presentPointingAtView:self.XYZ_viewPointedAt inView:self.XYZ_viewPresentedIn animated:YES
+    [self presentPointingAtView:self.IFA_viewPointedAt inView:self.IFA_viewPresentedIn animated:YES
      shouldInvertLandscapeFrame:l_shouldInvertLandscapeFrame];
     
     // Show the web view
-    self.XYZ_webView.hidden = NO;
+    self.IFA_webView.hidden = NO;
     [IFAUtils dispatchAsyncMainThreadBlock:^{
-        [self.XYZ_webView.scrollView flashScrollIndicators];
+        [self.IFA_webView.scrollView flashScrollIndicators];
     }                           afterDelay:0.1];
 
     self.presentationRequestInProgress = NO;
     
     // Run completion block
-    self.XYZ_completionBlock();
-    self.XYZ_completionBlock = nil;
+    self.IFA_completionBlock();
+    self.IFA_completionBlock = nil;
     
 }
 

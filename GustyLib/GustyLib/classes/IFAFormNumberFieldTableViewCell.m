@@ -22,8 +22,8 @@
 
 @interface IFAFormNumberFieldTableViewCell ()
 
-@property (nonatomic, strong) NSNumber *XYZ_roundingIncrement;
-@property (nonatomic, strong) NSNumber *XYZ_sliderIncrement;
+@property (nonatomic, strong) NSNumber *IFA_roundingIncrement;
+@property (nonatomic, strong) NSNumber *IFA_sliderIncrement;
 
 @end
 
@@ -32,25 +32,25 @@
 ////
 #pragma mark - Private
 
--(void)XYZ_onStepperValueChange {
+-(void)IFA_onStepperValueChange {
     //    NSLog(@"onStepperValueChange: %f", v_stepper.value);
     NSNumber *l_value = @(self.stepper.value);
     [self.object ifa_setValue:l_value forProperty:self.propertyName];
     [self reloadData];
 }
 
--(void)XYZ_onTextFieldDidChangeNotification:(NSNotification*)a_notification{
+-(void)IFA_onTextFieldDidChangeNotification:(NSNotification*)a_notification{
     NSNumber *l_value = [self parsedValue];
     self.slider.value = [l_value floatValue];
     self.stepper.value = [l_value doubleValue];
 }
 
-- (void)XYZ_onSliderAction:(id)aSender{
+- (void)IFA_onSliderAction:(id)aSender{
 	UISlider *l_slider = aSender;
     NSNumber *l_value = @(l_slider.value);
-    if (self.XYZ_sliderIncrement) {
+    if (self.IFA_sliderIncrement) {
         NSNumberFormatter *l_numberFormatter = [self.object ifa_numberFormatterForProperty:self.propertyName];
-        [l_numberFormatter setRoundingIncrement:self.XYZ_sliderIncrement];
+        [l_numberFormatter setRoundingIncrement:self.IFA_sliderIncrement];
         NSString *l_formattedValue = [l_numberFormatter stringFromNumber:l_value];
         l_value = [l_numberFormatter numberFromString:l_formattedValue];
         if ([l_value compare:@(l_slider.minimumValue)]==NSOrderedAscending) {
@@ -72,8 +72,8 @@
     
     NSDictionary *l_options = [[IFAPersistenceManager sharedInstance].entityConfig optionsForProperty:self.propertyName
                                                                                             inObject:self.object];
-    self.XYZ_roundingIncrement = [l_options valueForKey:@"roundingIncrement"];
-    self.XYZ_sliderIncrement = [l_options valueForKey:@"sliderIncrement"];
+    self.IFA_roundingIncrement = [l_options valueForKey:@"roundingIncrement"];
+    self.IFA_sliderIncrement = [l_options valueForKey:@"sliderIncrement"];
     
     // Configure the text field
     if (![IFAUIUtils isIPad]) {
@@ -88,8 +88,8 @@
     self.stepper = [UIStepper new];
     self.stepper.minimumValue = [l_minValue doubleValue];
     self.stepper.maximumValue = [l_maxValue doubleValue];
-    self.stepper.stepValue = [self.XYZ_roundingIncrement doubleValue];
-    [self.stepper addTarget:self action:@selector(XYZ_onStepperValueChange)
+    self.stepper.stepValue = [self.IFA_roundingIncrement doubleValue];
+    [self.stepper addTarget:self action:@selector(IFA_onStepperValueChange)
            forControlEvents:UIControlEventValueChanged];
     [self.contentView addSubview:self.stepper];
 
@@ -97,7 +97,7 @@
     self.slider = [UISlider new];
     self.slider.minimumValue = [l_minValue floatValue];
     self.slider.maximumValue = [l_maxValue floatValue];
-    [self.slider addTarget:self action:@selector(XYZ_onSliderAction:) forControlEvents:UIControlEventValueChanged];
+    [self.slider addTarget:self action:@selector(IFA_onSliderAction:) forControlEvents:UIControlEventValueChanged];
     [self.contentView addSubview:self.slider];
 
 //    // Configure slider labels
@@ -114,7 +114,7 @@
     
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(XYZ_onTextFieldDidChangeNotification:)
+                                             selector:@selector(IFA_onTextFieldDidChangeNotification:)
                                                  name:UITextFieldTextDidChangeNotification 
                                                object:nil];
     
@@ -125,7 +125,7 @@
 -(id)parsedValue {
 
     NSNumberFormatter *l_numberFormatter = [self.object ifa_numberFormatterForProperty:self.propertyName];
-    [l_numberFormatter setRoundingIncrement:self.XYZ_roundingIncrement];
+    [l_numberFormatter setRoundingIncrement:self.IFA_roundingIncrement];
     return [l_numberFormatter numberFromString:self.textField.text];
     
 }
@@ -159,9 +159,9 @@
 -(void)dealloc{
 
     // Remove targets
-    [self.stepper removeTarget:self action:@selector(XYZ_onStepperValueChange)
+    [self.stepper removeTarget:self action:@selector(IFA_onStepperValueChange)
               forControlEvents:UIControlEventValueChanged];
-    [self.slider removeTarget:self action:@selector(XYZ_onSliderAction:) forControlEvents:UIControlEventValueChanged];
+    [self.slider removeTarget:self action:@selector(IFA_onSliderAction:) forControlEvents:UIControlEventValueChanged];
     
     // Remove observers
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
