@@ -228,6 +228,18 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
     assertThat(l_actualValue, is(nilValue()));
 }
 
+- (void)testFirstOpeningTagForStringRepresentationWithOpenTag{
+
+}
+
+- (void)testFirstOpeningTagForStringRepresentationWithSelfClosingTag{
+
+}
+
+- (void)testFirstOpeningTagForStringRepresentationWithComment{
+
+}
+
 #pragma mark - Private
 
 - (void)parseHtmlFileNamed:(NSString *)a_htmlFileName

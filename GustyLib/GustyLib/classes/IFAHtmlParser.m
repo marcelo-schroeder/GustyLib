@@ -332,6 +332,14 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
     }
 }
 
+//continuehere: writing tests in the GustyLib project
++ (NSString *)firstOpeningTagForStringRepresentation:(NSString *)a_stringRepresentation {
+    NSRange l_openingTagEndRange = [a_stringRepresentation rangeOfString:@">"];
+    NSUInteger l_openingTagEndIndex = l_openingTagEndRange.location + l_openingTagEndRange.length;
+    NSString *l_markupStringToBeReplaced = [a_stringRepresentation substringToIndex:l_openingTagEndIndex];
+    return l_markupStringToBeReplaced;
+}
+
 @end
 
 @implementation IFAHtmlDocumentPosition

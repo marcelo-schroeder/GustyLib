@@ -36,6 +36,14 @@ typedef void (^IFAHtmlParserEndElementBlock)(IFAHtmlElementParsingContext *a_par
 
 - (void)replaceMarkupString:(NSString *)a_markupStringToBeReplaced withMarkupString:(NSString *)a_newMarkupString;
 
+/**
+* Returns string containing the top level element's opening tag from a given HTML element string representation.
+* HTML comments are ignored.
+* @param a_stringRepresentation HTML element string representation. This string representation can contain a HTML element hierarchy that is many levels deep.
+* @returns String representing the top level element's opening tag.
+*/
++ (NSString *)firstOpeningTagForStringRepresentation:(NSString *)a_stringRepresentation;
+
 + (NSString *)markupStringForTag:(NSString *)a_tagName attributes:(NSDictionary *)a_attributes;
 
 + (NSString *)markupStringForTag:(NSString *)a_tagName attributes:(NSDictionary *)a_attributes
