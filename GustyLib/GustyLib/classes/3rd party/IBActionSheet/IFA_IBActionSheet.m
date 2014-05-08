@@ -26,6 +26,10 @@
 
 #pragma mark - IBActionSheet
 
+@interface IFA_IBActionSheet ()
+@property(nonatomic, strong) IBActionSheetButton *cancelButton;
+@end
+
 @implementation IFA_IBActionSheet
 
 #pragma mark IBActionSheet Set up methods
@@ -70,10 +74,10 @@ otherButtonTitlesArray:(NSArray *)otherTitlesArray iPadWidth:(CGFloat)iPadWidth 
     // set up cancel button
     BOOL l_isIPad = [IFAUIUtils isIPad];
     if (cancelTitle && !l_isIPad) {
-        IBActionSheetButton *cancelButton = [[IBActionSheetButton alloc] initWithAllCornersRoundedAndMaximumActionSheetWidth:[self maximumActionSheetWidth]];
-        cancelButton.titleLabel.font = [UIFont boldSystemFontOfSize:21];
-        [cancelButton setTitle:cancelTitle forState:UIControlStateAll];
-        [self.buttons addObject:cancelButton];
+        self.cancelButton = [[IBActionSheetButton alloc] initWithAllCornersRoundedAndMaximumActionSheetWidth:[self maximumActionSheetWidth]];
+        self.cancelButton.titleLabel.font = [UIFont boldSystemFontOfSize:21];
+        [self.cancelButton setTitle:cancelTitle forState:UIControlStateAll];
+        [self.buttons addObject:self.cancelButton];
         self.hasCancelButton = YES;
     } else {
         self.shouldCancelOnTouch = l_isIPad;
@@ -648,6 +652,10 @@ otherButtonTitlesArray:(NSArray *)otherTitlesArray iPadWidth:(CGFloat)iPadWidth 
     }
 
     [self setTitleBackgroundColor:color];
+}
+
+- (void)setCancelButtonFont:(UIFont *)font {
+    self.cancelButton.titleLabel.font = font;
 }
 
 - (void)setTitleTextColor:(UIColor *)color {

@@ -47,6 +47,7 @@ typedef NS_ENUM(NSInteger, IBActionSheetButtonCornerType) {
 
 // forward declarations
 @class IFA_IBActionSheet, IBActionSheetTitleView;
+@class IBActionSheetButton;
 
 #pragma mark - IBActionSheetDelegate Protocol
 
@@ -81,6 +82,7 @@ otherButtonTitlesArray:(NSArray *)otherTitlesArray iPadWidth:(CGFloat)iPadWidth;
 - (void)setFont:(UIFont *)font;
 - (void)setTitleFont:(UIFont *)font;
 - (void)setFont:(UIFont *)font forButtonAtIndex:(NSInteger)index;
+- (void)setCancelButtonFont:(UIFont *)font;
 
 
 // standard colors
