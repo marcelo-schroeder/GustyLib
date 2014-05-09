@@ -133,6 +133,7 @@
 
 /* Presenting view controller methods */
 - (void)ifa_dismissModalViewControllerWithChangesMade:(BOOL)a_changesMade data:(id)a_data;
+- (void)ifa_dismissModalViewControllerWithChangesMade:(BOOL)a_changesMade data:(id)a_data animated:(BOOL)a_animate;
 
 /* Presented view controller methods */
 - (void)ifa_notifySessionCompletionWithChangesMade:(BOOL)a_changesMade data:(id)a_data;

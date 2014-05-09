@@ -252,6 +252,9 @@ IFA_masterViewPaneLayoutStyleForInterfaceOrientation:(UIInterfaceOrientation)a_i
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
                                          duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    // Dismiss the popover controller, if shown
+    [self ifa_dismissModalViewControllerWithChangesMade:NO data:nil];
+    // Reconfigure the whole view hierarchy to cater for the new orientation and master view pane layout style
     [self IFA_configureSubViewsForInterfaceOrientation:toInterfaceOrientation];
 }
 

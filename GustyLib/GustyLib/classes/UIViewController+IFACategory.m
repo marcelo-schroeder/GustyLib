@@ -849,8 +849,6 @@ static char c_shouldUseKeyboardPassthroughViewKey;
         [self ifa_resetActivePopoverController];
     }else if(self.presentingSemiModal){
         [self dismissSemiModalViewWithChangesMade:a_changesMade data:a_data];
-    }else{
-        NSAssert(NO, @"No modal view controller to dismiss");
     }
 }
 
