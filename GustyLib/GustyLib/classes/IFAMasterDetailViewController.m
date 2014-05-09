@@ -111,9 +111,11 @@ IFA_masterViewPaneLayoutStyleForInterfaceOrientation:(UIInterfaceOrientation)a_i
     switch (l_masterViewPaneLayoutStyle) {
         case IFAMasterDetailViewControllerPaneLayoutStylePopover:
             // Does not need any other subview added right now
+            self.masterViewController.view.translatesAutoresizingMaskIntoConstraints = YES;
             break;
         case IFAMasterDetailViewControllerPaneLayoutStyleSliding:
         case IFAMasterDetailViewControllerPaneLayoutStyleDocked:
+            self.masterViewController.view.translatesAutoresizingMaskIntoConstraints = NO;
             [self ifa_addChildViewController:self.masterViewController parentView:self.masterContainerView];
             [self.view addSubview:self.masterContainerView];
             [self.masterContainerView ifa_addLayoutConstraintsToFillSuperviewVertically];
