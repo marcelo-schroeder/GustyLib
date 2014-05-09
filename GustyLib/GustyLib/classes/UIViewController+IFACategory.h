@@ -136,7 +136,9 @@
 
 /* Presented view controller methods */
 - (void)ifa_notifySessionCompletionWithChangesMade:(BOOL)a_changesMade data:(id)a_data;
+- (void)ifa_notifySessionCompletionWithChangesMade:(BOOL)a_changesMade data:(id)a_data animated:(BOOL)a_animated;
 -(void)ifa_notifySessionCompletion;
+- (void)ifa_notifySessionCompletionAnimated:(BOOL)a_animate;
 
 -(UIViewController*)ifa_mainViewController;
 -(BOOL)ifa_shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation;

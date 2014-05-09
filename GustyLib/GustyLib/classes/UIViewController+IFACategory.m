@@ -818,21 +818,34 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     [self.ifa_presenter sessionDidCompleteForViewController:self changesMade:a_changesMade data:a_data];
 }
 
+- (void)ifa_notifySessionCompletionWithChangesMade:(BOOL)a_changesMade data:(id)a_data animated:(BOOL)a_animated{
+    [self.ifa_presenter sessionDidCompleteForViewController:self changesMade:a_changesMade data:a_data animated:a_animated];
+}
+
 -(void)ifa_notifySessionCompletion {
     [self ifa_notifySessionCompletionWithChangesMade:NO data:nil ];
 }
 
+-(void)ifa_notifySessionCompletionAnimated:(BOOL)a_animate {
+    [self ifa_notifySessionCompletionWithChangesMade:NO data:nil animated:a_animate];
+}
+
 - (void)ifa_dismissModalViewControllerWithChangesMade:(BOOL)a_changesMade data:(id)a_data {
+    [self ifa_dismissModalViewControllerWithChangesMade:a_changesMade data:a_data
+                                               animated:YES];
+}
+
+- (void)ifa_dismissModalViewControllerWithChangesMade:(BOOL)a_changesMade data:(id)a_data animated:(BOOL)a_animate{
     if (self.presentedViewController) {
         __weak UIViewController *l_weakSelf = self;
         UIViewController *l_presentedViewController = self.presentedViewController; // Add retain cycle
-        [self dismissViewControllerAnimated:YES completion:^{
+        [self dismissViewControllerAnimated:a_animate completion:^{
             if ([l_weakSelf conformsToProtocol:@protocol(IFAPresenter)]) {
                 [l_weakSelf didDismissViewController:l_presentedViewController changesMade:a_changesMade data:a_data];
             }
         }];
     }else if(self.ifa_activePopoverController){
-        [self.ifa_activePopoverController dismissPopoverAnimated:YES];
+        [self.ifa_activePopoverController dismissPopoverAnimated:a_animate];
         [self ifa_resetActivePopoverController];
     }else if(self.presentingSemiModal){
         [self dismissSemiModalViewWithChangesMade:a_changesMade data:a_data];
@@ -1690,12 +1703,18 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 - (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
                                        data:(id)a_data {
+    [self sessionDidCompleteForViewController:a_viewController
+                                  changesMade:a_changesMade data:a_data animated:YES];
+}
+
+- (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
+                                       data:(id)a_data animated:(BOOL)a_animate{
     self.ifa_changesMadeByPresentedViewController = a_changesMade;
     [self ifa_registerForHelp];
     if (a_viewController.ifa_presentedAsModal) {
-        [self ifa_dismissModalViewControllerWithChangesMade:a_changesMade data:a_data];
+        [self ifa_dismissModalViewControllerWithChangesMade:a_changesMade data:a_data animated:a_animate];
     }else{
-        [a_viewController.navigationController popViewControllerAnimated:YES];
+        [a_viewController.navigationController popViewControllerAnimated:a_animate];
     }
 }
 
