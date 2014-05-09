@@ -43,22 +43,14 @@ static const int k_separatorViewWidth = 1;
         _IFA_showMasterViewButton = [[UIBarButtonItem alloc] initWithTitle:@"Change Me Please!"
                                                                      style:UIBarButtonItemStylePlain
                                                                     target:self
-                                                                    action:@selector(IFA_onShowMasterViewButtonTap)];
+                                                                    action:@selector(IFA_onShowMasterViewButtonTap:)];
     }
     return _IFA_showMasterViewButton;
 }
 
-- (void)IFA_onShowMasterViewButtonTap {
-
-}
-
-- (CGFloat)IFA_masterViewWidthForInterfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation {
-    if ([self.dataSource respondsToSelector:@selector(masterDetailViewController:masterViewWidthForInterfaceOrientation:)]) {
-        return [self.dataSource masterDetailViewController:self
-                    masterViewWidthForInterfaceOrientation:a_interfaceOrientation];
-    }else{
-        return IFAMasterDetailViewControllerMasterViewDefaultWidth;
-    }
+- (void)IFA_onShowMasterViewButtonTap:(UIBarButtonItem *)a_barButtonItem {
+    [self ifa_presentModalSelectionViewController:self.masterViewController
+                                fromBarButtonItem:a_barButtonItem shouldWrapWithNavigationController:NO];
 }
 
 - (IFAMasterDetailViewControllerPaneLayoutStyle)
@@ -67,7 +59,7 @@ IFA_masterViewPaneLayoutStyleForInterfaceOrientation:(UIInterfaceOrientation)a_i
         return [self.dataSource masterDetailViewController:self
                 masterViewPaneLayoutStyleForInterfaceOrientation:a_interfaceOrientation];
     }else{
-        return [IFAUIUtils isDeviceInLandscapeOrientation] ? IFAMasterDetailViewControllerPaneLayoutStyleDocked : IFAMasterDetailViewControllerPaneLayoutStyleSliding;
+        return [IFAUIUtils isDeviceInLandscapeOrientation] ? IFAMasterDetailViewControllerPaneLayoutStyleDocked : IFAMasterDetailViewControllerPaneLayoutStylePopover;
     }
 }
 
@@ -99,6 +91,7 @@ IFA_masterViewPaneLayoutStyleForInterfaceOrientation:(UIInterfaceOrientation)a_i
 }
 
 - (void)IFA_configureDetailContainerView {
+    [self ifa_addChildViewController:self.detailViewController parentView:self.detailContainerView];
     [self.view addSubview:self.detailContainerView];
     [self.detailContainerView ifa_addLayoutConstraintsToFillSuperviewVertically];
     [self.detailContainerView.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.detailContainerView
@@ -113,6 +106,7 @@ IFA_masterViewPaneLayoutStyleForInterfaceOrientation:(UIInterfaceOrientation)a_i
 - (void)IFA_updateViewHierarchyForInterfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation {
     [self.masterContainerView removeFromSuperview];
     [self.separatorView removeFromSuperview];
+    [self.masterViewController ifa_removeFromParentViewController];
     IFAMasterDetailViewControllerPaneLayoutStyle l_masterViewPaneLayoutStyle = [self IFA_masterViewPaneLayoutStyleForInterfaceOrientation:a_interfaceOrientation];
     switch (l_masterViewPaneLayoutStyle) {
         case IFAMasterDetailViewControllerPaneLayoutStylePopover:
@@ -120,23 +114,16 @@ IFA_masterViewPaneLayoutStyleForInterfaceOrientation:(UIInterfaceOrientation)a_i
             break;
         case IFAMasterDetailViewControllerPaneLayoutStyleSliding:
         case IFAMasterDetailViewControllerPaneLayoutStyleDocked:
-            [self.view addSubview:self.separatorView];
-            [self.separatorView ifa_addLayoutConstraintsToFillSuperviewVertically];
+            [self ifa_addChildViewController:self.masterViewController parentView:self.masterContainerView];
             [self.view addSubview:self.masterContainerView];
             [self.masterContainerView ifa_addLayoutConstraintsToFillSuperviewVertically];
+            [self.view addSubview:self.separatorView];
+            [self.separatorView ifa_addLayoutConstraintsToFillSuperviewVertically];
     }
 }
 
 - (void)IFA_updateLayoutConstraintsForInterfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation {
-    [self.masterContainerView removeConstraint:self.IFA_masterContainerViewWidthConstraint];
-    self.IFA_masterContainerViewWidthConstraint = [NSLayoutConstraint constraintWithItem:self.masterContainerView
-                                                                               attribute:NSLayoutAttributeWidth
-                                                                               relatedBy:NSLayoutRelationEqual
-                                                                                  toItem:nil
-                                                                               attribute:(NSLayoutAttribute) nil
-                                                                              multiplier:1
-                                                                                constant:[self IFA_masterViewWidthForInterfaceOrientation:a_interfaceOrientation]];
-    [self.masterContainerView addConstraint:self.IFA_masterContainerViewWidthConstraint];
+    CGFloat l_masterViewPreferredWidth = self.masterViewController.preferredContentSize.width;
     [self.masterContainerView.superview removeConstraint:self.IFA_masterViewLeftConstraint];
     [self.detailContainerView.superview removeConstraint:self.IFA_detailViewLeftConstraint];
     self.IFA_masterViewLeftConstraint = nil;
@@ -157,14 +144,15 @@ IFA_masterViewPaneLayoutStyleForInterfaceOrientation:(UIInterfaceOrientation)a_i
                                                                              attribute:NSLayoutAttributeRight
                                                                             multiplier:1 constant:0];
             break;
-        case IFAMasterDetailViewControllerPaneLayoutStyleSliding:
+        case IFAMasterDetailViewControllerPaneLayoutStyleSliding: {
             self.IFA_masterViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.masterContainerView
                                                                              attribute:NSLayoutAttributeLeft
                                                                              relatedBy:NSLayoutRelationEqual
                                                                                 toItem:self.masterContainerView.superview
                                                                              attribute:NSLayoutAttributeLeft
                                                                             multiplier:1
-                                                                              constant:-[self IFA_masterViewWidthForInterfaceOrientation:a_interfaceOrientation]];
+                                                                              constant:-l_masterViewPreferredWidth];
+        }
         case IFAMasterDetailViewControllerPaneLayoutStylePopover:
             self.IFA_detailViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.detailContainerView
                                                                              attribute:NSLayoutAttributeLeft
@@ -174,16 +162,27 @@ IFA_masterViewPaneLayoutStyleForInterfaceOrientation:(UIInterfaceOrientation)a_i
                                                                             multiplier:1 constant:0];
             break;
     }
+    [self.masterContainerView removeConstraint:self.IFA_masterContainerViewWidthConstraint];
     [self.view removeConstraint:self.IFA_masterContainerViewRightConstraint];
-    if (self.masterContainerView.superview && self.separatorView.superview) {
-        self.IFA_masterContainerViewRightConstraint = [NSLayoutConstraint constraintWithItem:self.masterContainerView
-                                                                  attribute:NSLayoutAttributeRight
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:self.separatorView
-                                                                  attribute:NSLayoutAttributeLeft
-                                                                 multiplier:1
-                                                                   constant:0];
-        [self.view addConstraint:self.IFA_masterContainerViewRightConstraint];
+    if (self.masterContainerView.superview) {
+        self.IFA_masterContainerViewWidthConstraint = [NSLayoutConstraint constraintWithItem:self.masterContainerView
+                                                                                   attribute:NSLayoutAttributeWidth
+                                                                                   relatedBy:NSLayoutRelationEqual
+                                                                                      toItem:nil
+                                                                                   attribute:(NSLayoutAttribute) nil
+                                                                                  multiplier:1
+                                                                                    constant:l_masterViewPreferredWidth];
+        [self.masterContainerView addConstraint:self.IFA_masterContainerViewWidthConstraint];
+        if (self.separatorView.superview) {
+            self.IFA_masterContainerViewRightConstraint = [NSLayoutConstraint constraintWithItem:self.masterContainerView
+                                                                                       attribute:NSLayoutAttributeRight
+                                                                                       relatedBy:NSLayoutRelationEqual
+                                                                                          toItem:self.separatorView
+                                                                                       attribute:NSLayoutAttributeLeft
+                                                                                      multiplier:1
+                                                                                        constant:0];
+            [self.view addConstraint:self.IFA_masterContainerViewRightConstraint];
+        }
     }
     if (self.IFA_masterViewLeftConstraint) {
         [self.masterContainerView.superview addConstraint:self.IFA_masterViewLeftConstraint];
@@ -275,16 +274,6 @@ IFA_masterViewPaneLayoutStyleForInterfaceOrientation:(UIInterfaceOrientation)a_i
         _separatorView = [UIView new];
     }
     return _separatorView;
-}
-
-- (void)setMasterViewController:(UIViewController *)masterViewController {
-    _masterViewController = masterViewController;
-    [self ifa_addChildViewController:_masterViewController parentView:self.masterContainerView];
-}
-
-- (void)setDetailViewController:(UIViewController *)detailViewController {
-    _detailViewController = detailViewController;
-    [self ifa_addChildViewController:_detailViewController parentView:self.detailContainerView];
 }
 
 @end

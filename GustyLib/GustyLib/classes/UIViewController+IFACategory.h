@@ -29,7 +29,6 @@
 
 @protocol IFAAppearanceTheme;
 @class IFAPassthroughView;
-@protocol IFAViewControllerDelegate;
 
 @interface UIViewController (IFACategory) <IFAHelpTargetContainer, IFAPresenter, GADBannerViewDelegate, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate>
 
@@ -101,8 +100,22 @@
 - (void)ifa_didPresentPopoverController:(UIPopoverController *)a_popoverController;
 
 -(void)ifa_presentModalFormViewController:(UIViewController*)a_viewController;
--(void)ifa_presentModalSelectionViewController:(UIViewController *)a_viewController fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem;
--(void)ifa_presentModalSelectionViewController:(UIViewController *)a_viewController fromRect:(CGRect)a_fromRect inView:(UIView *)a_view;
+
+/* Presenting modeal selection view controllers */
+- (void)ifa_presentModalSelectionViewController:(UIViewController *)a_viewController
+                              fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem
+             shouldWrapWithNavigationController:(BOOL)a_shouldWrapWithNavigationController;
+
+- (void)ifa_presentModalSelectionViewController:(UIViewController *)a_viewController
+                              fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem;
+
+- (void)ifa_presentModalSelectionViewController:(UIViewController *)a_viewController fromRect:(CGRect)a_fromRect
+                                         inView:(UIView *)a_view
+             shouldWrapWithNavigationController:(BOOL)a_shouldWrapWithNavigationController;
+
+- (void)ifa_presentModalSelectionViewController:(UIViewController *)a_viewController fromRect:(CGRect)a_fromRect
+                                         inView:(UIView *)a_view;
+
 -(void)ifa_presentModalViewController:(UIViewController *)a_viewController
                     presentationStyle:(UIModalPresentationStyle)a_presentationStyle transitionStyle:(UIModalTransitionStyle)a_transitionStyle;
 -(void)ifa_presentModalViewController:(UIViewController *)a_viewController
@@ -114,6 +127,7 @@
                        transitionStyle:(UIModalTransitionStyle)a_transitionStyle
                    shouldAddDoneButton:(BOOL)a_shouldAddDoneButton customSize:(CGSize)a_customSize;
 
+/* Presenting popover controllers */
 -(void)ifa_presentPopoverController:(UIPopoverController *)a_popoverController fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem;
 -(void)ifa_presentPopoverController:(UIPopoverController *)a_popoverController fromRect:(CGRect)a_fromRect inView:(UIView *)a_view;
 

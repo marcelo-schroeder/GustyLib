@@ -67,12 +67,28 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 #pragma mark - Private
 
--(void)IFA_presentModalSelectionViewController:(UIViewController *)a_viewController
-                             fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem fromRect:(CGRect)a_fromRect inView:(UIView *)a_view{
+- (void)IFA_presentModalSelectionViewController:(UIViewController *)a_viewController
+                              fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem fromRect:(CGRect)a_fromRect
+                                         inView:(UIView *)a_view {
+    [self IFA_presentModalSelectionViewController:a_viewController
+                                fromBarButtonItem:a_fromBarButtonItem
+                                         fromRect:a_fromRect inView:a_view
+               shouldWrapWithNavigationController:[self IFA_shouldWrapWithNavigationControllerForViewController:a_viewController]];
+}
+
+- (void)IFA_presentModalSelectionViewController:(UIViewController *)a_viewController
+                              fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem fromRect:(CGRect)a_fromRect
+                                         inView:(UIView *)a_view
+             shouldWrapWithNavigationController:(BOOL)a_shouldWrapWithNavigationController {
 
 //    NSLog(@"m_presentModalSelectionViewController: %@", [a_viewController description]);
 
-    UIViewController *l_viewController = [a_viewController isKindOfClass:[UIActivityViewController class]] ? a_viewController : [[[[self ifa_appearanceTheme] navigationControllerClass] alloc] initWithRootViewController:a_viewController];
+    UIViewController *l_viewController;
+    if (a_shouldWrapWithNavigationController) {
+        l_viewController = [[[[self ifa_appearanceTheme] navigationControllerClass] alloc] initWithRootViewController:a_viewController];
+    }else{
+        l_viewController = a_viewController;
+    }
 //    NSLog(@"  l_viewController: %@", [l_viewController description]);
 
     if ([a_viewController ifa_hasFixedSize]) {
@@ -82,21 +98,21 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 //        NSLog(@"  l_viewController.view.frame: %@", NSStringFromCGRect(l_viewController.view.frame));
 //        NSLog(@"  a_viewController.view.frame: %@", NSStringFromCGRect(a_viewController.view.frame));
     }
-    
+
     if ([self conformsToProtocol:@protocol(IFAPresenter)]) {
-        a_viewController.ifa_presenter = (id<IFAPresenter>)self;
+        a_viewController.ifa_presenter = (id <IFAPresenter>) self;
     }
 
     if ([IFAUIUtils isIPad]) { // If iPad present controller in a popover
-        
+
         // Instantiate and configure popover controller
         UIPopoverController *l_popoverController = [self ifa_newPopoverControllerWithContentViewController:l_viewController];
-        
+
         // Set the delegate
         if ([a_viewController conformsToProtocol:@protocol(UIPopoverControllerDelegate)]) {
-            l_popoverController.delegate = (id<UIPopoverControllerDelegate>)a_viewController;
+            l_popoverController.delegate = (id <UIPopoverControllerDelegate>) a_viewController;
         }
-        
+
         // Set the content size
         if ([a_viewController isKindOfClass:[IFAAbstractFieldEditorViewController class]]) {
             // Popover controllers "merge" the navigation bar from the navigation controller with its border at the top.
@@ -105,29 +121,33 @@ static char c_shouldUseKeyboardPassthroughViewKey;
             CGFloat l_newHeight = l_viewController.view.frame.size.height - (l_popoverController.ifa_borderThickness * (a_viewController.ifa_needsToolbar ? 2 : 1));
             l_popoverController.popoverContentSize = CGSizeMake(l_viewController.view.frame.size.width, l_newHeight);
         }
-        
+
         // Present popover controller
         if (a_fromBarButtonItem) {
             [self ifa_presentPopoverController:l_popoverController fromBarButtonItem:a_fromBarButtonItem];
-        }else{
+        } else {
             [self ifa_presentPopoverController:l_popoverController fromRect:a_fromRect inView:a_view];
         }
-        
-    }else { // If not iPad present as modal
-        
+
+    } else { // If not iPad present as modal
+
         if ([a_viewController ifa_hasFixedSize]) {
             [self presentSemiModalViewController:l_viewController];
-        }else {
+        } else {
             if ([a_viewController isKindOfClass:[UIActivityViewController class]]) {
                 [self presentViewController:a_viewController animated:YES completion:NULL];
-            }else{
+            } else {
                 [self ifa_presentModalViewController:a_viewController presentationStyle:UIModalPresentationFullScreen
                                      transitionStyle:UIModalTransitionStyleCoverVertical];
             }
         }
-        
+
     }
-    
+
+}
+
+- (BOOL)IFA_shouldWrapWithNavigationControllerForViewController:(UIViewController *)a_viewController {
+    return ![a_viewController isKindOfClass:[UIActivityViewController class]];
 }
 
 //-(UIViewController *)p_presentedViewController{
@@ -163,7 +183,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     CGSize l_contentViewControllerSize = l_contentViewController.view.frame.size;
     if (l_hasFixedSize) {
         l_popoverController.popoverContentSize = l_contentViewControllerSize;
-        NSLog(@"l_popoverController.popoverContentSize: %@", NSStringFromCGSize(l_popoverController.popoverContentSize));
+//        NSLog(@"l_popoverController.popoverContentSize: %@", NSStringFromCGSize(l_popoverController.popoverContentSize));
     }
 }
 
@@ -654,7 +674,11 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 -(BOOL)ifa_presentedAsModal {
     //    NSLog(@"presentingViewController: %@, presentedViewController: %@, self: %@, topViewController: %@, visibleViewController: %@, viewController[0]: %@, navigationController.parentViewController: %@, parentViewController: %@, presentedAsSemiModal: %u", [self.presentingViewController description], [self.presentedViewController description], [self description], self.navigationController.topViewController, self.navigationController.visibleViewController, [self.navigationController.viewControllers objectAtIndex:0], self.navigationController.parentViewController, self.parentViewController, self.presentedAsSemiModal);
-    return [IFAApplicationDelegate sharedInstance].popoverControllerPresenter.ifa_activePopoverController.contentViewController==self.navigationController || ( self.navigationController.presentingViewController!=nil && [self.navigationController.viewControllers objectAtIndex:0]==self) || self.parentViewController.presentedAsSemiModal || [[IFAApplicationDelegate sharedInstance].popoverControllerPresenter.ifa_activePopoverController.contentViewController isKindOfClass:[UIActivityViewController class]];
+    return [IFAApplicationDelegate sharedInstance].popoverControllerPresenter.ifa_activePopoverController.contentViewController==self.navigationController
+            || [IFAApplicationDelegate sharedInstance].popoverControllerPresenter.ifa_activePopoverController.contentViewController==self
+            || ( self.navigationController.presentingViewController!=nil && [self.navigationController.viewControllers objectAtIndex:0]==self)
+            || self.parentViewController.presentedAsSemiModal
+            || [[IFAApplicationDelegate sharedInstance].popoverControllerPresenter.ifa_activePopoverController.contentViewController isKindOfClass:[UIActivityViewController class]];
 }
 
 - (void)ifa_updateToolbarForMode:(BOOL)anEditModeFlag animated:(BOOL)anAnimatedFlag{
@@ -720,9 +744,23 @@ static char c_shouldUseKeyboardPassthroughViewKey;
                          transitionStyle:UIModalTransitionStyleCoverVertical];
 }
 
+- (void)ifa_presentModalSelectionViewController:(UIViewController *)a_viewController
+                              fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem
+             shouldWrapWithNavigationController:(BOOL)a_shouldWrapWithNavigationController {
+    [self IFA_presentModalSelectionViewController:a_viewController fromBarButtonItem:a_fromBarButtonItem
+                                         fromRect:CGRectZero inView:nil shouldWrapWithNavigationController:a_shouldWrapWithNavigationController];
+}
+
 -(void)ifa_presentModalSelectionViewController:(UIViewController *)a_viewController fromBarButtonItem:(UIBarButtonItem *)a_fromBarButtonItem{
     [self IFA_presentModalSelectionViewController:a_viewController fromBarButtonItem:a_fromBarButtonItem
                                          fromRect:CGRectZero inView:nil];
+}
+
+- (void)ifa_presentModalSelectionViewController:(UIViewController *)a_viewController fromRect:(CGRect)a_fromRect
+                                         inView:(UIView *)a_view
+             shouldWrapWithNavigationController:(BOOL)a_shouldWrapWithNavigationController {
+    [self IFA_presentModalSelectionViewController:a_viewController fromBarButtonItem:nil fromRect:a_fromRect
+                                           inView:a_view shouldWrapWithNavigationController:a_shouldWrapWithNavigationController];
 }
 
 -(void)ifa_presentModalSelectionViewController:(UIViewController *)a_viewController fromRect:(CGRect)a_fromRect inView:(UIView *)a_view{

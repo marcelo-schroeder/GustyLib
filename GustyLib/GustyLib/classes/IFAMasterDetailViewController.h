@@ -18,12 +18,11 @@
 #import <Foundation/Foundation.h>
 #import "IFAViewController.h"
 
-static const CGFloat IFAMasterDetailViewControllerMasterViewDefaultWidth = 320;
-
 @protocol IFAMasterDetailViewControllerDataSource;
 
 /**
 * Highly customisable master-detail view controller.
+* This is an iPad only class at this stage.
 */
 @interface IFAMasterDetailViewController : IFAViewController
 
@@ -52,21 +51,15 @@ static const CGFloat IFAMasterDetailViewControllerMasterViewDefaultWidth = 320;
 @optional
 
 /**
-* Determines the width for the master view.
-* If not implemented IFAMasterDetailViewControllerMasterViewDefaultWidth will be used.
-* @param a_masterDetailViewController Instance of IFAMasterDetailViewController making the call back.
-* @param a_interfaceOrientation Interface orientation to provide the width for.
-* @returns Width to be applied to the master view.
+* These enums define a given view's pane layout style.
+* For all styles, the width is obtained from the view controller's preferredContentSize property.
+* For the IFAMasterDetailViewControllerPaneLayoutStylePopover style, the height is obtained from the view controller's preferredContentSize property. For all other styles, the height will match that of the superview.
 */
-- (CGFloat) masterDetailViewController:(IFAMasterDetailViewController *)a_masterDetailViewController
-masterViewWidthForInterfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation;
-
 typedef enum {
     IFAMasterDetailViewControllerPaneLayoutStyleDocked,     // The pane is always visible.
-    IFAMasterDetailViewControllerPaneLayoutStyleSliding,    // The pane is not visible when the parent view is first presented and it slides into view when presented.
+    IFAMasterDetailViewControllerPaneLayoutStyleSliding,    // WORK IN PROGRESS! - The pane is not visible when the parent view is first presented and it slides into view when presented.
     IFAMasterDetailViewControllerPaneLayoutStylePopover,    // The pane is not visible when the parent view is first presented and it is shown in a popover when presented.
 } IFAMasterDetailViewControllerPaneLayoutStyle;
-
 
 /**
 * Determines pane layout style for the master view.
