@@ -21,7 +21,9 @@
 @property (strong, nonatomic, readwrite) UIView *masterContainerView;
 @property (strong, nonatomic, readwrite) UIView *detailContainerView;
 @property (strong, nonatomic, readwrite) UIView *separatorView;
-//@property(nonatomic, strong) UISwipeGestureRecognizer *p_swipeGestureRecogniser;
+@property(nonatomic, strong) NSLayoutConstraint *IFA_masterViewLeftConstraint;
+@property(nonatomic, strong) NSLayoutConstraint *IFA_detailViewLeftConstraint;
+@property(nonatomic, strong) NSLayoutConstraint *IFA_masterContainerViewWidthConstraint;
 @end
 
 @implementation IFAMasterDetailViewController {
@@ -30,22 +32,127 @@
 
 #pragma mark - Private
 
+- (CGFloat)IFA_masterViewWidthForInterfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation {
+    if ([self.dataSource respondsToSelector:@selector(masterDetailViewController:masterViewWidthForInterfaceOrientation:)]) {
+        return [self.dataSource masterDetailViewController:self
+                    masterViewWidthForInterfaceOrientation:a_interfaceOrientation];
+    }else{
+        return IFAMasterDetailViewControllerMasterViewDefaultWidth;
+    }
+}
+
+- (IFAMasterDetailViewControllerPaneLayoutStyle)
+IFA_masterViewPaneLayoutStyleForInterfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation {
+    if ([self.dataSource respondsToSelector:@selector(masterDetailViewController:masterViewPaneLayoutStyleForInterfaceOrientation:)]) {
+        return [self.dataSource masterDetailViewController:self
+                masterViewPaneLayoutStyleForInterfaceOrientation:a_interfaceOrientation];
+    }else{
+        return [IFAUIUtils isDeviceInLandscapeOrientation] ? IFAMasterDetailViewControllerPaneLayoutStyleDocked : IFAMasterDetailViewControllerPaneLayoutStylePopover;
+    }
+}
+
+- (UIInterfaceOrientation)IFA_interfaceOrientation {
+    return [UIApplication sharedApplication].statusBarOrientation;
+}
+
 - (void)IFA_configureSubViews {
+    UIInterfaceOrientation l_interfaceOrientation = [self IFA_interfaceOrientation];
+    [self IFA_configureDetailContainerView];
+    [self IFA_configureSubViewsForInterfaceOrientation:l_interfaceOrientation];
+}
+
+- (void)IFA_configureSubViewsForInterfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation {
+    [self IFA_updateViewHierarchyForInterfaceOrientation:a_interfaceOrientation];
+    [self IFA_updateLayoutConstraintsForInterfaceOrientation:a_interfaceOrientation];
+}
+
+- (void)IFA_configureDetailContainerView {
+    [self.view addSubview:self.detailContainerView];
+    [self.detailContainerView ifa_addLayoutConstraintsToFillSuperviewVertically];
+    [self.detailContainerView.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.detailContainerView
+                                                                                   attribute:NSLayoutAttributeRight
+                                                                                   relatedBy:NSLayoutRelationEqual
+                                                                                      toItem:self.detailContainerView.superview
+                                                                                   attribute:NSLayoutAttributeRight
+                                                                                  multiplier:1
+                                                                                    constant:0]];
+}
+
+- (void)IFA_updateViewHierarchyForInterfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation {
+    [self.masterContainerView removeFromSuperview];
+    [self.separatorView removeFromSuperview];
+    IFAMasterDetailViewControllerPaneLayoutStyle l_masterViewPaneLayoutStyle = [self IFA_masterViewPaneLayoutStyleForInterfaceOrientation:a_interfaceOrientation];
+    switch (l_masterViewPaneLayoutStyle) {
+        case IFAMasterDetailViewControllerPaneLayoutStylePopover:
+            // Does not need any other subview added right now
+            break;
+        case IFAMasterDetailViewControllerPaneLayoutStyleSliding:
+        case IFAMasterDetailViewControllerPaneLayoutStyleDocked:
+            [self.view addSubview:self.separatorView];
+            [self.separatorView ifa_addLayoutConstraintsToFillSuperviewVertically];
+            [self.view addSubview:self.masterContainerView];
+            [self.masterContainerView ifa_addLayoutConstraintsToFillSuperviewVertically];
+    }
+}
+
+- (void)IFA_updateLayoutConstraintsForInterfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation {
+    [self.masterContainerView removeConstraint:self.IFA_masterContainerViewWidthConstraint];
+    self.IFA_masterContainerViewWidthConstraint = [NSLayoutConstraint constraintWithItem:self.masterContainerView
+                                                                               attribute:NSLayoutAttributeWidth
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:nil
+                                                                               attribute:(NSLayoutAttribute) nil
+                                                                              multiplier:1
+                                                                                constant:[self IFA_masterViewWidthForInterfaceOrientation:a_interfaceOrientation]];
+    [self.masterContainerView addConstraint:self.IFA_masterContainerViewWidthConstraint];
+    [self.masterContainerView.superview removeConstraint:self.IFA_masterViewLeftConstraint];
+    [self.detailContainerView.superview removeConstraint:self.IFA_detailViewLeftConstraint];
+    self.IFA_masterViewLeftConstraint = nil;
+    self.IFA_detailViewLeftConstraint = nil;
+    IFAMasterDetailViewControllerPaneLayoutStyle l_masterViewPaneLayoutStyle = [self IFA_masterViewPaneLayoutStyleForInterfaceOrientation:a_interfaceOrientation];
+    switch (l_masterViewPaneLayoutStyle) {
+        case IFAMasterDetailViewControllerPaneLayoutStyleDocked:
+            self.IFA_masterViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.masterContainerView
+                                                                             attribute:NSLayoutAttributeLeft
+                                                                             relatedBy:NSLayoutRelationEqual
+                                                                                toItem:self.masterContainerView.superview
+                                                                             attribute:NSLayoutAttributeLeft
+                                                                            multiplier:1 constant:0];
+            self.IFA_detailViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.detailContainerView
+                                                                             attribute:NSLayoutAttributeLeft
+                                                                             relatedBy:NSLayoutRelationEqual
+                                                                                toItem:self.separatorView
+                                                                             attribute:NSLayoutAttributeRight
+                                                                            multiplier:1 constant:0];
+            break;
+        case IFAMasterDetailViewControllerPaneLayoutStyleSliding:
+            self.IFA_masterViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.masterContainerView
+                                                                             attribute:NSLayoutAttributeLeft
+                                                                             relatedBy:NSLayoutRelationEqual
+                                                                                toItem:self.masterContainerView.superview
+                                                                             attribute:NSLayoutAttributeLeft
+                                                                            multiplier:1
+                                                                              constant:-[self IFA_masterViewWidthForInterfaceOrientation:a_interfaceOrientation]];
+        case IFAMasterDetailViewControllerPaneLayoutStylePopover:
+            self.IFA_detailViewLeftConstraint = [NSLayoutConstraint constraintWithItem:self.detailContainerView
+                                                                             attribute:NSLayoutAttributeLeft
+                                                                             relatedBy:NSLayoutRelationEqual
+                                                                                toItem:self.detailContainerView.superview
+                                                                             attribute:NSLayoutAttributeLeft
+                                                                            multiplier:1 constant:0];
+            break;
+    }
     UIView *l_masterView = self.masterContainerView;
-    UIView *l_detailView = self.detailContainerView;
     UIView *l_separatorView = self.separatorView;
-    [self.view addSubview:l_masterView];
-    [self.view addSubview:l_detailView];
-    [self.view addSubview:l_separatorView];
-    NSDictionary *l_views = NSDictionaryOfVariableBindings(l_masterView, l_detailView, l_separatorView);
-    NSArray *l_horizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[l_masterView(320)][l_separatorView(1)][l_detailView]|"
-                                                                               options:(NSLayoutFormatOptions) 0
-                                                                               metrics:nil
-                                                                                 views:l_views];
-    [self.view addConstraints:l_horizontalConstraints];
-    [l_masterView ifa_addLayoutConstraintsToFillSuperviewVertically];
-    [l_detailView ifa_addLayoutConstraintsToFillSuperviewVertically];
-    [l_separatorView ifa_addLayoutConstraintsToFillSuperviewVertically];
+    NSDictionary *l_views = NSDictionaryOfVariableBindings(l_masterView, l_separatorView);
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[l_masterView][l_separatorView(1)]"
+                                                                      options:(NSLayoutFormatOptions) 0
+                                                                      metrics:nil
+                                                                        views:l_views]];
+    if (self.IFA_masterViewLeftConstraint) {
+        [self.masterContainerView.superview addConstraint:self.IFA_masterViewLeftConstraint];
+    }
+    [self.detailContainerView.superview addConstraint:self.IFA_detailViewLeftConstraint];
 }
 
 //- (UISwipeGestureRecognizer *)p_swipeGestureRecogniser {
@@ -67,6 +174,12 @@
     [super viewDidLoad];
     [self IFA_configureSubViews];
 //    [self.view addGestureRecognizer:self.p_swipeGestureRecogniser];
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+                                         duration:(NSTimeInterval)duration {
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self IFA_configureSubViewsForInterfaceOrientation:toInterfaceOrientation];
 }
 
 #pragma mark - Public
