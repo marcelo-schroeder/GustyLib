@@ -27,6 +27,9 @@ static const int k_separatorViewWidth = 1;
 @property(nonatomic, strong) NSLayoutConstraint *IFA_detailViewLeftConstraint;
 @property(nonatomic, strong) NSLayoutConstraint *IFA_masterContainerViewWidthConstraint;
 @property(nonatomic, strong) NSLayoutConstraint *IFA_masterContainerViewRightConstraint;
+@property(nonatomic, strong) UIBarButtonItem *IFA_showMasterViewButton;
+@property(nonatomic, strong) UIBarButtonItem *IFA_showMasterViewButtonSpaceLeft;
+@property(nonatomic, strong) UIBarButtonItem *IFA_showMasterViewButtonSpaceRight;
 @end
 
 @implementation IFAMasterDetailViewController {
@@ -34,6 +37,20 @@ static const int k_separatorViewWidth = 1;
 }
 
 #pragma mark - Private
+
+- (UIBarButtonItem *)IFA_showMasterViewButton {
+    if (!_IFA_showMasterViewButton) {
+        _IFA_showMasterViewButton = [[UIBarButtonItem alloc] initWithTitle:@"Change Me Please!"
+                                                                     style:UIBarButtonItemStylePlain
+                                                                    target:self
+                                                                    action:@selector(IFA_onShowMasterViewButtonTap)];
+    }
+    return _IFA_showMasterViewButton;
+}
+
+- (void)IFA_onShowMasterViewButtonTap {
+
+}
 
 - (CGFloat)IFA_masterViewWidthForInterfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation {
     if ([self.dataSource respondsToSelector:@selector(masterDetailViewController:masterViewWidthForInterfaceOrientation:)]) {
@@ -76,6 +93,7 @@ IFA_masterViewPaneLayoutStyleForInterfaceOrientation:(UIInterfaceOrientation)a_i
 }
 
 - (void)IFA_configureSubViewsForInterfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation {
+    [self IFA_configureNavigationBarButtonsForInterfaceOrientation:a_interfaceOrientation];
     [self IFA_updateViewHierarchyForInterfaceOrientation:a_interfaceOrientation];
     [self IFA_updateLayoutConstraintsForInterfaceOrientation:a_interfaceOrientation];
 }
@@ -173,6 +191,42 @@ IFA_masterViewPaneLayoutStyleForInterfaceOrientation:(UIInterfaceOrientation)a_i
     [self.detailContainerView.superview addConstraint:self.IFA_detailViewLeftConstraint];
 }
 
+- (void)IFA_configureNavigationBarButtonsForInterfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation {
+    [self ifa_removeLeftBarButtonItem:self.IFA_showMasterViewButtonSpaceLeft];
+    [self ifa_removeLeftBarButtonItem:self.IFA_showMasterViewButton];
+    [self ifa_removeLeftBarButtonItem:self.IFA_showMasterViewButtonSpaceRight];
+    IFAMasterDetailViewControllerPaneLayoutStyle l_masterViewPaneLayoutStyle = [self IFA_masterViewPaneLayoutStyleForInterfaceOrientation:a_interfaceOrientation];
+    switch (l_masterViewPaneLayoutStyle) {
+        case IFAMasterDetailViewControllerPaneLayoutStyleDocked:
+            // Does not need to show any buttons
+            break;
+        case IFAMasterDetailViewControllerPaneLayoutStylePopover:
+        case IFAMasterDetailViewControllerPaneLayoutStyleSliding:
+            [self ifa_addLeftBarButtonItem:self.IFA_showMasterViewButtonSpaceLeft];
+            [self ifa_addLeftBarButtonItem:self.IFA_showMasterViewButton];
+            [self ifa_addLeftBarButtonItem:self.IFA_showMasterViewButtonSpaceRight];
+            break;
+    }
+}
+
+- (UIBarButtonItem *)IFA_showMasterViewButtonSpaceLeft {
+    if (!_IFA_showMasterViewButtonSpaceLeft) {
+        _IFA_showMasterViewButtonSpaceLeft = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                                           target:nil
+                                                                                           action:nil];
+    }
+    return _IFA_showMasterViewButtonSpaceLeft;
+}
+
+- (UIBarButtonItem *)IFA_showMasterViewButtonSpaceRight {
+    if (!_IFA_showMasterViewButtonSpaceRight) {
+        _IFA_showMasterViewButtonSpaceRight = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                                           target:nil
+                                                                                           action:nil];
+    }
+    return _IFA_showMasterViewButtonSpaceRight;
+}
+
 //- (UISwipeGestureRecognizer *)p_swipeGestureRecogniser {
 //    if (!_p_swipeGestureRecogniser) {
 //        _p_swipeGestureRecogniser = [[UISwipeGestureRecognizer alloc] initWithTarget:self
@@ -191,7 +245,7 @@ IFA_masterViewPaneLayoutStyleForInterfaceOrientation:(UIInterfaceOrientation)a_i
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self IFA_configureSubViews];
-//    [self.view addGestureRecognizer:self.p_swipeGestureRecogniser];
+    //    [self.view addGestureRecognizer:self.p_swipeGestureRecogniser];
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
