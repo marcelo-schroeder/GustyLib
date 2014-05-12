@@ -40,7 +40,7 @@ static const int k_separatorViewWidth = 1;
 
 - (UIBarButtonItem *)IFA_showMasterViewButton {
     if (!_IFA_showMasterViewButton) {
-        _IFA_showMasterViewButton = [[UIBarButtonItem alloc] initWithTitle:@"Change Me Please!"
+        _IFA_showMasterViewButton = [[UIBarButtonItem alloc] initWithTitle:self.masterViewController.title
                                                                      style:UIBarButtonItemStylePlain
                                                                     target:self
                                                                     action:@selector(IFA_onShowMasterViewButtonTap:)];
