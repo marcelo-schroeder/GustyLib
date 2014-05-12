@@ -190,6 +190,7 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
     return self.mutableHtmlString;
 
 }
+
 - (void)replaceMarkupString:(NSString *)a_markupStringToBeReplaced withMarkupString:(NSString *)a_newMarkupString {
     [self.class replaceMarkupString:a_markupStringToBeReplaced
                    withMarkupString:a_newMarkupString inHtmlString:self.mutableHtmlString];
@@ -332,12 +333,27 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
     }
 }
 
-//continuehere: writing tests in the GustyLib project
 + (NSString *)firstOpeningTagForStringRepresentation:(NSString *)a_stringRepresentation {
-    NSRange l_openingTagEndRange = [a_stringRepresentation rangeOfString:@">"];
+    NSString *l_stringRepresentation = [self.class removeCommentsFromStringRepresentation:a_stringRepresentation];
+    NSRange l_openingTagEndRange = [l_stringRepresentation rangeOfString:@">"];
     NSUInteger l_openingTagEndIndex = l_openingTagEndRange.location + l_openingTagEndRange.length;
-    NSString *l_markupStringToBeReplaced = [a_stringRepresentation substringToIndex:l_openingTagEndIndex];
+    NSString *l_markupStringToBeReplaced = [l_stringRepresentation substringToIndex:l_openingTagEndIndex];
     return l_markupStringToBeReplaced;
+}
+
++ (NSString *)removeCommentsFromStringRepresentation:(NSString *)a_stringRepresentation {
+    NSMutableString *l_stringRepresentation = [a_stringRepresentation mutableCopy];
+    while (YES) {
+        NSRange l_commentStartRange = [l_stringRepresentation rangeOfString:@"<!--"];
+        NSRange l_commentEndRange = [l_stringRepresentation rangeOfString:@"-->"];
+        if (l_commentStartRange.location!=NSNotFound && l_commentEndRange.location!=NSNotFound) {
+            NSRange l_commentRange = NSUnionRange(l_commentStartRange, l_commentEndRange);
+            [l_stringRepresentation replaceCharactersInRange:l_commentRange withString:@""];
+        }else{
+            break;
+        }
+    }
+    return l_stringRepresentation;
 }
 
 @end

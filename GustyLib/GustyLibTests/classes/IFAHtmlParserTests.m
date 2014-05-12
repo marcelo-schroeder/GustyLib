@@ -229,15 +229,57 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
 }
 
 - (void)testFirstOpeningTagForStringRepresentationWithOpenTag{
-
-}
-
-- (void)testFirstOpeningTagForStringRepresentationWithSelfClosingTag{
-
+    // given
+    NSString *l_htmlString = @"<div style=\"float:left; padding: 10px;\"> <a href=\"http://www.rmit.edu.au/\" target=\"_blank\"><img src=\"http://www.brazilaustralia.com/wp-content/uploads/2014/03/491839224534091454.gif\" /></a></div>";
+    // when
+    NSString *l_result = [IFAHtmlParser firstOpeningTagForStringRepresentation:l_htmlString];
+    // then
+    assertThat(l_result, is(equalTo(@"<div style=\"float:left; padding: 10px;\">")));
 }
 
 - (void)testFirstOpeningTagForStringRepresentationWithComment{
+    // given
+    NSString *l_htmlString = @"<!-- adman_adcode (middle, 1) --><div style=\"float:left; padding: 10px;\"> <a href=\"http://www.rmit.edu.au/\" target=\"_blank\"><img src=\"http://www.brazilaustralia.com/wp-content/uploads/2014/03/491839224534091454.gif\" /></a></div>";
+    // when
+    NSString *l_result = [IFAHtmlParser firstOpeningTagForStringRepresentation:l_htmlString];
+    // then
+    assertThat(l_result, is(equalTo(@"<div style=\"float:left; padding: 10px;\">")));
+}
 
+- (void)testFirstOpeningTagForStringRepresentationWithSelfClosingTag{
+    // given
+    NSString *l_htmlString = @"<img src=\"http://www.brazilaustralia.com/wp-content/uploads/2014/03/491839224534091454.gif\"/><p><b>hello</b></p>";
+    // when
+    NSString *l_result = [IFAHtmlParser firstOpeningTagForStringRepresentation:l_htmlString];
+    // then
+    assertThat(l_result, is(equalTo(@"<img src=\"http://www.brazilaustralia.com/wp-content/uploads/2014/03/491839224534091454.gif\"/>")));
+}
+
+- (void)testRemoveCommentsFromStringRepresentationWithOneComment{
+    // given
+    NSString *l_htmlString = @"<!-- comment 1 --><p><b>hello</b></p>";
+    // when
+    NSString *l_result = [IFAHtmlParser removeCommentsFromStringRepresentation:l_htmlString];
+    // then
+    assertThat(l_result, is(equalTo(@"<p><b>hello</b></p>")));
+}
+
+- (void)testRemoveCommentsFromStringRepresentationWithTwoComments{
+    // given
+    NSString *l_htmlString = @"<!-- comment 1 --><p><b>hello</b></p><!-- comment 2 -->";
+    // when
+    NSString *l_result = [IFAHtmlParser removeCommentsFromStringRepresentation:l_htmlString];
+    // then
+    assertThat(l_result, is(equalTo(@"<p><b>hello</b></p>")));
+}
+
+- (void)testRemoveCommentsFromStringRepresentationWithNoComments{
+    // given
+    NSString *l_htmlString = @"<p><b>hello</b></p>";
+    // when
+    NSString *l_result = [IFAHtmlParser removeCommentsFromStringRepresentation:l_htmlString];
+    // then
+    assertThat(l_result, is(equalTo(@"<p><b>hello</b></p>")));
 }
 
 #pragma mark - Private

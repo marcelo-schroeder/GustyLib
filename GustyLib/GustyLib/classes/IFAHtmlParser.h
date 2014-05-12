@@ -44,6 +44,13 @@ typedef void (^IFAHtmlParserEndElementBlock)(IFAHtmlElementParsingContext *a_par
 */
 + (NSString *)firstOpeningTagForStringRepresentation:(NSString *)a_stringRepresentation;
 
+/**
+* Removes HTML comments from the string representation.
+* @param a_stringRepresentation HTML element string representation.
+* @returns HTML element string representation without any HTML comments.
+*/
++ (NSString *)removeCommentsFromStringRepresentation:(NSString *)a_stringRepresentation;
+
 + (NSString *)markupStringForTag:(NSString *)a_tagName attributes:(NSDictionary *)a_attributes;
 
 + (NSString *)markupStringForTag:(NSString *)a_tagName attributes:(NSDictionary *)a_attributes
