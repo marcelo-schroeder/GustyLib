@@ -39,17 +39,24 @@ typedef void (^IFAHtmlParserEndElementBlock)(IFAHtmlElementParsingContext *a_par
 /**
 * Returns string containing the top level element's opening tag from a given HTML element string representation.
 * HTML comments are ignored.
-* @param a_stringRepresentation HTML element string representation. This string representation can contain a HTML element hierarchy that is many levels deep.
+* @param a_stringRepresentation HTML element string representation. The string representation can contain a HTML element hierarchy that is many levels deep.
 * @returns String representing the top level element's opening tag.
 */
 + (NSString *)firstOpeningTagForStringRepresentation:(NSString *)a_stringRepresentation;
 
 /**
 * Removes HTML comments from the string representation.
-* @param a_stringRepresentation HTML element string representation.
+* @param a_stringRepresentation HTML element string representation. The string representation can contain one or more elements.
 * @returns HTML element string representation without any HTML comments.
 */
 + (NSString *)removeCommentsFromStringRepresentation:(NSString *)a_stringRepresentation;
+
+/**
+* Indicates whether the element's string representation has a closing tag or an opening tag that is self closing.
+* @param a_stringRepresentation HTML element string representation. The string representation must contain a single element.
+* @returns YES if element has a closing tag or an opening tag that is self closing.
+*/
++ (BOOL)isElementClosedForStringRepresentation:(NSString *)a_stringRepresentation;
 
 + (NSString *)markupStringForTag:(NSString *)a_tagName attributes:(NSDictionary *)a_attributes;
 

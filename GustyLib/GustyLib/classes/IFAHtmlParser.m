@@ -344,16 +344,24 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
 + (NSString *)removeCommentsFromStringRepresentation:(NSString *)a_stringRepresentation {
     NSMutableString *l_stringRepresentation = [a_stringRepresentation mutableCopy];
     while (YES) {
-        NSRange l_commentStartRange = [l_stringRepresentation rangeOfString:@"<!--"];
-        NSRange l_commentEndRange = [l_stringRepresentation rangeOfString:@"-->"];
-        if (l_commentStartRange.location!=NSNotFound && l_commentEndRange.location!=NSNotFound) {
-            NSRange l_commentRange = NSUnionRange(l_commentStartRange, l_commentEndRange);
-            [l_stringRepresentation replaceCharactersInRange:l_commentRange withString:@""];
-        }else{
-            break;
+        @autoreleasepool {
+            NSRange l_commentStartRange = [l_stringRepresentation rangeOfString:@"<!--"];
+            NSRange l_commentEndRange = [l_stringRepresentation rangeOfString:@"-->"];
+            if (l_commentStartRange.location!=NSNotFound && l_commentEndRange.location!=NSNotFound) {
+                NSRange l_commentRange = NSUnionRange(l_commentStartRange, l_commentEndRange);
+                [l_stringRepresentation replaceCharactersInRange:l_commentRange withString:@""];
+            }else{
+                break;
+            }
         }
     }
     return l_stringRepresentation;
+}
+
++ (BOOL)isElementClosedForStringRepresentation:(NSString *)a_stringRepresentation {
+    NSString *l_stringRepresentation = [a_stringRepresentation stringByReplacingOccurrencesOfString:@" "
+                                                                                         withString:@""];   // Remove spaces
+    return [l_stringRepresentation rangeOfString:@"</"].location!=NSNotFound || [l_stringRepresentation rangeOfString:@"/>"].location!=NSNotFound;
 }
 
 @end

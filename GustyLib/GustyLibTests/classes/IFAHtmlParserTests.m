@@ -282,6 +282,42 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
     assertThat(l_result, is(equalTo(@"<p><b>hello</b></p>")));
 }
 
+- (void)testIsElementClosedForStringRepresentationWithOpeningAndClosingTags{
+    // given
+    NSString *l_htmlString = @"<b>hello</b>";
+    // when
+    BOOL l_result = [IFAHtmlParser isElementClosedForStringRepresentation:l_htmlString];
+    // then
+    assertThatBool(l_result, is(equalToBool(YES)));
+}
+
+- (void)testIsElementClosedForStringRepresentationWithOpeningClosingTagsAndSpaces{
+    // given
+    NSString *l_htmlString = @"< b > hello < / b >";
+    // when
+    BOOL l_result = [IFAHtmlParser isElementClosedForStringRepresentation:l_htmlString];
+    // then
+    assertThatBool(l_result, is(equalToBool(YES)));
+}
+
+- (void)testIsElementClosedForStringRepresentationWithOpeningTagThatIsSelfClosed{
+    // given
+    NSString *l_htmlString = @"<b/>";
+    // when
+    BOOL l_result = [IFAHtmlParser isElementClosedForStringRepresentation:l_htmlString];
+    // then
+    assertThatBool(l_result, is(equalToBool(YES)));
+}
+
+- (void)testIsElementClosedForStringRepresentationWithOpeningTagOnly{
+    // given
+    NSString *l_htmlString = @"<div style=\"float:left; padding: 10px;\">";
+    // when
+    BOOL l_result = [IFAHtmlParser isElementClosedForStringRepresentation:l_htmlString];
+    // then
+    assertThatBool(l_result, is(equalToBool(NO)));
+}
+
 #pragma mark - Private
 
 - (void)parseHtmlFileNamed:(NSString *)a_htmlFileName
