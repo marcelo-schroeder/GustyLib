@@ -29,13 +29,15 @@ static NSString *const k_lineBreak = @"\n";
 //static NSString *const k_tagNameBody = @"body";
 
 static NSString *const k_styleAttributeKeyValuePairSeparator = @";";
-
 static NSString *const k_styleAttributeKeyValueSeparator = @":";
+
+static NSString *const k_tagAttributeStyle = @"style";
 
 @interface IFAHtmlParser ()
 
 // HTML element parsing stack
 @property(nonatomic, strong) NSMutableArray *elementMetadataStack;
+@property (nonatomic, strong) NSMutableArray *IFA_elementStyleAttributesStack;
 
 @property(nonatomic, strong) NSArray *IFA_unparsedHtmlStringLines;
 @property(nonatomic, strong) NSMutableArray *IFA_unparsedHtmlStringLinesMetadata;
@@ -55,6 +57,13 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
 }
 
 #pragma mark - Private
+
+- (NSMutableArray *)IFA_elementStyleAttributesStack {
+    if (!_IFA_elementStyleAttributesStack) {
+        _IFA_elementStyleAttributesStack = [@[] mutableCopy];
+    }
+    return _IFA_elementStyleAttributesStack;
+}
 
 - (IFAHtmlDocumentPosition *)IFA_currentPosition {
     if (!_IFA_currentPosition) {
@@ -93,6 +102,7 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
                                                                                           attributes:l_attributes
                                                                                        startPosition:self.IFA_currentPosition];
     [self.elementMetadataStack addObject:l_elementMetadata];
+    [self.IFA_elementStyleAttributesStack addObject:[self.class attributesFromStyleAttributeValue:l_attributes[k_tagAttributeStyle]]];
 
 }
 
@@ -151,6 +161,8 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
         self.IFA_endElementBlock(l_parsingContext);
     }
 
+    [self.IFA_elementStyleAttributesStack removeLastObject];
+
 //    if (self.IFA_isInBody) {
 //        self.IFA_bodyElementLevel--;
 //    }
@@ -194,6 +206,14 @@ static NSString *const k_styleAttributeKeyValueSeparator = @":";
 - (void)replaceMarkupString:(NSString *)a_markupStringToBeReplaced withMarkupString:(NSString *)a_newMarkupString {
     [self.class replaceMarkupString:a_markupStringToBeReplaced
                    withMarkupString:a_newMarkupString inHtmlString:self.mutableHtmlString];
+}
+
+- (NSDictionary *)activeInlineStyleAttributes {
+    NSMutableDictionary *l_combinedAttributes = [@{} mutableCopy];
+    [self.IFA_elementStyleAttributesStack enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [l_combinedAttributes addEntriesFromDictionary:obj];
+    }];
+    return l_combinedAttributes;
 }
 
 - (NSString *)stringForStartPosition:(IFAHtmlDocumentPosition *)a_startPosition endPosition:(IFAHtmlDocumentPosition *)a_endPosition {

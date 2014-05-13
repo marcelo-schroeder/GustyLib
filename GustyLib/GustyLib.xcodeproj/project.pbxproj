@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10738A2D9950FE5E2669D5EC /* HtmlParser_testdata3.html in Resources */ = {isa = PBXBuildFile; fileRef = 107384C5CF6D1261C8344B0B /* HtmlParser_testdata3.html */; };
 		3C07EA814F2645A5BD5C2174 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF387BE31CA84C679F50890D /* libPods.a */; };
 		F7085C9A1915DEBE0089BA8E /* IFAAboutInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F7085C8D1915DEBE0089BA8E /* IFAAboutInfoModel.m */; };
 		F7085C9B1915DEBE0089BA8E /* IFAAnalyticsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F7085C8F1915DEBE0089BA8E /* IFAAnalyticsUtils.m */; };
@@ -195,6 +196,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		107384C5CF6D1261C8344B0B /* HtmlParser_testdata3.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = HtmlParser_testdata3.html; sourceTree = "<group>"; };
 		10738CF5078176436AA71336 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		A03BC960480144A4ABDD6917 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		F7085C8C1915DEBE0089BA8E /* IFAAboutInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAAboutInfoModel.h; sourceTree = "<group>"; };
@@ -596,6 +598,7 @@
 			children = (
 				F7085E43191705070089BA8E /* HtmlParser_testdata1.html */,
 				F7085E44191705070089BA8E /* HtmlParser_testdata2.html */,
+				107384C5CF6D1261C8344B0B /* HtmlParser_testdata3.html */,
 			);
 			path = testdata;
 			sourceTree = "<group>";
@@ -1198,6 +1201,7 @@
 				F7085E46191705070089BA8E /* HtmlParser_testdata1.html in Resources */,
 				F7085E47191705070089BA8E /* HtmlParser_testdata2.html in Resources */,
 				F7D4D85118EA00E600ABF401 /* InfoPlist.strings in Resources */,
+				10738A2D9950FE5E2669D5EC /* HtmlParser_testdata3.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

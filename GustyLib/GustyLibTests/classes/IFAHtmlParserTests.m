@@ -20,7 +20,7 @@
 #import "IFACommonTests.h"
 #import "IFAHtmlParser.h"
 
-typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes);
+typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes, NSDictionary *a_activeInlineStyleAttributes);
 
 @interface IFAHtmlParserTests : XCTestCase
 @end
@@ -29,7 +29,7 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
 }
 
 - (void)testSimpleHtmlParsing {
-    IFAHtmlParserTestsElementBlock l_elementBlock = ^(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes) {
+    IFAHtmlParserTestsElementBlock l_elementBlock = ^(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes, NSDictionary *a_activeInlineStyleAttributes) {
         switch (a_index) {
             case 0:
                 assertThat(a_name, is(equalTo(@"title")));
@@ -159,7 +159,7 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
 - (void)testComplexHtmlParsing{
     __block BOOL l_hasTestStarted = NO;
     __block NSUInteger l_firstIndex = 0;
-    IFAHtmlParserTestsElementBlock l_elementBlock = ^(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes) {
+    IFAHtmlParserTestsElementBlock l_elementBlock = ^(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes, NSDictionary *a_activeInlineStyleAttributes) {
         if ([a_name isEqualToString:@"param"] && !l_hasTestStarted){
             l_hasTestStarted = YES;
             l_firstIndex = a_index;
@@ -195,6 +195,14 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
     assertThat(l_actualAttributes, is(equalTo(l_expectedAttributes)));
 }
 
+- (void)testAttributesFromNilStyleAttributeValue {
+    // when
+    NSDictionary *l_actualAttributes = [IFAHtmlParser attributesFromStyleAttributeValue:nil];
+    // then
+    NSDictionary *l_expectedAttributes = @{};
+    assertThat(l_actualAttributes, is(equalTo(l_expectedAttributes)));
+}
+
 - (void)testStyleAttributeValueFromAttributes{
     // given
     NSDictionary *l_attributes = @{
@@ -207,6 +215,16 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
     NSString *l_actualStyleAttributeValue = [IFAHtmlParser styleAttributeValueFromAttributes:l_attributes];
     // then
     NSString *l_expectedStyleAttributeValue = @"key1: value1; key2: value2; key3: value3; key4: value4;";
+    assertThat(l_actualStyleAttributeValue, is(equalTo(l_expectedStyleAttributeValue)));
+}
+
+- (void)testStyleAttributeValueFromEmptyAttributes{
+    // given
+    NSDictionary *l_attributes = @{};
+    // when
+    NSString *l_actualStyleAttributeValue = [IFAHtmlParser styleAttributeValueFromAttributes:l_attributes];
+    // then
+    NSString *l_expectedStyleAttributeValue = @"";
     assertThat(l_actualStyleAttributeValue, is(equalTo(l_expectedStyleAttributeValue)));
 }
 
@@ -318,6 +336,17 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
     assertThatBool(l_result, is(equalToBool(NO)));
 }
 
+- (void)testActiveInlineStyleAttributes {
+    IFAHtmlParserTestsElementBlock l_elementBlock = ^(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes, NSDictionary *a_activeInlineStyleAttributes) {
+//        NSLog(@"a_stringRepresentation: %@, a_activeInlineStyleAttributes: %@", a_stringRepresentation, a_activeInlineStyleAttributes);
+        if ([a_stringRepresentation isEqualToString:@"<span STYLE=\"font-size: x-large; color: #ffffff\">M</span>"]) {
+            assertThat(a_activeInlineStyleAttributes, hasCountOf(5));
+            assertThat(a_activeInlineStyleAttributes, hasEntries(@"background", @"#000000", @"font-weight", @"bold", @"margin-left", @"30px", @"font-size", @"x-large", @"color", @"#ffffff", nil));
+        }
+    };
+    [self parseHtmlFileNamed:@"HtmlParser_testdata3" withElementBlock:l_elementBlock];
+}
+
 #pragma mark - Private
 
 - (void)parseHtmlFileNamed:(NSString *)a_htmlFileName
@@ -334,6 +363,7 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
     NSMutableArray *l_elementNames = [@[] mutableCopy];
     NSMutableArray *l_elementStringRepresentations = [@[] mutableCopy];
     NSMutableArray *l_elementAttributes = [@[] mutableCopy];
+    NSMutableArray *l_activeInlineStyleAttributes = [@[] mutableCopy];
 
     IFAHtmlParser *l_htmlParser = [IFAHtmlParser new];
     void (^l_endElementBlock)(IFAHtmlElementParsingContext *) =
@@ -342,10 +372,11 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
                 NSString *l_name = l_elementMetadata.name;
                 NSDictionary *l_attributes = l_elementMetadata.attributes;
                 NSString *l_stringRepresentation = l_elementMetadata.stringRepresentation;
-                NSLog(@"l_name: %@, l_attributes: %@, string: %@", l_name, [l_attributes description], l_stringRepresentation);
+//                NSLog(@"l_name: %@, l_attributes: %@, string: %@", l_name, [l_attributes description], l_stringRepresentation);
                 [l_elementNames addObject:l_name];
                 [l_elementStringRepresentations addObject:l_stringRepresentation];
                 [l_elementAttributes addObject:l_attributes ? l_attributes : [NSNull null]];
+                [l_activeInlineStyleAttributes addObject:[l_htmlParser activeInlineStyleAttributes]];
             };
     [l_htmlParser parseHtmlString:l_htmlOriginal
                     endElementBlock:l_endElementBlock];
@@ -357,7 +388,7 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
         if (l_attributes == (id) [NSNull null]) {
             l_attributes = nil;
         }
-        a_elementBlock(i, l_name, l_stringRepresentation, l_attributes);
+        a_elementBlock(i, l_name, l_stringRepresentation, l_attributes, l_activeInlineStyleAttributes[i]);
     }
 
 }

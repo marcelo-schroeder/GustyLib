@@ -37,6 +37,12 @@ typedef void (^IFAHtmlParserEndElementBlock)(IFAHtmlElementParsingContext *a_par
 - (void)replaceMarkupString:(NSString *)a_markupStringToBeReplaced withMarkupString:(NSString *)a_newMarkupString;
 
 /**
+* Returns the inline style attributes that are currently active at the time the IFAHtmlParserEndElementBlock block is called during parsing.
+* @returns Dictionary containing the active inline style attributes.
+*/
+- (NSDictionary *)activeInlineStyleAttributes;
+
+/**
 * Returns string containing the top level element's opening tag from a given HTML element string representation.
 * HTML comments are ignored.
 * @param a_stringRepresentation HTML element string representation. The string representation can contain a HTML element hierarchy that is many levels deep.
@@ -66,7 +72,43 @@ typedef void (^IFAHtmlParserEndElementBlock)(IFAHtmlElementParsingContext *a_par
 + (void)replaceMarkupString:(NSString *)a_markupStringToBeReplaced withMarkupString:(NSString *)a_newMarkupString
                inHtmlString:(NSMutableString *)a_htmlString;
 
+/**
+* Creates a dictionary from inline CSS style key/value pairs.
+* This method does the opposite of the styleAttributeValueFromAttributes: method.
+* For instance, in the HTML code below:
+*
+*   <p style="color:sienna;margin-left:20px;">This is a paragraph.</p>
+*
+* ...the inline style attribute value is: "color:sienna;margin-left:20px;"
+*
+* If the inline style attribute value above is passed as an argument to this method, the following dictionary will be returned:
+*
+*     @{
+*            @"color" : @"sienna",
+*            @"margin-left" : @"20px"
+*    };
+*
+* @param a_styleAttributeValue HTML element's style attribute value;
+* @returns Dictionary created based on the key/value pairs from the input parameter.
+*/
 + (NSDictionary *)attributesFromStyleAttributeValue:(NSString *)a_styleAttributeValue;
+
+
+/**
+* Creates the inline CSS style attribute from a given dictionary.
+* This method does the opposite of the attributesFromStyleAttributeValue: method.
+* For instance, if the following dictionary is provided as the input parameter:
+*
+*     @{
+*            @"color" : @"sienna",
+*            @"margin-left" : @"20px"
+*    };
+
+* ...this inline CSS style attribute value will be returned: "color:sienna;margin-left:20px;"
+*
+* @param a_attributes Dictionary of key/value CSS attributes.
+* @returns Inline CSS style attribute string value created based on the provided dictionary.
+*/
 + (NSString *)styleAttributeValueFromAttributes:(NSDictionary *)a_attributes;
 
 + (NSString *)charactersBetweenOpenAndCloseTagsForStringRepresentation:(NSString *)a_stringRepresentation;
