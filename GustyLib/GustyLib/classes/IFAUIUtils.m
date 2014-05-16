@@ -580,10 +580,4 @@ static UIImage *c_menuBarButtonItemImage = nil;
     return a_height * a_aspectRatio;
 }
 
-+ (UIColor *)groupStyleTableViewBackgroundColour {
-    return [UIColor ifa_colorWithRed:239
-                               green:239
-                                blue:244];
-}
-
 @end

@@ -139,11 +139,4 @@ static const CGFloat IFAMaximumImageSizeInPixels =  5 * 1024 * 1024;
 */
 + (CGFloat)widthForHeight:(CGFloat)a_height aspectRatio:(CGFloat)a_aspectRatio;
 
-/**
-* Returns the background colour of group style table views.
-* Current as of iOS 7.
-* @returns Group style table view's background colour.
-*/
-+ (UIColor *)groupStyleTableViewBackgroundColour;
-
 @end

@@ -702,10 +702,15 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     return [[self colorScheme] colorAtIndex:a_colorIndex];
 }
 
+- (UIColor *)groupStyleTableViewBackgroundColour {
+    return [UIColor ifa_colorWithRed:239
+                               green:239
+                                blue:244];
+}
+
 + (UIColor *)splitViewControllerDividerColour {
     return [UIColor ifa_colorWithRed:191 green:191 blue:191];
 }
-
 
 #pragma mark - Overrides
 
