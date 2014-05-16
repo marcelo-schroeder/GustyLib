@@ -1216,7 +1216,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 // iOS 5 (the next method is for iOS 6 or greater)
 -(BOOL)ifa_shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
-    BOOL l_shouldAutorotate = NO;
+    BOOL l_shouldAutorotate;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
         l_shouldAutorotate = YES;
     }else{
@@ -1239,11 +1239,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
             return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown : UIInterfaceOrientationMaskPortrait;
         }
     }else{
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
-            return UIInterfaceOrientationMaskAll;
-        }else{
-            return UIInterfaceOrientationMaskAllButUpsideDown;
-        }
+        return UIInterfaceOrientationMaskAll;
     }
 }
 
