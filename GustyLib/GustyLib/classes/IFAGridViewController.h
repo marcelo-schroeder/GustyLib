@@ -30,8 +30,8 @@
 
 @protocol IFAGridViewDataSource <NSObject>
 
-- (NSUInteger)numberOfRows;
-- (NSUInteger)numberOfColumns;
+- (NSUInteger)numberOfGridRows;
+- (NSUInteger)numberOfGridColumns;
 - (CGFloat)interTileSpace;
 - (UICollectionViewScrollDirection)scrollDirection;
 

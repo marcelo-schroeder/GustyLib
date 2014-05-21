@@ -52,7 +52,7 @@
 - (CGFloat)IFA_calculateHorizontalSpaceAvailable {
 
     UICollectionViewFlowLayout *l_layout = self.layout;
-    CGFloat l_numberOfColumns = [self.gridViewDataSource numberOfColumns];
+    CGFloat l_numberOfColumns = [self.gridViewDataSource numberOfGridColumns];
     UIEdgeInsets l_reservedEdgeSpace = UIEdgeInsetsZero;
     if ([self.gridViewDataSource respondsToSelector:@selector(reservedEdgeSpace)]) {
         l_reservedEdgeSpace = [self.gridViewDataSource reservedEdgeSpace];
@@ -81,8 +81,8 @@
     }
 
     UICollectionViewFlowLayout *l_layout = self.layout;
-    CGFloat l_numberOfColumns = [self.gridViewDataSource numberOfColumns];
-    CGFloat l_numberOfRows = [self.gridViewDataSource numberOfRows];
+    CGFloat l_numberOfColumns = [self.gridViewDataSource numberOfGridColumns];
+    CGFloat l_numberOfRows = [self.gridViewDataSource numberOfGridRows];
     CGFloat l_numberOfTiles = l_numberOfColumns * l_numberOfRows;
     CGFloat l_horizontalSpaceAvailable = [self IFA_calculateHorizontalSpaceAvailable];
     CGFloat l_itemWidth = (CGFloat) floor(l_horizontalSpaceAvailable / l_numberOfColumns);
@@ -118,7 +118,7 @@
 - (CGFloat)IFA_calculateVerticalSpaceAvailable {
 
     UICollectionViewFlowLayout *l_layout = self.layout;
-    CGFloat l_numberOfRows = [self.gridViewDataSource numberOfRows];
+    CGFloat l_numberOfRows = [self.gridViewDataSource numberOfGridRows];
     UIEdgeInsets l_reservedEdgeSpace = UIEdgeInsetsZero;
     if ([self.gridViewDataSource respondsToSelector:@selector(reservedEdgeSpace)]) {
         l_reservedEdgeSpace = [self.gridViewDataSource reservedEdgeSpace];
@@ -147,8 +147,8 @@
     }
 
     UICollectionViewFlowLayout *l_layout = self.layout;
-    CGFloat l_numberOfColumns = [self.gridViewDataSource numberOfColumns];
-    CGFloat l_numberOfRows = [self.gridViewDataSource numberOfRows];
+    CGFloat l_numberOfColumns = [self.gridViewDataSource numberOfGridColumns];
+    CGFloat l_numberOfRows = [self.gridViewDataSource numberOfGridRows];
     CGFloat l_numberOfTiles = l_numberOfColumns * l_numberOfRows;
     CGFloat l_verticalSpaceAvailable = [self IFA_calculateVerticalSpaceAvailable];
     CGFloat l_itemHeight = (CGFloat) floor(l_verticalSpaceAvailable / l_numberOfRows);
