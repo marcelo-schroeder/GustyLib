@@ -1184,20 +1184,20 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 }
 
 -(NSManagedObjectContext*)currentManagedObjectContext{
-//    NSLog(@" ");
-//    NSLog(@"currentManagedObjectContext");
+    NSLog(@" ");
+    NSLog(@"currentManagedObjectContext");
     NSManagedObjectContext *l_managedObjectContext = [[NSThread currentThread] threadDictionary][k_threadDictKeyManagedObjectContext];
-//    NSLog(@"  from threadDictionary: %@", [l_managedObjectContext description]);
+    NSLog(@"  from threadDictionary: %@", [l_managedObjectContext description]);
     if (!l_managedObjectContext) {
         if (self.IFA_childManagedObjectContexts.count>0) {
             l_managedObjectContext = [self.IFA_childManagedObjectContexts lastObject];
-//            NSLog(@"  from stack: %@", [l_managedObjectContext description]);
+            NSLog(@"  from stack: %@", [l_managedObjectContext description]);
         }else{
             l_managedObjectContext = self.managedObjectContext;
-//            NSLog(@"  from main: %@", [l_managedObjectContext description]);
+            NSLog(@"  from main: %@", [l_managedObjectContext description]);
         }
     }
-//    NSLog(@" ");
+    NSLog(@" ");
     return l_managedObjectContext;
 }
 
