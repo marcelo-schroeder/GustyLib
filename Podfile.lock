@@ -56,7 +56,7 @@ DEPENDENCIES:
   - DTFoundation
   - FlurrySDK
   - Google-AdMob-Ads-SDK
-  - IFATestingSupport (from `/Users/mschroeder/myfiles/projects/Xcode5/IFATestingSupport/IFATestingSupport_development`)
+  - IFATestingSupport (from `https://bitbucket.org/marcelo_schroeder/ifatestingsupport.git`)
   - MTStatusBarOverlay
   - MWFeedParser
   - OCHamcrest
@@ -65,17 +65,17 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   IFATestingSupport:
-    :path: /Users/mschroeder/myfiles/projects/Xcode5/IFATestingSupport/IFATestingSupport_development
+    :git: https://bitbucket.org/marcelo_schroeder/ifatestingsupport.git
 
 SPEC CHECKSUMS:
-  DTFoundation: 7c69990fa3cb7655cafa95ab59c3fcea014460f0
-  FlurrySDK: 2cd8f2ce2383ca152c5d96fa34cb9ef29706feda
-  Google-AdMob-Ads-SDK: e8bacbb6cd42a8d9ca6924745f88a96088a46eec
+  DTFoundation: 89bf3fb79a688a793953f2474cae1ba5fdf87fba
+  FlurrySDK: abaedafc350afa41b004236b67ae14f7d3748b68
+  Google-AdMob-Ads-SDK: ec4a2941cc0aabaf06bf4a709216d3e94ad7b46b
   IFATestingSupport: 641f694ddad955981fb32e4b5749e482b57b6ac6
-  MTStatusBarOverlay: 2cee705996e4e307191d423bf49e583b9b2c14ac
-  MWFeedParser: c747d7e43ad365a7f18e84924496665944228e86
-  OCHamcrest: 782c52ae8c673e5d6060a65005cfd26d20d519ba
-  OCMock: ea7fe30ee99e4e3186ad47d032a301fa7e8793ec
-  ODRefreshControl: 886e323a7c25114b9e5c397a9eefbebc034224a9
+  MTStatusBarOverlay: f1fef7143ed3e9ce3d2c6ee3f297079e5cab905f
+  MWFeedParser: 003cbf5398e99a7f2057fbe9583054fd1b84be72
+  OCHamcrest: 207233b7d7a44dadd66aca398947cc7e029c9be5
+  OCMock: 807b6904818c42b86f42f36352ce7615b816e61a
+  ODRefreshControl: 7bc75258d9dba1f93c4e34654d1e4b5aa39529f0
 
-COCOAPODS: 0.32.1
+COCOAPODS: 0.33.1
