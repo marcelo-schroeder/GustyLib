@@ -65,6 +65,20 @@ typedef UIImage *(^IFASlidingFrostedGlassViewControllerSnapshotEffectBlock)(UIIm
 @protocol IFASlidingFrostedGlassViewControllerDelegate <NSObject>
 
 @optional
-- (CGFloat)frostedGlassViewHeight;
+
+/**
+* Request to the delegate to provide the current height for the frosted glass view.
+* This will keep layout calculations up to date.
+* @param a_viewController Object instance making the call.
+* @returns Current height for the frosted glass view.
+*/
+- (CGFloat)
+frostedGlassViewHeightForSlidingFrostedGlassViewController:(IFASlidingFrostedGlassViewController *)a_viewController;
+
+/**
+* Notification that the dismissal of the view controller has completed (including any transition animation).
+* @param a_viewController Object instance making the call.
+*/
+- (void)didDismissSlidingFrostedGlassViewController:(IFASlidingFrostedGlassViewController *)a_viewController;
 
 @end
