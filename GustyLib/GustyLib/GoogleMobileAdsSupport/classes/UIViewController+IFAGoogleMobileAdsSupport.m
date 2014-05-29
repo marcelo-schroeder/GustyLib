@@ -20,7 +20,6 @@ static const int k_iPhoneLandscapeAdHeight = 32;
 
 static char c_adContainerViewKey;
 
-//continuehere: fix all the red stuff here and start testing the approach of conditional compilation in GustyLib
 //wip: code is not organised in pragma sections properly
 @implementation UIViewController (IFAGoogleMobileAdsSupport)
 

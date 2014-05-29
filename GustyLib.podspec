@@ -1,3 +1,4 @@
+#continuehere: just added the GoogleMobileAdsSupport subspec below - take it from here
 Pod::Spec.new do |s|
     s.name          = 'GustyLib'
     s.version       = '0.1.2'
