@@ -25,7 +25,6 @@ typedef enum {
 } IFASpacingBarButtonItemType;
 
 @class IFATableViewController;
-@class GADBannerView;
 @class IFACollectionViewCell;
 
 @protocol IFAAppearanceTheme <NSObject>
@@ -127,7 +126,6 @@ typedef enum {
 
 @optional
 -(void)willReloadUi;
--(void)setAppearanceForAdBannerView:(GADBannerView *)a_adBannerView;
 -(void)setAppearanceForCollectionViewCell:(UICollectionViewCell *)a_cell atIndexPath:(NSIndexPath *)a_indexPath
                            viewController:(IFACollectionViewCell *)a_collectionViewController;
 

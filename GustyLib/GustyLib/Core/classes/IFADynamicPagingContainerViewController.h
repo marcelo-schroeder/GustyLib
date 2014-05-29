@@ -39,7 +39,7 @@
     
 }
 
-@property (weak, nonatomic) id<IFADynamicPagingContainerViewControllerDataSource> dataSource;
+@property (weak, nonatomic) id<IFADynamicPagingContainerViewControllerDataSource> ifa_googleMobileAdsSupportDataSource;
 @property (nonatomic, strong) NSMutableArray *pagingContainerChildViewControllers;
 @property (nonatomic, strong, readonly) NSDate *lastFullChildViewControllerUpdate;
 

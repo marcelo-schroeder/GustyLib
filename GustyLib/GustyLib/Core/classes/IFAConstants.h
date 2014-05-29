@@ -45,8 +45,6 @@ extern NSString* const IFANotificationContextSwitchRequestDenied;
 extern NSString* const IFANotificationNavigationEvent;
 extern NSString* const IFANotificationMenuBarButtonItemInvalidated;
 extern NSString* const IFANotificationLocationAuthorizationStatusChange;
-extern NSString* const IFANotificationAdsSuspendRequest;
-extern NSString* const IFANotificationAdsResumeRequest;
 
 // Dictionary Keys
 extern NSString* const IFAKeyInsertedObjects;
@@ -63,6 +61,11 @@ extern NSString* const IFAEntityConfigFormNameCreationShortcut;
 
 // Info Plist
 extern NSString* const IFAInfoPListPreferencesClassName;
+
+// Runtime dependency class names
+//wip: do I still need this?
+extern NSString * const IFARuntimeDependencyClassNameCrashlytics;
+extern NSString * const IFARuntimeDependencyClassNameIFAGoogleMobileAdsManager;
 
 /* enums */
 
@@ -152,5 +155,11 @@ typedef enum IFATableSectionHeaderType : NSUInteger {
     IFATableSectionHeaderTypeList,
     IFATableSectionHeaderTypeForm,
 } IFATableSectionHeaderType;
+
+//wip: do I still need this?
+typedef enum {
+    IFARuntimeDependencyLibraryCrashlytics,
+    IFARuntimeDependencyLibraryIFAGoogleMobileAdsSupport,
+} IFARuntimeDependencyLibrary;
 
 @end

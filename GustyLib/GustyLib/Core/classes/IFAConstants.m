@@ -38,8 +38,6 @@ NSString* const IFANotificationContextSwitchRequestDenied = @"ifa.contextSwitchR
 NSString* const IFANotificationNavigationEvent = @"ifa.navigationEvent";
 NSString* const IFANotificationMenuBarButtonItemInvalidated = @"ifa.menuBarButtonItemInvalidated";
 NSString* const IFANotificationLocationAuthorizationStatusChange = @"ifa.locationAuthorizationStatusChange";
-NSString* const IFANotificationAdsSuspendRequest = @"ifa.adsSuspendRequest";
-NSString* const IFANotificationAdsResumeRequest = @"ifa.adsResumeRequest";
 
 // Dictionary Keys
 NSString* const IFAKeyInsertedObjects = @"ifa.key.insertedObjects";
@@ -56,5 +54,9 @@ NSString* const IFAEntityConfigFormNameCreationShortcut = @"creationShortcut";
 
 // Entity Config
 NSString* const IFAInfoPListPreferencesClassName = @"IFAPreferencesClassName";
+
+// Runtime dependency class names
+NSString * const IFARuntimeDependencyClassNameCrashlytics = @"Crashlytics";
+NSString * const IFARuntimeDependencyClassNameIFAGoogleMobileAdsManager = @"IFAGoogleMobileAdsManager";
 
 @end

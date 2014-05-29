@@ -22,8 +22,6 @@
 
 @protocol IFAAppearanceTheme;
 @class IFAColorScheme;
-@class GADAdMobExtras;
-@class GADBannerView;
 
 @interface IFAApplicationDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate>
 
@@ -35,7 +33,6 @@
 @property (nonatomic) BOOL skipWindowSetup;
 @property (nonatomic) BOOL skipWindowRootViewControllerSetup;
 @property (nonatomic, readonly) BOOL useDeviceAgnosticMainStoryboard;
-@property (nonatomic) BOOL adsSuspended;
 @property (nonatomic, weak) UIViewController *adsOwnerViewController;
 
 @property(nonatomic) CGRect keyboardFrame;
@@ -43,10 +40,6 @@
 // to be overriden by subclasses
 -(Class)appearanceThemeClass;
 -(IFAColorScheme *)colorScheme;
--(NSString*)gadUnitId;
--(GADAdMobExtras*)gadExtras;
-
--(GADBannerView*)gadBannerView;
 
 -(id<IFAAppearanceTheme>)appearanceTheme;
 

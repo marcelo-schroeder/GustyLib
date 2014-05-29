@@ -12,6 +12,7 @@
 		1073804C9F097C3B75D64AD5 /* UICollectionView+IFACategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 107380FFAFF02FD902B39D05 /* UICollectionView+IFACategory.m */; };
 		1073804D290D61D1F6765F34 /* IFATextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10738124D23614FD13D02001 /* IFATextViewController.m */; };
 		1073809C8318CB91760D580A /* IFAWorkInProgressModalViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073879A8D689A464D0A5A3A /* IFAWorkInProgressModalViewManager.m */; };
+		1073809D93121BE27FD14729 /* IFAGoogleMobileAdsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073804D2F71DE536C2DB9F8 /* IFAGoogleMobileAdsManager.m */; };
 		107380BCC042D0B0D89947B2 /* IFAPhoneServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 107386D8E6C8225D10F3B7CC /* IFAPhoneServiceManager.m */; };
 		107380FEEA7FBBAE5B81BC9B /* IFA_MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 10738015DEBA4592C1A1D53F /* IFA_MBProgressHUD.m */; };
 		107380FFC03ED3C26B866D85 /* TempTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 10738E7825145333CFB4B6FA /* TempTest.m */; };
@@ -67,6 +68,7 @@
 		1073858748E98B60EA997816 /* IFAApplicationLogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073896E4A3C0FBB2B00681A /* IFAApplicationLogViewController.m */; };
 		107385F1FF832809B57F6344 /* UIView+IFACategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 10738C539F23A4B0FB582E31 /* UIView+IFACategory.m */; };
 		10738601EC3BC054532E4FC6 /* IFAPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10738DF1AA249DCEA94F42CC /* IFAPickerViewController.m */; };
+		1073862083C98EE796A95569 /* UIViewController+IFAGoogleMobileAdsSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 107383B8ABDCE2409B584D58 /* UIViewController+IFAGoogleMobileAdsSupport.m */; };
 		1073863056413E44F299C664 /* IFA_IBActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 107382BDBF7B210C3C7607C7 /* IFA_IBActionSheet.m */; };
 		10738636A7D1D8388CEA861D /* IFAPurgeableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 107386E5BD15C18B83D81BC7 /* IFAPurgeableObject.m */; };
 		1073864B50651105D8FAF2C1 /* IFAHtmlParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 10738AD316FF407F6F7C19C5 /* IFAHtmlParser.m */; };
@@ -202,6 +204,7 @@
 		10738015DEBA4592C1A1D53F /* IFA_MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFA_MBProgressHUD.m; sourceTree = "<group>"; };
 		1073801647D30EA419EA6F73 /* IFATabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFATabBarController.h; sourceTree = "<group>"; };
 		1073801EBE78D10BBC0BF24A /* IFASemaphoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFASemaphoreManager.h; sourceTree = "<group>"; };
+		1073804D2F71DE536C2DB9F8 /* IFAGoogleMobileAdsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAGoogleMobileAdsManager.m; sourceTree = "<group>"; };
 		1073805345BB2BDB257E1A17 /* IFASliderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFASliderTableViewCell.m; sourceTree = "<group>"; };
 		107380658AF1E2B6EE0389F7 /* IFA_ECSlidingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFA_ECSlidingViewController.h; sourceTree = "<group>"; };
 		107380668AC0D3102B697D31 /* NSNumberFormatter+IFACategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumberFormatter+IFACategory.h"; sourceTree = "<group>"; };
@@ -243,6 +246,7 @@
 		107381E0757F4E216B86F8C4 /* IFAWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAWebViewController.m; sourceTree = "<group>"; };
 		107381F051543875B9393B9D /* IFAPagingStateManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAPagingStateManagerTests.m; sourceTree = "<group>"; };
 		107381FF7FDA5F5529C8C615 /* 056-PlusCircle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "056-PlusCircle@2x.png"; sourceTree = "<group>"; };
+		1073820FF6F4F78E544C77BE /* IFAGoogleMobileAdsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAGoogleMobileAdsManager.h; sourceTree = "<group>"; };
 		107382460F720F6929AE5F44 /* IFAFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAFormViewController.h; sourceTree = "<group>"; };
 		10738265A90827B213AF568C /* internalWebBrowserActivity~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "internalWebBrowserActivity~iphone.png"; sourceTree = "<group>"; };
 		10738293633DE396294CB56A /* 191-ArrowHead-left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "191-ArrowHead-left@2x.png"; sourceTree = "<group>"; };
@@ -275,6 +279,7 @@
 		1073837DFC67D9546103B4EE /* IFACircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFACircleView.m; sourceTree = "<group>"; };
 		1073838D1E4CEC253964BFCE /* IFADynamicPagingContainerViewControllerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFADynamicPagingContainerViewControllerDataSource.h; sourceTree = "<group>"; };
 		107383A52A109B20644D4B20 /* UIBarItem+IFACategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarItem+IFACategory.m"; sourceTree = "<group>"; };
+		107383B8ABDCE2409B584D58 /* UIViewController+IFAGoogleMobileAdsSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+IFAGoogleMobileAdsSupport.m"; sourceTree = "<group>"; };
 		107383BA78A981DAD37F4A9B /* IFAFormTextFieldTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAFormTextFieldTableViewCell.m; sourceTree = "<group>"; };
 		107383CD50340FD09FEA591F /* IFAAbstractWebBrowserActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAAbstractWebBrowserActivity.m; sourceTree = "<group>"; };
 		107383D619F59F99A081A8E7 /* UIPopoverController+IFACategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIPopoverController+IFACategory.h"; sourceTree = "<group>"; };
@@ -288,6 +293,7 @@
 		1073841B8A410658EB091F13 /* IFADynamicCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFADynamicCache.h; sourceTree = "<group>"; };
 		1073841D3D98BB460473B1EB /* IFAHelpTargetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAHelpTargetView.m; sourceTree = "<group>"; };
 		1073842413A497DEF9E8CBFD /* IFA_SVWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFA_SVWebViewController.h; sourceTree = "<group>"; };
+		1073842D07E1E5877EB0EA68 /* UIViewController+IFAGoogleMobileAdsSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+IFAGoogleMobileAdsSupport.h"; sourceTree = "<group>"; };
 		1073843B4B1FAD0E6B27ED1F /* IFAGridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAGridViewController.m; sourceTree = "<group>"; };
 		1073843C1AB54919B41C275A /* NSDictionary+IFACategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+IFACategory.m"; sourceTree = "<group>"; };
 		1073844735C549F934C40650 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
@@ -889,6 +895,17 @@
 			path = classes;
 			sourceTree = "<group>";
 		};
+		10738265FBA31FFCC33CE9A1 /* classes */ = {
+			isa = PBXGroup;
+			children = (
+				1073804D2F71DE536C2DB9F8 /* IFAGoogleMobileAdsManager.m */,
+				1073842D07E1E5877EB0EA68 /* UIViewController+IFAGoogleMobileAdsSupport.h */,
+				1073820FF6F4F78E544C77BE /* IFAGoogleMobileAdsManager.h */,
+				107383B8ABDCE2409B584D58 /* UIViewController+IFAGoogleMobileAdsSupport.m */,
+			);
+			path = classes;
+			sourceTree = "<group>";
+		};
 		107382E2B6302C1ED49E4DDE /* HPGrowingTextView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1070,6 +1087,14 @@
 			path = IBActionSheet;
 			sourceTree = "<group>";
 		};
+		10738CCDA4AD218A93898A1B /* GoogleMobileAdsSupport */ = {
+			isa = PBXGroup;
+			children = (
+				10738265FBA31FFCC33CE9A1 /* classes */,
+			);
+			path = GoogleMobileAdsSupport;
+			sourceTree = "<group>";
+		};
 		F7D4D82A18EA00E600ABF401 = {
 			isa = PBXGroup;
 			children = (
@@ -1111,6 +1136,7 @@
 			children = (
 				F7D4D83918EA00E600ABF401 /* Supporting Files */,
 				107385D48F6524887560CC29 /* Core */,
+				10738CCDA4AD218A93898A1B /* GoogleMobileAdsSupport */,
 			);
 			path = GustyLib;
 			sourceTree = "<group>";
@@ -1402,6 +1428,8 @@
 				10738B1DFED5C2CD1520F736 /* IFA_SVModalWebViewController.m in Sources */,
 				10738650FB05783B553439C0 /* IFA_SVWebViewController.m in Sources */,
 				1073863056413E44F299C664 /* IFA_IBActionSheet.m in Sources */,
+				1073809D93121BE27FD14729 /* IFAGoogleMobileAdsManager.m in Sources */,
+				1073862083C98EE796A95569 /* UIViewController+IFAGoogleMobileAdsSupport.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

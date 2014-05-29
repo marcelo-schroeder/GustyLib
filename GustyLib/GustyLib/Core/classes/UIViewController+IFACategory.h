@@ -19,7 +19,6 @@
 //
 
 #import "IFAPresenter.h"
-#import "GADBannerViewDelegate.h"
 #import "IFAHelpManager.h"
 #import "CoreData/CoreData.h"
 
@@ -30,7 +29,7 @@
 @protocol IFAAppearanceTheme;
 @class IFAPassthroughView;
 
-@interface UIViewController (IFACategory) <IFAHelpTargetContainer, IFAPresenter, GADBannerViewDelegate, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate>
+@interface UIViewController (IFACategory) <IFAHelpTargetContainer, IFAPresenter, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate>
 
 @property (nonatomic, readonly) BOOL ifa_presentedAsModal;
 @property (nonatomic, readonly) BOOL ifa_isMasterViewController;
@@ -46,7 +45,6 @@
 @property (nonatomic, strong) NSString *ifa_helpTargetId;
 @property (nonatomic, strong) IFANavigationItemTitleView *ifa_titleViewDefault;
 @property (nonatomic, strong) IFANavigationItemTitleView *ifa_titleViewLandscapePhone;
-@property (nonatomic, strong) UIView *ifa_adContainerView;
 @property (nonatomic, strong) ODRefreshControl *ifa_refreshControl;
 @property (nonatomic, strong, readonly) NSFetchedResultsController *ifa_activeFetchedResultsController;
 @property (nonatomic) BOOL ifa_shouldUseKeyboardPassthroughView;
@@ -184,10 +182,6 @@
 - (void)ifa_presentActivityViewControllerFromBarButtonItem:(UIBarButtonItem *)a_barButtonItem
                                                    subject:(NSString *)a_subject url:(NSURL *)a_url;
 
-- (CGSize)ifa_gadAdFrameSize;
-
-- (GADBannerView*)ifa_gadBannerView;
-
 // Message "beginRefreshing" to self.ifa_refreshControl but does not show control
 -(void)ifa_beginRefreshingWithScrollView:(UIScrollView*)a_scrollView;
 // Message "beginRefreshing" to self.ifa_refreshControl with option to show control or not
@@ -217,8 +211,6 @@
 - (void)ifa_onApplicationDidEnterBackgroundNotification:(NSNotification *)aNotification;
 
 - (void)ifa_dealloc;
--(UIView*)ifa_nonAdContainerView;
--(BOOL)ifa_shouldEnableAds;
 
 // UI state update callbacks
 -(void)ifa_updateScreenDecorationState;
@@ -226,9 +218,6 @@
 -(void)ifa_updateToolbarNavigationButtonState;
 
 -(void)ifa_onDoneButtonTap:(UIBarButtonItem*)a_barButtonItem;
-
--(void)ifa_startAdRequests;
--(void)ifa_stopAdRequests;
 
 /**
 * Indicates the various times when notification observers should be removed at.
@@ -257,8 +246,6 @@ typedef enum{
 #pragma mark - IFAHelpTargetContainer
 
 - (BOOL)ifa_isVisibleTopViewController;
-
-- (void)ifa_updateNonAdContainerViewFrameWithAdBannerViewHeight:(CGFloat)a_adBannerViewHeight;
 
 // Analytics
 -(void)ifa_logAnalyticsScreenEntry;

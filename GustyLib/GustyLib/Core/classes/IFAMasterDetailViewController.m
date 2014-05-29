@@ -55,9 +55,9 @@ static const int k_separatorViewWidth = 1;
 
 - (IFAMasterDetailViewControllerPaneLayoutStyle)
 IFA_masterViewPaneLayoutStyleForInterfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation {
-    if ([self.dataSource respondsToSelector:@selector(masterDetailViewController:masterViewPaneLayoutStyleForInterfaceOrientation:)]) {
-        return [self.dataSource masterDetailViewController:self
-                masterViewPaneLayoutStyleForInterfaceOrientation:a_interfaceOrientation];
+    if ([self.ifa_googleMobileAdsSupportDataSource respondsToSelector:@selector(masterDetailViewController:masterViewPaneLayoutStyleForInterfaceOrientation:)]) {
+        return [self.ifa_googleMobileAdsSupportDataSource masterDetailViewController:self
+                                    masterViewPaneLayoutStyleForInterfaceOrientation:a_interfaceOrientation];
     }else{
         return [IFAUIUtils isDeviceInLandscapeOrientation] ? IFAMasterDetailViewControllerPaneLayoutStyleDocked : IFAMasterDetailViewControllerPaneLayoutStylePopover;
     }

@@ -47,6 +47,11 @@
 - (NSNumber*)ifa_minimumValueForProperty:(NSString*)a_propertyName;
 - (NSNumber*)ifa_maximumValueForProperty:(NSString*)a_propertyName;
 
+/**
+* Performs a selector if it exists.
+*/
+- (void)ifa_performSelector:(SEL)a_selector;
+
 + (NSString*)ifa_displayValueForNil;
 
 @end

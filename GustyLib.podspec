@@ -11,12 +11,16 @@ Pod::Spec.new do |s|
     s.subspec 'Core' do |cs|
         s.source_files  = 'GustyLib/GustyLib/Core/classes/**/*.{h,m}'
         s.resource      = 'GustyLib/GustyLib/Core/resources/**/*.*'
-        s.frameworks    = 'CoreData', 'CoreText', 'CoreLocation', 'QuartzCore', 'MapKit', 'MessageUI', 'GLKit', 'AdSupport', 'StoreKit', 'GLKit', 'Accelerate', 'CoreGraphics'
         s.dependency 'DTFoundation', '1.6.2'
-        s.dependency 'Google-AdMob-Ads-SDK'
         s.dependency 'FlurrySDK'
         s.dependency 'MTStatusBarOverlay', '0.9.1'
         s.dependency 'ODRefreshControl', '1.1.0'
         s.dependency 'MWFeedParser', '1.0.1'
+    end
+    s.subspec 'GoogleMobileAdsSupport' do |cs|
+        s.source_files  = 'GustyLib/GustyLib/GoogleMobileAdsSupport/classes/**/*.{h,m}'
+        s.resource      = 'GustyLib/GustyLib/GoogleMobileAdsSupport/resources/**/*.*'
+        s.frameworks    = 'AdSupport', 'AudioToolbox', 'AVFoundation', 'CoreGraphics', 'CoreTelephony', 'MessageUI', 'StoreKit', 'SystemConfiguration'
+        s.dependency 'Google-AdMob-Ads-SDK'
     end
 end

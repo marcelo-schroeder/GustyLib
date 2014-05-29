@@ -435,12 +435,12 @@
     return self.tableView;
 }
 
-- (void)ifa_updateNonAdContainerViewFrameWithAdBannerViewHeight:(CGFloat)a_adBannerViewHeight {
+- (void)ifa_updateNonAdContainerViewFrameWithGoogleMobileAdBannerViewHeight:(CGFloat)a_adBannerViewHeight {
     if (self.IFA_tableViewBottomLayoutConstraint) {
         self.IFA_tableViewBottomLayoutConstraint.constant = a_adBannerViewHeight;
         [[self ifa_nonAdContainerView] layoutIfNeeded];   // Done so that this change can be animated
     }else{
-        [super ifa_updateNonAdContainerViewFrameWithAdBannerViewHeight:a_adBannerViewHeight];
+        [super ifa_updateNonAdContainerViewFrameWithGoogleMobileAdBannerViewHeight:a_adBannerViewHeight];
     }
 }
 

@@ -74,13 +74,8 @@
 }
 
 - (void)IFA_dismissViewController {
-    __weak __typeof(self) l_weakSelf = self;
-    [self.presentingViewController dismissViewControllerAnimated:YES
-                                                      completion:^{
-        if ([l_weakSelf.delegate respondsToSelector:@selector(didDismissSlidingFrostedGlassViewController:)]) {
-            [l_weakSelf.delegate didDismissSlidingFrostedGlassViewController:l_weakSelf];
-        }
-    }];
+    [self.presentingViewController dismissViewControllerAnimated:YES //wip: hardcoded value
+                                                      completion:nil];
 }
 
 - (void)IFA_updateFrostedGlassImageViewHeightConstraintConstantForVisibleState {
@@ -89,8 +84,8 @@
 
 - (CGFloat)IFA_frostedGlassViewHeight {
     CGFloat l_newHeight = self.presentingViewController.view.frame.size.height;
-    if ([self.delegate respondsToSelector:@selector(frostedGlassViewHeightForSlidingFrostedGlassViewController:)]) {
-        l_newHeight = [self.delegate frostedGlassViewHeightForSlidingFrostedGlassViewController:self];
+    if ([self.delegate respondsToSelector:@selector(frostedGlassViewHeight)]) {
+        l_newHeight = [self.delegate frostedGlassViewHeight];
     }
     return l_newHeight;
 }

@@ -44,9 +44,6 @@
 #import "IFA_ECSlidingViewController.h"
 // IFA_SVWebViewController
 #import "IFA_SVWebViewController.h"
-// AdMob
-#import "GADBannerView.h"
-#import "GADAdMobExtras.h"
 // ODRefreshControl
 #import "ODRefreshControl.h"
 // MTStatusBarOverlay

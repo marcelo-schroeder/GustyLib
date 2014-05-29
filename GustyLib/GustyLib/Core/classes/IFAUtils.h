@@ -82,4 +82,20 @@
 
 + (NSString *)encodeForUrlByAddingPercentEscapesWithOriginalString:(NSString *)a_originalString;
 + (NSString *)encodeForUrlByAddingPercentEscapesIncludingReservedCharactersWithOriginalString:(NSString *)a_originalString;
+
+/**
+* Executes a block taking a class object based on the given class name.
+* This method can be used to execute a block of code that only makes sense when the given class actually exists at runtime.
+* @param a_block Block to be executed. The block takes a Class object a parameter. The Class object will be nil if the class provided in a_className does not exist at runtime.
+* @param a_className Class name used to create the class object.
+*/
++ (void)forClassNamed:(NSString *)a_className executeBlock:(void (^)(Class a_class))a_block;
+
+/**
+* Executes a block if the runtime dependency on a given library can be satisfied.
+* @param a_runtimeDependencyLibrary Library the block has a dependency on at runtime.
+* @param a_block Block to be executed if the dependency can be satisfied.
+*/
++ (void)ifDependencyCanBeSatisfiedForLibrary:(IFARuntimeDependencyLibrary)a_runtimeDependencyLibrary
+                                executeBlock:(void (^)())a_block;
 @end

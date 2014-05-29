@@ -24,7 +24,6 @@
 
 @property (nonatomic, strong) id<IFAAppearanceTheme> IFA_appearanceTheme;
 @property (nonatomic) BOOL useDeviceAgnosticMainStoryboard;
-@property (nonatomic, strong) GADBannerView *IFA_gadBannerView;
 
 @end
 
@@ -58,14 +57,6 @@
     
 }
 
-- (void)IFA_onAdsSuspendRequest:(NSNotification*)aNotification{
-    self.adsSuspended = YES;
-}
-
-- (void)IFA_onAdsResumeRequest:(NSNotification*)aNotification{
-    self.adsSuspended = NO;
-}
-
 #pragma mark - Public
 
 // to be overriden by subclasses
@@ -76,26 +67,6 @@
 // to be overriden by subclasses
 -(IFAColorScheme *)colorScheme {
     return nil;
-}
-
-// to be overriden by subclasses
-- (NSString*)gadUnitId {
-    return nil;
-}
-
-// to be overriden by subclasses
--(GADAdMobExtras*)gadExtras {
-    return nil;
-}
-
--(GADBannerView*)gadBannerView {
-    if (!self.IFA_gadBannerView) {
-        self.IFA_gadBannerView = [GADBannerView new];
-        self.IFA_gadBannerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        [[self appearanceTheme] setAppearanceForAdBannerView:self.IFA_gadBannerView];
-    }
-    self.IFA_gadBannerView.adUnitID = [self gadUnitId];
-    return self.IFA_gadBannerView;
 }
 
 -(id<IFAAppearanceTheme>)appearanceTheme {
@@ -196,7 +167,7 @@
 
 //    NSLog(@"configureCrashReportingWithUserInfo: %@", [a_userInfo description]);
 
-    Class l_crashlyticsClass = NSClassFromString(@"Crashlytics");
+    Class l_crashlyticsClass = NSClassFromString(IFARuntimeDependencyClassNameCrashlytics);
     if (!l_crashlyticsClass) {
         NSLog(@"Crashlytics not available at runtime. Crash reporting configured skipped.");
         return NO;
@@ -272,14 +243,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(IFA_onKeyboardNotification:)
                                                  name:UIKeyboardDidHideNotification 
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(IFA_onAdsSuspendRequest:)
-                                                 name:IFANotificationAdsSuspendRequest
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(IFA_onAdsResumeRequest:)
-                                                 name:IFANotificationAdsResumeRequest
                                                object:nil];
 
     // Configure the app's window
@@ -360,8 +323,6 @@
     // Remove observers
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationAdsSuspendRequest object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationAdsResumeRequest object:nil];
 
 }
 
