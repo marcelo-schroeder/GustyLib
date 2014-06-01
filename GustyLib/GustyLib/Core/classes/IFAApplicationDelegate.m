@@ -167,7 +167,7 @@
 
 //    NSLog(@"configureCrashReportingWithUserInfo: %@", [a_userInfo description]);
 
-    Class l_crashlyticsClass = NSClassFromString(IFARuntimeDependencyClassNameCrashlytics);
+    Class l_crashlyticsClass = NSClassFromString(@"Crashlytics");;
     if (!l_crashlyticsClass) {
         NSLog(@"Crashlytics not available at runtime. Crash reporting configured skipped.");
         return NO;

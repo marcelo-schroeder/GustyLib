@@ -62,11 +62,6 @@ extern NSString* const IFAEntityConfigFormNameCreationShortcut;
 // Info Plist
 extern NSString* const IFAInfoPListPreferencesClassName;
 
-// Runtime dependency class names
-//wip: do I still need this?
-extern NSString * const IFARuntimeDependencyClassNameCrashlytics;
-extern NSString * const IFARuntimeDependencyClassNameIFAGoogleMobileAdsManager;
-
 /* enums */
 
 enum {
@@ -155,11 +150,5 @@ typedef enum IFATableSectionHeaderType : NSUInteger {
     IFATableSectionHeaderTypeList,
     IFATableSectionHeaderTypeForm,
 } IFATableSectionHeaderType;
-
-//wip: do I still need this?
-typedef enum {
-    IFARuntimeDependencyLibraryCrashlytics,
-    IFARuntimeDependencyLibraryIFAGoogleMobileAdsSupport,
-} IFARuntimeDependencyLibrary;
 
 @end

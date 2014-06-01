@@ -346,28 +346,4 @@
     return l_encodedString;
 }
 
-//wip: do I still need this?
-+ (void)forClassNamed:(NSString *)a_className executeBlock:(void (^)(Class a_class))a_block {
-    Class l_class = NSClassFromString(a_className);
-    a_block(l_class);
-}
-
-//wip: do I still need this?
-+ (void)ifDependencyCanBeSatisfiedForLibrary:(IFARuntimeDependencyLibrary)a_runtimeDependencyLibrary executeBlock:(void (^)())a_block {
-    NSString *l_className = nil;
-    switch (a_runtimeDependencyLibrary){
-        case IFARuntimeDependencyLibraryCrashlytics:
-            l_className = IFARuntimeDependencyClassNameCrashlytics;
-            break;
-        case IFARuntimeDependencyLibraryIFAGoogleMobileAdsSupport:
-            l_className = IFARuntimeDependencyClassNameIFAGoogleMobileAdsManager;
-            break;
-        default:
-            NSAssert(NO, @"Unexpected runtime dependency library: %u", a_runtimeDependencyLibrary);
-    }
-    if (NSClassFromString(l_className)) {
-        a_block();
-    }
-}
-
 @end

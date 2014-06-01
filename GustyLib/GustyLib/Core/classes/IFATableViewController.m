@@ -432,14 +432,10 @@
     [self ifa_didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
 
--(UIView*)ifa_nonAdContainerView {
-    return self.tableView;
-}
-
 - (void)ifa_updateNonAdContainerViewFrameWithGoogleMobileAdBannerViewHeight:(CGFloat)a_adBannerViewHeight {
     if (self.IFA_tableViewBottomLayoutConstraint) {
         self.IFA_tableViewBottomLayoutConstraint.constant = a_adBannerViewHeight;
-        [[self ifa_nonAdContainerView] layoutIfNeeded];   // Done so that this change can be animated
+        [[self.ifa_googleMobileAdsSupportDataSource nonAdContainerViewForGoogleMobileAdsEnabledViewController:self] layoutIfNeeded];   // Done so that this change can be animated
     }else{
         [super ifa_updateNonAdContainerViewFrameWithGoogleMobileAdBannerViewHeight:a_adBannerViewHeight];
     }
