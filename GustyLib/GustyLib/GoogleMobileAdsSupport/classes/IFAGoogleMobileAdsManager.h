@@ -9,6 +9,9 @@
 @protocol IFAGoogleMobileAdsManagerDataSource;
 @class GADBannerView;
 
+//continuehere: it is compiling on both projects - need to start testing.
+//wip: use legal aid project to test the scenario where google ads are not needed
+//wip: apply the same approach to Crashlytics
 //wip: final review of dependencies on anything (e.g. GustyLib, circular dependency?)
 //wip: add licence and copyright info
 //wip: need to find all the methods that have been re-implemented in Swavit and replace with the proper code
