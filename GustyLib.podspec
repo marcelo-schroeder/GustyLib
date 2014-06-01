@@ -1,4 +1,3 @@
-#continuehere: just added the GoogleMobileAdsSupport subspec below - take it from here
 Pod::Spec.new do |s|
     s.name          = 'GustyLib'
     s.version       = '0.1.2'
@@ -22,6 +21,7 @@ Pod::Spec.new do |s|
         s.source_files  = 'GustyLib/GustyLib/GoogleMobileAdsSupport/classes/**/*.{h,m}'
         s.resource      = 'GustyLib/GustyLib/GoogleMobileAdsSupport/resources/**/*.*'
         s.frameworks    = 'AdSupport', 'AudioToolbox', 'AVFoundation', 'CoreGraphics', 'CoreTelephony', 'MessageUI', 'StoreKit', 'SystemConfiguration'
+        s.xcconfig      = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'IFA_AVAILABLE_GoogleMobileAdsSupport=1' }
         s.dependency 'Google-AdMob-Ads-SDK'
     end
 end
