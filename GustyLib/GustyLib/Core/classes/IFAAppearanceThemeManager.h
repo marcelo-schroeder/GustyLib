@@ -29,6 +29,10 @@ typedef enum {
 } SMUiReloadTransitionAnimation;
 */
 
+@protocol IFAAppearanceTheme;
+
+@class IFAColorScheme;
+
 @interface IFAAppearanceThemeManager : NSObject
 
 @property (nonatomic, strong, readonly) id<IFAAppearanceTheme> loadedAppearanceTheme;

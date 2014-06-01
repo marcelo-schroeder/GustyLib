@@ -19,6 +19,7 @@
 //
 
 #import "IFACommon.h"
+#import "UIViewController+IFAGoogleMobileAdsSupport.h"
 
 @interface IFATableViewController (){
     @private

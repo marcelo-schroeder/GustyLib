@@ -27,6 +27,8 @@ extern NSString* const IFANotificationAdsResumeRequest;
 
 - (void)ifa_startObservingGoogleMobileAdsSupportNotifications;
 - (void)ifa_stopObservingGoogleMobileAdsSupportNotifications;
+
+- (BOOL)ifa_shouldEnableAds;
 @end
 
 @protocol IFAGoogleMobileAdsEnabledViewControllerDataSource <NSObject>

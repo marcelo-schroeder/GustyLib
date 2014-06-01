@@ -121,55 +121,6 @@ static char c_adContainerViewKey;
 
 }
 
-#pragma mark - GADBannerViewDelegate
-
-- (void)adViewDidReceiveAd:(GADBannerView *)bannerView {
-
-//    NSLog(@"adViewDidReceiveAd in %@ - bannerView.frame: %@", [self description], NSStringFromCGRect(bannerView.frame));
-
-    if ([self ifa_shouldEnableAds]) {
-
-        if (![IFAApplicationDelegate sharedInstance].adsSuspended) {
-            UIView *l_adContainerView = self.ifa_adContainerView;
-            if (l_adContainerView.hidden) {
-                [UIView animateWithDuration:0.2 animations:^{
-                    l_adContainerView.hidden = NO;
-                    CGFloat l_bannerViewHeight = bannerView.frame.size.height;
-                    [self ifa_updateNonAdContainerViewFrameWithAdBannerViewHeight:l_bannerViewHeight];
-                    [self IFA_updateAdContainerViewFrameWithAdBannerViewHeight:l_bannerViewHeight];
-                }];
-            }
-        }
-
-    }else{
-
-        // This can occur if ads were previously enabled but have now been disabled and the UI has not been reloaded yet
-        [self ifa_stopAdRequests];
-
-    }
-
-}
-
--(void)adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error{
-
-    NSLog(@"didFailToReceiveAdWithError: %@", [error description]);
-
-    if ([self ifa_shouldEnableAds]) {
-        // This can occur if ads were previously enabled but have now been disabled and the UI has not been reloaded yet
-        [self ifa_stopAdRequests];
-    }
-
-}
-
-- (void)adViewWillPresentScreen:(GADBannerView *)bannerView{
-
-    //    NSLog(@"adViewWillPresentScreen");
-
-    // Hides the status overlay in case it is being used
-    [[MTStatusBarOverlay sharedInstance] hide];
-
-}
-
 - (void)IFA_updateAdContainerViewFrameWithAdBannerViewHeight:(CGFloat)a_adBannerViewHeight {
     UIView *l_adContainerView = self.ifa_adContainerView;
     CGRect l_newAdContainerViewFrame = l_adContainerView.frame;
@@ -238,9 +189,9 @@ static char c_adContainerViewKey;
 
 - (void)ifa_updateNonAdContainerViewFrameWithAdBannerViewHeight:(CGFloat)a_adBannerViewHeight {
 //    NSLog(@"m_updateNonAdContainerViewFrameWithAdBannerViewHeight BEFORE: self m_nonAdContainerView.frame: %@", NSStringFromCGRect([self ifa_nonAdContainerView].frame));
-    CGRect l_newNonAdContainerViewFrame = [self ifa_nonAdContainerView].frame;
+    CGRect l_newNonAdContainerViewFrame = [self IFA_nonAdContainerView].frame;
     l_newNonAdContainerViewFrame.size.height = self.view.frame.size.height - a_adBannerViewHeight;
-    [self ifa_nonAdContainerView].frame = l_newNonAdContainerViewFrame;
+    [self IFA_nonAdContainerView].frame = l_newNonAdContainerViewFrame;
 //    NSLog(@"m_updateNonAdContainerViewFrameWithAdBannerViewHeight AFTER: self m_nonAdContainerView.frame: %@", NSStringFromCGRect([self ifa_nonAdContainerView].frame));
 }
 
@@ -258,6 +209,67 @@ static char c_adContainerViewKey;
 - (void)ifa_stopObservingNotifications {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationAdsSuspendRequest object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationAdsResumeRequest object:nil];
+}
+
+#pragma mark - Public
+
+- (BOOL)ifa_shouldEnableAds {
+    return [self.ifa_googleMobileAdsSupportDataSource shouldEnableAdsForGoogleMobileAdsEnabledViewController:self];
+}
+
+#pragma mark - GADBannerViewDelegate
+
+- (void)adViewDidReceiveAd:(GADBannerView *)bannerView {
+
+//    NSLog(@"adViewDidReceiveAd in %@ - bannerView.frame: %@", [self description], NSStringFromCGRect(bannerView.frame));
+
+    if ([self ifa_shouldEnableAds]) {
+
+        if (![IFAGoogleMobileAdsManager sharedInstance].adsSuspended) {
+            UIView *l_adContainerView = self.ifa_adContainerView;
+            if (l_adContainerView.hidden) {
+                [UIView animateWithDuration:0.2 animations:^{
+                    l_adContainerView.hidden = NO;
+                    CGFloat l_bannerViewHeight = bannerView.frame.size.height;
+                    [self ifa_updateNonAdContainerViewFrameWithAdBannerViewHeight:l_bannerViewHeight];
+                    [self IFA_updateAdContainerViewFrameWithAdBannerViewHeight:l_bannerViewHeight];
+                }];
+            }
+        }
+
+    }else{
+
+        // This can occur if ads were previously enabled but have now been disabled and the UI has not been reloaded yet
+        [self ifa_stopAdRequests];
+
+    }
+
+}
+
+-(void)adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error{
+
+    NSLog(@"didFailToReceiveAdWithError: %@", [error description]);
+
+    if ([self ifa_shouldEnableAds]) {
+        // This can occur if ads were previously enabled but have now been disabled and the UI has not been reloaded yet
+        [self ifa_stopAdRequests];
+    }
+
+}
+
+- (void)adViewWillPresentScreen:(GADBannerView *)bannerView{
+
+    //    NSLog(@"adViewWillPresentScreen");
+
+    // Hides the status overlay in case it is being used
+    [[MTStatusBarOverlay sharedInstance] hide];
+
+}
+
+#pragma mark - Private
+
+- (UIView *)IFA_nonAdContainerView {
+    return [self.ifa_googleMobileAdsSupportDataSource nonAdContainerViewForGoogleMobileAdsEnabledViewController:self];
 }
 
 @end

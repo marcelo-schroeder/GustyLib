@@ -363,7 +363,7 @@
             l_className = IFARuntimeDependencyClassNameIFAGoogleMobileAdsManager;
             break;
         default:
-            NSAssert(NO, @"Unexpected runtime dependency library: %u", a_runtimeDependencyLibrary)
+            NSAssert(NO, @"Unexpected runtime dependency library: %u", a_runtimeDependencyLibrary);
     }
     if (NSClassFromString(l_className)) {
         a_block();
