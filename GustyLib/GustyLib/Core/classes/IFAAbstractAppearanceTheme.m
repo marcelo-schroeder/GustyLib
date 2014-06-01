@@ -532,11 +532,6 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }
 }
 
-// To be overriden by subclasses
--(NSDictionary*)gadAdditionalParameters {
-    return nil;
-}
-
 -(UIColor*)selectedTableCellBackgroundColor {
     return [self IFA_colorForInfoPlistKey:@"IFAThemeSelectedTableCellBackgroundColor"];
 }

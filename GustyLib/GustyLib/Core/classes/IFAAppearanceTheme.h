@@ -79,9 +79,6 @@ typedef enum {
 
 -(UIColor*)selectedTableCellBackgroundColor;
 
-// Google ads styling
--(NSDictionary*)gadAdditionalParameters;
-
 -(UIBarButtonItem*)backBarButtonItem;
 -(UIBarButtonItem*)backBarButtonItemForViewController:(UIViewController *)a_viewController;
 -(UIBarButtonItem*)splitViewControllerBarButtonItem;
