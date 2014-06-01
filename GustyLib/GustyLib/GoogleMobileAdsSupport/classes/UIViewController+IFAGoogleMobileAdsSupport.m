@@ -23,7 +23,7 @@ static char c_adContainerViewKey;
 //wip: code is not organised in pragma sections properly
 @implementation UIViewController (IFAGoogleMobileAdsSupport)
 
--(CGSize)ifa_gadAdFrameSize {
+-(CGSize)ifa_googleMobileAdFrameSize {
     CGFloat l_width, l_height;
     if ([IFAUIUtils isIPad]) {
         l_width = self.view.frame.size.width;
@@ -38,18 +38,18 @@ static char c_adContainerViewKey;
 }
 
 -(GADAdSize)IFA_gadAdSize {
-    return GADAdSizeFromCGSize([self ifa_gadAdFrameSize]);
+    return GADAdSizeFromCGSize([self ifa_googleMobileAdFrameSize]);
 }
 
--(GADBannerView *)ifa_gadBannerView {
+-(GADBannerView *)ifa_googleMobileAdBannerView {
     return [IFAGoogleMobileAdsManager sharedInstance].activeBannerView;
 }
 
 - (void)IFA_updateAdBannerSize {
 //    NSLog(@"IFA_updateAdBannerSize");
-    GADBannerView *l_bannerView = [self ifa_gadBannerView];
+    GADBannerView *l_bannerView = [self ifa_googleMobileAdBannerView];
     CGRect l_newAdBannerViewFrame = CGRectZero;
-    l_newAdBannerViewFrame.size = [self ifa_gadAdFrameSize];
+    l_newAdBannerViewFrame.size = [self ifa_googleMobileAdFrameSize];
     l_bannerView.frame = l_newAdBannerViewFrame;
 //    NSLog(@"          l_bannerView.frame: %@", NSStringFromCGRect(l_bannerView.frame));
 //    NSLog(@"self.ifa_adContainerView.frame: %@", NSStringFromCGRect(self.ifa_adContainerView.frame));
@@ -58,9 +58,9 @@ static char c_adContainerViewKey;
 //    NSLog(@"   l_bannerView.adSize.flags: %u", l_bannerView.adSize.flags);
 }
 
--(void)ifa_startAdRequests {
+-(void)ifa_startGoogleMobileAdsRequests {
 
-    if (![self ifa_shouldEnableAds] || [self ifa_gadBannerView].superview) {
+    if (![self ifa_shouldEnableAds] || [self ifa_googleMobileAdBannerView].superview) {
         return;
     }
 
@@ -76,7 +76,7 @@ static char c_adContainerViewKey;
     [self IFA_updateAdBannerSize];
 
     // Add the ad view to the container view
-    [self.ifa_adContainerView addSubview:[self ifa_gadBannerView]];
+    [self.ifa_adContainerView addSubview:[self ifa_googleMobileAdBannerView]];
 
     // Make a note of the owner view controller
     [IFAApplicationDelegate sharedInstance].adsOwnerViewController = self;
@@ -95,27 +95,27 @@ static char c_adContainerViewKey;
 //#endif
 
     // Initiate a generic Google ad request
-    [self ifa_gadBannerView].delegate = self;
-    [self ifa_gadBannerView].rootViewController = self;
-    [[self ifa_gadBannerView] loadRequest:l_gadRequest];
+    [self ifa_googleMobileAdBannerView].delegate = self;
+    [self ifa_googleMobileAdBannerView].rootViewController = self;
+    [[self ifa_googleMobileAdBannerView] loadRequest:l_gadRequest];
 
 }
 
--(void)ifa_stopAdRequests {
+-(void)ifa_stopGoogleMobileAdsRequests {
 
-    if (![self ifa_shouldEnableAds] || ![self ifa_gadBannerView].superview) {
+    if (![self ifa_shouldEnableAds] || ![self ifa_googleMobileAdBannerView].superview) {
         return;
     }
 
     UIView *l_adContainerView = self.ifa_adContainerView;
     if (l_adContainerView) {
         [l_adContainerView removeFromSuperview];
-        [self ifa_updateNonAdContainerViewFrameWithAdBannerViewHeight:0];
+        [self ifa_updateNonAdContainerViewFrameWithGoogleMobileAdBannerViewHeight:0];
     }
 
-    [[self ifa_gadBannerView] removeFromSuperview]; // This seems to stop ad loading
-    [self ifa_gadBannerView].delegate = nil;
-    [self ifa_gadBannerView].rootViewController = nil;
+    [[self ifa_googleMobileAdBannerView] removeFromSuperview]; // This seems to stop ad loading
+    [self ifa_googleMobileAdBannerView].delegate = nil;
+    [self ifa_googleMobileAdBannerView].rootViewController = nil;
 
     [IFAApplicationDelegate sharedInstance].adsOwnerViewController = self;
 
@@ -137,7 +137,7 @@ static char c_adContainerViewKey;
     if (!l_adContainerView && [self ifa_shouldEnableAds]) {
 
         // Create ad container
-        CGSize l_gadAdFrameSize = [self ifa_gadAdFrameSize];
+        CGSize l_gadAdFrameSize = [self ifa_googleMobileAdFrameSize];
         CGFloat l_adContainerViewX = 0;
         CGFloat l_adContainerViewY = self.view.frame.size.height-l_gadAdFrameSize.height;
         CGFloat l_adContainerViewWidth = self.view.frame.size.width;
@@ -172,22 +172,22 @@ static char c_adContainerViewKey;
     self.ifa_adContainerView.hidden = YES;
 
     if ([self ifa_shouldEnableAds]) {
-        [self ifa_startAdRequests];
+        [self ifa_startGoogleMobileAdsRequests];
     }
 
 }
 
 - (void)IFA_onAdsSuspendRequest:(NSNotification*)aNotification{
-    [self ifa_stopAdRequests];
+    [self ifa_stopGoogleMobileAdsRequests];
 }
 
 - (void)IFA_onAdsResumeRequest:(NSNotification*)aNotification{
     if ([self ifa_shouldEnableAds]) {
-        [self ifa_startAdRequests];
+        [self ifa_startGoogleMobileAdsRequests];
     }
 }
 
-- (void)ifa_updateNonAdContainerViewFrameWithAdBannerViewHeight:(CGFloat)a_adBannerViewHeight {
+- (void)ifa_updateNonAdContainerViewFrameWithGoogleMobileAdBannerViewHeight:(CGFloat)a_adBannerViewHeight {
 //    NSLog(@"m_updateNonAdContainerViewFrameWithAdBannerViewHeight BEFORE: self m_nonAdContainerView.frame: %@", NSStringFromCGRect([self ifa_nonAdContainerView].frame));
     CGRect l_newNonAdContainerViewFrame = [self IFA_nonAdContainerView].frame;
     l_newNonAdContainerViewFrame.size.height = self.view.frame.size.height - a_adBannerViewHeight;
@@ -195,7 +195,7 @@ static char c_adContainerViewKey;
 //    NSLog(@"m_updateNonAdContainerViewFrameWithAdBannerViewHeight AFTER: self m_nonAdContainerView.frame: %@", NSStringFromCGRect([self ifa_nonAdContainerView].frame));
 }
 
-- (void)ifa_startObservingNotifications {
+- (void)ifa_startObservingGoogleMobileAdsSupportNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(IFA_onAdsSuspendRequest:)
                                                  name:IFANotificationAdsSuspendRequest
@@ -206,7 +206,7 @@ static char c_adContainerViewKey;
                                                object:nil];
 }
 
-- (void)ifa_stopObservingNotifications {
+- (void)ifa_stopObservingGoogleMobileAdsSupportNotifications {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationAdsSuspendRequest object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationAdsResumeRequest object:nil];
 }
@@ -231,7 +231,7 @@ static char c_adContainerViewKey;
                 [UIView animateWithDuration:0.2 animations:^{
                     l_adContainerView.hidden = NO;
                     CGFloat l_bannerViewHeight = bannerView.frame.size.height;
-                    [self ifa_updateNonAdContainerViewFrameWithAdBannerViewHeight:l_bannerViewHeight];
+                    [self ifa_updateNonAdContainerViewFrameWithGoogleMobileAdBannerViewHeight:l_bannerViewHeight];
                     [self IFA_updateAdContainerViewFrameWithAdBannerViewHeight:l_bannerViewHeight];
                 }];
             }
@@ -240,7 +240,7 @@ static char c_adContainerViewKey;
     }else{
 
         // This can occur if ads were previously enabled but have now been disabled and the UI has not been reloaded yet
-        [self ifa_stopAdRequests];
+        [self ifa_stopGoogleMobileAdsRequests];
 
     }
 
@@ -252,7 +252,7 @@ static char c_adContainerViewKey;
 
     if ([self ifa_shouldEnableAds]) {
         // This can occur if ads were previously enabled but have now been disabled and the UI has not been reloaded yet
-        [self ifa_stopAdRequests];
+        [self ifa_stopGoogleMobileAdsRequests];
     }
 
 }
