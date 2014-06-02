@@ -63,11 +63,11 @@
 
 - (void)IFA_addObservers {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(IFA_onAdsSuspendRequest:)
+                                             selector:@selector(IFA_onAdsSuspendRequest)
                                                  name:IFANotificationAdsSuspendRequest
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(IFA_onAdsResumeRequest:)
+                                             selector:@selector(IFA_onAdsResumeRequest)
                                                  name:IFANotificationAdsResumeRequest
                                                object:nil];
 }
@@ -77,11 +77,11 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationAdsResumeRequest object:nil];
 }
 
-- (void)IFA_onAdsSuspendRequest:(NSNotification*)aNotification{
+- (void)IFA_onAdsSuspendRequest{
     self.adsSuspended = YES;
 }
 
-- (void)IFA_onAdsResumeRequest:(NSNotification*)aNotification{
+- (void)IFA_onAdsResumeRequest{
     self.adsSuspended = NO;
 }
 

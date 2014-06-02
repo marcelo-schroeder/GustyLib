@@ -11,6 +11,7 @@
 
 //wip: should I rename these notifications now that this is a separate project?
 //wip: decide which methods below should be private or public
+//wip: fix bug in Swavit caused by rotating when viewing an article from search results
 extern NSString* const IFANotificationAdsSuspendRequest;
 extern NSString* const IFANotificationAdsResumeRequest;
 

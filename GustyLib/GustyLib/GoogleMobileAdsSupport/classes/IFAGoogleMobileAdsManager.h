@@ -18,6 +18,7 @@
 @property (nonatomic, weak) id<IFAGoogleMobileAdsManagerDataSource> dataSource;
 @property (nonatomic, strong, readonly) GADBannerView *activeBannerView;
 @property (nonatomic, readonly) BOOL adsSuspended;
+@property (nonatomic, weak) UIViewController *adsOwnerViewController;
 - (GADAdMobExtras *)extras;
 + (instancetype)sharedInstance;
 @end

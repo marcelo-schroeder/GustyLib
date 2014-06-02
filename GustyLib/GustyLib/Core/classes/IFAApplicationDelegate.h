@@ -33,7 +33,6 @@
 @property (nonatomic) BOOL skipWindowSetup;
 @property (nonatomic) BOOL skipWindowRootViewControllerSetup;
 @property (nonatomic, readonly) BOOL useDeviceAgnosticMainStoryboard;
-@property (nonatomic, weak) UIViewController *adsOwnerViewController;
 
 @property(nonatomic) CGRect keyboardFrame;
 

@@ -7,7 +7,6 @@
 #import "UIViewController+IFAGoogleMobileAdsSupport.h"
 #import "IFAUIUtils.h"
 #import "GADBannerView.h"
-#import "IFAApplicationDelegate.h"
 #import "UIViewController+IFACategory.h"
 #import "GADAdMobExtras.h"
 #import "MTStatusBarOverlay.h"
@@ -21,8 +20,9 @@ static const int k_iPhoneLandscapeAdHeight = 32;
 static char c_googleMobileAdsSupportDataSourceKey;
 static char c_googleMobileAdContainerViewKey;
 
-//wip: code is not organised in pragma sections properly
 @implementation UIViewController (IFAGoogleMobileAdsSupport)
+
+#pragma mark - Public
 
 -(CGSize)ifa_googleMobileAdFrameSize {
     CGFloat l_width, l_height;
@@ -38,25 +38,8 @@ static char c_googleMobileAdContainerViewKey;
     return l_size;
 }
 
--(GADAdSize)IFA_gadAdSize {
-    return GADAdSizeFromCGSize([self ifa_googleMobileAdFrameSize]);
-}
-
 -(GADBannerView *)ifa_googleMobileAdBannerView {
     return [IFAGoogleMobileAdsManager sharedInstance].activeBannerView;
-}
-
-- (void)IFA_updateAdBannerSize {
-//    NSLog(@"IFA_updateAdBannerSize");
-    GADBannerView *l_bannerView = [self ifa_googleMobileAdBannerView];
-    CGRect l_newAdBannerViewFrame = CGRectZero;
-    l_newAdBannerViewFrame.size = [self ifa_googleMobileAdFrameSize];
-    l_bannerView.frame = l_newAdBannerViewFrame;
-//    NSLog(@"          l_bannerView.frame: %@", NSStringFromCGRect(l_bannerView.frame));
-//    NSLog(@"self.ifa_googleMobileAdContainerView.frame: %@", NSStringFromCGRect(self.ifa_googleMobileAdContainerView.frame));
-    l_bannerView.adSize = [self IFA_gadAdSize];
-//    NSLog(@"    l_bannerView.adSize.size: %@", NSStringFromCGSize(l_bannerView.adSize.size));
-//    NSLog(@"   l_bannerView.adSize.flags: %u", l_bannerView.adSize.flags);
 }
 
 -(void)ifa_startGoogleMobileAdsRequests {
@@ -80,7 +63,7 @@ static char c_googleMobileAdContainerViewKey;
     [self.ifa_googleMobileAdContainerView addSubview:[self ifa_googleMobileAdBannerView]];
 
     // Make a note of the owner view controller
-    [IFAApplicationDelegate sharedInstance].adsOwnerViewController = self;
+    [IFAGoogleMobileAdsManager sharedInstance].adsOwnerViewController = self;
 
     // Configure request Google ad request
     GADRequest *l_gadRequest = [GADRequest request];
@@ -118,40 +101,8 @@ static char c_googleMobileAdContainerViewKey;
     [self ifa_googleMobileAdBannerView].delegate = nil;
     [self ifa_googleMobileAdBannerView].rootViewController = nil;
 
-    [IFAApplicationDelegate sharedInstance].adsOwnerViewController = self;
+    [IFAGoogleMobileAdsManager sharedInstance].adsOwnerViewController = self;
 
-}
-
-- (void)IFA_updateAdContainerViewFrameWithAdBannerViewHeight:(CGFloat)a_adBannerViewHeight {
-    UIView *l_googleMobileAdContainerView = self.ifa_googleMobileAdContainerView;
-    CGRect l_newAdContainerViewFrame = l_googleMobileAdContainerView.frame;
-    l_newAdContainerViewFrame.origin.y = self.view.frame.size.height - a_adBannerViewHeight;
-    l_newAdContainerViewFrame.size.height = a_adBannerViewHeight;
-    l_googleMobileAdContainerView.frame = l_newAdContainerViewFrame;
-//    NSLog(@"adContainerView.frame 2: %@", NSStringFromCGRect(l_googleMobileAdContainerView.frame));
-}
-
--(void)ifa_didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-
-    //wip: issue here - call super in a category?
-
-    // Hide ad container (but it should be offscreen at this point)
-    self.ifa_googleMobileAdContainerView.hidden = YES;
-
-    if ([self ifa_shouldEnableAds]) {
-        [self ifa_startGoogleMobileAdsRequests];
-    }
-
-}
-
-- (void)IFA_onAdsSuspendRequest:(NSNotification*)aNotification{
-    [self ifa_stopGoogleMobileAdsRequests];
-}
-
-- (void)IFA_onAdsResumeRequest:(NSNotification*)aNotification{
-    if ([self ifa_shouldEnableAds]) {
-        [self ifa_startGoogleMobileAdsRequests];
-    }
 }
 
 - (void)ifa_updateNonAdContainerViewFrameWithGoogleMobileAdBannerViewHeight:(CGFloat)a_adBannerViewHeight {
@@ -164,21 +115,24 @@ static char c_googleMobileAdContainerViewKey;
 
 - (void)ifa_startObservingGoogleMobileAdsSupportNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(IFA_onAdsSuspendRequest:)
+                                             selector:@selector(IFA_onAdsSuspendRequest)
                                                  name:IFANotificationAdsSuspendRequest
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(IFA_onAdsResumeRequest:)
+                                             selector:@selector(IFA_onAdsResumeRequest)
                                                  name:IFANotificationAdsResumeRequest
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(IFA_onDeviceOrientationDidChangeNotification)
+                                                 name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
 }
 
 - (void)ifa_stopObservingGoogleMobileAdsSupportNotifications {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationAdsSuspendRequest object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationAdsResumeRequest object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
-
-#pragma mark - Public
 
 - (BOOL)ifa_shouldEnableAds {
     return [self.ifa_googleMobileAdsSupportDataSource shouldEnableAdsForGoogleMobileAdsEnabledViewController:self];
@@ -279,6 +233,53 @@ static char c_googleMobileAdContainerViewKey;
 
 - (UIView *)IFA_nonAdContainerView {
     return [self.ifa_googleMobileAdsSupportDataSource nonAdContainerViewForGoogleMobileAdsEnabledViewController:self];
+}
+
+-(GADAdSize)IFA_gadAdSize {
+    return GADAdSizeFromCGSize([self ifa_googleMobileAdFrameSize]);
+}
+
+- (void)IFA_updateAdBannerSize {
+//    NSLog(@"IFA_updateAdBannerSize");
+    GADBannerView *l_bannerView = [self ifa_googleMobileAdBannerView];
+    CGRect l_newAdBannerViewFrame = CGRectZero;
+    l_newAdBannerViewFrame.size = [self ifa_googleMobileAdFrameSize];
+    l_bannerView.frame = l_newAdBannerViewFrame;
+//    NSLog(@"          l_bannerView.frame: %@", NSStringFromCGRect(l_bannerView.frame));
+//    NSLog(@"self.ifa_googleMobileAdContainerView.frame: %@", NSStringFromCGRect(self.ifa_googleMobileAdContainerView.frame));
+    l_bannerView.adSize = [self IFA_gadAdSize];
+//    NSLog(@"    l_bannerView.adSize.size: %@", NSStringFromCGSize(l_bannerView.adSize.size));
+//    NSLog(@"   l_bannerView.adSize.flags: %u", l_bannerView.adSize.flags);
+}
+
+- (void)IFA_updateAdContainerViewFrameWithAdBannerViewHeight:(CGFloat)a_adBannerViewHeight {
+    UIView *l_googleMobileAdContainerView = self.ifa_googleMobileAdContainerView;
+    CGRect l_newAdContainerViewFrame = l_googleMobileAdContainerView.frame;
+    l_newAdContainerViewFrame.origin.y = self.view.frame.size.height - a_adBannerViewHeight;
+    l_newAdContainerViewFrame.size.height = a_adBannerViewHeight;
+    l_googleMobileAdContainerView.frame = l_newAdContainerViewFrame;
+//    NSLog(@"adContainerView.frame 2: %@", NSStringFromCGRect(l_googleMobileAdContainerView.frame));
+}
+
+- (void)IFA_onAdsSuspendRequest{
+    [self ifa_stopGoogleMobileAdsRequests];
+}
+
+- (void)IFA_onAdsResumeRequest{
+    if ([self ifa_shouldEnableAds]) {
+        [self ifa_startGoogleMobileAdsRequests];
+    }
+}
+
+- (void)IFA_onDeviceOrientationDidChangeNotification {
+
+    // Hide ad container (but it should be offscreen at this point)
+    self.ifa_googleMobileAdContainerView.hidden = YES;
+
+    if ([self ifa_shouldEnableAds]) {
+        [self ifa_startGoogleMobileAdsRequests];
+    }
+
 }
 
 @end
