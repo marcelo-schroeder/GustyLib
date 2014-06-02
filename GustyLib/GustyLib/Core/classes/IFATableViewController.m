@@ -19,7 +19,10 @@
 //
 
 #import "IFACommon.h"
+
+#ifdef IFA_AVAILABLE_GoogleMobileAdsSupport
 #import "UIViewController+IFAGoogleMobileAdsSupport.h"
+#endif
 
 @interface IFATableViewController (){
     @private
@@ -208,9 +211,11 @@
 #pragma mark - Overrides
 
 -(void)IFA_init {
+#ifdef IFA_AVAILABLE_GoogleMobileAdsSupport
     if ([self ifa_shouldEnableAds]) {
         self.shouldCreateContainerViewOnLoadView = YES;
     }
+#endif
 }
 
 -(id)init{
@@ -432,6 +437,7 @@
     [self ifa_didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
 
+#ifdef IFA_AVAILABLE_GoogleMobileAdsSupport
 - (void)ifa_updateNonAdContainerViewFrameWithGoogleMobileAdBannerViewHeight:(CGFloat)a_adBannerViewHeight {
     if (self.IFA_tableViewBottomLayoutConstraint) {
         self.IFA_tableViewBottomLayoutConstraint.constant = a_adBannerViewHeight;
@@ -440,6 +446,7 @@
         [super ifa_updateNonAdContainerViewFrameWithGoogleMobileAdBannerViewHeight:a_adBannerViewHeight];
     }
 }
+#endif
 
 #pragma mark - UITableViewDataSource protocol
 

@@ -22,7 +22,10 @@
 #import "UIStoryboard+IFACategory.h"
 #import "IFASubjectActivityItem.h"
 #import "IFAPassthroughView.h"
+
+#ifdef IFA_AVAILABLE_GoogleMobileAdsSupport
 #import "UIViewController+IFAGoogleMobileAdsSupport.h"
+#endif
 
 //static UIPopoverArrowDirection  const k_arrowDirectionWithoutKeyboard   = UIPopoverArrowDirectionAny;
 static UIPopoverArrowDirection  const k_arrowDirectionWithoutKeyboard   = UIPopoverArrowDirectionUp | UIPopoverArrowDirectionDown;
@@ -977,7 +980,9 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     }
     
     // Add observers
+#ifdef IFA_AVAILABLE_GoogleMobileAdsSupport
     [self ifa_startObservingGoogleMobileAdsSupportNotifications];
+#endif
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(ifa_onKeyboardNotification:)
                                                  name:UIKeyboardWillShowNotification
@@ -1030,7 +1035,9 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     
 //    NSLog(@"ifa_viewDidAppear: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
 
+#ifdef IFA_AVAILABLE_GoogleMobileAdsSupport
     [self ifa_startGoogleMobileAdsRequests];
+#endif
 
     if (self.ifa_manageToolbar && !([self.navigationController.viewControllers count]==1 && ![self ifa_isReturningVisibleViewController]) ) {
         //            NSLog(@"About to call m_updateToolbarForMode in ifa_viewDidAppear...");
@@ -1052,7 +1059,9 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 //    NSLog(@"ifa_viewDidDisappear: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
         
     // Remove observers
+#ifdef IFA_AVAILABLE_GoogleMobileAdsSupport
     [self ifa_stopObservingGoogleMobileAdsSupportNotifications];
+#endif
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
@@ -1062,7 +1071,9 @@ static char c_shouldUseKeyboardPassthroughViewKey;
         self.toolbarItems = @[];
     }
 
+#ifdef IFA_AVAILABLE_GoogleMobileAdsSupport
     [self ifa_stopGoogleMobileAdsRequests];
+#endif
 
     // Remove keyboard passthrough view if required
     if (self.ifa_shouldUseKeyboardPassthroughView) {
@@ -1146,7 +1157,9 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnWillAnimateRotationForViewController:self
                                                                                                       interfaceOrientation:interfaceOrientation];
 
+#ifdef IFA_AVAILABLE_GoogleMobileAdsSupport
     [self ifa_stopGoogleMobileAdsRequests];
+#endif
 
 }
 
@@ -1166,7 +1179,9 @@ static char c_shouldUseKeyboardPassthroughViewKey;
         
     }
 
+#ifdef IFA_AVAILABLE_GoogleMobileAdsSupport
     [self ifa_startGoogleMobileAdsRequests];
+#endif
 
 }
 
