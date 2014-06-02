@@ -271,6 +271,7 @@ static char c_googleMobileAdContainerViewKey;
     }
 }
 
+//continuehere: this is being called and sending the ad to the last ad owner when viewing an article on Swavit from the search result list
 - (void)IFA_onDeviceOrientationDidChangeNotification {
 
     // Hide ad container (but it should be offscreen at this point)
