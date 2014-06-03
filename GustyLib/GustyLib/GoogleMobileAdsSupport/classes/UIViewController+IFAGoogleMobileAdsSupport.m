@@ -19,6 +19,7 @@ static const int k_iPhoneLandscapeAdHeight = 32;
 
 static char c_googleMobileAdsSupportDataSourceKey;
 static char c_googleMobileAdContainerViewKey;
+static char c_googleMobileAdsOwnershipSuspendedKey;
 
 @implementation UIViewController (IFAGoogleMobileAdsSupport)
 
@@ -101,7 +102,7 @@ static char c_googleMobileAdContainerViewKey;
     [self ifa_googleMobileAdBannerView].delegate = nil;
     [self ifa_googleMobileAdBannerView].rootViewController = nil;
 
-    [IFAGoogleMobileAdsManager sharedInstance].adsOwnerViewController = self;
+    [IFAGoogleMobileAdsManager sharedInstance].adsOwnerViewController = nil;
 
 }
 
@@ -265,14 +266,20 @@ static char c_googleMobileAdContainerViewKey;
     [self ifa_stopGoogleMobileAdsRequests];
 }
 
-- (void)IFA_onAdsResumeRequest{
+- (void)IFA_onAdsResumeRequest {
+    if (self.ifa_googleMobileAdsOwnershipSuspended) {
+        return;
+    }
     if ([self ifa_shouldEnableAds]) {
         [self ifa_startGoogleMobileAdsRequests];
     }
 }
 
-//continuehere: this is being called and sending the ad to the last ad owner when viewing an article on Swavit from the search result list
 - (void)IFA_onDeviceOrientationDidChangeNotification {
+
+    if (self.ifa_googleMobileAdsOwnershipSuspended) {
+        return;
+    }
 
     // Hide ad container (but it should be offscreen at this point)
     self.ifa_googleMobileAdContainerView.hidden = YES;
@@ -281,6 +288,14 @@ static char c_googleMobileAdContainerViewKey;
         [self ifa_startGoogleMobileAdsRequests];
     }
 
+}
+
+-(BOOL)ifa_googleMobileAdsOwnershipSuspended {
+    return ((NSNumber*)objc_getAssociatedObject(self, &c_googleMobileAdsOwnershipSuspendedKey)).boolValue;
+}
+
+-(void)setIfa_googleMobileAdsOwnershipSuspended:(BOOL)a_adsOwnershipSuspended{
+    objc_setAssociatedObject(self, &c_googleMobileAdsOwnershipSuspendedKey, @(a_adsOwnershipSuspended), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end

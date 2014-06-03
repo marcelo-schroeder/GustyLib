@@ -18,6 +18,7 @@ extern NSString* const IFANotificationAdsResumeRequest;
 @interface UIViewController (IFAGoogleMobileAdsSupport) <GADBannerViewDelegate>
 @property (nonatomic, weak) id<IFAGoogleMobileAdsEnabledViewControllerDataSource> ifa_googleMobileAdsSupportDataSource;
 @property (nonatomic, strong) UIView *ifa_googleMobileAdContainerView;
+@property (nonatomic) BOOL ifa_googleMobileAdsOwnershipSuspended;
 - (GADBannerView*)ifa_googleMobileAdBannerView;
 - (CGSize)ifa_googleMobileAdFrameSize;
 
