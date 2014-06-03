@@ -1,3 +1,4 @@
+#wip: need to create my own Cocoapods repo for GoogleMobileAds and Crashlytics as official ones do not exist? (or use existing 3rd party ones?)
 Pod::Spec.new do |s|
     s.name                  = 'GustyLib'
     s.version           = '0.1.2'
@@ -23,6 +24,13 @@ Pod::Spec.new do |s|
         ss.resource      = 'GustyLib/GustyLib/GoogleMobileAdsSupport/resources/**/*.*'
         ss.frameworks    = 'AdSupport', 'AudioToolbox', 'AVFoundation', 'CoreGraphics', 'CoreTelephony', 'MessageUI', 'StoreKit', 'SystemConfiguration'
         ss.xcconfig      = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'IFA_AVAILABLE_GoogleMobileAdsSupport=1' }
+        ss.dependency 'Google-AdMob-Ads-SDK'
+    end
+    s.subspec 'CrashlyticsSupport' do |ss|
+        ss.source_files  = 'GustyLib/GustyLib/CrashlyticsSupport/classes/**/*.{h,m}'
+        ss.resource      = 'GustyLib/GustyLib/CrashlyticsSupport/resources/**/*.*'
+        ss.frameworks    = 'AdSupport', 'AudioToolbox', 'AVFoundation', 'CoreGraphics', 'CoreTelephony', 'MessageUI', 'StoreKit', 'SystemConfiguration'
+        ss.xcconfig      = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'IFA_AVAILABLE_CrashlyticsSupport=1' }
         ss.dependency 'Google-AdMob-Ads-SDK'
     end
 end

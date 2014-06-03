@@ -55,8 +55,4 @@ NSString* const IFAEntityConfigFormNameCreationShortcut = @"creationShortcut";
 // Entity Config
 NSString* const IFAInfoPListPreferencesClassName = @"IFAPreferencesClassName";
 
-// Runtime dependency class names
-NSString * const IFARuntimeDependencyClassNameCrashlytics = @"Crashlytics";
-NSString * const IFARuntimeDependencyClassNameIFAGoogleMobileAdsManager = @"IFAGoogleMobileAdsManager";
-
 @end
