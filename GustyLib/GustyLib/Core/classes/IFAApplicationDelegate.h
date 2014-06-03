@@ -51,17 +51,6 @@
 -(UIViewController*)initialViewController;
 -(void)configureWindowRootViewController;
 
--(NSString*)formatCrashReportValue:(id)a_value;
-
-/**
-* Configure crash reporting using the Crashlytics framework, if available at runtime.
-*
-* @param a_userInfo User info dictionary containing key/value pairs that are displayed in the 'Keys' section of a crash report on www.crashlytics.com.
-*
-* @returns YES if it succeeded configuring crash reporting. NO if it has failed (e.g. Crashlytics framework not available at runtime).
-*/
--(BOOL)configureCrashReportingWithUserInfo:(NSDictionary*)a_userInfo;
-
 -(void)configureAnalytics;
 
 +(IFAApplicationDelegate *)sharedInstance;

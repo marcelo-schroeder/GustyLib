@@ -6,6 +6,12 @@
 // project.
 
 
+// CrashlyticsFramework
+#define COCOAPODS_POD_AVAILABLE_CrashlyticsFramework
+#define COCOAPODS_VERSION_MAJOR_CrashlyticsFramework 2
+#define COCOAPODS_VERSION_MINOR_CrashlyticsFramework 2
+#define COCOAPODS_VERSION_PATCH_CrashlyticsFramework 0
+
 // DTFoundation
 #define COCOAPODS_POD_AVAILABLE_DTFoundation
 #define COCOAPODS_VERSION_MAJOR_DTFoundation 1

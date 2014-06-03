@@ -1,6 +1,30 @@
 # Acknowledgements
 This application makes use of the following third party libraries:
 
+## CrashlyticsFramework
+
+CRASHLYTICS, INC. TERMS OF SERVICE Last Updated: January 28, 2013 
+ 
+The following Crashlytics, Inc. Terms of Service (“Terms” or 
+“Agreement”) constitutes a legal agreement between you and the entity on whose 
+behalf you are accessing the Service (as defined below) (“Developer”) and Crashlytics, 
+Inc., a wholly owned subsidiary of Twitter, Inc. (“Crashlytics”). Developer’s use of the 
+Service is subject to the terms and conditions set forth below, so Developer should take 
+the time to fully understand how these Terms govern Developer’s relationship with 
+Crashlytics and Developer’s use of the Service. If you have questions regarding the 
+Terms, please contact Crashlytics at support@crashlytics.com. 
+DEVELOPER’S RIGHT TO USE THE SERVICE IS EXPRESSLY CONDITIONED ON 
+ACCEPTANCE OF THESE TERMS. BY USING THE SERVICE, YOU ARE AGREEING 
+TO BE BOUND BY THE TERMS ON BEHALF OF DEVELOPER. IF YOU ARE 
+ACCESSING THE SERVICE ON BEHALF OF YOUR EMPLOYER OR ANOTHER 
+ENTITY, YOU REPRESENT AND WARRANT THAT YOU HAVE THE AUTHORITY TO 
+AGREE TO THESE TERMS ON ITS BEHALF. IF DEVELOPER DOES NOT AGREE 
+WITH ANY PROVISION OF THE TERMS, OR YOU DO NOT HAVE AUTHORITY TO 
+BIND DEVELOPER, YOU MAY NOT ACCESS OR USE THE SERVICE IN ANY 
+MANNER FOR ANY PURPOSE.
+
+
+
 ## DTFoundation
 
 Copyright (c) 2011, Oliver Drobnik All rights reserved.
