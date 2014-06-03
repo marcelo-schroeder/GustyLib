@@ -2,6 +2,18 @@
 // Created by Marcelo Schroeder on 28/05/2014.
 // Copyright (c) 2014 InfoAccent Pty Ltd. All rights reserved.
 //
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//  http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+//
 
 #import "IFAGoogleMobileAdsManager.h"
 #import "GADAdMobExtras.h"
@@ -64,17 +76,19 @@
 - (void)IFA_addObservers {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(IFA_onAdsSuspendRequest)
-                                                 name:IFANotificationAdsSuspendRequest
+                                                 name:IFANotificationGoogleMobileAdsSuspendRequest
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(IFA_onAdsResumeRequest)
-                                                 name:IFANotificationAdsResumeRequest
+                                                 name:IFANotificationGoogleMobileAdsResumeRequest
                                                object:nil];
 }
 
 - (void)IFA_removeObservers {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationAdsSuspendRequest object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationAdsResumeRequest object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationGoogleMobileAdsSuspendRequest
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationGoogleMobileAdsResumeRequest
+                                                  object:nil];
 }
 
 - (void)IFA_onAdsSuspendRequest{

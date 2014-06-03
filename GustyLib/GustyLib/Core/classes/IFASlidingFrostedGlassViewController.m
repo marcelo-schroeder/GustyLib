@@ -74,7 +74,7 @@
 }
 
 - (void)IFA_dismissViewController {
-    [self.presentingViewController dismissViewControllerAnimated:YES //wip: hardcoded value
+    [self.presentingViewController dismissViewControllerAnimated:YES
                                                       completion:nil];
 }
 

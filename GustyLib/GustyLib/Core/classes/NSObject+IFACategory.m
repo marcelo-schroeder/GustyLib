@@ -177,16 +177,6 @@
     return nil;
 }
 
-//wip: do I still need this?
-- (void)ifa_performSelector:(SEL)a_selector {
-    if ([self respondsToSelector:a_selector]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        [self performSelector:a_selector];
-#pragma clang diagnostic pop
-    }
-}
-
 + (NSString*)ifa_displayValueForNil {
     return [NSString stringWithFormat:@"(no %@)", [[[IFAPersistenceManager sharedInstance].entityConfig labelForEntity:[self ifa_entityName]] lowercaseString]];
 }
