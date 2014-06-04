@@ -1,4 +1,5 @@
-#wip: need to create my own Cocoapods repo for GoogleMobileAds and Crashlytics as official ones do not exist? (or use existing 3rd party ones?)
+#continuehere: create CrashlyticsSupport as a separate project and repo - for now, it cannot be integrated using Cocoapods - hopefully this will improve when Apple releases their own crash reporting
+#wip: need to create my own Cocoapods repo for GoogleMobileAds
 #wip: do the same with Flurry support
 Pod::Spec.new do |s|
     s.name                  = 'GustyLib'
@@ -30,7 +31,6 @@ Pod::Spec.new do |s|
     s.subspec 'CrashlyticsSupport' do |ss|
         ss.source_files  = 'GustyLib/GustyLib/CrashlyticsSupport/classes/**/*.{h,m}'
         ss.resource      = 'GustyLib/GustyLib/CrashlyticsSupport/resources/**/*.*'
-        ss.frameworks    = 'AdSupport', 'AudioToolbox', 'AVFoundation', 'CoreGraphics', 'CoreTelephony', 'MessageUI', 'StoreKit', 'SystemConfiguration'
         ss.xcconfig      = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'IFA_AVAILABLE_CrashlyticsSupport=1' }
     end
 end
