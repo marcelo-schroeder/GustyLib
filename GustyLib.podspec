@@ -1,6 +1,6 @@
 #wip: need to create my own Cocoapods repo for GoogleMobileAds
 #wip: do the same with Flurry support
-#wip: when v0.1.2 is ready, make the IFACrashlyticsSupport project point to the 0.1.2 tag in its podfile
+#wip: when v0.1.2 is ready, make the IFACrashlyticsSupport project point to the 0.1.2 tag in its podfile (it is pointing to a development branch at the moment)
 Pod::Spec.new do |s|
     s.name                  = 'GustyLib'
     s.version           = '0.1.2'
