@@ -57,7 +57,7 @@ static char c_googleMobileAdsOwnershipSuspendedKey;
 
 -(void)ifa_startGoogleMobileAdsRequests {
 
-    if (![self ifa_shouldEnableAds] || [self ifa_googleMobileAdBannerView].superview) {
+    if (![self ifa_shouldEnableAds] || [self ifa_googleMobileAdBannerView].superview || self.ifa_googleMobileAdsOwnershipSuspended) {
         return;
     }
 
@@ -135,10 +135,6 @@ static char c_googleMobileAdsOwnershipSuspendedKey;
                                              selector:@selector(IFA_onAdsResumeRequest)
                                                  name:IFANotificationGoogleMobileAdsResumeRequest
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(IFA_onDeviceOrientationDidChangeNotification)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
 }
 
 - (void)ifa_stopObservingGoogleMobileAdsSupportNotifications {
@@ -146,7 +142,6 @@ static char c_googleMobileAdsOwnershipSuspendedKey;
                                                   object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationGoogleMobileAdsResumeRequest
                                                   object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (BOOL)ifa_shouldEnableAds {
@@ -281,27 +276,7 @@ static char c_googleMobileAdsOwnershipSuspendedKey;
 }
 
 - (void)IFA_onAdsResumeRequest {
-    if (self.ifa_googleMobileAdsOwnershipSuspended) {
-        return;
-    }
-    if ([self ifa_shouldEnableAds]) {
-        [self ifa_startGoogleMobileAdsRequests];
-    }
-}
-
-- (void)IFA_onDeviceOrientationDidChangeNotification {
-
-    if (self.ifa_googleMobileAdsOwnershipSuspended) {
-        return;
-    }
-
-    // Hide ad container (but it should be offscreen at this point)
-    self.ifa_googleMobileAdContainerView.hidden = YES;
-
-    if ([self ifa_shouldEnableAds]) {
-        [self ifa_startGoogleMobileAdsRequests];
-    }
-
+    [self ifa_startGoogleMobileAdsRequests];
 }
 
 -(BOOL)ifa_googleMobileAdsOwnershipSuspended {
