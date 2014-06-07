@@ -1,6 +1,3 @@
-#wip: need to create my own Cocoapods repo for GoogleMobileAds
-#wip: do the same with Flurry support
-#wip: create private podspec repo for things like GoogleMobileAds and Flurry
 #wip: when v0.1.2 is ready, make the IFACrashlyticsSupport project point to the 0.1.2 tag in its podfile (it is pointing to a development branch at the moment)
 Pod::Spec.new do |s|
     s.name                  = 'GustyLib'
@@ -24,14 +21,12 @@ Pod::Spec.new do |s|
     s.subspec 'GoogleMobileAdsSupport' do |ss|
         ss.source_files  = 'GustyLib/GustyLib/GoogleMobileAdsSupport/classes/**/*.{h,m}'
         ss.resource      = 'GustyLib/GustyLib/GoogleMobileAdsSupport/resources/**/*.*'
-        ss.frameworks    = 'AdSupport', 'AudioToolbox', 'AVFoundation', 'CoreGraphics', 'CoreTelephony', 'MessageUI', 'StoreKit', 'SystemConfiguration'
         ss.xcconfig      = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'IFA_AVAILABLE_GoogleMobileAdsSupport=1' }
         ss.dependency 'Google-Mobile-Ads-SDK'
     end
     s.subspec 'FlurrySupport' do |ss|
         ss.source_files  = 'GustyLib/GustyLib/FlurrySupport/classes/**/*.{h,m}'
         ss.resource      = 'GustyLib/GustyLib/FlurrySupport/resources/**/*.*'
-        ss.frameworks    = 'Security', 'SystemConfiguration'
         ss.xcconfig      = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'IFA_AVAILABLE_FlurrySupport=1' }
         ss.dependency 'FlurrySDK'
     end
