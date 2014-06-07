@@ -100,7 +100,7 @@ static char c_googleMobileAdsOwnershipSuspendedKey;
 
 -(void)ifa_stopGoogleMobileAdsRequests {
 
-    if (![self ifa_shouldEnableAds] || ![self ifa_googleMobileAdBannerView].superview) {
+    if (![self ifa_shouldEnableAds] || ![self ifa_googleMobileAdBannerView].superview || self.ifa_googleMobileAdsOwnershipSuspended) {
         return;
     }
 
