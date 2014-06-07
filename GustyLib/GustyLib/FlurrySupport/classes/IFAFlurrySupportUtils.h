@@ -1,5 +1,5 @@
 //
-//  IFAAnalyticsUtils.h
+//  IFAFlurrySupportUtils.h
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 22/02/13.
@@ -20,8 +20,18 @@
 
 #import <Foundation/Foundation.h>
 
-@interface IFAAnalyticsUtils : NSObject
+@interface IFAFlurrySupportUtils : NSObject
 
-+(void)logEntryForScreenName:(NSString*)a_screenName;
+/**
+* Configures Flurry analytics.
+* The API key most be provided in the app's main plist with the 'IFAAnalyticsApiKey' key.
+*/
++ (void)configureAnalytics;
+
+/**
+* Logs a custom analytics event indicating the entry on a given screen.
+* @param a_screenName Name of the screen to log the entry event for.
+*/
++ (void)logEntryForScreenName:(NSString*)a_screenName;
 
 @end

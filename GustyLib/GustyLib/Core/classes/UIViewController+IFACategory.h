@@ -247,9 +247,6 @@ typedef enum{
 
 - (BOOL)ifa_isVisibleTopViewController;
 
-// Analytics
--(void)ifa_logAnalyticsScreenEntry;
-
 /* NSFetchedResultsController */
 // Override and return one instance here if you want to enable fetched results controller functionality
 -(NSFetchedResultsController*)ifa_fetchedResultsController;

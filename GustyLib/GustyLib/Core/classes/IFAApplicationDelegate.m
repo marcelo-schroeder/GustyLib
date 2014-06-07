@@ -119,19 +119,6 @@
     self.window.rootViewController = [self initialViewController];
 }
 
--(void)configureAnalytics {
-
-    NSLog(@"Configuring analytics...");
-    
-    NSString *l_apiKey = [[IFAUtils infoPList] valueForKey:@"IFAAnalyticsApiKey"];
-    NSAssert(l_apiKey, @"IFAAnalyticsApiKey not found");
-
-    [Flurry startSession:l_apiKey];
-
-    NSLog(@"Analytics configured...");
-    
-}
-
 #pragma mark - UIApplicationDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{

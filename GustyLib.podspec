@@ -17,7 +17,6 @@ Pod::Spec.new do |s|
         ss.source_files  = 'GustyLib/GustyLib/Core/classes/**/*.{h,m}'
         ss.resource      = 'GustyLib/GustyLib/Core/resources/**/*.*'
         ss.dependency 'DTFoundation', '1.6.2'
-        ss.dependency 'FlurrySDK'
         ss.dependency 'MTStatusBarOverlay', '0.9.1'
         ss.dependency 'ODRefreshControl', '1.1.0'
         ss.dependency 'MWFeedParser', '1.0.1'
@@ -28,5 +27,12 @@ Pod::Spec.new do |s|
         ss.frameworks    = 'AdSupport', 'AudioToolbox', 'AVFoundation', 'CoreGraphics', 'CoreTelephony', 'MessageUI', 'StoreKit', 'SystemConfiguration'
         ss.xcconfig      = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'IFA_AVAILABLE_GoogleMobileAdsSupport=1' }
         ss.dependency 'Google-AdMob-Ads-SDK'
+    end
+    s.subspec 'FlurrySupport' do |ss|
+        ss.source_files  = 'GustyLib/GustyLib/FlurrySupport/classes/**/*.{h,m}'
+        ss.resource      = 'GustyLib/GustyLib/FlurrySupport/resources/**/*.*'
+        ss.frameworks    = 'Security', 'SystemConfiguration'
+        ss.xcconfig      = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'IFA_AVAILABLE_FlurrySupport=1' }
+        ss.dependency 'FlurrySDK'
     end
 end

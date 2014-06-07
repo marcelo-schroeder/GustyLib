@@ -1,5 +1,5 @@
 //
-//  IFAAnalyticsUtils.m
+//  IFAFlurrySupportUtils.m
 //  Gusty
 //
 //  Created by Marcelo Schroeder on 22/02/13.
@@ -18,15 +18,31 @@
 //  limitations under the License.
 //
 
+#import "IFA_SVWebViewController.h"
 #import "IFACommon.h"
+#import "Flurry.h"
+#import "IFAFlurrySupportUtils.h"
 
-@implementation IFAAnalyticsUtils {
+@implementation IFAFlurrySupportUtils {
     
 }
 
 #pragma mark - Public
 
-+(void)logEntryForScreenName:(NSString*)a_screenName{
++ (void)configureAnalytics {
+
+    NSLog(@"Configuring analytics...");
+
+    NSString *l_apiKey = [[IFAUtils infoPList] valueForKey:@"IFAAnalyticsApiKey"];
+    NSAssert(l_apiKey, @"IFAAnalyticsApiKey not found");
+
+    [Flurry startSession:l_apiKey];
+
+    NSLog(@"Analytics configured...");
+
+}
+
++ (void)logEntryForScreenName:(NSString*)a_screenName{
     [Flurry logEvent:@"screenEntry" withParameters:@{@"name":a_screenName}];
 }
 

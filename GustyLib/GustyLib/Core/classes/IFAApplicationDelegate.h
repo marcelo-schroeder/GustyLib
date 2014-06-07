@@ -51,8 +51,6 @@
 -(UIViewController*)initialViewController;
 -(void)configureWindowRootViewController;
 
--(void)configureAnalytics;
-
 +(IFAApplicationDelegate *)sharedInstance;
 
 @end

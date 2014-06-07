@@ -1505,12 +1505,6 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     // does nothing
 }
 
--(void)ifa_logAnalyticsScreenEntry {
-    if (![self ifa_isReturningVisibleViewController]) {
-        [IFAAnalyticsUtils logEntryForScreenName:self.navigationItem.title];
-    }
-}
-
 #pragma mark - IFAPresenter protocol
 
 -(void)changesMadeByViewController:(UIViewController *)a_viewController{

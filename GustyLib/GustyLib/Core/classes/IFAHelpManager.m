@@ -753,8 +753,6 @@
 
         [self IFA_addHelpTargets];
 
-        [IFAAnalyticsUtils logEntryForScreenName:@"Help"];
-        
     }else{
 
         [self IFA_cancelHelpModeInstructions];

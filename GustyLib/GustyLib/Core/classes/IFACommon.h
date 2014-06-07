@@ -48,8 +48,6 @@
 #import "ODRefreshControl.h"
 // MTStatusBarOverlay
 #import "MTStatusBarOverlay.h"
-// Flurry
-#import "Flurry.h"
 // GrowingTextView
 #import "IFA_HPGrowingTextView.h"
 
@@ -82,7 +80,6 @@
 #import "IFADefaultAppearanceTheme.h"
 #import "IFAInternalWebBrowserActivity.h"
 #import "IFACollectionViewFlowLayout.h"
-#import "IFAAnalyticsUtils.h"
 #import "IFACollectionViewFetchedResultsControllerDelegate.h"
 #import "IFACurrentLocationManager.h"
 #import "IFASemaphoreManager.h"

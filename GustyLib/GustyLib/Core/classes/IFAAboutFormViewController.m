@@ -114,11 +114,6 @@
     return l_items;
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self ifa_logAnalyticsScreenEntry];
-}
-
 #pragma mark - UITableViewDataSource
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
