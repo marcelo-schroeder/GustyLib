@@ -26,7 +26,7 @@ Pod::Spec.new do |s|
         ss.resource      = 'GustyLib/GustyLib/GoogleMobileAdsSupport/resources/**/*.*'
         ss.frameworks    = 'AdSupport', 'AudioToolbox', 'AVFoundation', 'CoreGraphics', 'CoreTelephony', 'MessageUI', 'StoreKit', 'SystemConfiguration'
         ss.xcconfig      = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'IFA_AVAILABLE_GoogleMobileAdsSupport=1' }
-        ss.dependency 'Google-AdMob-Ads-SDK'
+        ss.dependency 'Google-Mobile-Ads-SDK'
     end
     s.subspec 'FlurrySupport' do |ss|
         ss.source_files  = 'GustyLib/GustyLib/FlurrySupport/classes/**/*.{h,m}'
