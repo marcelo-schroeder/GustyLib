@@ -29,12 +29,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ## FlurrySDK
 
-Developer's use of the SDK is governed by the license in the applicable Flurry Terms of Service.  Some components of the SDK are governed by open source software licenses.  In the event of any conflict between the license in the applicable Flurry Terms of Service and the applicable open source license, the terms of the open source license shall prevail with respect to those components.
+Developer's use of the SDK is governed by the license in the applicable Flurry Terms of Service.  Some components of the SDK are governed by open source software licenses.  In the event of any conflict between  the license in the applicable Flurry Terms of Service and the applicable open source license, the terms of the open source license shall prevail with respect to those components. 
 
-## Google-AdMob-Ads-SDK
 
-Copyright 2009 - 2012 Google, Inc. All rights reserved.
+## Google-Mobile-Ads-SDK
 
+Copyright 2011 Google Inc. All Rights Reserved.
 
 ## IFATestingSupport
 
@@ -92,7 +92,7 @@ THE SOFTWARE.
 
 BSD License
 
-Copyright 2013 hamcrest.org
+Copyright 2014 hamcrest.org
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

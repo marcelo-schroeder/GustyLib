@@ -10,7 +10,7 @@ pod 'ODRefreshControl'
 pod 'MWFeedParser'
 
 # GoogleMobileAdsSupport dependencies
-pod 'Google-AdMob-Ads-SDK'
+pod 'Google-Mobile-Ads-SDK'
 
 # FlurrySupport dependencies
 pod 'FlurrySDK'

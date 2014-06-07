@@ -44,7 +44,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Developer's use of the SDK is governed by the license in the applicable Flurry Terms of Service.  Some components of the SDK are governed by open source software licenses.  In the event of any conflict between the license in the applicable Flurry Terms of Service and the applicable open source license, the terms of the open source license shall prevail with respect to those components.</string>
+			<string>Developer's use of the SDK is governed by the license in the applicable Flurry Terms of Service.  Some components of the SDK are governed by open source software licenses.  In the event of any conflict between  the license in the applicable Flurry Terms of Service and the applicable open source license, the terms of the open source license shall prevail with respect to those components. 
+</string>
 			<key>Title</key>
 			<string>FlurrySDK</string>
 			<key>Type</key>
@@ -52,10 +53,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Copyright 2009 - 2012 Google, Inc. All rights reserved.
-</string>
+			<string>Copyright 2011 Google Inc. All Rights Reserved.</string>
 			<key>Title</key>
-			<string>Google-AdMob-Ads-SDK</string>
+			<string>Google-Mobile-Ads-SDK</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
@@ -127,7 +127,7 @@ THE SOFTWARE.</string>
 			<key>FooterText</key>
 			<string>BSD License
 
-Copyright 2013 hamcrest.org
+Copyright 2014 hamcrest.org
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
