@@ -40,7 +40,7 @@
 @property (strong, nonatomic, readonly) UIView *detailContainerView;
 @property (strong, nonatomic, readonly) UIView *separatorView;
 
-@property (weak, nonatomic) id<IFAMasterDetailViewControllerDataSource> ifa_googleMobileAdsSupportDataSource;
+@property (weak, nonatomic) id<IFAMasterDetailViewControllerDataSource> dataSource;
 @end
 
 /**

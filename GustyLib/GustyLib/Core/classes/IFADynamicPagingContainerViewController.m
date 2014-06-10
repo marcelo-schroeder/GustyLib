@@ -19,6 +19,7 @@
 //
 
 #import "IFACommon.h"
+#import "IFADynamicPagingContainerViewControllerDataSource.h"
 
 static NSArray *c_pageDataLoadingOrder = nil;
 
@@ -55,7 +56,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
 }
 
 -(id)IFA_requestChildViewControllerFromDataSourceForPage:(IFAScrollPage)a_page{
-    UITableViewController *l_viewController = [self.ifa_googleMobileAdsSupportDataSource childViewControlerForPage:a_page];
+    UITableViewController *l_viewController = [self.dataSource childViewControlerForPage:a_page];
     l_viewController.tableView.scrollsToTop = NO;
     return l_viewController ? l_viewController : [NSNull null];
 }
@@ -160,7 +161,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
 -(void)ifa_updateNavigationItemState {
     [super ifa_updateNavigationItemState];
 //    NSLog(@"ifa_updateNavigationItemState v_selectedPage: %u", v_selectedPage);
-    self.navigationItem.title = [self.ifa_googleMobileAdsSupportDataSource titleForPage:v_selectedPage];
+    self.navigationItem.title = [self.dataSource titleForPage:v_selectedPage];
 }
 
 - (void)ifa_updateToolbarNavigationButtonState {

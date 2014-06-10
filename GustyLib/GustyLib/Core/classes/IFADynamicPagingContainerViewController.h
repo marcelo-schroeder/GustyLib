@@ -23,6 +23,7 @@
 #import "IFAAbstractPagingContainerViewController.h"
 
 @class IFATableViewController;
+@protocol IFADynamicPagingContainerViewControllerDataSource;
 
 @interface IFADynamicPagingContainerViewController : IFAAbstractPagingContainerViewController {
     
@@ -39,7 +40,7 @@
     
 }
 
-@property (weak, nonatomic) id<IFADynamicPagingContainerViewControllerDataSource> ifa_googleMobileAdsSupportDataSource;
+@property (weak, nonatomic) id<IFADynamicPagingContainerViewControllerDataSource> dataSource;
 @property (nonatomic, strong) NSMutableArray *pagingContainerChildViewControllers;
 @property (nonatomic, strong, readonly) NSDate *lastFullChildViewControllerUpdate;
 
