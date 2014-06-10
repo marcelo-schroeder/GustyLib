@@ -20,6 +20,7 @@
 
 #import <sys/utsname.h>
 #import "IFACommon.h"
+#import "IFADispatchQueueManager.h"
 
 @implementation IFAUtils {
     
@@ -153,29 +154,23 @@
 }
 
 +(void)dispatchAsyncMainThreadBlock:(dispatch_block_t)a_block{
-    dispatch_async(dispatch_get_main_queue(), a_block);
+    [[IFADispatchQueueManager sharedInstance] dispatchAsyncMainThreadBlock:a_block];
 }
 
 +(void)dispatchAsyncMainThreadBlock:(dispatch_block_t)a_block afterDelay:(NSTimeInterval)a_delay{
-    dispatch_after([self dispatchTimeForDelay:a_delay], dispatch_get_main_queue(), a_block);
+    [[IFADispatchQueueManager sharedInstance] dispatchAsyncMainThreadBlock:a_block afterDelay:a_delay];
 }
 
 +(void)dispatchSyncMainThreadBlock:(dispatch_block_t)a_block{
-    dispatch_sync(dispatch_get_main_queue(), a_block);
+    [[IFADispatchQueueManager sharedInstance] dispatchSyncMainThreadBlock:a_block];
 }
 
 +(void)dispatchAsyncGlobalDefaultPriorityQueueBlock:(dispatch_block_t)a_block{
-    [self dispatchAsyncGlobalQueueBlock:a_block priority:DISPATCH_QUEUE_PRIORITY_DEFAULT];
+    [[IFADispatchQueueManager sharedInstance] dispatchAsyncGlobalDefaultPriorityQueueBlock:a_block];
 }
 
 +(void)dispatchAsyncGlobalQueueBlock:(dispatch_block_t)a_block priority:(dispatch_queue_priority_t)a_priority{
-    dispatch_async(dispatch_get_global_queue(a_priority, 0), a_block);
-}
-
-+ (dispatch_time_t)dispatchTimeForDelay:(NSTimeInterval)a_delay {
-    int64_t l_delta = (int64_t)(1.0e9 * a_delay);
-    dispatch_time_t l_dispatchTimeDelay = dispatch_time(DISPATCH_TIME_NOW, l_delta);
-    return l_dispatchTimeDelay;
+    [[IFADispatchQueueManager sharedInstance] dispatchAsyncGlobalQueueBlock:a_block priority:a_priority];
 }
 
 +(NSDictionary*)infoPList{
