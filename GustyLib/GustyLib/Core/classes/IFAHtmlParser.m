@@ -208,6 +208,21 @@ static NSString *const k_tagAttributeStyle = @"style";
                    withMarkupString:a_newMarkupString inHtmlString:self.mutableHtmlString];
 }
 
+- (IFAHtmlElementParsingMetadata *)lastAncestorHtmlElementNamed:(NSString *)a_elementName {
+    __block IFAHtmlElementParsingMetadata *l_matchingElementParsingMetadata = nil;
+    void (^l_elementMetadataStackEnumerationBlock)(id, NSUInteger, BOOL *) =
+            ^(id obj, NSUInteger idx, BOOL *stop) {
+                IFAHtmlElementParsingMetadata *l_elementParsingMetadata = obj;
+                if ([(l_elementParsingMetadata.name) isEqualToString:a_elementName]) {
+                    l_matchingElementParsingMetadata = l_elementParsingMetadata;
+                    *stop = YES;
+                }
+            };
+    [self.elementMetadataStack enumerateObjectsWithOptions:NSEnumerationReverse
+                                                usingBlock:l_elementMetadataStackEnumerationBlock];
+    return l_matchingElementParsingMetadata;
+}
+
 - (NSDictionary *)activeInlineStyleAttributes {
     NSMutableDictionary *l_combinedAttributes = [@{} mutableCopy];
     [self.IFA_elementStyleAttributesStack enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {

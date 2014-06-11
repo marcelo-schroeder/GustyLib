@@ -20,6 +20,7 @@
 
 @class IFAHtmlDocumentPosition;
 @class IFAHtmlElementParsingContext;
+@class IFAHtmlElementParsingMetadata;
 
 
 typedef void (^IFAHtmlParserEndElementBlock)(IFAHtmlElementParsingContext *a_parsingContext);
@@ -35,6 +36,13 @@ typedef void (^IFAHtmlParserEndElementBlock)(IFAHtmlElementParsingContext *a_par
 - (NSString *)parseHtmlString:(NSString *)a_htmlString endElementBlock:(IFAHtmlParserEndElementBlock)a_endElementBlock;
 
 - (void)replaceMarkupString:(NSString *)a_markupStringToBeReplaced withMarkupString:(NSString *)a_newMarkupString;
+
+/**
+* Used to find the last ancestor HTML element that matches a given name.
+* @param a_elementName Name of the HTML element to find.
+* @returns Parsing metadata corresponding to the last ancestor HTML element that matched the name provided. Nil will be returned if no match has been found.
+*/
+- (IFAHtmlElementParsingMetadata *)lastAncestorHtmlElementNamed:(NSString *)a_elementName;
 
 /**
 * Returns the inline style attributes that are currently active at the time the IFAHtmlParserEndElementBlock block is called during parsing.

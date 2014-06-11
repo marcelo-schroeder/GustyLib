@@ -23,9 +23,15 @@
 typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes, NSDictionary *a_activeInlineStyleAttributes);
 
 @interface IFAHtmlParserTests : XCTestCase
+@property(nonatomic, strong) IFAHtmlParser *p_htmlParser;
 @end
 
 @implementation IFAHtmlParserTests {
+}
+
+- (void)setUp {
+    [super setUp];
+    self.p_htmlParser = [IFAHtmlParser new];
 }
 
 - (void)testSimpleHtmlParsing {
@@ -347,6 +353,56 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
     [self parseHtmlFileNamed:@"HtmlParser_testdata3" withElementBlock:l_elementBlock];
 }
 
+- (void)testThatLastAncestorHtmlElementNamedReturnsTheCorrectResultWhenAMatchIsFound{
+
+    // given
+    id l_htmlElementParsingMetadataMock1 = [OCMockObject mockForClass:[IFAHtmlElementParsingMetadata class]];
+    [((IFAHtmlElementParsingMetadata *)[[l_htmlElementParsingMetadataMock1 expect] andReturn:@"name1"]) name];
+    id l_htmlElementParsingMetadataMock2 = [OCMockObject mockForClass:[IFAHtmlElementParsingMetadata class]];
+    [((IFAHtmlElementParsingMetadata *)[[l_htmlElementParsingMetadataMock2 expect] andReturn:@"name2"]) name];
+    id l_htmlElementParsingMetadataMock3 = [OCMockObject mockForClass:[IFAHtmlElementParsingMetadata class]];
+    [((IFAHtmlElementParsingMetadata *)[[l_htmlElementParsingMetadataMock3 expect] andReturn:@"name3"]) name];
+    NSMutableArray *l_htmlElementParsingMetadataMocks = [@[
+            l_htmlElementParsingMetadataMock1,
+            l_htmlElementParsingMetadataMock2,
+            l_htmlElementParsingMetadataMock3,
+    ] mutableCopy];
+    id l_htmlParserPartialMock = [OCMockObject partialMockForObject:self.p_htmlParser];
+    [[[l_htmlParserPartialMock expect] andReturn:l_htmlElementParsingMetadataMocks] elementMetadataStack];
+    
+    // when
+    IFAHtmlElementParsingMetadata *l_result = [l_htmlParserPartialMock lastAncestorHtmlElementNamed:@"name2"];
+    
+    // then
+    assertThat(l_result, is(equalTo(l_htmlElementParsingMetadataMock2)));
+    
+}
+
+- (void)testThatLastAncestorHtmlElementNamedReturnsNilWhenAMatchIsNotFound{
+
+    // given
+    id l_htmlElementParsingMetadataMock1 = [OCMockObject mockForClass:[IFAHtmlElementParsingMetadata class]];
+    [((IFAHtmlElementParsingMetadata *)[[l_htmlElementParsingMetadataMock1 expect] andReturn:@"name1"]) name];
+    id l_htmlElementParsingMetadataMock2 = [OCMockObject mockForClass:[IFAHtmlElementParsingMetadata class]];
+    [((IFAHtmlElementParsingMetadata *)[[l_htmlElementParsingMetadataMock2 expect] andReturn:@"name2"]) name];
+    id l_htmlElementParsingMetadataMock3 = [OCMockObject mockForClass:[IFAHtmlElementParsingMetadata class]];
+    [((IFAHtmlElementParsingMetadata *)[[l_htmlElementParsingMetadataMock3 expect] andReturn:@"name3"]) name];
+    NSMutableArray *l_htmlElementParsingMetadataMocks = [@[
+            l_htmlElementParsingMetadataMock1,
+            l_htmlElementParsingMetadataMock2,
+            l_htmlElementParsingMetadataMock3,
+    ] mutableCopy];
+    id l_htmlParserPartialMock = [OCMockObject partialMockForObject:self.p_htmlParser];
+    [[[l_htmlParserPartialMock expect] andReturn:l_htmlElementParsingMetadataMocks] elementMetadataStack];
+
+    // when
+    IFAHtmlElementParsingMetadata *l_result = [l_htmlParserPartialMock lastAncestorHtmlElementNamed:@"name4"];
+
+    // then
+    assertThat(l_result, is(equalTo(nil)));
+
+}
+
 #pragma mark - Private
 
 - (void)parseHtmlFileNamed:(NSString *)a_htmlFileName
@@ -365,7 +421,6 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
     NSMutableArray *l_elementAttributes = [@[] mutableCopy];
     NSMutableArray *l_activeInlineStyleAttributes = [@[] mutableCopy];
 
-    IFAHtmlParser *l_htmlParser = [IFAHtmlParser new];
     void (^l_endElementBlock)(IFAHtmlElementParsingContext *) =
             ^(IFAHtmlElementParsingContext *a_parsingContext) {
                 IFAHtmlElementParsingMetadata *l_elementMetadata = a_parsingContext.elementMetadata;
@@ -376,9 +431,9 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
                 [l_elementNames addObject:l_name];
                 [l_elementStringRepresentations addObject:l_stringRepresentation];
                 [l_elementAttributes addObject:l_attributes ? l_attributes : [NSNull null]];
-                [l_activeInlineStyleAttributes addObject:[l_htmlParser activeInlineStyleAttributes]];
+                [l_activeInlineStyleAttributes addObject:[self.p_htmlParser activeInlineStyleAttributes]];
             };
-    [l_htmlParser parseHtmlString:l_htmlOriginal
+    [self.p_htmlParser parseHtmlString:l_htmlOriginal
                     endElementBlock:l_endElementBlock];
 
     for (NSUInteger i = 0; i < l_elementNames.count; i++) {
