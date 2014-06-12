@@ -1,4 +1,4 @@
-# README #
+# GustyLib #
 
 A Cocoa Touch static library to help you develop high quality iOS apps faster.
 
