@@ -29,4 +29,12 @@
     self.contentOffset = CGPointMake((CGFloat) (ceil(l_contentOffsetX / l_width) * l_width), l_contentOffsetY);
 }
 
+- (NSUInteger)ifa_horizontalPageIndex{
+    return (NSUInteger) (self.contentOffset.x / self.frame.size.width);
+}
+
+- (NSUInteger)ifa_verticalPageIndex{
+    return (NSUInteger) (self.contentOffset.y / self.frame.size.height);
+}
+
 @end

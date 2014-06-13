@@ -26,6 +26,13 @@
 @property (nonatomic, weak) id<IFAGridViewDelegate> gridViewDelegate;
 @property (nonatomic, strong, readonly) UICollectionViewFlowLayout *layout;
 
+/**
+* This property indicates whether the view controller needs to support paging. The default value is NO.
+* Supporting paging currently means that this view controller will make sure that the collection view's content offset is always matching the current page, even when interface orientation changes occur.
+* When set to YES, this property will only make sense if self.collectionView.pagingEnabled is also set to YES.
+*/
+@property (nonatomic) BOOL shouldSupportPaging;
+
 @end
 
 @protocol IFAGridViewDataSource <NSObject>

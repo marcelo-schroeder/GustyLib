@@ -26,4 +26,15 @@
 //   orientation change in some situations (e.g. from portrait to landscape on 2nd page of a collection view)
 - (void)ifa_updateContentOffsetForPagination;
 
+/**
+* Calculates horizontal page index based on current width and content X offset
+* @returns Current horizontal page index.
+*/
+- (NSUInteger)ifa_horizontalPageIndex;
+
+/**
+* Calculates vertical page index based on current height and content Y offset
+* @returns Current vertical page index.
+*/
+- (NSUInteger)ifa_verticalPageIndex;
 @end

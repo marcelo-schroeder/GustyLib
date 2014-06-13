@@ -21,6 +21,8 @@
 @interface IFAGridViewController ()
 @property(nonatomic) BOOL IFA_firstLoadDone;
 @property(nonatomic) BOOL IFA_interfaceIsRotating;
+@property(nonatomic) NSUInteger IFA_savedHorizontalPageIndex;
+@property(nonatomic) NSUInteger IFA_savedVerticalPageIndex;
 @end
 
 @implementation IFAGridViewController {
@@ -33,6 +35,19 @@
     [self.collectionView setNeedsLayout];
     [self.collectionView layoutIfNeeded];
     [self.collectionView reloadData];
+}
+
+- (void)IFA_updateContentOffsetInCaseDeviceOrientationChangedWhileViewWasNotVisible {
+    if (self.collectionView.pagingEnabled && self.shouldSupportPaging) {
+        CGFloat l_contentXOffset = self.IFA_savedHorizontalPageIndex * self.view.frame.size.width;
+        CGFloat l_contentYOffset = self.IFA_savedVerticalPageIndex * self.view.frame.size.height;
+        if (self.collectionView.contentOffset.x != l_contentXOffset || self.collectionView.contentOffset.y != l_contentYOffset) {
+            __weak __typeof(self) l_weakSelf = self;
+            [UIView animateWithDuration:0.3 animations:^{
+                l_weakSelf.collectionView.contentOffset = CGPointMake(l_contentXOffset, l_contentYOffset);
+            }];
+        }
+    }
 }
 
 - (void)IFA_doFirstLoadConfiguration {
@@ -229,6 +244,17 @@
     [self IFA_updateGridLayoutInCaseDeviceOrientationChangedWhileViewWasNotVisible];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self IFA_updateContentOffsetInCaseDeviceOrientationChangedWhileViewWasNotVisible];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.IFA_savedHorizontalPageIndex = [self.collectionView ifa_horizontalPageIndex];
+    self.IFA_savedVerticalPageIndex = [self.collectionView ifa_verticalPageIndex];
+}
+
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
                                 duration:(NSTimeInterval)duration {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
@@ -238,7 +264,9 @@
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
                                          duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self.collectionView ifa_updateContentOffsetForPagination];
+    if (self.collectionView.pagingEnabled && self.shouldSupportPaging) {
+        [self.collectionView ifa_updateContentOffsetForPagination];
+    }
     [self IFA_updateCollectionViewLayout];
     // Need to reload data here because the item order might change if orientation changes
     [self.collectionView reloadData];
