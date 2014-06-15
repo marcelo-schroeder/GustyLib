@@ -35,7 +35,28 @@ typedef void (^IFAHtmlParserEndElementBlock)(IFAHtmlElementParsingContext *a_par
 
 - (NSString *)parseHtmlString:(NSString *)a_htmlString endElementBlock:(IFAHtmlParserEndElementBlock)a_endElementBlock;
 
+/**
+* Replace a given markup string with another.
+* @param a_markupStringToBeReplaced HTML string to be replaced.
+* @param a_newMarkupString HTML string to replace the HTML provided in a_markupStringToBeReplaced.
+*/
 - (void)replaceMarkupString:(NSString *)a_markupStringToBeReplaced withMarkupString:(NSString *)a_newMarkupString;
+
+/**
+* Replace a given markup string with provided tag and attributes.
+* @param a_markupStringToBeReplaced HTML string to be replaced.
+* @param a_tagName In conjunction with a_attributes, will determine the HTML string to replace a_markupStringToBeReplaced;
+* @param a_attributes In conjunction with a_tagName, will determine the HTML string to replace a_markupStringToBeReplaced;
+*/
+- (void)replaceMarkupString:(NSString *)a_markupStringToBeReplaced withTag:(NSString *)a_tagName andAttributes:(NSDictionary *)a_attributes;
+
+/**
+* Replace the markup string of the first opening tag in a given HTML string representation with provided tag and attributes.
+* @param a_stringRepresentation The first opening tag contained in this HTML string representation, will be replaced by the HTML generated from a_tagName and a_attributes.
+* @param a_tagName In conjunction with a_attributes, will determine the HTML string to replace a_markupStringToBeReplaced;
+* @param a_attributes In conjunction with a_tagName, will determine the HTML string to replace a_markupStringToBeReplaced;
+*/
+- (void)replaceFirstOpeningTagInStringRepresentation:(NSString *)a_stringRepresentation withTag:(NSString *)a_tagName andAttributes:(NSDictionary *)a_attributes;
 
 /**
 * Used to find the last ancestor HTML element that matches a given name.

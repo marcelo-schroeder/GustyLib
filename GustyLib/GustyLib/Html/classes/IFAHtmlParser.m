@@ -208,6 +208,22 @@ static NSString *const k_tagAttributeStyle = @"style";
                    withMarkupString:a_newMarkupString inHtmlString:self.mutableHtmlString];
 }
 
+- (void)replaceMarkupString:(NSString *)a_markupStringToBeReplaced withTag:(NSString *)a_tagName
+              andAttributes:(NSDictionary *)a_attributes {
+    BOOL l_shouldClose = [IFAHtmlParser isElementClosedForStringRepresentation:a_markupStringToBeReplaced];
+    NSString *l_newMarkupString = [IFAHtmlParser markupStringForTag:a_tagName
+                                                         attributes:a_attributes shouldClose:l_shouldClose];
+    [self replaceMarkupString:a_markupStringToBeReplaced
+             withMarkupString:l_newMarkupString];
+}
+
+- (void)replaceFirstOpeningTagInStringRepresentation:(NSString *)a_stringRepresentation withTag:(NSString *)a_tagName
+                                       andAttributes:(NSDictionary *)a_attributes {
+    NSString *l_markupStringToBeReplaced = [IFAHtmlParser firstOpeningTagForStringRepresentation:a_stringRepresentation];
+    [self replaceMarkupString:l_markupStringToBeReplaced withTag:a_tagName
+                andAttributes:a_attributes];
+}
+
 - (IFAHtmlElementParsingMetadata *)lastAncestorHtmlElementNamed:(NSString *)a_elementName {
     __block IFAHtmlElementParsingMetadata *l_matchingElementParsingMetadata = nil;
     void (^l_elementMetadataStackEnumerationBlock)(id, NSUInteger, BOOL *) =
