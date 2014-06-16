@@ -463,7 +463,7 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
 
 }
 
-- (void)testReplaceFirstOpeningTagInStringRepresentationWithMarkupString{
+- (void)testReplaceFirstOpeningTagInStringRepresentationWithMarkupStringWhenFirstOpeningTagIsNotClosed{
 
     // given
     __weak __typeof(self) l_weakSelf = self;
@@ -490,6 +490,38 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
  "</head>\n"
  "<body>\n"
  "<p><mytag attr1=\"value1\" attr2=\"value2\"><img src=\"http://www.test.com/test.jpg\"/></a></p>\n"
+ "</body>\n"
+ "</html>")));
+
+}
+
+- (void)testReplaceFirstOpeningTagInStringRepresentationWithMarkupStringWhenFirstOpeningTagIsClosed{
+
+    // given
+    __weak __typeof(self) l_weakSelf = self;
+    IFAHtmlParserTestsElementBlock l_elementBlock = ^(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes, NSDictionary *a_activeInlineStyleAttributes) {
+        if ([a_name isEqualToString:@"img"]) {
+            NSString *l_tagName = @"mytag";
+            NSDictionary *l_attributes = @{
+                @"attr1" : @"value1",
+                @"attr2" : @"value2",
+            };
+            [l_weakSelf.p_htmlParser replaceFirstOpeningTagInStringRepresentation:a_stringRepresentation withTag:l_tagName andAttributes:l_attributes];
+        }
+    };
+
+    // when
+    [self parseHtmlFileNamed:@"HtmlParser_testdata4" withElementBlock:l_elementBlock];
+
+    // then
+    assertThat(self.p_htmlParser.mutableHtmlString, is(equalTo(@"<!DOCTYPE html>\n"
+ "<html>\n"
+ "<head lang=\"en\">\n"
+ "    <meta charset=\"UTF-8\">\n"
+ "    <title></title>\n"
+ "</head>\n"
+ "<body>\n"
+ "<p><a href=\"http://www.test.com/test.jpg\"><mytag attr1=\"value1\" attr2=\"value2\"></mytag></a></p>\n"
  "</body>\n"
  "</html>")));
 

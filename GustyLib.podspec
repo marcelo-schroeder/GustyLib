@@ -28,8 +28,8 @@ Pod::Spec.new do |s|
         ss.dependency 'FlurrySDK'
     end
     s.subspec 'Html' do |ss|
-        ss.source_files  = 'GustyLib/GustyLib/FlurrySupport/Html/**/*.{h,m}'
-        ss.resource      = 'GustyLib/GustyLib/FlurrySupport/Html/**/*.*'
+        ss.source_files  = 'GustyLib/GustyLib/Html/classes/**/*.{h,m}'
+        ss.resource      = 'GustyLib/GustyLib/Html/resources/**/*.*'
         ss.xcconfig      = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'IFA_AVAILABLE_Html=1' }
         ss.dependency 'DTFoundation', '1.6.2'
         ss.dependency 'MWFeedParser', '1.0.1'
