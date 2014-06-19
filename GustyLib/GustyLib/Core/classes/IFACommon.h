@@ -18,8 +18,6 @@
 //  limitations under the License.
 //
 
-//wip: how about the accessibility stuff? is it all inside the Help subspec?
-
 // Frameworks
 #import <CoreData/CoreData.h>
 #import <CoreText/CoreText.h>
