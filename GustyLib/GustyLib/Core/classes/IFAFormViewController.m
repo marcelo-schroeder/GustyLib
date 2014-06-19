@@ -20,6 +20,11 @@
 
 #import "IFACommon.h"
 
+#ifdef IFA_AVAILABLE_Help
+#import "IFAHelpManager.h"
+#import "UIViewController+IFAHelp.h"
+#endif
+
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -61,7 +66,9 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 		self.formName = aFormName;
 		self.isSubForm = aSubFormFlag;
 
-        self.ifa_helpTargetId = [IFAUIUtils helpTargetIdForName:[@"form" stringByAppendingString:self.createMode ? @".new" : @".existing"]];
+#ifdef IFA_AVAILABLE_Help
+        self.helpTargetId = [IFAUIUtils helpTargetIdForName:[@"form" stringByAppendingString:self.createMode ? @".new" : @".existing"]];
+#endif
 
     }
 	
@@ -83,8 +90,10 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
                                                                                                                        cell:l_cell];
     }
-    l_cell.ifa_helpTargetId = [IFAHelpManager helpTargetIdForPropertyName:l_propertyName inObject:self.object];
-    
+#ifdef IFA_AVAILABLE_Help
+    l_cell.helpTargetId = [IFAHelpManager helpTargetIdForPropertyName:l_propertyName inObject:self.object];
+#endif
+
     return l_cell;
     
 }
@@ -213,12 +222,14 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 			break;
 	}
 
+#ifdef IFA_AVAILABLE_Help
     // Set the help target ID for the view controller, if required
     if (l_shouldSetHelpTargetId) {
         UITableViewCell *l_cell = [self visibleCellForIndexPath:anIndexPath];
         controller.ifa_helpTargetId = l_cell.ifa_helpTargetId;
     }
-    
+#endif
+
 	return controller;
     
 }
@@ -537,6 +548,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                                                                                createMode:self.createMode];
 }
 
+#ifdef IFA_AVAILABLE_Help
 -(NSString *)ifa_editBarButtonItemHelpTargetId {
     if([[IFAPersistenceManager sharedInstance].entityConfig hasSubmitButtonForForm:self.formName inEntity:[self.object ifa_entityName]]) {
         return [self ifa_helpTargetIdForName:@"submitButton"];
@@ -544,6 +556,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         return [super ifa_editBarButtonItemHelpTargetId];
     }
 }
+#endif
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated{
     
@@ -980,8 +993,10 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                                                                     reuseIdentifier:cellIdentifier object:self.object
                                                                        propertyName:propertyName indexPath:indexPath
                                                                    segmentedControl:segmentedControl];
-                    cell.ifa_helpTargetId = [IFAHelpManager helpTargetIdForPropertyName:propertyName
+#ifdef IFA_AVAILABLE_Help
+                    cell.helpTargetId = [IFAHelpManager helpTargetIdForPropertyName:propertyName
                                                                            inObject:self.object];
+#endif
                     cell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
 
                     // Set appearance

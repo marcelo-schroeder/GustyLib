@@ -480,7 +480,9 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         [l_button setImage:l_imageNormal forState:UIControlStateNormal];
         [l_button setImage:l_imageHighlighted forState:UIControlStateHighlighted];
     }
-    l_button.ifa_helpTargetId = [IFAUIUtils helpTargetIdForName:@"detailDisclosureButton"];
+#ifdef IFA_AVAILABLE_Help
+    l_button.helpTargetId = [IFAUIUtils helpTargetIdForName:@"detailDisclosureButton"];
+#endif
     return l_button;
 }
 

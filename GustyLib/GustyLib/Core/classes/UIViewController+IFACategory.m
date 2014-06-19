@@ -38,10 +38,8 @@ static char c_activePopoverControllerBarButtonItemKey;
 static char c_subTitleKey;
 static char c_slidingMenuBarButtonItemKey;
 static char c_titleViewDefaultKey;
-static char c_helpTargetIdKey;
 static char c_titleViewLandscapePhoneKey;
 static char c_changesMadeByPresentedViewControllerKey;
-static char c_helpBarButtonItemKey;
 static char c_refreshControlKey;
 static char c_activeFetchedResultsControllerKey;
 static char c_keyboardPassthroughViewKey;
@@ -54,7 +52,6 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 @property (nonatomic, strong) UIPopoverController *ifa_activePopoverController;
 @property (nonatomic, strong) UIBarButtonItem *ifa_activePopoverControllerBarButtonItem;
 @property (nonatomic, strong) UIBarButtonItem *IFA_slidingMenuBarButtonItem;
-@property (nonatomic, strong) UIBarButtonItem *IFA_helpBarButtonItem;
 @property (nonatomic) BOOL ifa_changesMadeByPresentedViewController;
 @property (nonatomic, strong) NSFetchedResultsController *ifa_activeFetchedResultsController;
 @property (nonatomic, strong) IFAPassthroughView *IFA_keyboardPassthroughView;
@@ -342,14 +339,6 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     objc_setAssociatedObject(self, &c_titleViewDefaultKey, a_titleViewDefault, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(NSString*)ifa_helpTargetId {
-    return objc_getAssociatedObject(self, &c_helpTargetIdKey);
-}
-
--(void)setIfa_helpTargetId:(NSString*)a_helpTargetId{
-    objc_setAssociatedObject(self, &c_helpTargetIdKey, a_helpTargetId, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
 -(ODRefreshControl*)ifa_refreshControl {
     return objc_getAssociatedObject(self, &c_refreshControlKey);
 }
@@ -391,14 +380,6 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 -(void)setIFA_notificationObserversToRemoveOnDealloc:(NSMutableArray *)a_notificationObserversToRemoveOnDealloc{
     objc_setAssociatedObject(self, &c_notificationObserversToRemoveOnDeallocKey, a_notificationObserversToRemoveOnDealloc, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
--(UIBarButtonItem*)IFA_helpBarButtonItem {
-    return objc_getAssociatedObject(self, &c_helpBarButtonItemKey);
-}
-
--(void)setIFA_helpBarButtonItem:(UIBarButtonItem*)a_helpBarButtonItem{
-    objc_setAssociatedObject(self, &c_helpBarButtonItemKey, a_helpBarButtonItem, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 -(NSFetchedResultsController*)ifa_activeFetchedResultsController {
@@ -587,10 +568,6 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 -(BOOL)ifa_isDetailViewController {
     return [self.splitViewController.viewControllers objectAtIndex:1]==self.navigationController && self.navigationController.viewControllers[0]==self;
-}
-
--(NSString*)ifa_helpTargetIdForName:(NSString*)a_name{
-    return [NSString stringWithFormat:@"controllers.%@.%@", [[self class] description], a_name];
 }
 
 -(BOOL)ifa_presentedAsModal {
@@ -873,24 +850,13 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 }
 
--(UIBarButtonItem*)IFA_editBarButtonItem {
-    if ([self isKindOfClass:[IFADynamicPagingContainerViewController class]]) {
-        IFADynamicPagingContainerViewController *l_containerViewController = (IFADynamicPagingContainerViewController *)self;
-        return [l_containerViewController visibleChildViewController].editButtonItem;
-    }else{
-        return self.editButtonItem;
-    }
-}
-
-//-(void)m_updateEditButtonItemAccessibilityLabel{
-//    [self IFA_editBarButtonItem].accessibilityLabel = self.editing ? @"Done Button" : @"Edit Button";
-//}
-
 - (void)ifa_viewDidLoad {
     
 //    NSLog(@"ifa_viewDidLoad: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
-    
+
+#ifdef IFA_AVAILABLE_Help
 //    [self m_updateEditButtonItemAccessibilityLabel];
+#endif
 
     UINavigationItem *l_navigationItem = [self ifa_navigationItem];
     l_navigationItem.leftItemsSupplementBackButton = YES;
@@ -904,13 +870,15 @@ static char c_shouldUseKeyboardPassthroughViewKey;
         [self ifa_addLeftBarButtonItem:l_backBarButtonItem];
     }
 
+#ifdef IFA_AVAILABLE_Help
     // Configure help button
     if ([[IFAHelpManager sharedInstance] isHelpEnabledForViewController:self]) {
         self.IFA_helpBarButtonItem = [[IFAHelpManager sharedInstance] newHelpBarButtonItem];
     }else{
         self.IFA_helpBarButtonItem = nil;
     }
-    
+#endif
+
     // Set appearance
     [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnViewDidLoadForViewController:self];
     
@@ -965,7 +933,8 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 - (void)ifa_viewWillAppear {
     
 //    NSLog(@"ifa_viewWillAppear: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
-    
+
+#ifdef IFA_AVAILABLE_Help
     // Add the help button if help is enabled for this view controller
     if (self.IFA_helpBarButtonItem) {
         if ([self isKindOfClass:[IFAAbstractFieldEditorViewController class]] || [self isKindOfClass:[IFAMultiSelectionListViewController class]]) {
@@ -978,7 +947,8 @@ static char c_shouldUseKeyboardPassthroughViewKey;
             [self ifa_insertRightBarButtonItem:self.IFA_helpBarButtonItem atIndex:0];
         }
     }
-    
+#endif
+
     // Add observers
 #ifdef IFA_AVAILABLE_GoogleMobileAdsSupport
     [self ifa_startObservingGoogleMobileAdsSupportNotifications];
@@ -1011,8 +981,10 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     // Set appearance
     [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnViewWillAppearForViewController:self];
 
+#ifdef IFA_AVAILABLE_Help
     // Configure help target
     [self ifa_registerForHelp];
+#endif
 
 }
 
@@ -1140,12 +1112,14 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 -(void)ifa_willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-    
+
+#ifdef IFA_AVAILABLE_Help
     // Tell help manager about the interface orientation change
     if (self.ifa_helpMode && [IFAHelpManager sharedInstance].observedHelpTargetContainer ==self) {
         [[IFAHelpManager sharedInstance] observedViewControllerWillRotateToInterfaceOrientation:toInterfaceOrientation
                                                                                   duration:duration];
     }
+#endif
 
     [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnWillRotateForViewController:self
                                                                                            toInterfaceOrientation:toInterfaceOrientation];
@@ -1164,12 +1138,14 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 -(void)ifa_didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-    
+
+#ifdef IFA_AVAILABLE_Help
     // Tell help manager about the interface orientation change
     if (self.ifa_helpMode && [IFAHelpManager sharedInstance].observedHelpTargetContainer ==self) {
         [[IFAHelpManager sharedInstance] observedViewControllerDidRotateFromInterfaceOrientation:fromInterfaceOrientation];
     }
-    
+#endif
+
     if (self.ifa_activePopoverController && self.ifa_activePopoverControllerBarButtonItem) {
         
         // Present popover controller in the new interface orientation
@@ -1189,10 +1165,6 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     return [(self.editing ? [self ifa_editModeToolbarItems] : [self ifa_nonEditModeToolbarItems]) count] > 0;
 }
 
--(BOOL)ifa_helpMode {
-    return [IFAHelpManager sharedInstance].helpMode;
-}
-
 -(UIStoryboard*)ifa_commonStoryboard {
     static NSString * const k_storyboardName = @"CommonStoryboard";
     return [UIStoryboard storyboardWithName:k_storyboardName bundle:[[self ifa_appearanceTheme] bundle]];
@@ -1210,46 +1182,12 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     }
 }
 
--(void)ifa_registerForHelp {
-    if (![self.parentViewController isKindOfClass:[IFAAbstractPagingContainerViewController class]]) {
-        UIViewController *l_helpTargetViewController = [[IFAHelpManager sharedInstance] isHelpEnabledForViewController:self] ? self : nil;
-        [[IFAHelpManager sharedInstance] observeHelpTargetContainer:l_helpTargetViewController];
-    }
-}
-
--(NSString*)ifa_editBarButtonItemHelpTargetId {
-    NSString *l_helpTargetId = nil;
-    if (self.editing) {
-        BOOL l_doneButtonSaves = self.ifa_doneButtonSaves;
-        if ([self isKindOfClass:[IFADynamicPagingContainerViewController class]]) {
-            IFADynamicPagingContainerViewController *l_pagingContainerViewController = (IFADynamicPagingContainerViewController *)self;
-            l_doneButtonSaves = [l_pagingContainerViewController visibleChildViewController].ifa_doneButtonSaves;
-        }
-        if (l_doneButtonSaves) {
-            l_helpTargetId = [IFAUIUtils helpTargetIdForName:@"saveButton"];
-        }else{
-            l_helpTargetId = [IFAUIUtils helpTargetIdForName:@"doneButton"];
-        }
-    }else{
-        l_helpTargetId = [IFAUIUtils helpTargetIdForName:@"editButton"];
-    }
-    return l_helpTargetId;
-}
-
 -(void)ifa_openUrl:(NSURL*)a_url{
     [[IFAExternalUrlManager sharedInstance] openUrl:a_url];
 }
 
 -(void)ifa_releaseView {
     [self IFA_releaseViewForController:self];
-}
-
--(NSString*)ifa_accessibilityLabelForKeyPath:(NSString*)a_keyPath{
-    return [[IFAHelpManager sharedInstance] accessibilityLabelForKeyPath:a_keyPath];
-}
-
--(NSString*)ifa_accessibilityLabelForName:(NSString*)a_name{
-    return [self ifa_accessibilityLabelForKeyPath:[self ifa_helpTargetIdForName:a_name]];
 }
 
 -(void)ifa_showRefreshControl:(UIControl *)a_control inScrollView:(UIScrollView*)a_scrollView{
@@ -1436,75 +1374,6 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 //    
 //}
 
-#pragma mark - IFAHelpTargetContainer
-
--(NSArray*)helpTargets {
-
-    NSMutableArray *l_helpTargets = [NSMutableArray new];
-
-    // Navigation bar
-    id<IFAHelpTarget> l_helpTarget = nil;
-    if ((l_helpTarget=self.navigationController.navigationBar)) {
-//        NSLog(@"navigationBar: %@", [l_helpTarget description]);
-        [l_helpTargets addObject:l_helpTarget];
-    }
-//    NSLog(@"Processing left bar button items in %@...", [self description]);
-    for (UIBarButtonItem *l_barButtonItem in self.navigationItem.leftBarButtonItems) {
-//        NSLog(@"l_barButtonItem: %@, helpTargetId: %@, title: %@", [l_barButtonItem description], l_barButtonItem.helpTargetId, l_barButtonItem.title);
-        [l_helpTargets addObject:l_barButtonItem];
-    }
-//    NSLog(@"Processing right bar button items in %@...", [self description]);
-    for (UIBarButtonItem *l_barButtonItem in self.navigationItem.rightBarButtonItems) {
-//        NSLog(@" l_barButtonItem: %@", [l_barButtonItem description]);
-        if (l_barButtonItem.tag== IFABarItemTagHelpButton) {
-//            NSLog(@" help button ignored");
-            continue;
-        }
-//        NSLog(@" IFA_editBarButtonItem: %@", [[self m_editBarButtonItem] description]);
-        if (l_barButtonItem== [self IFA_editBarButtonItem]) {
-            l_barButtonItem.helpTargetId = [self ifa_editBarButtonItemHelpTargetId];
-        }
-        [l_helpTargets addObject:l_barButtonItem];
-    }
-
-    // Tool bar
-    for (UIBarButtonItem *l_barButtonItem in self.navigationController.toolbar.items) {
-        [l_helpTargets addObject:l_barButtonItem];
-    }
-
-    // Tab bar
-    if (self.tabBarController.tabBar) {
-        [l_helpTargets addObject:self.tabBarController.tabBar];
-    }
-
-    return l_helpTargets;
-
-}
-
--(UIView*)helpModeToggleView {
-    return self.navigationController.navigationBar;
-}
-
--(UIView*)targetView {
-    return [self ifa_mainViewController].view;
-}
-
--(void)willEnterHelpMode {
-    // does nothing
-}
-
--(void)didEnterHelpMode {
-    // does nothing
-}
-
--(void)willExitHelpMode {
-    // does nothing
-}
-
--(void)didExitHelpMode {
-    // does nothing
-}
-
 #pragma mark - IFAPresenter protocol
 
 -(void)changesMadeByViewController:(UIViewController *)a_viewController{
@@ -1520,7 +1389,9 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 - (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
                                        data:(id)a_data animated:(BOOL)a_animate{
     self.ifa_changesMadeByPresentedViewController = a_changesMade;
+#ifdef IFA_AVAILABLE_Help
     [self ifa_registerForHelp];
+#endif
     if (a_viewController.ifa_presentedAsModal) {
         [self ifa_dismissModalViewControllerWithChangesMade:a_changesMade data:a_data animated:a_animate];
     }else{

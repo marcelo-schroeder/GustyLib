@@ -235,14 +235,18 @@ static NSString * const k_valueCellId = @"valueCell";
                                                                                   style:UIBarButtonItemStylePlain
                                                                                  target:self
                                                                                  action:@selector(IFA_onDateAndTimeToggleButtonTap:)];
+#ifdef IFA_AVAILABLE_Help
             self.IFA_showDatePickerBarButtonItem.accessibilityLabel = [self ifa_accessibilityLabelForName:@"showDatePickerButton"];
+#endif
 
             self.IFA_showTimePickerBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"11-clock.png"]
                                                                                   style:UIBarButtonItemStylePlain
                                                                                  target:self
                                                                                  action:@selector(IFA_onDateAndTimeToggleButtonTap:)];
+#ifdef IFA_AVAILABLE_Help
             self.IFA_showTimePickerBarButtonItem.accessibilityLabel = [self ifa_accessibilityLabelForName:@"showTimePickerButton"];
-            
+#endif
+
             self.IFA_dateAndTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             self.IFA_dateAndTimeLabel.backgroundColor = [UIColor clearColor];
             self.IFA_dateAndTimeLabel.textColor = [UIColor whiteColor];

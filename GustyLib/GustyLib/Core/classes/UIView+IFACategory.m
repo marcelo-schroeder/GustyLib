@@ -22,7 +22,6 @@
 
 static NSString *const k_layoutConstraintVisualFormatOrientationHorizontal = @"H";
 static NSString *const k_layoutConstraintVisualFormatOrientationVertical = @"V";
-static char c_helpTargetIdKey;
 static char c_appearanceIdKey;
 
 @implementation UIView (IFACategory)
@@ -194,44 +193,6 @@ static char c_appearanceIdKey;
 
 - (void)ifa_traverseViewHierarchyWithBlock:(void (^) (UIView *))a_block {
     [IFAUIUtils traverseHierarchyForView:self withBlock:a_block];
-}
-
-#pragma mark - IFAHelpTarget protocol
-
--(void)setIfa_helpTargetId:(NSString *)a_ifa_helpTargetId {
-    objc_setAssociatedObject(self, &c_helpTargetIdKey, a_ifa_helpTargetId, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    if ([self isKindOfClass:[UIButton class]]) {
-        NSString *l_accessibilityLabel = [[IFAHelpManager sharedInstance] accessibilityLabelForKeyPath:a_ifa_helpTargetId];
-        if (l_accessibilityLabel) {
-            self.accessibilityLabel = l_accessibilityLabel;
-        }
-    }
-}
-
--(NSString *)ifa_helpTargetId {
-    return objc_getAssociatedObject(self, &c_helpTargetIdKey);
-}
-
-#pragma mark - IFAHelpTargetContainer
-
--(NSArray*)ifa_helpTargets {
-    return nil;
-}
-
--(UIView*)ifa_helpModeToggleView {
-    return nil;
-}
-
--(UIView*)ifa_view {
-    return nil;
-}
-
--(void)ifa_didEnterHelpMode {
-    // does nothing
-}
-
--(void)ifa_willExitHelpMode {
-    // does nothing
 }
 
 @end

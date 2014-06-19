@@ -19,25 +19,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "IFAHelpManager.h"
 
 @protocol IFAAppearanceTheme;
 
-@interface UIView (IFACategory) <IFAHelpTarget>
+@interface UIView (IFACategory)
 
-@property (nonatomic, strong) NSString *ifa_helpTargetId;
 @property (nonatomic, strong) NSString *ifa_appearanceId;
 
 -(id)ifa_init;
 -(void)ifa_awakeFromNib;
 -(void)ifa_roundCorners;
 -(void)ifa_roundCornersWithRadius:(CGFloat)a_radius;
-
--(NSArray*)ifa_helpTargets;
--(UIView*)ifa_helpModeToggleView;
--(UIView*)ifa_view;
--(void)ifa_didEnterHelpMode;
--(void)ifa_willExitHelpMode;
 
 -(CGPoint)ifa_centerInSuperview:(UIView*)a_superview;
 

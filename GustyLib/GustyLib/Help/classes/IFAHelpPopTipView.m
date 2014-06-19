@@ -19,6 +19,9 @@
 //
 
 #import "IFACommon.h"
+#import "IFAHtmlDocument.h"
+#import "IFAHelpPopTipView.h"
+#import "IFAHelpManager.h"
 
 @interface IFAHelpPopTipView ()
 

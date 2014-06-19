@@ -20,6 +20,10 @@
 
 #import "IFACommon.h"
 
+#ifdef IFA_AVAILABLE_Help
+#import "UIViewController+IFAHelp.h"
+#endif
+
 enum {
 	
     ACTION_SHEET_TAG_SELECT_NONE	= 100,
@@ -393,8 +397,10 @@ enum {
         l_deleteButtonView.hidden = YES;
 	}
 	cell.textLabel.text = [managedObject ifa_longDisplayValue];
-    cell.ifa_helpTargetId = [[self ifa_helpTargetIdForName:@"tableCell."] stringByAppendingString:indexPath.section==0?@"selected":@"unselected"];
-	
+#ifdef IFA_AVAILABLE_Help
+    cell.helpTargetId = [[self ifa_helpTargetIdForName:@"tableCell."] stringByAppendingString:indexPath.section==0?@"selected":@"unselected"];
+#endif
+
     return cell;
 
 }

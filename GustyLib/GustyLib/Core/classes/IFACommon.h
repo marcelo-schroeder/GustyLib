@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+//wip: how about the accessibility stuff? is it all inside the Help subspec?
+
 // Frameworks
 #import <CoreData/CoreData.h>
 #import <CoreText/CoreText.h>
@@ -73,7 +75,6 @@
 // Helpers
 #import "IFAApplicationDelegate.h"
 #import "IFAEmailManager.h"
-#import "IFAHelpManager.h"
 #import "IFAPreferencesManager.h"
 #import "IFAAbstractAppearanceTheme.h"
 #import "IFAAppearanceThemeManager.h"
@@ -99,15 +100,12 @@
 #import "IFAPinAnnotationView.h"
 #import "IFASliderTableViewCell.h"
 #import "IFASwitchTableViewCell.h"
-#import "IFAHelpModeOverlayView.h"
 #import "IFAActionSheet.h"
-#import "IFAHelpPopTipView.h"
 #import "IFAFormTextFieldTableViewCell.h"
 #import "IFAFormNumberFieldTableViewCell.h"
 #import "IFATextField.h"
 #import "IFAView.h"
 #import "IFANavigationItemTitleView.h"
-#import "IFAHelpTargetView.h"
 #import "IFATableSectionHeaderView.h"
 #import "IFATableCellSelectedBackgroundView.h"
 #import "IFACollectionViewCell.h"
@@ -164,7 +162,6 @@
 #import "UITableView+IFACategory.h"
 #import "NSFileManager+IFACategory.h"
 #import "UIView+IFACategory.h"
-#import "UIBarItem+IFACategory.h"
 #import "UIPopoverController+IFACategory.h"
 #import "UIColor+IFACategory.h"
 #import "UIImage+IFACategory.h"
@@ -181,6 +178,5 @@
 // Model - non-gen
 #import "IFAMapAnnotation.h"
 #import "IFAEnumerationEntity.h"
-#import "IFAHtmlDocument.h"
 #import "IFAAboutInfoModel.h"
 #import "IFAColorScheme.h"

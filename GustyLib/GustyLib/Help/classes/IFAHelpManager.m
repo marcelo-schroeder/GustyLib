@@ -19,6 +19,13 @@
 //
 
 #import "IFACommon.h"
+#import "IFAHelpModeOverlayView.h"
+#import "IFAHelpPopTipView.h"
+#import "IFAHelpManager.h"
+#import "UIBarItem+IFAHelp.h"
+#import "UIView+IFAHelp.h"
+#import "UIViewController+IFAHelp.h"
+#import "IFAHelpTargetView.h"
 
 @interface IFABarButtonItemSavedState : NSObject
 
@@ -46,7 +53,7 @@
 
 @interface IFATableViewCellSavedState : IFAViewSavedState
 
-@property (nonatomic) BOOL IFA_selectionStyle;
+@property (nonatomic) UITableViewCellSelectionStyle IFA_selectionStyle;
 
 @end
 
@@ -85,7 +92,7 @@
 
 @implementation IFAHelpManager {
     @private
-    UIView *v_helpModeOverlayView;
+    IFAHelpModeOverlayView *v_helpModeOverlayView;
     UIView *v_userInteractionBlockingView;
     UITapGestureRecognizer *v_mainViewCatchAllGestureRecogniser;
     UITapGestureRecognizer *v_navigationBarCatchAllGestureRecogniser;
@@ -107,7 +114,7 @@
 //    NSLog(@"Help mode instructions scheduling CANCELLED");
 }
 
--(UIView *)IFA_helpModeOverlayView {
+-(IFAHelpModeOverlayView *)IFA_helpModeOverlayView {
     if (!v_helpModeOverlayView) {
         v_helpModeOverlayView = [IFAHelpModeOverlayView new];
     }
@@ -380,7 +387,7 @@
         return;
     }
     
-    NSLog(@"m_onHelpTargetSelectionForTapGestureRecogniser - view: %@, helpTargetId: %@", a_tapGestureRecogniser.view, a_tapGestureRecogniser.view.ifa_helpTargetId);
+    NSLog(@"m_onHelpTargetSelectionForTapGestureRecogniser - view: %@, helpTargetId: %@", a_tapGestureRecogniser.view, a_tapGestureRecogniser.view.helpTargetId);
 //    NSLog(@"IFA_onHelpTargetSelectionForTapGestureRecogniser: %@, helpTargetId: %@", [a_tapGestureRecogniser description], a_tapGestureRecogniser.view.helpTargetId);
     
 //    NSDictionary *l_helpDictionary = [IFAUtils getPlistAsDictionary:@"Help"];
@@ -388,7 +395,7 @@
 
     UIViewController *l_viewController = (UIViewController*)self.observedHelpTargetContainer;
     UIView *l_view = a_tapGestureRecogniser.view;
-    NSString *l_helpTargetId = l_view.ifa_helpTargetId;
+    NSString *l_helpTargetId = l_view.helpTargetId;
     
     NSString *l_title = [self IFA_helpTitleForKeyPath:l_helpTargetId];
     if (!l_title) {
@@ -519,7 +526,7 @@
         [l_fieldEditorViewController.navigationController.view addSubview:l_backgroundView];
         
         // Present pop tip view
-        NSString *l_description = [self IFA_helpDescriptionForKeyPath:l_fieldEditorViewController.ifa_helpTargetId];
+        NSString *l_description = [self IFA_helpDescriptionForKeyPath:l_fieldEditorViewController.helpTargetId];
         [self IFA_presentPopTipViewWithTitle:nil description:l_description pointingAtView:a_button];
 
     }else{  // Help Mode
@@ -533,7 +540,7 @@
 
 -(void)IFA_onScreenHelpButtonTap:(UIButton*)a_button{
     UIViewController *l_observedViewController = (UIViewController*)self.observedHelpTargetContainer;
-    NSString *l_helpTargetId = l_observedViewController.ifa_helpTargetId;
+    NSString *l_helpTargetId = l_observedViewController.helpTargetId;
     if (!l_helpTargetId) {
         l_helpTargetId = [l_observedViewController ifa_helpTargetIdForName:@"screen"];
     }
@@ -550,7 +557,7 @@
 //    NSLog(@"m_insertHelpTargetViewForView: %@", a_view);
     IFAHelpTargetView *l_helpTargetView = [[IFAHelpTargetView alloc] initWithFrame:a_view.frame];
 //    l_helpTargetView.backgroundColor = [UIColor redColor];
-    l_helpTargetView.ifa_helpTargetId = a_view.ifa_helpTargetId;
+    l_helpTargetView.helpTargetId = a_view.helpTargetId;
     if (a_title) {
         l_helpTargetView.accessibilityLabel = a_title;
     }
@@ -586,7 +593,7 @@
     if([a_helpTarget isKindOfClass:[UITabBar class]]){
         
         UITabBar *l_tabBar = (UITabBar*)a_helpTarget;
-        NSUInteger l_tabBarItemWidth = l_tabBar.frame.size.width / l_tabBar.items.count;
+        NSUInteger l_tabBarItemWidth = (NSUInteger) (l_tabBar.frame.size.width / l_tabBar.items.count);
         for (int i=0; i<l_tabBar.items.count; i++) {
             @autoreleasepool {
                 CGRect l_frame = CGRectMake(i*l_tabBarItemWidth, 0, l_tabBarItemWidth, l_tabBar.frame.size.height);

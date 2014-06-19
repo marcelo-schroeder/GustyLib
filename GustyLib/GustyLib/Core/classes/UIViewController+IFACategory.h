@@ -19,8 +19,11 @@
 //
 
 #import "IFAPresenter.h"
-#import "IFAHelpManager.h"
 #import "CoreData/CoreData.h"
+
+#ifdef IFA_AVAILABLE_Help
+#import "IFAHelpManager.h"
+#endif
 
 @class IFAAsynchronousWorkManager;
 @class IFANavigationItemTitleView;
@@ -29,20 +32,18 @@
 @protocol IFAAppearanceTheme;
 @class IFAPassthroughView;
 
-@interface UIViewController (IFACategory) <IFAHelpTargetContainer, IFAPresenter, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate>
+@interface UIViewController (IFACategory) <IFAPresenter, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate>
 
 @property (nonatomic, readonly) BOOL ifa_presentedAsModal;
 @property (nonatomic, readonly) BOOL ifa_isMasterViewController;
 @property (nonatomic, readonly) BOOL ifa_isDetailViewController;
 @property (nonatomic, readonly) BOOL ifa_needsToolbar;
-@property (nonatomic, readonly) BOOL ifa_helpMode;
 @property (nonatomic, readonly) BOOL ifa_changesMadeByPresentedViewController;
 @property (nonatomic, readonly) IFAAsynchronousWorkManager *ifa_asynchronousWorkManager;
 @property (nonatomic, weak) id<IFAPresenter> ifa_presenter;
 @property (nonatomic, strong, readonly) UIPopoverController *ifa_activePopoverController;
 @property (nonatomic, strong, readonly) UIBarButtonItem *ifa_activePopoverControllerBarButtonItem;
 @property (nonatomic, strong) NSString *ifa_subTitle;
-@property (nonatomic, strong) NSString *ifa_helpTargetId;
 @property (nonatomic, strong) IFANavigationItemTitleView *ifa_titleViewDefault;
 @property (nonatomic, strong) IFANavigationItemTitleView *ifa_titleViewLandscapePhone;
 @property (nonatomic, strong) ODRefreshControl *ifa_refreshControl;
@@ -84,8 +85,6 @@
 + (BOOL)ifa_isStoryboardDeviceSpecific;
 
 - (void)ifa_onKeyboardNotification:(NSNotification *)a_notification;
-
--(NSString*)ifa_helpTargetIdForName:(NSString*)a_name;
 
 - (void)ifa_updateToolbarForMode:(BOOL)anEditModeFlag animated:(BOOL)anAnimatedFlag;
 
@@ -164,15 +163,10 @@
 -(void)ifa_reset;
 
 -(UINavigationItem*)ifa_navigationItem;
--(void)ifa_registerForHelp;
--(NSString*)ifa_editBarButtonItemHelpTargetId;
 
 -(void)ifa_openUrl:(NSURL*)a_url;
 
 -(void)ifa_releaseView;
-
--(NSString*)ifa_accessibilityLabelForKeyPath:(NSString*)a_keyPath;
--(NSString*)ifa_accessibilityLabelForName:(NSString*)a_name;
 
 - (UIPopoverArrowDirection)ifa_permittedPopoverArrowDirectionForViewController:(UIViewController *)a_viewController;
 
@@ -242,8 +236,6 @@ typedef enum{
 - (void)ifa_addNotificationObserverForName:(NSString *)a_name object:(id)a_obj queue:(NSOperationQueue *)a_queue
                                 usingBlock:(void (^)(NSNotification *a_note))a_block
                                removalTime:(IFAViewControllerNotificationObserverRemovalTime)a_removalTime;
-
-#pragma mark - IFAHelpTargetContainer
 
 - (BOOL)ifa_isVisibleTopViewController;
 

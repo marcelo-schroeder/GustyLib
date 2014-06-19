@@ -20,6 +20,8 @@
 
 #import "IFAViewController.h"
 
+@class IFATableViewController;
+
 @interface IFAAbstractPagingContainerViewController : IFAViewController <UIScrollViewDelegate>
 
 @property (nonatomic, readonly) UIScrollView *scrollView;

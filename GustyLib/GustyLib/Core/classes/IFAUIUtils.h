@@ -18,8 +18,6 @@
 //  limitations under the License.
 //
 
-#import "IFAHtmlDocument.h"
-
 // Size limit for UIWebView to be able to display images in iOS 7 and above.
 // 5Mb seems to be limit for UIWebView to be able to display images in iOS 7 (i.e. no devices have less than 256Mb of RAM)
 // Based on the "Know iOS Resource Limits" section at https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html

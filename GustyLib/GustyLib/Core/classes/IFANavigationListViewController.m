@@ -20,6 +20,10 @@
 
 #import "IFACommon.h"
 
+#ifdef IFA_AVAILABLE_Help
+#import "IFAHelpManager.h"
+#endif
+
 @interface IFANavigationListViewController ()
 
 @end
@@ -47,9 +51,13 @@
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
+#ifdef IFA_AVAILABLE_Help
     if (![IFAHelpManager sharedInstance].helpMode) {
+#endif
         [self showEditFormForManagedObject:(NSManagedObject*) [self objectForIndexPath:indexPath]];
+#ifdef IFA_AVAILABLE_Help
     }
+#endif
 }
 
 #pragma mark - UITableViewDataSource Protocol
@@ -100,7 +108,16 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
-	return [IFAHelpManager sharedInstance].helpMode ? NO : [[IFAPersistenceManager sharedInstance].entityConfig listReorderAllowedForEntity:self.entityName];
+#ifdef IFA_AVAILABLE_Help
+    if ([IFAHelpManager sharedInstance].helpMode) {
+        return NO;
+    }
+    else {
+#endif
+        return [[IFAPersistenceManager sharedInstance].entityConfig listReorderAllowedForEntity:self.entityName];
+#ifdef IFA_AVAILABLE_Help
+    }
+#endif
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath{

@@ -19,6 +19,7 @@
 //
 
 #import "IFACommon.h"
+#import "IFAHtmlDocument.h"
 
 @implementation IFAHtmlDocument {
     

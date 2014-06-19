@@ -34,4 +34,10 @@ Pod::Spec.new do |s|
         ss.dependency 'DTFoundation', '1.6.2'
         ss.dependency 'MWFeedParser', '1.0.1'
     end
+    s.subspec 'Help' do |ss|
+        ss.source_files  = 'GustyLib/GustyLib/Help/classes/**/*.{h,m}'
+        ss.resource      = 'GustyLib/GustyLib/Help/resources/**/*.*'
+        ss.xcconfig      = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'IFA_AVAILABLE_Help=1' }
+        ss.dependency 'GustyLib/Html'
+    end
 end

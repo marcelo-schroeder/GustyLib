@@ -19,6 +19,7 @@
 //
 
 #import "IFACommon.h"
+#import "IFAHelpModeOverlayView.h"
 
 @interface IFAHelpModeOverlaySpotlightMaskView : UIView
 

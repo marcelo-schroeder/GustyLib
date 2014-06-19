@@ -23,7 +23,7 @@
 @protocol IFAHelpTargetContainer <NSObject>
 
 -(NSArray*)helpTargets;
--(UINavigationBar*)helpModeToggleView;
+-(UIView *)helpModeToggleView;
 -(UIView*)targetView;
 @optional
 -(void)willEnterHelpMode;

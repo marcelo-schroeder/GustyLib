@@ -20,6 +20,10 @@
 
 #import "IFACommon.h"
 
+#ifdef IFA_AVAILABLE_Help
+#import "UIViewController+IFAHelp.h"
+#endif
+
 @interface IFASingleSelectionListViewController ()
 
 @property (nonatomic) BOOL IFA_hasInitialLoadBeenDone;
@@ -53,7 +57,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
 	BOOL selected = [[selectionManager selectedIndexPath] isEqual:indexPath];
-    cell.ifa_helpTargetId = [[self ifa_helpTargetIdForName:@"tableCell."] stringByAppendingString:selected?@"selected":@"unselected"];
+#ifdef IFA_AVAILABLE_Help
+    cell.helpTargetId = [[self ifa_helpTargetIdForName:@"tableCell."] stringByAppendingString:selected?@"selected":@"unselected"];
+#endif
 	return [self decorateSelectionForCell:cell selected:selected targetObject:[selectionManager selectedObject]];
 }
 

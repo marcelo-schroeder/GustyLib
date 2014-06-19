@@ -19,7 +19,10 @@
 //
 
 #import "IFACommon.h"
-#import "IFADynamicPagingContainerViewControllerDataSource.h"
+
+#ifdef IFA_AVAILABLE_Help
+#import "UIViewController+IFAHelp.h"
+#endif
 
 static NSArray *c_pageDataLoadingOrder = nil;
 
@@ -100,10 +103,14 @@ static NSArray *c_pageDataLoadingOrder = nil;
     v_previousViewBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemPreviousPage target:self
                                                             action:NULL];
     [IFAUIUtils adjustImageInsetsForBarButtonItem:v_previousViewBarButtonItem insetValue:1];
+#ifdef IFA_AVAILABLE_Help
     v_previousViewBarButtonItem.helpTargetId = [self ifa_helpTargetIdForName:@"previousPageButton"];
+#endif
     v_nextViewBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemNextPage target:self action:NULL];
     [IFAUIUtils adjustImageInsetsForBarButtonItem:v_nextViewBarButtonItem insetValue:1];
+#ifdef IFA_AVAILABLE_Help
     v_nextViewBarButtonItem.helpTargetId = [self ifa_helpTargetIdForName:@"nextPageButton"];
+#endif
     [self IFA_enableNavigationButtonsAction:YES];
 
 }

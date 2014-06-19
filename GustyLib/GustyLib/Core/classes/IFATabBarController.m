@@ -20,6 +20,9 @@
 
 #import "IFACommon.h"
 
+#ifdef IFA_AVAILABLE_Help
+#import "IFAHelpManager.h"
+#endif
 
 @implementation IFATabBarController{
 
@@ -63,7 +66,8 @@
 -(BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController{
 
     //    NSLog(@"shouldSelectViewController: %@", [viewController description]);
-    
+
+#ifdef IFA_AVAILABLE_Help
     // Check if we are in help mode first
     if ([IFAHelpManager sharedInstance].helpMode) {
         NSUInteger l_selectedViewControllerIndex = [self.viewControllers indexOfObject:viewController];
@@ -80,7 +84,8 @@
                                                            helpTargetId:l_tabBarItem.helpTargetId title:l_title];
         return NO;
     }
-    
+#endif
+
     BOOL l_shouldSelectViewController = YES;
     if ([self.selectedViewController isKindOfClass:[IFANavigationController class]]) {
         IFANavigationController *l_selectedNavigationController = (IFANavigationController *)self.selectedViewController;
