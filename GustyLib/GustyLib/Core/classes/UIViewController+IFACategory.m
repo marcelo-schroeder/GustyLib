@@ -23,6 +23,10 @@
 #import "IFASubjectActivityItem.h"
 #import "IFAPassthroughView.h"
 
+#ifdef IFA_AVAILABLE_Help
+#import "UIViewController+IFAHelp.h"
+#endif
+
 #ifdef IFA_AVAILABLE_GoogleMobileAdsSupport
 #import "UIViewController+IFAGoogleMobileAdsSupport.h"
 #endif

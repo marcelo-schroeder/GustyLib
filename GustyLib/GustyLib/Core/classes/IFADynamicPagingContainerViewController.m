@@ -22,6 +22,7 @@
 
 #ifdef IFA_AVAILABLE_Help
 #import "UIViewController+IFAHelp.h"
+#import "UIBarItem+IFAHelp.h"
 #endif
 
 static NSArray *c_pageDataLoadingOrder = nil;

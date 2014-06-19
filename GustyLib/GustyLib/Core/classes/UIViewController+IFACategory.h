@@ -21,10 +21,6 @@
 #import "IFAPresenter.h"
 #import "CoreData/CoreData.h"
 
-#ifdef IFA_AVAILABLE_Help
-#import "IFAHelpManager.h"
-#endif
-
 @class IFAAsynchronousWorkManager;
 @class IFANavigationItemTitleView;
 @class ODRefreshControl;

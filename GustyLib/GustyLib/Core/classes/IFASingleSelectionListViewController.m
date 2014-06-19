@@ -22,6 +22,7 @@
 
 #ifdef IFA_AVAILABLE_Help
 #import "UIViewController+IFAHelp.h"
+#import "UIView+IFAHelp.h"
 #endif
 
 @interface IFASingleSelectionListViewController ()

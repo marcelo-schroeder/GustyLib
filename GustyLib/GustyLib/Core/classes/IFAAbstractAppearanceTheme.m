@@ -20,6 +20,10 @@
 
 #import "IFACommon.h"
 
+#ifdef IFA_AVAILABLE_Help
+#import "UIView+IFAHelp.h"
+#endif
+
 @interface IFAAbstractAppearanceTheme ()
 
 @property (nonatomic, strong) UINavigationBar *navigationBarAppearance;

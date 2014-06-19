@@ -23,6 +23,7 @@
 #ifdef IFA_AVAILABLE_Help
 #import "IFAHelpManager.h"
 #import "UIViewController+IFAHelp.h"
+#import "UIView+IFAHelp.h"
 #endif
 
 #ifdef IFA_AVAILABLE_GoogleMobileAdsSupport

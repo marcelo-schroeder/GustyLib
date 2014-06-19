@@ -22,6 +22,7 @@
 
 #ifdef IFA_AVAILABLE_Help
 #import "IFAHelpManager.h"
+#import "UIBarItem+IFAHelp.h"
 #endif
 
 @implementation IFATabBarController{

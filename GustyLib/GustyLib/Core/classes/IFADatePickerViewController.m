@@ -20,6 +20,10 @@
 
 #import "IFACommon.h"
 
+#ifdef IFA_AVAILABLE_Help
+#import "UIViewController+IFAHelp.h"
+#endif
+
 @interface IFADatePickerViewController ()
 
 @property (nonatomic, strong) NSDate *IFA_dateAndTime;

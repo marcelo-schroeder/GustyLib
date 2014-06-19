@@ -23,6 +23,7 @@
 #ifdef IFA_AVAILABLE_Help
 #import "IFAHelpManager.h"
 #import "UIViewController+IFAHelp.h"
+#import "UIView+IFAHelp.h"
 #endif
 
 @interface IFAFormViewController ()
@@ -226,7 +227,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     // Set the help target ID for the view controller, if required
     if (l_shouldSetHelpTargetId) {
         UITableViewCell *l_cell = [self visibleCellForIndexPath:anIndexPath];
-        controller.ifa_helpTargetId = l_cell.ifa_helpTargetId;
+        controller.helpTargetId = l_cell.helpTargetId;
     }
 #endif
 
