@@ -39,31 +39,31 @@
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if (self) {
-        self.IFA_credits = [[IFAUtils infoPList] objectForKey:@"IFAThirdPartyCodeCredits"];
+        NSSortDescriptor *l_sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
+                                                                         ascending:YES];
+        self.IFA_credits = [[[IFAUtils infoPList] objectForKey:@"IFAThirdPartyCodeCredits"] sortedArrayUsingDescriptors:@[l_sortDescriptor]];
     }
     return self;
 }
 
 -(UITableViewCell *)createReusableCellWithIdentifier:(NSString *)a_reuseIdentifier atIndexPath:(NSIndexPath *)a_indexPath{
     UITableViewCell *l_cell = [super createReusableCellWithIdentifier:a_reuseIdentifier atIndexPath:a_indexPath];
-    l_cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    l_cell.accessoryType = UITableViewCellAccessoryDetailButton;
     return l_cell;
 }
 
 #pragma mark - UITableViewDataDelegate
 
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+    [self m_openUrlForIndexPath:indexPath];
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSIndexPath *l_selectedIndexPath = self.tableView.indexPathForSelectedRow;
-    NSDictionary *l_credit = self.IFA_credits[(NSUInteger) l_selectedIndexPath.row];
-    NSURL *l_url = [NSURL URLWithString:l_credit[@"url"]];
-    [self ifa_openUrl:l_url];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self m_openUrlForIndexPath:indexPath];
 }
 
 #pragma mark - UITableViewDataSource
-
--(void)viewDidLoad{
-    [super viewDidLoad];
-}
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString * const k_cellId = @"cell";
@@ -79,6 +79,14 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.IFA_credits.count;
+}
+
+#pragma mark - Private
+
+- (void)m_openUrlForIndexPath:(NSIndexPath *)a_indexPath {
+    NSDictionary *l_credit = self.IFA_credits[(NSUInteger) a_indexPath.row];
+    NSURL *l_url = [NSURL URLWithString:l_credit[@"url"]];
+    [self ifa_openUrl:l_url];
 }
 
 @end
