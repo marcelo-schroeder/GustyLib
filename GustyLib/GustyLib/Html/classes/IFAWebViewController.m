@@ -20,6 +20,7 @@
 
 #import "IFACommon.h"
 #import "IFAHtmlDocument.h"
+#import "IFAWebViewController.h"
 
 @interface IFAWebViewController ()
 
