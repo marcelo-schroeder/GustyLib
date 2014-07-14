@@ -141,7 +141,6 @@
 #import "IFAAboutViewController.h"
 #import "IFASlidingViewController.h"
 #import "IFAAboutFormViewController.h"
-#import "IFAWebViewController.h"
 #import "IFAThirdPartyCodeCreditsViewController.h"
 #import "IFAPageViewController.h"
 #import "IFACollectionViewController.h"
