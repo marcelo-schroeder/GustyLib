@@ -35,8 +35,6 @@
 
     [super viewDidLoad];
 
-    self.navigationBar.barStyle = UIBarStyleBlack;
-
     // Set appearance
     [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnViewDidLoadForViewController:self];
 
