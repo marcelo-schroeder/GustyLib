@@ -33,6 +33,20 @@
 */
 @property (nonatomic) BOOL shouldSupportPaging;
 
+/**
+* Determine whether an item is on the last row of the grid (i.e. first row from the bottom).
+* @param a_indexPath Index path of the item to check.
+* @return YES if item is on the last row of the grid, otherwise NO.
+*/
+- (BOOL)isOnLastRowForItemAtIndex:(NSIndexPath *)a_indexPath;
+
+/**
+* Determine whether an item is on the last column of the grid (i.e. first column from the right).
+* @param a_indexPath Index path of the item to check.
+* @return YES if item is on the last column of the grid, otherwise NO.
+*/
+- (BOOL)isOnLastColumnForItemAtIndexPath:(NSIndexPath *)a_indexPath;
+
 @end
 
 @protocol IFAGridViewDataSource <NSObject>

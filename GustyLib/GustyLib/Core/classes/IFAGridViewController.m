@@ -95,10 +95,7 @@
         }
     }
 
-    UICollectionViewFlowLayout *l_layout = self.layout;
     CGFloat l_numberOfColumns = [self.gridViewDataSource numberOfGridColumns];
-    CGFloat l_numberOfRows = [self.gridViewDataSource numberOfGridRows];
-    CGFloat l_numberOfTiles = l_numberOfColumns * l_numberOfRows;
     CGFloat l_horizontalSpaceAvailable = [self IFA_calculateHorizontalSpaceAvailable];
     CGFloat l_itemWidth = (CGFloat) floor(l_horizontalSpaceAvailable / l_numberOfColumns);
 
@@ -110,13 +107,7 @@
             l_shouldAdjustLastColumnWidth = [self.gridViewDataSource shouldAdjustLastColumnWidth];
         }
         if (l_shouldAdjustLastColumnWidth) {
-            BOOL l_isLastColumn;
-            if (l_layout.scrollDirection==UICollectionViewScrollDirectionHorizontal) {
-                l_isLastColumn = a_indexPath.item >= l_numberOfTiles - l_numberOfRows;
-            }else{
-                l_isLastColumn = (((NSUInteger)a_indexPath.item + 1) % (NSUInteger)l_numberOfColumns) == 0;
-            }
-            if (l_isLastColumn) {
+            if ([self isOnLastColumnForItemAtIndexPath:a_indexPath]) {
                 l_lastColumnTileWidthAdjustment = l_horizontalSpaceAvailable - l_itemWidth * l_numberOfColumns;
             }
             l_itemWidth += l_lastColumnTileWidthAdjustment;
@@ -161,10 +152,7 @@
         }
     }
 
-    UICollectionViewFlowLayout *l_layout = self.layout;
-    CGFloat l_numberOfColumns = [self.gridViewDataSource numberOfGridColumns];
     CGFloat l_numberOfRows = [self.gridViewDataSource numberOfGridRows];
-    CGFloat l_numberOfTiles = l_numberOfColumns * l_numberOfRows;
     CGFloat l_verticalSpaceAvailable = [self IFA_calculateVerticalSpaceAvailable];
     CGFloat l_itemHeight = (CGFloat) floor(l_verticalSpaceAvailable / l_numberOfRows);
 
@@ -176,13 +164,7 @@
             l_shouldAdjustLastRowHeight = [self.gridViewDataSource shouldAdjustLastRowHeight];
         }
         if (l_shouldAdjustLastRowHeight) {
-            BOOL l_isLastRow;
-            if (l_layout.scrollDirection==UICollectionViewScrollDirectionHorizontal) {
-                l_isLastRow = (((NSUInteger)a_indexPath.item + 1) % (NSUInteger)l_numberOfRows) == 0;
-            }else{
-                l_isLastRow = a_indexPath.item >= l_numberOfTiles - l_numberOfColumns;
-            }
-            if (l_isLastRow) {
+            if ([self isOnLastRowForItemAtIndex:a_indexPath]) {
                 l_lastRowTileHeightAdjustment = l_verticalSpaceAvailable - l_itemHeight * l_numberOfRows;
             }
             l_itemHeight += l_lastRowTileHeightAdjustment;
@@ -286,6 +268,33 @@
 
 - (UICollectionViewFlowLayout *)layout {
     return (UICollectionViewFlowLayout *) self.collectionView.collectionViewLayout;
+}
+- (BOOL)isOnLastRowForItemAtIndex:(NSIndexPath *)a_indexPath {
+    UICollectionViewFlowLayout *l_layout = self.layout;
+    CGFloat l_numberOfColumns = [self.gridViewDataSource numberOfGridColumns];
+    CGFloat l_numberOfRows = [self.gridViewDataSource numberOfGridRows];
+    CGFloat l_numberOfTiles = l_numberOfColumns * l_numberOfRows;
+    BOOL l_isLastRow;
+    if (l_layout.scrollDirection == UICollectionViewScrollDirectionHorizontal) {
+        l_isLastRow = (((NSUInteger) a_indexPath.item + 1) % (NSUInteger) l_numberOfRows) == 0;
+    } else {
+        l_isLastRow = a_indexPath.item >= l_numberOfTiles - l_numberOfColumns;
+    }
+    return l_isLastRow;
+}
+
+- (BOOL)isOnLastColumnForItemAtIndexPath:(NSIndexPath *)a_indexPath {
+    UICollectionViewFlowLayout *l_layout = self.layout;
+    CGFloat l_numberOfColumns = [self.gridViewDataSource numberOfGridColumns];
+    CGFloat l_numberOfRows = [self.gridViewDataSource numberOfGridRows];
+    CGFloat l_numberOfTiles = l_numberOfColumns * l_numberOfRows;
+    BOOL l_isLastColumn;
+    if (l_layout.scrollDirection == UICollectionViewScrollDirectionHorizontal) {
+        l_isLastColumn = a_indexPath.item >= l_numberOfTiles - l_numberOfRows;
+    } else {
+        l_isLastColumn = (((NSUInteger) a_indexPath.item + 1) % (NSUInteger) l_numberOfColumns) == 0;
+    }
+    return l_isLastColumn;
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
