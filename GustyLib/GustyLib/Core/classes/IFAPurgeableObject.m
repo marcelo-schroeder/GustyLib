@@ -20,7 +20,7 @@
 
 #import "IFACommon.h"
 
-//TODO: not being used currently - see explanations in applicationDidReceiveMemoryWarning method in TimeNBillAppDelegate
+//TODO: not being used currently - see explanations in applicationDidReceiveMemoryWarning method in IFAApplicationDelegate
 
 @implementation IFAPurgeableObject
 
