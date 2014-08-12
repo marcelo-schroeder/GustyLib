@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#import "IFAConstants.h"
+
 @class NSManagedObject;
 @class NSManagedObjectContext;
 

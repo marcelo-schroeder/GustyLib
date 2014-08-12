@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#import <MessageUI/MessageUI.h>
+
 @interface IFAEmailManager : NSObject <MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, weak) UIViewController *parentViewController;

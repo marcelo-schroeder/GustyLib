@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+@protocol IFASelectionManagerDelegate;
+
 @interface IFASelectionManager : NSObject {
 	
     @protected
