@@ -1,6 +1,6 @@
 //
-//  AboutViewController.h
-//  TimeNBill
+//  IFAAboutViewController.h
+//  GustyLib
 //
 //  Created by Marcelo Schroeder on 10/12/11.
 //  Copyright (c) 2011 InfoAccent Pty Limited. All rights reserved.

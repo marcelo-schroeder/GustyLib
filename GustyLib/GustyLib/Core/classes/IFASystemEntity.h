@@ -1,6 +1,6 @@
 //
 //  IFASystemEntity.h
-//  TimeNBill
+//  GustyLib
 //
 //  Created by Marcelo Schroeder on 16/06/11.
 //  Copyright (c) 2011 InfoAccent Pty Limited. All rights reserved.
