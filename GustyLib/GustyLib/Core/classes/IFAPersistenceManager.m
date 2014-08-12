@@ -26,12 +26,6 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_LOADED = @"systemDbTablesLoaded";
 static NSString *METADATA_VALUE_SYSTEM_DB_TABLES_LOADED = @"Y";
 static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion";
 
-//#ifdef DEBUG
-//NSString *DATABASE_NAME = @"TempoTrak_TEST.sqlite";
-//#else
-//NSString *DATABASE_NAME = @"TempoTrak.sqlite";
-//#endif
-
 @interface IFAPersistenceManager ()
 
 @property (strong) NSManagedObjectModel *managedObjectModel;
