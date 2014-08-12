@@ -1446,8 +1446,6 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
         }
 
-    }else{
-        NSAssert(NO, @"Unexpected notification name: %@", a_notification.name);
     }
 
 }
