@@ -51,6 +51,10 @@
     return [UIColor colorWithHue:a_hue/360.0 saturation:a_saturation/100.0 brightness:a_brightness/100.0 alpha:a_alpha];
 }
 
++ (UIColor *)ifa_grayColorWithRGB:(NSUInteger)a_rgb {
+    return [self ifa_colorWithRed:a_rgb green:a_rgb blue:a_rgb];
+}
+
 +(void)ifa_logFontNamesPerFamily {
     NSLog(@"*** Font names per family - START ***");
     for (NSString *l_familyName in [UIFont familyNames]) {

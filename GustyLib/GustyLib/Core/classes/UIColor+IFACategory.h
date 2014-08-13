@@ -32,6 +32,8 @@
 + (UIColor *)ifa_colorWithHue:(NSUInteger)a_hue saturation:(NSUInteger)a_saturation brightness:(NSUInteger)a_brightness
                         alpha:(CGFloat)a_alpha;
 
++ (UIColor *)ifa_grayColorWithRGB:(NSUInteger)a_rgb;
+
 +(void)ifa_logFontNamesPerFamily;
 
 @end
