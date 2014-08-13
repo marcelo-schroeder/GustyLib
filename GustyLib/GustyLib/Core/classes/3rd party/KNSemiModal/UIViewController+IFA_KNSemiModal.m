@@ -151,10 +151,10 @@ static char c_presentedAsSemiModalKey;
         vc.frame = CGRectMake(0, vf.size.height, vf.size.width, sf.size.height);
 //        NSLog(@"initial frame: %@", NSStringFromCGRect(vc.frame));
         [target addSubview:vc];
-        vc.layer.shadowColor = [[UIColor blackColor] CGColor];
-        vc.layer.shadowOffset = CGSizeMake(0, -2);
-        vc.layer.shadowRadius = 5.0;
-        vc.layer.shadowOpacity = 0.8;
+//        vc.layer.shadowColor = [[UIColor blackColor] CGColor];
+//        vc.layer.shadowOffset = CGSizeMake(0, -2);
+//        vc.layer.shadowRadius = 5.0;
+//        vc.layer.shadowOpacity = 0.8;
         [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
             overlay.alpha = 0.5;
             vc.frame = f;

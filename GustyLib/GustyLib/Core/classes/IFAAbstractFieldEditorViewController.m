@@ -91,6 +91,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IFAPresenter>
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     if (![IFAUIUtils isIPad] && self.useButtonForDismissal) {
         self.editButtonItem.tag = IFABarItemTagEditButton;
         [self ifa_addRightBarButtonItem:[self editButtonItem]];
