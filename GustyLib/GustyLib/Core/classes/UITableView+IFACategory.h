@@ -23,4 +23,9 @@
 -(void)ifa_deleteRowsAtIndexPaths:(NSArray *)indexPaths;
 -(BOOL)ifa_isCellFullyVisibleForRowAtIndexPath:(NSIndexPath*)a_indexPath;
 
+/**
+* @return Default color for table view cell separators set by iOS (iOS 7.0 or greater).
+*/
++(UIColor *)ifa_defaultTableViewCellSeparatorColor;
+
 @end
