@@ -53,8 +53,8 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IFAPresenter>
 		
 		self.editing = YES;
         
-//        self.title = [[IFAPersistenceManager sharedInstance].entityConfig labelForProperty:self.propertyName
-//                                                                                 inObject:self.object];
+        self.title = [[IFAPersistenceManager sharedInstance].entityConfig labelForProperty:self.propertyName
+                                                                                 inObject:self.object];
         
         self.modalInPopover = self.useButtonForDismissal;
         
