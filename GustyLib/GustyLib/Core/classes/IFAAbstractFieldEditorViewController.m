@@ -53,8 +53,8 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IFAPresenter>
 		
 		self.editing = YES;
         
-        self.title = [[IFAPersistenceManager sharedInstance].entityConfig labelForProperty:self.propertyName
-                                                                                 inObject:self.object];
+//        self.title = [[IFAPersistenceManager sharedInstance].entityConfig labelForProperty:self.propertyName
+//                                                                                 inObject:self.object];
         
         self.modalInPopover = self.useButtonForDismissal;
         
@@ -96,6 +96,11 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IFAPresenter>
         self.editButtonItem.tag = IFABarItemTagEditButton;
         [self ifa_addRightBarButtonItem:[self editButtonItem]];
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.translucent = NO;
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated{
