@@ -20,7 +20,7 @@
 
 #import "IFAFetchedResultsTableViewController.h"
 
-@interface IFAMenuViewController : IFAFetchedResultsTableViewController
+@interface IFAMenuViewController : IFATableViewController
 
 @property (nonatomic, strong, readonly) NSMutableDictionary *indexPathToViewControllerDictionary;
 @property (nonatomic, strong) NSIndexPath *selectedIndexPath;
