@@ -26,9 +26,4 @@
 */
 + (UIColor *)ifa_defaultSeparatorColor;
 
-/**
-* @return Default horizontal offset when in edit mode (iOS 7.0 or greater). This is amount of space added to accommodate the delete button on the far left edge.
-*/
-+ (CGFloat)ifa_editModeDefaultHorizontalOffset;
-
 @end

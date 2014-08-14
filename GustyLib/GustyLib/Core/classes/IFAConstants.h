@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-static CGFloat const IFATableViewEditingCellXOffset = 32;
+static CGFloat const IFATableViewEditingCellXOffset = 38;
 static CGFloat const IFATableSectionHeaderDefaultHeight = 22;
 static CGFloat const IFAFormSectionHeaderDefaultHeight = 39;
 static CGFloat const IFAMinimumTapAreaDimension = 44;
