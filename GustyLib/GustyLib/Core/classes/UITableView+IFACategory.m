@@ -64,8 +64,4 @@
 
 }
 
-+ (UIColor *)ifa_defaultTableViewCellSeparatorColor {
-    return [UIColor ifa_colorWithRed:200 green:199 blue:204];
-}
-
 @end

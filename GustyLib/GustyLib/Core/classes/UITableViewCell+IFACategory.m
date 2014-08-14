@@ -25,4 +25,12 @@
     [[self ifa_appearanceTheme] setAppearanceOnPrepareForReuseForCell:self];
 }
 
++ (UIColor *)ifa_defaultSeparatorColor {
+    return [UIColor ifa_colorWithRed:200 green:199 blue:204];
+}
+
++ (CGFloat)ifa_editModeDefaultHorizontalOffset {
+    return 38;
+}
+
 @end

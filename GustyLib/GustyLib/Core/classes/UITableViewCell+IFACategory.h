@@ -21,4 +21,14 @@
 
 - (void)ifa_prepareForReuse;
 
+/**
+* @return Default color for table view cell separators set by iOS (iOS 7.0 or greater).
+*/
++ (UIColor *)ifa_defaultSeparatorColor;
+
+/**
+* @return Default horizontal offset when in edit mode (iOS 7.0 or greater). This is amount of space added to accommodate the delete button on the far left edge.
+*/
++ (CGFloat)ifa_editModeDefaultHorizontalOffset;
+
 @end
