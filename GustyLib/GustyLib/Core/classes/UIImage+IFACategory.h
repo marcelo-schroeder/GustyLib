@@ -20,6 +20,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum{
+    IFASeparatorImageTypeHorizontalTop,
+    IFASeparatorImageTypeVerticalLeft,
+    IFASeparatorImageTypeHorizontalBottom,
+    IFASeparatorImageTypeVerticalRight,
+}IFASeparatorImageType;
+
 @interface UIImage (IFACategory)
 
 -(UIImage*)ifa_imageWithOverlayColor:(UIColor*)a_color;
@@ -44,7 +51,13 @@
 */
 - (CGFloat)ifa_aspectRatio;
 
-+(UIImage*)ifa_imageWithColor:(UIColor *)a_color rect:(CGRect)a_rect;
-+(UIImage*)ifa_imageWithColor:(UIColor*)a_color;
++ (UIImage*)ifa_imageWithColor:(UIColor *)a_color rect:(CGRect)a_rect;
++ (UIImage*)ifa_imageWithColor:(UIColor*)a_color;
+
+/**
+* @param a_separatorImageType Type of separator to provide an image for.
+* @return 1 pixel separator image of type specified. The color will be the default color used by iOS for table view cell separators.
+*/
++ (UIImage *)ifa_separatorImageForType:(IFASeparatorImageType)a_separatorImageType;
 
 @end

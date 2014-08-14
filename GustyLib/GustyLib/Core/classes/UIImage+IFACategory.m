@@ -173,6 +173,27 @@
     return [self ifa_imageWithColor:a_color rect:CGRectMake(0, 0, 1, 1)];
 }
 
++ (UIImage *)ifa_separatorImageForType:(IFASeparatorImageType)a_separatorImageType {
+    NSString *l_imageName = nil;
+    switch (a_separatorImageType){
+        case IFASeparatorImageTypeHorizontalTop:
+            l_imageName = @"IFA1PixelLineHorizontalTop";
+            break;
+        case IFASeparatorImageTypeVerticalLeft:
+            l_imageName = @"IFA1PixelLineVerticalLeft";
+            break;
+        case IFASeparatorImageTypeHorizontalBottom:
+            l_imageName = @"IFA1PixelLineHorizontalBottom";
+            break;
+        case IFASeparatorImageTypeVerticalRight:
+            l_imageName = @"IFA1PixelLineVerticalRight";
+            break;
+        default:
+            NSAssert(NO, @"Unexpected separator image type: %u", a_separatorImageType);
+    }
+    return [self IFA_separatorImageNamed:l_imageName];
+}
+
 - (UIImage *)ifa_applyLightBlurEffect
 {
     UIColor *tintColor = [UIColor colorWithWhite:1.0 alpha:0.3];
@@ -343,6 +364,12 @@
     UIGraphicsEndImageContext();
 
     return outputImage;
+}
+
+#pragma mark - Private
+
++ (UIImage *)IFA_separatorImageNamed:(NSString *)a_imageName {
+    return [[UIImage imageNamed:a_imageName] ifa_imageWithOverlayColor:[UITableViewCell ifa_defaultSeparatorColor]];
 }
 
 @end
