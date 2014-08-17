@@ -84,7 +84,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     // Create reusable cell
     IFAFormTableViewCell *l_cell = [a_tableView dequeueReusableCellWithIdentifier:l_propertyName];
     if (l_cell == nil) {
-        l_cell = [[NSClassFromString(a_className) alloc] initWithStyle:UITableViewCellStyleValue2
+        l_cell = [[NSClassFromString(a_className) alloc] initWithStyle:UITableViewCellStyleValue1
                                                        reuseIdentifier:l_propertyName object:self.object
                                                           propertyName:l_propertyName indexPath:a_indexPath];
         // Set appearance
@@ -904,7 +904,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                                                    createMode:self.createMode]) {
         UITableViewCell *l_cell = [self.tableView dequeueReusableCellWithIdentifier:k_TT_CELL_IDENTIFIER_VIEW_CONTROLLER];
         if (!l_cell) {
-            l_cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+            l_cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
                                             reuseIdentifier:k_TT_CELL_IDENTIFIER_VIEW_CONTROLLER];
             l_cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             l_cell.textLabel.textColor = [[self ifa_appearanceTheme] tableCellTextColor];

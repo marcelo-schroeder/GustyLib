@@ -340,14 +340,15 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     
     // Label text color
     [self setLabelTextStyleForChildrenOfView:a_cell.contentView];
-    if ([a_tableViewController isKindOfClass:[IFAFormViewController class]]) {
-        if (a_cell.detailTextLabel) {   // Is it a cell style that has text and detail?
-            // textLabel here in this context refers to the form field label
-            //  So, it is setting the form field label colour
-            a_cell.textLabel.textColor = [self IFA_colorForInfoPlistKey:@"IFAThemeFormFieldLabelColor"];
-        }
+    UIColor *l_formFieldLabelThemeColor = [self IFA_colorForInfoPlistKey:@"IFAThemeFormFieldLabelColor"];
+    if (l_formFieldLabelThemeColor 
+            && [a_tableViewController isKindOfClass:[IFAFormViewController class]] 
+            && a_cell.detailTextLabel) {   // Is it a cell style that has text and detail?
+        // textLabel here in this context refers to the form field label
+        //  So, it is setting the form field label colour
+        a_cell.textLabel.textColor = l_formFieldLabelThemeColor;
     }
-    
+
 }
 
 -(void)setAppearanceOnWillDisplayCell:(UITableViewCell *)a_cell forRowAtIndexPath:(NSIndexPath *)a_indexPath
@@ -534,21 +535,24 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 -(void)setLabelTextStyleForChildrenOfView:(UIView*)a_view{
-    for (UIView *l_subView in a_view.subviews) {
-        //            NSLog(@"  l_subView: %@", [l_subView description]);
-        if ([l_subView isKindOfClass:[UILabel class]]) {
-            UILabel *l_label = (UILabel*)l_subView;
-            l_label.textColor = [self tableCellTextColor];
-            UIFont *l_font = [self tableCellTextFont];
-            if (l_font) {
-                l_label.font = l_font;
-            }
-        }else if ([l_subView isKindOfClass:[UITextField class]]){
-            UITextField *l_textField = (UITextField*)l_subView;
-            l_textField.textColor = [self tableCellTextColor];
-            UIFont *l_font = [self tableCellTextFont];
-            if (l_font) {
-                l_textField.font = l_font;
+    UIFont *l_tableCellTextColor = [self tableCellTextFont];
+    if (l_tableCellTextColor) {
+        for (UIView *l_subView in a_view.subviews) {
+            //            NSLog(@"  l_subView: %@", [l_subView description]);
+            if ([l_subView isKindOfClass:[UILabel class]]) {
+                UILabel *l_label = (UILabel*)l_subView;
+                l_label.textColor = [self tableCellTextColor];
+                UIFont *l_font = l_tableCellTextColor;
+                if (l_font) {
+                    l_label.font = l_font;
+                }
+            }else if ([l_subView isKindOfClass:[UITextField class]]){
+                UITextField *l_textField = (UITextField*)l_subView;
+                l_textField.textColor = [self tableCellTextColor];
+                UIFont *l_font = l_tableCellTextColor;
+                if (l_font) {
+                    l_textField.font = l_font;
+                }
             }
         }
     }

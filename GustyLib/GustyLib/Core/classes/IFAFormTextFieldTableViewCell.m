@@ -101,14 +101,14 @@
     
 }
 
--(void)layoutSubviews{
-    
-    [super layoutSubviews];
-
-    // Set the text field's frame in relation to the standard text label
-    self.textField.frame = CGRectMake([self calculateFieldX], 8, [self calculateFieldWidth], 27);
-    
-}
+//-(void)layoutSubviews{
+//
+//    [super layoutSubviews];
+//
+//    // Set the text field's frame in relation to the standard text label
+//    self.textField.frame = CGRectMake([self calculateFieldX], 8, [self calculateFieldWidth], 27);
+//
+//}
 
 #pragma mark - UITextFieldDelegate
 

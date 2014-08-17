@@ -25,7 +25,7 @@
 
 @property (nonatomic, weak) IFAFormViewController *formViewController;
 
--(CGFloat)calculateFieldX;
--(CGFloat)calculateFieldWidth;
+//-(CGFloat)calculateFieldX;
+//-(CGFloat)calculateFieldWidth;
 
 @end

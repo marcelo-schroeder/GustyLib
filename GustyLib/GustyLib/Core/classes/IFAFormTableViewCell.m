@@ -25,13 +25,13 @@
 
 #pragma mark - Public
 
--(CGFloat)calculateFieldX {
-    return self.textLabel.frame.origin.x + self.textLabel.frame.size.width + 10;
-}
-
--(CGFloat)calculateFieldWidth {
-    return self.contentView.frame.size.width - [self calculateFieldX] - 10;
-}
+//-(CGFloat)calculateFieldX {
+//    return self.textLabel.frame.origin.x + self.textLabel.frame.size.width + 10;
+//}
+//
+//-(CGFloat)calculateFieldWidth {
+//    return self.contentView.frame.size.width - [self calculateFieldX] - 10;
+//}
 
 #pragma mark - Overrides
 
@@ -40,9 +40,9 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier object:a_object propertyName:a_propertyName indexPath:a_indexPath];
 
     // Configure standard text labels
-    self.textLabel.numberOfLines = 2;
+//    self.textLabel.numberOfLines = 2;
     [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceForView:self.detailTextLabel];
-    self.detailTextLabel.font = [UIFont systemFontOfSize:16];
+//    self.detailTextLabel.font = [UIFont systemFontOfSize:16];
 
     return self;
 
@@ -54,14 +54,14 @@
     [self.formViewController populateCell:self];
 }
 
--(void)layoutSubviews{
-
-    [super layoutSubviews];
-    
-    // Fine tune labels frames to distribute form elements better
-    self.textLabel.frame = CGRectMake(self.textLabel.frame.origin.x, self.textLabel.frame.origin.y-2, self.frame.size.width/4, self.textLabel.frame.size.height);
-    self.detailTextLabel.frame = CGRectMake([self calculateFieldX], 11, [self calculateFieldWidth], self.detailTextLabel.frame.size.height);
-
-}
+//-(void)layoutSubviews{
+//
+//    [super layoutSubviews];
+//
+//    // Fine tune labels frames to distribute form elements better
+//    self.textLabel.frame = CGRectMake(self.textLabel.frame.origin.x, self.textLabel.frame.origin.y-2, self.frame.size.width/4, self.textLabel.frame.size.height);
+//    self.detailTextLabel.frame = CGRectMake([self calculateFieldX], 11, [self calculateFieldWidth], self.detailTextLabel.frame.size.height);
+//
+//}
 
 @end
