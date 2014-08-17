@@ -31,7 +31,7 @@
     // Configure background view
     self.backgroundImageView = [[UIImageView alloc] initWithFrame: CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     self.backgroundImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    UIImage *l_backgroundImage = [[UIImage imageNamed:@"IFATextViewBorder.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(15, 8, 15, 8)];
+    UIImage *l_backgroundImage = [[UIImage imageNamed:@"IFA_TextViewBorder.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(15, 8, 15, 8)];
     self.backgroundImageView.image = l_backgroundImage;
     [self addSubview:self.backgroundImageView];
 

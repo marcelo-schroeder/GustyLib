@@ -22,6 +22,8 @@
 
 #ifdef IFA_AVAILABLE_Help
 #import "UIView+IFAHelp.h"
+#import "UIViewController+IFAHelp.h"
+
 #endif
 
 @interface IFAAbstractAppearanceTheme ()
@@ -248,10 +250,12 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 -(void)setAppearanceOnViewDidLoadForViewController:(UIViewController*)a_viewController{
+
     a_viewController.ifa_titleViewDefault = [self navigationItemTitleViewForViewController:a_viewController
                                                                               barMetrics:UIBarMetricsDefault];
     a_viewController.ifa_titleViewLandscapePhone = [self navigationItemTitleViewForViewController:a_viewController
                                                                                      barMetrics:UIBarMetricsLandscapePhone];
+
     [self setOrientationDependentBackgroundImagesForViewController:a_viewController];
     if ([a_viewController isKindOfClass:[UITableViewController class]]) {
         UITableViewController *l_tableViewController = (UITableViewController*)a_viewController;
@@ -264,6 +268,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         l_viewController.separatorView.backgroundColor = [self.class splitViewControllerDividerColour];
 
     }
+
 }
 
 -(void)setAppearanceOnViewWillAppearForViewController:(UIViewController*)a_viewController{
@@ -283,6 +288,17 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
             [a_viewController.navigationController.toolbar setBackgroundImage:[UIImage imageNamed:l_imageName] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
         }
     }
+
+#ifdef IFA_AVAILABLE_Help
+    // Style help button
+    UIColor *l_helpButtonTintColor = a_viewController.navigationController.navigationBar.tintColor;
+    if (l_helpButtonTintColor) {
+        UIButton *l_helpButton = (UIButton *) a_viewController.IFA_helpBarButtonItem.customView;
+        UIImage *l_currentHelpButtonImage = [l_helpButton imageForState:UIControlStateNormal];
+        UIImage *l_newHelpButtonImage = [l_currentHelpButtonImage ifa_imageWithOverlayColor:l_helpButtonTintColor];
+        [l_helpButton setImage:l_newHelpButtonImage forState:UIControlStateNormal];
+    }
+#endif
 
 }
 

@@ -177,16 +177,16 @@
     NSString *l_imageName = nil;
     switch (a_separatorImageType){
         case IFASeparatorImageTypeHorizontalTop:
-            l_imageName = @"IFA1PixelLineHorizontalTop";
+            l_imageName = @"IFA_1PixelLineHorizontalTop";
             break;
         case IFASeparatorImageTypeVerticalLeft:
-            l_imageName = @"IFA1PixelLineVerticalLeft";
+            l_imageName = @"IFA_1PixelLineVerticalLeft";
             break;
         case IFASeparatorImageTypeHorizontalBottom:
-            l_imageName = @"IFA1PixelLineHorizontalBottom";
+            l_imageName = @"IFA_1PixelLineHorizontalBottom";
             break;
         case IFASeparatorImageTypeVerticalRight:
-            l_imageName = @"IFA1PixelLineVerticalRight";
+            l_imageName = @"IFA_1PixelLineVerticalRight";
             break;
         default:
             NSAssert(NO, @"Unexpected separator image type: %u", a_separatorImageType);

@@ -941,15 +941,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 #ifdef IFA_AVAILABLE_Help
     // Add the help button if help is enabled for this view controller
     if (self.IFA_helpBarButtonItem) {
-        if ([self isKindOfClass:[IFAAbstractFieldEditorViewController class]] || [self isKindOfClass:[IFAMultiSelectionListViewController class]]) {
-            if ([self isKindOfClass:[IFAAbstractFieldEditorViewController class]] ) {
-                CGRect l_customViewFrame = self.IFA_helpBarButtonItem.customView.frame;
-                self.IFA_helpBarButtonItem.customView.frame = CGRectMake(l_customViewFrame.origin.x, l_customViewFrame.origin.y, 34, self.navigationController.navigationBar.frame.size.height);
-            }
-            [self ifa_addLeftBarButtonItem:self.IFA_helpBarButtonItem];
-        }else{
-            [self ifa_insertRightBarButtonItem:self.IFA_helpBarButtonItem atIndex:0];
-        }
+        [self ifa_insertRightBarButtonItem:self.IFA_helpBarButtonItem atIndex:0];
     }
 #endif
 

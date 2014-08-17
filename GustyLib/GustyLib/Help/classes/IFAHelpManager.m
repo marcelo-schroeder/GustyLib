@@ -582,7 +582,7 @@
 - (void)helpRequestedForTabBarItemIndex:(NSUInteger)a_index helpTargetId:(NSString *)a_helpTargetId title:(NSString*)a_title{
     NSLog(@"m_helpRequestedForTabBarItemIndex: %@", a_helpTargetId);
     [self IFA_presentPopTipViewWithTitle:a_title description:[self IFA_helpDescriptionForKeyPath:a_helpTargetId]
-                          pointingAtView:[self.IFA_tabBarItemProxyViews objectAtIndex:a_index]];
+                          pointingAtView:(self.IFA_tabBarItemProxyViews)[a_index]];
 }
 
 -(void)addHelpTarget:(id<IFAHelpTarget>)a_helpTarget{
@@ -701,7 +701,7 @@
     if ([a_helpTarget isKindOfClass:[UIBarButtonItem class]]) {
         
         UIBarButtonItem *l_barButtonItem = (UIBarButtonItem*)a_helpTarget;
-        IFABarButtonItemSavedState *l_barButtonItemSavedState = [self.IFA_helpTargetSavedStates objectAtIndex:l_index];
+        IFABarButtonItemSavedState *l_barButtonItemSavedState = (self.IFA_helpTargetSavedStates)[l_index];
         l_barButtonItem.enabled = l_barButtonItemSavedState.IFA_enabled;
         l_barButtonItem.target = l_barButtonItemSavedState.IFA_target;
         l_barButtonItem.action = l_barButtonItemSavedState.IFA_action;
@@ -713,7 +713,7 @@
             [l_view removeFromSuperview];
         }
         
-        id l_obj = [self.IFA_helpTargetSavedStates objectAtIndex:l_index];
+        id l_obj = (self.IFA_helpTargetSavedStates)[l_index];
         if ([l_obj isKindOfClass:[IFAViewSavedState class]]) { // Safeguard against the cases where the object is a [NSNull null]
             IFAViewSavedState *l_viewSavedState = l_obj;
             l_view.userInteractionEnabled = l_viewSavedState.IFA_userInteractionEnabled;
@@ -722,8 +722,8 @@
                 ((UITableViewCell*)l_view).selectionStyle = l_tableViewCellSavedState.IFA_selectionStyle;
             }
         }
-        
-        [l_view removeGestureRecognizer:[self.IFA_helpTargetSelectionGestureRecognisers objectAtIndex:l_index]];
+
+        [l_view removeGestureRecognizer:(self.IFA_helpTargetSelectionGestureRecognisers)[l_index]];
         
     }else{
         NSAssert(NO, @"Unexpected help target: %@", [a_helpTarget description]);
@@ -777,12 +777,12 @@
 -(UIBarButtonItem*)newHelpBarButtonItem {
     
     // Configure image
-    UIImage *l_helpButtonImage = [UIImage imageNamed:@"248-QuestionCircleAlt"];
+    UIImage *l_helpButtonImage = [UIImage imageNamed:@"IFA_Icon_Help"];
 
     // Configure button
     UIButton *l_helpButton = [UIButton buttonWithType:UIButtonTypeCustom];
     l_helpButton.tag = IFAViewTagHelpButton;
-    l_helpButton.frame = CGRectMake(0, 0, 20, 44);
+    l_helpButton.frame = CGRectMake(0, 0, l_helpButtonImage.size.width, 44);
     l_helpButton.accessibilityLabel = [self accessibilityLabelForKeyPath:[IFAUIUtils helpTargetIdForName:@"helpButton"]];
 //    l_helpButton.backgroundColor = [UIColor redColor];
     [l_helpButton setImage:l_helpButtonImage forState:UIControlStateNormal];
@@ -797,7 +797,7 @@
 }
 
 -(BOOL)isHelpEnabledForViewController:(UIViewController*)a_viewController{
-    NSArray *l_helpEnabledViewControllerClassNames = [[IFAUtils infoPList] objectForKey:@"IFAHelpEnabledViewControllers"];
+    NSArray *l_helpEnabledViewControllerClassNames = [IFAUtils infoPList][@"IFAHelpEnabledViewControllers"];
     return [l_helpEnabledViewControllerClassNames containsObject:[a_viewController.class description]];
 }
 
@@ -851,18 +851,18 @@
         self.IFA_helpTargetSelectionGestureRecognisers = [NSMutableArray new];
         
         // Configure the cancel button
-        UIImage *l_cancelButtonImage = [UIImage imageNamed:@"277-MultiplyCircle-white"];
+        UIImage *l_cancelButtonImage = [UIImage imageNamed:@"IFA_Icon_Close"];
         self.IFA_cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.IFA_cancelButton.frame = CGRectZero;
+//        self.IFA_cancelButton.frame = CGRectZero;
         self.IFA_cancelButton.accessibilityLabel = [self accessibilityLabelForKeyPath:[IFAUIUtils helpTargetIdForName:@"closeHelpButton"]];
         [self.IFA_cancelButton setImage:l_cancelButtonImage forState:UIControlStateNormal];
         [self.IFA_cancelButton addTarget:self action:@selector(IFA_onCancelButtonTap:)
                         forControlEvents:UIControlEventTouchUpInside];
         
         // Configure the screen help button
-        UIImage *l_screenHelpButtonImage = [UIImage imageNamed:@"248-QuestionCircleAlt"];
+        UIImage *l_screenHelpButtonImage = [UIImage imageNamed:@"IFA_Icon_Help"];
         self.IFA_screenHelpButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.IFA_screenHelpButton.frame = CGRectZero;
+//        self.IFA_screenHelpButton.frame = CGRectZero;
         self.IFA_screenHelpButton.accessibilityLabel = [self accessibilityLabelForKeyPath:[IFAUIUtils helpTargetIdForName:@"screenHelpButton"]];
         [self.IFA_screenHelpButton setImage:l_screenHelpButtonImage forState:UIControlStateNormal];
         [self.IFA_screenHelpButton addTarget:self action:@selector(IFA_onScreenHelpButtonTap:)
