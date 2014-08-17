@@ -24,18 +24,7 @@
 @class IFAFormTableViewCell;
 @class IFAFormTextFieldTableViewCell;
 
-@interface IFAFormViewController : IFATableViewController <UIActionSheetDelegate> {
-	
-	@protected
-    NSMutableDictionary         *v_tagToPropertyName;
-    NSMutableDictionary         *v_propertyNameToCell;
-    NSMutableDictionary         *v_propertyNameToIndexPath;
-    NSMutableArray              *v_uiControlsWithTargets;
-    BOOL                        v_objectSaved;
-    BOOL                        v_saveButtonTapped;
-    BOOL                        v_restoringNonEditingState;
-	
-}
+@interface IFAFormViewController : IFATableViewController <UIActionSheetDelegate>
 
 @property (nonatomic, strong) NSObject *object;
 @property (nonatomic, strong) NSString *formName;
@@ -43,6 +32,9 @@
 @property (nonatomic) BOOL createMode;
 @property (nonatomic) BOOL readOnlyMode;
 @property (nonatomic) BOOL isSubForm;
+
+@property(nonatomic, strong, readonly) NSMutableDictionary *p_tagToPropertyName;
+@property(nonatomic, strong, readonly) NSMutableDictionary *p_propertyNameToIndexPath;
 
 /* Submission forms */
 - (id)initWithObject:(NSObject *)anObject;
@@ -67,7 +59,7 @@
 // Management of different field types
 - (BOOL) hasOwnEditorViewForIndexPath:(NSIndexPath*)anIndexPath;
 - (IFAEditorType) editorTypeForIndexPath:(NSIndexPath*)anIndexPath;
-- (IFATableViewController *) editorViewControllerForIndexPath:(NSIndexPath*)anIndexPath;
+- (UIViewController *) editorViewControllerForIndexPath:(NSIndexPath*)anIndexPath;
 
 -(IFAFormTableViewCell *)populateCell:(IFAFormTableViewCell *)a_cell;
 

@@ -372,15 +372,15 @@
 	return [[self formSectionsForObject:anObject inForm:aFormName createMode:aCreateMode] count];
 }
 
-- (NSUInteger)fieldCountCountForSectionIndex:(NSUInteger)aSectionIndex inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
+- (NSUInteger)fieldCountCountForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
 	return [[[[self formSectionsForObject:anObject inForm:aFormName createMode:aCreateMode] objectAtIndex:aSectionIndex] objectForKey:@"fields"] count];
 }
 
-- (NSString *)headerForSectionIndex:(NSUInteger)aSectionIndex inObject:(NSObject *)anObject inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode {
+- (NSString *)headerForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject *)anObject inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode {
 	return [[[self formSectionsForObject:anObject inForm:(NSString*)aFormName createMode:aCreateMode] objectAtIndex:aSectionIndex] objectForKey:@"sectionHeader"];
 }
 
-- (NSString *)footerForSectionIndex:(NSUInteger)aSectionIndex inObject:(NSObject *)anObject inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode {
+- (NSString *)footerForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject *)anObject inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode {
 	return [[[self formSectionsForObject:anObject inForm:(NSString*)aFormName createMode:aCreateMode] objectAtIndex:aSectionIndex] objectForKey:@"sectionFooter"];
 }
 
