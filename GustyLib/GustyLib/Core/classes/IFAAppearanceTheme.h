@@ -94,8 +94,21 @@ typedef enum {
 - (UIBarButtonItem *)cancelBarButtonItemWithTarget:(id)a_target
                                             action:(SEL)a_action;
 
-// Bar button item spacing automation
+/**
+* This method allows enabling the automation of the spacing before (left), between (middle) and after (right) bar button items.
+* @param a_viewController View controller this method call relates to.
+* @returns Boolean indicating whether bar button item spacing should be automated for the provided view controller instance.
+*/
 -(BOOL)shouldAutomateBarButtonItemSpacingForViewController:(UIViewController*)a_viewController;
+
+/**
+* This method will be called by the appearance theme if shouldAutomateBarButtonItemSpacingForViewController: returns YES.
+* Spacing automation will use the fixed space bar button items returned by this method.
+* It is important that this method returns a system UIBarButtonItem of type IFASpacingBarButtonItemType otherwise unpredictable results may occur.
+* @param Type of spacing to be provided: left, middle or right.
+* @param a_viewController View controller this method call relates to.
+* @returns System bar button item of type fixed space (UIBarButtonSystemItemFixedSpace) with a width set accordingly for the spacing type and view controller instance provided.
+*/
 -(UIBarButtonItem*)spacingBarButtonItemForType:(IFASpacingBarButtonItemType)a_type viewController:(UIViewController*)a_viewController;
 
 - (UIViewController *)newInternalWebBrowserViewControllerWithUrl:(NSURL *)a_url;
