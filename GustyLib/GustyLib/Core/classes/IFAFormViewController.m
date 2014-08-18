@@ -686,10 +686,17 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         if ([a_cell isMemberOfClass:[IFAFormTableViewCell class]]) {
 
             if ([self IFA_isFormEditorTypeForIndexPath:a_cell.indexPath]) {
-                a_cell.customDisclosureIndicator.hidden = NO;
-            }else{
-                a_cell.customDisclosureIndicator.hidden = self.editing ? ![self showDetailDisclosureInEditModeForIndexPath:a_cell.indexPath
-                                                                                                                    inForm:self.formName] : YES;
+                a_cell.customAccessoryType = IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight;
+            }else {
+                if (self.editing) {
+                    if ([self showDetailDisclosureInEditModeForIndexPath:a_cell.indexPath inForm:self.formName]) {
+                        a_cell.customAccessoryType = IFAFormTableViewCellAccessoryTypeDisclosureIndicatorDown;
+                    } else {
+                        a_cell.customAccessoryType = IFAFormTableViewCellAccessoryTypeNone;
+                    }
+                }else{
+                    a_cell.customAccessoryType = IFAFormTableViewCellAccessoryTypeNone;
+                }
             }
 
         }else if([a_cell isMemberOfClass:[IFASwitchTableViewCell class]]){
@@ -703,7 +710,8 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
             
         }else {
 
-            a_cell.customDisclosureIndicator.hidden = ![self IFA_shouldLinkToUrlForIndexPath:a_cell.indexPath];
+            //wip: the below case probably deserves a new custom accessory image (e.g. a little globe?)
+            a_cell.customAccessoryType = [self IFA_shouldLinkToUrlForIndexPath:a_cell.indexPath] ? IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight : IFAFormTableViewCellAccessoryTypeNone;
             IFAFormTextFieldTableViewCell *l_cell = (IFAFormTextFieldTableViewCell *)a_cell;
             [l_cell reloadData];
 
@@ -720,7 +728,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     }
 
     // Selection style
-    a_cell.selectionStyle = a_cell.customDisclosureIndicator.hidden ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleBlue;
+    a_cell.selectionStyle = a_cell.customAccessoryType==IFAFormTableViewCellAccessoryTypeNone ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleDefault;
 
     // Is cell selectable?
     BOOL l_isSelectable;
@@ -895,7 +903,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         if (!l_cell) {
             l_cell = [[IFAFormTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
                                             reuseIdentifier:k_TT_CELL_IDENTIFIER_VIEW_CONTROLLER];
-            l_cell.customDisclosureIndicator.hidden = NO;
+            l_cell.customAccessoryType = IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight;
             l_cell.leftLabel.textColor = [[self ifa_appearanceTheme] tableCellTextColor];
             // Set appearance
             [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self

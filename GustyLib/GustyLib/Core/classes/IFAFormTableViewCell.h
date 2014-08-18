@@ -21,6 +21,12 @@
 #import "IFATableViewCell.h"
 #import "IFAFormViewController.h"
 
+typedef enum{
+    IFAFormTableViewCellAccessoryTypeNone,
+    IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight,
+    IFAFormTableViewCellAccessoryTypeDisclosureIndicatorDown,
+}IFAFormTableViewCellAccessoryType;
+
 @class IFAFormTableViewCellContentView;
 
 @interface IFAFormTableViewCell : IFATableViewCell
@@ -28,11 +34,12 @@
 @property (strong, nonatomic) IBOutlet IFAFormTableViewCellContentView *customContentView;
 @property (strong, nonatomic) IBOutlet UILabel *leftLabel;
 @property (strong, nonatomic) IBOutlet UILabel *rightLabel;
-@property (strong, nonatomic) IBOutlet UIImageView *customDisclosureIndicator;
+@property (strong, nonatomic) IBOutlet UIImageView *customAccessoryImageView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *leftLabelLeftConstraint;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *rightLabelRightConstraint;
 
 @property (nonatomic, weak) IFAFormViewController *formViewController;
+@property (nonatomic) IFAFormTableViewCellAccessoryType customAccessoryType;
 
 //-(CGFloat)calculateFieldX;
 //-(CGFloat)calculateFieldWidth;

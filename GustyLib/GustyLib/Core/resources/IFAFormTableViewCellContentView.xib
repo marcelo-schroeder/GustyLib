@@ -6,8 +6,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IFAFormTableViewCell">
             <connections>
+                <outlet property="customAccessoryImageView" destination="YDb-fv-JUs" id="PbO-lo-2M6"/>
                 <outlet property="customContentView" destination="iN0-l3-epB" id="QY5-LE-HzR"/>
-                <outlet property="customDisclosureIndicator" destination="YDb-fv-JUs" id="PbO-lo-2M6"/>
                 <outlet property="leftLabel" destination="w5b-SK-4wH" id="oB5-eZ-oxr"/>
                 <outlet property="leftLabelLeftConstraint" destination="DxO-Lo-K8c" id="KeZ-1b-6ES"/>
                 <outlet property="rightLabel" destination="bOx-tD-ean" id="h64-Tr-imd"/>
@@ -35,13 +35,9 @@
                     <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.55686274509803924" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IFA_Icon_DisclosureIndicator.png" translatesAutoresizingMaskIntoConstraints="NO" id="YDb-fv-JUs">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IFA_Icon_DisclosureIndicatorRight.png" translatesAutoresizingMaskIntoConstraints="NO" id="YDb-fv-JUs">
                     <rect key="frame" x="297" y="16" width="8" height="13"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="13" id="Wzi-OX-D17"/>
-                        <constraint firstAttribute="width" constant="8" id="e0m-xh-3i3"/>
-                    </constraints>
                 </imageView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -59,6 +55,6 @@
         </view>
     </objects>
     <resources>
-        <image name="IFA_Icon_DisclosureIndicator.png" width="8" height="13"/>
+        <image name="IFA_Icon_DisclosureIndicatorRight.png" width="8" height="13"/>
     </resources>
 </document>

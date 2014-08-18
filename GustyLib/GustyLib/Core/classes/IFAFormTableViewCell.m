@@ -34,6 +34,24 @@
 //    return self.contentView.frame.size.width - [self calculateFieldX] - 10;
 //}
 
+- (void)setCustomAccessoryType:(IFAFormTableViewCellAccessoryType)a_customAccessoryType {
+    NSString *l_imageName;
+    switch (a_customAccessoryType){
+        case IFAFormTableViewCellAccessoryTypeNone:
+            l_imageName = nil;
+            break;
+        case IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight:
+            l_imageName = @"IFA_Icon_DisclosureIndicatorRight";
+            break;
+        case IFAFormTableViewCellAccessoryTypeDisclosureIndicatorDown:
+            l_imageName = @"IFA_Icon_DisclosureIndicatorDown";
+            break;
+    }
+    self.customAccessoryImageView.image = l_imageName ? [UIImage imageNamed:l_imageName] : nil;
+    self.customAccessoryImageView.hidden = l_imageName == nil;
+    _customAccessoryType = a_customAccessoryType;
+}
+
 #pragma mark - Overrides
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier object:(NSObject*)a_object propertyName:(NSString*)a_propertyName indexPath:(NSIndexPath*)a_indexPath{
@@ -61,7 +79,7 @@
 
 - (void)layoutSubviews {
     CGFloat l_horizontalSpace = self.leftLabelLeftConstraint.constant;
-    self.rightLabelRightConstraint.constant = self.customDisclosureIndicator.hidden ? l_horizontalSpace : (l_horizontalSpace * 2 + self.customDisclosureIndicator.bounds.size.width);
+    self.rightLabelRightConstraint.constant = self.customAccessoryImageView.hidden ? l_horizontalSpace : (l_horizontalSpace * 2 + self.customAccessoryImageView.bounds.size.width);
     [super layoutSubviews];
 }
 
