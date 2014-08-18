@@ -77,6 +77,7 @@
     //    NSLog(@"self.detailTextLabel.frame: %@", NSStringFromCGRect(self.detailTextLabel.frame));
     self.textField = [[IFATextField alloc] init];
     self.textField.font = self.rightLabel.font;
+    self.textField.textColor = self.rightLabel.textColor;
 //    self.textField.borderStyle = UITextBorderStyleRoundedRect;
 //    self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     self.textField.hidden = YES;

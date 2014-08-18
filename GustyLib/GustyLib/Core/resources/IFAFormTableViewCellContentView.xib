@@ -25,6 +25,7 @@
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="99" translatesAutoresizingMaskIntoConstraints="NO" id="w5b-SK-4wH" userLabel="Left Label - Label Line 1 Label Line 2">
                             <rect key="frame" x="15" y="0.0" width="99" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <string key="text">Label Line 1
 Label Line 2</string>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -32,7 +33,7 @@ Label Line 2</string>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="w5b-SK-4wH" secondAttribute="bottom" id="0Li-ac-7SN"/>
                         <constraint firstItem="w5b-SK-4wH" firstAttribute="top" secondItem="T9Y-6T-tdQ" secondAttribute="top" id="3y7-QT-pxO"/>
@@ -48,13 +49,15 @@ Label Line 2</string>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="179" translatesAutoresizingMaskIntoConstraints="NO" id="bOx-tD-ean" userLabel="Right Label - Label">
                             <rect key="frame" x="6" y="0.0" width="179" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <string key="text">Label Line 1
 Label Line 2</string>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.55686274509803924" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" red="0.44705882349999998" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="bOx-tD-ean" firstAttribute="top" secondItem="wbN-41-6wi" secondAttribute="top" id="3VI-Yi-ZjQ"/>
                         <constraint firstItem="bOx-tD-ean" firstAttribute="leading" secondItem="wbN-41-6wi" secondAttribute="leading" constant="6" id="Vj8-od-VGZ"/>
@@ -63,7 +66,7 @@ Label Line 2</string>
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="T9Y-6T-tdQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="14D-hM-LLl"/>
                 <constraint firstItem="wbN-41-6wi" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="8DC-cp-eSf"/>
