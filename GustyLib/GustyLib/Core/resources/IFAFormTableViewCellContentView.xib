@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IFAFormTableViewCell">
+            <connections>
+                <outlet property="customContentView" destination="iN0-l3-epB" id="QY5-LE-HzR"/>
+                <outlet property="leftContainerView" destination="T9Y-6T-tdQ" id="9NI-ga-AMI"/>
+                <outlet property="leftLabel" destination="w5b-SK-4wH" id="oB5-eZ-oxr"/>
+                <outlet property="rightContainerView" destination="wbN-41-6wi" id="Ouw-Hr-iM9"/>
+                <outlet property="rightLabel" destination="bOx-tD-ean" id="h64-Tr-imd"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="IFAFormTableViewCellContentView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T9Y-6T-tdQ" userLabel="Left Container View">
+                    <rect key="frame" x="0.0" y="0.0" width="120" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="99" translatesAutoresizingMaskIntoConstraints="NO" id="w5b-SK-4wH" userLabel="Left Label - Label Line 1 Label Line 2">
+                            <rect key="frame" x="15" y="0.0" width="99" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <string key="text">Label Line 1
+Label Line 2</string>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="w5b-SK-4wH" secondAttribute="bottom" id="0Li-ac-7SN"/>
+                        <constraint firstItem="w5b-SK-4wH" firstAttribute="top" secondItem="T9Y-6T-tdQ" secondAttribute="top" id="3y7-QT-pxO"/>
+                        <constraint firstItem="w5b-SK-4wH" firstAttribute="leading" secondItem="T9Y-6T-tdQ" secondAttribute="leading" constant="15" id="bWL-u1-UVX"/>
+                        <constraint firstAttribute="width" constant="120" id="f50-gV-qRJ"/>
+                        <constraint firstAttribute="trailing" secondItem="w5b-SK-4wH" secondAttribute="trailing" constant="6" id="ykS-id-GQj"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wbN-41-6wi" userLabel="Right Container View">
+                    <rect key="frame" x="120" y="0.0" width="200" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="179" translatesAutoresizingMaskIntoConstraints="NO" id="bOx-tD-ean" userLabel="Right Label - Label">
+                            <rect key="frame" x="6" y="0.0" width="179" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <string key="text">Label Line 1
+Label Line 2</string>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.44705882349999998" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="bOx-tD-ean" firstAttribute="top" secondItem="wbN-41-6wi" secondAttribute="top" id="3VI-Yi-ZjQ"/>
+                        <constraint firstItem="bOx-tD-ean" firstAttribute="leading" secondItem="wbN-41-6wi" secondAttribute="leading" constant="6" id="Vj8-od-VGZ"/>
+                        <constraint firstAttribute="trailing" secondItem="bOx-tD-ean" secondAttribute="trailing" constant="15" id="fXf-3w-3ps"/>
+                        <constraint firstAttribute="bottom" secondItem="bOx-tD-ean" secondAttribute="bottom" id="lkr-T1-mDQ"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="T9Y-6T-tdQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="14D-hM-LLl"/>
+                <constraint firstItem="wbN-41-6wi" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="8DC-cp-eSf"/>
+                <constraint firstAttribute="bottom" secondItem="T9Y-6T-tdQ" secondAttribute="bottom" id="9z4-iS-rsx"/>
+                <constraint firstItem="T9Y-6T-tdQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JLs-j9-llN"/>
+                <constraint firstAttribute="trailing" secondItem="wbN-41-6wi" secondAttribute="trailing" id="eGz-cw-xYt"/>
+                <constraint firstAttribute="bottom" secondItem="wbN-41-6wi" secondAttribute="bottom" id="l5z-dw-NN0"/>
+                <constraint firstItem="wbN-41-6wi" firstAttribute="leading" secondItem="T9Y-6T-tdQ" secondAttribute="trailing" id="tpm-Y5-TVa"/>
+            </constraints>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+        </view>
+    </objects>
+</document>

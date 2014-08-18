@@ -19,6 +19,7 @@
 //
 
 #import "IFACommon.h"
+#import "IFAFormTableViewCellContentView.h"
 
 @interface IFAFormTextFieldTableViewCell ()
 
@@ -75,8 +76,8 @@
     //    NSLog(@"self.textLabel.frame: %@", NSStringFromCGRect(self.textLabel.frame));
     //    NSLog(@"self.detailTextLabel.frame: %@", NSStringFromCGRect(self.detailTextLabel.frame));
     self.textField = [[IFATextField alloc] init];
-    self.textField.font = self.detailTextLabel.font;
-    self.textField.borderStyle = UITextBorderStyleRoundedRect;
+    self.textField.font = self.rightLabel.font;
+//    self.textField.borderStyle = UITextBorderStyleRoundedRect;
 //    self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     self.textField.hidden = YES;
     self.textField.delegate = self;
@@ -95,20 +96,31 @@
     //    self.textField.backgroundColor = [UIColor redColor];
     //    self.textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     //    self.textField.frame = CGRectMake(100, 12, 150, 15);
-    [self.contentView addSubview:self.textField];
-    
+    self.textField.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.customContentView addSubview:self.textField];
+    [self.textField ifa_addLayoutConstraintToCenterInSuperviewVertically];
+    NSLayoutConstraint *l_leftConstraint = [NSLayoutConstraint constraintWithItem:self.textField
+                                                                        attribute:NSLayoutAttributeLeft
+                                                                        relatedBy:NSLayoutRelationEqual
+                                                                           toItem:self.rightLabel
+                                                                        attribute:NSLayoutAttributeLeft
+                                                                       multiplier:1
+                                                                         constant:0];
+    NSLayoutConstraint *l_rightConstraint = [NSLayoutConstraint constraintWithItem:self.textField
+                                                                        attribute:NSLayoutAttributeRight
+                                                                        relatedBy:NSLayoutRelationEqual
+                                                                           toItem:self.rightLabel
+                                                                        attribute:NSLayoutAttributeRight
+                                                                       multiplier:1
+                                                                         constant:0];
+    [self.textField.superview addConstraints:@[
+            l_leftConstraint,
+            l_rightConstraint,
+    ]];
+
     return self;
     
 }
-
-//-(void)layoutSubviews{
-//
-//    [super layoutSubviews];
-//
-//    // Set the text field's frame in relation to the standard text label
-//    self.textField.frame = CGRectMake([self calculateFieldX], 8, [self calculateFieldWidth], 27);
-//
-//}
 
 #pragma mark - UITextFieldDelegate
 

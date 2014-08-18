@@ -19,6 +19,7 @@
 //
 
 #import "IFACommon.h"
+#import "IFAFormTableViewCellContentView.h"
 
 #ifdef IFA_AVAILABLE_Help
 #import "UIView+IFAHelp.h"

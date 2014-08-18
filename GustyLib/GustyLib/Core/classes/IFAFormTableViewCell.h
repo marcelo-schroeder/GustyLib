@@ -21,7 +21,15 @@
 #import "IFATableViewCell.h"
 #import "IFAFormViewController.h"
 
+@class IFAFormTableViewCellContentView;
+
 @interface IFAFormTableViewCell : IFATableViewCell
+
+@property (strong, nonatomic) IBOutlet IFAFormTableViewCellContentView *customContentView;
+@property (strong, nonatomic) IBOutlet UIView *leftContainerView;
+@property (strong, nonatomic) IBOutlet UILabel *leftLabel;
+@property (strong, nonatomic) IBOutlet UIView *rightContainerView;
+@property (strong, nonatomic) IBOutlet UILabel *rightLabel;
 
 @property (nonatomic, weak) IFAFormViewController *formViewController;
 

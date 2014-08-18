@@ -27,16 +27,21 @@
 #pragma mark - Overrides
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier object:(NSObject*)a_object propertyName:(NSString*)a_propertyName indexPath:(NSIndexPath *)a_indexPath{
-//    NSLog(@"hello from init - switch");
     if ((self=[super initWithStyle:style reuseIdentifier:reuseIdentifier object:a_object propertyName:a_propertyName indexPath:a_indexPath])) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-//        CGRect l_frame = CGRectZero;
-//        l_frame.origin.x = 232;
-//        l_frame.origin.y = 8;
         self.switchControl = [[UISwitch alloc] init];
-        self.switchControl.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+        self.switchControl.translatesAutoresizingMaskIntoConstraints = NO;
         [self.contentView addSubview:self.switchControl];
-        self.detailTextLabel.hidden = YES;
+        [self.switchControl ifa_addLayoutConstraintToCenterInSuperviewVertically];
+        NSLayoutConstraint *l_leftLayoutConstraint = [NSLayoutConstraint constraintWithItem:self.switchControl
+                                                                                   attribute:NSLayoutAttributeLeft
+                                                                                   relatedBy:NSLayoutRelationEqual
+                                                                                      toItem:self.rightLabel
+                                                                                   attribute:NSLayoutAttributeLeft
+                                                                                  multiplier:1
+                                                                                    constant:0];
+        [self.contentView addConstraint:l_leftLayoutConstraint];
+        self.rightLabel.hidden = YES;
     }
     return self;
 }
@@ -53,11 +58,6 @@
         default:
             break;
     }
-}
-
--(void)layoutSubviews{
-    [super layoutSubviews];
-    self.switchControl.frame = CGRectMake(self.detailTextLabel.frame.origin.x, 8, self.switchControl.frame.size.width, self.switchControl.frame.size.height);
 }
 
 @end

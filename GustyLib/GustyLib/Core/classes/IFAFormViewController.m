@@ -473,7 +473,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 //        NSLog(@"a_cell: %@, a_indexPath: %@", [a_cell description], [a_indexPath description]);
         BOOL l_editing = self.editing && ![self isReadOnlyForIndexPath:a_indexPath];
 //        NSLog(@"  l_editing: %u, self.editing: %u, [self isReadOnlyForIndexPath:[self.tableView indexPathForCell:l_textFieldCell]]: %u", l_editing, self.editing, [self isReadOnlyForIndexPath:[self.tableView indexPathForCell:l_textFieldCell]]);
-        l_textFieldCell.detailTextLabel.hidden = l_editing;
+        l_textFieldCell.rightLabel.hidden = l_editing;
         l_textFieldCell.textField.hidden = !l_editing;
         if ([l_textFieldCell isKindOfClass:[IFAFormNumberFieldTableViewCell class]]) {
             IFAFormNumberFieldTableViewCell *l_numberFieldCell = (IFAFormNumberFieldTableViewCell *)l_textFieldCell;
@@ -674,14 +674,14 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     if ([a_cell isMemberOfClass:[IFAFormTableViewCell class]] || [a_cell isMemberOfClass:[IFASwitchTableViewCell class]] || [a_cell isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
         
         NSString *l_label = [self labelForIndexPath:a_cell.indexPath];
-        a_cell.textLabel.text = l_label;
+        a_cell.leftLabel.text = l_label;
         NSString *l_valueFormat = [[IFAPersistenceManager sharedInstance].entityConfig valueFormatForProperty:a_cell.propertyName
                                                                                                     inObject:self.object];
         NSString *l_valueString = [self.object ifa_propertyStringValueForIndexPath:a_cell.indexPath
                                                                             inForm:self.formName
                                                                         createMode:self.createMode
                                                                           calendar:[self calendar]];
-        a_cell.detailTextLabel.text = l_valueFormat ? [NSString stringWithFormat:l_valueFormat, l_valueString] : l_valueString;
+        a_cell.rightLabel.text = l_valueFormat ? [NSString stringWithFormat:l_valueFormat, l_valueString] : l_valueString;
         
         if ([a_cell isMemberOfClass:[IFAFormTableViewCell class]]) {
 
@@ -904,17 +904,17 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
 	if ([l_entityConfig isViewControllerFieldTypeForIndexPath:indexPath inObject:self.object inForm:self.formName
                                                    createMode:self.createMode]) {
-        UITableViewCell *l_cell = [self.tableView dequeueReusableCellWithIdentifier:k_TT_CELL_IDENTIFIER_VIEW_CONTROLLER];
+        IFAFormTableViewCell *l_cell = [self.tableView dequeueReusableCellWithIdentifier:k_TT_CELL_IDENTIFIER_VIEW_CONTROLLER];
         if (!l_cell) {
-            l_cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+            l_cell = [[IFAFormTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
                                             reuseIdentifier:k_TT_CELL_IDENTIFIER_VIEW_CONTROLLER];
             l_cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            l_cell.textLabel.textColor = [[self ifa_appearanceTheme] tableCellTextColor];
+            l_cell.leftLabel.textColor = [[self ifa_appearanceTheme] tableCellTextColor];
             // Set appearance
             [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
                                                                                                                            cell:l_cell];
         }
-        l_cell.textLabel.text = [l_entityConfig labelForViewControllerFieldTypeAtIndexPath:indexPath
+        l_cell.leftLabel.text = [l_entityConfig labelForViewControllerFieldTypeAtIndexPath:indexPath
                                                                                   inObject:self.object
                                                                                     inForm:self.formName
                                                                                 createMode:self.createMode];

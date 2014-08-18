@@ -19,6 +19,7 @@
 //
 
 #import "IFACommon.h"
+#import "IFAFormTableViewCellContentView.h"
 
 @implementation IFAFormTableViewCell
 
@@ -38,6 +39,10 @@
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier object:(NSObject*)a_object propertyName:(NSString*)a_propertyName indexPath:(NSIndexPath*)a_indexPath{
 
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier object:a_object propertyName:a_propertyName indexPath:a_indexPath];
+
+    [[NSBundle mainBundle] loadNibNamed:@"IFAFormTableViewCellContentView" owner:self options:nil];
+    [self.contentView addSubview:self.customContentView];
+    [self.customContentView ifa_addLayoutConstraintsToFillSuperview];
 
     // Configure standard text labels
 //    self.textLabel.numberOfLines = 2;
