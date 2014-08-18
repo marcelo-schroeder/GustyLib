@@ -33,8 +33,8 @@
 @property (nonatomic) BOOL readOnlyMode;
 @property (nonatomic) BOOL isSubForm;
 
-@property(nonatomic, strong, readonly) NSMutableDictionary *p_tagToPropertyName;
-@property(nonatomic, strong, readonly) NSMutableDictionary *p_propertyNameToIndexPath;
+@property(nonatomic, strong, readonly) NSMutableDictionary *tagToPropertyName;
+@property(nonatomic, strong, readonly) NSMutableDictionary *propertyNameToIndexPath;
 
 /* Submission forms */
 - (id)initWithObject:(NSObject *)anObject;
