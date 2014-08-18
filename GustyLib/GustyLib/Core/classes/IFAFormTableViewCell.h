@@ -26,10 +26,11 @@
 @interface IFAFormTableViewCell : IFATableViewCell
 
 @property (strong, nonatomic) IBOutlet IFAFormTableViewCellContentView *customContentView;
-@property (strong, nonatomic) IBOutlet UIView *leftContainerView;
 @property (strong, nonatomic) IBOutlet UILabel *leftLabel;
-@property (strong, nonatomic) IBOutlet UIView *rightContainerView;
 @property (strong, nonatomic) IBOutlet UILabel *rightLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *customDisclosureIndicator;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *leftLabelLeftConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *rightLabelRightConstraint;
 
 @property (nonatomic, weak) IFAFormViewController *formViewController;
 

@@ -581,6 +581,8 @@
 		F766D33D18ECA71000B3B590 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		F766D34018ECADCE00B3B590 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		F7C6731A19A1C3C600FF1FD0 /* IFAFormTableViewCellContentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IFAFormTableViewCellContentView.xib; sourceTree = "<group>"; };
+		F7C6731F19A1E35F00FF1FD0 /* IFA_Icon_DisclosureIndicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IFA_Icon_DisclosureIndicator.png; sourceTree = "<group>"; };
+		F7C6732019A1E35F00FF1FD0 /* IFA_Icon_DisclosureIndicator@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IFA_Icon_DisclosureIndicator@2x.png"; sourceTree = "<group>"; };
 		F7D4D83318EA00E600ABF401 /* libGustyLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGustyLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7D4D83618EA00E600ABF401 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F7D4D83A18EA00E600ABF401 /* GustyLib-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GustyLib-Prefix.pch"; sourceTree = "<group>"; };
@@ -904,6 +906,8 @@
 		107381CAC567494A58822E49 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				F7C6731F19A1E35F00FF1FD0 /* IFA_Icon_DisclosureIndicator.png */,
+				F7C6732019A1E35F00FF1FD0 /* IFA_Icon_DisclosureIndicator@2x.png */,
 				10738023DDED9AA18B032760 /* IFA_TextViewBorder@2x.png */,
 				107383C36B013ADD3A72D9E5 /* IFA_TextViewBorder.png */,
 				10738DC9E4F974F2AD991638 /* IFA_1PixelLineHorizontalBottom.png */,

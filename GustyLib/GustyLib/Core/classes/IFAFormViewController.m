@@ -686,13 +686,10 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         if ([a_cell isMemberOfClass:[IFAFormTableViewCell class]]) {
 
             if ([self IFA_isFormEditorTypeForIndexPath:a_cell.indexPath]) {
-                a_cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                a_cell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                a_cell.customDisclosureIndicator.hidden = NO;
             }else{
-                a_cell.accessoryType = UITableViewCellAccessoryNone;
-                a_cell.editingAccessoryType = [self showDetailDisclosureInEditModeForIndexPath:a_cell.indexPath
-                                                                                        inForm:self.formName] ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
-//                NSLog(@"  a_cell.editingAccessoryType: %u", a_cell.editingAccessoryType);
+                a_cell.customDisclosureIndicator.hidden = self.editing ? ![self showDetailDisclosureInEditModeForIndexPath:a_cell.indexPath
+                                                                                                                    inForm:self.formName] : YES;
             }
 
         }else if([a_cell isMemberOfClass:[IFASwitchTableViewCell class]]){
@@ -706,13 +703,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
             
         }else {
 
-            if ([self IFA_shouldLinkToUrlForIndexPath:a_cell.indexPath]) {
-                a_cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                a_cell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            }else{
-                a_cell.accessoryType = UITableViewCellAccessoryNone;
-                a_cell.editingAccessoryType = UITableViewCellAccessoryNone;
-            }
+            a_cell.customDisclosureIndicator.hidden = ![self IFA_shouldLinkToUrlForIndexPath:a_cell.indexPath];
             IFAFormTextFieldTableViewCell *l_cell = (IFAFormTextFieldTableViewCell *)a_cell;
             [l_cell reloadData];
 
@@ -729,12 +720,8 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     }
 
     // Selection style
-    if (self.editing) {
-        a_cell.selectionStyle = a_cell.editingAccessoryType==UITableViewCellAccessoryDisclosureIndicator ? UITableViewCellSelectionStyleBlue : UITableViewCellSelectionStyleNone;
-    }else{
-        a_cell.selectionStyle = a_cell.accessoryType==UITableViewCellAccessoryDisclosureIndicator ? UITableViewCellSelectionStyleBlue : UITableViewCellSelectionStyleNone;
-    }
-    
+    a_cell.selectionStyle = a_cell.customDisclosureIndicator.hidden ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleBlue;
+
     // Is cell selectable?
     BOOL l_isSelectable;
 	if (self.editing) {
@@ -908,7 +895,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         if (!l_cell) {
             l_cell = [[IFAFormTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
                                             reuseIdentifier:k_TT_CELL_IDENTIFIER_VIEW_CONTROLLER];
-            l_cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            l_cell.customDisclosureIndicator.hidden = NO;
             l_cell.leftLabel.textColor = [[self ifa_appearanceTheme] tableCellTextColor];
             // Set appearance
             [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
@@ -1159,15 +1146,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     
     // Set custom disclosure indicator for cell
     [[self ifa_appearanceTheme] setCustomDisclosureIndicatorForCell:cell tableViewController:self];
-    
-    // Clear custom view if required
-    if (cell.accessoryType==UITableViewCellAccessoryNone) {
-        cell.accessoryView = nil;
-    }
-    if (cell.editingAccessoryType==UITableViewCellAccessoryNone) {
-        cell.editingAccessoryView = nil;
-    }
-    
+
 }
 
 #pragma mark - IFAPresenter

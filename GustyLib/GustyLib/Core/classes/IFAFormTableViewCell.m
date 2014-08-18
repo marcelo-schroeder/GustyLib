@@ -59,6 +59,12 @@
     [self.formViewController populateCell:self];
 }
 
+- (void)layoutSubviews {
+    CGFloat l_horizontalSpace = self.leftLabelLeftConstraint.constant;
+    self.rightLabelRightConstraint.constant = self.customDisclosureIndicator.hidden ? l_horizontalSpace : (l_horizontalSpace * 2 + self.customDisclosureIndicator.bounds.size.width);
+    [super layoutSubviews];
+}
+
 //-(void)layoutSubviews{
 //
 //    [super layoutSubviews];
