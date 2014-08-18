@@ -57,6 +57,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 #pragma mark - Private
 
+// Private initialiser
 - (id)initWithObject:(NSObject *)anObject readOnlyMode:(BOOL)aReadOnlyMode createMode:(BOOL)aCreateMode inForm:(NSString*)aFormName isSubForm:(BOOL)aSubFormFlag{
 
     //    NSLog(@"hello from init - form");
@@ -79,7 +80,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 	
 }
 
--(IFAFormTableViewCell *)cellForTable:(UITableView *)a_tableView indexPath:(NSIndexPath*)a_indexPath className:(NSString*)a_className{
+-(IFAFormTableViewCell *)IFA_cellForTable:(UITableView *)a_tableView indexPath:(NSIndexPath *)a_indexPath className:(NSString*)a_className{
     
     NSString *l_propertyName = [self nameForIndexPath:a_indexPath];
 
@@ -101,23 +102,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     
 }
 
-- (NSString*) labelForIndexPath:(NSIndexPath*)anIndexPath{
-	return [[IFAPersistenceManager sharedInstance].entityConfig labelForIndexPath:anIndexPath inObject:self.object
-                                                                          inForm:self.formName
-                                                                      createMode:self.createMode];
-}
-
-- (NSString*) nameForIndexPath:(NSIndexPath*)anIndexPath{
-	return [[IFAPersistenceManager sharedInstance].entityConfig nameForIndexPath:anIndexPath inObject:self.object
-                                                                         inForm:self.formName createMode:self.createMode];
-}
-
-- (NSString*) entityNameForProperty:(NSString*)aPropertyName{
-	return [[IFAPersistenceManager sharedInstance].entityConfig entityNameForProperty:aPropertyName
-																		inEntity:[[self.object class] description]];
-}
-
-- (void)onDeleteButtonTap:(id)sender{
+- (void)IFA_onDeleteButtonTap:(id)sender{
 	NSString *entityName = [[self.object ifa_entityLabel] lowercaseString];
 	NSString *message = [NSString stringWithFormat:@"Are you sure you want to delete the %@?", entityName];
     [IFAUIUtils showActionSheetWithMessage:message
@@ -128,7 +113,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                                        tag:IFAViewTagActionSheetDelete];
 }
 
-- (void)restoreNonEditingState{
+- (void)IFA_restoreNonEditingState {
     [[IFAPersistenceManager sharedInstance] rollback];
     self.IFA_restoringNonEditingState = YES;
     [self setEditing:NO animated:YES];
@@ -136,237 +121,26 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     [self ifa_notifySessionCompletion];
 }
 
-- (void)onCancelButtonTap:(id)sender {
+- (void)IFA_onCancelButtonTap:(id)sender {
     [self quitEditing];
 }
 
-- (void)onDismissButtonTap:(id)sender {
+- (void)IFA_onDismissButtonTap:(id)sender {
     [self ifa_notifySessionCompletion];
 }
 
-- (UIViewController*) editorViewControllerForIndexPath:(NSIndexPath*)anIndexPath{
-	
-	NSString *propertyName = [self nameForIndexPath:anIndexPath];
-	UIViewController *controller;
-    
-	NSUInteger editorType = [self editorTypeForIndexPath:anIndexPath];
-#ifdef IFA_AVAILABLE_Help
-    BOOL l_shouldSetHelpTargetId = YES;
-#endif
-	switch (editorType) {
-		case IFAEditorTypeForm:
-        {
-            NSString *customFormViewControllerClassName = [[IFAPersistenceManager sharedInstance].entityConfig viewControllerForForm:propertyName
-                                                                                                                           inObject:self.object];
-            Class formViewControllerClass;
-            if (customFormViewControllerClassName) {
-                formViewControllerClass = NSClassFromString(customFormViewControllerClassName);
-            }else {
-                formViewControllerClass = [IFAFormViewController class];
-            }
-            if (self.readOnlyMode) {
-                controller = [[formViewControllerClass alloc] initWithReadOnlyObject:self.object inForm:propertyName
-                                                                           isSubForm:YES];
-            }else{
-                controller = [[formViewControllerClass alloc] initWithObject:self.object createMode:self.editing
-                                                                      inForm:propertyName isSubForm:YES];
-            }
-        }
-			break;
-		case IFAEditorTypeSelectionList:
-        {
-            NSAssert([self.object isKindOfClass:NSManagedObject.class], @"Selection list editor type not yet implemented for non-NSManagedObject instances");
-            NSManagedObject *l_managedObject = (NSManagedObject*)self.object;
-			if ([[IFAPersistenceManager sharedInstance].entityConfig isToManyRelationshipForProperty:propertyName inManagedObject:l_managedObject]) {
-				controller = [[IFAMultiSelectionListViewController alloc] initWithManagedObject:l_managedObject propertyName:propertyName];
-			}else {
-				controller = [[IFASingleSelectionListViewController alloc] initWithManagedObject:l_managedObject propertyName:propertyName];
-			}
-        }
-            break;
-		case IFAEditorTypeFullDateAndTime:
-		case IFAEditorTypeDatePicker:
-		case IFAEditorTypeTimeInterval:
-		case IFAEditorTypePicker:
-            if (editorType== IFAEditorTypePicker) {
-                controller = [[IFAPickerViewController alloc] initWithObject:self.object propertyName:propertyName];
-            }else {
-                UIDatePickerMode l_datePickerMode = (UIDatePickerMode) NSNotFound;
-                BOOL l_showTimePicker = NO;
-                switch (editorType) {
-                    case IFAEditorTypeFullDateAndTime:
-                        l_showTimePicker = YES;
-                        l_datePickerMode = UIDatePickerModeDate;
-                        break;
-                    case IFAEditorTypeDatePicker:
-                    {
-                        NSDictionary *l_propertyOptions = [[[IFAPersistenceManager sharedInstance] entityConfig] optionsForProperty:propertyName
-                                                                                                                          inObject:self.object];
-                        if ([l_propertyOptions[@"datePickerMode"] isEqualToString:@"date"]) {
-                            l_datePickerMode = UIDatePickerModeDate;
-                        }else{
-                            l_datePickerMode = UIDatePickerModeDateAndTime;
-                        }
-                        break;
-                    }
-                    case IFAEditorTypeTimeInterval:
-                        l_datePickerMode = UIDatePickerModeCountDownTimer;
-                        break;
-                    default:
-                        NSAssert(NO, @"Unexpected editor type - case 1: %u", editorType);
-                        break;
-                }
-                controller = [[IFADatePickerViewController alloc] initWithObject:self.object propertyName:propertyName
-                                                                   datePickerMode:l_datePickerMode
-                                                                   showTimePicker:l_showTimePicker];
-            }
-			break;
-		default:
-			NSAssert(NO, @"Unexpected editor type - case 2: %u", editorType);
-			break;
-	}
-
-#ifdef IFA_AVAILABLE_Help
-    // Set the help target ID for the view controller, if required
-    if (l_shouldSetHelpTargetId) {
-        UITableViewCell *l_cell = [self visibleCellForIndexPath:anIndexPath];
-        controller.helpTargetId = l_cell.helpTargetId;
-    }
-#endif
-
-	return controller;
-    
-}
-
-- (BOOL) hasOwnEditorViewForIndexPath:(NSIndexPath*)anIndexPath{
-    
-	NSUInteger editorType = [self editorTypeForIndexPath:anIndexPath];
-	switch (editorType) {
-		case IFAEditorTypeForm:
-		case IFAEditorTypeDatePicker:
-		case IFAEditorTypeSelectionList:
-		case IFAEditorTypePicker:
-		case IFAEditorTypeTimeInterval:
-		case IFAEditorTypeFullDateAndTime:
-			return YES;
-		case IFAEditorTypeText:
-		case IFAEditorTypeNumber:
-		case IFAEditorTypeSegmented:
-		case IFAEditorTypeSwitch:
-		case IFAEditorTypeNotApplicable:
-			return NO;
-		default:
-			NSAssert(NO, @"Unexpected editor type: %u", editorType);
-			return NO;
-	}
-    
-}
-
-- (IFAEditorType) editorTypeForIndexPath:(NSIndexPath*)anIndexPath{
-    
-    IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
-    if ([l_entityConfig isViewControllerFieldTypeForIndexPath:anIndexPath inObject:self.object inForm:self.formName
-                                                   createMode:self.createMode] || [l_entityConfig isCustomFieldTypeForIndexPath:anIndexPath
-                                                                                                                       inObject:self.object
-                                                                                                                         inForm:self.formName
-                                                                                                                     createMode:self.createMode]) {
-        return IFAEditorTypeNotApplicable;
-    }
-    
-	NSString *propertyName = [self nameForIndexPath:anIndexPath];
-    
-    // Introspection to get property type information
-    objc_property_t l_property = class_getProperty(self.object.class, [propertyName UTF8String]);
-    NSString *l_propertyDescription = @(property_getAttributes(l_property));
-    //            NSLog(@"property attributes: %@: ", l_propertyDescription);
-    
-    //    NSLog(@"editorTypeForIndexPath: %@, propertyName: %@", [anIndexPath description], propertyName);
-	
-	if ([[IFAPersistenceManager sharedInstance].entityConfig isFormFieldTypeForIndexPath:anIndexPath inObject:self.object
-                                                                                 inForm:self.formName
-                                                                             createMode:self.createMode]) {
-        
-		return IFAEditorTypeForm;
-        
-    }else if ([[IFAPersistenceManager sharedInstance].entityConfig isEnumerationForProperty:propertyName
-                                                                                  inObject:self.object]) {
-        
-        return IFAEditorTypePicker;
-        
-    }else if([l_propertyDescription hasPrefix:@"T@\"NSDate\","]){
-        
-        NSDictionary *l_propertyOptions = [[[IFAPersistenceManager sharedInstance] entityConfig] optionsForProperty:propertyName
-                                                                                                          inObject:self.object];
-        if ([l_propertyOptions[@"datePickerMode"] isEqualToString:@"fullDateAndTime"]) {
-            return IFAEditorTypeFullDateAndTime;
-        }else{
-            return IFAEditorTypeDatePicker;
-        }
-        
-	}else if ([self.object isKindOfClass:NSManagedObject.class]) {
-        
-        NSPropertyDescription *propertyDescription = [self.object ifa_descriptionForProperty:propertyName];
-        //            NSLog(@"propertyDescription: %@", [propertyDescription validationPredicates]);
-        
-        if ([propertyDescription isKindOfClass:[NSAttributeDescription class]] && [(NSAttributeDescription*)propertyDescription attributeType]==NSBooleanAttributeType && ![self isReadOnlyForIndexPath:anIndexPath]) {
-            
-            return IFAEditorTypeSwitch;
-            
-        }else if ([propertyDescription isKindOfClass:[NSAttributeDescription class]] && [(NSAttributeDescription*)propertyDescription attributeType]==NSDoubleAttributeType && ![self isReadOnlyForIndexPath:anIndexPath]) {
-            
-            NSUInteger dataType = [[IFAPersistenceManager sharedInstance].entityConfig dataTypeForProperty:propertyName
-                                                                                                 inObject:self.object];
-            if (dataType== IFADataTypeTimeInterval) {
-                return IFAEditorTypeTimeInterval;
-            }else {
-                return IFAEditorTypeNumber;
-            }
-            
-        }else if ([[IFAPersistenceManager sharedInstance].entityConfig isRelationshipForProperty:propertyName
-                                                                                inManagedObject:(NSManagedObject *) self.object]) {
-            
-            NSString *entityName = [[IFAPersistenceManager sharedInstance].entityConfig entityNameForProperty:propertyName
-                                                                                                    inObject:self.object];
-            IFAEditorType editorType = [[IFAPersistenceManager sharedInstance].entityConfig fieldEditorForEntity:entityName];
-            if (editorType==NSNotFound) {
-                // Attempt to infer editor type from target entity
-                return [[IFAPersistenceManager sharedInstance] isSystemEntityForEntity:entityName] ? IFAEditorTypePicker : IFAEditorTypeSelectionList;
-            }else {
-                return editorType;
-            }
-            
-        }else {
-            
-            return IFAEditorTypeText;
-            
-        }
-        
-    }else{
-        
-        return IFAEditorTypeText;
-        
-    }
-    
-}
-
-- (void)onSegmentedControlAction:(id)aSender{
-	IFASegmentedControl *segmentedControl = aSender;
-	NSString *entityName = [self entityNameForProperty:segmentedControl.propertyName];
-	NSManagedObject *selectedManagedObject = [[IFAPersistenceManager sharedInstance] findAllForEntity:entityName][(NSUInteger) [segmentedControl selectedSegmentIndex]];
-    [self.object ifa_setValue:selectedManagedObject forProperty:segmentedControl.propertyName];
-}
-
--(NSInteger)tagForIndexPath:(NSIndexPath*)a_indexPath{
+-(NSInteger)IFA_tagForIndexPath:(NSIndexPath*)a_indexPath{
     return (a_indexPath.section*100)+a_indexPath.row;
 }
 
--(IFASwitchTableViewCell *)switchCellForTable:(UITableView *)a_tableView indexPath:(NSIndexPath*)a_indexPath{
+-(IFASwitchTableViewCell *)IFA_switchCellForTable:(UITableView *)a_tableView indexPath:(NSIndexPath*)a_indexPath{
     
-    IFASwitchTableViewCell *l_cell = (IFASwitchTableViewCell *)[self cellForTable:a_tableView indexPath:a_indexPath className:@"IFASwitchTableViewCell"];
+    IFASwitchTableViewCell *l_cell = (IFASwitchTableViewCell *) [self IFA_cellForTable:a_tableView indexPath:a_indexPath
+                                                                             className:@"IFASwitchTableViewCell"];
     NSString *propertyName = [self nameForIndexPath:a_indexPath];
     
     // Set up event handling
-    l_cell.switchControl.tag = [self tagForIndexPath:a_indexPath];
+    l_cell.switchControl.tag = [self IFA_tagForIndexPath:a_indexPath];
     [l_cell.switchControl addTarget:self action:@selector(onSwitchAction:) forControlEvents:UIControlEventValueChanged];
     [self.IFA_uiControlsWithTargets addObject:l_cell.switchControl];
     //                [l_cell addValueChangedEventHandlerWithTarget:self action:@selector(onSwitchAction:)];
@@ -377,8 +151,8 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     
 }
 
--(BOOL)isDependencyEnabledForIndexPath:(NSIndexPath*)l_indexPath{
-//    NSLog(@"isDependencyEnabledForIndexPath: %@", [l_indexPath description]);
+-(BOOL)IFA_isDependencyEnabledForIndexPath:(NSIndexPath*)l_indexPath{
+//    NSLog(@"IFA_isDependencyEnabledForIndexPath: %@", [l_indexPath description]);
     NSString *propertyName = [self nameForIndexPath:l_indexPath];
     NSString *l_dependencyParentPropertyName = [[IFAPersistenceManager sharedInstance].entityConfig parentPropertyForDependent:propertyName
                                                                                                                      inObject:self.object];
@@ -391,7 +165,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     return l_dependencyEnabled;
 }
 
--(void)updateAndSaveBackingPreferences{
+-(void)IFA_updateAndSaveBackingPreferences {
     [self updateBackingPreferences];
     [[IFAPersistenceManager sharedInstance] save];
 //    NSLog(@"backing preferences saved");
@@ -623,8 +397,8 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                 }
                 
             }else{
-                
-                [self updateAndSaveBackingPreferences];
+
+                [self IFA_updateAndSaveBackingPreferences];
                 
                 if (!self.IFA_restoringNonEditingState) {
                     [self onSubmitButtonTap];
@@ -706,7 +480,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
             if (!self.editing) {
                 l_cell.switchControl.enabled = NO;
             }
-            l_cell.enabledInEditing = [self isDependencyEnabledForIndexPath:a_cell.indexPath];
+            l_cell.enabledInEditing = [self IFA_isDependencyEnabledForIndexPath:a_cell.indexPath];
             
         }else {
 
@@ -760,7 +534,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 //    NSLog(@"  [self hasOwnEditorViewForIndexPath:anIndexPath]: %u", [self hasOwnEditorViewForIndexPath:anIndexPath]);
 //    NSLog(@"  [self isReadOnlyForIndexPath:anIndexPath]: %u", [self isReadOnlyForIndexPath:anIndexPath]);
 //    NSLog(@"  [self isDependencyEnabledForIndexPath:anIndexPath]: %u", [self isDependencyEnabledForIndexPath:anIndexPath]);
-    return [self hasOwnEditorViewForIndexPath:anIndexPath] && ![self isReadOnlyForIndexPath:anIndexPath] && [self isDependencyEnabledForIndexPath:anIndexPath];
+    return [self hasOwnEditorViewForIndexPath:anIndexPath] && ![self isReadOnlyForIndexPath:anIndexPath] && [self IFA_isDependencyEnabledForIndexPath:anIndexPath];
 }
 
 /* This can be overriden by subclasses */
@@ -823,6 +597,22 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 }
 
+- (NSString*) labelForIndexPath:(NSIndexPath*)anIndexPath{
+    return [[IFAPersistenceManager sharedInstance].entityConfig labelForIndexPath:anIndexPath inObject:self.object
+                                                                           inForm:self.formName
+                                                                       createMode:self.createMode];
+}
+
+- (NSString*) nameForIndexPath:(NSIndexPath*)anIndexPath{
+    return [[IFAPersistenceManager sharedInstance].entityConfig nameForIndexPath:anIndexPath inObject:self.object
+                                                                          inForm:self.formName createMode:self.createMode];
+}
+
+- (NSString*) entityNameForProperty:(NSString*)aPropertyName{
+    return [[IFAPersistenceManager sharedInstance].entityConfig entityNameForProperty:aPropertyName
+                                                                             inEntity:[[self.object class] description]];
+}
+
 -(void)updateBackingPreferences{
     
     for (NSString *l_propertyWithBackingPreferencesProperty in [[IFAPersistenceManager sharedInstance].entityConfig propertiesWithBackingPreferencesForObject:self.object]) {
@@ -838,13 +628,225 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     
 }
 
+- (UIViewController*) editorViewControllerForIndexPath:(NSIndexPath*)anIndexPath{
+
+    NSString *propertyName = [self nameForIndexPath:anIndexPath];
+    UIViewController *controller;
+
+    NSUInteger editorType = [self editorTypeForIndexPath:anIndexPath];
+#ifdef IFA_AVAILABLE_Help
+    BOOL l_shouldSetHelpTargetId = YES;
+#endif
+    switch (editorType) {
+        case IFAEditorTypeForm:
+        {
+            NSString *customFormViewControllerClassName = [[IFAPersistenceManager sharedInstance].entityConfig viewControllerForForm:propertyName
+                                                                                                                            inObject:self.object];
+            Class formViewControllerClass;
+            if (customFormViewControllerClassName) {
+                formViewControllerClass = NSClassFromString(customFormViewControllerClassName);
+            }else {
+                formViewControllerClass = [IFAFormViewController class];
+            }
+            if (self.readOnlyMode) {
+                controller = [[formViewControllerClass alloc] initWithReadOnlyObject:self.object inForm:propertyName
+                                                                           isSubForm:YES];
+            }else{
+                controller = [[formViewControllerClass alloc] initWithObject:self.object createMode:self.editing
+                                                                      inForm:propertyName isSubForm:YES];
+            }
+        }
+            break;
+        case IFAEditorTypeSelectionList:
+        {
+            NSAssert([self.object isKindOfClass:NSManagedObject.class], @"Selection list editor type not yet implemented for non-NSManagedObject instances");
+            NSManagedObject *l_managedObject = (NSManagedObject*)self.object;
+            if ([[IFAPersistenceManager sharedInstance].entityConfig isToManyRelationshipForProperty:propertyName inManagedObject:l_managedObject]) {
+                controller = [[IFAMultiSelectionListViewController alloc] initWithManagedObject:l_managedObject propertyName:propertyName];
+            }else {
+                controller = [[IFASingleSelectionListViewController alloc] initWithManagedObject:l_managedObject propertyName:propertyName];
+            }
+        }
+            break;
+        case IFAEditorTypeFullDateAndTime:
+        case IFAEditorTypeDatePicker:
+        case IFAEditorTypeTimeInterval:
+        case IFAEditorTypePicker:
+            if (editorType== IFAEditorTypePicker) {
+                controller = [[IFAPickerViewController alloc] initWithObject:self.object propertyName:propertyName];
+            }else {
+                UIDatePickerMode l_datePickerMode = (UIDatePickerMode) NSNotFound;
+                BOOL l_showTimePicker = NO;
+                switch (editorType) {
+                    case IFAEditorTypeFullDateAndTime:
+                        l_showTimePicker = YES;
+                        l_datePickerMode = UIDatePickerModeDate;
+                        break;
+                    case IFAEditorTypeDatePicker:
+                    {
+                        NSDictionary *l_propertyOptions = [[[IFAPersistenceManager sharedInstance] entityConfig] optionsForProperty:propertyName
+                                                                                                                           inObject:self.object];
+                        if ([l_propertyOptions[@"datePickerMode"] isEqualToString:@"date"]) {
+                            l_datePickerMode = UIDatePickerModeDate;
+                        }else{
+                            l_datePickerMode = UIDatePickerModeDateAndTime;
+                        }
+                        break;
+                    }
+                    case IFAEditorTypeTimeInterval:
+                        l_datePickerMode = UIDatePickerModeCountDownTimer;
+                        break;
+                    default:
+                        NSAssert(NO, @"Unexpected editor type - case 1: %u", editorType);
+                        break;
+                }
+                controller = [[IFADatePickerViewController alloc] initWithObject:self.object propertyName:propertyName
+                                                                  datePickerMode:l_datePickerMode
+                                                                  showTimePicker:l_showTimePicker];
+            }
+            break;
+        default:
+            NSAssert(NO, @"Unexpected editor type - case 2: %u", editorType);
+            break;
+    }
+
+#ifdef IFA_AVAILABLE_Help
+    // Set the help target ID for the view controller, if required
+    if (l_shouldSetHelpTargetId) {
+        UITableViewCell *l_cell = [self visibleCellForIndexPath:anIndexPath];
+        controller.helpTargetId = l_cell.helpTargetId;
+    }
+#endif
+
+    return controller;
+
+}
+
+- (BOOL) hasOwnEditorViewForIndexPath:(NSIndexPath*)anIndexPath{
+
+    NSUInteger editorType = [self editorTypeForIndexPath:anIndexPath];
+    switch (editorType) {
+        case IFAEditorTypeForm:
+        case IFAEditorTypeDatePicker:
+        case IFAEditorTypeSelectionList:
+        case IFAEditorTypePicker:
+        case IFAEditorTypeTimeInterval:
+        case IFAEditorTypeFullDateAndTime:
+            return YES;
+        case IFAEditorTypeText:
+        case IFAEditorTypeNumber:
+        case IFAEditorTypeSegmented:
+        case IFAEditorTypeSwitch:
+        case IFAEditorTypeNotApplicable:
+            return NO;
+        default:
+            NSAssert(NO, @"Unexpected editor type: %u", editorType);
+            return NO;
+    }
+
+}
+
+- (IFAEditorType) editorTypeForIndexPath:(NSIndexPath*)anIndexPath{
+
+    IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
+    if ([l_entityConfig isViewControllerFieldTypeForIndexPath:anIndexPath inObject:self.object inForm:self.formName
+                                                   createMode:self.createMode] || [l_entityConfig isCustomFieldTypeForIndexPath:anIndexPath
+                                                                                                                       inObject:self.object
+                                                                                                                         inForm:self.formName
+                                                                                                                     createMode:self.createMode]) {
+        return IFAEditorTypeNotApplicable;
+    }
+
+    NSString *propertyName = [self nameForIndexPath:anIndexPath];
+
+    // Introspection to get property type information
+    objc_property_t l_property = class_getProperty(self.object.class, [propertyName UTF8String]);
+    NSString *l_propertyDescription = @(property_getAttributes(l_property));
+    //            NSLog(@"property attributes: %@: ", l_propertyDescription);
+
+    //    NSLog(@"editorTypeForIndexPath: %@, propertyName: %@", [anIndexPath description], propertyName);
+
+    if ([[IFAPersistenceManager sharedInstance].entityConfig isFormFieldTypeForIndexPath:anIndexPath inObject:self.object
+                                                                                  inForm:self.formName
+                                                                              createMode:self.createMode]) {
+
+        return IFAEditorTypeForm;
+
+    }else if ([[IFAPersistenceManager sharedInstance].entityConfig isEnumerationForProperty:propertyName
+                                                                                   inObject:self.object]) {
+
+        return IFAEditorTypePicker;
+
+    }else if([l_propertyDescription hasPrefix:@"T@\"NSDate\","]){
+
+        NSDictionary *l_propertyOptions = [[[IFAPersistenceManager sharedInstance] entityConfig] optionsForProperty:propertyName
+                                                                                                           inObject:self.object];
+        if ([l_propertyOptions[@"datePickerMode"] isEqualToString:@"fullDateAndTime"]) {
+            return IFAEditorTypeFullDateAndTime;
+        }else{
+            return IFAEditorTypeDatePicker;
+        }
+
+    }else if ([self.object isKindOfClass:NSManagedObject.class]) {
+
+        NSPropertyDescription *propertyDescription = [self.object ifa_descriptionForProperty:propertyName];
+        //            NSLog(@"propertyDescription: %@", [propertyDescription validationPredicates]);
+
+        if ([propertyDescription isKindOfClass:[NSAttributeDescription class]] && [(NSAttributeDescription*)propertyDescription attributeType]==NSBooleanAttributeType && ![self isReadOnlyForIndexPath:anIndexPath]) {
+
+            return IFAEditorTypeSwitch;
+
+        }else if ([propertyDescription isKindOfClass:[NSAttributeDescription class]] && [(NSAttributeDescription*)propertyDescription attributeType]==NSDoubleAttributeType && ![self isReadOnlyForIndexPath:anIndexPath]) {
+
+            NSUInteger dataType = [[IFAPersistenceManager sharedInstance].entityConfig dataTypeForProperty:propertyName
+                                                                                                  inObject:self.object];
+            if (dataType== IFADataTypeTimeInterval) {
+                return IFAEditorTypeTimeInterval;
+            }else {
+                return IFAEditorTypeNumber;
+            }
+
+        }else if ([[IFAPersistenceManager sharedInstance].entityConfig isRelationshipForProperty:propertyName
+                                                                                 inManagedObject:(NSManagedObject *) self.object]) {
+
+            NSString *entityName = [[IFAPersistenceManager sharedInstance].entityConfig entityNameForProperty:propertyName
+                                                                                                     inObject:self.object];
+            IFAEditorType editorType = [[IFAPersistenceManager sharedInstance].entityConfig fieldEditorForEntity:entityName];
+            if (editorType==NSNotFound) {
+                // Attempt to infer editor type from target entity
+                return [[IFAPersistenceManager sharedInstance] isSystemEntityForEntity:entityName] ? IFAEditorTypePicker : IFAEditorTypeSelectionList;
+            }else {
+                return editorType;
+            }
+
+        }else {
+
+            return IFAEditorTypeText;
+
+        }
+
+    }else{
+
+        return IFAEditorTypeText;
+
+    }
+
+}
+
+- (void)onSegmentedControlAction:(id)aSender{
+    IFASegmentedControl *segmentedControl = aSender;
+    NSString *entityName = [self entityNameForProperty:segmentedControl.propertyName];
+    NSManagedObject *selectedManagedObject = [[IFAPersistenceManager sharedInstance] findAllForEntity:entityName][(NSUInteger) [segmentedControl selectedSegmentIndex]];
+    [self.object ifa_setValue:selectedManagedObject forProperty:segmentedControl.propertyName];
+}
+
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
 	switch (actionSheet.tag) {
 		case IFAViewTagActionSheetCancel:
 			if(buttonIndex==0){
-				[self restoreNonEditingState];
+                [self IFA_restoreNonEditingState];
 			}else{
                 // Notify that any pending context switch has been denied
                 [self replyToContextSwitchRequestWithGranted:NO];
@@ -940,7 +942,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 	
     if ([self hasOwnEditorViewForIndexPath:indexPath]) {
         
-		l_cellToReturn = [self cellForTable:tableView indexPath:indexPath className:@"IFAFormTableViewCell"];
+		l_cellToReturn = [self IFA_cellForTable:tableView indexPath:indexPath className:@"IFAFormTableViewCell"];
 		
 	}else {
 		
@@ -960,7 +962,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                 
             case IFAEditorTypeSwitch:
             {
-                l_cellToReturn = [self switchCellForTable:tableView indexPath:indexPath];
+                l_cellToReturn = [self IFA_switchCellForTable:tableView indexPath:indexPath];
                 break;
             }
                 
@@ -1243,11 +1245,11 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     
     self.IFA_dismissModalFormBarButtonItem = [IFAUIUtils isIPad] ? [IFAUIUtils barButtonItemForType:IFABarButtonItemDismiss
                                                                                              target:self
-                                                                                             action:@selector(onDismissButtonTap:)] : [IFAUIUtils barButtonItemForType:IFABarButtonItemBack
-                                                                                                                                                                target:self
-                                                                                                                                                                action:@selector(onDismissButtonTap:)];
+                                                                                             action:@selector(IFA_onDismissButtonTap:)] : [IFAUIUtils barButtonItemForType:IFABarButtonItemBack
+                                                                                                                                                                    target:self
+                                                                                                                                                                    action:@selector(IFA_onDismissButtonTap:)];
     self.IFA_cancelBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemCancel target:self
-                                                             action:@selector(onCancelButtonTap:)];
+                                                             action:@selector(IFA_onCancelButtonTap:)];
     
     // Instantiate text field cells that will be reused.
     //  Text fields, which are properties in the text field cells, must be know in advance to provide the functionality to cycle through text fields with the Return key.
@@ -1261,7 +1263,9 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                 NSUInteger l_editorType = [self editorTypeForIndexPath:l_indexPath];
                 if (l_editorType== IFAEditorTypeText || l_editorType== IFAEditorTypeNumber) {
                     NSString *l_className = [(l_editorType== IFAEditorTypeText ?[IFAFormTextFieldTableViewCell class]:[IFAFormNumberFieldTableViewCell class]) description];
-                    IFAFormTextFieldTableViewCell *l_cell = (IFAFormTextFieldTableViewCell *)[self cellForTable:self.tableView indexPath:l_indexPath className:l_className];
+                    IFAFormTextFieldTableViewCell *l_cell = (IFAFormTextFieldTableViewCell *) [self IFA_cellForTable:self.tableView
+                                                                                                           indexPath:l_indexPath
+                                                                                                           className:l_className];
                     (self.IFA_indexPathToTextFieldCellDictionary)[l_indexPath] = l_cell;
                     if ([self isReadOnlyForIndexPath:l_indexPath]) {
                         [l_cell.textField removeFromSuperview];
@@ -1335,7 +1339,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     [super viewWillDisappear:animated];
 
     if (!self.IFA_isManagedObject && !self.ifa_presentedAsModal) {
-        [self updateAndSaveBackingPreferences];
+        [self IFA_updateAndSaveBackingPreferences];
     }
     
 }
@@ -1362,7 +1366,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 - (NSArray*)ifa_editModeToolbarItems {
 	if(!self.createMode){
 		UIBarButtonItem *deleteButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemDelete target:self
-                                                                      action:@selector(onDeleteButtonTap:)];
+                                                                      action:@selector(IFA_onDeleteButtonTap:)];
 		return @[deleteButtonItem];
 	}else {
 		return nil;
@@ -1379,7 +1383,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                                       delegate:self
                                            tag:IFAViewTagActionSheetCancel];
 	}else{
-		[self restoreNonEditingState];
+        [self IFA_restoreNonEditingState];
 	}
 }
 
