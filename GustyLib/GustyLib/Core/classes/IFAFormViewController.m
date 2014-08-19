@@ -275,29 +275,6 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     return l_b;
 }
 
-- (IFAFormTableViewCellAccessoryType)IFA_accessoryTypeForIndexPath:(NSIndexPath *)a_indexPath {
-    IFAEditorType l_editorType = [self IFA_editorTypeForIndexPath:a_indexPath];
-    IFAFormTableViewCellAccessoryType l_accessoryType = [self IFA_accessoryTypeForEditorType:l_editorType];
-    if (l_editorType==IFAEditorTypeNotApplicable) {
-        if ([self IFA_shouldLinkToUrlForIndexPath:a_indexPath]){
-            //wip: the below case probably deserves a new custom accessory image (e.g. a little globe?)
-            l_accessoryType = IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight;
-        }
-    }else{
-        if ([self IFA_isMutableAccessoryTypeForEditorType:l_editorType]) {
-            // Scenarios where the accessory type may change
-            if (self.editing) {
-                if (![self IFA_canUserChangeFieldInEditModeAtIndexPath:a_indexPath]) {
-                    l_accessoryType = IFAFormTableViewCellAccessoryTypeNone;
-                }
-            }else{
-                l_accessoryType = IFAFormTableViewCellAccessoryTypeNone;
-            }
-        }
-    }
-    return l_accessoryType;
-}
-
 - (BOOL)IFA_canUserChangeFieldInEditModeAtIndexPath:(NSIndexPath *)a_indexPath {
     return ![self IFA_isReadOnlyForIndexPath:a_indexPath] && [self IFA_isDependencyEnabledForIndexPath:a_indexPath];
 }
@@ -376,7 +353,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 }
 
 - (BOOL)IFA_shouldEnableUserInteractionForIndexPath:(NSIndexPath *)anIndexPath {
-    IFAFormTableViewCellAccessoryType l_accessoryType = [self IFA_accessoryTypeForIndexPath:anIndexPath];
+    IFAFormTableViewCellAccessoryType l_accessoryType = [self accessoryTypeForIndexPath:anIndexPath];
     if (l_accessoryType==IFAFormTableViewCellAccessoryTypeNone) {
         if (self.editing) {
             return [self IFA_hasEmbeddedEditorForFieldAtIndexPath:anIndexPath];
@@ -617,7 +594,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     
     id l_value = [self.object valueForKey:a_cell.propertyName];
 
-    a_cell.customAccessoryType = [self IFA_accessoryTypeForIndexPath:a_cell.indexPath];
+    a_cell.customAccessoryType = [self accessoryTypeForIndexPath:a_cell.indexPath];
     
     if ([a_cell isMemberOfClass:[IFAFormTableViewCell class]] || [a_cell isMemberOfClass:[IFASwitchTableViewCell class]] || [a_cell isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
         
@@ -753,6 +730,29 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     NSString *entityName = [self entityNameForProperty:segmentedControl.propertyName];
     NSManagedObject *selectedManagedObject = [[IFAPersistenceManager sharedInstance] findAllForEntity:entityName][(NSUInteger) [segmentedControl selectedSegmentIndex]];
     [self.object ifa_setValue:selectedManagedObject forProperty:segmentedControl.propertyName];
+}
+
+- (IFAFormTableViewCellAccessoryType)accessoryTypeForIndexPath:(NSIndexPath *)a_indexPath {
+    IFAEditorType l_editorType = [self IFA_editorTypeForIndexPath:a_indexPath];
+    IFAFormTableViewCellAccessoryType l_accessoryType = [self IFA_accessoryTypeForEditorType:l_editorType];
+    if (l_editorType==IFAEditorTypeNotApplicable) {
+        if ([self IFA_shouldLinkToUrlForIndexPath:a_indexPath]){
+            //wip: the below case probably deserves a new custom accessory image (e.g. a little globe?)
+            l_accessoryType = IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight;
+        }
+    }else{
+        if ([self IFA_isMutableAccessoryTypeForEditorType:l_editorType]) {
+            // Scenarios where the accessory type may change
+            if (self.editing) {
+                if (![self IFA_canUserChangeFieldInEditModeAtIndexPath:a_indexPath]) {
+                    l_accessoryType = IFAFormTableViewCellAccessoryTypeNone;
+                }
+            }else{
+                l_accessoryType = IFAFormTableViewCellAccessoryTypeNone;
+            }
+        }
+    }
+    return l_accessoryType;
 }
 
 #pragma mark - UIActionSheetDelegate
@@ -994,7 +994,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         return;
     }
 
-	if ([self IFA_accessoryTypeForIndexPath:indexPath]!=IFAFormTableViewCellAccessoryTypeNone) {
+	if ([self accessoryTypeForIndexPath:indexPath]!=IFAFormTableViewCellAccessoryTypeNone) {
 
         if ([self IFA_isFormEditorTypeForIndexPath:indexPath]) {
             

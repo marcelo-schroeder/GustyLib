@@ -163,7 +163,7 @@ static UIImage *c_menuBarButtonItemImage = nil;
     if (!(l_view = a_viewController.tabBarController.view)) {
         if (!(l_view = a_viewController.splitViewController.view)) {
             l_view = a_viewController.navigationController.toolbar;
-            if (!l_view) {
+            if (l_view.hidden || !l_view) { // Added check for hidden is it was crashing the app in some cases when the toolbar was not visible and it had been used by a view controller that had been pushed
                 l_view = a_viewController.view;
             }
         }

@@ -28,7 +28,6 @@
 - (id) initWithManagedObject:(NSManagedObject *)aManagedObject propertyName:(NSString *)aPropertyName;
 
 - (void)onSelectNoneButtonTap:(id)sender;
-- (void)onDoneButtonTap:(id)sender;
 - (void)done;
 - (void)updateUiState;
 

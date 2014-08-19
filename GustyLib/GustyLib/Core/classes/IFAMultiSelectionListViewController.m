@@ -410,13 +410,6 @@ enum {
 	return @[self.selectNoneButtonItem, v_flexSpaceButtonItem, v_selectAllButtonItem];
 }
 
-- (void)onDoneButtonTap:(id)sender{
-
-	[super onDoneButtonTap:sender];
-    [self done];
-
-}
-
 -(void)done{
 	
     BOOL l_valueChanged = [self IFA_hasValueChanged];

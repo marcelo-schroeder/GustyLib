@@ -37,13 +37,13 @@
 		self.managedObject = aManagedObject;
 		self.propertyName = aPropertyName;
 		
-        if (![IFAUIUtils isIPad]) {
-            UIBarButtonItem *l_barButtonItem = [[self ifa_appearanceTheme] doneBarButtonItemWithTarget:self
-                                                                                              action:@selector(onDoneButtonTap:)
-                                                                                      viewController:self];
-            [self ifa_addLeftBarButtonItem:l_barButtonItem];
-        }
-		
+//        if (![IFAUIUtils isIPad]) {
+//            UIBarButtonItem *l_barButtonItem = [[self ifa_appearanceTheme] doneBarButtonItemWithTarget:self
+//                                                                                              action:@selector(onDoneButtonTap:)
+//                                                                                      viewController:self];
+//            [self ifa_addLeftBarButtonItem:l_barButtonItem];
+//        }
+
 		self.selectNoneButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemSelectNone target:self
                                                               action:@selector(onSelectNoneButtonTap:)];
 		
@@ -64,9 +64,9 @@
 - (void)onSelectNoneButtonTap:(id)sender {
 }
 
-- (void)onDoneButtonTap:(id)sender{
-    [self done];
-}
+//- (void)onDoneButtonTap:(id)sender{
+//    [self done];
+//}
 
 - (void)done{
 }
@@ -88,6 +88,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self updateUiState];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    BOOL l_isBeingPoppedByNavigationController = self.isMovingFromParentViewController;
+    if (l_isBeingPoppedByNavigationController) {
+        [self done];
+    }
 }
 
 -(void)willRefreshAndReloadDataAsync {

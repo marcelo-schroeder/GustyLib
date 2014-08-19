@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "IFATableViewCell.h"
+#import "IFAFormTableViewCell.h"
 
 @class IFATextField;
 

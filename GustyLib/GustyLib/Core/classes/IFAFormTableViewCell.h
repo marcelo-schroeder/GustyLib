@@ -19,7 +19,6 @@
 //
 
 #import "IFATableViewCell.h"
-#import "IFAFormViewController.h"
 
 typedef enum{
     IFAFormTableViewCellAccessoryTypeNone,
@@ -27,6 +26,7 @@ typedef enum{
     IFAFormTableViewCellAccessoryTypeDisclosureIndicatorDown,
 }IFAFormTableViewCellAccessoryType;
 
+@class IFAFormViewController;
 @class IFAFormTableViewCellContentView;
 
 @interface IFAFormTableViewCell : IFATableViewCell

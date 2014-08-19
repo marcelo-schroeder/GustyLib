@@ -19,10 +19,8 @@
 //
 
 #import "IFATableViewController.h"
-#import "IFAConstants.h"
-
-@class IFAFormTableViewCell;
-@class IFAFormTextFieldTableViewCell;
+#import "IFAFormTableViewCell.h"
+#import "IFAFormTextFieldTableViewCell.h"
 
 @interface IFAFormViewController : IFATableViewController <UIActionSheetDelegate>
 
@@ -47,6 +45,8 @@
 - (id)initWithReadOnlyObject:(NSObject *)anObject inForm:(NSString*)aFormName isSubForm:(BOOL)aSubFormFlag;
 
 - (void)onSegmentedControlAction:(id)aSender;
+
+- (IFAFormTableViewCellAccessoryType)accessoryTypeForIndexPath:(NSIndexPath *)a_indexPath;
 
 -(IFAFormTableViewCell *)populateCell:(IFAFormTableViewCell *)a_cell;
 

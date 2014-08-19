@@ -83,6 +83,17 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 //    NSLog(@"m_presentModalSelectionViewController: %@", [a_viewController description]);
 
+    if ([self conformsToProtocol:@protocol(IFAPresenter)]) {
+        a_viewController.ifa_presenter = (id <IFAPresenter>) self;
+    }
+
+    // Handle special case first: make sure that full screen form selection views are "pushed" instead of being modal on the iPhone
+    if (![IFAUIUtils isIPad] && ![a_viewController ifa_hasFixedSize] && [self isKindOfClass:[IFAFormViewController class]] && self.navigationController) {
+        [self.navigationController pushViewController:a_viewController
+                                             animated:YES];
+        return;
+    }
+
     UIViewController *l_viewController;
     if (a_shouldWrapWithNavigationController) {
         l_viewController = [[[[self ifa_appearanceTheme] navigationControllerClass] alloc] initWithRootViewController:a_viewController];
@@ -97,10 +108,6 @@ static char c_shouldUseKeyboardPassthroughViewKey;
         l_viewController.view.frame = CGRectMake(0, 0, l_width, l_height);
 //        NSLog(@"  l_viewController.view.frame: %@", NSStringFromCGRect(l_viewController.view.frame));
 //        NSLog(@"  a_viewController.view.frame: %@", NSStringFromCGRect(a_viewController.view.frame));
-    }
-
-    if ([self conformsToProtocol:@protocol(IFAPresenter)]) {
-        a_viewController.ifa_presenter = (id <IFAPresenter>) self;
     }
 
     if ([IFAUIUtils isIPad]) { // If iPad present controller in a popover
