@@ -50,7 +50,7 @@
         NSString *l_propertyLabel = [[IFAPersistenceManager sharedInstance].entityConfig labelForProperty:self.propertyName
                                                                                                 inObject:self.managedObject];
         if (l_propertyLabel) {
-            self.title = [NSString stringWithFormat:@"%@ Selection", l_propertyLabel];
+            self.title = l_propertyLabel;
         }
 		
     }
