@@ -99,10 +99,6 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IFAPresenter>
         [self.view addSubview:self.IFA_pickerView];
         self.view.frame = self.IFA_pickerView.frame;
 
-        if (self.title) {
-            self.title = [NSString stringWithFormat:@"%@ Selection", self.title];
-        }
-
     }
     
     return self;
