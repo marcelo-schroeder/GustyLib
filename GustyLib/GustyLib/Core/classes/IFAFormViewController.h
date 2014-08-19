@@ -48,27 +48,20 @@
 
 - (void)onSegmentedControlAction:(id)aSender;
 
-- (NSString*) labelForIndexPath:(NSIndexPath*)anIndexPath;
-- (NSString*) nameForIndexPath:(NSIndexPath*)anIndexPath;
-- (NSString*) entityNameForProperty:(NSString*)aPropertyName;
-- (BOOL)isReadOnlyForIndexPath:(NSIndexPath*)anIndexPath;
-
-- (BOOL)shouldShowAccessoryInEditModeForIndexPath:(NSIndexPath *)anIndexPath inForm:(NSString*)aFormName;
-- (BOOL)allowUserInteractionInEditModeForIndexPath:(NSIndexPath*)anIndexPath inForm:(NSString*)aFormName;
-
-// Management of different field types
-- (BOOL)hasSeparateEditorViewForIndexPath:(NSIndexPath*)anIndexPath;
-- (IFAEditorType) editorTypeForIndexPath:(NSIndexPath*)anIndexPath;
-- (UIViewController *) editorViewControllerForIndexPath:(NSIndexPath*)anIndexPath;
-
 -(IFAFormTableViewCell *)populateCell:(IFAFormTableViewCell *)a_cell;
 
 - (void)onSwitchAction:(UISwitch*)a_switch;
 
--(void)handleReturnKeyForTextFieldCell:(IFAFormTextFieldTableViewCell *)a_cell;
+- (void)handleReturnKeyForTextFieldCell:(IFAFormTextFieldTableViewCell *)a_cell;
 
 /* to be overridden by subclasses */
 - (void)onSubmitButtonTap;
+
+- (NSString *)labelForIndexPath:(NSIndexPath *)anIndexPath;
+
+- (NSString *)nameForIndexPath:(NSIndexPath *)anIndexPath;
+
+- (NSString *)entityNameForProperty:(NSString *)aPropertyName;
 
 -(void)updateBackingPreferences;
 
