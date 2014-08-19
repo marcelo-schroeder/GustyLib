@@ -53,11 +53,11 @@
 - (NSString*) entityNameForProperty:(NSString*)aPropertyName;
 - (BOOL)isReadOnlyForIndexPath:(NSIndexPath*)anIndexPath;
 
-- (BOOL)showDetailDisclosureInEditModeForIndexPath:(NSIndexPath*)anIndexPath inForm:(NSString*)aFormName;
+- (BOOL)shouldShowAccessoryInEditModeForIndexPath:(NSIndexPath *)anIndexPath inForm:(NSString*)aFormName;
 - (BOOL)allowUserInteractionInEditModeForIndexPath:(NSIndexPath*)anIndexPath inForm:(NSString*)aFormName;
 
 // Management of different field types
-- (BOOL) hasOwnEditorViewForIndexPath:(NSIndexPath*)anIndexPath;
+- (BOOL)hasSeparateEditorViewForIndexPath:(NSIndexPath*)anIndexPath;
 - (IFAEditorType) editorTypeForIndexPath:(NSIndexPath*)anIndexPath;
 - (UIViewController *) editorViewControllerForIndexPath:(NSIndexPath*)anIndexPath;
 

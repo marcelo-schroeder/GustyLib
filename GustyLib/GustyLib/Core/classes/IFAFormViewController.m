@@ -275,6 +275,39 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     return l_b;
 }
 
+- (IFAFormTableViewCellAccessoryType)IFA_accessoryTypeForIndexPath:(NSIndexPath *)a_indexPath inForm:(NSString *)a_formName {
+    IFAFormTableViewCellAccessoryType l_accessoryType = IFAFormTableViewCellAccessoryTypeNone;
+    if (self.editing) {
+        if ([self shouldShowAccessoryInEditModeForIndexPath:a_indexPath inForm:a_formName]) {
+            IFAEditorType l_editorType = [self editorTypeForIndexPath:a_indexPath];
+            switch (l_editorType) {
+                case IFAEditorTypeText:
+                case IFAEditorTypeSegmented:
+                case IFAEditorTypeSwitch:
+                case IFAEditorTypeNumber:
+                case IFAEditorTypeNotApplicable:
+                    // None;
+                    break;
+                case IFAEditorTypeDatePicker:
+                case IFAEditorTypePicker:
+                case IFAEditorTypeTimeInterval:
+                case IFAEditorTypeFullDateAndTime:
+                    l_accessoryType = IFAFormTableViewCellAccessoryTypeDisclosureIndicatorDown;
+                    break;
+                case IFAEditorTypeSelectionList:
+                case IFAEditorTypeForm:
+                    l_accessoryType = IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight;
+                    break;
+                default:
+                    NSAssert(NO, @"Unexpected editor type: %u", l_editorType);
+            }
+        }
+    }else{
+
+    }
+    return l_accessoryType;
+}
+
 #pragma mark - Public
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -463,8 +496,8 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                 a_cell.customAccessoryType = IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight;
             }else {
                 if (self.editing) {
-                    if ([self showDetailDisclosureInEditModeForIndexPath:a_cell.indexPath inForm:self.formName]) {
-                        a_cell.customAccessoryType = IFAFormTableViewCellAccessoryTypeDisclosureIndicatorDown;
+                    if ([self shouldShowAccessoryInEditModeForIndexPath:a_cell.indexPath inForm:self.formName]) {
+                        a_cell.customAccessoryType = [self IFA_accessoryTypeForIndexPath:a_cell.indexPath inForm:self.formName];
                     } else {
                         a_cell.customAccessoryType = IFAFormTableViewCellAccessoryTypeNone;
                     }
@@ -529,21 +562,21 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 }
 
 /* This can be overriden by subclasses */
-- (BOOL)showDetailDisclosureInEditModeForIndexPath:(NSIndexPath*)anIndexPath inForm:(NSString*)aFormName{
+- (BOOL)shouldShowAccessoryInEditModeForIndexPath:(NSIndexPath *)anIndexPath inForm:(NSString*)aFormName{
 //    NSLog(@"showDetailDisclosureInEditModeForIndexPath: %@, formName: %@", [anIndexPath description], aFormName);
 //    NSLog(@"  [self hasOwnEditorViewForIndexPath:anIndexPath]: %u", [self hasOwnEditorViewForIndexPath:anIndexPath]);
 //    NSLog(@"  [self isReadOnlyForIndexPath:anIndexPath]: %u", [self isReadOnlyForIndexPath:anIndexPath]);
 //    NSLog(@"  [self isDependencyEnabledForIndexPath:anIndexPath]: %u", [self isDependencyEnabledForIndexPath:anIndexPath]);
-    return [self hasOwnEditorViewForIndexPath:anIndexPath] && ![self isReadOnlyForIndexPath:anIndexPath] && [self IFA_isDependencyEnabledForIndexPath:anIndexPath];
+    return [self hasSeparateEditorViewForIndexPath:anIndexPath] && ![self isReadOnlyForIndexPath:anIndexPath] && [self IFA_isDependencyEnabledForIndexPath:anIndexPath];
 }
 
 /* This can be overriden by subclasses */
 - (BOOL)allowUserInteractionInEditModeForIndexPath:(NSIndexPath*)anIndexPath inForm:(NSString*)aFormName{
-    BOOL l_allow = [self showDetailDisclosureInEditModeForIndexPath:anIndexPath inForm:aFormName];
+    BOOL l_allow = [self shouldShowAccessoryInEditModeForIndexPath:anIndexPath inForm:aFormName];
     if (l_allow) {
         return YES;
     }else{
-        return ![self hasOwnEditorViewForIndexPath:anIndexPath];
+        return ![self hasSeparateEditorViewForIndexPath:anIndexPath];
     }
 }
 
@@ -722,7 +755,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 }
 
-- (BOOL) hasOwnEditorViewForIndexPath:(NSIndexPath*)anIndexPath{
+- (BOOL)hasSeparateEditorViewForIndexPath:(NSIndexPath*)anIndexPath{
 
     NSUInteger editorType = [self editorTypeForIndexPath:anIndexPath];
     switch (editorType) {
@@ -940,7 +973,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     
     IFAFormTableViewCell *l_cellToReturn = nil;
 	
-    if ([self hasOwnEditorViewForIndexPath:indexPath]) {
+    if ([self hasSeparateEditorViewForIndexPath:indexPath]) {
         
 		l_cellToReturn = [self IFA_cellForTable:tableView indexPath:indexPath className:@"IFAFormTableViewCell"];
 		
@@ -1079,7 +1112,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         return;
     }
 
-	if ([self showDetailDisclosureInEditModeForIndexPath:indexPath inForm:self.formName]) {
+	if ([self shouldShowAccessoryInEditModeForIndexPath:indexPath inForm:self.formName]) {
 
         if ([self IFA_isFormEditorTypeForIndexPath:indexPath]) {
             
