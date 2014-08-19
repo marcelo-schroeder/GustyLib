@@ -41,6 +41,10 @@
     }
 }
 
+-(UITableViewCellAccessoryType)IFA_tableViewCellAccessoryType {
+    return UITableViewCellAccessoryNone;
+}
+
 #pragma mark - UITableViewDelegate Protocol
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -157,10 +161,6 @@
 }
 
 #pragma mark - Overrides
-
--(UITableViewCellAccessoryType)IFA_tableViewCellAccessoryType {
-    return UITableViewCellAccessoryDisclosureIndicator;
-}
 
 -(UITableViewCell *)createReusableCellWithIdentifier:(NSString *)a_reuseIdentifier atIndexPath:(NSIndexPath *)a_indexPath{
 	UITableViewCell *l_cell = [super createReusableCellWithIdentifier:a_reuseIdentifier atIndexPath:a_indexPath];
