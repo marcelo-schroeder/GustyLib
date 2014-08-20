@@ -45,7 +45,6 @@ static char c_titleViewDefaultKey;
 static char c_titleViewLandscapePhoneKey;
 static char c_changesMadeByPresentedViewControllerKey;
 static char c_refreshControlKey;
-static char c_activeFetchedResultsControllerKey;
 static char c_keyboardPassthroughViewKey;
 static char c_notificationObserversToRemoveOnDeallocKey;
 static char c_shouldUseKeyboardPassthroughViewKey;
@@ -57,7 +56,6 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 @property (nonatomic, strong) UIBarButtonItem *ifa_activePopoverControllerBarButtonItem;
 @property (nonatomic, strong) UIBarButtonItem *IFA_slidingMenuBarButtonItem;
 @property (nonatomic) BOOL ifa_changesMadeByPresentedViewController;
-@property (nonatomic, strong) NSFetchedResultsController *ifa_activeFetchedResultsController;
 @property (nonatomic, strong) IFAPassthroughView *IFA_keyboardPassthroughView;
 @property (nonatomic, strong) NSMutableArray *IFA_notificationObserversToRemoveOnDealloc;
 
@@ -391,14 +389,6 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 -(void)setIFA_notificationObserversToRemoveOnDealloc:(NSMutableArray *)a_notificationObserversToRemoveOnDealloc{
     objc_setAssociatedObject(self, &c_notificationObserversToRemoveOnDeallocKey, a_notificationObserversToRemoveOnDealloc, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
--(NSFetchedResultsController*)ifa_activeFetchedResultsController {
-    return objc_getAssociatedObject(self, &c_activeFetchedResultsControllerKey);
-}
-
--(void)setIfa_activeFetchedResultsController:(NSFetchedResultsController*)a_activeFetchedResultsController {
-    objc_setAssociatedObject(self, &c_activeFetchedResultsControllerKey, a_activeFetchedResultsController, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 -(BOOL)ifa_changesMadeByPresentedViewController {
@@ -915,9 +905,6 @@ static char c_shouldUseKeyboardPassthroughViewKey;
                                                  name:UIApplicationDidEnterBackgroundNotification
                                                object:nil];
 
-    // Configure fetched results controller and perform fetch
-    [self ifa_configureFetchedResultsControllerAndPerformFetch];
-
     // Configure keyboard passthrough view
     if (self.ifa_shouldUseKeyboardPassthroughView) {
         self.IFA_keyboardPassthroughView.shouldDismissKeyboardOnNonTextInputInteractions = YES;
@@ -936,8 +923,6 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
-
-    self.ifa_activeFetchedResultsController = nil;
 
 }
 
@@ -1220,36 +1205,6 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 -(void)ifa_onDoneButtonTap:(UIBarButtonItem*)a_barButtonItem{
     [self ifa_notifySessionCompletion];
-}
-
-// To be overriden by subclasses
--(NSFetchedResultsController*)ifa_fetchedResultsController {
-    return nil;
-}
-
-// Can be overriden by subclasses
--(id<NSFetchedResultsControllerDelegate>)ifa_fetchedResultsControllerDelegate {
-    return self;
-}
-
-// Can be overriden by subclasses
--(void)ifa_configureFetchedResultsControllerAndPerformFetch {
-    
-    self.ifa_activeFetchedResultsController = [self ifa_fetchedResultsController];
-    
-    if (self.ifa_activeFetchedResultsController) {
-        
-        // Configure delegate
-        self.ifa_activeFetchedResultsController.delegate = [self ifa_fetchedResultsControllerDelegate];
-        
-        // Perform fetch
-        NSError *l_error;
-        if (![self.ifa_activeFetchedResultsController performFetch:&l_error]) {
-            [IFAUtils handleUnrecoverableError:l_error];
-        };
-        
-    }
-    
 }
 
 - (void)ifa_addNotificationObserverForName:(NSString *)a_name object:(id)a_obj queue:(NSOperationQueue *)a_queue

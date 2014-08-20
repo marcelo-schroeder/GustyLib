@@ -20,6 +20,15 @@
 
 #import "IFATableViewController.h"
 
-@interface IFAFetchedResultsTableViewController : IFATableViewController
+@protocol IFAFetchedResultsTableViewControllerDataSource;
 
+@interface IFAFetchedResultsTableViewController : IFATableViewController <NSFetchedResultsControllerDelegate>
+@property (nonatomic, weak) id<IFAFetchedResultsTableViewControllerDataSource> fetchedResultsTableViewControllerDataSource;
+@property (nonatomic, strong, readonly) NSFetchedResultsController *fetchedResultsController;
+@end
+
+//wip: add documentation
+@protocol IFAFetchedResultsTableViewControllerDataSource <NSObject>
+@optional
+- (NSFetchedResultsController *)fetchedResultsControllerForFetchedResultsTableViewController:(IFAFetchedResultsTableViewController *)a_fetchedResultsTableViewController;
 @end

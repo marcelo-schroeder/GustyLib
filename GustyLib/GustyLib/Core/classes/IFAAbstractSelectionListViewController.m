@@ -36,6 +36,8 @@
 		
 		self.managedObject = aManagedObject;
 		self.propertyName = aPropertyName;
+
+        self.fetchingStrategy = IFAListViewControllerFetchingStrategyFindEntities;
 		
 //        if (![IFAUIUtils isIPad]) {
 //            UIBarButtonItem *l_barButtonItem = [[self ifa_appearanceTheme] doneBarButtonItemWithTarget:self
@@ -94,7 +96,7 @@
     [super viewWillDisappear:animated];
     BOOL l_isBeingPoppedByNavigationController = self.isMovingFromParentViewController;
     if (l_isBeingPoppedByNavigationController) {
-        [self done];
+        [self done];    //wip: does this change case issues with the context switching thing? (i.e. user could move away by tab bar - what happens?)
     }
 }
 

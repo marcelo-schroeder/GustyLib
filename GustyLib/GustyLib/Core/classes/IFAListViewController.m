@@ -20,19 +20,14 @@
 
 #import "IFACommon.h"
 
-@interface IFAListViewController (){
-    
-    @private
-    NSMutableArray *v_savedToolbarItemEnabledStates;
-    void (^v_sectionDataBlock)(NSString*, NSObject*, NSArray*, NSMutableArray*, NSMutableArray*);
-    
-}
+@interface IFAListViewController ()
 
 @property (nonatomic, strong, readonly) NSMutableArray *IFA_savedToolbarItemEnabledStates;
 @property (nonatomic, strong) dispatch_block_t refreshAndReloadDataAsyncBlock;
 @property (nonatomic) BOOL refreshAndReloadDataAsyncRequested;
 @property (nonatomic, strong) IFA_MBProgressHUD *IFA_hud;
-
+@property(nonatomic, strong) NSMutableArray *p_savedToolbarItemEnabledStates;
+@property(nonatomic, strong) void (^p_sectionDataBlock)(NSString *, NSObject *, NSArray *, NSMutableArray *, NSMutableArray *);
 @end
 
 @implementation IFAListViewController {
@@ -42,33 +37,70 @@
 
 #pragma mark - Private
 
-- (void)IFA_refreshAndReloadDataAsyncWithContainerCoordination:(BOOL)a_withContainerCoordination{
+- (void)IFA_refreshAndReloadDataSynchronously{
+    switch(self.fetchingStrategy){
+        case IFAListViewControllerFetchingStrategyFetchedResultsController:
+            [self IFA_refreshAndReloadDataWithFetchedResultsController];
+            break;
+        case IFAListViewControllerFetchingStrategyFindEntities:
+            [self IFA_refreshAndReloadDataWithFindEntitiesSynchronously];
+            break;
+        default:
+            NSAssert(NO, @"Unexpected fetching strategy: %u", self.fetchingStrategy);
+            break;
+    }
+    if (self.pagingContainerViewController || self.objects.count > 0) {
+        self.staleData = NO;
+    }
+    [self IFA_didCompleteFindEntities];
+}
+
+- (void)IFA_refreshAndReloadDataWithFetchedResultsController {
+    NSError *l_error;
+    if (![self.fetchedResultsController performFetch:&l_error]) {
+        [IFAUtils handleUnrecoverableError:l_error];
+    };
+}
+
+- (void)IFA_refreshAndReloadDataWithFindEntitiesSynchronously {
+    self.entities = [[self findEntities] mutableCopy];
+}
+
+/**
+* Paging container coordination is only relevant to asynchronous fetches with the "findEntities" fetching strategy.
+*/
+- (void)IFA_refreshAndReloadDataAsyncWithPagingContainerCoordination:(BOOL)a_withPagingContainerCoordination {
 //    NSLog(@" ");
 //    NSLog(@"m_refreshAndReloadDataAsyncWithContainerCoordination for %@ - self.selectedViewControllerInPagingContainer: %u", [self description], self.selectedViewControllerInPagingContainer);
-    
-    IFAListViewController * __weak l_weakSelf = self;
-    
-    void (^l_completionBlock)(NSMutableArray*) = ^(NSMutableArray* a_managedObjectIds){
+
+    if (!self.asynchronousFetch) {
+        [self IFA_refreshAndReloadDataSynchronously];
+        return;
+    }
+
+    // Perform the asynchronous case...
+
+    IFAListViewController *__weak l_weakSelf = self;
+
+    void (^l_completionBlock)(NSMutableArray *) = ^(NSMutableArray *a_managedObjectIds) {
 //        NSLog(@"completion block - start for %@", [l_weakSelf description]);
-        @synchronized(l_weakSelf){
+        @synchronized (l_weakSelf) {
             l_weakSelf.entities = [[IFAPersistenceManager sharedInstance] managedObjectsForIds:a_managedObjectIds];
-            if (l_weakSelf.pagingContainerViewController || [l_weakSelf.entities count]>0) {
+            if (l_weakSelf.pagingContainerViewController || [l_weakSelf.entities count] > 0) {
                 l_weakSelf.staleData = NO;
             }
         }
-        [l_weakSelf refreshSectionsWithRows];
-        [l_weakSelf reloadData];
-        [l_weakSelf didRefreshAndReloadDataAsync];
+        [l_weakSelf IFA_didCompleteFindEntities];
 //        NSLog(@"completion block - end");
     };
-    
+
     dispatch_block_t l_block = [^{
-        
+
         if (l_weakSelf.ifa_asynchronousWorkManager.areAllBlocksCancelled) {
             //            NSLog(@"all blocks cancelled - exiting block!");
             return;
         }
-        
+
 //        NSLog(@"block - start");
 //        NSLog(@"going to sleep...");
 //        [NSThread sleepForTimeInterval:5];
@@ -77,13 +109,13 @@
 //            NSLog(@"all blocks cancelled - exiting block - after sleeping!");
 //            return;
 //        }
-        
+
         __block NSMutableArray *l_entities = [NSMutableArray new];
         [[IFAPersistenceManager sharedInstance] performBlockInPrivateQueueAndWait:^{
             l_entities = [IFAPersistenceManager idsForManagedObjects:[[NSMutableArray alloc] initWithArray:[l_weakSelf findEntities]]];
         }];
         //        NSLog(@"find done");
-        
+
         if (l_weakSelf.ifa_asynchronousWorkManager.areAllBlocksCancelled) {
             //            NSLog(@"all blocks cancelled - exiting block - after find!");
             return;
@@ -93,31 +125,37 @@
             l_completionBlock(l_entities);
         }];
         //        NSLog(@"block - end");
-        
+
     } copy];
-    
-    if (a_withContainerCoordination && self.pagingContainerViewController) {
-        
+
+    if (a_withPagingContainerCoordination && self.pagingContainerViewController) {
+
 //        NSLog(@"Container Coordination for child %@, block: %@", [self description], [l_block description]);
-        
+
         self.refreshAndReloadDataAsyncBlock = l_block;
         self.pagingContainerViewController.childViewDidAppearCount++;
 //        NSLog(@"  self.pagingContainerViewController.newChildViewControllerCount: %u", self.pagingContainerViewController.newChildViewControllerCount);
 //        NSLog(@"  self.pagingContainerViewController.childViewDidAppearCount: %u", self.pagingContainerViewController.childViewDidAppearCount);
-        if (self.pagingContainerViewController.newChildViewControllerCount ==self.pagingContainerViewController.childViewDidAppearCount) {
+        if (self.pagingContainerViewController.newChildViewControllerCount == self.pagingContainerViewController.childViewDidAppearCount) {
 //            NSLog(@"  => calling refreshAndReloadChildData on container...");
             [self.pagingContainerViewController refreshAndReloadChildData];
         }
-        
-    }else{
-        
+
+    } else {
+
 //        NSLog(@"block dispatched for %@", [self description]);
 
         [self.ifa_asynchronousWorkManager dispatchSerialBlock:l_block progressIndicatorContainerView:self.view
                                          cancelPreviousBlocks:YES];
-        
+
     }
-    
+
+}
+
+- (void)IFA_didCompleteFindEntities {
+    [self refreshSectionsWithRows];
+    [self reloadData];
+    [self didRefreshAndReloadDataAsync];
 }
 
 -(void)IFA_onPersistenceChangeNotification:(NSNotification*)a_notification{
@@ -128,8 +166,12 @@
 
 }
 
--(void)showTipWithText:(NSString*)a_text{
+-(void)IFA_showTipWithText:(NSString*)a_text{
     self.IFA_hud = [IFAUIUtils showHudWithText:a_text inView:self.tableView animated:YES];
+}
+
+- (BOOL)IFA_shouldRefreshAndReloadDueToStaleDataOnViewAppearance {
+    return self.staleData && ![self ifa_isReturningVisibleViewController];
 }
 
 #pragma mark - Public
@@ -139,6 +181,7 @@
     if ((self = [super initWithStyle:[self tableViewStyle]])) {
 
 		self.entityName = anEntityName;
+        self.fetchingStrategy = IFAListViewControllerFetchingStrategyFetchedResultsController;
 
     }
 
@@ -150,9 +193,13 @@
 	return [[IFAPersistenceManager sharedInstance] findAllForEntity:self.entityName];
 }
 
+- (NSArray *)objects {
+    return self.fetchedResultsController ? self.fetchedResultsController.fetchedObjects : self.entities;
+}
+
 - (void)refreshAndReloadDataAsync {
     [self willRefreshAndReloadDataAsync];
-    [self IFA_refreshAndReloadDataAsyncWithContainerCoordination:NO];
+    [self IFA_refreshAndReloadDataAsyncWithPagingContainerCoordination:NO];
 }
 
 - (UITableViewStyle)tableViewStyle {
@@ -189,7 +236,7 @@
 }
 
 -(BOOL)shouldShowTipsForEditing:(BOOL)a_editing{
-    return [self.entities count]==0 && [self.navigationItem.leftBarButtonItems containsObject:self.addBarButtonItem];
+    return self.objects.count==0 && [self.navigationItem.leftBarButtonItems containsObject:self.addBarButtonItem];
 }
 
 -(NSString*)tipTextForEditing:(BOOL)a_editing{
@@ -200,50 +247,58 @@
 }
 
 -(NSMutableArray *)IFA_savedToolbarItemEnabledStates {
-    if (!v_savedToolbarItemEnabledStates) {
-        v_savedToolbarItemEnabledStates = [NSMutableArray new];
+    if (!self.p_savedToolbarItemEnabledStates) {
+        self.p_savedToolbarItemEnabledStates = [NSMutableArray new];
     }
-    return v_savedToolbarItemEnabledStates;
+    return self.p_savedToolbarItemEnabledStates;
 }
 
-- (NSObject*)objectForIndexPath:(NSIndexPath*)a_indexPath{
-    if (self.ifa_activeFetchedResultsController) {
-        return [self.ifa_activeFetchedResultsController objectAtIndexPath:a_indexPath];
+- (id)objectForIndexPath:(NSIndexPath*)a_indexPath{
+    if (self.fetchedResultsController) {
+        return [self.fetchedResultsController objectAtIndexPath:a_indexPath];
     }else{
-        return [[self.sectionsWithRows objectAtIndex:a_indexPath.section] objectAtIndex:a_indexPath.row];
+        return [(self.sectionsWithRows)[(NSUInteger) a_indexPath.section] objectAtIndex:(NSUInteger) a_indexPath.row];
     }
 }
 
-- (NSIndexPath*)indexPathForObject:(NSObject*)a_object{
-    for (NSUInteger l_section=0; l_section<[self.sectionsWithRows count]; l_section++) {
-        NSUInteger l_row = [[self.sectionsWithRows objectAtIndex:l_section] indexOfObject:a_object];
-        if(l_row!=NSNotFound){
-            return [NSIndexPath indexPathForRow:l_row inSection:l_section];
+- (NSIndexPath*)indexPathForObject:(id)a_object {
+    if (self.fetchedResultsController) {
+        return [self.fetchedResultsController indexPathForObject:a_object];
+    }else{
+        for (NSUInteger l_section = 0; l_section < [self.sectionsWithRows count]; l_section++) {
+            NSUInteger l_row = [(self.sectionsWithRows)[l_section] indexOfObject:a_object];
+            if (l_row != NSNotFound) {
+                return [NSIndexPath indexPathForRow:l_row inSection:l_section];
+            }
         }
+        return nil;
     }
-    return nil;
 }
 
 -(void)refreshSectionsWithRows {
-    
+
+    if (self.fetchingStrategy!=IFAListViewControllerFetchingStrategyFindEntities) {
+        return;
+    }
+
     [self.sectionHeaderTitles removeAllObjects];
     [self.sectionsWithRows removeAllObjects];
-    
+
     if (self.listGroupedBy) {
-        
+
         BOOL l_firstTime = YES;
         NSObject *l_previousSectionObject = nil;
         NSMutableArray *l_sectionRows = [NSMutableArray new];
-        for (NSObject *l_object in self.entities) {
+        for (NSObject *l_object in self.objects) {
             //                NSLog(@"sortLabel: %@", [l_object valueForKey:@"sortLabel"]);
             @autoreleasepool {
                 id l_groupedByValue = [l_object valueForKey:self.listGroupedBy];
-                NSObject *l_currentSectionObject = l_groupedByValue!=nil ? l_groupedByValue : [NSNull null];
+                NSObject *l_currentSectionObject = l_groupedByValue != nil ? l_groupedByValue : [NSNull null];
                 if (l_firstTime || ![l_currentSectionObject isEqual:l_previousSectionObject]) {
                     if (l_firstTime) {
                         l_firstTime = NO;
-                    }else {
-                        v_sectionDataBlock(self.listGroupedBy, l_previousSectionObject, l_sectionRows, self.sectionHeaderTitles, self.sectionsWithRows);
+                    } else {
+                        self.p_sectionDataBlock(self.listGroupedBy, l_previousSectionObject, l_sectionRows, self.sectionHeaderTitles, self.sectionsWithRows);
                         l_sectionRows = [NSMutableArray new];
                     }
                     l_previousSectionObject = l_currentSectionObject;
@@ -252,13 +307,13 @@
             }
         }
         if (!l_firstTime) {
-            v_sectionDataBlock(self.listGroupedBy, l_previousSectionObject, l_sectionRows, self.sectionHeaderTitles, self.sectionsWithRows);
+            self.p_sectionDataBlock(self.listGroupedBy, l_previousSectionObject, l_sectionRows, self.sectionHeaderTitles, self.sectionsWithRows);
         }
-        
-    }else{
-        [self.sectionsWithRows addObject:self.entities];
+
+    } else {
+        [self.sectionsWithRows addObject:self.objects];
     }
-    
+
 }
 
 - (IFAFormViewController *)formViewControllerForManagedObject:(NSManagedObject *)aManagedObject createMode:(BOOL)aCreateMode{
@@ -323,7 +378,7 @@
     [IFAUIUtils hideHud:self.IFA_hud animated:NO];
     if ([self shouldShowTipsForEditing:a_editing]) {
         //        NSLog(@"showTipWithText for %@", [self description]);
-        [self showTipWithText:[self tipTextForEditing:a_editing]];
+        [self IFA_showTipWithText:[self tipTextForEditing:a_editing]];
     }
 }
 
@@ -333,6 +388,10 @@
 
     [super viewDidLoad];
 
+    if (self.fetchingStrategy==IFAListViewControllerFetchingStrategyFetchedResultsController) {
+        self.fetchedResultsTableViewControllerDataSource = self;
+    }
+
 //    NSLog(@"self.entityName: %@", self.entityName);
     if (!self.title) {
         self.title = [[IFAPersistenceManager sharedInstance].entityConfig listLabelForEntity:self.entityName];
@@ -341,12 +400,14 @@
     self.staleData = YES;
 //    NSLog(@"self.staleData = YES in viewDidLoad");
 
-    self.sectionHeaderTitles = [NSMutableArray new];
-    self.sectionsWithRows = [NSMutableArray new];
+    if (!self.fetchedResultsController) {
+        self.sectionHeaderTitles = [NSMutableArray new];
+        self.sectionsWithRows = [NSMutableArray new];
+    }
     
     // Instantiate block that will provide table section data
     NSString *l_entityName = self.entityName;
-    v_sectionDataBlock = ^(NSString *a_sectionGroupedBy, NSObject *a_sectionObject, NSArray *a_sectionRows, NSMutableArray *a_sectionHeaderTitles, NSMutableArray *a_sectionsWithRows){
+    self.p_sectionDataBlock = ^(NSString *a_sectionGroupedBy, NSObject *a_sectionObject, NSArray *a_sectionRows, NSMutableArray *a_sectionHeaderTitles, NSMutableArray *a_sectionsWithRows){
         NSString *l_sectionHeaderTitle = nil;
         if (a_sectionObject == [NSNull null]) {
             NSString *l_relatedEntityName = [[IFAPersistenceManager sharedInstance].entityConfig entityNameForProperty:a_sectionGroupedBy inEntity:l_entityName];
@@ -373,8 +434,8 @@
 -(void)viewWillAppear:(BOOL)animated{
 
     [super viewWillAppear:animated];
-    
-    if( !self.ifa_activeFetchedResultsController && self.staleData && ![self ifa_isReturningVisibleViewController] ){
+
+    if ([self IFA_shouldRefreshAndReloadDueToStaleDataOnViewAppearance]) {
         [self willRefreshAndReloadDataAsync];
     }
 
@@ -384,8 +445,8 @@
 
     [super viewDidAppear:animated];
 
-    if( !self.ifa_activeFetchedResultsController && self.staleData && ![self ifa_isReturningVisibleViewController] ){
-        [self IFA_refreshAndReloadDataAsyncWithContainerCoordination:YES];
+    if ([self IFA_shouldRefreshAndReloadDueToStaleDataOnViewAppearance]) {
+        [self IFA_refreshAndReloadDataAsyncWithPagingContainerCoordination:YES];
         self.refreshAndReloadDataAsyncRequested = YES;
     }else{
         self.refreshAndReloadDataAsyncRequested = NO;
@@ -433,7 +494,7 @@
 
     }
 
-    if (!self.ifa_activeFetchedResultsController && a_changesMade) {
+    if (!self.fetchedResultsController && a_changesMade) {
         if (self.pagingContainerViewController) {
 //            NSLog(@"  => calling refreshAndReloadChildData on container FOR SESSION COMPLETE...");
             [self.pagingContainerViewController refreshAndReloadChildData];
@@ -457,7 +518,7 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (self.ifa_activeFetchedResultsController) {
+    if (self.fetchedResultsController) {
         return [super numberOfSectionsInTableView:tableView];
     }else {
         return [self.sectionsWithRows count];
@@ -466,18 +527,18 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.ifa_activeFetchedResultsController) {
+    if (self.fetchedResultsController) {
         return [super tableView:tableView numberOfRowsInSection:section];
     }else {
-        return [self.sectionsWithRows count] ? [[self.sectionsWithRows objectAtIndex:section] count] : 0;
+        return [self.sectionsWithRows count] ? [(self.sectionsWithRows)[(NSUInteger) section] count] : 0;
     }
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    if (self.ifa_activeFetchedResultsController) {
+    if (self.fetchedResultsController) {
         return [super tableView:tableView titleForHeaderInSection:section];
     }else{
-        return [self.sectionHeaderTitles count] ? [self.sectionHeaderTitles objectAtIndex:section] : nil;
+        return [self.sectionHeaderTitles count] ? (self.sectionHeaderTitles)[(NSUInteger) section] : nil;
     }
 }
 
@@ -495,7 +556,7 @@
     IFATableSectionHeaderView *l_view = nil;
     NSString *l_title = [self tableView:tableView titleForHeaderInSection:section];
     if (l_title) {
-        NSString *l_xibName = [[IFAUtils infoPList] objectForKey:@"IFAThemeListSectionHeaderViewXib"];
+        NSString *l_xibName = [IFAUtils infoPList][@"IFAThemeListSectionHeaderViewXib"];
         if (l_xibName) {
             l_view = [[NSBundle mainBundle] loadNibNamed:l_xibName owner:self options:nil][0];
             l_view.titleLabel.text = l_title;
@@ -531,6 +592,24 @@
 
 -(void)didExitHelpMode{
     [self showTipForEditing:self.editing];
+}
+
+#pragma mark - IFAFetchedResultsTableViewControllerDataSource
+
+- (NSFetchedResultsController *)
+fetchedResultsControllerForFetchedResultsTableViewController:(IFAFetchedResultsTableViewController *)a_fetchedResultsTableViewController {
+    NSFetchedResultsController *l_controller = nil;
+    if (self.fetchingStrategy == IFAListViewControllerFetchingStrategyFetchedResultsController) {
+        IFAPersistenceManager *l_persistentManager = [IFAPersistenceManager sharedInstance];
+        NSFetchRequest *l_fetchRequest = [l_persistentManager findAllFetchRequest:self.entityName
+                                                            includePendingChanges:NO];
+        l_controller = [[NSFetchedResultsController alloc]
+                initWithFetchRequest:l_fetchRequest
+                managedObjectContext:l_persistentManager.currentManagedObjectContext
+                  sectionNameKeyPath:nil
+                           cacheName:nil];
+    }
+    return l_controller;
 }
 
 @end

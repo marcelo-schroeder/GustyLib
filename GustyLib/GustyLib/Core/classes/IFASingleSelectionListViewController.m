@@ -143,7 +143,7 @@
     if (self.IFA_hasInitialLoadBeenDone) {
         [self showTipForEditing:NO];
     }else{
-        if (self.entities.count==0) {
+        if (self.objects.count==0) {
             [self showCreateManagedObjectForm];
         }
         self.IFA_hasInitialLoadBeenDone = YES;
@@ -170,16 +170,16 @@
 
 - (void)didDismissViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
                               data:(id)a_data {
-    
+
     // Make a note of the edited managed object ID before it gets reset by the superclass
     NSManagedObjectID *l_editedManagedObjectId = self.editedManagedObjectId;
 
     [super didDismissViewController:a_viewController changesMade:a_changesMade data:a_data];
-    
+
     if (l_editedManagedObjectId) {
-        
+
         __weak IFASingleSelectionListViewController *l_weakSelf = self;
-        
+
         // Using the serial queue here will guarantee that the data would have been loaded by the main thread
         [self.ifa_asynchronousWorkManager dispatchSerialBlock:^{
 
@@ -188,21 +188,9 @@
                 NSManagedObject *l_mo = [[IFAPersistenceManager sharedInstance] findById:l_editedManagedObjectId];
                 if (l_mo) { // If nil, it means the object has been discarded
 
-                    NSUInteger l_selectedSection = NSNotFound;
-                    NSUInteger l_selectedRow = NSNotFound;
-                    NSUInteger l_section = 0;
-                    for (NSArray *l_rows in l_weakSelf.sectionsWithRows) {
-                        if ([l_rows containsObject:l_mo]) {
-                            l_selectedSection = l_section;
-                            l_selectedRow = [l_rows indexOfObject:l_mo];
-                            break;
-                        }
-                        l_section++;
-                    }
-                    NSAssert(l_selectedSection != NSNotFound, @"l_selectedSection is NSNotFound");
-                    NSAssert(l_selectedRow != NSNotFound, @"l_selectedRow is NSNotFound");
-                    NSIndexPath *l_selectedIndexPath = [NSIndexPath indexPathForRow:l_selectedRow
-                                                                          inSection:l_selectedSection];
+                    //wip: test this in both approaces as it has been kinda big change
+                    NSIndexPath *l_selectedIndexPath = [l_weakSelf indexPathForObject:l_mo];
+                    NSAssert(l_selectedIndexPath!= nil, @"Selected index path is nil");
                     [l_weakSelf.tableView selectRowAtIndexPath:l_selectedIndexPath animated:NO
                                                 scrollPosition:UITableViewScrollPositionNone];
                     [selectionManager handleSelectionForIndexPath:l_selectedIndexPath];
@@ -212,7 +200,7 @@
             }];
 
         }];
-        
+
     }
 
 }

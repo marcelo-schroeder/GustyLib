@@ -28,7 +28,7 @@
 @protocol IFAAppearanceTheme;
 @class IFAPassthroughView;
 
-@interface UIViewController (IFACategory) <IFAPresenter, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate>
+@interface UIViewController (IFACategory) <IFAPresenter, UIPopoverControllerDelegate>
 
 @property (nonatomic, readonly) BOOL ifa_presentedAsModal;
 @property (nonatomic, readonly) BOOL ifa_isMasterViewController;
@@ -43,7 +43,6 @@
 @property (nonatomic, strong) IFANavigationItemTitleView *ifa_titleViewDefault;
 @property (nonatomic, strong) IFANavigationItemTitleView *ifa_titleViewLandscapePhone;
 @property (nonatomic, strong) ODRefreshControl *ifa_refreshControl;
-@property (nonatomic, strong, readonly) NSFetchedResultsController *ifa_activeFetchedResultsController;
 @property (nonatomic) BOOL ifa_shouldUseKeyboardPassthroughView;
 
 // to be overriden by subclasses
@@ -234,13 +233,5 @@ typedef enum{
                                removalTime:(IFAViewControllerNotificationObserverRemovalTime)a_removalTime;
 
 - (BOOL)ifa_isVisibleTopViewController;
-
-/* NSFetchedResultsController */
-// Override and return one instance here if you want to enable fetched results controller functionality
--(NSFetchedResultsController*)ifa_fetchedResultsController;
-// This can be overriden to provide a different delegate for the fetched results controller or even to nil it to prevent the standard UI updates from occurring
--(id<NSFetchedResultsControllerDelegate>)ifa_fetchedResultsControllerDelegate;
-// This can also be overriden by subclasses to provide custom behaviour
--(void)ifa_configureFetchedResultsControllerAndPerformFetch;
 
 @end

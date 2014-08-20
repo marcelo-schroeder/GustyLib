@@ -24,27 +24,52 @@
 @class IFAFormViewController;
 @class NSManagedObject;
 
-@interface IFAListViewController : IFAFetchedResultsTableViewController
+//wip: document the below
+typedef enum{
+    IFAListViewControllerFetchingStrategyFetchedResultsController,
+    IFAListViewControllerFetchingStrategyFindEntities,
+}IFAListViewControllerFetchingStrategy;
 
+//wip: IMPORTANT -> clean up of the old async way of reading Core Data data? (*async* methods and self.entities ?)
+//wip: should probably implement a delegate here to decouple all these methods such as will load data, did load data, etc
+@interface IFAListViewController : IFAFetchedResultsTableViewController <IFAFetchedResultsTableViewControllerDataSource>
+
+//wip: add documentation to some of these properties and methods, and group them together logically
 @property (nonatomic, strong) NSString *entityName;
 @property (nonatomic, strong, readonly) dispatch_block_t refreshAndReloadDataAsyncBlock;
-@property (nonatomic, strong) NSMutableArray *entities;
 @property (nonatomic, strong) NSDate *lastRefreshAndReloadDate;
 @property (nonatomic, readonly) BOOL refreshAndReloadDataAsyncRequested;
-@property (nonatomic, strong) NSMutableArray *sectionHeaderTitles;
-@property (nonatomic, strong) NSMutableArray *sectionsWithRows;
 @property (nonatomic, strong) NSString *listGroupedBy;
 @property (nonatomic, strong) UIBarButtonItem *addBarButtonItem;
 @property (nonatomic, strong) NSManagedObjectID *editedManagedObjectId;
-
 @property BOOL staleData;
 
+/**
+* Used to determine the persistent object fetching strategy.
+* The default is IFAListViewControllerFetchingStrategyFetchedResultsController.
+*/
+@property (nonatomic) IFAListViewControllerFetchingStrategy fetchingStrategy;
+
+/* "findEntities" fetching strategy specific properties */
+@property (nonatomic, strong) NSMutableArray *entities;
+@property (nonatomic, strong) NSMutableArray *sectionHeaderTitles;
+@property (nonatomic, strong) NSMutableArray *sectionsWithRows;
+@property (nonatomic) BOOL asynchronousFetch;   // Default = NO
+
 - (id)initWithEntityName:(NSString *)anEntityName;
-- (NSArray*)findEntities;
-- (NSObject*)objectForIndexPath:(NSIndexPath*)a_indexPath;
-- (NSIndexPath*)indexPathForObject:(NSObject*)a_object;
+
+/* "fetchedResultsController" fetching strategy specific methods */
 -(void)refreshSectionsWithRows;
-- (void)refreshAndReloadDataAsync;
+
+/* "findEntities" fetching strategy specific methods */
+- (NSArray*)findEntities;
+
+/* generic methods that can be used for fetching strategies */
+- (id)objectForIndexPath:(NSIndexPath*)a_indexPath;
+- (NSIndexPath*)indexPathForObject:(id)a_object;
+- (NSArray *)objects;
+
+- (void)refreshAndReloadDataAsync;  //wip: review naming of "async" related methods
 
 /* can be overriden by subclasses */
 - (UITableViewStyle)tableViewStyle;

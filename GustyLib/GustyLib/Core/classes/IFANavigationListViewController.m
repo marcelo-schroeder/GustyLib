@@ -76,32 +76,33 @@
 			return;
 		}
 
-		// Update the main entities array
-        [self.entities removeObject:mo];
+//wip: do I need this sectionsWithRows business? - it should only be used when there is no fetched results controller
+        if (!self.fetchedResultsController) {
 
-        // Update the "sections with rows" array
-        NSMutableArray *l_sectionRows = [self.sectionsWithRows objectAtIndex:indexPath.section];
-        if (self.listGroupedBy) {
-            [l_sectionRows removeObjectAtIndex:indexPath.row];
-            if ([l_sectionRows count]==0) {
-                [self.sectionsWithRows removeObjectAtIndex:indexPath.section];
+            // Update the main entities array
+            [self.entities removeObject:mo];
+
+            // Update the "sections with rows" array
+            NSMutableArray *l_sectionRows = (self.sectionsWithRows)[(NSUInteger) indexPath.section];
+            if (self.listGroupedBy) {
+                [l_sectionRows removeObjectAtIndex:(NSUInteger) indexPath.row];
+                if ([l_sectionRows count]==0) {
+                    [self.sectionsWithRows removeObjectAtIndex:(NSUInteger) indexPath.section];
+                }
             }
+
+            // Update the table view
+            [self.tableView beginUpdates];
+            [self.tableView ifa_deleteRowsAtIndexPaths:@[indexPath]];
+            if (self.listGroupedBy && [l_sectionRows count]==0) {
+                [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:(NSUInteger) indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            [self.tableView endUpdates];
+
         }
 
-        // Mark data as stale if required
-        if ([self.entities count]==0) {
+        if (self.objects.count==0) {
             self.staleData = YES;
-        }
-
-        // Update the table view
-        [self.tableView beginUpdates];
-        [self.tableView ifa_deleteRowsAtIndexPaths:@[indexPath]];
-        if (self.listGroupedBy && [l_sectionRows count]==0) {
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
-        [self.tableView endUpdates];
-
-        if ([self.entities count]==0) {
             NSAssert(self.editing, @"Unexpected editing state: %u", self.editing);
             [self setEditing:NO animated:YES];
         }else{
@@ -130,8 +131,8 @@
         
         //    NSLog(@"moveRowAtIndexPath: %u", fromIndexPath.row);
         //    NSLog(@"toIndexPath: %u", toIndexPath.row);
-        NSManagedObject *fromManagedObject = [self.entities objectAtIndex:fromIndexPath.row];
-        NSManagedObject *toManagedObject = [self.entities objectAtIndex:toIndexPath.row];
+        NSManagedObject *fromManagedObject = [self objectForIndexPath:fromIndexPath];
+        NSManagedObject *toManagedObject = [self objectForIndexPath:toIndexPath];
         //    NSLog(@"fromManagedObject: %u", [[fromManagedObject valueForKey:@"seq"] unsignedIntValue]);
         //    NSLog(@"toManagedObject: %u", [[toManagedObject valueForKey:@"seq"] unsignedIntValue]);
         
@@ -147,16 +148,22 @@
         
         // Save changes
         [[IFAPersistenceManager sharedInstance] saveObject:fromManagedObject];
-        
-        // Re-order backing entity array
-        //    NSLog(@"entities BEFORE sorting: %@", [self.entities description]);
-        NSSortDescriptor *l_sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"seq" ascending:YES];
-        [self.entities sortUsingDescriptors:@[l_sortDescriptor]];
-        //    NSLog(@"entities AFTER sorting: %@", [self.entities description]);
-        
+
+        if (!self.fetchedResultsController) {
+
+            // Re-order backing entity array
+            //    NSLog(@"entities BEFORE sorting: %@", [self.entities description]);
+            NSSortDescriptor *l_sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"seq" ascending:YES];
+            [self.entities sortUsingDescriptors:@[l_sortDescriptor]];
+            //    NSLog(@"entities AFTER sorting: %@", [self.entities description]);
+
+        }
+
     }
 
-    [self reloadMovedCellAtIndexPath:toIndexPath];
+    if (!self.fetchedResultsController) {
+        [self reloadMovedCellAtIndexPath:toIndexPath];
+    }
 
 }
 
