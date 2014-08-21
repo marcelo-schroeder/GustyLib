@@ -27,8 +27,11 @@
 @property (nonatomic, strong, readonly) NSFetchedResultsController *fetchedResultsController;
 @end
 
-//wip: add documentation
 @protocol IFAFetchedResultsTableViewControllerDataSource <NSObject>
 @optional
+/**
+* Provides a NSFetchedResultsController instance to this view controller.
+* Default NSFetchedResultsControllerDelegate functionality will be automatically provided (the NSFetchedResultsControllerDelegate will be set to self).
+*/
 - (NSFetchedResultsController *)fetchedResultsControllerForFetchedResultsTableViewController:(IFAFetchedResultsTableViewController *)a_fetchedResultsTableViewController;
 @end

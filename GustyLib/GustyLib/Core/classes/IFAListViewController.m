@@ -23,7 +23,7 @@
 @interface IFAListViewController ()
 
 @property (nonatomic, strong, readonly) NSMutableArray *IFA_savedToolbarItemEnabledStates;
-@property (nonatomic, strong) dispatch_block_t refreshAndReloadDataAsynchronousBlock;
+@property (nonatomic, strong) dispatch_block_t pagingContainerChildRefreshAndReloadDataAsynchronousBlock;
 @property (nonatomic) BOOL refreshAndReloadDataRequested;
 @property (nonatomic, strong) IFA_MBProgressHUD *IFA_hud;
 @property(nonatomic, strong) NSMutableArray *p_savedToolbarItemEnabledStates;
@@ -135,7 +135,7 @@
 
 //        NSLog(@"Container Coordination for child %@, block: %@", [self description], [l_block description]);
 
-        self.refreshAndReloadDataAsynchronousBlock = l_block;
+        self.pagingContainerChildRefreshAndReloadDataAsynchronousBlock = l_block;
         self.pagingContainerViewController.childViewDidAppearCount++;
 //        NSLog(@"  self.pagingContainerViewController.newChildViewControllerCount: %u", self.pagingContainerViewController.newChildViewControllerCount);
 //        NSLog(@"  self.pagingContainerViewController.childViewDidAppearCount: %u", self.pagingContainerViewController.childViewDidAppearCount);

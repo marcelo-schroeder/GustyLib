@@ -24,23 +24,33 @@
 @class IFAFormViewController;
 @class NSManagedObject;
 
-//wip: document the below
+/**
+* Determines the persistent object fetching strategy.
+* IFAListViewControllerFetchingStrategyFetchedResultsController: Uses an NSFetchedResultsController to fetch data. Consult the IFAFetchedResultsTableViewController API documentation for further details.
+* IFAListViewControllerFetchingStrategyFindEntities: Calls the "findEntities" method to fetch data.
+*/
 typedef enum{
     IFAListViewControllerFetchingStrategyFetchedResultsController,
     IFAListViewControllerFetchingStrategyFindEntities,
 }IFAListViewControllerFetchingStrategy;
 
-//wip: should probably implement a delegate here to decouple all these methods such as will load data, did load data, etc
 @interface IFAListViewController : IFAFetchedResultsTableViewController <IFAFetchedResultsTableViewControllerDataSource>
 
-//wip: add documentation to some of these properties and methods, and group them together logically
 @property (nonatomic, strong) NSString *entityName;
-@property (nonatomic, strong, readonly) dispatch_block_t refreshAndReloadDataAsynchronousBlock;
 @property (nonatomic, strong) NSDate *lastRefreshAndReloadDate;
 @property (nonatomic, readonly) BOOL refreshAndReloadDataRequested;
 @property (nonatomic, strong) NSString *listGroupedBy;
 @property (nonatomic, strong) UIBarButtonItem *addBarButtonItem;
 @property (nonatomic, strong) NSManagedObjectID *editedManagedObjectId;
+
+/**
+* Called by IFAAbstractPagingContainerViewController to request a data refresh and reload to a child view controller
+*/
+@property (nonatomic, strong, readonly) dispatch_block_t pagingContainerChildRefreshAndReloadDataAsynchronousBlock;
+
+/**
+* Used to indicate whether the data is stale and it needs to be re-fetched next time the view is displayed (i.e. after being fully hidden).
+*/
 @property BOOL staleData;
 
 /**
@@ -50,31 +60,53 @@ typedef enum{
 @property (nonatomic) IFAListViewControllerFetchingStrategy fetchingStrategy;
 
 /* "findEntities" fetching strategy specific properties */
-@property (nonatomic, strong) NSMutableArray *entities;
+@property (nonatomic, strong) NSMutableArray *entities; // Determines the persistent entity to be used to populate the list view.
 @property (nonatomic, strong) NSMutableArray *sectionHeaderTitles;
 @property (nonatomic, strong) NSMutableArray *sectionsWithRows;
-@property (nonatomic) BOOL asynchronousFetch;   // Default = NO
 
+/**
+* Determines whether the data fetch will be asynchronous.
+* Asynchronous fetches should only be used when fetchingStrategy is set to IFAListViewControllerFetchingStrategyFindEntities.
+* Default = NO.
+*/
+@property (nonatomic) BOOL asynchronousFetch;
+
+/**
+* Designated initializer.
+* @param anEntityName Determines the persistent entity to be used to populate the list view.
+*/
 - (id)initWithEntityName:(NSString *)anEntityName;
 
 /* "fetchedResultsController" fetching strategy specific methods */
 -(void)refreshSectionsWithRows;
 
-/* "findEntities" fetching strategy specific methods */
+/**
+* This method is called to fetch data when the fetchingStrategy is set to IFAListViewControllerFetchingStrategyFindEntities.
+* The default implementation of this method is to find all objects specified by the "entityName" property.
+*/
 - (NSArray*)findEntities;
 
-/* generic methods that can be used for fetching strategies */
 - (id)objectForIndexPath:(NSIndexPath*)a_indexPath;
 - (NSIndexPath*)indexPathForObject:(id)a_object;
 - (NSArray *)objects;
 
+/**
+* Trigger a data refresh followed by a reload of the view.
+*/
 - (void)refreshAndReloadData;
 
-/* can be overriden by subclasses */
+/**
+* Called before a data refresh and reload is performed.
+*/
+- (void)willRefreshAndReloadData;
+
+/**
+* Called after a data refresh and reload has been performed.
+*/
+- (void)didRefreshAndReloadData;
+
 - (UITableViewStyle)tableViewStyle;
 - (UITableViewCell*)cellForTableView:(UITableView*)a_tableView;
-- (void)willRefreshAndReloadData;
-- (void)didRefreshAndReloadData;
 
 - (BOOL)shouldShowTipsForEditing:(BOOL)a_editing;
 - (NSString*)tipTextForEditing:(BOOL)a_editing;
