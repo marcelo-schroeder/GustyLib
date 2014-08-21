@@ -96,7 +96,7 @@
     [super viewWillDisappear:animated];
     BOOL l_isBeingPoppedByNavigationController = self.isMovingFromParentViewController;
     if (l_isBeingPoppedByNavigationController) {
-        [self done];    //wip: does this change case issues with the context switching thing? (i.e. user could move away by tab bar - what happens?)
+        [self done];
     }
 }
 
