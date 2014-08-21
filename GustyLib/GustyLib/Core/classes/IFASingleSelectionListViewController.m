@@ -192,7 +192,7 @@
                     NSAssert(l_selectedIndexPath!= nil, @"Selected index path is nil");
                     [l_weakSelf.tableView selectRowAtIndexPath:l_selectedIndexPath animated:NO
                                                 scrollPosition:UITableViewScrollPositionNone];
-                    [selectionManager handleSelectionForIndexPath:l_selectedIndexPath];
+                    [selectionManager handleSelectionForIndexPath:l_selectedIndexPath]; //fixme: this is probably wrong - accessing an instance variable directly - convert to property and use the weak self
 
                 }
 
