@@ -184,12 +184,18 @@
     if ((self = [super initWithStyle:[self tableViewStyle]])) {
 
 		self.entityName = anEntityName;
-        self.fetchingStrategy = IFAListViewControllerFetchingStrategyFetchedResultsController;
 
     }
 
 	return self;
 
+}
+
+- (IFAListViewControllerFetchingStrategy)fetchingStrategy {
+    if (!_fetchingStrategy) {
+        _fetchingStrategy = self.listGroupedBy ? IFAListViewControllerFetchingStrategyFindEntities : IFAListViewControllerFetchingStrategyFetchedResultsController;
+    }
+    return _fetchingStrategy;
 }
 
 - (NSArray*)findEntities {
@@ -273,7 +279,7 @@
 
 -(void)refreshSectionsWithRows {
 
-    if (self.fetchingStrategy!=IFAListViewControllerFetchingStrategyFindEntities) {
+    if (self.fetchedResultsController.sectionNameKeyPath) {
         return;
     }
 

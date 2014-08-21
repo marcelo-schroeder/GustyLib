@@ -45,7 +45,7 @@ typedef enum{
 /**
 * Specifies the property name that corresponds to a persistent entity to group by, which will also determine the table view section arrangement.
 * This value is obtained directly from the "listGroupedBy" entity config property for the entity specified by the "entityName" property.
-* This property is only relevant when fetchingStrategy is set to IFAListViewControllerFetchingStrategyFindEntities.
+* If the property is not nil then the fetching strategy is automatically set to IFAListViewControllerFetchingStrategyFindEntities.
 */
 @property (nonatomic, strong, readonly) NSString *listGroupedBy;
 
@@ -70,7 +70,7 @@ typedef enum{
 
 /**
 * Used to determine the persistent object fetching strategy.
-* The default is IFAListViewControllerFetchingStrategyFetchedResultsController.
+* The default is IFAListViewControllerFetchingStrategyFetchedResultsController unless the "listGroupedBy" entity config property for the entity specified by the "entityName" property is not nil. In that case, the strategy will be set to IFAListViewControllerFetchingStrategyFindEntities automatically.
 */
 @property (nonatomic) IFAListViewControllerFetchingStrategy fetchingStrategy;
 
