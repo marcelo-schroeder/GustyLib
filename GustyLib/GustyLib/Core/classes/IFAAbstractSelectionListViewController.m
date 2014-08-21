@@ -100,9 +100,9 @@
     }
 }
 
--(void)willRefreshAndReloadDataAsync {
+-(void)willRefreshAndReloadData {
 
-    [super willRefreshAndReloadDataAsync];
+    [super willRefreshAndReloadData];
     
     // Disable user interaction while data is being refreshed asynchronously
     self.navigationItem.rightBarButtonItem.enabled = NO;
@@ -110,9 +110,9 @@
 
 }
 
--(void)didRefreshAndReloadDataAsync {
+-(void)didRefreshAndReloadData {
 
-    [super didRefreshAndReloadDataAsync];
+    [super didRefreshAndReloadData];
     
     // Restore user interaction now that data has been refreshed asynchronously
     self.navigationItem.rightBarButtonItem.enabled = YES;

@@ -208,8 +208,8 @@
 //    l_helpButton.enabled = !editing;
 }
 
--(void)didRefreshAndReloadDataAsync {
-    [super didRefreshAndReloadDataAsync];
+-(void)didRefreshAndReloadData {
+    [super didRefreshAndReloadData];
     if (![self ifa_isReturningVisibleViewController] && self.editing) { // If it was left editing previously, reset it to non-editing mode.
         [self quitEditing];
     }else{
@@ -220,7 +220,7 @@
 -(void)ifa_reset {
     [super ifa_reset];
     // If it was left editing previously, reset it to non-editing mode.
-    if (![self ifa_isReturningVisibleViewController] && self.editing && !self.staleData) {  // If it's stale data, then quitEditing will be performed by the didRefreshAndReloadDataAsync method
+    if (![self ifa_isReturningVisibleViewController] && self.editing && !self.staleData) {  // If it's stale data, then quitEditing will be performed by the didRefreshAndReloadData method
         [self quitEditing];
     }
 }

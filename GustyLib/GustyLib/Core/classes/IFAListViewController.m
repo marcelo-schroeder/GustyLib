@@ -23,8 +23,8 @@
 @interface IFAListViewController ()
 
 @property (nonatomic, strong, readonly) NSMutableArray *IFA_savedToolbarItemEnabledStates;
-@property (nonatomic, strong) dispatch_block_t refreshAndReloadDataAsyncBlock;
-@property (nonatomic) BOOL refreshAndReloadDataAsyncRequested;
+@property (nonatomic, strong) dispatch_block_t refreshAndReloadDataAsynchronousBlock;
+@property (nonatomic) BOOL refreshAndReloadDataRequested;
 @property (nonatomic, strong) IFA_MBProgressHUD *IFA_hud;
 @property(nonatomic, strong) NSMutableArray *p_savedToolbarItemEnabledStates;
 @property(nonatomic, strong) void (^p_sectionDataBlock)(NSString *, NSObject *, NSArray *, NSMutableArray *, NSMutableArray *);
@@ -69,7 +69,7 @@
 /**
 * Paging container coordination is only relevant to asynchronous fetches with the "findEntities" fetching strategy.
 */
-- (void)IFA_refreshAndReloadDataAsyncWithPagingContainerCoordination:(BOOL)a_withPagingContainerCoordination {
+- (void)IFA_refreshAndReloadDataWithPagingContainerCoordination:(BOOL)a_withPagingContainerCoordination {
 //    NSLog(@" ");
 //    NSLog(@"m_refreshAndReloadDataAsyncWithContainerCoordination for %@ - self.selectedViewControllerInPagingContainer: %u", [self description], self.selectedViewControllerInPagingContainer);
 
@@ -135,7 +135,7 @@
 
 //        NSLog(@"Container Coordination for child %@, block: %@", [self description], [l_block description]);
 
-        self.refreshAndReloadDataAsyncBlock = l_block;
+        self.refreshAndReloadDataAsynchronousBlock = l_block;
         self.pagingContainerViewController.childViewDidAppearCount++;
 //        NSLog(@"  self.pagingContainerViewController.newChildViewControllerCount: %u", self.pagingContainerViewController.newChildViewControllerCount);
 //        NSLog(@"  self.pagingContainerViewController.childViewDidAppearCount: %u", self.pagingContainerViewController.childViewDidAppearCount);
@@ -158,7 +158,7 @@
 - (void)IFA_didCompleteFindEntities {
     [self refreshSectionsWithRows];
     [self reloadData];
-    [self didRefreshAndReloadDataAsync];
+    [self didRefreshAndReloadData];
 }
 
 -(void)IFA_onPersistenceChangeNotification:(NSNotification*)a_notification{
@@ -200,9 +200,9 @@
     return self.fetchedResultsController ? self.fetchedResultsController.fetchedObjects : self.entities;
 }
 
-- (void)refreshAndReloadDataAsync {
-    [self willRefreshAndReloadDataAsync];
-    [self IFA_refreshAndReloadDataAsyncWithPagingContainerCoordination:NO];
+- (void)refreshAndReloadData {
+    [self willRefreshAndReloadData];
+    [self IFA_refreshAndReloadDataWithPagingContainerCoordination:NO];
 }
 
 - (UITableViewStyle)tableViewStyle {
@@ -216,7 +216,7 @@
 }
 
 // to be overriden by subclasses
-- (void)willRefreshAndReloadDataAsync {
+- (void)willRefreshAndReloadData {
 //    NSLog(@"Disabling user interaction in %@", [self description]);
     // Disable user interaction while data is being refreshed asynchronously
     self.tableView.allowsSelection = NO;
@@ -225,7 +225,7 @@
 }
 
 // to be overriden by subclasses
-- (void)didRefreshAndReloadDataAsync {
+- (void)didRefreshAndReloadData {
 
     //    NSLog(@"Restoring user interaction in %@", [self description]);
 
@@ -439,7 +439,7 @@
     [super viewWillAppear:animated];
 
     if ([self IFA_shouldRefreshAndReloadDueToStaleDataOnViewAppearance]) {
-        [self willRefreshAndReloadDataAsync];
+        [self willRefreshAndReloadData];
     }
 
 }
@@ -449,10 +449,10 @@
     [super viewDidAppear:animated];
 
     if ([self IFA_shouldRefreshAndReloadDueToStaleDataOnViewAppearance]) {
-        [self IFA_refreshAndReloadDataAsyncWithPagingContainerCoordination:YES];
-        self.refreshAndReloadDataAsyncRequested = YES;
+        [self IFA_refreshAndReloadDataWithPagingContainerCoordination:YES];
+        self.refreshAndReloadDataRequested = YES;
     }else{
-        self.refreshAndReloadDataAsyncRequested = NO;
+        self.refreshAndReloadDataRequested = NO;
     }
 
 }
@@ -502,8 +502,8 @@
 //            NSLog(@"  => calling refreshAndReloadChildData on container FOR SESSION COMPLETE...");
             [self.pagingContainerViewController refreshAndReloadChildData];
         }else {
-//            NSLog(@"  => calling refreshAndReloadDataAsync on child FOR SESSION COMPLETE...");
-            [self refreshAndReloadDataAsync];
+//            NSLog(@"  => calling refreshAndReloadData on child FOR SESSION COMPLETE...");
+            [self refreshAndReloadData];
         }
     }
 

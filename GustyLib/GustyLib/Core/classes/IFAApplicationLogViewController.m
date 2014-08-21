@@ -36,7 +36,7 @@
     if (a_sender==v_deleteAllButton) {
         [[IFAPersistenceManager sharedInstance] deleteAllForEntityAndSave:self.entityName];
     }
-    [self refreshAndReloadDataAsync];
+    [self refreshAndReloadData];
 }
 
 #pragma mark -

@@ -30,15 +30,14 @@ typedef enum{
     IFAListViewControllerFetchingStrategyFindEntities,
 }IFAListViewControllerFetchingStrategy;
 
-//wip: IMPORTANT -> clean up of the old async way of reading Core Data data? (*async* methods and self.entities ?)
 //wip: should probably implement a delegate here to decouple all these methods such as will load data, did load data, etc
 @interface IFAListViewController : IFAFetchedResultsTableViewController <IFAFetchedResultsTableViewControllerDataSource>
 
 //wip: add documentation to some of these properties and methods, and group them together logically
 @property (nonatomic, strong) NSString *entityName;
-@property (nonatomic, strong, readonly) dispatch_block_t refreshAndReloadDataAsyncBlock;
+@property (nonatomic, strong, readonly) dispatch_block_t refreshAndReloadDataAsynchronousBlock;
 @property (nonatomic, strong) NSDate *lastRefreshAndReloadDate;
-@property (nonatomic, readonly) BOOL refreshAndReloadDataAsyncRequested;
+@property (nonatomic, readonly) BOOL refreshAndReloadDataRequested;
 @property (nonatomic, strong) NSString *listGroupedBy;
 @property (nonatomic, strong) UIBarButtonItem *addBarButtonItem;
 @property (nonatomic, strong) NSManagedObjectID *editedManagedObjectId;
@@ -69,13 +68,13 @@ typedef enum{
 - (NSIndexPath*)indexPathForObject:(id)a_object;
 - (NSArray *)objects;
 
-- (void)refreshAndReloadDataAsync;  //wip: review naming of "async" related methods
+- (void)refreshAndReloadData;
 
 /* can be overriden by subclasses */
 - (UITableViewStyle)tableViewStyle;
 - (UITableViewCell*)cellForTableView:(UITableView*)a_tableView;
-- (void)willRefreshAndReloadDataAsync;
-- (void)didRefreshAndReloadDataAsync;
+- (void)willRefreshAndReloadData;
+- (void)didRefreshAndReloadData;
 
 - (BOOL)shouldShowTipsForEditing:(BOOL)a_editing;
 - (NSString*)tipTextForEditing:(BOOL)a_editing;

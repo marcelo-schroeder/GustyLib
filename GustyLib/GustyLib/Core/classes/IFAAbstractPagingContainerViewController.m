@@ -99,8 +99,8 @@
             if (l_childListViewController.staleData) {
                 BOOL l_shouldShowProgressIndicator = l_firstChildViewController && l_childListViewController==self.selectedViewController;
                 //                NSLog(@"    l_shouldShowProgressIndicator: %u", l_shouldShowProgressIndicator);
-                //                NSLog(@"    l_childViewController.refreshAndReloadDataAsyncBlock: %@", [l_childViewController.refreshAndReloadDataAsyncBlock description]);
-                [self.ifa_asynchronousWorkManager dispatchSerialBlock:l_childListViewController.refreshAndReloadDataAsyncBlock
+                //                NSLog(@"    l_childViewController.refreshAndReloadDataAsynchronousBlock: %@", [l_childViewController.refreshAndReloadDataAsynchronousBlock description]);
+                [self.ifa_asynchronousWorkManager dispatchSerialBlock:l_childListViewController.refreshAndReloadDataAsynchronousBlock
                                                 showProgressIndicator:l_shouldShowProgressIndicator
                                                  cancelPreviousBlocks:l_firstChildViewController];
                 l_firstChildViewController = NO;

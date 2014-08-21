@@ -138,8 +138,8 @@
     }
 }
 
--(void)didRefreshAndReloadDataAsync {
-    [super didRefreshAndReloadDataAsync];
+-(void)didRefreshAndReloadData {
+    [super didRefreshAndReloadData];
     if (self.IFA_hasInitialLoadBeenDone) {
         [self showTipForEditing:NO];
     }else{
