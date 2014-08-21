@@ -53,7 +53,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *l_cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     [[self ifa_appearanceTheme] setAppearanceForView:l_cell.detailTextLabel];
-    IFAApplicationLog *l_logEntry = [self objectForIndexPath:indexPath];
+    IFAApplicationLog *l_logEntry = (IFAApplicationLog *) [self objectForIndexPath:indexPath];
     l_cell.detailTextLabel.text = l_logEntry.message;
     return l_cell;
 }

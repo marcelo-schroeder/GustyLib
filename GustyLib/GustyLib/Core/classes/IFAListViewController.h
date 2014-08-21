@@ -95,8 +95,8 @@ typedef enum{
 */
 - (NSArray*)findEntities;
 
-- (id)objectForIndexPath:(NSIndexPath*)a_indexPath;
-- (NSIndexPath*)indexPathForObject:(id)a_object;
+- (NSObject *)objectForIndexPath:(NSIndexPath*)a_indexPath;
+- (NSIndexPath*)indexPathForObject:(NSObject *)a_object;
 - (NSArray *)objects;
 
 /**

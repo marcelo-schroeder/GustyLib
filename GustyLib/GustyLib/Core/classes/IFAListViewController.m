@@ -247,7 +247,7 @@
     return [NSString stringWithFormat:l_textTemplate, l_indefiniteArticle, l_entityName];
 }
 
-- (id)objectForIndexPath:(NSIndexPath*)a_indexPath{
+- (NSObject *)objectForIndexPath:(NSIndexPath*)a_indexPath{
     if (self.fetchedResultsController) {
         return [self.fetchedResultsController objectAtIndexPath:a_indexPath];
     }else{
@@ -255,7 +255,7 @@
     }
 }
 
-- (NSIndexPath*)indexPathForObject:(id)a_object {
+- (NSIndexPath*)indexPathForObject:(NSObject *)a_object {
     if (self.fetchedResultsController) {
         return [self.fetchedResultsController indexPathForObject:a_object];
     }else{

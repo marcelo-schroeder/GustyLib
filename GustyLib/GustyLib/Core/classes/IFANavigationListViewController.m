@@ -130,8 +130,8 @@
         
         //    NSLog(@"moveRowAtIndexPath: %u", fromIndexPath.row);
         //    NSLog(@"toIndexPath: %u", toIndexPath.row);
-        NSManagedObject *fromManagedObject = [self objectForIndexPath:fromIndexPath];
-        NSManagedObject *toManagedObject = [self objectForIndexPath:toIndexPath];
+        NSManagedObject *fromManagedObject = (NSManagedObject *) [self objectForIndexPath:fromIndexPath];
+        NSManagedObject *toManagedObject = (NSManagedObject *) [self objectForIndexPath:toIndexPath];
         //    NSLog(@"fromManagedObject: %u", [[fromManagedObject valueForKey:@"seq"] unsignedIntValue]);
         //    NSLog(@"toManagedObject: %u", [[toManagedObject valueForKey:@"seq"] unsignedIntValue]);
         
