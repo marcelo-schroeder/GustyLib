@@ -22,11 +22,9 @@
 
 @interface IFAListViewController ()
 
-@property (nonatomic, strong, readonly) NSMutableArray *IFA_savedToolbarItemEnabledStates;
 @property (nonatomic, strong) dispatch_block_t pagingContainerChildRefreshAndReloadDataAsynchronousBlock;
 @property (nonatomic) BOOL refreshAndReloadDataRequested;
 @property (nonatomic, strong) IFA_MBProgressHUD *IFA_hud;
-@property(nonatomic, strong) NSMutableArray *p_savedToolbarItemEnabledStates;
 @property(nonatomic, strong) void (^p_sectionDataBlock)(NSString *, NSObject *, NSArray *, NSMutableArray *, NSMutableArray *);
 @end
 
@@ -247,13 +245,6 @@
     NSString *l_indefiniteArticle = [[IFAPersistenceManager sharedInstance].entityConfig indefiniteArticleForEntity:self.entityName];
     NSString *l_entityName = [[IFAPersistenceManager sharedInstance].entityConfig labelForEntity:self.entityName];
     return [NSString stringWithFormat:l_textTemplate, l_indefiniteArticle, l_entityName];
-}
-
--(NSMutableArray *)IFA_savedToolbarItemEnabledStates {
-    if (!self.p_savedToolbarItemEnabledStates) {
-        self.p_savedToolbarItemEnabledStates = [NSMutableArray new];
-    }
-    return self.p_savedToolbarItemEnabledStates;
 }
 
 - (id)objectForIndexPath:(NSIndexPath*)a_indexPath{
