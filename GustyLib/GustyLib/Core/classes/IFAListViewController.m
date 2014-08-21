@@ -73,12 +73,15 @@
 //    NSLog(@" ");
 //    NSLog(@"m_refreshAndReloadDataAsyncWithContainerCoordination for %@ - self.selectedViewControllerInPagingContainer: %u", [self description], self.selectedViewControllerInPagingContainer);
 
-    if (!self.asynchronousFetch) {
+    if (self.asynchronousFetch) {
+        [self IFA_refreshAndReloadDataAsynchronouslyWithPagingContainerCoordination:a_withPagingContainerCoordination];
+    }else{
         [self IFA_refreshAndReloadDataSynchronously];
-        return;
     }
 
-    // Perform the asynchronous case...
+}
+
+- (void)IFA_refreshAndReloadDataAsynchronouslyWithPagingContainerCoordination:(BOOL)a_withPagingContainerCoordination {
 
     IFAListViewController *__weak l_weakSelf = self;
 
