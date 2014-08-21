@@ -76,7 +76,6 @@
 			return;
 		}
 
-//wip: do I need this sectionsWithRows business? - it should only be used when there is no fetched results controller
         if (!self.fetchedResultsController) {
 
             // Update the main entities array
