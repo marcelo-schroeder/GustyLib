@@ -46,6 +46,7 @@
     [self IFA_selectViewController:aNotification.object];
 }
 
+/*
 -(void)IFA_releaseMemory {
 //    NSLog(@"IFA_releaseMemory in %@", [self description]);
     for (UIViewController *l_viewController in self.viewControllers) {
@@ -56,11 +57,14 @@
         }
     }
 }
+*/
 
+/*
 -(void)ifa_onApplicationDidEnterBackgroundNotification:(NSNotification *)aNotification{
     [super ifa_onApplicationDidEnterBackgroundNotification:aNotification];
-    [self IFA_releaseMemory];
+//    [self IFA_releaseMemory];
 }
+*/
 
 #pragma mark - UITabBarControllerDelegate
 
@@ -138,7 +142,7 @@
 
     self.customizableViewControllers = nil;
     self.delegate = self;
-    v_previousViewController = [self.viewControllers objectAtIndex:0];
+    v_previousViewController = (self.viewControllers)[0];
     
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -171,10 +175,12 @@
     return [self ifa_supportedInterfaceOrientations];
 }
 
+/*
 -(void)didReceiveMemoryWarning{
 //    NSLog(@"didReceiveMemoryWarning in %@", [self description]);
     [super didReceiveMemoryWarning];
     [self IFA_releaseMemory];
 }
+*/
 
 @end

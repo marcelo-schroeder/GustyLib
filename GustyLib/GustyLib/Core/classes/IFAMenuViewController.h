@@ -25,6 +25,14 @@
 @property (nonatomic, strong, readonly) NSMutableDictionary *indexPathToViewControllerDictionary;
 @property (nonatomic, strong) NSIndexPath *selectedIndexPath;
 
+/**
+* Determines whether the view controllers displayed by the menu will be cached or not.
+* If set to YES then view controllers will be cached using NSCache and cache will be cleared in low memory situations and also when the app goes to the background.
+* Setting this property to YES is useful on the iPad where the menu is a master view controller and the selected view controller is displayed as the detail view.
+* Default = NO.
+*/
+@property (nonatomic) BOOL shouldCacheViewControllers;
+
 -(void)highlightCurrentSelection;
 -(void)restoreCurrentSelection;
 -(UIViewController*)newViewControllerForIndexPath:(NSIndexPath*)a_indexPath;

@@ -172,13 +172,17 @@
 }
 
 -(NSMutableDictionary *)indexPathToViewControllerDictionary {
-    id l_obj = [[IFADynamicCache sharedInstance] objectForKey:IFACacheKeyMenuViewControllersDictionary];
-    if (!l_obj) {
+    if (self.shouldCacheViewControllers) {
+        id l_obj = [[IFADynamicCache sharedInstance] objectForKey:IFACacheKeyMenuViewControllersDictionary];
+        if (!l_obj) {
 //        NSLog(@"Menu view controllers dictionary not in the cache. Creating a new one...");
-        l_obj = [NSMutableDictionary new];
-        [[IFADynamicCache sharedInstance] setObject:l_obj forKey:IFACacheKeyMenuViewControllersDictionary];
+            l_obj = [NSMutableDictionary new];
+            [[IFADynamicCache sharedInstance] setObject:l_obj forKey:IFACacheKeyMenuViewControllersDictionary];
+        }
+        return l_obj;
+    }else{
+        return nil;
     }
-    return l_obj;
 }
 
 #pragma mark - Overrides
@@ -210,9 +214,16 @@
 
 -(void)dealloc{
     
-    // Remove observers
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
+    // Remove observers if required
+    if (self.splitViewController || self.slidingViewController) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationContextSwitchRequestGranted
+                                                      object:nil];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationContextSwitchRequestDenied
+                                                      object:nil];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:ECSlidingViewTopDidReset
+                                                      object:nil];
+    }
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{

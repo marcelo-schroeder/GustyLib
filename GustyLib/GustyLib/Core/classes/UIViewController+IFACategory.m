@@ -201,6 +201,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
+/*
 -(void)IFA_releaseViewForController:(UIViewController*)a_viewController{
 //    NSLog(@"IFA_releaseViewForController: %@", [a_viewController description]);
     a_viewController.view = nil;
@@ -210,6 +211,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
         [self IFA_releaseViewForController:l_childViewController];
     }
 }
+*/
 
 -(void)IFA_popViewController {
     [self.navigationController popViewControllerAnimated:YES];
@@ -1174,9 +1176,11 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     [[IFAExternalUrlManager sharedInstance] openUrl:a_url];
 }
 
+/*
 -(void)ifa_releaseView {
     [self IFA_releaseViewForController:self];
 }
+*/
 
 -(void)ifa_showRefreshControl:(UIControl *)a_control inScrollView:(UIScrollView*)a_scrollView{
 //    NSLog(@"m_showRefreshControl - a_control: %@", [a_control description]);
