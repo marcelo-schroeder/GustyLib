@@ -414,14 +414,14 @@
     };
     
     self.listGroupedBy = [[[IFAPersistenceManager sharedInstance] entityConfig] listGroupedByForEntity:self.entityName];
-    
-    // Observe persistence notifications
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(IFA_onPersistenceChangeNotification:)
-                                                 name:IFANotificationPersistentEntityChange
-                                               object:nil];
-//    NSLog(@"OBSERVER ADDED IN viewDidLoad for %@", [self description]);
-    //    NSLog(@"  %@", [NSThread callStackSymbols]);
+
+    if (self.shouldObservePersistenceChanges) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(IFA_onPersistenceChangeNotification:)
+                                                     name:IFANotificationPersistentEntityChange
+                                                   object:nil];
+    }
+
 
 }
 
@@ -455,12 +455,10 @@
 }
 
 -(void)dealloc{
-    
-    // Remove observers
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationPersistentEntityChange
-                                                  object:nil];
-//    NSLog(@"OBSERVER REMOVED IN dealloc for %@", [self description]);
-
+    if (self.shouldObservePersistenceChanges) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationPersistentEntityChange
+                                                      object:nil];
+    }
 }
 
 #pragma mark - IFAPresenter

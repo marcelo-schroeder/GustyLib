@@ -44,12 +44,21 @@ typedef enum{
 @property (nonatomic, strong) NSManagedObjectID *editedManagedObjectId;
 
 /**
+* Determines whether this view controller will observe persistence changes and refresh data automatically when the view is re-displayed (i.e. after being fully hidden).
+* When set to YES, the "staleData" property will be automatically set to YES when the persistence changes are detected.
+* This provides functionality above and beyond to what NSFetchedResultsController offers as it can detect any changes in the Core Data model including related entities.
+* Default = NO.
+*/
+@property (nonatomic) BOOL shouldObservePersistenceChanges;
+
+/**
 * Called by IFAAbstractPagingContainerViewController to request a data refresh and reload to a child view controller
 */
 @property (nonatomic, strong, readonly) dispatch_block_t pagingContainerChildRefreshAndReloadDataAsynchronousBlock;
 
 /**
 * Used to indicate whether the data is stale and it needs to be re-fetched next time the view is displayed (i.e. after being fully hidden).
+* Automatically set to YES when shouldObservePersistenceChanges is set to YES and Core Data model changes are detected.
 */
 @property BOOL staleData;
 
