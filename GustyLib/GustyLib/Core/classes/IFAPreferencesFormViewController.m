@@ -40,11 +40,11 @@
 #pragma mark - Overrides
 
 -(id)init{
-    return [[super initWithStyle:UITableViewStyleGrouped] IFA_init];
+    return [((IFAPreferencesFormViewController *) [super initWithStyle:UITableViewStyleGrouped]) IFA_init];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder{
-    return [[super initWithCoder:aDecoder] IFA_init];
+    return [((IFAPreferencesFormViewController *) [super initWithCoder:aDecoder]) IFA_init];
 }
 
 - (NSArray*)ifa_editModeToolbarItems {

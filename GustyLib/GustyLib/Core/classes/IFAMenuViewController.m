@@ -80,7 +80,7 @@
 }
 
 -(UIViewController*)viewControllerForIndexPath:(NSIndexPath*)a_indexPath{
-    UIViewController *l_viewController = [self.indexPathToViewControllerDictionary objectForKey:a_indexPath];
+    UIViewController *l_viewController = (self.indexPathToViewControllerDictionary)[a_indexPath];
     if (l_viewController) { // A view controller is cached
         //        NSLog(@"   view controller is cached: %@", [l_viewController description]);
         // Reset view controller's state
@@ -89,7 +89,7 @@
         // Configure a new view controller
         l_viewController = [self newViewControllerForIndexPath:a_indexPath];
         l_viewController.ifa_presenter = self;
-        [self.indexPathToViewControllerDictionary setObject:l_viewController forKey:a_indexPath];
+        (self.indexPathToViewControllerDictionary)[a_indexPath] = l_viewController;
         //        NSLog(@"   indexPathToViewControllerDictionary: %@", [self.indexPathToViewControllerDictionary description]);
     }
     return l_viewController;
@@ -101,7 +101,7 @@
     
     UIViewController *l_viewController = [self viewControllerForIndexPath:a_indexPath];
     if (self.splitViewController) {
-        self.splitViewController.viewControllers = @[[self.splitViewController.viewControllers objectAtIndex:0], l_viewController];
+        self.splitViewController.viewControllers = @[(self.splitViewController.viewControllers)[0], l_viewController];
     }else if(self.slidingViewController){
         if (self.slidingViewController.topViewController) {
             [IFAUtils dispatchAsyncMainThreadBlock:^{
@@ -113,8 +113,12 @@
         }else { // First time only
             self.slidingViewController.topViewController = l_viewController;
         }
-    }else{
-        [self.navigationController pushViewController:l_viewController animated:YES];
+    }else {
+        if ([l_viewController isKindOfClass:[IFAPreferencesFormViewController class]]) {
+            [self ifa_presentModalFormViewController:l_viewController];
+        }else{
+            [self.navigationController pushViewController:l_viewController animated:YES];
+        }
     }
     
     self.selectedIndexPath = a_indexPath;
@@ -156,7 +160,7 @@
     if ([l_rootViewController isKindOfClass:[UISplitViewController class]] || [l_rootViewController isKindOfClass:[IFASlidingViewController class]]) {
         if ([l_rootViewController isKindOfClass:[UISplitViewController class]]) {
             UISplitViewController *l_splitViewController = (UISplitViewController*)l_rootViewController;
-            UINavigationController *l_navigationController = (UINavigationController*)[l_splitViewController.viewControllers objectAtIndex:0];
+            UINavigationController *l_navigationController = (UINavigationController*) (l_splitViewController.viewControllers)[0];
             l_menuViewController = (IFAMenuViewController *)l_navigationController.topViewController;
         }else{
             IFASlidingViewController *l_slidingViewController = (IFASlidingViewController *)l_rootViewController;
@@ -236,7 +240,7 @@
     
     UIViewController *l_selectedViewController = nil;
     if (self.splitViewController || self.slidingViewController) {
-        l_selectedViewController = self.splitViewController ? [self.splitViewController.viewControllers objectAtIndex:1] : self.slidingViewController.topViewController;
+        l_selectedViewController = self.splitViewController ? (self.splitViewController.viewControllers)[1] : self.slidingViewController.topViewController;
         if ([l_selectedViewController isKindOfClass:[IFANavigationController class]]) {
             //    NSLog(@"l_navigationController.contextSwitchRequestRequired: %u", l_selectedNavigationController.contextSwitchRequestRequired);
             if (((IFANavigationController *)l_selectedViewController).contextSwitchRequestRequired) {
