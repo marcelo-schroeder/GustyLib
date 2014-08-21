@@ -265,7 +265,11 @@
 - (NSString*)listGroupedByForEntity:(NSString*)anEntityName{
 	return [[[self entityConfigDictionary] valueForKey:anEntityName] valueForKey:@"listGroupedBy"];
 }
-    
+
+- (NSString *)listFetchedResultsControllerSectionNameKeyPathForEntity:(NSString *)anEntityName {
+    return [[[self entityConfigDictionary] valueForKey:anEntityName] valueForKey:@"listFetchedResultsControllerSectionNameKeyPath"];
+}
+
 - (NSString*)labelForEntity:(NSString*)anEntityName{
 	return [[[self entityConfigDictionary] valueForKey:anEntityName] valueForKey:@"label"];
 }

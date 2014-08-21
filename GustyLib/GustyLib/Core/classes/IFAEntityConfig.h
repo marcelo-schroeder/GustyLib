@@ -50,6 +50,7 @@
 - (BOOL)disallowUserAdditionForEntity:(NSString*)anEntityName;
 - (BOOL)disallowUserAdditionForObject:(NSObject*)anObject;
 - (NSString*)listGroupedByForEntity:(NSString*)anEntityName;
+- (NSString*)listFetchedResultsControllerSectionNameKeyPathForEntity:(NSString*)anEntityName;
 - (NSString*)labelForEntity:(NSString*)anEntityName;
 - (NSString*)indefiniteArticleForEntity:(NSString*)anEntityName;
 - (IFAEditorType)fieldEditorForEntity:(NSString*)anEntityName;

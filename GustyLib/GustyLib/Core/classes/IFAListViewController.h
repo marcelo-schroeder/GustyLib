@@ -39,9 +39,15 @@ typedef enum{
 @property (nonatomic, strong) NSString *entityName;
 @property (nonatomic, strong) NSDate *lastRefreshAndReloadDate;
 @property (nonatomic, readonly) BOOL refreshAndReloadDataRequested;
-@property (nonatomic, strong) NSString *listGroupedBy;
 @property (nonatomic, strong) UIBarButtonItem *addBarButtonItem;
 @property (nonatomic, strong) NSManagedObjectID *editedManagedObjectId;
+
+/**
+* Specifies the property name that corresponds to a persistent entity to group by, which will also determine the table view section arrangement.
+* This value is obtained directly from the "listGroupedBy" entity config property for the entity specified by the "entityName" property.
+* This property is only relevant when fetchingStrategy is set to IFAListViewControllerFetchingStrategyFindEntities.
+*/
+@property (nonatomic, strong, readonly) NSString *listGroupedBy;
 
 /**
 * Determines whether this view controller will observe persistence changes and refresh data automatically when the view is re-displayed (i.e. after being fully hidden).

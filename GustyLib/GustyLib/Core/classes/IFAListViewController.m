@@ -26,6 +26,8 @@
 @property (nonatomic) BOOL refreshAndReloadDataRequested;
 @property (nonatomic, strong) IFA_MBProgressHUD *IFA_hud;
 @property(nonatomic, strong) void (^p_sectionDataBlock)(NSString *, NSObject *, NSArray *, NSMutableArray *, NSMutableArray *);
+@property (nonatomic, strong) NSString *listGroupedBy;
+
 @end
 
 @implementation IFAListViewController {
@@ -376,6 +378,13 @@
     }
 }
 
+- (NSString *)listGroupedBy {
+    if (!_listGroupedBy) {
+        _listGroupedBy = [[[IFAPersistenceManager sharedInstance] entityConfig] listGroupedByForEntity:self.entityName];
+    }
+    return _listGroupedBy;
+}
+
 #pragma mark - Overrides
 
 -(void)viewDidLoad{
@@ -413,8 +422,6 @@
         [a_sectionsWithRows addObject:a_sectionRows];
     };
     
-    self.listGroupedBy = [[[IFAPersistenceManager sharedInstance] entityConfig] listGroupedByForEntity:self.entityName];
-
     if (self.shouldObservePersistenceChanges) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(IFA_onPersistenceChangeNotification:)
@@ -598,7 +605,7 @@ fetchedResultsControllerForFetchedResultsTableViewController:(IFAFetchedResultsT
         l_controller = [[NSFetchedResultsController alloc]
                 initWithFetchRequest:l_fetchRequest
                 managedObjectContext:l_persistentManager.currentManagedObjectContext
-                  sectionNameKeyPath:nil
+                  sectionNameKeyPath:[[[IFAPersistenceManager sharedInstance] entityConfig] listFetchedResultsControllerSectionNameKeyPathForEntity:self.entityName]
                            cacheName:nil];
     }
     return l_controller;
