@@ -188,7 +188,6 @@
                 NSManagedObject *l_mo = [[IFAPersistenceManager sharedInstance] findById:l_editedManagedObjectId];
                 if (l_mo) { // If nil, it means the object has been discarded
 
-                    //wip: test this in both approaces as it has been kinda big change
                     NSIndexPath *l_selectedIndexPath = [l_weakSelf indexPathForObject:l_mo];
                     NSAssert(l_selectedIndexPath!= nil, @"Selected index path is nil");
                     [l_weakSelf.tableView selectRowAtIndexPath:l_selectedIndexPath animated:NO
