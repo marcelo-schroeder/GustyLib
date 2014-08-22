@@ -36,7 +36,7 @@
 #pragma mark - Public
 
 - (id)initWithObject:(NSObject *)anObject propertyName:(NSString *)aPropertyName{
-    return [self initWithObject:anObject propertyName:aPropertyName useButtonForDismissal:NO presenter:nil ];
+    return [self initWithObject:anObject propertyName:aPropertyName useButtonForDismissal:YES presenter:nil];
 }
 
 - (id) initWithObject:(NSObject *)anObject propertyName:(NSString *)aPropertyName
@@ -94,7 +94,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IFAPresenter>
     self.edgesForExtendedLayout = UIRectEdgeNone;
     if (![IFAUIUtils isIPad] && self.useButtonForDismissal) {
         self.editButtonItem.tag = IFABarItemTagEditButton;
-        [self ifa_addRightBarButtonItem:[self editButtonItem]];
+        [self ifa_addLeftBarButtonItem:[self editButtonItem]];
     }
 }
 

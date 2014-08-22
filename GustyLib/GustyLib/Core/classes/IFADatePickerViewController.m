@@ -194,7 +194,9 @@ static NSString * const k_valueCellId = @"valueCell";
 #pragma mark - Public
 
 -(id)initWithObject:(NSObject *)anObject propertyName:(NSString *)aPropertyName datePickerMode:(UIDatePickerMode)aDatePickerMode showTimePicker:(BOOL)aShowTimePickerFlag{
-    return [self initWithObject:anObject propertyName:aPropertyName useButtonForDismissal:NO datePickerMode:aDatePickerMode showTimePicker:aShowTimePickerFlag];
+    return [self initWithObject:anObject propertyName:aPropertyName useButtonForDismissal:YES
+                                                                           datePickerMode:aDatePickerMode
+                                                                           showTimePicker:aShowTimePickerFlag];
 }
 
 -(id)initWithObject:(NSObject *)anObject propertyName:(NSString *)aPropertyName useButtonForDismissal:(BOOL)a_useButtonForDismissal datePickerMode:(UIDatePickerMode)aDatePickerMode showTimePicker:(BOOL)aShowTimePickerFlag{
