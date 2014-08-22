@@ -18,7 +18,6 @@
 //  limitations under the License.
 //
 
-//wip: converted a few variables to properties - need to make sure their "self"'s are not captured in blocks
 // Frameworks
 #import <CoreData/CoreData.h>
 #import <CoreText/CoreText.h>
