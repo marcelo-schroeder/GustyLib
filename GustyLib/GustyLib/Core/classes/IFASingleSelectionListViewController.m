@@ -29,6 +29,9 @@
 
 @property (nonatomic) BOOL IFA_hasInitialLoadBeenDone;
 
+@property(nonatomic, strong) NSManagedObjectID *IFA_editedManagedObjectId;
+@property(nonatomic, strong) IFASingleSelectionManager *IFA_selectionManager;
+
 @end
 
 @implementation IFASingleSelectionListViewController {
@@ -42,7 +45,7 @@
     NSString *l_backingPreferencesProperty = [l_pm.entityConfig backingPreferencesPropertyForEntity:self.entityName];
 //    NSLog(@"l_backingPreferencesProperty: %@", l_backingPreferencesProperty);
     if (l_backingPreferencesProperty) {
-        NSManagedObjectID *l_selectedMoId = ((NSManagedObject*)[selectionManager selectedObject]).objectID;
+        NSManagedObjectID *l_selectedMoId = ((NSManagedObject*)[self.IFA_selectionManager selectedObject]).objectID;
         [l_pm pushChildManagedObjectContext];
         NSManagedObject *l_selectedMo = [l_pm findById:l_selectedMoId];
         id l_preferences = [[IFAPreferencesManager sharedInstance] preferences];
@@ -57,17 +60,17 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-	BOOL selected = [[selectionManager selectedIndexPath] isEqual:indexPath];
+	BOOL selected = [[self.IFA_selectionManager selectedIndexPath] isEqual:indexPath];
 #ifdef IFA_AVAILABLE_Help
     cell.helpTargetId = [[self ifa_helpTargetIdForName:@"tableCell."] stringByAppendingString:selected?@"selected":@"unselected"];
 #endif
-	return [self decorateSelectionForCell:cell selected:selected targetObject:[selectionManager selectedObject]];
+	return [self decorateSelectionForCell:cell selected:selected targetObject:[self.IFA_selectionManager selectedObject]];
 }
 
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	[selectionManager handleSelectionForIndexPath:indexPath];
+	[self.IFA_selectionManager handleSelectionForIndexPath:indexPath];
 }
 
 #pragma mark -
@@ -100,7 +103,7 @@
 
 - (id) initWithManagedObject:(NSManagedObject *)aManagedObject propertyName:(NSString *)aPropertyName{
     if ((self = [super initWithManagedObject:aManagedObject propertyName:aPropertyName])){
-		selectionManager = [[IFASingleSelectionManager alloc] initWithSelectionManagerDelegate:self
+		self.IFA_selectionManager = [[IFASingleSelectionManager alloc] initWithSelectionManagerDelegate:self
                                                                                  selectedObject:[self.managedObject valueForKey:self.propertyName]];
     }
 	return self;
@@ -108,15 +111,15 @@
 
 - (void)onSelectNoneButtonTap:(id)sender {
 	[super onSelectNoneButtonTap:sender];
-	[selectionManager deselectAll];
+	[self.IFA_selectionManager deselectAll];
 	[self reloadData];
 }
 
 - (void)done{
 	[super done];
 	NSManagedObject *l_previousManagedObject = [self.managedObject valueForKey:self.propertyName];
-	BOOL l_valueChanged = [selectionManager selectedObject]!=l_previousManagedObject && ![[selectionManager selectedObject] isEqual:l_previousManagedObject];
-    [self.managedObject ifa_setValue:[selectionManager selectedObject] forProperty:self.propertyName];
+	BOOL l_valueChanged = [self.IFA_selectionManager selectedObject]!=l_previousManagedObject && ![[self.IFA_selectionManager selectedObject] isEqual:l_previousManagedObject];
+    [self.managedObject ifa_setValue:[self.IFA_selectionManager selectedObject] forProperty:self.propertyName];
     [self IFA_updateBackingPreference];
     if (l_valueChanged) {
         [[self ifa_presenter] changesMadeByViewController:self];
@@ -126,7 +129,7 @@
 
 - (void) updateUiState{
 	[super updateUiState];
-	self.selectNoneButtonItem.enabled = [selectionManager selectedObject] != NULL;
+	self.selectNoneButtonItem.enabled = [self.IFA_selectionManager selectedObject] != NULL;
 }
 
 -(void)viewDidLoad{
@@ -163,20 +166,28 @@
 
 - (void)setDisallowDeselection:(BOOL)disallowDeselection {
     _disallowDeselection = disallowDeselection;
-    selectionManager.disallowDeselection = self.disallowDeselection;
+    self.IFA_selectionManager.disallowDeselection = self.disallowDeselection;
 }
 
 #pragma mark - IFAPresenter protocol
 
+- (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
+                                       data:(id)a_data shouldAnimateDismissal:(BOOL)a_shouldAnimateDismissal {
+
+    // Make a note of the edited managed object ID before it gets reset by the superclass
+    self.IFA_editedManagedObjectId = self.editedManagedObjectId;
+
+    [super sessionDidCompleteForViewController:a_viewController changesMade:a_changesMade data:a_data
+                        shouldAnimateDismissal:a_shouldAnimateDismissal];
+
+}
+
 - (void)didDismissViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
                               data:(id)a_data {
 
-    // Make a note of the edited managed object ID before it gets reset by the superclass
-    NSManagedObjectID *l_editedManagedObjectId = self.editedManagedObjectId;
-
     [super didDismissViewController:a_viewController changesMade:a_changesMade data:a_data];
 
-    if (l_editedManagedObjectId) {
+    if (self.IFA_editedManagedObjectId) {
 
         __weak IFASingleSelectionListViewController *l_weakSelf = self;
 
@@ -185,14 +196,14 @@
 
             [IFAUtils dispatchAsyncMainThreadBlock:^{
 
-                NSManagedObject *l_mo = [[IFAPersistenceManager sharedInstance] findById:l_editedManagedObjectId];
+                NSManagedObject *l_mo = [[IFAPersistenceManager sharedInstance] findById:l_weakSelf.IFA_editedManagedObjectId];
                 if (l_mo) { // If nil, it means the object has been discarded
 
                     NSIndexPath *l_selectedIndexPath = [l_weakSelf indexPathForObject:l_mo];
                     NSAssert(l_selectedIndexPath!= nil, @"Selected index path is nil");
                     [l_weakSelf.tableView selectRowAtIndexPath:l_selectedIndexPath animated:NO
                                                 scrollPosition:UITableViewScrollPositionNone];
-                    [selectionManager handleSelectionForIndexPath:l_selectedIndexPath]; //fixme: this is probably wrong - accessing an instance variable directly - convert to property and use the weak self
+                    [l_weakSelf.IFA_selectionManager handleSelectionForIndexPath:l_selectedIndexPath]; //fixme: this is probably wrong - accessing an instance variable directly - convert to property and use the weak self
 
                 }
 

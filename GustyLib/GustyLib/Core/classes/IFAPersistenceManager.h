@@ -137,6 +137,7 @@
 
 -(void)pushChildManagedObjectContext;
 -(void)popChildManagedObjectContext;
+-(NSArray *)childManagedObjectContexts;
 
 -(NSManagedObjectContext*)currentManagedObjectContext;
 

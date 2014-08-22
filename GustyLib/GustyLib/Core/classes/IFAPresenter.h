@@ -30,9 +30,7 @@
 
 // Called when presented view controller is done handling dismissal user action
 - (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
-                                       data:(id)a_data;
-- (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
-                                       data:(id)a_data animated:(BOOL)a_animate;
+                                       data:(id)a_data shouldAnimateDismissal:(BOOL)a_shouldAnimateDismissal;
 
 // Called after dismissal transition animation
 - (void)didDismissViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade

@@ -477,11 +477,12 @@
 #pragma mark - IFAPresenter
 
 - (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
-                                         data:(id)a_data {
+                                         data:(id)a_data shouldAnimateDismissal:(BOOL)a_shouldAnimateDismissal {
 
 //    NSLog(@"sessionDidCompleteForViewController for %@", [self description]);
 
-    [super sessionDidCompleteForViewController:a_viewController changesMade:a_changesMade data:a_data];
+    [super sessionDidCompleteForViewController:a_viewController changesMade:a_changesMade data:a_data
+                        shouldAnimateDismissal:a_shouldAnimateDismissal];
     
     // It is returning from an edit form
     if (self.editedManagedObjectId) {
@@ -496,6 +497,9 @@
         
         // Discard the temporary managed object context
         [l_pm popChildManagedObjectContext];
+
+        // Reset the saved ID
+        self.editedManagedObjectId = nil;
 
     }
 
@@ -517,7 +521,6 @@
     if (!self.ifa_changesMadeByPresentedViewController) { // If changes have been made by the presented view controller, then showTipForEditing will be called somewhere else
         [self showTipForEditing:self.editing];
     }
-    self.editedManagedObjectId = nil;
 }
 
 #pragma mark - UITableViewDataSource

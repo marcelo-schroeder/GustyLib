@@ -21,12 +21,7 @@
 @class NSManagedObject, IFASingleSelectionManager;
 @protocol IFASelectionManagerDelegate;
 
-@interface IFASingleSelectionListViewController : IFAAbstractSelectionListViewController <IFASelectionManagerDelegate> {
-
-	@private
-	IFASingleSelectionManager *selectionManager;
-	
-}
+@interface IFASingleSelectionListViewController : IFAAbstractSelectionListViewController <IFASelectionManagerDelegate>
 
 @property (nonatomic, strong) UIImage *selectedIconImageNormal;
 @property (nonatomic, strong) UIImage *selectedIconImageHighlighted;

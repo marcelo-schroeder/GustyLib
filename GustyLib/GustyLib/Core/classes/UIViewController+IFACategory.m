@@ -48,6 +48,7 @@ static char c_refreshControlKey;
 static char c_keyboardPassthroughViewKey;
 static char c_notificationObserversToRemoveOnDeallocKey;
 static char c_shouldUseKeyboardPassthroughViewKey;
+static char c_childManagedObjectContextCountOnViewDidLoadKey;
 //static char c_delegateKey;
 
 @interface UIViewController (IFACategory_Private)
@@ -58,6 +59,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 @property (nonatomic) BOOL ifa_changesMadeByPresentedViewController;
 @property (nonatomic, strong) IFAPassthroughView *IFA_keyboardPassthroughView;
 @property (nonatomic, strong) NSMutableArray *IFA_notificationObserversToRemoveOnDealloc;
+@property (nonatomic) NSUInteger IFA_childManagedObjectContextCountOnViewDidLoad;   // Used for assertion only
 
 @end
 
@@ -308,6 +310,27 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     [self.IFA_keyboardPassthroughView removeFromSuperview];
 }
 
+//todo: remove the need for this assertion one day
+- (void)IFA_assertManagedObjectContextCountForViewController:(UIViewController *)a_viewController {
+    UIViewController *l_topLevelContentViewController = nil;
+    UIViewController *l_rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+    if ([l_rootViewController isKindOfClass:[UITabBarController class]]) {
+        UITabBarController *l_tabBarController = (UITabBarController *) l_rootViewController;
+        UIViewController *l_tabBarSelectedViewController = l_tabBarController.selectedViewController;
+        if ([l_tabBarSelectedViewController isKindOfClass:[UINavigationController class]]) {
+            UINavigationController *l_navigationController = (UINavigationController *) l_tabBarSelectedViewController;
+            if (l_navigationController.childViewControllers) {
+                l_topLevelContentViewController = l_navigationController.childViewControllers[0];
+            }
+        }
+    }
+    if (l_topLevelContentViewController == a_viewController) {
+        NSUInteger l_childManagedObjectContextCountExpected = a_viewController.IFA_childManagedObjectContextCountOnViewDidLoad;
+        NSUInteger l_childManagedObjectContextCountActual = [IFAPersistenceManager sharedInstance].childManagedObjectContexts.count;
+        NSAssert(l_childManagedObjectContextCountActual == l_childManagedObjectContextCountExpected, @"Number of child managed object context count mismatch! Expected: %u | Actual: %u", l_childManagedObjectContextCountExpected, l_childManagedObjectContextCountActual);
+    }
+}
+
 #pragma mark - Public
 
 -(void)setIfa_presenter:(id<IFAPresenter>)a_presenter{
@@ -399,6 +422,14 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 
 -(void)setIfa_changesMadeByPresentedViewController:(BOOL)a_changesMadeByPresentedViewController{
     objc_setAssociatedObject(self, &c_changesMadeByPresentedViewControllerKey, @(a_changesMadeByPresentedViewController), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+-(NSUInteger)IFA_childManagedObjectContextCountOnViewDidLoad {
+    return ((NSNumber*)objc_getAssociatedObject(self, &c_childManagedObjectContextCountOnViewDidLoadKey)).unsignedIntegerValue;
+}
+
+-(void)setIFA_childManagedObjectContextCountOnViewDidLoad:(NSUInteger)a_childManagedObjectContextCountOnViewWillAppear{
+    objc_setAssociatedObject(self, &c_childManagedObjectContextCountOnViewDidLoadKey, @(a_childManagedObjectContextCountOnViewWillAppear), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 -(IFANavigationItemTitleView *)ifa_titleViewLandscapePhone {
@@ -715,12 +746,14 @@ static char c_shouldUseKeyboardPassthroughViewKey;
     }
 }
 
-- (void)ifa_notifySessionCompletionWithChangesMade:(BOOL)a_changesMade data:(id)a_data {
-    [self.ifa_presenter sessionDidCompleteForViewController:self changesMade:a_changesMade data:a_data];
+- (void)ifa_notifySessionCompletionWithChangesMade:(BOOL)a_changesMade data:(id)a_data animated:(BOOL)a_animated{
+    [self.ifa_presenter sessionDidCompleteForViewController:self changesMade:a_changesMade data:a_data
+                                     shouldAnimateDismissal:a_animated];
+    [self IFA_assertManagedObjectContextCountForViewController:self.ifa_presenter];
 }
 
-- (void)ifa_notifySessionCompletionWithChangesMade:(BOOL)a_changesMade data:(id)a_data animated:(BOOL)a_animated{
-    [self.ifa_presenter sessionDidCompleteForViewController:self changesMade:a_changesMade data:a_data animated:a_animated];
+- (void)ifa_notifySessionCompletionWithChangesMade:(BOOL)a_changesMade data:(id)a_data {
+    [self ifa_notifySessionCompletionWithChangesMade:a_changesMade data:a_data animated:YES];
 }
 
 -(void)ifa_notifySessionCompletion {
@@ -912,6 +945,9 @@ static char c_shouldUseKeyboardPassthroughViewKey;
         self.IFA_keyboardPassthroughView.shouldDismissKeyboardOnNonTextInputInteractions = YES;
     }
 
+    // Save for later assertion
+    self.IFA_childManagedObjectContextCountOnViewDidLoad = [IFAPersistenceManager sharedInstance].childManagedObjectContexts.count;
+
 }
 
 -(void)ifa_viewDidUnload {
@@ -994,7 +1030,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 - (void)ifa_viewDidAppear {
-    
+
 //    NSLog(@"ifa_viewDidAppear: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
 
 #ifdef IFA_AVAILABLE_GoogleMobileAdsSupport
@@ -1005,13 +1041,13 @@ static char c_shouldUseKeyboardPassthroughViewKey;
         //            NSLog(@"About to call m_updateToolbarForMode in ifa_viewDidAppear...");
         [self ifa_updateToolbarForMode:self.editing animated:YES];
     }
-    
+
 }
 
 - (void)ifa_viewWillDisappear {
     
 //    NSLog(@"ifa_viewWillDisappear: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
-        
+
     self.ifa_previousVisibleViewController = self.navigationController.visibleViewController;
     
 }
@@ -1343,21 +1379,15 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 }
 
 - (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
-                                       data:(id)a_data {
-    [self sessionDidCompleteForViewController:a_viewController
-                                  changesMade:a_changesMade data:a_data animated:YES];
-}
-
-- (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
-                                       data:(id)a_data animated:(BOOL)a_animate{
+                                       data:(id)a_data shouldAnimateDismissal:(BOOL)a_shouldAnimateDismissal {
     self.ifa_changesMadeByPresentedViewController = a_changesMade;
 #ifdef IFA_AVAILABLE_Help
     [self ifa_registerForHelp];
 #endif
     if (a_viewController.ifa_presentedAsModal) {
-        [self ifa_dismissModalViewControllerWithChangesMade:a_changesMade data:a_data animated:a_animate];
+        [self ifa_dismissModalViewControllerWithChangesMade:a_changesMade data:a_data animated:a_shouldAnimateDismissal];
     }else{
-        [a_viewController.navigationController popViewControllerAnimated:a_animate];
+        [a_viewController.navigationController popViewControllerAnimated:a_shouldAnimateDismissal];
     }
 }
 
@@ -1373,7 +1403,7 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 #pragma mark - UIPopoverControllerDelegate
 
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    [self.ifa_presenter sessionDidCompleteForViewController:self changesMade:NO data:nil ];
+    [self.ifa_presenter sessionDidCompleteForViewController:self changesMade:NO data:nil shouldAnimateDismissal:NO];
 }
 
 @end

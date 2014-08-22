@@ -1083,9 +1083,10 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 }
 
 - (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
-                                         data:(id)a_data {
+                                         data:(id)a_data shouldAnimateDismissal:(BOOL)a_shouldAnimateDismissal {
 //    NSLog(@"sessionDidCompleteForViewController in: %@, for: %@, changesMade: %u", [self description], [a_viewController description], a_changesMade);
-    [super sessionDidCompleteForViewController:a_viewController changesMade:a_changesMade data:a_data];
+    [super sessionDidCompleteForViewController:a_viewController changesMade:a_changesMade data:a_data
+                        shouldAnimateDismissal:a_shouldAnimateDismissal];
     [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:YES];
 }
 
