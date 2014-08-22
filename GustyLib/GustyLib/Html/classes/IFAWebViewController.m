@@ -53,8 +53,9 @@
 #pragma mark - UIWebViewDelegate protocol
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView{
+    __weak __typeof(self) l_weakSelf = self;
     [IFAUtils dispatchAsyncMainThreadBlock:^{
-        [self.IFA_webView.scrollView flashScrollIndicators];
+        [l_weakSelf.IFA_webView.scrollView flashScrollIndicators];
     }];
 }
 

@@ -83,9 +83,10 @@
     self.areAllBlocksCancelled = YES;
     self.IFA_cancelAllBlocksRequestOwnerUuid = nil;
 //    NSLog(@"   ###   areAllBlocksCancelled = YES");
+    __weak __typeof(self) l_weakSelf = self;
     dispatch_async(self.IFA_mainSerialDispatchQueue, ^{
-        if (!self.IFA_cancelAllBlocksRequestOwnerUuid) {
-            self.areAllBlocksCancelled = NO;
+        if (!l_weakSelf.IFA_cancelAllBlocksRequestOwnerUuid) {
+            l_weakSelf.areAllBlocksCancelled = NO;
 //            NSLog(@"   ###   areAllBlocksCancelled = NO");
         }
     });
@@ -253,20 +254,21 @@ progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView
         [self showNonModalProgressIndicatorInView:a_progressIndicatorContainerView];
     }
     
+    __weak __typeof(self) l_weakSelf = self;
     dispatch_block_t l_block = [^{
         
 //        NSLog(@"");
 //        NSLog(@"*** BLOCK START - UUID: %@", l_blockUuid);
-//        NSLog(@"self: %@", [self description]);
+//        NSLog(@"self: %@", [l_weakSelf description]);
 //        NSLog(@"IFA_cancelAllBlocksRequestOwnerUuid: %@", [IFA_cancelAllBlocksRequestOwnerUuid description]);
 //        NSLog(@"a_block: %@", [a_block description]);
         
         // Reset the managed object context to avoid stale objects for this session
-        [self.managedObjectContext reset];
+        [l_weakSelf.managedObjectContext reset];
         
-        if (self.areAllBlocksCancelled && [self.IFA_cancelAllBlocksRequestOwnerUuid isEqualToString:l_blockUuid]) {
-            self.areAllBlocksCancelled = NO;
-            self.IFA_cancelAllBlocksRequestOwnerUuid = nil;
+        if (l_weakSelf.areAllBlocksCancelled && [l_weakSelf.IFA_cancelAllBlocksRequestOwnerUuid isEqualToString:l_blockUuid]) {
+            l_weakSelf.areAllBlocksCancelled = NO;
+            l_weakSelf.IFA_cancelAllBlocksRequestOwnerUuid = nil;
          }
 
         // Execute "the" block
@@ -274,7 +276,7 @@ progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView
         NSMutableDictionary *l_threadDict = nil;
         if (a_usePrivateManagedObjectContext) {
             l_threadDict = [[NSThread currentThread] threadDictionary];
-            [l_threadDict setObject:self.managedObjectContext forKey:IFAKeySerialQueueManagedObjectContext];
+            l_threadDict[IFAKeySerialQueueManagedObjectContext] = l_weakSelf.managedObjectContext;
         }
         a_block();
         if (l_threadDict) {
@@ -283,9 +285,9 @@ progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView
 //        NSLog(@"inner block executed!");
 
         // Hide progress indicator if required
-        if (a_progressIndicatorContainerView && [self.IFA_nonModalProgressIndicatorOwnerUuid isEqualToString:l_blockUuid]) {
+        if (a_progressIndicatorContainerView && [l_weakSelf.IFA_nonModalProgressIndicatorOwnerUuid isEqualToString:l_blockUuid]) {
             [IFAUtils dispatchAsyncMainThreadBlock:^{
-                [self hideNonModalProgressIndicatorWithAnimation:YES];
+                [l_weakSelf hideNonModalProgressIndicatorWithAnimation:YES];
             }];
 //            NSLog(@"m_hideNonModalProgressIndicator scheduled for UUID %@", l_blockUuid);
         }

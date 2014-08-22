@@ -35,9 +35,10 @@
 - (UIViewController *)IFA_internalWebBrowserViewController {
     if (!_IFA_internalWebBrowserViewController) {
         id <IFAAppearanceTheme> l_appearanceTheme = [[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme];
+        __weak __typeof(self) l_weakSelf = self;
         UIViewController *l_viewController = [l_appearanceTheme newInternalWebBrowserViewControllerWithUrl:self.url
                                                                                            completionBlock:^{
-                                                                                               [self activityDidFinish:YES];
+                                                                                               [l_weakSelf activityDidFinish:YES];
                                                                                            }];
         IFANavigationController *l_navigationController = [[[l_appearanceTheme navigationControllerClass] alloc] initWithRootViewController:l_viewController];
         l_navigationController.modalPresentationStyle = UIModalPresentationPageSheet;

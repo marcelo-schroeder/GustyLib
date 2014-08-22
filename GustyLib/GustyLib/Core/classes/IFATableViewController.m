@@ -194,8 +194,9 @@
 }
 
 -(void)reloadMovedCellAtIndexPath:(NSIndexPath*)a_indexPath{
+    __weak __typeof(self) l_weakSelf = self;
     [IFAUtils dispatchAsyncMainThreadBlock:^{
-        [self.tableView reloadRowsAtIndexPaths:@[a_indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        [l_weakSelf.tableView reloadRowsAtIndexPaths:@[a_indexPath] withRowAnimation:UITableViewRowAnimationNone];
     }                           afterDelay:IFAAnimationDuration];
 }
 

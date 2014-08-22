@@ -1340,9 +1340,9 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
     if ([a_notification.name isEqualToString:UIKeyboardDidShowNotification]) {
 
+        __weak __typeof(self) l_weakSelf = self;
         [IFAUtils dispatchAsyncMainThreadBlock:^{
-            [self.tableView flashScrollIndicators];
-
+            [l_weakSelf.tableView flashScrollIndicators];
         }];
 
     }else if ([a_notification.name isEqualToString:UIKeyboardDidHideNotification]) {
@@ -1452,7 +1452,6 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         }
 
     }
-
 
     // Perform cell transition
     [UIView transitionWithView:self.view duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{

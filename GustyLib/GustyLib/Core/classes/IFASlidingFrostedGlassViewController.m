@@ -287,12 +287,13 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    __weak __typeof(self) l_weakSelf = self;
     [IFAUtils dispatchAsyncMainThreadBlock:^{  // Had to run this async to allow for the correct snapshot to be taken when app enters foreground
-        self.frostedGlassImageView.image = [self newBlurredSnapshotImageFrom:self.presentingViewController.view];
-        [self IFA_updateFrostedGlassImageViewHeightConstraintConstantForVisibleState];
-        [self.view layoutIfNeeded];
+        l_weakSelf.frostedGlassImageView.image = [l_weakSelf newBlurredSnapshotImageFrom:l_weakSelf.presentingViewController.view];
+        [l_weakSelf IFA_updateFrostedGlassImageViewHeightConstraintConstantForVisibleState];
+        [l_weakSelf.view layoutIfNeeded];
         [UIView animateWithDuration:0.3 animations:^{
-            self.view.alpha = 1;
+            l_weakSelf.view.alpha = 1;
         }];
     }];
 }
@@ -356,6 +357,7 @@
 
     }
 
+    __weak __typeof(self) l_weakSelf = self;
     [UIView animateWithDuration:self.IFA_slidingAnimationDuration animations:^{
         if (self.IFA_isDismissing) {
             [self.frostedGlassImageView layoutIfNeeded];
@@ -364,9 +366,9 @@
             [self.view layoutIfNeeded];
         }
     }                completion:^(BOOL finished) {
-        if (self.IFA_isDismissing) {
-            [self.IFA_childViewController removeFromParentViewController];
-            [self.view removeFromSuperview];
+        if (l_weakSelf.IFA_isDismissing) {
+            [l_weakSelf.IFA_childViewController removeFromParentViewController];
+            [l_weakSelf.view removeFromSuperview];
         }
         [transitionContext completeTransition:YES];
     }];

@@ -104,11 +104,12 @@
         self.splitViewController.viewControllers = @[(self.splitViewController.viewControllers)[0], l_viewController];
     }else if(self.slidingViewController){
         if (self.slidingViewController.topViewController) {
+            __weak __typeof(self) l_weakSelf = self;
             [IFAUtils dispatchAsyncMainThreadBlock:^{
-                if (self.slidingViewController.topViewController != l_viewController) {
-                    self.slidingViewController.topViewController = l_viewController;
+                if (l_weakSelf.slidingViewController.topViewController != l_viewController) {
+                    l_weakSelf.slidingViewController.topViewController = l_viewController;
                 }
-                [self.slidingViewController resetTopView];
+                [l_weakSelf.slidingViewController resetTopView];
             }                           afterDelay:0.05];
         }else { // First time only
             self.slidingViewController.topViewController = l_viewController;

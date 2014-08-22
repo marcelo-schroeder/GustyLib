@@ -198,8 +198,9 @@
     
     // Show the web view
     self.IFA_webView.hidden = NO;
+    __weak __typeof(self) l_weakSelf = self;
     [IFAUtils dispatchAsyncMainThreadBlock:^{
-        [self.IFA_webView.scrollView flashScrollIndicators];
+        [l_weakSelf.IFA_webView.scrollView flashScrollIndicators];
     }                           afterDelay:0.1];
 
     self.presentationRequestInProgress = NO;

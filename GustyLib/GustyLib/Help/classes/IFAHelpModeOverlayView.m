@@ -113,6 +113,7 @@
         self.IFA_finalDrawing = YES;
         
         // Schedule animations
+        __weak __typeof(self) l_weakSelf = self;
         [IFAUtils dispatchAsyncMainThreadBlock:^{
 
             BOOL l_removeSpotlightWithAnimation = self.IFA_removeSpotlightWithAnimation;
@@ -130,7 +131,7 @@
                             } completion:^(BOOL finished) {
                 if (l_removeSpotlightWithAnimation) {
                     [l_previousSpotlightMask removeFromSuperview];
-                    [self setNeedsDisplay];
+                    [l_weakSelf setNeedsDisplay];
                 }
             }];
 
