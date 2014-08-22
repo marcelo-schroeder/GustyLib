@@ -116,16 +116,16 @@
         __weak __typeof(self) l_weakSelf = self;
         [IFAUtils dispatchAsyncMainThreadBlock:^{
 
-            BOOL l_removeSpotlightWithAnimation = self.IFA_removeSpotlightWithAnimation;
+            BOOL l_removeSpotlightWithAnimation = l_weakSelf.IFA_removeSpotlightWithAnimation;
 
-            [UIView transitionWithView:self duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve
+            [UIView transitionWithView:l_weakSelf duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve
                             animations:^{
-                                if (self.IFA_shouldSpotlight) {
-                                    [self.IFA_spotlightMask removeFromSuperview];
+                                if (l_weakSelf.IFA_shouldSpotlight) {
+                                    [l_weakSelf.IFA_spotlightMask removeFromSuperview];
                                 }
-                                if (self.IFA_removeSpotlightWithAnimation) {
+                                if (l_weakSelf.IFA_removeSpotlightWithAnimation) {
                                     if (l_previousSpotlightMask) {
-                                        [self addSubview:l_previousSpotlightMask];
+                                        [l_weakSelf addSubview:l_previousSpotlightMask];
                                     }
                                 }
                             } completion:^(BOOL finished) {

@@ -168,6 +168,7 @@
     }else{
         [self IFA_hideHelpModeInstructions];
     }
+    __weak __typeof(self) l_weakSelf = self;
     [UIView transitionWithView:l_view duration:0.75 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
         
         if ([self.observedHelpTargetContainer isKindOfClass:[UIViewController class]]) {
@@ -215,13 +216,13 @@
 
     } completion:^(BOOL finished) {
         if (a_helpMode) {
-            [self IFA_showHelpModeInstructions];
+            [l_weakSelf IFA_showHelpModeInstructions];
         }
         [IFAUtils dispatchAsyncMainThreadBlock:^{
             if (a_helpMode) {
-                [self.observedHelpTargetContainer didEnterHelpMode];
+                [l_weakSelf.observedHelpTargetContainer didEnterHelpMode];
             } else {
-                [self.observedHelpTargetContainer didExitHelpMode];
+                [l_weakSelf.observedHelpTargetContainer didExitHelpMode];
             }
         }];
     }];
@@ -320,10 +321,11 @@
     self.IFA_activePopTipView = [IFAHelpPopTipView new];
     self.IFA_activePopTipView.maximised = a_view==self.IFA_screenHelpButton;
     UIView *l_containerView = [self.observedHelpTargetContainer targetView];
+    __weak __typeof(self) l_weakSelf = self;
     [self.IFA_activePopTipView presentWithTitle:a_title description:a_description pointingAtView:l_pointingAtView
                                          inView:l_containerView completionBlock:^{
         // Remove user interaction blocker
-        [self.IFA_userInteractionBlockingView removeFromSuperview];
+        [l_weakSelf.IFA_userInteractionBlockingView removeFromSuperview];
     }];
 
     // Block user interaction while the help pop tip is loading its contents
