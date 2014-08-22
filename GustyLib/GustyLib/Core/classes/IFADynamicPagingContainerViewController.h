@@ -25,24 +25,20 @@
 @class IFATableViewController;
 @protocol IFADynamicPagingContainerViewControllerDataSource;
 
-@interface IFADynamicPagingContainerViewController : IFAAbstractPagingContainerViewController {
-    
-    @protected
-    IFAScrollPage v_selectedPage;
-    IFATableViewController *v_childViewControllerLeftFar;
-    IFATableViewController *v_childViewControllerLeftNear;
-    IFATableViewController *v_childViewControllerCentre;
-    IFATableViewController *v_childViewControllerRightNear;
-    IFATableViewController *v_childViewControllerRightFar;
-    IFAScrollPage v_firstPageWithContent;
-    UIBarButtonItem *v_previousViewBarButtonItem;
-    UIBarButtonItem *v_nextViewBarButtonItem;
-    
-}
+@interface IFADynamicPagingContainerViewController : IFAAbstractPagingContainerViewController
 
 @property (weak, nonatomic) id<IFADynamicPagingContainerViewControllerDataSource> dataSource;
 @property (nonatomic, strong) NSMutableArray *pagingContainerChildViewControllers;
 @property (nonatomic, strong, readonly) NSDate *lastFullChildViewControllerUpdate;
+@property(nonatomic) IFAScrollPage selectedPage;
+@property(nonatomic, strong) IFATableViewController *childViewControllerLeftFar;
+@property(nonatomic, strong) IFATableViewController *childViewControllerLeftNear;
+@property(nonatomic, strong) IFATableViewController *childViewControllerCentre;
+@property(nonatomic, strong) IFATableViewController *childViewControllerRightNear;
+@property(nonatomic, strong) IFATableViewController *childViewControllerRightFar;
+@property(nonatomic) IFAScrollPage firstPageWithContent;
+@property(nonatomic, strong) UIBarButtonItem *previousViewBarButtonItem;
+@property(nonatomic, strong) UIBarButtonItem *nextViewBarButtonItem;
 
 -(void)updateChildViewControllersForSelectedPage:(IFAScrollPage)a_selectedPage;
 -(UIViewController*)visibleChildViewController;

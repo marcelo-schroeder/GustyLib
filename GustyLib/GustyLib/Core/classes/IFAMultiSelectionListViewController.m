@@ -34,23 +34,19 @@ enum {
 
 @interface IFAMultiSelectionListViewController ()
 
+@property(nonatomic, strong) NSString *IFA_destinationEntityName;
+@property(nonatomic, strong) NSArray *IFA_destinationEntities;
+@property(nonatomic, strong) NSMutableArray *IFA_selectedDestinationEntities;
+@property(nonatomic, strong) NSMutableArray *IFA_unselectedDestinationEntities;
+@property(nonatomic, strong) NSString *IFA_originRelationshipName;
+@property(nonatomic, strong) NSString *IFA_destinationRelationshipName;
+@property(nonatomic, strong) UIBarButtonItem *IFA_selectAllButtonItem;
+@property(nonatomic, strong) UIBarButtonItem *IFA_flexSpaceButtonItem;
+@property(nonatomic, strong) NSMutableArray *IFA_originalSortedEntities;
+@property(nonatomic) BOOL IFA_isJoinEntity;
 @end
 
-@implementation IFAMultiSelectionListViewController{
-
-@private
-    NSString *v_destinationEntityName;
-    NSArray *v_destinationEntities;
-    NSMutableArray *v_selectedDestinationEntities;
-    NSMutableArray *v_unselectedDestinationEntities;
-    NSString *v_originRelationshipName;
-    NSString *v_destinationRelationshipName;
-    UIBarButtonItem *v_selectAllButtonItem;
-    UIBarButtonItem *v_flexSpaceButtonItem;
-    NSMutableArray *v_originalSortedEntities;
-    BOOL v_isJoinEntity;
-
-}
+@implementation IFAMultiSelectionListViewController
 
 #pragma mark - Private
 
@@ -59,7 +55,7 @@ enum {
 	if (l_numberOfSections==2) {	// If both arrays (selected & unselected) are not empty, then the "selected" section is the first one
 		return a_section==0;
 	}else {	// otherwise, it is the "selected" section only if the selected array is not empty
-		return a_section==0 && [v_selectedDestinationEntities count]>0;
+		return a_section==0 && [self.IFA_selectedDestinationEntities count]>0;
 	}
 }
 
@@ -73,24 +69,24 @@ enum {
 }
 
 - (void)IFA_selectNone {
-    [self IFA_handleUserSelectionForManagedObjects:[NSArray arrayWithArray:v_selectedDestinationEntities] isAdding:NO];
+    [self IFA_handleUserSelectionForManagedObjects:[NSArray arrayWithArray:self.IFA_selectedDestinationEntities] isAdding:NO];
 }
 
 - (void)IFA_selectAll {
-    [self IFA_handleUserSelectionForManagedObjects:[NSArray arrayWithArray:v_unselectedDestinationEntities]
+    [self IFA_handleUserSelectionForManagedObjects:[NSArray arrayWithArray:self.IFA_unselectedDestinationEntities]
                                           isAdding:YES];
 }
 
 - (BOOL)IFA_hasValueChanged {
 	
-	if ([v_originalSortedEntities count]==[v_selectedDestinationEntities count]) {
-		for (NSUInteger i = 0; i < [v_originalSortedEntities count]; i++) {
+	if ([self.IFA_originalSortedEntities count]==[self.IFA_selectedDestinationEntities count]) {
+		for (NSUInteger i = 0; i < [self.IFA_originalSortedEntities count]; i++) {
             @autoreleasepool {
-                NSManagedObject *l_originalManagedObject = [v_originalSortedEntities objectAtIndex:i];
-                NSManagedObject *l_selectedDestinationManagedObject = [v_selectedDestinationEntities objectAtIndex:i];
+                NSManagedObject *l_originalManagedObject = [self.IFA_originalSortedEntities objectAtIndex:i];
+                NSManagedObject *l_selectedDestinationManagedObject = [self.IFA_selectedDestinationEntities objectAtIndex:i];
                 NSManagedObject *l_originalDestinationManagedObject;
-                if (v_isJoinEntity) {
-                    l_originalDestinationManagedObject = [l_originalManagedObject valueForKey:v_destinationRelationshipName];
+                if (self.IFA_isJoinEntity) {
+                    l_originalDestinationManagedObject = [l_originalManagedObject valueForKey:self.IFA_destinationRelationshipName];
                 }else {
                     l_originalDestinationManagedObject = l_originalManagedObject;
                 }
@@ -111,8 +107,8 @@ enum {
 
 - (void)IFA_handleUserSelectionForManagedObjects:(NSArray *)a_managedObjects isAdding:(BOOL)a_isAdding{
 	
-	BOOL l_selectedSectionVisibleBefore = [v_selectedDestinationEntities count]>0;
-	BOOL l_unselectedSectionVisibleBefore = [v_unselectedDestinationEntities count]>0;
+	BOOL l_selectedSectionVisibleBefore = [self.IFA_selectedDestinationEntities count]>0;
+	BOOL l_unselectedSectionVisibleBefore = [self.IFA_unselectedDestinationEntities count]>0;
 	BOOL l_selectedSectionVisibleAfter;
 	BOOL l_unselectedSectionVisibleAfter;
 	
@@ -124,13 +120,13 @@ enum {
             
 			NSIndexPath *l_indexPathToDelete;
 			if (a_isAdding) {	// Is it adding to the selection list?
-				l_indexPathToDelete = [NSIndexPath indexPathForRow:[v_unselectedDestinationEntities indexOfObject:l_managedObject] 
+				l_indexPathToDelete = [NSIndexPath indexPathForRow:[self.IFA_unselectedDestinationEntities indexOfObject:l_managedObject] 
 														 inSection:l_selectedSectionVisibleBefore?1:0];
-				[v_selectedDestinationEntities addObject:l_managedObject];
+				[self.IFA_selectedDestinationEntities addObject:l_managedObject];
 			}else {	// no, then it must be deleting from the selection list
-				l_indexPathToDelete = [NSIndexPath indexPathForRow:[v_selectedDestinationEntities indexOfObject:l_managedObject] 
+				l_indexPathToDelete = [NSIndexPath indexPathForRow:[self.IFA_selectedDestinationEntities indexOfObject:l_managedObject] 
 														 inSection:0];
-				[v_unselectedDestinationEntities addObject:l_managedObject];
+				[self.IFA_unselectedDestinationEntities addObject:l_managedObject];
 			}
 			
 			[l_indexPathsToDelete addObject:l_indexPathToDelete];
@@ -142,33 +138,33 @@ enum {
 	if (a_isAdding) {
         
 		// Delete selected objects in the target array
-		[v_unselectedDestinationEntities removeObjectsInArray:a_managedObjects];
+		[self.IFA_unselectedDestinationEntities removeObjectsInArray:a_managedObjects];
 		
 		// Re-order array with inserted objects
-		if(!v_isJoinEntity){
+		if(!self.IFA_isJoinEntity){
 			// Re-order array of selected managed objects
-			NSArray *l_sortDescriptors = [[IFAPersistenceManager sharedInstance] listSortDescriptorsForEntity:v_destinationEntityName];
-			NSArray *sortedArray = [v_selectedDestinationEntities sortedArrayUsingDescriptors:l_sortDescriptors];
+			NSArray *l_sortDescriptors = [[IFAPersistenceManager sharedInstance] listSortDescriptorsForEntity:self.IFA_destinationEntityName];
+			NSArray *sortedArray = [self.IFA_selectedDestinationEntities sortedArrayUsingDescriptors:l_sortDescriptors];
 			NSMutableArray *l_newSelectedDestinationEntities = [NSMutableArray arrayWithArray:sortedArray];
-			v_selectedDestinationEntities = l_newSelectedDestinationEntities;
+			self.IFA_selectedDestinationEntities = l_newSelectedDestinationEntities;
 		}
 		
 	}else {
 		
 		// Delete selected objects in the target array
-		[v_selectedDestinationEntities removeObjectsInArray:a_managedObjects];
+		[self.IFA_selectedDestinationEntities removeObjectsInArray:a_managedObjects];
 		
 		// Re-order array with inserted objects
-		NSArray *l_sortDescriptors = [[IFAPersistenceManager sharedInstance] listSortDescriptorsForEntity:v_destinationEntityName];
-		NSArray *sortedArray = [v_unselectedDestinationEntities sortedArrayUsingDescriptors:l_sortDescriptors];
+		NSArray *l_sortDescriptors = [[IFAPersistenceManager sharedInstance] listSortDescriptorsForEntity:self.IFA_destinationEntityName];
+		NSArray *sortedArray = [self.IFA_unselectedDestinationEntities sortedArrayUsingDescriptors:l_sortDescriptors];
 		NSMutableArray *l_newUnselectedDestinationEntities = [NSMutableArray arrayWithArray:sortedArray];
-		v_unselectedDestinationEntities = l_newUnselectedDestinationEntities;
+		self.IFA_unselectedDestinationEntities = l_newUnselectedDestinationEntities;
         
 	}
 	
 	// Update visibility flags
-	l_selectedSectionVisibleAfter = [v_selectedDestinationEntities count]>0;
-	l_unselectedSectionVisibleAfter = [v_unselectedDestinationEntities count]>0;
+	l_selectedSectionVisibleAfter = [self.IFA_selectedDestinationEntities count]>0;
+	l_unselectedSectionVisibleAfter = [self.IFA_unselectedDestinationEntities count]>0;
 	
 	// Determine index paths to insert
 	NSMutableArray *l_indexPathsToInsert = [NSMutableArray array];
@@ -176,10 +172,10 @@ enum {
 		@autoreleasepool {
 			NSIndexPath *l_indexPathToInsert;
 			if (a_isAdding) {
-				l_indexPathToInsert = [NSIndexPath indexPathForRow:[v_selectedDestinationEntities indexOfObject:l_managedObject] 
+				l_indexPathToInsert = [NSIndexPath indexPathForRow:[self.IFA_selectedDestinationEntities indexOfObject:l_managedObject] 
 														 inSection:0];
 			}else {
-				l_indexPathToInsert = [NSIndexPath indexPathForRow:[v_unselectedDestinationEntities indexOfObject:l_managedObject] 
+				l_indexPathToInsert = [NSIndexPath indexPathForRow:[self.IFA_unselectedDestinationEntities indexOfObject:l_managedObject] 
 														 inSection:l_selectedSectionVisibleAfter?1:0];
 			}
 			[l_indexPathsToInsert addObject:l_indexPathToInsert];
@@ -225,12 +221,12 @@ enum {
 
 -(void)IFA_updateModel {
     
-    if (v_isJoinEntity) {
+    if (self.IFA_isJoinEntity) {
         
         //            NSLog(@"IS join entity");
         
         // Firstly, delete the managed objects in the original set
-        for (NSManagedObject *l_managedObject in v_originalSortedEntities) {
+        for (NSManagedObject *l_managedObject in self.IFA_originalSortedEntities) {
 //            NSLog(@"deleting managed object: %@", l_managedObject);
             [l_managedObject ifa_delete];
         }
@@ -238,14 +234,14 @@ enum {
         //            NSLog(@"hasChanges1: %u", [IFAPersistenceManager sharedInstance].managedObjectContext.hasChanges);
         
         // Secondly, add the managed objects in the new set
-        [v_originalSortedEntities removeAllObjects];
+        [self.IFA_originalSortedEntities removeAllObjects];
         NSUInteger l_seq = 0;
-        for (NSManagedObject *l_selectedDestinationManagedObject in v_selectedDestinationEntities) {
+        for (NSManagedObject *l_selectedDestinationManagedObject in self.IFA_selectedDestinationEntities) {
             NSManagedObject *l_managedObject = [[IFAPersistenceManager sharedInstance] instantiate:self.entityName];
-            [l_managedObject setValue:self.managedObject forKey:v_originRelationshipName];
-            [l_managedObject setValue:l_selectedDestinationManagedObject forKey:v_destinationRelationshipName];
+            [l_managedObject setValue:self.managedObject forKey:self.IFA_originRelationshipName];
+            [l_managedObject setValue:l_selectedDestinationManagedObject forKey:self.IFA_destinationRelationshipName];
             [l_managedObject setValue:[NSNumber numberWithInt:l_seq++] forKey:@"seq"];
-            [v_originalSortedEntities addObject:l_managedObject];
+            [self.IFA_originalSortedEntities addObject:l_managedObject];
 //            NSLog(@"inserted managed object: %@", l_managedObject);
         }
         
@@ -264,7 +260,7 @@ enum {
         [l_set removeAllObjects];
         
         // Secondly, add the managed objects in the new set
-        [l_set addObjectsFromArray:v_selectedDestinationEntities];
+        [l_set addObjectsFromArray:self.IFA_selectedDestinationEntities];
         
         // Mark object being edited as dirty
         [IFAPersistenceManager sharedInstance].isCurrentManagedObjectDirty = YES;
@@ -285,9 +281,9 @@ enum {
 		// First determine whether this controller is managing a pure many-to-many relationship or one which uses a join table
 		NSDictionary *l_parentRelationshipDictionary = [[IFAPersistenceManager sharedInstance].entityConfig relationshipDictionaryForEntity:[self.managedObject ifa_entityName]];
 		NSRelationshipDescription *l_parentRelationship = [l_parentRelationshipDictionary valueForKey:self.propertyName];
-		v_isJoinEntity = ! [[l_parentRelationship inverseRelationship] isToMany];
+		self.IFA_isJoinEntity = ! [[l_parentRelationship inverseRelationship] isToMany];
 
-		if (v_isJoinEntity) {
+		if (self.IFA_isJoinEntity) {
 			
 			// Determine destination entity in the many-to-many relationship
 			NSDictionary *l_relationshipDictionary = [[IFAPersistenceManager sharedInstance].entityConfig relationshipDictionaryForEntity:self.entityName];
@@ -297,49 +293,49 @@ enum {
 					NSRelationshipDescription *l_relationship = [l_relationshipDictionary valueForKey:l_relationshipName];
 					NSEntityDescription *l_destinationEntity = [l_relationship destinationEntity];
 					if ([[self.managedObject ifa_entityName] isEqualToString:[l_destinationEntity name]]) {
-						v_originRelationshipName = l_relationshipName;
+						self.IFA_originRelationshipName = l_relationshipName;
 					}else {
 						// Assume that there is only one destination to-many relationship for the moment
-						v_destinationRelationshipName = l_relationshipName;
-						v_destinationEntityName = [l_destinationEntity name];
+						self.IFA_destinationRelationshipName = l_relationshipName;
+						self.IFA_destinationEntityName = [l_destinationEntity name];
 					}
 				}
 			}
 
 		}else {
 
-			v_originRelationshipName = nil;	// not used in this case
-			v_destinationRelationshipName = nil;	// not used in this case
-			v_destinationEntityName = self.entityName;
+			self.IFA_originRelationshipName = nil;	// not used in this case
+			self.IFA_destinationRelationshipName = nil;	// not used in this case
+			self.IFA_destinationEntityName = self.entityName;
 			
 		}
 		
 		// Retrieve destination entity instances
-		v_destinationEntities = [[IFAPersistenceManager sharedInstance] findAllForEntity:v_destinationEntityName];
+		self.IFA_destinationEntities = [[IFAPersistenceManager sharedInstance] findAllForEntity:self.IFA_destinationEntityName];
 		
 		// All destination entity instances become unselected instances to start with
-		v_unselectedDestinationEntities = [NSMutableArray arrayWithArray:v_destinationEntities];
-		v_selectedDestinationEntities = [NSMutableArray array];
+		self.IFA_unselectedDestinationEntities = [NSMutableArray arrayWithArray:self.IFA_destinationEntities];
+		self.IFA_selectedDestinationEntities = [NSMutableArray array];
 		
 		// Now load the selected entity instances
 		NSArray *l_sortDescriptors = [[IFAPersistenceManager sharedInstance] listSortDescriptorsForEntity:self.entityName];
-		v_originalSortedEntities = [NSMutableArray arrayWithArray:[[((NSSet*) [self.managedObject valueForKey:self.propertyName]) allObjects] sortedArrayUsingDescriptors:l_sortDescriptors]];
-		for (NSManagedObject *l_managedObject in v_originalSortedEntities) {
+		self.IFA_originalSortedEntities = [NSMutableArray arrayWithArray:[[((NSSet*) [self.managedObject valueForKey:self.propertyName]) allObjects] sortedArrayUsingDescriptors:l_sortDescriptors]];
+		for (NSManagedObject *l_managedObject in self.IFA_originalSortedEntities) {
 			@autoreleasepool {
 				NSManagedObject *l_destinationManagedObject;
-				if (v_isJoinEntity) {
-					l_destinationManagedObject = [l_managedObject valueForKey:v_destinationRelationshipName];
+				if (self.IFA_isJoinEntity) {
+					l_destinationManagedObject = [l_managedObject valueForKey:self.IFA_destinationRelationshipName];
 				}else {
 					l_destinationManagedObject = l_managedObject;
 				}
-				[v_selectedDestinationEntities addObject:l_destinationManagedObject];
-				[v_unselectedDestinationEntities removeObject:l_destinationManagedObject];
+				[self.IFA_selectedDestinationEntities addObject:l_destinationManagedObject];
+				[self.IFA_unselectedDestinationEntities removeObject:l_destinationManagedObject];
 			}
 		}
 		
-		v_flexSpaceButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemFlexibleSpace target:self
+		self.IFA_flexSpaceButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemFlexibleSpace target:self
                                                           action:nil];
-		v_selectAllButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemSelectAll target:self
+		self.IFA_selectAllButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemSelectAll target:self
                                                           action:@selector(IFA_onSelectAllButtonTap:)];
 		self.editing = YES;
 		
@@ -391,10 +387,10 @@ enum {
 	NSManagedObject *managedObject;
     UIView *l_deleteButtonView = [cell viewWithTag:k_deleteButtonTag];
 	if ([self IFA_isSelectedOptionsSection:indexPath.section]) {
-		managedObject = [v_selectedDestinationEntities objectAtIndex:(NSUInteger) indexPath.row];
+		managedObject = [self.IFA_selectedDestinationEntities objectAtIndex:(NSUInteger) indexPath.row];
         l_deleteButtonView.hidden = NO;
 	}else {
-		managedObject = [v_unselectedDestinationEntities objectAtIndex:(NSUInteger) indexPath.row];
+		managedObject = [self.IFA_unselectedDestinationEntities objectAtIndex:(NSUInteger) indexPath.row];
         l_deleteButtonView.hidden = YES;
 	}
 	cell.textLabel.text = [managedObject ifa_longDisplayValue];
@@ -407,7 +403,7 @@ enum {
 }
 
 - (NSArray*)ifa_editModeToolbarItems {
-	return @[self.selectNoneButtonItem, v_flexSpaceButtonItem, v_selectAllButtonItem];
+	return @[self.selectNoneButtonItem, self.IFA_flexSpaceButtonItem, self.IFA_selectAllButtonItem];
 }
 
 -(void)done{
@@ -428,8 +424,8 @@ enum {
 
 - (void) updateUiState{
 	[super updateUiState];
-	self.selectNoneButtonItem.enabled = [v_selectedDestinationEntities count]>0;
-	v_selectAllButtonItem.enabled = [v_unselectedDestinationEntities count]>0;
+	self.selectNoneButtonItem.enabled = [self.IFA_selectedDestinationEntities count]>0;
+	self.IFA_selectAllButtonItem.enabled = [self.IFA_unselectedDestinationEntities count]>0;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -437,7 +433,7 @@ enum {
     [super viewWillAppear:animated];
     
     // Disable user interaction while data is being refreshed asynchronously
-    v_selectAllButtonItem.enabled = NO;
+    self.IFA_selectAllButtonItem.enabled = NO;
     
 }
 
@@ -466,10 +462,10 @@ enum {
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView{
 	NSInteger l_numberOfSections = 0;
-	if ([v_selectedDestinationEntities count]>0) {
+	if ([self.IFA_selectedDestinationEntities count]>0) {
 		l_numberOfSections++;
 	}
-	if ([v_unselectedDestinationEntities count]>0) {
+	if ([self.IFA_unselectedDestinationEntities count]>0) {
 		l_numberOfSections++;
 	}
 	return l_numberOfSections;
@@ -477,33 +473,33 @@ enum {
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 	if ([self IFA_isSelectedOptionsSection:section]) {
-		return [v_selectedDestinationEntities count];
+		return [self.IFA_selectedDestinationEntities count];
 	}else {
-		return [v_unselectedDestinationEntities count];
+		return [self.IFA_unselectedDestinationEntities count];
 	}
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
 	NSArray *l_managedObjects;
 	if (editingStyle==UITableViewCellEditingStyleInsert) {
-		l_managedObjects = @[[v_unselectedDestinationEntities objectAtIndex:(NSUInteger) indexPath.row]];
+		l_managedObjects = @[[self.IFA_unselectedDestinationEntities objectAtIndex:(NSUInteger) indexPath.row]];
 	}else {
-		l_managedObjects = @[[v_selectedDestinationEntities objectAtIndex:(NSUInteger) indexPath.row]];
+		l_managedObjects = @[[self.IFA_selectedDestinationEntities objectAtIndex:(NSUInteger) indexPath.row]];
 	}
     [self IFA_handleUserSelectionForManagedObjects:l_managedObjects
                                           isAdding:editingStyle == UITableViewCellEditingStyleInsert];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
-	return v_isJoinEntity && [self IFA_isSelectedOptionsSection:indexPath.section];
+	return self.IFA_isJoinEntity && [self IFA_isSelectedOptionsSection:indexPath.section];
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath{
 
-	NSManagedObject *fromManagedObject = [v_selectedDestinationEntities objectAtIndex:(NSUInteger) fromIndexPath.row];
-	NSManagedObject *toManagedObject = [v_selectedDestinationEntities objectAtIndex:(NSUInteger) toIndexPath.row];
-    [v_selectedDestinationEntities replaceObjectAtIndex:(NSUInteger) toIndexPath.row withObject:fromManagedObject];
-    [v_selectedDestinationEntities replaceObjectAtIndex:(NSUInteger) fromIndexPath.row withObject:toManagedObject];
+	NSManagedObject *fromManagedObject = [self.IFA_selectedDestinationEntities objectAtIndex:(NSUInteger) fromIndexPath.row];
+	NSManagedObject *toManagedObject = [self.IFA_selectedDestinationEntities objectAtIndex:(NSUInteger) toIndexPath.row];
+    [self.IFA_selectedDestinationEntities replaceObjectAtIndex:(NSUInteger) toIndexPath.row withObject:fromManagedObject];
+    [self.IFA_selectedDestinationEntities replaceObjectAtIndex:(NSUInteger) fromIndexPath.row withObject:toManagedObject];
     [self IFA_updateModel];
 
     [self reloadMovedCellAtIndexPath:toIndexPath];

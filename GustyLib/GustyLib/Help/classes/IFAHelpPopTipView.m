@@ -32,12 +32,10 @@
 @property (strong, nonatomic) UITapGestureRecognizer *IFA_tapGestureRecognizer;
 @property (strong, nonatomic) void (^IFA_completionBlock)(void);
 
+@property(nonatomic) BOOL IFA_maximised;
 @end
 
-@implementation IFAHelpPopTipView {
-    @private
-    BOOL v_maximised;
-}
+@implementation IFAHelpPopTipView
 
 #pragma mark - Private
 
@@ -60,14 +58,14 @@
 #pragma mark - Public
 
 -(void)setMaximised:(BOOL)a_maximised{
-    v_maximised = a_maximised;
+    self.IFA_maximised = a_maximised;
     // Recalculate web view frame
     CGRect l_webViewFrame = self.IFA_webView.frame;
     self.IFA_webView.frame = CGRectMake(l_webViewFrame.origin.x, l_webViewFrame.origin.y, [self IFA_calculateWidth], l_webViewFrame.size.height);
 }
 
 -(BOOL)maximised {
-    return v_maximised;
+    return self.IFA_maximised;
 }
 
 -(void)presentWithTitle:(NSString *)a_title description:(NSString *)a_description

@@ -20,12 +20,11 @@
 
 #import "IFACommon.h"
 
-@implementation IFAAboutViewController {
-    
-    @private
-    IFAEmailManager *v_emailManager;
-    
-}
+@interface IFAAboutViewController ()
+@property(nonatomic, strong) IFAEmailManager *IFA_emailManager;
+@end
+
+@implementation IFAAboutViewController
 @synthesize copyrightNoticeLabel;
 @synthesize createdByLabel;
 @synthesize visualDesignByLabel;
@@ -58,16 +57,16 @@
 
 - (IBAction)bugReportButtonTap:(id)sender{
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nPlease fix the following bug I have found in %@:", [IFAUtils appFullName]];
-    [v_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Bug Report",
-                                                                       [IFAUtils appNameAndEdition]]
-                                  recipient:[self IFA_bugReportEmailAddress] body:l_body];
+    [self.IFA_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Bug Report",
+                                                                              [IFAUtils appNameAndEdition]]
+                                         recipient:[self IFA_bugReportEmailAddress] body:l_body];
 }
 
 - (IBAction)feedbackButtonTap:(id)sender{
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nI have the following feedback to provide for %@:", [IFAUtils appFullName]];
-    [v_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Feedback",
-                                                                       [IFAUtils appNameAndEdition]]
-                                  recipient:[self IFA_feedbackEmailAddress] body:l_body];
+    [self.IFA_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Feedback",
+                                                                              [IFAUtils appNameAndEdition]]
+                                         recipient:[self IFA_feedbackEmailAddress] body:l_body];
 }
 
 - (IBAction)forceCrashButtonTap:(id)sender {
@@ -102,7 +101,7 @@
     self.visualDesignByLabel.text = [[IFAUtils infoPList] objectForKey:@"IFAVisualDesignBy"];
     
     // Set email manager
-    v_emailManager = [[IFAEmailManager alloc] initWithParentViewController:self];
+    self.IFA_emailManager = [[IFAEmailManager alloc] initWithParentViewController:self];
 
     self.forceCrashButton.hidden = ![[[IFAUtils infoPList] objectForKey:@"IFAShowForceCrashButton"] boolValue];
 

@@ -21,19 +21,18 @@
 #import "IFACommon.h"
 
 
-@implementation IFAApplicationLogViewController{
+@interface IFAApplicationLogViewController ()
+@property(nonatomic, strong) UIBarButtonItem *IFA_deleteAllButton;
+@property(nonatomic, strong) UIBarButtonItem *IFA_refreshButton;
+@end
 
-@private
-    UIBarButtonItem *v_deleteAllButton;
-    UIBarButtonItem *v_refreshButton;
-
-}
+@implementation IFAApplicationLogViewController
 
 #pragma mark -
 #pragma mark Private
 
 - (void)onAction:(id)a_sender{
-    if (a_sender==v_deleteAllButton) {
+    if (a_sender== self.IFA_deleteAllButton) {
         [[IFAPersistenceManager sharedInstance] deleteAllForEntityAndSave:self.entityName];
     }
     [self refreshAndReloadData];
@@ -60,21 +59,21 @@
 
 - (NSArray*)ifa_nonEditModeToolbarItems {
     
-    if (!v_deleteAllButton) {
-        v_deleteAllButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(onAction:)];
+    if (!self.IFA_deleteAllButton) {
+        self.IFA_deleteAllButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(onAction:)];
     }
     
-    if (!v_refreshButton) {
-        v_refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onAction:)];
+    if (!self.IFA_refreshButton) {
+        self.IFA_refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onAction:)];
     }
 	
 	// Separator
 	UIBarButtonItem *spaceBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemFlexibleSpace
                                                                     target:nil action:nil];
 	
-	return @[v_deleteAllButton, 
-			spaceBarButtonItem, 
-			v_refreshButton];
+	return @[self.IFA_deleteAllButton, 
+			spaceBarButtonItem,
+            self.IFA_refreshButton];
 	
 }
 

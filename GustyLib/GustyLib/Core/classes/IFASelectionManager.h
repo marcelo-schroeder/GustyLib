@@ -20,18 +20,13 @@
 
 @protocol IFASelectionManagerDelegate;
 
-@interface IFASelectionManager : NSObject {
-	
-    @protected
-	id<IFASelectionManagerDelegate> __weak v_delegate;
-    
-}
+@interface IFASelectionManager : NSObject
 
 @property (nonatomic, strong) NSMutableArray *selectedObjects;
 @property (weak, nonatomic, readonly) NSArray *selectedIndexPaths;
 @property (nonatomic) BOOL allowMultipleSelection;
-
 @property(nonatomic) BOOL disallowDeselection;
+@property(nonatomic, weak) id <IFASelectionManagerDelegate> delegate;
 
 - (void)handleSelectionForIndexPath:(NSIndexPath*)a_indexPath;
 - (void)handleSelectionForIndexPath:(NSIndexPath*)a_indexPath userInfo:(NSDictionary*)a_userInfo;

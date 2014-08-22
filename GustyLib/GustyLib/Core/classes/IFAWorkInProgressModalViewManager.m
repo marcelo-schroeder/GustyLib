@@ -20,37 +20,35 @@
 
 #import "IFACommon.h"
 
+@interface IFAWorkInProgressModalViewManager ()
+@property(nonatomic, strong) id IFA_cancellationCallbackReceiver;
+@property(nonatomic) SEL IFA_cancellationCallbackSelector;
+@property(nonatomic, strong) id IFA_cancellationCallbackArgument;
+@property(nonatomic, strong) NSString *IFA_message;
+@property(nonatomic, strong) IFA_MBProgressHUD *IFA_hud;
+@end
+
 @implementation IFAWorkInProgressModalViewManager
-{
-    
-@private
-    id v_cancellationCallbackReceiver;
-    SEL v_cancellationCallbackSelector;
-    id v_cancellationCallbackArgument;
-    NSString *v_message;
-    IFA_MBProgressHUD *v_hud;
-    
-}
 
 #pragma mark - Private
 
 - (void)onCancelTap:(id)aSender{
     [self IFA_removeGestureRecogniser];
-    v_hud.mode = MBProgressHUDModeIndeterminate;
-    v_hud.labelText = @"Cancelling...";
-    v_hud.detailsLabelText = @"";
+    self.IFA_hud.mode = MBProgressHUDModeIndeterminate;
+    self.IFA_hud.labelText = @"Cancelling...";
+    self.IFA_hud.detailsLabelText = @"";
     self.hasBeenCancelled = YES;
     if (self.cancelationCompletionBlock) {
         self.cancelationCompletionBlock();
     }else{
 //    [v_cancellationCallbackReceiver performSelector:v_cancellationCallbackSelector withObject:nil];
-        objc_msgSend(v_cancellationCallbackReceiver, v_cancellationCallbackSelector, v_cancellationCallbackArgument);
+        objc_msgSend(self.IFA_cancellationCallbackReceiver, self.IFA_cancellationCallbackSelector, self.IFA_cancellationCallbackArgument);
     }
 }
 
 - (void)IFA_removeGestureRecogniser {
-    if ([v_hud.userInteractionView.gestureRecognizers count]==1) {
-        [v_hud.userInteractionView removeGestureRecognizer:[[v_hud.userInteractionView gestureRecognizers] objectAtIndex:0]];
+    if ([self.IFA_hud.userInteractionView.gestureRecognizers count]==1) {
+        [self.IFA_hud.userInteractionView removeGestureRecognizer:[[self.IFA_hud.userInteractionView gestureRecognizers] objectAtIndex:0]];
     }
 }
 
@@ -60,9 +58,9 @@
                cancellationCompletionBlock:(void (^)())a_cancellationCompletionBlock
                                    message:(NSString *)a_message {
     if((self=[super init])){
-        v_cancellationCallbackReceiver = a_callbackReceiver;
-        v_cancellationCallbackSelector = a_callbackSelector;
-        v_cancellationCallbackArgument = a_callbackArgument;
+        self.IFA_cancellationCallbackReceiver = a_callbackReceiver;
+        self.IFA_cancellationCallbackSelector = a_callbackSelector;
+        self.IFA_cancellationCallbackArgument = a_callbackArgument;
         self.cancelationCompletionBlock = a_cancellationCompletionBlock;
         self.progressMessage = a_message ? a_message : @"Work in progress...";
     }
@@ -72,30 +70,30 @@
 #pragma mark - Public
 
 -(void)setDeterminateProgress:(BOOL)determinateProgress {
-    v_hud.mode = determinateProgress ? MBProgressHUDModeDeterminate : MBProgressHUDModeIndeterminate;
+    self.IFA_hud.mode = determinateProgress ? MBProgressHUDModeDeterminate : MBProgressHUDModeIndeterminate;
 }
 
 -(BOOL)determinateProgress {
-    return v_hud.mode == MBProgressHUDModeDeterminate;
+    return self.IFA_hud.mode == MBProgressHUDModeDeterminate;
 }
 
 -(void)setDeterminateProgressPercentage:(float)determinateProgressPercentage {
-    v_hud.progress = determinateProgressPercentage;
+    self.IFA_hud.progress = determinateProgressPercentage;
 }
 
 -(float)determinateProgressPercentage {
-    return v_hud.progress;
+    return self.IFA_hud.progress;
 }
 
 -(void)setProgressMessage:(NSString *)progressMessage {
-    v_message = progressMessage;
-    if (v_hud) {
-        v_hud.labelText = v_message;
+    self.IFA_message = progressMessage;
+    if (self.IFA_hud) {
+        self.IFA_hud.labelText = self.IFA_message;
     }
 }
 
 -(NSString *)progressMessage {
-    return v_message;
+    return self.IFA_message;
 }
 
 -(id)initWithMessage:(NSString*)a_message{
@@ -155,36 +153,36 @@
     self.hasBeenCancelled = NO;
 
     // Instantiate HUD
-    v_hud = [[IFA_MBProgressHUD alloc] initWithView:a_view];
+    self.IFA_hud = [[IFA_MBProgressHUD alloc] initWithView:a_view];
     
     // Configure HUD
-    v_hud.opacity = 0.6;
-    v_hud.labelText = self.progressMessage;
-    v_hud.removeFromSuperViewOnHide = YES;
-    v_hud.animationType = MBProgressHUDAnimationFade;
-    v_hud.dimBackground = YES;
-    v_hud.mode = MBProgressHUDModeIndeterminate;
+    self.IFA_hud.opacity = 0.6;
+    self.IFA_hud.labelText = self.progressMessage;
+    self.IFA_hud.removeFromSuperViewOnHide = YES;
+    self.IFA_hud.animationType = MBProgressHUDAnimationFade;
+    self.IFA_hud.dimBackground = YES;
+    self.IFA_hud.mode = MBProgressHUDModeIndeterminate;
     
     // Allow cancellation if required
-    if (v_cancellationCallbackReceiver || self.cancelationCompletionBlock) {
+    if (self.IFA_cancellationCallbackReceiver || self.cancelationCompletionBlock) {
 
         // Set details label to indicate that cancellation is possible
-        v_hud.detailsLabelText = @"Tap to cancel";
+        self.IFA_hud.detailsLabelText = @"Tap to cancel";
         
         // Add tap gesture recogniser
         UITapGestureRecognizer *l_recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onCancelTap:)];
-        [v_hud.userInteractionView addGestureRecognizer:l_recognizer];
+        [self.IFA_hud.userInteractionView addGestureRecognizer:l_recognizer];
         
     }
 
     // Run HUD configuration block if required
     if (a_hudConfigurationBlock) {
-        a_hudConfigurationBlock(v_hud);
+        a_hudConfigurationBlock(self.IFA_hud);
     }
 
     // Show HUD
-    [a_view addSubview:v_hud];
-    [v_hud show:a_animate];
+    [a_view addSubview:self.IFA_hud];
+    [self.IFA_hud show:a_animate];
     
 }
 
@@ -193,7 +191,7 @@
 }
 
 - (void)removeViewWithAnimation:(BOOL)a_animate{
-    [v_hud hide:a_animate];
+    [self.IFA_hud hide:a_animate];
     [self IFA_removeGestureRecogniser];
 }
 

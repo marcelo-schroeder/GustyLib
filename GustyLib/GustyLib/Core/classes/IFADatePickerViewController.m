@@ -32,17 +32,13 @@
 @property (nonatomic, strong) UIBarButtonItem *IFA_showTimePickerBarButtonItem;
 @property (nonatomic, strong) UILabel *IFA_dateAndTimeLabel;
 
+@property(nonatomic, strong) UIDatePicker *IFA_datePicker;
+@property(nonatomic, strong) UIDatePicker *IFA_timePicker;
+@property(nonatomic, strong) NSMutableArray *IFA_toolbarItems;
+@property(nonatomic, strong) NSNumber *IFA_seconds;
 @end
 
-@implementation IFADatePickerViewController {
-
-    @private
-	UIDatePicker *v_datePicker;
-	UIDatePicker *v_timePicker;
-    NSMutableArray *v_toolbarItems;
-	NSNumber *v_seconds;
-
-}
+@implementation IFADatePickerViewController
 
 
 static NSString * const k_valueCellId = @"valueCell";
@@ -51,14 +47,14 @@ static NSString * const k_valueCellId = @"valueCell";
 
 -(void)IFA_onDatePickerValueChanged {
     if (self.datePickerMode ==UIDatePickerModeCountDownTimer) {
-        self.IFA_countDownDuration = v_datePicker.countDownDuration;
+        self.IFA_countDownDuration = self.IFA_datePicker.countDownDuration;
     }else{
-        self.IFA_dateAndTime = v_datePicker.date;
+        self.IFA_dateAndTime = self.IFA_datePicker.date;
     }
 }
 
 -(void)IFA_onTimePickerValueChanged {
-    self.IFA_dateAndTime = v_timePicker.date;
+    self.IFA_dateAndTime = self.IFA_timePicker.date;
 }
 
 -(void)IFA_onSelectNowButtonTap:(id)aSender{
@@ -96,15 +92,15 @@ static NSString * const k_valueCellId = @"valueCell";
 }
 
 -(void)IFA_updateToolbarLabel {
-    [self IFA_updateToolbarLabelForDate:self.IFA_dateAndTime shouldShowTime:v_timePicker.hidden];
+    [self IFA_updateToolbarLabelForDate:self.IFA_dateAndTime shouldShowTime:self.IFA_timePicker.hidden];
 }
 
 -(void)IFA_onDateAndTimeToggleButtonTap:(UIBarButtonItem*)a_barButtonItem{
-    v_datePicker.hidden = v_timePicker.hidden;
-    v_timePicker.hidden = !v_datePicker.hidden;
+    self.IFA_datePicker.hidden = self.IFA_timePicker.hidden;
+    self.IFA_timePicker.hidden = !self.IFA_datePicker.hidden;
     NSMutableArray *l_tooolbarItems = [self.toolbarItems mutableCopy];
     [l_tooolbarItems removeObject:a_barButtonItem];
-    [l_tooolbarItems insertObject:(v_datePicker.hidden?self.IFA_showDatePickerBarButtonItem :self.IFA_showTimePickerBarButtonItem) atIndex:0];
+    [l_tooolbarItems insertObject:(self.IFA_datePicker.hidden?self.IFA_showDatePickerBarButtonItem :self.IFA_showTimePickerBarButtonItem) atIndex:0];
     [self IFA_updateToolbarLabel];
     [self setToolbarItems:l_tooolbarItems animated:YES];
 }
@@ -211,29 +207,29 @@ static NSString * const k_valueCellId = @"valueCell";
 
         if (self.showTimePicker) {
             
-            v_timePicker = [self newDatePickerForProperty:aPropertyName inObject:anObject pickerMode:UIDatePickerModeTime];
+            self.IFA_timePicker = [self newDatePickerForProperty:aPropertyName inObject:anObject pickerMode:UIDatePickerModeTime];
 //            v_timePicker.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
-            v_timePicker.hidden = YES;
-            [v_timePicker addTarget:self action:@selector(IFA_onTimePickerValueChanged)
-                   forControlEvents:UIControlEventValueChanged];
+            self.IFA_timePicker.hidden = YES;
+            [self.IFA_timePicker addTarget:self action:@selector(IFA_onTimePickerValueChanged)
+                          forControlEvents:UIControlEventValueChanged];
 
         }
 
-        v_datePicker = [self newDatePickerForProperty:aPropertyName inObject:anObject pickerMode:self.datePickerMode];
+        self.IFA_datePicker = [self newDatePickerForProperty:aPropertyName inObject:anObject pickerMode:self.datePickerMode];
 //        v_datePicker.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
-        v_datePicker.hidden = NO;
-        [v_datePicker addTarget:self action:@selector(IFA_onDatePickerValueChanged)
-               forControlEvents:UIControlEventValueChanged];
+        self.IFA_datePicker.hidden = NO;
+        [self.IFA_datePicker addTarget:self action:@selector(IFA_onDatePickerValueChanged)
+                      forControlEvents:UIControlEventValueChanged];
         
         // Customise toolbar items
-        v_toolbarItems = [NSMutableArray arrayWithArray:[self IFA_datePickerToolbarItemsForProperty:aPropertyName
+        self.IFA_toolbarItems = [NSMutableArray arrayWithArray:[self IFA_datePickerToolbarItemsForProperty:aPropertyName
                                                                                            inObject:anObject
                                                                                              target:self]];
         if (self.showTimePicker) {
 
-            NSAssert([v_toolbarItems count]==3, @"Unexpected array count: %u", [v_toolbarItems count]);
+            NSAssert([self.IFA_toolbarItems count]==3, @"Unexpected array count: %u", [self.IFA_toolbarItems count]);
 
-            UIBarButtonItem *l_flexibleSpace = [v_toolbarItems objectAtIndex:1];
+            UIBarButtonItem *l_flexibleSpace = [self.IFA_toolbarItems objectAtIndex:1];
 
             self.IFA_showDatePickerBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Calendar-Month.png"]
                                                                                   style:UIBarButtonItemStylePlain
@@ -258,10 +254,10 @@ static NSString * const k_valueCellId = @"valueCell";
             self.IFA_dateAndTimeLabel.textAlignment = NSTextAlignmentCenter;
             
             UIBarButtonItem *l_dateAndTimeBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.IFA_dateAndTimeLabel];
-            [v_toolbarItems removeObject:l_flexibleSpace];
-            [v_toolbarItems insertObject:self.IFA_showTimePickerBarButtonItem atIndex:0];
-            [v_toolbarItems insertObject:l_dateAndTimeBarButtonItem atIndex:1];
-            [v_toolbarItems insertObject:l_flexibleSpace atIndex:2];
+            [self.IFA_toolbarItems removeObject:l_flexibleSpace];
+            [self.IFA_toolbarItems insertObject:self.IFA_showTimePickerBarButtonItem atIndex:0];
+            [self.IFA_toolbarItems insertObject:l_dateAndTimeBarButtonItem atIndex:1];
+            [self.IFA_toolbarItems insertObject:l_flexibleSpace atIndex:2];
 
         }
         
@@ -275,12 +271,12 @@ static NSString * const k_valueCellId = @"valueCell";
 
         NSDictionary *l_options = [[IFAPersistenceManager sharedInstance].entityConfig optionsForProperty:self.propertyName
                                                                                                 inObject:self.object];
-        v_seconds = [l_options objectForKey:@"seconds"];
+        self.IFA_seconds = [l_options objectForKey:@"seconds"];
         
         // Configure view
-        [self.view addSubview:v_datePicker];
-        [self.view addSubview:v_timePicker];
-        self.view.frame = v_datePicker.frame;
+        [self.view addSubview:self.IFA_datePicker];
+        [self.view addSubview:self.IFA_timePicker];
+        self.view.frame = self.IFA_datePicker.frame;
 
     }
 
@@ -300,7 +296,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IFAPresenter>
 }
 
 - (NSArray*)ifa_editModeToolbarItems {
-    return v_toolbarItems;
+    return self.IFA_toolbarItems;
 }
 
 -(id)editedValue {
@@ -335,20 +331,20 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IFAPresenter>
     
     if (self.datePickerMode ==UIDatePickerModeCountDownTimer) {
 
-        v_datePicker.countDownDuration = self.IFA_countDownDuration;
+        self.IFA_datePicker.countDownDuration = self.IFA_countDownDuration;
     
     }else {
 
-        if (v_seconds) {
+        if (self.IFA_seconds) {
             unsigned l_unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
             NSDateComponents *l_dateComponents = [[NSCalendar ifa_threadSafeCalendar] components:l_unitFlags
                                                                                         fromDate:self.IFA_dateAndTime];
-            [l_dateComponents setSecond:[v_seconds intValue]];
+            [l_dateComponents setSecond:[self.IFA_seconds intValue]];
             _IFA_dateAndTime = [[NSCalendar ifa_threadSafeCalendar] dateFromComponents:l_dateComponents];
         }
         
-        v_datePicker.date = self.IFA_dateAndTime;
-        v_timePicker.date = self.IFA_dateAndTime;
+        self.IFA_datePicker.date = self.IFA_dateAndTime;
+        self.IFA_timePicker.date = self.IFA_dateAndTime;
 
         [self IFA_updateToolbarLabel];
 

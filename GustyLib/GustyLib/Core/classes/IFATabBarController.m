@@ -25,12 +25,11 @@
 #import "UIBarItem+IFAHelp.h"
 #endif
 
-@implementation IFATabBarController{
+@interface IFATabBarController ()
+@property(nonatomic, strong) UIViewController *IFA_previousViewController;
+@end
 
-@private
-    UIViewController *v_previousViewController;
-
-}
+@implementation IFATabBarController
 
 #pragma mark - Private
 
@@ -118,10 +117,10 @@
 //        NSLog(@"[l_navigationController.viewControllers count]: %u", [l_navigationController.viewControllers count]);
 //        NSLog(@"[l_navigationController.topViewController description]: %@", [l_navigationController.topViewController description]);
 //    }
-    if (v_previousViewController && [v_previousViewController isKindOfClass:[UINavigationController class]]) {
+    if (self.IFA_previousViewController && [self.IFA_previousViewController isKindOfClass:[UINavigationController class]]) {
         // If the previously selected view controller is a navigation controller then make sure to pop to its root view controller
         //  in order to minimise memory requirements and avoid complications with entities being changed somewhere else (for now)
-        UINavigationController *l_navigationController = (UINavigationController*)v_previousViewController;
+        UINavigationController *l_navigationController = (UINavigationController*) self.IFA_previousViewController;
 //        NSLog(@"before...");
 //        NSLog(@"  [l_navigationController.viewControllers count]: %u", [l_navigationController.viewControllers count]);
 //        NSLog(@"  [l_navigationController.topViewController description]: %@", [l_navigationController.topViewController description]);
@@ -130,7 +129,7 @@
 //        NSLog(@"[l_navigationController.viewControllers count]: %u", [l_navigationController.viewControllers count]);
 //        NSLog(@"[l_navigationController.topViewController description]: %@", [l_navigationController.topViewController description]);
     }
-    v_previousViewController = viewController;
+    self.IFA_previousViewController = viewController;
     [IFAUIUtils postNavigationEventNotification];
 }
 
@@ -142,7 +141,7 @@
 
     self.customizableViewControllers = nil;
     self.delegate = self;
-    v_previousViewController = (self.viewControllers)[0];
+    self.IFA_previousViewController = (self.viewControllers)[0];
     
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self

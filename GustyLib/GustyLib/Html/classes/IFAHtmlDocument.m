@@ -21,13 +21,12 @@
 #import "IFACommon.h"
 #import "IFAHtmlDocument.h"
 
-@implementation IFAHtmlDocument {
-    
-    @private
-    NSString *v_htmlTemplateStringResourceName;
-    NSString *v_htmlStyleStringResourceName;
-    
-}
+@interface IFAHtmlDocument ()
+@property(nonatomic, strong) NSString *IFA_htmlTemplateStringResourceName;
+@property(nonatomic, strong) NSString *IFA_htmlStyleStringResourceName;
+@end
+
+@implementation IFAHtmlDocument
 
 
 #pragma mark - Overrides
@@ -39,21 +38,21 @@
 #pragma mark - Public
 
 -(NSString *)htmlTemplateStringResourceName {
-    return v_htmlTemplateStringResourceName;
+    return self.IFA_htmlTemplateStringResourceName;
 }
 
 -(void)setHtmlTemplateStringResourceName:(NSString *)a_htmlTemplateStringResourceName{
-    v_htmlTemplateStringResourceName = a_htmlTemplateStringResourceName;
-    self.htmlTemplateString = [IFAUtils stringFromResource:v_htmlTemplateStringResourceName type:nil];
+    self.IFA_htmlTemplateStringResourceName = a_htmlTemplateStringResourceName;
+    self.htmlTemplateString = [IFAUtils stringFromResource:self.IFA_htmlTemplateStringResourceName type:nil];
 }
 
 -(NSString *)htmlStyleStringResourceName {
-    return v_htmlStyleStringResourceName;
+    return self.IFA_htmlStyleStringResourceName;
 }
 
 -(void)setHtmlStyleStringResourceName:(NSString *)a_htmlStyleStringResourceName{
-    v_htmlStyleStringResourceName = a_htmlStyleStringResourceName;
-    self.htmlStyleString = v_htmlStyleStringResourceName ? [IFAUtils stringFromResource:v_htmlStyleStringResourceName
+    self.IFA_htmlStyleStringResourceName = a_htmlStyleStringResourceName;
+    self.htmlStyleString = self.IFA_htmlStyleStringResourceName ? [IFAUtils stringFromResource:self.IFA_htmlStyleStringResourceName
                                                                                    type:nil] : @"";
 }
 

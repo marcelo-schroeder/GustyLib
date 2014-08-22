@@ -30,14 +30,12 @@
 #import "UIViewController+IFAGoogleMobileAdsSupport.h"
 #endif
 
-@interface IFATableViewController (){
-    @private
-    BOOL v_initDone;
-}
+@interface IFATableViewController ()
 
 @property (nonatomic, strong) UITableView *IFA_tableView;
 @property(nonatomic, strong) NSLayoutConstraint *IFA_tableViewBottomLayoutConstraint;
 
+@property(nonatomic) BOOL IFA_initDone;
 @end
 
 @implementation IFATableViewController {
@@ -261,7 +259,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     
-    v_initDone = YES;
+    self.IFA_initDone = YES;
 
     [super viewWillAppear:animated];
     [self ifa_viewWillAppear];
@@ -386,7 +384,7 @@
         }
     }
 
-    if (v_initDone && !self.skipEditingUiStateChange) {
+    if (self.IFA_initDone && !self.skipEditingUiStateChange) {
         if (self.ifa_manageToolbar) {
             [self ifa_updateToolbarForMode:editing animated:animated];
         }else{

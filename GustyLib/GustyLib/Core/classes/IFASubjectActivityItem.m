@@ -20,7 +20,7 @@
 
 
 @interface IFASubjectActivityItem ()
-@property(nonatomic, copy) NSString *IFA_subject;
+@property(nonatomic, strong) NSString *IFA_subject;
 @end
 
 @implementation IFASubjectActivityItem {

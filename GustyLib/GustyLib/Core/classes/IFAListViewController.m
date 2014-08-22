@@ -24,9 +24,10 @@
 
 @property (nonatomic, strong) dispatch_block_t pagingContainerChildRefreshAndReloadDataAsynchronousBlock;
 @property (nonatomic) BOOL refreshAndReloadDataRequested;
-@property (nonatomic, strong) IFA_MBProgressHUD *IFA_hud;
-@property(nonatomic, strong) void (^p_sectionDataBlock)(NSString *, NSObject *, NSArray *, NSMutableArray *, NSMutableArray *);
 @property (nonatomic, strong) NSString *listGroupedBy;
+
+@property (nonatomic, strong) IFA_MBProgressHUD *IFA_hud;
+@property(nonatomic, strong) void (^IFA_sectionDataBlock)(NSString *, NSObject *, NSArray *, NSMutableArray *, NSMutableArray *);
 
 @end
 
@@ -300,7 +301,7 @@
                     if (l_firstTime) {
                         l_firstTime = NO;
                     } else {
-                        self.p_sectionDataBlock(self.listGroupedBy, l_previousSectionObject, l_sectionRows, self.sectionHeaderTitles, self.sectionsWithRows);
+                        self.IFA_sectionDataBlock(self.listGroupedBy, l_previousSectionObject, l_sectionRows, self.sectionHeaderTitles, self.sectionsWithRows);
                         l_sectionRows = [NSMutableArray new];
                     }
                     l_previousSectionObject = l_currentSectionObject;
@@ -309,7 +310,7 @@
             }
         }
         if (!l_firstTime) {
-            self.p_sectionDataBlock(self.listGroupedBy, l_previousSectionObject, l_sectionRows, self.sectionHeaderTitles, self.sectionsWithRows);
+            self.IFA_sectionDataBlock(self.listGroupedBy, l_previousSectionObject, l_sectionRows, self.sectionHeaderTitles, self.sectionsWithRows);
         }
 
     } else {
@@ -416,7 +417,7 @@
     
     // Instantiate block that will provide table section data
     NSString *l_entityName = self.entityName;
-    self.p_sectionDataBlock = ^(NSString *a_sectionGroupedBy, NSObject *a_sectionObject, NSArray *a_sectionRows, NSMutableArray *a_sectionHeaderTitles, NSMutableArray *a_sectionsWithRows){
+    self.IFA_sectionDataBlock = ^(NSString *a_sectionGroupedBy, NSObject *a_sectionObject, NSArray *a_sectionRows, NSMutableArray *a_sectionHeaderTitles, NSMutableArray *a_sectionsWithRows){
         NSString *l_sectionHeaderTitle = nil;
         if (a_sectionObject == [NSNull null]) {
             NSString *l_relatedEntityName = [[IFAPersistenceManager sharedInstance].entityConfig entityNameForProperty:a_sectionGroupedBy inEntity:l_entityName];

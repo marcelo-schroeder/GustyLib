@@ -64,12 +64,6 @@
 
 @interface IFAHelpManager ()
 
-@property (nonatomic, readonly, strong) IFAHelpModeOverlayView *IFA_helpModeOverlayView;
-@property (nonatomic, readonly, strong) UIView *IFA_userInteractionBlockingView;
-@property (nonatomic, readonly, strong) UITapGestureRecognizer *IFA_mainViewCatchAllGestureRecogniser;
-@property (nonatomic, readonly, strong) UITapGestureRecognizer *IFA_navigationBarCatchAllGestureRecogniser;
-@property (nonatomic, readonly, strong) UITapGestureRecognizer *IFA_toolbarCatchAllGestureRecogniser;
-
 @property (nonatomic, strong) NSMutableArray *IFA_helpTargets;
 @property (nonatomic, strong) NSMutableArray *IFA_helpTargetSavedStates;
 @property (nonatomic, strong) NSMutableArray *IFA_tabBarItemProxyViews;
@@ -88,16 +82,14 @@
 @property (nonatomic) BOOL helpMode;
 @property (nonatomic) BOOL IFA_savedHidesBackButton;
 
+@property(nonatomic, strong) IFAHelpModeOverlayView *IFA_helpModeOverlayView;
+@property(nonatomic, strong) UIView *IFA_userInteractionBlockingView;
+@property(nonatomic, strong) UITapGestureRecognizer *IFA_mainViewCatchAllGestureRecogniser;
+@property(nonatomic, strong) UITapGestureRecognizer *IFA_navigationBarCatchAllGestureRecogniser;
+@property(nonatomic, strong) UITapGestureRecognizer *IFA_toolbarCatchAllGestureRecogniser;
 @end
 
-@implementation IFAHelpManager {
-    @private
-    IFAHelpModeOverlayView *v_helpModeOverlayView;
-    UIView *v_userInteractionBlockingView;
-    UITapGestureRecognizer *v_mainViewCatchAllGestureRecogniser;
-    UITapGestureRecognizer *v_navigationBarCatchAllGestureRecogniser;
-    UITapGestureRecognizer *v_toolbarCatchAllGestureRecogniser;
-}
+@implementation IFAHelpManager
 
 
 #pragma mark - Private
@@ -115,18 +107,18 @@
 }
 
 -(IFAHelpModeOverlayView *)IFA_helpModeOverlayView {
-    if (!v_helpModeOverlayView) {
-        v_helpModeOverlayView = [IFAHelpModeOverlayView new];
+    if (!self.IFA_helpModeOverlayView) {
+        self.IFA_helpModeOverlayView = [IFAHelpModeOverlayView new];
     }
-    return v_helpModeOverlayView;
+    return self.IFA_helpModeOverlayView;
 }
 
 -(UIView *)IFA_userInteractionBlockingView {
-    if (!v_userInteractionBlockingView) {
-        v_userInteractionBlockingView = [UIView new];
+    if (!self.IFA_userInteractionBlockingView) {
+        self.IFA_userInteractionBlockingView = [UIView new];
 //        v_userInteractionBlockingView.backgroundColor = [UIColor redColor];
     }
-    return v_userInteractionBlockingView;
+    return self.IFA_userInteractionBlockingView;
 }
 
 /*
@@ -428,30 +420,30 @@
 }
 
 -(UITapGestureRecognizer *)IFA_mainViewCatchAllGestureRecogniser {
-    if (!v_mainViewCatchAllGestureRecogniser) {
-        v_mainViewCatchAllGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self
+    if (!self.IFA_mainViewCatchAllGestureRecogniser) {
+        self.IFA_mainViewCatchAllGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                       action:@selector(IFA_onCatchAllGestureRecogniserTap:)];
-        v_mainViewCatchAllGestureRecogniser.cancelsTouchesInView = NO;
+        self.IFA_mainViewCatchAllGestureRecogniser.cancelsTouchesInView = NO;
     }
-    return v_mainViewCatchAllGestureRecogniser;
+    return self.IFA_mainViewCatchAllGestureRecogniser;
 }
 
 -(UITapGestureRecognizer *)IFA_navigationBarCatchAllGestureRecogniser {
-    if (!v_navigationBarCatchAllGestureRecogniser) {
-        v_navigationBarCatchAllGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self
+    if (!self.IFA_navigationBarCatchAllGestureRecogniser) {
+        self.IFA_navigationBarCatchAllGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                            action:@selector(IFA_onCatchAllGestureRecogniserTap:)];
-        v_navigationBarCatchAllGestureRecogniser.cancelsTouchesInView = NO;
+        self.IFA_navigationBarCatchAllGestureRecogniser.cancelsTouchesInView = NO;
     }
-    return v_navigationBarCatchAllGestureRecogniser;
+    return self.IFA_navigationBarCatchAllGestureRecogniser;
 }
 
 -(UITapGestureRecognizer *)IFA_toolbarCatchAllGestureRecogniser {
-    if (!v_toolbarCatchAllGestureRecogniser) {
-        v_toolbarCatchAllGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self
+    if (!self.IFA_toolbarCatchAllGestureRecogniser) {
+        self.IFA_toolbarCatchAllGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                      action:@selector(IFA_onCatchAllGestureRecogniserTap:)];
-        v_toolbarCatchAllGestureRecogniser.cancelsTouchesInView = NO;
+        self.IFA_toolbarCatchAllGestureRecogniser.cancelsTouchesInView = NO;
     }
-    return v_toolbarCatchAllGestureRecogniser;
+    return self.IFA_toolbarCatchAllGestureRecogniser;
 }
 
 -(void)IFA_addHelpTargets {

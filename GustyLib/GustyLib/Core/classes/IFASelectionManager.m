@@ -31,7 +31,7 @@
 
 - (id)initWithSelectionManagerDelegate:(id<IFASelectionManagerDelegate>)a_delegate selectedObjects:(NSArray *)a_selectedObjects{
 	if ((self=[super init])) {
-		v_delegate = a_delegate;
+		self.delegate = a_delegate;
         self.allowMultipleSelection = NO;
 		self.selectedObjects = [NSMutableArray arrayWithArray:a_selectedObjects];
 	}
@@ -51,7 +51,7 @@
 	id l_previousSelectedObject = nil;
 	id l_selectedObject = nil;
     if (self.allowMultipleSelection) {
-        id l_targetObject = [v_delegate selectionManagerObjectForIndexPath:a_indexPath];
+        id l_targetObject = [self.delegate selectionManagerObjectForIndexPath:a_indexPath];
         if ([self.selectedObjects containsObject:l_targetObject]) {
             l_previousSelectedIndexPath = a_indexPath;
             l_previousSelectedObject = l_targetObject;
@@ -64,13 +64,14 @@
             l_previousSelectedObject = [self.selectedObjects objectAtIndex:0];
         }
         if ([self.selectedIndexPaths count]==0 || ![l_previousSelectedIndexPath isEqual:a_indexPath]) {
-            l_selectedObject = [v_delegate selectionManagerObjectForIndexPath:a_indexPath];
+            l_selectedObject = [self.delegate selectionManagerObjectForIndexPath:a_indexPath];
         }
         if (self.disallowDeselection && [l_previousSelectedIndexPath compare:a_indexPath] == NSOrderedSame) {
             // Run delegate's handler
-            [v_delegate onSelection:l_selectedObject deselectedObject:l_previousSelectedObject indexPath:a_indexPath userInfo:a_userInfo];
+            [self.delegate onSelection:l_selectedObject deselectedObject:l_previousSelectedObject indexPath:a_indexPath
+                              userInfo:a_userInfo];
             // Deselect row (UITableView's default visual indication only)
-            [[v_delegate selectionTableView] deselectRowAtIndexPath:a_indexPath animated:YES];
+            [[self.delegate selectionTableView] deselectRowAtIndexPath:a_indexPath animated:YES];
             return;
         }
     }
@@ -82,25 +83,26 @@
 //        NSLog(@"l_previousSelectedIndex: %u", l_previousSelectedIndex);
 		NSIndexPath *oldIndexPath = l_previousSelectedIndexPath;
 //        NSLog(@"oldIndexPath: %u", oldIndexPath.row);
-		UITableViewCell *oldCell = [[v_delegate selectionTableView] cellForRowAtIndexPath:oldIndexPath];
-		[v_delegate decorateSelectionForCell:oldCell selected:NO targetObject:l_previousSelectedObject];
+		UITableViewCell *oldCell = [[self.delegate selectionTableView] cellForRowAtIndexPath:oldIndexPath];
+		[self.delegate decorateSelectionForCell:oldCell selected:NO targetObject:l_previousSelectedObject];
 	}
 
 	// New cell
 	if (l_selectedObject) {
-		UITableViewCell *newCell = [[v_delegate selectionTableView] cellForRowAtIndexPath:a_indexPath];
-		[v_delegate decorateSelectionForCell:newCell selected:YES targetObject:l_selectedObject];
-        [self.selectedObjects addObject:[v_delegate selectionManagerObjectForIndexPath:a_indexPath]];
+		UITableViewCell *newCell = [[self.delegate selectionTableView] cellForRowAtIndexPath:a_indexPath];
+		[self.delegate decorateSelectionForCell:newCell selected:YES targetObject:l_selectedObject];
+        [self.selectedObjects addObject:[self.delegate selectionManagerObjectForIndexPath:a_indexPath]];
 	}
 
     // Remove previous selection
     [self.selectedObjects removeObject:l_previousSelectedObject];
 	
     // Run delegate's handler
-	[v_delegate onSelection:l_selectedObject deselectedObject:l_previousSelectedObject indexPath:a_indexPath userInfo:a_userInfo];
+	[self.delegate onSelection:l_selectedObject deselectedObject:l_previousSelectedObject indexPath:a_indexPath
+                      userInfo:a_userInfo];
 	
     // Deselect row (UITableView's default visual indication only)
-	[[v_delegate selectionTableView] deselectRowAtIndexPath:a_indexPath animated:YES];
+	[[self.delegate selectionTableView] deselectRowAtIndexPath:a_indexPath animated:YES];
 
 }
 
@@ -117,7 +119,7 @@
 - (NSArray*)selectedIndexPaths {
     NSMutableArray *l_selectedIndexPaths = [[NSMutableArray alloc] init];
     for (id l_selectedObject in self.selectedObjects) {
-        NSIndexPath *l_selectedIndexPath = [v_delegate selectionManagerIndexPathForObject:l_selectedObject];
+        NSIndexPath *l_selectedIndexPath = [self.delegate selectionManagerIndexPathForObject:l_selectedObject];
         if (l_selectedIndexPath) {
             [l_selectedIndexPaths addObject:l_selectedIndexPath];
         }
