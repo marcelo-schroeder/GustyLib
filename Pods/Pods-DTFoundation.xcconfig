@@ -1,2 +1,2 @@
 PODS_DTFOUNDATION_HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2"
-PODS_DTFOUNDATION_OTHER_LDFLAGS = -lsqlite3 -lxml2 -lz -framework MobileCoreServices -framework QuartzCore -framework SystemConfiguration
+PODS_DTFOUNDATION_OTHER_LDFLAGS = -lsqlite3 -lxml2 -lz -framework ImageIO -framework MobileCoreServices -framework QuartzCore -framework SystemConfiguration

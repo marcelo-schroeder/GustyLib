@@ -10,85 +10,91 @@
 #define COCOAPODS_POD_AVAILABLE_DTFoundation
 #define COCOAPODS_VERSION_MAJOR_DTFoundation 1
 #define COCOAPODS_VERSION_MINOR_DTFoundation 7
-#define COCOAPODS_VERSION_PATCH_DTFoundation 0
+#define COCOAPODS_VERSION_PATCH_DTFoundation 2
 
 // DTFoundation/Core
 #define COCOAPODS_POD_AVAILABLE_DTFoundation_Core
 #define COCOAPODS_VERSION_MAJOR_DTFoundation_Core 1
 #define COCOAPODS_VERSION_MINOR_DTFoundation_Core 7
-#define COCOAPODS_VERSION_PATCH_DTFoundation_Core 0
+#define COCOAPODS_VERSION_PATCH_DTFoundation_Core 2
 
 // DTFoundation/DTASN1
 #define COCOAPODS_POD_AVAILABLE_DTFoundation_DTASN1
 #define COCOAPODS_VERSION_MAJOR_DTFoundation_DTASN1 1
 #define COCOAPODS_VERSION_MINOR_DTFoundation_DTASN1 7
-#define COCOAPODS_VERSION_PATCH_DTFoundation_DTASN1 0
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTASN1 2
 
 // DTFoundation/DTAWS
 #define COCOAPODS_POD_AVAILABLE_DTFoundation_DTAWS
 #define COCOAPODS_VERSION_MAJOR_DTFoundation_DTAWS 1
 #define COCOAPODS_VERSION_MINOR_DTFoundation_DTAWS 7
-#define COCOAPODS_VERSION_PATCH_DTFoundation_DTAWS 0
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTAWS 2
+
+// DTFoundation/DTAnimatedGIF
+#define COCOAPODS_POD_AVAILABLE_DTFoundation_DTAnimatedGIF
+#define COCOAPODS_VERSION_MAJOR_DTFoundation_DTAnimatedGIF 1
+#define COCOAPODS_VERSION_MINOR_DTFoundation_DTAnimatedGIF 7
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTAnimatedGIF 2
 
 // DTFoundation/DTHTMLParser
 #define COCOAPODS_POD_AVAILABLE_DTFoundation_DTHTMLParser
 #define COCOAPODS_VERSION_MAJOR_DTFoundation_DTHTMLParser 1
 #define COCOAPODS_VERSION_MINOR_DTFoundation_DTHTMLParser 7
-#define COCOAPODS_VERSION_PATCH_DTFoundation_DTHTMLParser 0
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTHTMLParser 2
 
 // DTFoundation/DTProgressHUD
 #define COCOAPODS_POD_AVAILABLE_DTFoundation_DTProgressHUD
 #define COCOAPODS_VERSION_MAJOR_DTFoundation_DTProgressHUD 1
 #define COCOAPODS_VERSION_MINOR_DTFoundation_DTProgressHUD 7
-#define COCOAPODS_VERSION_PATCH_DTFoundation_DTProgressHUD 0
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTProgressHUD 2
 
 // DTFoundation/DTReachability
 #define COCOAPODS_POD_AVAILABLE_DTFoundation_DTReachability
 #define COCOAPODS_VERSION_MAJOR_DTFoundation_DTReachability 1
 #define COCOAPODS_VERSION_MINOR_DTFoundation_DTReachability 7
-#define COCOAPODS_VERSION_PATCH_DTFoundation_DTReachability 0
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTReachability 2
 
 // DTFoundation/DTSQLite
 #define COCOAPODS_POD_AVAILABLE_DTFoundation_DTSQLite
 #define COCOAPODS_VERSION_MAJOR_DTFoundation_DTSQLite 1
 #define COCOAPODS_VERSION_MINOR_DTFoundation_DTSQLite 7
-#define COCOAPODS_VERSION_PATCH_DTFoundation_DTSQLite 0
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTSQLite 2
 
 // DTFoundation/DTSidePanel
 #define COCOAPODS_POD_AVAILABLE_DTFoundation_DTSidePanel
 #define COCOAPODS_VERSION_MAJOR_DTFoundation_DTSidePanel 1
 #define COCOAPODS_VERSION_MINOR_DTFoundation_DTSidePanel 7
-#define COCOAPODS_VERSION_PATCH_DTFoundation_DTSidePanel 0
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTSidePanel 2
 
 // DTFoundation/DTUTI
 #define COCOAPODS_POD_AVAILABLE_DTFoundation_DTUTI
 #define COCOAPODS_VERSION_MAJOR_DTFoundation_DTUTI 1
 #define COCOAPODS_VERSION_MINOR_DTFoundation_DTUTI 7
-#define COCOAPODS_VERSION_PATCH_DTFoundation_DTUTI 0
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTUTI 2
 
 // DTFoundation/DTZipArchive
 #define COCOAPODS_POD_AVAILABLE_DTFoundation_DTZipArchive
 #define COCOAPODS_VERSION_MAJOR_DTFoundation_DTZipArchive 1
 #define COCOAPODS_VERSION_MINOR_DTFoundation_DTZipArchive 7
-#define COCOAPODS_VERSION_PATCH_DTFoundation_DTZipArchive 0
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTZipArchive 2
 
 // DTFoundation/DTZipArchive/Minizip
 #define COCOAPODS_POD_AVAILABLE_DTFoundation_DTZipArchive_Minizip
 #define COCOAPODS_VERSION_MAJOR_DTFoundation_DTZipArchive_Minizip 1
 #define COCOAPODS_VERSION_MINOR_DTFoundation_DTZipArchive_Minizip 7
-#define COCOAPODS_VERSION_PATCH_DTFoundation_DTZipArchive_Minizip 0
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTZipArchive_Minizip 2
 
 // DTFoundation/UIKit
 #define COCOAPODS_POD_AVAILABLE_DTFoundation_UIKit
 #define COCOAPODS_VERSION_MAJOR_DTFoundation_UIKit 1
 #define COCOAPODS_VERSION_MINOR_DTFoundation_UIKit 7
-#define COCOAPODS_VERSION_PATCH_DTFoundation_UIKit 0
+#define COCOAPODS_VERSION_PATCH_DTFoundation_UIKit 2
 
 // DTFoundation/UIKit_BlocksAdditions
 #define COCOAPODS_POD_AVAILABLE_DTFoundation_UIKit_BlocksAdditions
 #define COCOAPODS_VERSION_MAJOR_DTFoundation_UIKit_BlocksAdditions 1
 #define COCOAPODS_VERSION_MINOR_DTFoundation_UIKit_BlocksAdditions 7
-#define COCOAPODS_VERSION_PATCH_DTFoundation_UIKit_BlocksAdditions 0
+#define COCOAPODS_VERSION_PATCH_DTFoundation_UIKit_BlocksAdditions 2
 
 // FlurrySDK
 #define COCOAPODS_POD_AVAILABLE_FlurrySDK

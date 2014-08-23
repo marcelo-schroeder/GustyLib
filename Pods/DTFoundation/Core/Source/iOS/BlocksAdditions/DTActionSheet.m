@@ -27,30 +27,56 @@
 		unsigned int delegateSupportsDidPresentActionSheet:1;
 		unsigned int delegateSupportsWillDismissWithButtonIndex:1;
 		unsigned int delegateSupportsDidDismissWithButtonIndex:1;
+		unsigned int delegateSupportsClickedButtonAtIndex:1;
 	} _delegateFlags;
 	
 	BOOL _isDeallocating;
 }
 
-- (id)init 
+// designated initializer
+- (id)init
 {
-	self = [super init];
-	if (self)
-	{
-		_actionsPerIndex = [[NSMutableDictionary alloc] init];
-		self.delegate = self;
-	}
-	
-	return self;
+    self = [super init];
+    if (self)
+    {
+        _actionsPerIndex = [[NSMutableDictionary alloc] init];
+        self.delegate = self;
+        
+    }
+    return self;
 }
 
-// designated initializer
 - (id)initWithTitle:(NSString *)title
+{
+    return [self initWithTitle:title delegate:nil cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
+}
+
+- (id)initWithTitle:(NSString *)title delegate:(id<UIActionSheetDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle destructiveButtonTitle:(NSString *)destructiveButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ...
 {
 	self = [self init];
 	if (self) 
 	{
-		self.title = title;
+        self.title = title;
+        
+        if (otherButtonTitles != nil) {
+            [self addButtonWithTitle:otherButtonTitles];
+            va_list args;
+            va_start(args, otherButtonTitles);
+            NSString *title = nil;
+            while( (title = va_arg(args, NSString *)) ) {
+                [self addButtonWithTitle:title];
+            }
+            va_end(args);
+        }
+        
+        if (destructiveButtonTitle) {
+            [self addDestructiveButtonWithTitle:destructiveButtonTitle block:nil];
+        }
+        if (cancelButtonTitle) {
+            [self addCancelButtonWithTitle:cancelButtonTitle block:nil];
+        }
+
+        _externalDelegate = delegate;
 	}
 	
 	return self;
@@ -84,7 +110,12 @@
 
 - (NSInteger)addCancelButtonWithTitle:(NSString *)title
 {
-	NSInteger retIndex = [self addButtonWithTitle:title];
+    return [self addCancelButtonWithTitle:title block:nil];
+}
+
+- (NSInteger)addCancelButtonWithTitle:(NSString *)title block:(DTActionSheetBlock)block
+{
+	NSInteger retIndex = [self addButtonWithTitle:title block:block];
 	[self setCancelButtonIndex:retIndex];
 	
 	return retIndex;
@@ -124,8 +155,15 @@
 	}
 }
 
-
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+	if (_delegateFlags.delegateSupportsDidDismissWithButtonIndex)
+	{
+		[_externalDelegate actionSheet:actionSheet didDismissWithButtonIndex:buttonIndex];
+	}
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	NSNumber *key = [NSNumber numberWithInteger:buttonIndex];
 	
@@ -136,12 +174,11 @@
 		block();
 	}
 
-	if (_delegateFlags.delegateSupportsDidDismissWithButtonIndex)
+	if (_delegateFlags.delegateSupportsClickedButtonAtIndex)
 	{
-		[_externalDelegate actionSheet:actionSheet didDismissWithButtonIndex:buttonIndex];
+		[_externalDelegate actionSheet:actionSheet clickedButtonAtIndex:buttonIndex];
 	}
 }
-
 
 #pragma mark - Properties
 
@@ -201,6 +238,11 @@
 	if ([_externalDelegate respondsToSelector:@selector(actionSheet:didDismissWithButtonIndex:)])
 	{
 		_delegateFlags.delegateSupportsDidDismissWithButtonIndex = YES;
+	}
+	
+	if ([_externalDelegate respondsToSelector:@selector(actionSheet:clickedButtonAtIndex:)])
+	{
+		_delegateFlags.delegateSupportsClickedButtonAtIndex = YES;
 	}
 }
 

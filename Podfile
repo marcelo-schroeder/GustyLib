@@ -14,7 +14,7 @@ pod 'Google-Mobile-Ads-SDK'
 pod 'FlurrySDK'
 
 # Html dependencies
-pod 'DTFoundation', '1.6.2'
+pod 'DTFoundation', '1.7.2'
 pod 'MWFeedParser', '1.0.1'
 
 # Tests dependencies

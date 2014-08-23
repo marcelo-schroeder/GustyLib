@@ -1,7 +1,8 @@
 PODS:
-  - DTFoundation (1.7.0):
+  - DTFoundation (1.7.2):
     - DTFoundation/AppKit
     - DTFoundation/Core
+    - DTFoundation/DTAnimatedGIF
     - DTFoundation/DTASN1
     - DTFoundation/DTAWS
     - DTFoundation/DTHTMLParser
@@ -13,29 +14,30 @@ PODS:
     - DTFoundation/DTZipArchive
     - DTFoundation/UIKit
     - DTFoundation/UIKit_BlocksAdditions
-  - DTFoundation/Core (1.7.0)
-  - DTFoundation/DTASN1 (1.7.0):
+  - DTFoundation/Core (1.7.2)
+  - DTFoundation/DTAnimatedGIF (1.7.2)
+  - DTFoundation/DTASN1 (1.7.2):
     - DTFoundation/Core
-  - DTFoundation/DTAWS (1.7.0):
+  - DTFoundation/DTAWS (1.7.2):
     - DTFoundation/Core
-  - DTFoundation/DTHTMLParser (1.7.0):
+  - DTFoundation/DTHTMLParser (1.7.2):
     - DTFoundation/Core
-  - DTFoundation/DTProgressHUD (1.7.0):
+  - DTFoundation/DTProgressHUD (1.7.2):
     - DTFoundation/Core
     - DTFoundation/UIKit
-  - DTFoundation/DTReachability (1.7.0):
+  - DTFoundation/DTReachability (1.7.2):
     - DTFoundation/Core
-  - DTFoundation/DTSidePanel (1.7.0):
+  - DTFoundation/DTSidePanel (1.7.2):
     - DTFoundation/UIKit
-  - DTFoundation/DTSQLite (1.7.0):
+  - DTFoundation/DTSQLite (1.7.2):
     - DTFoundation/Core
-  - DTFoundation/DTUTI (1.7.0)
-  - DTFoundation/DTZipArchive (1.7.0):
+  - DTFoundation/DTUTI (1.7.2)
+  - DTFoundation/DTZipArchive (1.7.2):
     - DTFoundation/DTZipArchive/Minizip
-  - DTFoundation/DTZipArchive/Minizip (1.7.0)
-  - DTFoundation/UIKit (1.7.0):
+  - DTFoundation/DTZipArchive/Minizip (1.7.2)
+  - DTFoundation/UIKit (1.7.2):
     - DTFoundation/Core
-  - DTFoundation/UIKit_BlocksAdditions (1.7.0):
+  - DTFoundation/UIKit_BlocksAdditions (1.7.2):
     - DTFoundation/Core
   - FlurrySDK (5.0.0):
     - FlurrySDK/FlurrySDK
@@ -59,15 +61,15 @@ PODS:
   - ODRefreshControl (1.1.0)
 
 DEPENDENCIES:
-  - DTFoundation
+  - DTFoundation (= 1.7.2)
   - FlurrySDK
   - Google-Mobile-Ads-SDK
   - IFATestingSupport (from `https://bitbucket.org/marcelo_schroeder/ifatestingsupport.git`, tag `0.1.1`)
-  - MTStatusBarOverlay
-  - MWFeedParser
+  - MTStatusBarOverlay (= 0.9.1)
+  - MWFeedParser (= 1.0.1)
   - OCHamcrest
   - OCMock
-  - ODRefreshControl
+  - ODRefreshControl (= 1.1.0)
 
 EXTERNAL SOURCES:
   IFATestingSupport:
@@ -75,7 +77,7 @@ EXTERNAL SOURCES:
     :tag: 0.1.1
 
 SPEC CHECKSUMS:
-  DTFoundation: 4041af2f42fd780adaa4f7e18a4b4bc034c2b47a
+  DTFoundation: 126729614911ae7dbab3dcc1c078f189943bee66
   FlurrySDK: 1fa28436e86e533e51ab1164c43d8f3b5f8ff99f
   Google-Mobile-Ads-SDK: da74aff80d80e7451a24ab76dd422fad29911230
   IFATestingSupport: f77abed91b3bd8f12cffe6b036cfbc5da8b7e4e7
