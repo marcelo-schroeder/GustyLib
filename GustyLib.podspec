@@ -12,7 +12,6 @@ Pod::Spec.new do |s|
     s.subspec 'Core' do |ss|
         ss.source_files  = 'GustyLib/GustyLib/Core/classes/**/*.{h,m}'
         ss.resource      = 'GustyLib/GustyLib/Core/resources/**/*.*'
-        ss.dependency 'MTStatusBarOverlay', '0.9.1'
         ss.dependency 'ODRefreshControl', '1.1.0'
     end
     s.subspec 'GoogleMobileAdsSupport' do |ss|

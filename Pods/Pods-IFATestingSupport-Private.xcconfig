@@ -1,6 +1,6 @@
 #include "Pods-IFATestingSupport.xcconfig"
 FRAMEWORK_SEARCH_PATHS = ${PODS_IFATESTINGSUPPORT_FRAMEWORK_SEARCH_PATHS}
 GCC_PREPROCESSOR_DEFINITIONS = COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/IFATestingSupport" "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/DTFoundation" "${PODS_ROOT}/Headers/FlurrySDK" "${PODS_ROOT}/Headers/Google-Mobile-Ads-SDK" "${PODS_ROOT}/Headers/IFATestingSupport" "${PODS_ROOT}/Headers/MTStatusBarOverlay" "${PODS_ROOT}/Headers/MWFeedParser" "${PODS_ROOT}/Headers/OCHamcrest" "${PODS_ROOT}/Headers/OCMock" "${PODS_ROOT}/Headers/ODRefreshControl"
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/IFATestingSupport" "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/DTFoundation" "${PODS_ROOT}/Headers/FlurrySDK" "${PODS_ROOT}/Headers/Google-Mobile-Ads-SDK" "${PODS_ROOT}/Headers/IFATestingSupport" "${PODS_ROOT}/Headers/MWFeedParser" "${PODS_ROOT}/Headers/OCHamcrest" "${PODS_ROOT}/Headers/OCMock" "${PODS_ROOT}/Headers/ODRefreshControl"
 OTHER_LDFLAGS = -ObjC ${PODS_IFATESTINGSUPPORT_OTHER_LDFLAGS}
 PODS_ROOT = ${SRCROOT}

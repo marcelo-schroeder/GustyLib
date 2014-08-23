@@ -46,8 +46,6 @@
 #import "IFA_SVWebViewController.h"
 // ODRefreshControl
 #import "ODRefreshControl.h"
-// MTStatusBarOverlay
-#import "MTStatusBarOverlay.h"
 // GrowingTextView
 #import "IFA_HPGrowingTextView.h"
 

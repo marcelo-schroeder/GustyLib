@@ -120,12 +120,6 @@
 #define COCOAPODS_VERSION_MINOR_IFATestingSupport 1
 #define COCOAPODS_VERSION_PATCH_IFATestingSupport 1
 
-// MTStatusBarOverlay
-#define COCOAPODS_POD_AVAILABLE_MTStatusBarOverlay
-#define COCOAPODS_VERSION_MAJOR_MTStatusBarOverlay 0
-#define COCOAPODS_VERSION_MINOR_MTStatusBarOverlay 9
-#define COCOAPODS_VERSION_PATCH_MTStatusBarOverlay 1
-
 // MWFeedParser
 #define COCOAPODS_POD_AVAILABLE_MWFeedParser
 #define COCOAPODS_VERSION_MAJOR_MWFeedParser 1

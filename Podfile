@@ -4,7 +4,6 @@ xcodeproj 'GustyLib/GustyLib.xcodeproj'
 link_with 'GustyLibTests'
 
 # Core dependencies
-pod 'MTStatusBarOverlay', '0.9.1'
 pod 'ODRefreshControl', '1.1.0'
 
 # GoogleMobileAdsSupport dependencies

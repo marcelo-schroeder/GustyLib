@@ -21,7 +21,6 @@
 #import "GADBannerView.h"
 #import "UIViewController+IFACategory.h"
 #import "GADAdMobExtras.h"
-#import "MTStatusBarOverlay.h"
 #import "IFAGoogleMobileAdsManager.h"
 
 NSString* const IFANotificationGoogleMobileAdsSuspendRequest = @"ifa.googleMobileAdsSuspendRequest";
@@ -227,15 +226,6 @@ static char c_googleMobileAdsOwnershipSuspendedKey;
         // This can occur if ads were previously enabled but have now been disabled and the UI has not been reloaded yet
         [self ifa_stopGoogleMobileAdsRequests];
     }
-
-}
-
-- (void)adViewWillPresentScreen:(GADBannerView *)bannerView{
-
-    //    NSLog(@"adViewWillPresentScreen");
-
-    // Hides the status overlay in case it is being used
-    [[MTStatusBarOverlay sharedInstance] hide];
 
 }
 
