@@ -62,6 +62,12 @@ static char c_childManagedObjectContextCountOnViewDidLoadKey;
 
 @implementation UIViewController (IFACategory)
 
+typedef enum {
+    IFANavigationBarButtonItemsSideLeft,
+    IFANavigationBarButtonItemsSideRight,
+    IFANavigationBarButtonItemsSideNotApplicable,
+} IFANavigationBarButtonItemsSide;
+
 #pragma mark - Private
 
 - (void)IFA_presentModalSelectionViewController:(UIViewController *)a_viewController
@@ -221,45 +227,60 @@ static char c_childManagedObjectContextCountOnViewDidLoadKey;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)IFA_spaceBarButtonItems:(NSMutableArray *)a_items firstItemSpacingType:(IFASpacingBarButtonItemType)a_firstItemSpacingType{
-    
-    if (![[self ifa_appearanceTheme] shouldAutomateBarButtonItemSpacingForViewController:self]) {
-        return;
-    }
-    
+- (void)IFA_spaceBarButtonItems:(NSMutableArray *)a_items side:(IFANavigationBarButtonItemsSide)a_side
+                        barType:(IFABarButtonItemSpacingBarType)a_barType {
+
+    id <IFAAppearanceTheme> l_appearanceTheme = [self ifa_appearanceTheme];
     NSArray *l_items = [NSArray arrayWithArray:a_items];
     [a_items removeAllObjects];
-    for (int i=0; i<l_items.count; i++) {
-        UIBarButtonItem *l_spacingBarButtonItem;
+    for (NSUInteger i=0; i<l_items.count; i++) {
+        NSNumber *l_spaceWidth;
         if (i==0) {
-            l_spacingBarButtonItem = [[self ifa_appearanceTheme] spacingBarButtonItemForType:a_firstItemSpacingType
-                                                                            viewController:self];
+            BOOL l_isNavigationBarRightItemsCase = a_barType==IFABarButtonItemSpacingBarTypeNavigationBar && a_side==IFANavigationBarButtonItemsSideRight;
+            IFABarButtonItemPositionType l_position = l_isNavigationBarRightItemsCase ? IFABarButtonItemSpacingPositionRight : IFABarButtonItemSpacingPositionLeft;
+            l_spaceWidth = [l_appearanceTheme spaceBarButtonItemWidthForPosition:l_position
+                                                                         barType:a_barType
+                                                                  viewController:self];
         }else{
-            l_spacingBarButtonItem = [[self ifa_appearanceTheme] spacingBarButtonItemForType:IFASpacingBarButtonItemTypeMiddle
-                                                                            viewController:self];
+            l_spaceWidth = [l_appearanceTheme spaceBarButtonItemWidthForPosition:IFABarButtonItemSpacingPositionMiddle
+                                                                         barType:a_barType
+                                                                  viewController:self];
         }
-        if (l_spacingBarButtonItem) {
-            [a_items addObject:l_spacingBarButtonItem];
+        if (l_spaceWidth) {
+            UIBarButtonItem *l_fixedSpace = [self IFA_newCustomFixedSpaceBarButtonItemWithWidth:l_spaceWidth.floatValue];
+            [a_items addObject:l_fixedSpace];
         }
         [a_items addObject:l_items[i]];
+    }
+
+    if (a_barType==IFABarButtonItemSpacingBarTypeToolbar) {
+        NSNumber *l_spaceWidth = [l_appearanceTheme spaceBarButtonItemWidthForPosition:IFABarButtonItemSpacingPositionRight
+                                                                               barType:a_barType
+                                                                        viewController:self];
+        if (l_spaceWidth) {
+            UIBarButtonItem *l_fixedSpace = [self IFA_newCustomFixedSpaceBarButtonItemWithWidth:l_spaceWidth.floatValue];
+            [a_items addObject:l_fixedSpace];
+        }
     }
     
 }
 
--(void)IFA_removeAutomatedSpacingFromBarButtonItemArray:(NSMutableArray*)a_items{
-    
-    if (![[self ifa_appearanceTheme] shouldAutomateBarButtonItemSpacingForViewController:self]) {
-        return;
-    }
-    
+- (UIBarButtonItem *)IFA_newCustomFixedSpaceBarButtonItemWithWidth:(CGFloat)a_width {
+    UIBarButtonItem *l_fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                                          target:nil action:nil];
+    l_fixedSpace.tag = IFABarItemTagAutomatedSpacingButton;
+    l_fixedSpace.width = a_width;
+    return l_fixedSpace;
+}
+
+- (void)IFA_removeAutomatedSpacingFromBarButtonItems:(NSMutableArray *)a_items {
     NSMutableArray *l_objectsToRemove = [NSMutableArray new];
     for (UIBarButtonItem *l_barButtonItem in a_items) {
-        if (l_barButtonItem.tag== IFABarItemTagFixedSpaceButton) {
+        if (l_barButtonItem.tag== IFABarItemTagAutomatedSpacingButton) {
             [l_objectsToRemove addObject:l_barButtonItem];
         }
     }
     [a_items removeObjectsInArray:l_objectsToRemove];
-    
 }
 
 - (void)IFA_showLeftSlidingPaneButtonIfRequired {
@@ -270,7 +291,7 @@ static char c_childManagedObjectContextCountOnViewDidLoadKey;
             self.navigationController.view.layer.shadowColor = [UIColor blackColor].CGColor;
             [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
 
-            BOOL l_shouldShowMenuButton = self.navigationController.topViewController==[self.navigationController.viewControllers objectAtIndex:0];
+            BOOL l_shouldShowMenuButton = self.navigationController.topViewController== (self.navigationController.viewControllers)[0];
             if (l_shouldShowMenuButton) {
                 if (!self.IFA_slidingMenuBarButtonItem) {
                     self.IFA_slidingMenuBarButtonItem = [[self ifa_appearanceTheme] slidingMenuBarButtonItemForViewController:self];
@@ -466,7 +487,7 @@ static char c_childManagedObjectContextCountOnViewDidLoadKey;
     if (![l_navigationItem.leftBarButtonItems containsObject:a_barButtonItem] || l_fixedPositionItem) {
         
         if (l_leftBarButtonItems) {
-            [self IFA_removeAutomatedSpacingFromBarButtonItemArray:l_leftBarButtonItems];
+            [self IFA_removeAutomatedSpacingFromBarButtonItems:l_leftBarButtonItems];
         }else{
             l_leftBarButtonItems = [NSMutableArray new];
         }
@@ -509,7 +530,8 @@ static char c_childManagedObjectContextCountOnViewDidLoadKey;
         }
 
         // Bar button item spacing automation
-        [self IFA_spaceBarButtonItems:l_leftBarButtonItems firstItemSpacingType:IFASpacingBarButtonItemTypeLeft];
+        [self IFA_spaceBarButtonItems:l_leftBarButtonItems side:IFANavigationBarButtonItemsSideLeft
+                              barType:IFABarButtonItemSpacingBarTypeNavigationBar];
 
         [l_navigationItem setLeftBarButtonItems:l_leftBarButtonItems animated:NO];
 //        NSLog(@"m_insertLeftBarButtonItem - button inserted for %@, tag: %u, navigationItem.title: %@: %@", [self description], a_barButtonItem.tag, l_navigationItem.title, [l_navigationItem.leftBarButtonItems description]);
@@ -527,9 +549,10 @@ static char c_childManagedObjectContextCountOnViewDidLoadKey;
     UINavigationItem *l_navigationItem = [self ifa_navigationItem];
     NSMutableArray *l_leftBarButtonItems = [l_navigationItem.leftBarButtonItems mutableCopy];
     if (l_leftBarButtonItems) {
-        [self IFA_removeAutomatedSpacingFromBarButtonItemArray:l_leftBarButtonItems];
+        [self IFA_removeAutomatedSpacingFromBarButtonItems:l_leftBarButtonItems];
         [l_leftBarButtonItems removeObject:a_barButtonItem];
-        [self IFA_spaceBarButtonItems:l_leftBarButtonItems firstItemSpacingType:IFASpacingBarButtonItemTypeLeft];
+        [self IFA_spaceBarButtonItems:l_leftBarButtonItems side:IFANavigationBarButtonItemsSideLeft
+                              barType:IFABarButtonItemSpacingBarTypeNavigationBar];
         [l_navigationItem setLeftBarButtonItems:l_leftBarButtonItems animated:NO];
 //        NSLog(@"m_removeLeftBarButtonItem - button removed for %@: %@", l_navigationItem.title, [l_navigationItem.leftBarButtonItems description]);
     }
@@ -551,7 +574,7 @@ static char c_childManagedObjectContextCountOnViewDidLoadKey;
     if (![l_navigationItem.rightBarButtonItems containsObject:a_barButtonItem]) {
 
         if (l_rightBarButtonItems) {
-            [self IFA_removeAutomatedSpacingFromBarButtonItemArray:l_rightBarButtonItems];
+            [self IFA_removeAutomatedSpacingFromBarButtonItems:l_rightBarButtonItems];
         }else{
             l_rightBarButtonItems = [NSMutableArray new];
         }
@@ -571,7 +594,8 @@ static char c_childManagedObjectContextCountOnViewDidLoadKey;
         }
         
         // Bar button item spacing automation
-        [self IFA_spaceBarButtonItems:l_rightBarButtonItems firstItemSpacingType:IFASpacingBarButtonItemTypeRight];
+        [self IFA_spaceBarButtonItems:l_rightBarButtonItems side:IFANavigationBarButtonItemsSideRight
+                              barType:IFABarButtonItemSpacingBarTypeNavigationBar];
 
         [l_navigationItem setRightBarButtonItems:l_rightBarButtonItems animated:NO];
         //        NSLog(@"m_insertRightBarButtonItem - button inserted for %@, navigationItem.title: %@: %@", [self description], l_navigationItem.title, [l_navigationItem.rightBarButtonItems description]);
@@ -589,9 +613,10 @@ static char c_childManagedObjectContextCountOnViewDidLoadKey;
     UINavigationItem *l_navigationItem = [self ifa_navigationItem];
     NSMutableArray *l_rightBarButtonItems = [l_navigationItem.rightBarButtonItems mutableCopy];
     if (l_rightBarButtonItems) {
-        [self IFA_removeAutomatedSpacingFromBarButtonItemArray:l_rightBarButtonItems];
+        [self IFA_removeAutomatedSpacingFromBarButtonItems:l_rightBarButtonItems];
         [l_rightBarButtonItems removeObject:a_barButtonItem];
-        [self IFA_spaceBarButtonItems:l_rightBarButtonItems firstItemSpacingType:IFASpacingBarButtonItemTypeRight];
+        [self IFA_spaceBarButtonItems:l_rightBarButtonItems side:IFANavigationBarButtonItemsSideRight
+                              barType:IFABarButtonItemSpacingBarTypeNavigationBar];
         [l_navigationItem setRightBarButtonItems:l_rightBarButtonItems animated:NO];
         //        NSLog(@"m_removeRightBarButtonItem - button removed for %@: %@", l_navigationItem.title, [l_navigationItem.rightBarButtonItems description]);
     }
@@ -599,18 +624,18 @@ static char c_childManagedObjectContextCountOnViewDidLoadKey;
 }
 
 -(BOOL)ifa_isMasterViewController {
-    return [self.splitViewController.viewControllers objectAtIndex:0]==self.navigationController && self.navigationController.viewControllers[0]==self;
+    return (self.splitViewController.viewControllers)[0] ==self.navigationController && self.navigationController.viewControllers[0]==self;
 }
 
 -(BOOL)ifa_isDetailViewController {
-    return [self.splitViewController.viewControllers objectAtIndex:1]==self.navigationController && self.navigationController.viewControllers[0]==self;
+    return (self.splitViewController.viewControllers)[1] ==self.navigationController && self.navigationController.viewControllers[0]==self;
 }
 
 -(BOOL)ifa_presentedAsModal {
     //    NSLog(@"presentingViewController: %@, presentedViewController: %@, self: %@, topViewController: %@, visibleViewController: %@, viewController[0]: %@, navigationController.parentViewController: %@, parentViewController: %@, presentedAsSemiModal: %u", [self.presentingViewController description], [self.presentedViewController description], [self description], self.navigationController.topViewController, self.navigationController.visibleViewController, [self.navigationController.viewControllers objectAtIndex:0], self.navigationController.parentViewController, self.parentViewController, self.presentedAsSemiModal);
     return [IFAApplicationDelegate sharedInstance].popoverControllerPresenter.ifa_activePopoverController.contentViewController==self.navigationController
             || [IFAApplicationDelegate sharedInstance].popoverControllerPresenter.ifa_activePopoverController.contentViewController==self
-            || ( self.navigationController.presentingViewController!=nil && [self.navigationController.viewControllers objectAtIndex:0]==self)
+            || ( self.navigationController.presentingViewController!=nil && (self.navigationController.viewControllers)[0] ==self)
             || self.parentViewController.presentedAsSemiModal
             || [[IFAApplicationDelegate sharedInstance].popoverControllerPresenter.ifa_activePopoverController.contentViewController isKindOfClass:[UIActivityViewController class]];
 }
@@ -619,7 +644,9 @@ static char c_childManagedObjectContextCountOnViewDidLoadKey;
 //    NSLog(@" ");
 //    NSLog(@"toolbar items before: %@", [self.toolbarItems description]);
     if(self.ifa_manageToolbar || anEditModeFlag){
-        NSArray *toolbarItems = anEditModeFlag ? [self ifa_editModeToolbarItems] : [self ifa_nonEditModeToolbarItems];
+        NSMutableArray *toolbarItems = [anEditModeFlag ? [self ifa_editModeToolbarItems] : [self ifa_nonEditModeToolbarItems] mutableCopy];
+        [self IFA_spaceBarButtonItems:toolbarItems side:IFANavigationBarButtonItemsSideNotApplicable
+                              barType:IFABarButtonItemSpacingBarTypeToolbar];
 //        NSLog(@"self.navigationController.toolbar: %@", [self.navigationController.toolbar description]);
 //        NSLog(@" self.navigationController.toolbarHidden: %u, animated: %u", self.navigationController.toolbarHidden, anAnimatedFlag);
         [self.navigationController setToolbarHidden:(![toolbarItems count]) animated:anAnimatedFlag];
@@ -1110,7 +1137,7 @@ static char c_childManagedObjectContextCountOnViewDidLoadKey;
 }
 
 -(UIViewController*)ifa_mainViewController {
-    if (((UIViewController*)[self.navigationController.viewControllers objectAtIndex:0]).ifa_presentedAsModal) {
+    if (((UIViewController*) (self.navigationController.viewControllers)[0]).ifa_presentedAsModal) {
         return self.navigationController;
     }else{
         return [UIApplication sharedApplication].delegate.window.rootViewController;

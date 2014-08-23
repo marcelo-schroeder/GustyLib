@@ -567,11 +567,9 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     return nil;
 }
 
--(BOOL)shouldAutomateBarButtonItemSpacingForViewController:(UIViewController*)a_viewController{
-    return NO;
-}
-
--(UIBarButtonItem*)spacingBarButtonItemForType:(IFASpacingBarButtonItemType)a_type viewController:(UIViewController*)a_viewController{
+- (NSNumber *)spaceBarButtonItemWidthForPosition:(IFABarButtonItemPositionType)a_position
+                                         barType:(IFABarButtonItemSpacingBarType)a_barType
+                                  viewController:(UIViewController *)a_viewController {
     return nil;
 }
 

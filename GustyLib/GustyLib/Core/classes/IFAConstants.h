@@ -80,7 +80,7 @@ enum {
     IFABarItemTagEditButton = 2510,
     IFABarItemTagBackButton = 2520, // custom back button
     IFABarItemTagLeftSlidingPaneButton = 2530, // split view controller master on iPad, left under view on iPhone
-    IFABarItemTagFixedSpaceButton = 2540, // bar button item spacing automation
+    IFABarItemTagAutomatedSpacingButton = 2540, // bar button item spacing automation
 
     IFABarButtonItemAdd = 3000,
     IFABarButtonItemDelete = 3010,

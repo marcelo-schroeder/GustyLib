@@ -19,10 +19,15 @@
 //
 
 typedef enum {
-    IFASpacingBarButtonItemTypeLeft,
-    IFASpacingBarButtonItemTypeMiddle,
-    IFASpacingBarButtonItemTypeRight,
-} IFASpacingBarButtonItemType;
+    IFABarButtonItemSpacingPositionLeft,
+    IFABarButtonItemSpacingPositionMiddle,
+    IFABarButtonItemSpacingPositionRight,
+} IFABarButtonItemPositionType;
+
+typedef enum {
+    IFABarButtonItemSpacingBarTypeNavigationBar,
+    IFABarButtonItemSpacingBarTypeToolbar,
+} IFABarButtonItemSpacingBarType;
 
 @class IFATableViewController;
 @class IFACollectionViewCell;
@@ -94,21 +99,16 @@ typedef enum {
                                             action:(SEL)a_action;
 
 /**
-* This method allows enabling the automation of the spacing before (left), between (middle) and after (right) bar button items.
-* @param a_viewController View controller this method call relates to.
-* @returns Boolean indicating whether bar button item spacing should be automated for the provided view controller instance.
+* Enables automation of bar button item spacing.
+* The amount of space is to be automatically added is determined by the width value returned by the method.
+* @param a_position Position of the spacing to be provided: left, middle (i.e. between bar button items) or right.
+* @param a_barType Type of bar the automated spacing applies to.
+* @param a_viewController View controller the bar belongs to.
+* @returns Width (float wrapped by an NSNumber instance) of the space to be provided. Return nil if bar button item spacing automation is not required.
 */
--(BOOL)shouldAutomateBarButtonItemSpacingForViewController:(UIViewController*)a_viewController;
-
-/**
-* This method will be called by the appearance theme if shouldAutomateBarButtonItemSpacingForViewController: returns YES.
-* Spacing automation will use the fixed space bar button items returned by this method.
-* It is important that this method returns a system UIBarButtonItem of type IFASpacingBarButtonItemType otherwise unpredictable results may occur.
-* @param Type of spacing to be provided: left, middle or right.
-* @param a_viewController View controller this method call relates to.
-* @returns System bar button item of type fixed space (UIBarButtonSystemItemFixedSpace) with a width set accordingly for the spacing type and view controller instance provided.
-*/
--(UIBarButtonItem*)spacingBarButtonItemForType:(IFASpacingBarButtonItemType)a_type viewController:(UIViewController*)a_viewController;
+- (NSNumber *)spaceBarButtonItemWidthForPosition:(IFABarButtonItemPositionType)a_position
+                                         barType:(IFABarButtonItemSpacingBarType)a_barType
+                                  viewController:(UIViewController *)a_viewController;
 
 - (UIViewController *)newInternalWebBrowserViewControllerWithUrl:(NSURL *)a_url;
 - (UIViewController *)newInternalWebBrowserViewControllerWithUrl:(NSURL *)a_url completionBlock:(void(^)(void))a_completionBlock;
