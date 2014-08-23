@@ -7,19 +7,16 @@
 //
 
 #import "UIViewController+IFA_KNSemiModal.h"
-#import <QuartzCore/QuartzCore.h>
 #import "IFACommon.h"
 
 static char c_presentingSemiModalKey;
 static char c_presentedAsSemiModalKey;
+static char c_semiModalViewControllerDelegateKey;
 
 @interface UIViewController (KNSemiModalInternal)
 
 @property (nonatomic) BOOL presentingSemiModal;
 @property (nonatomic) BOOL presentedAsSemiModal;
-
--(UIView*)parentTarget;
--(CAAnimationGroup*)animationGroupForward:(BOOL)_forward;
 
 @end
 
@@ -44,16 +41,17 @@ static char c_presentedAsSemiModalKey;
     return target.view;
 }
 
+/*
 -(CAAnimationGroup*)animationGroupForward:(BOOL)_forward {
     // Create animation keys, forwards and backwards
     CATransform3D t1 = CATransform3DIdentity;
-    t1.m34 = 1.0/-900;
+    t1.m34 = (CGFloat) (1.0/-900);
     t1 = CATransform3DScale(t1, 0.95, 0.95, 1);
-    t1 = CATransform3DRotate(t1, 15.0f*M_PI/180.0f, 1, 0, 0);
+    t1 = CATransform3DRotate(t1, (CGFloat) (15.0f*M_PI/180.0f), 1, 0, 0);
     
     CATransform3D t2 = CATransform3DIdentity;
     t2.m34 = t1.m34;
-    t2 = CATransform3DTranslate(t2, 0, [self parentTarget].frame.size.height*-0.08, 0);
+    t2 = CATransform3DTranslate(t2, 0, (CGFloat) ([self parentTarget].frame.size.height*-0.08), 0);
     t2 = CATransform3DScale(t2, 0.8, 0.8, 1);
     
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
@@ -77,6 +75,23 @@ static char c_presentedAsSemiModalKey;
     [group setDuration:animation.duration*2];
     [group setAnimations:@[animation,animation2]];
     return group;
+}
+*/
+
+- (UIView *)semiModalView {
+    UIView * target = [self parentTarget];
+    return (target.subviews)[target.subviews.count - 1];
+}
+
+-(void)onTapOutsideSemiModalView {
+    BOOL l_shouldDismiss = YES;
+    if ([self.semiModalViewDelegate respondsToSelector:@selector(shouldDismissOnTapOutsideForSemiModalView:)]) {
+        l_shouldDismiss = [self.semiModalViewDelegate shouldDismissOnTapOutsideForSemiModalView:self.semiModalView];
+    }
+    if (l_shouldDismiss) {
+        [self dismissSemiModalViewWithCompletionBlock:^{
+        }];
+    }
 }
 
 #pragma mark - Public
@@ -132,15 +147,14 @@ static char c_presentedAsSemiModalKey;
         
         // Dismiss button
         // Don't use UITapGestureRecognizer to avoid complex handling
-        if (((NSNumber*)[IFAUtils infoPList][@"IFAAllowSemiModalDismissalWithOutsideTap"]).boolValue) {
-            UIButton * dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            [dismissButton addTarget:self action:@selector(dismissSemiModalView) forControlEvents:UIControlEventTouchUpInside];
-            dismissButton.backgroundColor = [UIColor clearColor];
-            dismissButton.frame = vf;
-            dismissButton.autoresizingMask = [IFAUIUtils fullAutoresizingMask];
-            [overlay addSubview:dismissButton];
-        }
-        
+        UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [dismissButton addTarget:self action:@selector(onTapOutsideSemiModalView)
+                forControlEvents:UIControlEventTouchUpInside];
+        dismissButton.backgroundColor = [UIColor clearColor];
+        dismissButton.frame = vf;
+        dismissButton.autoresizingMask = [IFAUIUtils fullAutoresizingMask];
+        [overlay addSubview:dismissButton];
+
         // Begin overlay animation
 //        [ss.layer addAnimation:[self animationGroupForward:YES] forKey:@"pushedBackAnimation"];
 //        [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
@@ -171,14 +185,10 @@ static char c_presentedAsSemiModalKey;
     
 }
 
--(void)dismissSemiModalView {
-    [self dismissSemiModalViewWithChangesMade:NO data:nil];
-}
-
--(void)dismissSemiModalViewWithChangesMade:(BOOL)a_changesMade data:(id)a_data {
+- (void)dismissSemiModalViewWithCompletionBlock:(void (^)())a_completionBlock {
+    UIView * modal = self.semiModalView;
     UIView * target = [self parentTarget];
-    UIView * modal = [target.subviews objectAtIndex:target.subviews.count-1];
-    UIView * overlay = [target.subviews objectAtIndex:target.subviews.count-2];
+    UIView * overlay = (target.subviews)[target.subviews.count - 2];
     [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
         overlay.alpha = 0;
         modal.frame = CGRectMake(0, target.frame.size.height, modal.frame.size.width, modal.frame.size.height);
@@ -186,15 +196,10 @@ static char c_presentedAsSemiModalKey;
         [overlay removeFromSuperview];
         [modal removeFromSuperview];
         self.presentingSemiModal = NO;
-        UIViewController *l_dismissedChildViewController = [IFAApplicationDelegate sharedInstance].semiModalViewController;
-        if ([l_dismissedChildViewController isKindOfClass:[UINavigationController class]]) {
-            UINavigationController *l_navigationController = (UINavigationController *) l_dismissedChildViewController;
-            l_dismissedChildViewController = l_navigationController.viewControllers[0];
-        }
         [IFAApplicationDelegate sharedInstance].semiModalViewController.presentedAsSemiModal = NO;
         [IFAApplicationDelegate sharedInstance].semiModalViewController = nil;
         [UIViewController attemptRotationToDeviceOrientation];  // We may have missed an interface orientation change when the semi modal view was being displayed, so this is the opportunity to catch up
-        [self didDismissViewController:l_dismissedChildViewController changesMade:a_changesMade data:a_data];
+        a_completionBlock();
     }];
     
     // Begin overlay animation
@@ -218,5 +223,13 @@ static char c_presentedAsSemiModalKey;
 //        overlay.alpha = 0.5;
 //    }
 //}
+
+-(void)setSemiModalViewDelegate:(id<IFASemiModalViewDelegate>)a_semiModalViewControllerDelegate{
+    objc_setAssociatedObject(self, &c_semiModalViewControllerDelegateKey, a_semiModalViewControllerDelegate, OBJC_ASSOCIATION_ASSIGN);
+}
+
+-(id<IFASemiModalViewDelegate>)semiModalViewDelegate {
+    return objc_getAssociatedObject(self, &c_semiModalViewControllerDelegateKey);
+}
 
 @end

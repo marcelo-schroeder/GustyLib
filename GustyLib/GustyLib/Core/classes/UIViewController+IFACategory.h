@@ -20,6 +20,7 @@
 
 #import "IFAPresenter.h"
 #import "CoreData/CoreData.h"
+#import "UIViewController+IFA_KNSemiModal.h"
 
 @class IFAAsynchronousWorkManager;
 @class IFANavigationItemTitleView;

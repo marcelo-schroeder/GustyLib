@@ -19,10 +19,11 @@
 //
 
 #import "IFAViewController.h"
+#import "UIViewController+IFA_KNSemiModal.h"
 
 @protocol IFAPresenter;
 
-@interface IFAAbstractFieldEditorViewController : IFAViewController <UIPopoverControllerDelegate> {
+@interface IFAAbstractFieldEditorViewController : IFAViewController <UIPopoverControllerDelegate, IFASemiModalViewDelegate> {
 }
 
 @property (nonatomic) BOOL useButtonForDismissal;

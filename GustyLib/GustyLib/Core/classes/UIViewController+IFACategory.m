@@ -139,6 +139,11 @@ static char c_childManagedObjectContextCountOnViewDidLoadKey;
     } else { // If not iPad present as modal
 
         if ([a_viewController ifa_hasFixedSize]) {
+            if ([a_viewController conformsToProtocol:@protocol(IFASemiModalViewDelegate)]) {
+                self.semiModalViewDelegate = (id <IFASemiModalViewDelegate>) a_viewController;
+            }else{
+                self.semiModalViewDelegate = nil;
+            }
             [self presentSemiModalViewController:l_viewController];
         } else {
             if ([a_viewController isKindOfClass:[UIActivityViewController class]]) {
@@ -770,8 +775,8 @@ static char c_childManagedObjectContextCountOnViewDidLoadKey;
 }
 
 - (void)ifa_dismissModalViewControllerWithChangesMade:(BOOL)a_changesMade data:(id)a_data animated:(BOOL)a_animate{
+    __weak UIViewController *l_weakSelf = self;
     if (self.presentedViewController) {
-        __weak UIViewController *l_weakSelf = self;
         UIViewController *l_presentedViewController = self.presentedViewController; // Add retain cycle
         [self dismissViewControllerAnimated:a_animate completion:^{
             if ([l_weakSelf conformsToProtocol:@protocol(IFAPresenter)]) {
@@ -782,7 +787,12 @@ static char c_childManagedObjectContextCountOnViewDidLoadKey;
         [self.ifa_activePopoverController dismissPopoverAnimated:a_animate];
         [self ifa_resetActivePopoverController];
     }else if(self.presentingSemiModal){
-        [self dismissSemiModalViewWithChangesMade:a_changesMade data:a_data];
+        UIViewController *l_presentedViewController = [IFAApplicationDelegate sharedInstance].semiModalViewController; // Add retain cycle
+        [self dismissSemiModalViewWithCompletionBlock:^{
+            if ([l_weakSelf conformsToProtocol:@protocol(IFAPresenter)]) {
+                [l_weakSelf didDismissViewController:l_presentedViewController changesMade:a_changesMade data:a_data];
+            }
+        }];
     }
 }
 

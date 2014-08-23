@@ -107,18 +107,18 @@
 }
 
 -(IFAHelpModeOverlayView *)IFA_helpModeOverlayView {
-    if (!self.IFA_helpModeOverlayView) {
-        self.IFA_helpModeOverlayView = [IFAHelpModeOverlayView new];
+    if (!_IFA_helpModeOverlayView) {
+        _IFA_helpModeOverlayView = [IFAHelpModeOverlayView new];
     }
-    return self.IFA_helpModeOverlayView;
+    return _IFA_helpModeOverlayView;
 }
 
 -(UIView *)IFA_userInteractionBlockingView {
-    if (!self.IFA_userInteractionBlockingView) {
-        self.IFA_userInteractionBlockingView = [UIView new];
+    if (!_IFA_userInteractionBlockingView) {
+        _IFA_userInteractionBlockingView = [UIView new];
 //        v_userInteractionBlockingView.backgroundColor = [UIColor redColor];
     }
-    return self.IFA_userInteractionBlockingView;
+    return _IFA_userInteractionBlockingView;
 }
 
 /*
@@ -422,30 +422,30 @@
 }
 
 -(UITapGestureRecognizer *)IFA_mainViewCatchAllGestureRecogniser {
-    if (!self.IFA_mainViewCatchAllGestureRecogniser) {
-        self.IFA_mainViewCatchAllGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self
+    if (!_IFA_mainViewCatchAllGestureRecogniser) {
+        _IFA_mainViewCatchAllGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                       action:@selector(IFA_onCatchAllGestureRecogniserTap:)];
-        self.IFA_mainViewCatchAllGestureRecogniser.cancelsTouchesInView = NO;
+        _IFA_mainViewCatchAllGestureRecogniser.cancelsTouchesInView = NO;
     }
-    return self.IFA_mainViewCatchAllGestureRecogniser;
+    return _IFA_mainViewCatchAllGestureRecogniser;
 }
 
 -(UITapGestureRecognizer *)IFA_navigationBarCatchAllGestureRecogniser {
-    if (!self.IFA_navigationBarCatchAllGestureRecogniser) {
-        self.IFA_navigationBarCatchAllGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self
+    if (!_IFA_navigationBarCatchAllGestureRecogniser) {
+        _IFA_navigationBarCatchAllGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                            action:@selector(IFA_onCatchAllGestureRecogniserTap:)];
-        self.IFA_navigationBarCatchAllGestureRecogniser.cancelsTouchesInView = NO;
+        _IFA_navigationBarCatchAllGestureRecogniser.cancelsTouchesInView = NO;
     }
-    return self.IFA_navigationBarCatchAllGestureRecogniser;
+    return _IFA_navigationBarCatchAllGestureRecogniser;
 }
 
 -(UITapGestureRecognizer *)IFA_toolbarCatchAllGestureRecogniser {
-    if (!self.IFA_toolbarCatchAllGestureRecogniser) {
-        self.IFA_toolbarCatchAllGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self
+    if (!_IFA_toolbarCatchAllGestureRecogniser) {
+        _IFA_toolbarCatchAllGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                      action:@selector(IFA_onCatchAllGestureRecogniserTap:)];
-        self.IFA_toolbarCatchAllGestureRecogniser.cancelsTouchesInView = NO;
+        _IFA_toolbarCatchAllGestureRecogniser.cancelsTouchesInView = NO;
     }
-    return self.IFA_toolbarCatchAllGestureRecogniser;
+    return _IFA_toolbarCatchAllGestureRecogniser;
 }
 
 -(void)IFA_addHelpTargets {

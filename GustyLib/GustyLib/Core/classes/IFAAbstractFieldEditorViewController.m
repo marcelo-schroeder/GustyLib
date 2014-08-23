@@ -119,4 +119,10 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IFAPresenter>
     [self done];
 }
 
+#pragma mark - IFASemiModalViewDelegate
+
+- (BOOL)shouldDismissOnTapOutsideForSemiModalView:(UIView *)a_semiModalView {
+    return NO;
+}
+
 @end
