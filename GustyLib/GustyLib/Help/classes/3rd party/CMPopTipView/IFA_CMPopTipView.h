@@ -105,21 +105,20 @@ typedef enum {
 	CGPoint					targetPoint;
 }
 
-@property (nonatomic, retain)			UIColor					*backgroundColor;
-@property (nonatomic, weak)		id<CMPopTipViewDelegate>	delegate;
-@property (nonatomic, assign)			BOOL					disableTapToDismiss;
-@property (nonatomic, retain)			NSString				*message;
-@property (nonatomic, retain)           UIView	                *customView;
-@property (nonatomic, retain, readonly)	id						targetObject;
-@property (nonatomic, retain)			UIColor					*textColor;
-@property (nonatomic, retain)			UIFont					*textFont;
-@property (nonatomic, assign)			UITextAlignment			textAlignment;
-@property (nonatomic, assign)           CMPopTipAnimation       animation;
-@property (nonatomic, assign)           CGFloat                 maxWidth;
-@property (nonatomic, assign)           CGFloat					sidePadding;
-@property (nonatomic, assign)           CGFloat					topMargin;
-@property (nonatomic, assign)           CGFloat					cornerRadius;
-@property (nonatomic, assign)           CGFloat					pointerSize;
+@property(nonatomic, strong) UIColor *contentBackgroundColor;
+@property(nonatomic, weak) id <CMPopTipViewDelegate> delegate;
+@property(nonatomic) BOOL disableTapToDismiss;
+@property(nonatomic, strong) NSString *message;
+@property(nonatomic, strong) UIView *customView;
+@property(nonatomic, readonly) id targetObject;
+@property(nonatomic, strong) UIColor *textColor;
+@property(nonatomic, strong) UIFont *textFont;
+@property(nonatomic) CMPopTipAnimation animation;
+@property(nonatomic) CGFloat maxWidth;
+@property(nonatomic) CGFloat sidePadding;
+@property(nonatomic) CGFloat topMargin;
+@property(nonatomic) CGFloat cornerRadius;
+@property(nonatomic) CGFloat pointerSize;
 
 /* Contents can be either a message or a UIView */
 - (id)initWithMessage:(NSString *)messageToShow;

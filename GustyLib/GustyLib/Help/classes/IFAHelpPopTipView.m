@@ -107,9 +107,9 @@
         // Configure the superclass
         self.delegate = self;
         self.disableTapToDismiss = YES;
-        self.backgroundColor = [IFAUIUtils colorForInfoPlistKey:@"IFAHelpPopTipBackgroundColour"];
-        if (!self.backgroundColor) {
-            self.backgroundColor = [UIColor lightGrayColor];
+        self.contentBackgroundColor = [IFAUIUtils colorForInfoPlistKey:@"IFAHelpPopTipBackgroundColour"];
+        if (!self.contentBackgroundColor) {
+            self.contentBackgroundColor = [UIColor redColor];
         }
         self.cornerRadius = 8;
         

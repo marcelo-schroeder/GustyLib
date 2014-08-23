@@ -26,7 +26,7 @@
 #import "IFA_CMPopTipView.h"
 
 @interface IFA_CMPopTipView ()
-@property (nonatomic, retain, readwrite)	id	targetObject;
+@property (nonatomic, strong)	id	targetObject;
 @end
 
 
@@ -148,8 +148,8 @@
 	CGFloat green;
 	CGFloat blue;
 	CGFloat alpha;
-	int numComponents = CGColorGetNumberOfComponents([self.backgroundColor CGColor]);
-	const CGFloat *components = CGColorGetComponents([self.backgroundColor CGColor]);
+	int numComponents = CGColorGetNumberOfComponents([self.contentBackgroundColor CGColor]);
+	const CGFloat *components = CGColorGetComponents([self.contentBackgroundColor CGColor]);
 	if (numComponents == 2) {
 		red = components[0];
 		green = components[0];
@@ -193,10 +193,13 @@
 	if (self.message) {
 		[self.textColor set];
 		CGRect textFrame = [self contentFrame];
-        [self.message drawInRect:textFrame
-                        withFont:self.textFont
-                   lineBreakMode:UILineBreakModeWordWrap
-                       alignment:UITextAlignmentCenter];
+        NSMutableParagraphStyle *l_paragraphStyle = [NSMutableParagraphStyle new];
+        l_paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+        l_paragraphStyle.alignment = NSTextAlignmentCenter;
+        [self.message drawInRect:textFrame withAttributes:@{
+                NSFontAttributeName : self.textFont,
+                NSParagraphStyleAttributeName : l_paragraphStyle,
+        }];
     }
 }
 
@@ -244,9 +247,14 @@
 	CGSize textSize = CGSizeZero;
     
     if (self.message!=nil) {
-        textSize= [self.message sizeWithFont:self.textFont
-                           constrainedToSize:CGSizeMake(rectWidth, 99999.0)
-                               lineBreakMode:UILineBreakModeWordWrap];
+        NSMutableParagraphStyle *l_paragraphStyle = [NSMutableParagraphStyle new];
+        l_paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+        textSize = [self.message boundingRectWithSize:CGSizeMake(rectWidth, 99999.0) options:NSStringDrawingUsesLineFragmentOrigin
+                                           attributes:@{
+                                                   NSFontAttributeName : self.textFont,
+                                                   NSParagraphStyleAttributeName : l_paragraphStyle,
+                                           }
+                                              context:nil].size;
     }
     if (self.customView != nil) {
         textSize = self.customView.frame.size;
@@ -471,8 +479,7 @@
 		
 		self.textFont = [UIFont boldSystemFontOfSize:14.0];
 		self.textColor = [UIColor whiteColor];
-		self.textAlignment = UITextAlignmentCenter;
-		self.backgroundColor = [UIColor colorWithRed:62.0/255.0 green:60.0/255.0 blue:154.0/255.0 alpha:1.0];
+		self.contentBackgroundColor = [UIColor colorWithRed:62.0/255.0 green:60.0/255.0 blue:154.0/255.0 alpha:1.0];
         self.animation = CMPopTipAnimationSlide;
     }
     return self;
