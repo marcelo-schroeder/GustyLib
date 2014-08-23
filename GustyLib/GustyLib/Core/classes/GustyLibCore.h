@@ -29,6 +29,7 @@
 #import <AdSupport/AdSupport.h>
 #import <objc/message.h>    // added so I could use objc_msgSend to get rid of ARC compiler warnings for performSelector method calls
 #import <Accelerate/Accelerate.h>
+#import <sys/utsname.h>
 
 /*************/
 /* 3rd party */
@@ -175,4 +176,5 @@
 #import "UIView+IFACategory.h"
 #import "UIViewController+IFACategory.h"
 #import "UIWebView+IFACategory.h"
+#import "IFAGridViewController.h"
 

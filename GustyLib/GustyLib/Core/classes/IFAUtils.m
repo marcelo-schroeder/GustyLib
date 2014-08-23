@@ -18,9 +18,7 @@
 //  limitations under the License.
 //
 
-#import <sys/utsname.h>
-#import "GustyLib.h"
-#import "IFADispatchQueueManager.h"
+#import "GustyLibCore.h"
 
 @implementation IFAUtils {
     

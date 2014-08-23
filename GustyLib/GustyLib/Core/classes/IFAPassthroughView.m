@@ -15,8 +15,7 @@
 //  limitations under the License.
 //
 
-#import "IFAPassthroughView.h"
-#import "NSObject+IFACategory.h"
+#import "GustyLibCore.h"
 
 @interface IFAPassthroughView ()
 

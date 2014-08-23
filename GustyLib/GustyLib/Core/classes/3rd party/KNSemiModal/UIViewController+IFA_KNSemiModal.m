@@ -7,7 +7,7 @@
 //
 
 #import "UIViewController+IFA_KNSemiModal.h"
-#import "GustyLib.h"
+#import "GustyLibCore.h"
 
 static char c_presentingSemiModalKey;
 static char c_presentedAsSemiModalKey;

@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "GustyLib.h"
+#import "GustyLibCore.h"
 
 //TODO: not being used currently - see explanations in applicationDidReceiveMemoryWarning method in IFAApplicationDelegate
 

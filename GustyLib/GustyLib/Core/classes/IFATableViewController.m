@@ -18,16 +18,14 @@
 //  limitations under the License.
 //
 
-#import "GustyLib.h"
+#import "GustyLibCore.h"
 
 #ifdef IFA_AVAILABLE_Help
-#import "IFAHelpManager.h"
-#import "UIViewController+IFAHelp.h"
-#import "UIView+IFAHelp.h"
+#import "GustyLibHelp.h"
 #endif
 
 #ifdef IFA_AVAILABLE_GoogleMobileAdsSupport
-#import "UIViewController+IFAGoogleMobileAdsSupport.h"
+#import "GustyLibGoogleMobileAdsSupport.h"
 #endif
 
 @interface IFATableViewController ()

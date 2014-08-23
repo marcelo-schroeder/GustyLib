@@ -15,8 +15,7 @@
 //  limitations under the License.
 //
 
-#import "GustyLib.h"
-#import "IFASlidingFrostedGlassViewController.h"
+#import "GustyLibCore.h"
 
 @interface IFASlidingFrostedGlassViewController ()
 @property(nonatomic) BOOL IFA_isDismissing;

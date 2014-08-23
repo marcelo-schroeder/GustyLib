@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "GustyLib.h"
+#import "GustyLibCore.h"
 
 static NSUInteger c_firstWeekday = NSNotFound;
 static NSUInteger c_minimumDaysInFirstWeek = NSNotFound;

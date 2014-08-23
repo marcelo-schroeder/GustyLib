@@ -17,7 +17,7 @@
 //  limitations under the License.
 //
 
-#import "GustyLib.h"
+#import "GustyLibCore.h"
 
 
 @implementation UIButton (IFACategory)

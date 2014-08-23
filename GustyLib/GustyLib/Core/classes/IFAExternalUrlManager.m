@@ -15,7 +15,7 @@
 //  limitations under the License.
 //
 
-#import "GustyLib.h"
+#import "GustyLibCore.h"
 
 @interface IFAExternalUrlManager ()
 @property(nonatomic, strong) NSURL *IFA_urlToOpen;

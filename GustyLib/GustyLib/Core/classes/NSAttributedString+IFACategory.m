@@ -15,6 +15,8 @@
 //  limitations under the License.
 //
 
+#import "NSAttributedString+IFACategory.h"
+
 @implementation NSAttributedString (IFACategory)
 
 + (NSAttributedString *)ifa_attributedStringWithText:(NSString *)a_text font:(UIFont *)a_font colour:(UIColor *)a_colour

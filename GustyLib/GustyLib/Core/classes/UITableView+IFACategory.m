@@ -18,8 +18,7 @@
 //  limitations under the License.
 //
 
-#import "UITableView+IFACategory.h"
-#import "UIColor+IFACategory.h"
+#import "GustyLibCore.h"
 
 @implementation UITableView (IFACategory)
 

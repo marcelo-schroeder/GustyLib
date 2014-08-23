@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "GustyLib.h"
+#import "GustyLibCore.h"
 
 static NSString *const k_layoutConstraintVisualFormatOrientationHorizontal = @"H";
 static NSString *const k_layoutConstraintVisualFormatOrientationVertical = @"V";

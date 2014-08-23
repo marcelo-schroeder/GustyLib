@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "GustyLib.h"
+#import "GustyLibCore.h"
 
 @interface IFAAboutViewController ()
 @property(nonatomic, strong) IFAEmailManager *IFA_emailManager;

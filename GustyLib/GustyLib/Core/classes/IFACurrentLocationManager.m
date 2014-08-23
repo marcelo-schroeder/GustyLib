@@ -16,7 +16,7 @@
 //
 
 
-#import "GustyLib.h"
+#import "GustyLibCore.h"
 
 static NSString *const k_LocationServiceDisableAlertMessage = @" Location Services are currently disabled for this app. Please enable them in the Privacy section in the Settings app.";
 

@@ -18,17 +18,14 @@
 //  limitations under the License.
 //
 
-#import "GustyLib.h"
-#import "UIStoryboard+IFACategory.h"
-#import "IFASubjectActivityItem.h"
-#import "IFAPassthroughView.h"
+#import "GustyLibCore.h"
 
 #ifdef IFA_AVAILABLE_Help
-#import "UIViewController+IFAHelp.h"
+#import "GustyLibHelp.h"
 #endif
 
 #ifdef IFA_AVAILABLE_GoogleMobileAdsSupport
-#import "UIViewController+IFAGoogleMobileAdsSupport.h"
+#import "GustyLibGoogleMobileAdsSupport.h"
 #endif
 
 //static UIPopoverArrowDirection  const k_arrowDirectionWithoutKeyboard   = UIPopoverArrowDirectionAny;

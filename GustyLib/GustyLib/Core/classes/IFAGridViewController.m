@@ -15,8 +15,7 @@
 //  limitations under the License.
 //
 
-#import "IFAGridViewController.h"
-#import "UICollectionView+IFACategory.h"
+#import "GustyLibCore.h"
 
 @interface IFAGridViewController ()
 @property(nonatomic) BOOL IFA_firstLoadDone;

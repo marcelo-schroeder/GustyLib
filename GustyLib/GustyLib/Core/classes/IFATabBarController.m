@@ -18,11 +18,10 @@
 //  limitations under the License.
 //
 
-#import "GustyLib.h"
+#import "GustyLibCore.h"
 
 #ifdef IFA_AVAILABLE_Help
-#import "IFAHelpManager.h"
-#import "UIBarItem+IFAHelp.h"
+#import "GustyLibHelp.h"
 #endif
 
 @interface IFATabBarController ()

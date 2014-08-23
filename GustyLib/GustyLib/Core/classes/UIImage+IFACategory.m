@@ -18,8 +18,7 @@
 //  limitations under the License.
 //
 
-#import "GustyLib.h"
-#import <Accelerate/Accelerate.h>
+#import "GustyLibCore.h"
 
 @implementation UIImage (IFACategory)
 

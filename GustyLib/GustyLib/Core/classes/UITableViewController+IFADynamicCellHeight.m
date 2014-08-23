@@ -15,8 +15,7 @@
 //  limitations under the License.
 //
 
-#import "GustyLib.h"
-#import "UITableViewController+IFADynamicCellHeight.h"
+#import "GustyLibCore.h"
 
 @interface UITableViewController (IFADynamicCellHeight_Private)
 @property (nonatomic, strong) NSMutableDictionary *ifa_cachedCellHeights;

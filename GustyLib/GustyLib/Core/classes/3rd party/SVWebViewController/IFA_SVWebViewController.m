@@ -6,7 +6,7 @@
 //
 //  https://github.com/samvermette/IFA_SVWebViewController
 
-#import "GustyLib.h"
+#import "GustyLibCore.h"
 
 @interface IFA_SVWebViewController () <UIWebViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate>
 

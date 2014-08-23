@@ -18,8 +18,7 @@
 //  limitations under the License.
 //
 
-#import "GustyLib.h"
-#import "IFAFormTableViewCellContentView.h"
+#import "GustyLibCore.h"
 
 @implementation IFAFormTableViewCell
 

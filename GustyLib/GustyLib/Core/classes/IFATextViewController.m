@@ -18,8 +18,7 @@
 //  limitations under the License.
 //
 
-#import "GustyLib.h"
-#import "UIScrollView+IFACategory.h"
+#import "GustyLibCore.h"
 
 @interface IFATextViewController ()
 
