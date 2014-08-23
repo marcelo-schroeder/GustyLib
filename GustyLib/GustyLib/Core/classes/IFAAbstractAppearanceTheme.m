@@ -20,6 +20,10 @@
 
 #import "GustyLibCore.h"
 
+#ifdef IFA_AVAILABLE_Help
+#import "GustyLibHelp.h"
+#endif
+
 @interface IFAAbstractAppearanceTheme ()
 
 @property (nonatomic, strong) IFAColorScheme *IFA_colorScheme;
