@@ -18,9 +18,15 @@
 //  limitations under the License.
 //
 
+// Google Mobile Ads SDK
+#import "GADAdMobExtras.h"
+#import "GADBannerView.h"
+
 // Had to add the below to make Google-AdMob-Ads-SDK work via Cocoapods
 #import <StoreKit/StoreKit.h>
 
-#import "IFAGustyLib"
+// GustyLib
+#import "GustyLibCore.h"
+
 #import "IFAGoogleMobileAdsManager.h"
 #import "UIViewController+IFAGoogleMobileAdsSupport.h"

@@ -18,10 +18,7 @@
 //  limitations under the License.
 //
 
-#import "IFA_SVWebViewController.h"
-#import "GustyLib.h"
-#import "Flurry.h"
-#import "IFAFlurrySupportUtils.h"
+#import "GustyLibFlurrySupport.h"
 
 @implementation IFAFlurrySupportUtils {
     

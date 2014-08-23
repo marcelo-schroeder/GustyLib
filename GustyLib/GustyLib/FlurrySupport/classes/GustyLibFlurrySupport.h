@@ -18,5 +18,11 @@
 //  limitations under the License.
 //
 
+// 3rd Party
+#import "Flurry.h"
+
+// GustyLib
+#import "GustyLibCore.h"
+
 #import "IFAFlurrySupportUtils.h"
 #import "UIViewController+IFAFlurrySupport.h"

@@ -15,12 +15,7 @@
 //  limitations under the License.
 //
 
-#import "IFAGoogleMobileAdsManager.h"
-#import "GADAdMobExtras.h"
-#import "GADBannerView.h"
-#import "IFAAppearanceThemeManager.h"
-#import "IFAAppearanceTheme.h"
-#import "UIViewController+IFAGoogleMobileAdsSupport.h"
+#import "GustyLibGoogleMobileAdsSupport.h"
 
 @interface IFAGoogleMobileAdsManager ()
 @property (nonatomic, strong) GADBannerView *activeBannerView;

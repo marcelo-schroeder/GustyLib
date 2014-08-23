@@ -18,10 +18,7 @@
 //  limitations under the License.
 //
 
-#import "UIViewController+IFAFlurrySupport.h"
-#import "IFAFlurrySupportUtils.h"
-#import "UIViewController+IFACategory.h"
-
+#import "GustyLibFlurrySupport.h"
 
 @implementation UIViewController (IFAFlurrySupport)
 

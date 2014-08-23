@@ -15,13 +15,7 @@
 //  limitations under the License.
 //
 
-#import <objc/runtime.h>
-#import "UIViewController+IFAGoogleMobileAdsSupport.h"
-#import "IFAUIUtils.h"
-#import "GADBannerView.h"
-#import "UIViewController+IFACategory.h"
-#import "GADAdMobExtras.h"
-#import "IFAGoogleMobileAdsManager.h"
+#import "GustyLibGoogleMobileAdsSupport.h"
 
 NSString* const IFANotificationGoogleMobileAdsSuspendRequest = @"ifa.googleMobileAdsSuspendRequest";
 NSString* const IFANotificationGoogleMobileAdsResumeRequest = @"ifa.googleMobileAdsResumeRequest";
