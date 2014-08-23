@@ -754,7 +754,9 @@ static char c_childManagedObjectContextCountOnViewDidLoadKey;
 - (void)ifa_notifySessionCompletionWithChangesMade:(BOOL)a_changesMade data:(id)a_data animated:(BOOL)a_animated{
     [self.ifa_presenter sessionDidCompleteForViewController:self changesMade:a_changesMade data:a_data
                                      shouldAnimateDismissal:a_animated];
-    [self IFA_assertManagedObjectContextCountForViewController:self.ifa_presenter];
+    if([self.ifa_presenter isKindOfClass:[UIViewController class]]){
+        [self IFA_assertManagedObjectContextCountForViewController:(UIViewController *)self.ifa_presenter];
+    }
 }
 
 - (void)ifa_notifySessionCompletionWithChangesMade:(BOOL)a_changesMade data:(id)a_data {
