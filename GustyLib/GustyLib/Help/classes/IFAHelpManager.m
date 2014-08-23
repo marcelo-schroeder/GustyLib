@@ -18,14 +18,7 @@
 //  limitations under the License.
 //
 
-#import "GustyLib.h"
-#import "IFAHelpModeOverlayView.h"
-#import "IFAHelpPopTipView.h"
-#import "IFAHelpManager.h"
-#import "UIBarItem+IFAHelp.h"
-#import "UIView+IFAHelp.h"
-#import "UIViewController+IFAHelp.h"
-#import "IFAHelpTargetView.h"
+#import "GustyLibHelp.h"
 
 @interface IFABarButtonItemSavedState : NSObject
 

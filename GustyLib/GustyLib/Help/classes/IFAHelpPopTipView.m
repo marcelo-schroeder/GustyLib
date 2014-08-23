@@ -18,10 +18,7 @@
 //  limitations under the License.
 //
 
-#import "GustyLib.h"
-#import "IFAHtmlDocument.h"
-#import "IFAHelpPopTipView.h"
-#import "IFAHelpManager.h"
+#import "GustyLibHelp.h"
 
 @interface IFAHelpPopTipView ()
 

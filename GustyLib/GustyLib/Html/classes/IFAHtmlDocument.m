@@ -18,8 +18,7 @@
 //  limitations under the License.
 //
 
-#import "GustyLib.h"
-#import "IFAHtmlDocument.h"
+#import "GustyLibHtml.h"
 
 @interface IFAHtmlDocument ()
 @property(nonatomic, strong) NSString *IFA_htmlTemplateStringResourceName;

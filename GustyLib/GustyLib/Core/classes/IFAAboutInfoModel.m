@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "IFAAboutInfoModel.h"
+#import "GustyLib.h"
 
 @implementation IFAAboutInfoModel
 

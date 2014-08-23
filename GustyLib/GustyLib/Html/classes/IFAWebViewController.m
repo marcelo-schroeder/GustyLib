@@ -18,9 +18,7 @@
 //  limitations under the License.
 //
 
-#import "GustyLib.h"
-#import "IFAHtmlDocument.h"
-#import "IFAWebViewController.h"
+#import "GustyLibHtml.h"
 
 @interface IFAWebViewController ()
 

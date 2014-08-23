@@ -18,8 +18,7 @@
 //  limitations under the License.
 //
 
-#import "GustyLib.h"
-#import "IFAHelpModeOverlayView.h"
+#import "GustyLibHelp.h"
 
 @interface IFAHelpModeOverlaySpotlightMaskView : UIView
 

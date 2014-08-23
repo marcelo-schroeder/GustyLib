@@ -15,9 +15,7 @@
 //  limitations under the License.
 //
 
-#import "NSString+IFACategory.h"
-#import "NSString+HTML.h"
-#import "IFAHtmlParser.h"
+#import "GustyLibHtml.h"
 
 typedef enum{
     IFAHtmlParserEventElementStarted,

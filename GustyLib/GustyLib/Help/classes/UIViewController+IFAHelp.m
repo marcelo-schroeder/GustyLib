@@ -15,13 +15,7 @@
 //  limitations under the License.
 //
 
-#import <objc/runtime.h>
-#import "UIViewController+IFAHelp.h"
-#import "IFAAbstractPagingContainerViewController.h"
-#import "IFADynamicPagingContainerViewController.h"
-#import "IFAUIUtils.h"
-#import "UIViewController+IFACategory.h"
-#import "UIBarItem+IFAHelp.h"
+#import "GustyLibHelp.h"
 
 static char c_helpTargetIdKey;
 static char c_helpBarButtonItemKey;

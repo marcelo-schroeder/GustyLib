@@ -1,5 +1,5 @@
 //
-//  IFAGustyLib.h
+//  GustyLib.h
 //  GustyLib
 //
 //  Created by Marcelo Schroeder on 30/07/10.
@@ -17,18 +17,6 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 //
-
-// Frameworks
-#import <CoreData/CoreData.h>
-#import <CoreText/CoreText.h>
-#import <CoreLocation/CoreLocation.h>
-#import <QuartzCore/QuartzCore.h>
-#import <MapKit/MapKit.h>
-#import <MessageUI/MessageUI.h>
-#import <GLKit/GLKit.h>
-#import <AdSupport/AdSupport.h>
-#import <objc/message.h>    // added so I could use objc_msgSend to get rid of ARC compiler warnings for performSelector method calls
-#import <Accelerate/Accelerate.h>
 
 // Core
 #import "GustyLibCore.h"

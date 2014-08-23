@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "IFAHelpTargetView.h"
+#import "GustyLibHelp.h"
 
 @implementation IFAHelpTargetView
 
