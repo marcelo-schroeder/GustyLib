@@ -1,0 +1,8 @@
+#import "IFA_CMPopTipView.h"
+#import "IFAHelpManager.h"
+#import "IFAHelpModeOverlayView.h"
+#import "IFAHelpPopTipView.h"
+#import "IFAHelpTargetView.h"
+#import "UIBarItem+IFAHelp.h"
+#import "UIView+IFAHelp.h"
+#import "UIViewController+IFAHelp.h"

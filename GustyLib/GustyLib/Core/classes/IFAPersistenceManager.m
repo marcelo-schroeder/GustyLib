@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "IFACommon.h"
+#import "GustyLib.h"
 
 static NSString * const k_threadDictKeyManagedObjectContext = @"com.infoaccent.gusty.pm.managedObjectContext";
 

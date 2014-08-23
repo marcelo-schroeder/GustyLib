@@ -15,7 +15,7 @@
 //  limitations under the License.
 //
 
-#import "IFACommon.h"
+#import "GustyLib.h"
 
 static const int k_separatorViewWidth = 1;
 

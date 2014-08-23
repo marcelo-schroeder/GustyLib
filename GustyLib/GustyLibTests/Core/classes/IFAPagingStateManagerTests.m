@@ -18,7 +18,7 @@
 //
 
 #import "IFACommonTests.h"
-#import "IFAPagingStateManager.h"
+#import "GustyLib.h"
 
 @interface IFAPagingStateManagerTests : XCTestCase
 @property(nonatomic, strong) IFAPagingStateManager *p_pagingStateManager;

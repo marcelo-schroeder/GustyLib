@@ -16,7 +16,7 @@
 //  limitations under the License.
 //
 
-#import "IFACommon.h"
+#import "GustyLib.h"
 
 @interface IFAInternalWebBrowserViewController ()
 @property(nonatomic, strong) UIBarButtonItem *IFA_actionBarButtonItem;

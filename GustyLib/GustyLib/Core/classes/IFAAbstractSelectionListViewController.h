@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#import "IFAListViewController.h"
+
 @interface IFAAbstractSelectionListViewController : IFAListViewController <UIPopoverControllerDelegate>
 
 @property (nonatomic, strong) UIBarButtonItem *selectNoneButtonItem;

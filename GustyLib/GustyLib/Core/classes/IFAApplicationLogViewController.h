@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#import "IFANavigationListViewController.h"
+
 @interface IFAApplicationLogViewController : IFANavigationListViewController {
 }
 

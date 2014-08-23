@@ -18,9 +18,8 @@
 //  limitations under the License.
 //
 
-#import "IFACommonTests.h"
+#import "GustyLib.h"
 #import "IFAColorSchemeTest.h"
-#import "IFAColorScheme.h"
 
 @implementation IFAColorSchemeTest
 

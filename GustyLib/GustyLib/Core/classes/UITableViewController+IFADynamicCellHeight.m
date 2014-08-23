@@ -15,7 +15,7 @@
 //  limitations under the License.
 //
 
-#import "IFACommon.h"
+#import "GustyLib.h"
 #import "UITableViewController+IFADynamicCellHeight.h"
 
 @interface UITableViewController (IFADynamicCellHeight_Private)

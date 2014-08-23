@@ -6,7 +6,7 @@
 //
 
 #import "IFACommonTests.h"
-#import "NSDictionary+IFACategory.h"
+#import "GustyLib.h"
 
 @interface NSDictionaryTests : XCTestCase 
 @end

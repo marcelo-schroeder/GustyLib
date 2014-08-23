@@ -19,7 +19,7 @@
 //
 
 #import "IFA_SVWebViewController.h"
-#import "IFACommon.h"
+#import "GustyLib.h"
 #import "Flurry.h"
 #import "IFAFlurrySupportUtils.h"
 

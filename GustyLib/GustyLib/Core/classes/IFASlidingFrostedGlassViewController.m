@@ -15,7 +15,7 @@
 //  limitations under the License.
 //
 
-#import "IFACommon.h"
+#import "GustyLib.h"
 #import "IFASlidingFrostedGlassViewController.h"
 
 @interface IFASlidingFrostedGlassViewController ()

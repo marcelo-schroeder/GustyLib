@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "IFACommon.h"
+#import "GustyLib.h"
 #import "UIScrollView+IFACategory.h"
 
 @interface IFATextViewController ()

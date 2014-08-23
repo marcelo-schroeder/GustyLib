@@ -18,7 +18,8 @@
 //
 
 #import "IFACommonTests.h"
-#import "IFAHtmlParser.h"
+#import "GustyLib.h"
+#import "GustyLibHtml.h"
 
 typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_name, NSString *a_stringRepresentation, NSDictionary *a_attributes, NSDictionary *a_activeInlineStyleAttributes);
 
