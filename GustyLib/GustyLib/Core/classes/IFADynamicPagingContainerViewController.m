@@ -29,7 +29,6 @@ static NSArray *c_pageDataLoadingOrder = nil;
 
 @interface IFADynamicPagingContainerViewController ()
 
-@property (nonatomic) NSUInteger newChildViewControllerCount;
 @property (nonatomic, strong) NSDate *lastFullChildViewControllerUpdate;
 
 @property(nonatomic) BOOL IFA_performingScroll;
@@ -327,7 +326,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
         id l_object = [self.pagingContainerChildViewControllers objectAtIndex:i];
         if (l_object!=[NSNull null]) {
             
-            if (self.firstPageWithContent ==NSNotFound) {
+            if (self.firstPageWithContent == (IFAScrollPage)NSNotFound) {
                 self.firstPageWithContent = i;
             }
             IFAListViewController *l_viewController = (IFAListViewController *)l_object;

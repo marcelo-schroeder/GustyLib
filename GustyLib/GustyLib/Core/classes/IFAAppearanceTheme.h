@@ -45,7 +45,6 @@ typedef enum {
 @property (nonatomic, strong, readonly) UISlider *sliderAppearance;
 @property (nonatomic, strong, readonly) UIActivityIndicatorView *activityIndicatorView;
 @property (nonatomic, strong, readonly) UIPageControl *pageControlAppearance;
-
 @property (nonatomic, strong) NSShadow *shadow;
 
 -(void)setAppearance;

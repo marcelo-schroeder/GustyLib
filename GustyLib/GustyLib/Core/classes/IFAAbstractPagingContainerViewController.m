@@ -23,7 +23,6 @@
 @interface IFAAbstractPagingContainerViewController ()
 
 @property (nonatomic) NSUInteger selectedPageIndex;
-@property (nonatomic) NSUInteger newChildViewControllerCount;
 
 @end
 

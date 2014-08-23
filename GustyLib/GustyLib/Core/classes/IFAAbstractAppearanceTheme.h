@@ -25,6 +25,24 @@
 
 @interface IFAAbstractAppearanceTheme : NSObject <IFAAppearanceTheme>
 
+@property (nonatomic, strong) UINavigationBar *navigationBarAppearance;
+@property (nonatomic, strong) UINavigationBar *popoverNavigationBarAppearance;
+@property (nonatomic, strong) UIBarButtonItem *barButtonItemAppearance;
+@property (nonatomic, strong) UIBarButtonItem *navigationBarButtonItemAppearance;
+@property (nonatomic, strong) UIBarButtonItem *toolbarButtonItemAppearance;
+@property (nonatomic, strong) UIToolbar *toolbarAppearance;
+@property (nonatomic, strong) UIToolbar *popoverToolbarAppearance;
+@property (nonatomic, strong) UITabBar *tabBarAppearance;
+@property (nonatomic, strong) UITabBarItem *tabBarItemAppearance;
+@property (nonatomic, strong) UISearchBar *searchBarAppearance;
+@property (nonatomic, strong) UISegmentedControl *barSegmentedControlAppearance;
+@property (nonatomic, strong) UISegmentedControl *segmentedControlAppearance;
+@property (nonatomic, strong) UISwitch *switchAppearance;
+@property (nonatomic, strong) UISlider *sliderAppearance;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
+@property (nonatomic, strong) UIPageControl *pageControlAppearance;
+@property (nonatomic, strong) NSShadow *shadow;
+
 -(void)setOrientationDependentBackgroundImagesForViewController:(UIViewController*)a_viewController;
 -(IFANavigationItemTitleView *)navigationItemTitleViewForViewController:(UIViewController *)a_viewController barMetrics:(UIBarMetrics)a_barMetrics;
 -(UINavigationItem*)titleViewNavigationItemForViewViewController:(UIViewController*)a_viewController;

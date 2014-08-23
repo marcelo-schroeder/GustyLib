@@ -525,7 +525,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
             NSString *entityName = [[IFAPersistenceManager sharedInstance].entityConfig entityNameForProperty:propertyName
                                                                                                      inObject:self.object];
             IFAEditorType editorType = [[IFAPersistenceManager sharedInstance].entityConfig fieldEditorForEntity:entityName];
-            if (editorType==NSNotFound) {
+            if (editorType==(IFAEditorType)NSNotFound) {
                 // Attempt to infer editor type from target entity
                 return [[IFAPersistenceManager sharedInstance] isSystemEntityForEntity:entityName] ? IFAEditorTypePicker : IFAEditorTypeSelectionList;
             }else {

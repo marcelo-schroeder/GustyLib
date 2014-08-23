@@ -31,7 +31,7 @@
 @property (nonatomic) NSUInteger lastActiveInterfaceOrientation;
 
 @property (nonatomic) NSUInteger childViewDidAppearCount;
-@property (nonatomic, readonly) NSUInteger newChildViewControllerCount;
+@property (nonatomic) NSUInteger newChildViewControllerCount;
 
 -(void)updateContentLayout;
 -(CGRect)visibleRectForPage:(NSUInteger)a_pageIndex;

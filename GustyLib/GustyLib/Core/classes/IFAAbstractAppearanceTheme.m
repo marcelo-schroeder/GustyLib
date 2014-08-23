@@ -29,31 +29,13 @@
 
 @interface IFAAbstractAppearanceTheme ()
 
-@property (nonatomic, strong) UINavigationBar *navigationBarAppearance;
-@property (nonatomic, strong) UINavigationBar *popoverNavigationBarAppearance;
-@property (nonatomic, strong) UIBarButtonItem *barButtonItemAppearance;
-@property (nonatomic, strong) UIBarButtonItem *navigationBarButtonItemAppearance;
-@property (nonatomic, strong) UIBarButtonItem *toolbarButtonItemAppearance;
-@property (nonatomic, strong) UIToolbar *toolbarAppearance;
-@property (nonatomic, strong) UIToolbar *popoverToolbarAppearance;
-@property (nonatomic, strong) UITabBar *tabBarAppearance;
-@property (nonatomic, strong) UITabBarItem *tabBarItemAppearance;
-@property (nonatomic, strong) UISearchBar *searchBarAppearance;
-@property (nonatomic, strong) UISegmentedControl *barSegmentedControlAppearance;
-@property (nonatomic, strong) UISegmentedControl *segmentedControlAppearance;
-@property (nonatomic, strong) UISwitch *switchAppearance;
-@property (nonatomic, strong) UISlider *sliderAppearance;
 @property (nonatomic, strong) IFAColorScheme *IFA_colorScheme;
-@property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
-@property (nonatomic, strong) UIPageControl *pageControlAppearance;
 
 @end
 
 @implementation IFAAbstractAppearanceTheme {
     
 }
-
-@synthesize shadow;
 
 #pragma mark - Private
 
@@ -71,7 +53,7 @@
         for (UIView *l_view in l_titleView.subviews) {
             if ([l_view isKindOfClass:[UILabel class]]) {
                 UILabel *l_label = (UILabel*)l_view;
-                CGFloat l_maxWidth = [l_label.text sizeWithFont:l_label.font].width;
+                CGFloat l_maxWidth = [l_label.text sizeWithAttributes:@{NSFontAttributeName:l_label.font}].width;
                 if (l_maxWidth>l_greatestMaxWidth) {
                     l_greatestMaxWidth = l_maxWidth;
                 }
@@ -319,6 +301,11 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 - (void)setAppearanceOnSetSelectedForCell:(UITableViewCell *)a_cell animated:(BOOL)a_shouldAnimate {
+}
+
+- (void)setAppearanceForCell:(UITableViewCell *)a_cell atIndexPath:(NSIndexPath *)a_indexPath
+              viewController:(IFATableViewController *)a_tableViewController {
+
 }
 
 -(void)setAppearanceOnAwakeFromNibForView:(UIView*)a_view{
