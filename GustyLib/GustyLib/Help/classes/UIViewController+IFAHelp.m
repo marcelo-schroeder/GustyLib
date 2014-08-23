@@ -101,10 +101,9 @@ static char c_helpBarButtonItemKey;
     NSMutableArray *l_helpTargets = [NSMutableArray new];
 
     // Navigation bar
-    id<IFAHelpTarget> l_helpTarget = nil;
-    if ((l_helpTarget=self.navigationController.navigationBar)) {
+    if (self.navigationController.navigationBar) {
 //        NSLog(@"navigationBar: %@", [l_helpTarget description]);
-        [l_helpTargets addObject:l_helpTarget];
+        [l_helpTargets addObject:self.navigationController.navigationBar];
     }
 //    NSLog(@"Processing left bar button items in %@...", [self description]);
     for (UIBarButtonItem *l_barButtonItem in self.navigationItem.leftBarButtonItems) {
