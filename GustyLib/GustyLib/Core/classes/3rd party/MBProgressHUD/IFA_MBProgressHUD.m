@@ -352,9 +352,16 @@
     // Add label if label text was set
     if (nil != self.labelText) {
         // Get size of label text
-//        CGSize dims = [self.labelText sizeWithFont:self.labelFont];
-        CGSize dims = [self.labelText sizeWithFont:self.labelFont constrainedToSize:CGSizeMake((frame.size.width - 4 * margin), [[UIScreen mainScreen] applicationFrame].size.height) lineBreakMode:UILineBreakModeWordWrap];
-		
+        NSMutableParagraphStyle *l_paragraphStyle = [NSMutableParagraphStyle new];
+        l_paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+        CGSize dims = [self.labelText boundingRectWithSize:CGSizeMake((frame.size.width - 4 * margin), [[UIScreen mainScreen] applicationFrame].size.height)
+                                                   options:NSStringDrawingUsesLineFragmentOrigin
+                                                attributes:@{
+                                                        NSFontAttributeName : self.labelFont,
+                                                        NSParagraphStyleAttributeName : l_paragraphStyle,
+                                                }
+                                                   context:nil].size;
+
         // Compute label dimensions based on font metrics if size is larger than max then clip the label width
         float lHeight = dims.height;
         float lWidth;
@@ -369,11 +376,11 @@
         // Set label properties
         label.font = self.labelFont;
 //        label.adjustsFontSizeToFitWidth = YES;
-        label.textAlignment = UITextAlignmentCenter;
+        label.textAlignment = NSTextAlignmentCenter;
         label.opaque = NO;
         label.backgroundColor = [UIColor clearColor];
         label.textColor = [UIColor whiteColor];
-        label.lineBreakMode = UILineBreakModeWordWrap;
+        label.lineBreakMode = NSLineBreakByWordWrapping;
         label.numberOfLines = 0;
         label.text = self.labelText;
 		
@@ -398,7 +405,7 @@
         // Add details label delatils text was set
         if (nil != self.detailsLabelText) {
             // Get size of label text
-            dims = [self.detailsLabelText sizeWithFont:self.detailsLabelFont];
+            dims = [self.detailsLabelText sizeWithAttributes:@{NSFontAttributeName : self.detailsLabelFont}];
 			
             // Compute label dimensions based on font metrics if size is larger than max then clip the label width
             lHeight = dims.height;
@@ -412,7 +419,7 @@
             // Set label properties
             detailsLabel.font = self.detailsLabelFont;
             detailsLabel.adjustsFontSizeToFitWidth = YES;
-            detailsLabel.textAlignment = UITextAlignmentCenter;
+            detailsLabel.textAlignment = NSTextAlignmentCenter;
             detailsLabel.opaque = NO;
             detailsLabel.backgroundColor = [UIColor clearColor];
             detailsLabel.textColor = [UIColor whiteColor];
