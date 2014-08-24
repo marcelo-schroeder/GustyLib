@@ -178,11 +178,11 @@ static char c_appearanceIdKey;
     return [self IFA_addSuperviewEqualityLayoutConstraintForAttribute:NSLayoutAttributeCenterY];
 }
 
-- (NSLayoutConstraint *)ifa_newLayoutConstraintWithAttribute:(NSLayoutAttribute)a_attribute toItem:(id)a_item {
+- (NSLayoutConstraint *)ifa_newLayoutConstraintWithAttribute:(NSLayoutAttribute)a_attribute toItem:(id)a_toItem {
     return [NSLayoutConstraint constraintWithItem:self
                                         attribute:a_attribute
                                         relatedBy:NSLayoutRelationEqual
-                                           toItem:a_item
+                                           toItem:a_toItem
                                         attribute:a_attribute
                                        multiplier:1 constant:0];
 }

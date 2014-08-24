@@ -41,21 +41,58 @@
 
 -(id<IFAAppearanceTheme>)ifa_appearanceTheme;
 
+/**
+* Add top, left, bottom and right layout constraints to the receiver's superview so that the receiver frame is always equal to the superview frame.
+* @returns Array containing NSLayoutConstraint instances created.
+*/
 - (NSArray *)ifa_addLayoutConstraintsToFillSuperview;
 
+/**
+* Add left and right constraints to the receiver's superview so that the receiver fills the superview frame horizontally.
+* @returns Array containing NSLayoutConstraint instances created.
+*/
 - (NSArray *)ifa_addLayoutConstraintsToFillSuperviewHorizontally;
 
+/**
+* Add top and bottom layout constraints to the receiver's superview so that the receiver fills the superview frame vertically.
+* @returns Array containing NSLayoutConstraint instances created.
+*/
 - (NSArray *)ifa_addLayoutConstraintsToFillSuperviewVertically;
 
+/**
+* Add center X and center Y layout constraints to the receiver's superview so that the receiver frame is centered in the superview frame.
+* @returns Array containing NSLayoutConstraint instances created.
+*/
 - (NSArray *)ifa_addLayoutConstraintsToCenterInSuperview;
 
+/**
+* Add width and height layout constraints to the receiver to match the size provided.
+* @param a_size Size the width and height for the layout constraints will be derived from.
+* @returns Array containing NSLayoutConstraint instances created.
+*/
 - (NSArray *)ifa_addLayoutConstraintsForSize:(CGSize)a_size;
 
+/**
+* Add a center X layout constraint to the receiver's superview so that the receiver frame is horizontally centered in the superview frame.
+* @returns NSLayoutConstraint instance created.
+*/
 - (NSLayoutConstraint *)ifa_addLayoutConstraintToCenterInSuperviewHorizontally;
 
+/**
+* Add a center Y layout constraint to the receiver's superview so that the receiver frame is vertically centered in the superview frame.
+* @returns NSLayoutConstraint instance created.
+*/
 - (NSLayoutConstraint *)ifa_addLayoutConstraintToCenterInSuperviewVertically;
 
-- (NSLayoutConstraint *)ifa_newLayoutConstraintWithAttribute:(NSLayoutAttribute)a_attribute toItem:(id)a_item;
+/**
+* Convenience method to add a layout constraint to the receiver in relation to another item.
+* Items will be related by NSLayoutRelationEqual.
+* The multiplier value will be 1 and the constant will be 0.
+* @param a_attribute NSLayoutAttribute enum to be used when creating the layout constraint.
+* @param a_toItem The other item the layout constraint relates to.
+* @return Layout constraint instance created matching the specifications provided.
+*/
+- (NSLayoutConstraint *)ifa_newLayoutConstraintWithAttribute:(NSLayoutAttribute)a_attribute toItem:(id)a_toItem;
 
 - (UIImage *)ifa_snapshotImage;
 
