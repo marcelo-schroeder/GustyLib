@@ -155,6 +155,21 @@ static char c_appearanceIdKey;
     return l_constraints;
 }
 
+- (NSArray *)ifa_addLayoutConstraintsForSize:(CGSize)a_size {
+    NSArray *l_constraints = @[
+            [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth
+                                         relatedBy:NSLayoutRelationEqual toItem:nil
+                                         attribute:NSLayoutAttributeNotAnAttribute multiplier:1
+                                          constant:a_size.width],
+            [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight
+                                         relatedBy:NSLayoutRelationEqual toItem:nil
+                                         attribute:NSLayoutAttributeNotAnAttribute multiplier:1
+                                          constant:a_size.height],
+    ];
+    [self addConstraints:l_constraints];
+    return l_constraints;
+}
+
 - (NSLayoutConstraint *)ifa_addLayoutConstraintToCenterInSuperviewHorizontally {
     return [self IFA_addSuperviewEqualityLayoutConstraintForAttribute:NSLayoutAttributeCenterX];
 }

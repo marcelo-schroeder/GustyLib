@@ -49,6 +49,8 @@
 
 - (NSArray *)ifa_addLayoutConstraintsToCenterInSuperview;
 
+- (NSArray *)ifa_addLayoutConstraintsForSize:(CGSize)a_size;
+
 - (NSLayoutConstraint *)ifa_addLayoutConstraintToCenterInSuperviewHorizontally;
 
 - (NSLayoutConstraint *)ifa_addLayoutConstraintToCenterInSuperviewVertically;
