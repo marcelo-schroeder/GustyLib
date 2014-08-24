@@ -36,16 +36,17 @@
 }
 
 -(IFATableViewController *)selectedViewController {
-    return [self.childViewControllers objectAtIndex:self.selectedPageIndex];
+    return (self.childViewControllers)[self.selectedPageIndex];
 }
 
 -(void)updateContentLayout {
     NSUInteger l_contentWidth = 0;
-    for (int i=0; i<[self.childViewControllers count]; i++) {
-        UIViewController *l_viewController = [self.childViewControllers objectAtIndex:i];
+    for (NSUInteger i=0; i<[self.childViewControllers count]; i++) {
+        UIViewController *l_viewController = (self.childViewControllers)[i];
         CGRect l_frame = self.view.frame;
 //        NSLog(@"self.view.frame: %@", NSStringFromCGRect(self.view.frame));
         l_frame.origin.x = l_frame.size.width * i;
+        l_frame.origin.y = 0;
         l_viewController.view.frame = l_frame;
 //        NSLog(@"l_viewController.view.frame: %@", NSStringFromCGRect(l_viewController.view.frame));
         l_contentWidth += l_viewController.view.frame.size.width;
@@ -91,7 +92,7 @@
     BOOL l_firstChildViewController = YES;
     for (NSNumber *l_pageIndex in [self dataLoadPageIndexes]) {
         NSUInteger i = [l_pageIndex unsignedIntegerValue];
-        UIViewController *l_viewController = [self.childViewControllers objectAtIndex:i];
+        UIViewController *l_viewController = (self.childViewControllers)[i];
         if ([l_viewController isKindOfClass:[IFAListViewController class]]) {
             IFAListViewController *l_childListViewController = (IFAListViewController *)l_viewController;
             //            NSLog(@"  l_pageIndex: %u, child: %@, staleData: %u", i, [l_childViewController description], l_childViewController.staleData);
@@ -115,7 +116,7 @@
 
 -(NSUInteger)calculateSelectedPageIndex {
     CGFloat l_contentWidth = self.view.frame.size.width;
-    IFAScrollPage l_selectedPageIndex = floor((self.scrollView.contentOffset.x - l_contentWidth / 2) / l_contentWidth) + 1;
+    IFAScrollPage l_selectedPageIndex = (IFAScrollPage)(NSUInteger)(floor((self.scrollView.contentOffset.x - l_contentWidth / 2) / l_contentWidth) + 1);
     return l_selectedPageIndex;
 }
 
@@ -133,7 +134,7 @@
 -(void)loadView{
     
     [super loadView];
-    
+
     UIScrollView *l_scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
     l_scrollView.pagingEnabled = YES;
     l_scrollView.showsHorizontalScrollIndicator = NO;
@@ -207,7 +208,7 @@
         return;
     }
     
-    IFAScrollPage l_newSelectedPageIndex = [self calculateSelectedPageIndex];
+    IFAScrollPage l_newSelectedPageIndex = (IFAScrollPage) [self calculateSelectedPageIndex];
     if (self.selectedPageIndex !=l_newSelectedPageIndex) {
         self.selectedPageIndex = l_newSelectedPageIndex;
         [self ifa_updateScreenDecorationState];
