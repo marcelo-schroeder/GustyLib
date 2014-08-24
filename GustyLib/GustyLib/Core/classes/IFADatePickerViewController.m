@@ -189,15 +189,16 @@
 }
 
 - (void)IFA_updatePickersVisibilityState{
-
     self.IFA_datePicker.hidden = !self.IFA_segmentedControl.selectedSegmentIndex==0;
     self.IFA_timePicker.hidden = !self.IFA_datePicker.hidden;
 }
 
 - (void)IFA_updateSegmentedControlTitles {
-    NSDate *l_dateAndTime = self.IFA_dateAndTime;
-    [self.IFA_segmentedControl setTitle:[self.IFA_dateFormatter stringFromDate:l_dateAndTime] forSegmentAtIndex:0];
-    [self.IFA_segmentedControl setTitle:[self.IFA_timeFormatter stringFromDate:l_dateAndTime] forSegmentAtIndex:1];
+    if (self.showTimePicker) {
+        NSDate *l_dateAndTime = self.IFA_dateAndTime;
+        [self.IFA_segmentedControl setTitle:[self.IFA_dateFormatter stringFromDate:l_dateAndTime] forSegmentAtIndex:0];
+        [self.IFA_segmentedControl setTitle:[self.IFA_timeFormatter stringFromDate:l_dateAndTime] forSegmentAtIndex:1];
+    }
 }
 
 - (UISegmentedControl *)IFA_segmentedControl {
@@ -233,32 +234,46 @@
 }
 
 - (void)IFA_configureLayout {
+
     self.IFA_pickerContainerView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.IFA_segmentedControl.translatesAutoresizingMaskIntoConstraints = NO;
     CGFloat l_pickerContainerViewVerticalPaddingAdjustment = -8;
     CGSize l_pickerContainerViewSize = CGSizeMake(self.IFA_datePicker.bounds.size.width, self.IFA_datePicker.bounds.size.height + l_pickerContainerViewVerticalPaddingAdjustment);
     [self.IFA_pickerContainerView ifa_addLayoutConstraintsForSize:l_pickerContainerViewSize];
     [self.IFA_datePicker ifa_addLayoutConstraintsToCenterInSuperview];
-    [self.IFA_timePicker ifa_addLayoutConstraintsToCenterInSuperview];
-    [self.IFA_segmentedControl ifa_addLayoutConstraintToCenterInSuperviewHorizontally];
-    id l_segmentedControl = self.IFA_segmentedControl;
+
+    NSDictionary *l_views;
+    NSString *l_visualFormatConstraints;
     id l_pickerContainerView = self.IFA_pickerContainerView;
-    NSDictionary *l_views = NSDictionaryOfVariableBindings(l_segmentedControl, l_pickerContainerView);
-    NSArray *l_verticalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-15-[l_segmentedControl][l_pickerContainerView]|"
+    if (self.showTimePicker) {
+        self.IFA_segmentedControl.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.IFA_timePicker ifa_addLayoutConstraintsToCenterInSuperview];
+        [self.IFA_segmentedControl ifa_addLayoutConstraintToCenterInSuperviewHorizontally];
+        id l_segmentedControl = self.IFA_segmentedControl;
+        l_views = NSDictionaryOfVariableBindings(l_segmentedControl, l_pickerContainerView);
+        l_visualFormatConstraints = @"V:|-15-[l_segmentedControl][l_pickerContainerView]|";
+    }else{
+        l_views = NSDictionaryOfVariableBindings(l_pickerContainerView);
+        l_visualFormatConstraints = @"V:|[l_pickerContainerView]|";
+    }
+    NSArray *l_verticalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:l_visualFormatConstraints
                                                                                    options:NSLayoutFormatAlignAllCenterX
                                                                                    metrics:nil
                                                                                      views:l_views];
     [self.view addConstraints:l_verticalLayoutConstraints];
+
     CGRect l_viewFrame = CGRectZero;
     l_viewFrame.size = [self.view systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
     self.view.frame = l_viewFrame;
+
 }
 
 - (void)IFA_configureViewHierarchy {
     [self.IFA_pickerContainerView addSubview:self.IFA_datePicker];
-    [self.IFA_pickerContainerView addSubview:self.IFA_timePicker];
     [self.view addSubview:self.IFA_pickerContainerView];
-    [self.view addSubview:self.IFA_segmentedControl];
+    if (self.showTimePicker) {
+        [self.IFA_pickerContainerView addSubview:self.IFA_timePicker];
+        [self.view addSubview:self.IFA_segmentedControl];
+    }
 }
 
 - (UIView *)IFA_pickerContainerView {
