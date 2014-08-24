@@ -236,8 +236,7 @@
 - (void)IFA_configureLayout {
 
     self.IFA_pickerContainerView.translatesAutoresizingMaskIntoConstraints = NO;
-    CGFloat l_pickerContainerViewVerticalPaddingAdjustment = -8;
-    CGSize l_pickerContainerViewSize = CGSizeMake(self.IFA_datePicker.bounds.size.width, self.IFA_datePicker.bounds.size.height + l_pickerContainerViewVerticalPaddingAdjustment);
+    CGSize l_pickerContainerViewSize = CGSizeMake(self.IFA_datePicker.bounds.size.width, self.IFA_datePicker.bounds.size.height);
     [self.IFA_pickerContainerView ifa_addLayoutConstraintsForSize:l_pickerContainerViewSize];
     [self.IFA_datePicker ifa_addLayoutConstraintsToCenterInSuperview];
 
