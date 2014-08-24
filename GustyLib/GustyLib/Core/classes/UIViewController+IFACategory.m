@@ -230,18 +230,22 @@ typedef enum {
 - (void)IFA_spaceBarButtonItems:(NSMutableArray *)a_items side:(IFANavigationBarButtonItemsSide)a_side
                         barType:(IFABarButtonItemSpacingBarType)a_barType {
 
+    if (a_items.count==0) {
+        return;
+    }
+
     id <IFAAppearanceTheme> l_appearanceTheme = [self ifa_appearanceTheme];
     NSArray *l_items = [NSArray arrayWithArray:a_items];
     [a_items removeAllObjects];
-    for (NSUInteger i=0; i<l_items.count; i++) {
+    for (NSUInteger i = 0; i < l_items.count; i++) {
         NSNumber *l_spaceWidth;
-        if (i==0) {
-            BOOL l_isNavigationBarRightItemsCase = a_barType==IFABarButtonItemSpacingBarTypeNavigationBar && a_side==IFANavigationBarButtonItemsSideRight;
+        if (i == 0) {
+            BOOL l_isNavigationBarRightItemsCase = a_barType == IFABarButtonItemSpacingBarTypeNavigationBar && a_side == IFANavigationBarButtonItemsSideRight;
             IFABarButtonItemPositionType l_position = l_isNavigationBarRightItemsCase ? IFABarButtonItemSpacingPositionRight : IFABarButtonItemSpacingPositionLeft;
             l_spaceWidth = [l_appearanceTheme spaceBarButtonItemWidthForPosition:l_position
                                                                          barType:a_barType
                                                                   viewController:self];
-        }else{
+        } else {
             l_spaceWidth = [l_appearanceTheme spaceBarButtonItemWidthForPosition:IFABarButtonItemSpacingPositionMiddle
                                                                          barType:a_barType
                                                                   viewController:self];
@@ -253,7 +257,7 @@ typedef enum {
         [a_items addObject:l_items[i]];
     }
 
-    if (a_barType==IFABarButtonItemSpacingBarTypeToolbar) {
+    if (a_barType == IFABarButtonItemSpacingBarTypeToolbar) {
         NSNumber *l_spaceWidth = [l_appearanceTheme spaceBarButtonItemWidthForPosition:IFABarButtonItemSpacingPositionRight
                                                                                barType:a_barType
                                                                         viewController:self];
@@ -262,7 +266,7 @@ typedef enum {
             [a_items addObject:l_fixedSpace];
         }
     }
-    
+
 }
 
 - (UIBarButtonItem *)IFA_newCustomFixedSpaceBarButtonItemWithWidth:(CGFloat)a_width {
