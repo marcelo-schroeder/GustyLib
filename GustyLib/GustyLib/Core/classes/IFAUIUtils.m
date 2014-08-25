@@ -294,11 +294,11 @@ static UIImage *c_menuBarButtonItemImage = nil;
 			break;
 		}
 		case IFABarButtonItemPreviousPage:
-			barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"191-ArrowHead-left"] style:UIBarButtonItemStylePlain target:aTarget action:anAction];
+			barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IFA_Icon_Previous"] style:UIBarButtonItemStylePlain target:aTarget action:anAction];
 //			barButtonItem.accessibilityLabel = @"Previous Page Button";
 			break;
 		case IFABarButtonItemNextPage:
-			barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"191-ArrowHead-right"] style:UIBarButtonItemStylePlain target:aTarget action:anAction];
+			barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IFA_Icon_Next"] style:UIBarButtonItemStylePlain target:aTarget action:anAction];
 //			barButtonItem.accessibilityLabel = @"Next Page Button";
 			break;
 		case IFABarButtonItemSelectNow:

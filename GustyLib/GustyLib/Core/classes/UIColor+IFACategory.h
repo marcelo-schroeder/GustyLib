@@ -27,11 +27,10 @@
 
 + (UIColor *)ifa_colorWithRed:(NSUInteger)a_red green:(NSUInteger)a_green blue:(NSUInteger)a_blue;
 + (UIColor *)ifa_colorWithRed:(NSUInteger)a_red green:(NSUInteger)a_green blue:(NSUInteger)a_blue alpha:(CGFloat)a_alpha;
-
 + (UIColor *)ifa_colorWithHue:(NSUInteger)a_hue saturation:(NSUInteger)a_saturation brightness:(NSUInteger)a_brightness;
 + (UIColor *)ifa_colorWithHue:(NSUInteger)a_hue saturation:(NSUInteger)a_saturation brightness:(NSUInteger)a_brightness
                         alpha:(CGFloat)a_alpha;
-
++ (UIColor *)ifa_colorWithSpaceOrTabDelimitedRGB:(NSString *)a_rgb;
 + (UIColor *)ifa_grayColorWithRGB:(NSUInteger)a_rgb;
 
 +(void)ifa_logFontNamesPerFamily;

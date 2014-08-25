@@ -39,7 +39,8 @@
 }
 
 + (UIColor *)ifa_colorWithRed:(NSUInteger)a_red green:(NSUInteger)a_green blue:(NSUInteger)a_blue alpha:(CGFloat)a_alpha{
-    return [UIColor colorWithRed:a_red/255.0 green:a_green/255.0 blue:a_blue/255.0 alpha:a_alpha];
+    return [UIColor colorWithRed:(CGFloat) (a_red / 255.0) green:(CGFloat) (a_green / 255.0) blue:(CGFloat) (a_blue / 255.0)
+                           alpha:a_alpha];
 }
 
 + (UIColor *)ifa_colorWithHue:(NSUInteger)a_hue saturation:(NSUInteger)a_saturation brightness:(NSUInteger)a_brightness{
@@ -48,11 +49,20 @@
 
 + (UIColor *)ifa_colorWithHue:(NSUInteger)a_hue saturation:(NSUInteger)a_saturation brightness:(NSUInteger)a_brightness
                         alpha:(CGFloat)a_alpha{
-    return [UIColor colorWithHue:a_hue/360.0 saturation:a_saturation/100.0 brightness:a_brightness/100.0 alpha:a_alpha];
+    return [UIColor colorWithHue:(CGFloat) (a_hue / 360.0) saturation:(CGFloat) (a_saturation / 100.0)
+                      brightness:(CGFloat) (a_brightness / 100.0) alpha:a_alpha];
 }
 
 + (UIColor *)ifa_grayColorWithRGB:(NSUInteger)a_rgb {
     return [self ifa_colorWithRed:a_rgb green:a_rgb blue:a_rgb];
+}
+
++ (UIColor *)ifa_colorWithSpaceOrTabDelimitedRGB:(NSString *)a_rgb {
+    NSArray *l_components = [a_rgb componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSUInteger l_red = (NSUInteger) ((NSString *) l_components[0]).integerValue;
+    NSUInteger l_green = (NSUInteger) ((NSString *) l_components[1]).integerValue;
+    NSUInteger l_blue = (NSUInteger) ((NSString *) l_components[2]).integerValue;
+    return [self ifa_colorWithRed:l_red green:l_green blue:l_blue];
 }
 
 +(void)ifa_logFontNamesPerFamily {

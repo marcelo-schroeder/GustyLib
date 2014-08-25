@@ -561,6 +561,10 @@
 		10738FFCB3C185973FCED6BE /* NSFileManager+IFACategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+IFACategory.m"; sourceTree = "<group>"; };
 		10738FFE191581B09F31132F /* IFAOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAOperation.m; sourceTree = "<group>"; };
 		A03BC960480144A4ABDD6917 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		F72150C719AABAFF00AE2C33 /* IFA_Icon_Next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IFA_Icon_Next.png; sourceTree = "<group>"; };
+		F72150C819AABAFF00AE2C33 /* IFA_Icon_Next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IFA_Icon_Next@2x.png"; sourceTree = "<group>"; };
+		F72150C919AABAFF00AE2C33 /* IFA_Icon_Previous.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IFA_Icon_Previous.png; sourceTree = "<group>"; };
+		F72150CA19AABAFF00AE2C33 /* IFA_Icon_Previous@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IFA_Icon_Previous@2x.png"; sourceTree = "<group>"; };
 		F72E8FA1194E446C00CFB3B1 /* IFAHtmlDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAHtmlDocument.h; sourceTree = "<group>"; };
 		F72E8FA2194E446C00CFB3B1 /* IFAHtmlDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAHtmlDocument.m; sourceTree = "<group>"; };
 		F72E8FA3194E446C00CFB3B1 /* IFAHtmlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAHtmlParser.h; sourceTree = "<group>"; };
@@ -914,6 +918,10 @@
 		107381CAC567494A58822E49 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				F72150C719AABAFF00AE2C33 /* IFA_Icon_Next.png */,
+				F72150C819AABAFF00AE2C33 /* IFA_Icon_Next@2x.png */,
+				F72150C919AABAFF00AE2C33 /* IFA_Icon_Previous.png */,
+				F72150CA19AABAFF00AE2C33 /* IFA_Icon_Previous@2x.png */,
 				F7C6732119A2A54600FF1FD0 /* IFA_Icon_DisclosureIndicatorDown.png */,
 				F7C6732219A2A54600FF1FD0 /* IFA_Icon_DisclosureIndicatorDown@2x.png */,
 				F7C6731F19A1E35F00FF1FD0 /* IFA_Icon_DisclosureIndicatorRight.png */,
