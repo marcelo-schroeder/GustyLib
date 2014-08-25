@@ -25,7 +25,7 @@
 #pragma mark - Public
 
 -(void)ifa_deleteRowsAtIndexPaths:(NSArray *)indexPaths{
-    [self deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationRight];
+    [self deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 -(BOOL)ifa_isCellFullyVisibleForRowAtIndexPath:(NSIndexPath*)a_indexPath{
