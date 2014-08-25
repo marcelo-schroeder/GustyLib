@@ -146,6 +146,11 @@
     
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+}
+
 -(void)viewWillAppear:(BOOL)animated{
     
     // When the interface orientation changes in some other tab, it will trigger a scrollViewDidScroll event when this view is shown.
