@@ -137,6 +137,8 @@ typedef enum {
 -(void)willReloadUi;
 -(void)setAppearanceForCollectionViewCell:(UICollectionViewCell *)a_cell atIndexPath:(NSIndexPath *)a_indexPath
                            viewController:(IFACollectionViewCell *)a_collectionViewController;
+-(void)setAppearanceForTableViewCell:(UITableViewCell *)a_cell onWillTransitionToState:(UITableViewCellStateMask)a_state;
+-(void)setAppearanceForTableViewCell:(UITableViewCell *)a_cell onDidTransitionToState:(UITableViewCellStateMask)a_state;
 
 @end
 
