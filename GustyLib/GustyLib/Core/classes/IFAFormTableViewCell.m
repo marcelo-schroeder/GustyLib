@@ -48,6 +48,7 @@
     }
     self.customAccessoryImageView.image = l_imageName ? [UIImage imageNamed:l_imageName] : nil;
     self.customAccessoryImageView.hidden = l_imageName == nil;
+    [self.customAccessoryImageView sizeToFit];
     _customAccessoryType = a_customAccessoryType;
 }
 
@@ -76,15 +77,5 @@
     self.rightLabelRightConstraint.constant = self.customAccessoryImageView.hidden ? l_horizontalSpace : (l_horizontalSpace * 2 + self.customAccessoryImageView.bounds.size.width);
     [super layoutSubviews];
 }
-
-//-(void)layoutSubviews{
-//
-//    [super layoutSubviews];
-//
-//    // Fine tune labels frames to distribute form elements better
-//    self.textLabel.frame = CGRectMake(self.textLabel.frame.origin.x, self.textLabel.frame.origin.y-2, self.frame.size.width/4, self.textLabel.frame.size.height);
-//    self.detailTextLabel.frame = CGRectMake([self calculateFieldX], 11, [self calculateFieldWidth], self.detailTextLabel.frame.size.height);
-//
-//}
 
 @end
