@@ -38,15 +38,15 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Left Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w5b-SK-4wH" userLabel="Left Label">
-                    <rect key="frame" x="15" y="12" width="76" height="21"/>
+                    <rect key="frame" x="15" y="0.0" width="76" height="43"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Right Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bOx-tD-ean" userLabel="Right Label">
-                    <rect key="frame" x="106" y="12" width="176" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Right Label" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" preferredMaxLayoutWidth="176" translatesAutoresizingMaskIntoConstraints="NO" id="bOx-tD-ean" userLabel="Right Label">
+                    <rect key="frame" x="106" y="0.0" width="176" height="43"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -62,8 +62,9 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="YDb-fv-JUs" secondAttribute="trailing" constant="15" id="Bk9-fT-H4z"/>
                 <constraint firstItem="w5b-SK-4wH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="DxO-Lo-K8c"/>
-                <constraint firstItem="bOx-tD-ean" firstAttribute="baseline" secondItem="w5b-SK-4wH" secondAttribute="baseline" id="YHS-IW-Zb1"/>
+                <constraint firstItem="bOx-tD-ean" firstAttribute="top" secondItem="a7O-Dd-jDy" secondAttribute="bottom" id="XYf-dc-6Sd"/>
                 <constraint firstItem="a7O-Dd-jDy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="-1" id="YOy-XO-9PI"/>
+                <constraint firstItem="Oax-2f-JwN" firstAttribute="top" secondItem="bOx-tD-ean" secondAttribute="bottom" id="ZJL-LW-7uA"/>
                 <constraint firstItem="Oax-2f-JwN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="asc-Se-UgJ"/>
                 <constraint firstAttribute="trailing" secondItem="Oax-2f-JwN" secondAttribute="trailing" id="ev7-Dy-1Bp"/>
                 <constraint firstAttribute="trailing" secondItem="a7O-Dd-jDy" secondAttribute="trailing" id="k67-VY-XhW"/>
@@ -71,7 +72,8 @@
                 <constraint firstAttribute="bottom" secondItem="Oax-2f-JwN" secondAttribute="bottom" id="oWn-zy-zTp"/>
                 <constraint firstAttribute="trailing" secondItem="bOx-tD-ean" secondAttribute="trailing" constant="38" id="rXg-8N-fff"/>
                 <constraint firstAttribute="centerY" secondItem="YDb-fv-JUs" secondAttribute="centerY" id="s37-xL-0NZ"/>
-                <constraint firstAttribute="centerY" secondItem="w5b-SK-4wH" secondAttribute="centerY" id="sz7-pb-EHZ"/>
+                <constraint firstItem="Oax-2f-JwN" firstAttribute="top" secondItem="w5b-SK-4wH" secondAttribute="bottom" id="tYz-3k-AkJ"/>
+                <constraint firstItem="w5b-SK-4wH" firstAttribute="top" secondItem="a7O-Dd-jDy" secondAttribute="bottom" id="xdl-2B-eot"/>
                 <constraint firstItem="a7O-Dd-jDy" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="xuH-n4-81P"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
