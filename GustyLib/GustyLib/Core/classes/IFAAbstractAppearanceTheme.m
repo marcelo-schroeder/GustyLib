@@ -569,7 +569,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 - (NSNumber *)spaceBarButtonItemWidthForPosition:(IFABarButtonItemPositionType)a_position
                                          barType:(IFABarButtonItemSpacingBarType)a_barType
-                                  viewController:(UIViewController *)a_viewController {
+                                  viewController:(UIViewController *)a_viewController items:(NSArray *)a_items {
     return nil;
 }
 

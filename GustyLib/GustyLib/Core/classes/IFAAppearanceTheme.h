@@ -104,11 +104,12 @@ typedef enum {
 * @param a_position Position of the spacing to be provided: left, middle (i.e. between bar button items) or right.
 * @param a_barType Type of bar the automated spacing applies to.
 * @param a_viewController View controller the bar belongs to.
+* @param a_items Items for which the spacing will be provided. If a_position is IFABarButtonItemSpacingPositionMiddle then 2 items are returned in the array, otherwise only 1 item is returned..
 * @returns Width (float wrapped by an NSNumber instance) of the space to be provided. Return nil if bar button item spacing automation is not required.
 */
 - (NSNumber *)spaceBarButtonItemWidthForPosition:(IFABarButtonItemPositionType)a_position
                                          barType:(IFABarButtonItemSpacingBarType)a_barType
-                                  viewController:(UIViewController *)a_viewController;
+                                  viewController:(UIViewController *)a_viewController items:(NSArray *)a_items;
 
 - (UIViewController *)newInternalWebBrowserViewControllerWithUrl:(NSURL *)a_url;
 - (UIViewController *)newInternalWebBrowserViewControllerWithUrl:(NSURL *)a_url completionBlock:(void(^)(void))a_completionBlock;

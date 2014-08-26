@@ -236,6 +236,7 @@ typedef enum {
 
     id <IFAAppearanceTheme> l_appearanceTheme = [self ifa_appearanceTheme];
     NSArray *l_items = [NSArray arrayWithArray:a_items];
+    id l_previousItem;
     [a_items removeAllObjects];
     for (NSUInteger i = 0; i < l_items.count; i++) {
         NSNumber *l_spaceWidth;
@@ -243,24 +244,23 @@ typedef enum {
             BOOL l_isNavigationBarRightItemsCase = a_barType == IFABarButtonItemSpacingBarTypeNavigationBar && a_side == IFANavigationBarButtonItemsSideRight;
             IFABarButtonItemPositionType l_position = l_isNavigationBarRightItemsCase ? IFABarButtonItemSpacingPositionRight : IFABarButtonItemSpacingPositionLeft;
             l_spaceWidth = [l_appearanceTheme spaceBarButtonItemWidthForPosition:l_position
-                                                                         barType:a_barType
-                                                                  viewController:self];
+                                                                         barType:a_barType viewController:self items:@[l_items[i]]];
         } else {
             l_spaceWidth = [l_appearanceTheme spaceBarButtonItemWidthForPosition:IFABarButtonItemSpacingPositionMiddle
-                                                                         barType:a_barType
-                                                                  viewController:self];
+                                                                         barType:a_barType viewController:self items:@[l_previousItem, l_items[i]]];
         }
         if (l_spaceWidth) {
             UIBarButtonItem *l_fixedSpace = [self IFA_newCustomFixedSpaceBarButtonItemWithWidth:l_spaceWidth.floatValue];
             [a_items addObject:l_fixedSpace];
         }
         [a_items addObject:l_items[i]];
+        l_previousItem = l_items[i];
     }
 
     if (a_barType == IFABarButtonItemSpacingBarTypeToolbar) {
         NSNumber *l_spaceWidth = [l_appearanceTheme spaceBarButtonItemWidthForPosition:IFABarButtonItemSpacingPositionRight
-                                                                               barType:a_barType
-                                                                        viewController:self];
+                                                                               barType:a_barType viewController:self
+                                                                                 items:@[l_previousItem]];
         if (l_spaceWidth) {
             UIBarButtonItem *l_fixedSpace = [self IFA_newCustomFixedSpaceBarButtonItemWithWidth:l_spaceWidth.floatValue];
             [a_items addObject:l_fixedSpace];
