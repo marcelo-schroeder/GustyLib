@@ -70,32 +70,14 @@
     
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier object:a_object propertyName:a_propertyName indexPath:a_indexPath];
     
-    // Configure the text field
-    //    NSLog(@"self.contentView.frame: %@", NSStringFromCGRect(self.contentView.frame));
-    //    NSLog(@"self.textLabel.frame: %@", NSStringFromCGRect(self.textLabel.frame));
-    //    NSLog(@"self.detailTextLabel.frame: %@", NSStringFromCGRect(self.detailTextLabel.frame));
     self.textField = [[IFATextField alloc] init];
     self.textField.font = self.rightLabel.font;
-//    self.textField.textColor = self.rightLabel.textColor;
     self.textField.borderStyle = UITextBorderStyleRoundedRect;
-//    self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     self.textField.hidden = YES;
     self.textField.delegate = self;
     self.textField.placeholder = [[[IFAPersistenceManager sharedInstance] entityConfig] editorTipTextForProperty:self.propertyName
                                                                                                        inObject:self.object];
-//    self.textField.p_textPaddingEnabled = YES;
-//    self.textField.p_leftTextPadding = 7;
-//    self.textField.p_topTextPadding = 3;
-//    self.textField.p_editingPaddingEnabled = self.textField.p_textPaddingEnabled;
-//    self.textField.p_leftEditingPadding = self.textField.p_leftTextPadding;
-//    self.textField.p_topEditingPadding = self.textField.p_topTextPadding;
-//    self.textField.p_rightEditingPadding = 32;    // Account for the clear button width when editing
-    //    [self.textField setFont:[UIFont fontWithName:@"Helvetica" size:30.0]];
-    self.textField.adjustsFontSizeToFitWidth = YES;
-    self.textField.minimumFontSize = 10;
-    //    self.textField.backgroundColor = [UIColor redColor];
-    //    self.textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    //    self.textField.frame = CGRectMake(100, 12, 150, 15);
     self.textField.translatesAutoresizingMaskIntoConstraints = NO;
     [self.customContentView addSubview:self.textField];
     [self.textField ifa_addLayoutConstraintToCenterInSuperviewVertically];
