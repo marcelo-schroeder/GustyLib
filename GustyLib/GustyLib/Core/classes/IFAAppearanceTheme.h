@@ -140,6 +140,7 @@ typedef enum {
                            viewController:(IFACollectionViewCell *)a_collectionViewController;
 -(void)setAppearanceForTableViewCell:(UITableViewCell *)a_cell onWillTransitionToState:(UITableViewCellStateMask)a_state;
 -(void)setAppearanceForTableViewCell:(UITableViewCell *)a_cell onDidTransitionToState:(UITableViewCellStateMask)a_state;
+-(void)setNavigationItemTitleViewForViewController:(UIViewController *)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation;
 
 @end
 

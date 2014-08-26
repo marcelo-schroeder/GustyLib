@@ -60,7 +60,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
 }
 
 -(void)IFA_updateChildViewControllersForSelectedPageNumber:(NSNumber*)a_selectedPage{
-    [self updateChildViewControllersForSelectedPage:[a_selectedPage unsignedIntegerValue]];
+    [self updateChildViewControllersForSelectedPage:(IFAScrollPage) [a_selectedPage unsignedIntegerValue]];
 }
 
 - (void)IFA_onToolbarNavigationButtonAction:(id)aSender{
@@ -163,14 +163,20 @@ static NSArray *c_pageDataLoadingOrder = nil;
 -(void)ifa_updateNavigationItemState {
     [super ifa_updateNavigationItemState];
 //    NSLog(@"ifa_updateNavigationItemState v_selectedPage: %u", v_selectedPage);
-    self.navigationItem.title = [self.dataSource titleForPage:self.selectedPage];
+    NSString *l_title = [self.dataSource titleForPage:self.selectedPage];
+    self.navigationItem.title = l_title;
+    if ([self.ifa_appearanceTheme respondsToSelector:@selector(setNavigationItemTitleViewForViewController:interfaceOrientation:)]) {
+        self.ifa_titleViewDefault.titleLabel.text = l_title;
+        [self.ifa_appearanceTheme setNavigationItemTitleViewForViewController:self
+                                                         interfaceOrientation:[UIApplication sharedApplication].statusBarOrientation];
+    }
 }
 
 - (void)ifa_updateToolbarNavigationButtonState {
     [super ifa_updateToolbarNavigationButtonState];
     //    NSLog(@"m_updateToolbarNavigationButtonStateForPage: %@", [v_childViewControllers description]);
-	self.previousViewBarButtonItem.enabled = [self.pagingContainerChildViewControllers objectAtIndex:self.selectedPage - 1]!=[NSNull null];
-	self.nextViewBarButtonItem.enabled = [self.pagingContainerChildViewControllers objectAtIndex:self.selectedPage + 1]!=[NSNull null];
+	self.previousViewBarButtonItem.enabled = (self.pagingContainerChildViewControllers)[self.selectedPage - 1] !=[NSNull null];
+	self.nextViewBarButtonItem.enabled = (self.pagingContainerChildViewControllers)[self.selectedPage + 1] !=[NSNull null];
     //    NSLog(@"v_previousViewBarButtonItem.enabled: %u", v_previousViewBarButtonItem.enabled);
     //    NSLog(@"v_nextViewBarButtonItem.enabled: %u", v_nextViewBarButtonItem.enabled);
 }
@@ -193,7 +199,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
     NSMutableArray *l_pageIndexes = [NSMutableArray new];
     for (NSNumber *l_pageIndex in c_pageDataLoadingOrder) {
         NSUInteger i = [l_pageIndex unsignedIntegerValue];
-        if ( [self.pagingContainerChildViewControllers objectAtIndex:i] != [NSNull null] ) {
+        if ( (self.pagingContainerChildViewControllers)[i] != [NSNull null] ) {
             [l_pageIndexes addObject:l_pageIndex];
         }
     }    
@@ -214,7 +220,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
     }
     
 //    NSLog(@"   v_selectedPage BEFORE: %u", v_selectedPage);
-    self.selectedPage = [self calculateSelectedPageIndex] + self.firstPageWithContent;
+    self.selectedPage = (IFAScrollPage) ([self calculateSelectedPageIndex] + self.firstPageWithContent);
 //    NSLog(@"   v_selectedPage AFTER: %u", v_selectedPage);
     
     [super scrollViewDidScroll:sender];
@@ -319,14 +325,14 @@ static NSArray *c_pageDataLoadingOrder = nil;
     
     // Update scroll view content and child view controllers
     //    NSLog(@"self.view.frame.size: %@", NSStringFromCGSize(self.view.frame.size));
-    self.firstPageWithContent = NSNotFound;
+    self.firstPageWithContent = (IFAScrollPage) NSNotFound;
     for (NSUInteger i=0, j=0; i<[self.pagingContainerChildViewControllers count]; i++) {
         
-        id l_object = [self.pagingContainerChildViewControllers objectAtIndex:i];
+        id l_object = (self.pagingContainerChildViewControllers)[i];
         if (l_object!=[NSNull null]) {
             
             if (self.firstPageWithContent == (IFAScrollPage)NSNotFound) {
-                self.firstPageWithContent = i;
+                self.firstPageWithContent = (IFAScrollPage) i;
             }
             IFAListViewController *l_viewController = (IFAListViewController *)l_object;
             
