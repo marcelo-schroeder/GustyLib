@@ -912,10 +912,9 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                     [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
                                                                                                                                     cell:cell];
 
-                    // Position segmented UI control appropriately
-                    segmentedControl.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
-                    segmentedControl.frame = cell.frame;
+                    // Add and position segmented UI control appropriately
                     [cell.contentView addSubview:segmentedControl];
+                    [segmentedControl ifa_addLayoutConstraintsToCenterInSuperview];
 
                 }
 
@@ -1094,7 +1093,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    
+
     self.IFA_isManagedObject = [self.object isKindOfClass:NSManagedObject.class];
     
     // Set managed object default values based on backing preferences

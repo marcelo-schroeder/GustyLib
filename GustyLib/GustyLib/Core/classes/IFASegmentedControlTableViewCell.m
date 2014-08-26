@@ -27,6 +27,8 @@
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier object:(NSObject*)a_object propertyName:(NSString*)a_propertyName indexPath:(NSIndexPath*)a_indexPath segmentedControl:(IFASegmentedControl *)aSegmentedControl{
 	if ((self=[super initWithStyle:style reuseIdentifier:reuseIdentifier object:a_object propertyName:a_propertyName indexPath:a_indexPath])) {
 		self.segmentedControl = aSegmentedControl;
+        self.leftLabel.hidden = YES;
+        self.rightLabel.hidden = YES;
 	}
 	return self;
 }
