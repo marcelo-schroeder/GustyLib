@@ -61,11 +61,6 @@
     [self.contentView addSubview:self.customContentView];
     [self.customContentView ifa_addLayoutConstraintsToFillSuperview];
 
-    // Configure standard text labels
-//    self.textLabel.numberOfLines = 2;
-    [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceForView:self.detailTextLabel];
-//    self.detailTextLabel.font = [UIFont systemFontOfSize:16];
-
     return self;
 
 }

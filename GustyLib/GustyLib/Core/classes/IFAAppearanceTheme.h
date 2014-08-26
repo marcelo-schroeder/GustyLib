@@ -116,10 +116,6 @@ typedef enum {
 
 -(Class)navigationControllerClass;
 
-/*
-    Some of these have been moved to the more specific protocols below.
-    Ideally these would be deprecated one day.
-*/
 -(void)setAppearanceOnViewDidLoadForViewController:(UIViewController*)a_viewController;
 -(void)setAppearanceOnViewWillAppearForViewController:(UIViewController*)a_viewController;
 -(void)setAppearanceOnWillRotateForViewController:(UIViewController *)a_viewController toInterfaceOrientation:(UIInterfaceOrientation)a_toInterfaceOrientation;
@@ -130,8 +126,11 @@ typedef enum {
 -(void)setAppearanceForCell:(UITableViewCell *)a_cell atIndexPath:(NSIndexPath *)a_indexPath viewController:(IFATableViewController *)a_tableViewController;
 -(void)setAppearanceOnAwakeFromNibForView:(UIView*)a_view;
 -(void)setAppearanceOnInitForView:(UIView*)a_view;
-- (void)setAppearanceOnSetHighlightedForCell:(UITableViewCell *)a_cell animated:(BOOL)a_shouldAnimate;
-- (void)setAppearanceOnSetSelectedForCell:(UITableViewCell *)a_cell animated:(BOOL)a_shouldAnimate;
+
+- (void)setAppearanceForCell:(UITableViewCell *)a_cell onSetHighlighted:(BOOL)a_highlighted
+                    animated:(BOOL)a_shouldAnimate;
+
+- (void)setAppearanceForCell:(UITableViewCell *)a_cell onSetSelected:(BOOL)a_selected animated:(BOOL)a_shouldAnimate;
 -(void)setAppearanceOnPrepareForReuseForCell:(UITableViewCell *)a_cell;
 
 @optional
@@ -142,31 +141,4 @@ typedef enum {
 -(void)setAppearanceForTableViewCell:(UITableViewCell *)a_cell onDidTransitionToState:(UITableViewCellStateMask)a_state;
 -(void)setNavigationItemTitleViewForViewController:(UIViewController *)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation;
 
-@end
-
-@protocol IFAViewControllerAppearance <NSObject>
-@optional
--(void)setAppearanceOnViewDidLoadForViewController:(UIViewController*)a_viewController;
--(void)setAppearanceOnViewWillAppearForViewController:(UIViewController*)a_viewController;
--(void)setAppearanceOnWillRotateForViewController:(UIViewController *)a_viewController toInterfaceOrientation:(UIInterfaceOrientation)a_toInterfaceOrientation;
--(void)setAppearanceOnWillAnimateRotationForViewController:(UIViewController *)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_toInterfaceOrientation;
-@end
-
-@protocol IFATableViewControllerAppearance <IFAViewControllerAppearance>
-@optional
--(void)setAppearanceOnInitReusableCellForViewController:(UITableViewController *)a_tableViewController cell:(UITableViewCell*)a_cell;
--(void)setAppearanceOnWillDisplayCell:(UITableViewCell *)a_cell forRowAtIndexPath:(NSIndexPath *)a_indexPath
-                       viewController:(IFATableViewController *)a_tableViewController;
--(void)setAppearanceForCell:(UITableViewCell *)a_cell atIndexPath:(NSIndexPath *)a_indexPath viewController:(IFATableViewController *)a_tableViewController;
-@end
-
-@protocol IFAViewAppearance <NSObject>
-@optional
--(void)setAppearanceOnAwakeFromNibForView:(UIView*)a_view;
--(void)setAppearanceOnInitForView:(UIView*)a_view;
-@end
-
-@protocol IFATableViewCellAppearance <IFAViewAppearance>
-@optional
--(void)setAppearanceOnSetHighlightedForCell:(UITableViewCell *)a_cell;
 @end

@@ -80,12 +80,12 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-    [[self ifa_appearanceTheme] setAppearanceOnSetSelectedForCell:self animated:animated];
+    [[self ifa_appearanceTheme] setAppearanceForCell:self onSetSelected:selected animated:animated];
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
     [super setHighlighted:highlighted animated:animated];
-    [[self ifa_appearanceTheme] setAppearanceOnSetHighlightedForCell:self animated:animated];
+    [[self ifa_appearanceTheme] setAppearanceForCell:self onSetHighlighted:highlighted animated:animated];
 }
 
 @end

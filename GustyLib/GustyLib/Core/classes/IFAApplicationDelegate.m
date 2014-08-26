@@ -51,7 +51,7 @@
     if (self.keyboardVisible) {
 
         NSDictionary *l_userInfo = [a_notification userInfo];
-        self.keyboardFrame = [[l_userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+        self.keyboardFrame = [l_userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
         
     }else{
 
@@ -65,7 +65,7 @@
 
 // to be overriden by subclasses
 -(Class)appearanceThemeClass {
-    return nil;
+    return [IFADefaultAppearanceTheme class];
 }
 
 // to be overriden by subclasses
@@ -128,7 +128,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
     
     // Save some info plist settings
-    self.useDeviceAgnosticMainStoryboard = [[[IFAUtils infoPList] objectForKey:@"IFAUseDeviceAgnosticMainStoryboard"] boolValue];
+    self.useDeviceAgnosticMainStoryboard = [[IFAUtils infoPList][@"IFAUseDeviceAgnosticMainStoryboard"] boolValue];
     
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self 

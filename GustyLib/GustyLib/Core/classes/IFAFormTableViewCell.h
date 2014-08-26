@@ -37,6 +37,10 @@ typedef enum{
 @property (strong, nonatomic) IBOutlet UIImageView *customAccessoryImageView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *leftLabelLeftConstraint;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *rightLabelRightConstraint;
+@property (strong, nonatomic) IBOutlet UIImageView *bottomSeparatorImageView;
+@property (strong, nonatomic) IBOutlet UIImageView *topSeparatorImageView;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *bottomSeparatorLeftConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *topSeparatorLeftConstraint;
 
 @property (nonatomic, weak) IFAFormViewController *formViewController;
 @property (nonatomic) IFAFormTableViewCellAccessoryType customAccessoryType;

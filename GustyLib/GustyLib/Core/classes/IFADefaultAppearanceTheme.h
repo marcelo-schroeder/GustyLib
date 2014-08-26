@@ -2,7 +2,7 @@
 //  IFADefaultAppearanceTheme.h
 //  Gusty
 //
-//  Created by Marcelo Schroeder on 2/08/12.
+//  Created by Marcelo Schroeder on 29/06/12.
 //  Copyright (c) 2012 InfoAccent Pty Limited. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,8 +18,46 @@
 //  limitations under the License.
 //
 
-#import "IFAAbstractAppearanceTheme.h"
+#import "IFAAppearanceTheme.h"
 
-@interface IFADefaultAppearanceTheme : IFAAbstractAppearanceTheme
+@class IFANavigationItemTitleView;
+@class IFAColorScheme;
+
+@interface IFADefaultAppearanceTheme : NSObject <IFAAppearanceTheme>
+
+@property (nonatomic, strong) UINavigationBar *navigationBarAppearance;
+@property (nonatomic, strong) UINavigationBar *popoverNavigationBarAppearance;
+@property (nonatomic, strong) UIBarButtonItem *barButtonItemAppearance;
+@property (nonatomic, strong) UIBarButtonItem *navigationBarButtonItemAppearance;
+@property (nonatomic, strong) UIBarButtonItem *toolbarButtonItemAppearance;
+@property (nonatomic, strong) UIToolbar *toolbarAppearance;
+@property (nonatomic, strong) UIToolbar *popoverToolbarAppearance;
+@property (nonatomic, strong) UITabBar *tabBarAppearance;
+@property (nonatomic, strong) UITabBarItem *tabBarItemAppearance;
+@property (nonatomic, strong) UISearchBar *searchBarAppearance;
+@property (nonatomic, strong) UISegmentedControl *barSegmentedControlAppearance;
+@property (nonatomic, strong) UISegmentedControl *segmentedControlAppearance;
+@property (nonatomic, strong) UISwitch *switchAppearance;
+@property (nonatomic, strong) UISlider *sliderAppearance;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
+@property (nonatomic, strong) UIPageControl *pageControlAppearance;
+@property (nonatomic, strong) NSShadow *shadow;
+
+-(void)setOrientationDependentBackgroundImagesForViewController:(UIViewController*)a_viewController;
+-(IFANavigationItemTitleView *)navigationItemTitleViewForViewController:(UIViewController *)a_viewController barMetrics:(UIBarMetrics)a_barMetrics;
+-(UINavigationItem*)titleViewNavigationItemForViewViewController:(UIViewController*)a_viewController;
+- (void)setCustomDisclosureIndicatorForCell:(UITableViewCell *)a_cell
+                        tableViewController:(UITableViewController *)a_tableViewController;
+-(IFAColorScheme *)colorScheme;
+-(UIColor*)colorWithIndex:(NSUInteger)a_colorIndex;
+
+/**
+* Returns the background colour of group style table views.
+* Current as of iOS 7.
+* @returns Group style table view's background colour.
+*/
+- (UIColor *)groupStyleTableViewBackgroundColour;
+
++ (UIColor *)splitViewControllerDividerColour;
 
 @end

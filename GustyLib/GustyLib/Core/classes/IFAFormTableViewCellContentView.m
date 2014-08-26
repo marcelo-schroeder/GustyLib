@@ -4,6 +4,7 @@
 //
 
 #import "IFAFormTableViewCellContentView.h"
+#import "IFAFormTableViewCell.h"
 
 
 @implementation IFAFormTableViewCellContentView {

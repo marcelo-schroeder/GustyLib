@@ -1191,6 +1191,8 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     }
 //    NSLog(@"IFA_editableTextFieldCells: %@", [self.IFA_editableTextFieldCells description]);
 
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {

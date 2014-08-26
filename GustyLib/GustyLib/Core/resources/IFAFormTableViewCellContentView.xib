@@ -6,12 +6,16 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IFAFormTableViewCell">
             <connections>
+                <outlet property="bottomSeparatorImageView" destination="Oax-2f-JwN" id="mdu-sm-zqJ"/>
+                <outlet property="bottomSeparatorLeftConstraint" destination="asc-Se-UgJ" id="k5s-lf-Pi1"/>
                 <outlet property="customAccessoryImageView" destination="YDb-fv-JUs" id="PbO-lo-2M6"/>
                 <outlet property="customContentView" destination="iN0-l3-epB" id="QY5-LE-HzR"/>
                 <outlet property="leftLabel" destination="w5b-SK-4wH" id="oB5-eZ-oxr"/>
                 <outlet property="leftLabelLeftConstraint" destination="DxO-Lo-K8c" id="KeZ-1b-6ES"/>
                 <outlet property="rightLabel" destination="bOx-tD-ean" id="h64-Tr-imd"/>
                 <outlet property="rightLabelRightConstraint" destination="rXg-8N-fff" id="roo-vU-01u"/>
+                <outlet property="topSeparatorImageView" destination="a7O-Dd-jDy" id="ltd-WT-HPf"/>
+                <outlet property="topSeparatorLeftConstraint" destination="xuH-n4-81P" id="hsJ-yg-x4x"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -19,6 +23,20 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="a7O-Dd-jDy" userLabel="Top Separator Image View">
+                    <rect key="frame" x="0.0" y="-1" width="320" height="1"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="7aw-MT-1AJ"/>
+                    </constraints>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Oax-2f-JwN" userLabel="Bottom Separator Image View">
+                    <rect key="frame" x="0.0" y="43" width="320" height="1"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="847-cL-xPQ"/>
+                    </constraints>
+                </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Left Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w5b-SK-4wH" userLabel="Left Label">
                     <rect key="frame" x="15" y="12" width="76" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -45,13 +63,22 @@
                 <constraint firstAttribute="trailing" secondItem="YDb-fv-JUs" secondAttribute="trailing" constant="15" id="Bk9-fT-H4z"/>
                 <constraint firstItem="w5b-SK-4wH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="DxO-Lo-K8c"/>
                 <constraint firstItem="bOx-tD-ean" firstAttribute="baseline" secondItem="w5b-SK-4wH" secondAttribute="baseline" id="YHS-IW-Zb1"/>
+                <constraint firstItem="a7O-Dd-jDy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="-1" id="YOy-XO-9PI"/>
+                <constraint firstItem="Oax-2f-JwN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="asc-Se-UgJ"/>
+                <constraint firstAttribute="trailing" secondItem="Oax-2f-JwN" secondAttribute="trailing" id="ev7-Dy-1Bp"/>
+                <constraint firstAttribute="trailing" secondItem="a7O-Dd-jDy" secondAttribute="trailing" id="k67-VY-XhW"/>
                 <constraint firstItem="bOx-tD-ean" firstAttribute="leading" secondItem="w5b-SK-4wH" secondAttribute="trailing" constant="15" id="mGi-Mo-DJG"/>
+                <constraint firstAttribute="bottom" secondItem="Oax-2f-JwN" secondAttribute="bottom" id="oWn-zy-zTp"/>
                 <constraint firstAttribute="trailing" secondItem="bOx-tD-ean" secondAttribute="trailing" constant="38" id="rXg-8N-fff"/>
                 <constraint firstAttribute="centerY" secondItem="YDb-fv-JUs" secondAttribute="centerY" id="s37-xL-0NZ"/>
                 <constraint firstAttribute="centerY" secondItem="w5b-SK-4wH" secondAttribute="centerY" id="sz7-pb-EHZ"/>
+                <constraint firstItem="a7O-Dd-jDy" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="xuH-n4-81P"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="formTableViewCell" destination="-1" id="Tdl-1O-WX4"/>
+            </connections>
         </view>
     </objects>
     <resources>

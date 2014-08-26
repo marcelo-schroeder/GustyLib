@@ -26,7 +26,7 @@
 }
 
 + (UIColor *)ifa_defaultSeparatorColor {
-    return [UIColor ifa_colorWithRed:200 green:199 blue:204];
+    return [UIColor redColor];
 }
 
 @end

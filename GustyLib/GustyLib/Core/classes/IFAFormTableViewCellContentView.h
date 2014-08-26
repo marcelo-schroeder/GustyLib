@@ -6,8 +6,11 @@
 #import <Foundation/Foundation.h>
 #import "IFAView.h"
 
+@class IFAFormTableViewCell;
+
 
 @interface IFAFormTableViewCellContentView : IFAView {
     
 }
+@property (weak, nonatomic) IBOutlet IFAFormTableViewCell *formTableViewCell;
 @end

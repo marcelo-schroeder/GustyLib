@@ -52,7 +52,7 @@
 #import "IFAAboutFormViewController.h"
 #import "IFAAboutInfoModel.h"
 #import "IFAAboutViewController.h"
-#import "IFAAbstractAppearanceTheme.h"
+#import "IFADefaultAppearanceTheme.h"
 #import "IFAAbstractFieldEditorViewController.h"
 #import "IFAAbstractPagingContainerViewController.h"
 #import "IFAAbstractSelectionListViewController.h"
