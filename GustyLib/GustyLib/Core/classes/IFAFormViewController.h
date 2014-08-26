@@ -21,6 +21,7 @@
 #import "IFATableViewController.h"
 #import "IFAFormTableViewCell.h"
 #import "IFAFormTextFieldTableViewCell.h"
+#import "IFAConstants.h"
 
 @interface IFAFormViewController : IFATableViewController <UIActionSheetDelegate>
 
@@ -47,6 +48,8 @@
 - (void)onSegmentedControlAction:(id)aSender;
 
 - (IFAFormTableViewCellAccessoryType)accessoryTypeForIndexPath:(NSIndexPath *)a_indexPath;
+
+- (IFAEditorType)editorTypeForIndexPath:(NSIndexPath *)anIndexPath;
 
 -(IFAFormTableViewCell *)populateCell:(IFAFormTableViewCell *)a_cell;
 
