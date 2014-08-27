@@ -132,7 +132,7 @@
     if ([self.tableView.visibleCells count]>0) {
         NSUInteger l_index = [[self.tableView indexPathsForVisibleRows] indexOfObject:a_indexPath];
         if (l_index!=NSNotFound) {
-            l_cell = [self.tableView.visibleCells objectAtIndex:l_index];
+            l_cell = (self.tableView.visibleCells)[l_index];
         }
     }
     return l_cell;

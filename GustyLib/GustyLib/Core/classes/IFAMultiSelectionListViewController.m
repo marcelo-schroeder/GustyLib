@@ -186,29 +186,29 @@ enum {
 	// Perform table view delete's - this is done with original indexes
 	//NSLog(@"l_indexPathsToDelete count: %lu", (unsigned long)[l_indexPathsToDelete count]);
 	[self.tableView deleteRowsAtIndexPaths:l_indexPathsToDelete 
-						  withRowAnimation:UITableViewRowAnimationAutomatic];
+						  withRowAnimation:UITableViewRowAnimationFade];
 	if (l_selectedSectionVisibleBefore && !l_selectedSectionVisibleAfter) {
 		//NSLog(@"Deleting section 0");
 		[self.tableView deleteSections:[NSIndexSet indexSetWithIndex:0] 
-					  withRowAnimation:UITableViewRowAnimationAutomatic];
+					  withRowAnimation:UITableViewRowAnimationFade];
 	}else if (l_unselectedSectionVisibleBefore && !l_unselectedSectionVisibleAfter) {
 		//NSLog(@"Deleting section 1");
 		[self.tableView deleteSections:[NSIndexSet indexSetWithIndex:l_selectedSectionVisibleBefore?1:0] 
-					  withRowAnimation:UITableViewRowAnimationAutomatic];
+					  withRowAnimation:UITableViewRowAnimationFade];
 	}
-	
+
 	// Perform table view insert's - this is done with updated indexes
 	//NSLog(@"l_indexPathsToInsert count: %lu", (unsigned long)[l_indexPathsToInsert count]);
 	[self.tableView insertRowsAtIndexPaths:l_indexPathsToInsert 
-						  withRowAnimation:UITableViewRowAnimationAutomatic];
+						  withRowAnimation:UITableViewRowAnimationFade];
 	if (!l_selectedSectionVisibleBefore && l_selectedSectionVisibleAfter) {
 		//NSLog(@"Inserting section 0");
 		[self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] 
-					  withRowAnimation:UITableViewRowAnimationAutomatic];
+					  withRowAnimation:UITableViewRowAnimationFade];
 	}else if (!l_unselectedSectionVisibleBefore && l_unselectedSectionVisibleAfter) {
 		//NSLog(@"Inserting section 1");
 		[self.tableView insertSections:[NSIndexSet indexSetWithIndex:l_selectedSectionVisibleAfter?1:0] 
-					  withRowAnimation:UITableViewRowAnimationAutomatic];
+					  withRowAnimation:UITableViewRowAnimationFade];
 	}
 	
 	[self.tableView endUpdates];
@@ -386,10 +386,10 @@ enum {
 	NSManagedObject *managedObject;
     UIView *l_deleteButtonView = [cell viewWithTag:k_deleteButtonTag];
 	if ([self IFA_isSelectedOptionsSection:indexPath.section]) {
-		managedObject = [self.IFA_selectedDestinationEntities objectAtIndex:(NSUInteger) indexPath.row];
+		managedObject = (self.IFA_selectedDestinationEntities)[(NSUInteger) indexPath.row];
         l_deleteButtonView.hidden = NO;
 	}else {
-		managedObject = [self.IFA_unselectedDestinationEntities objectAtIndex:(NSUInteger) indexPath.row];
+		managedObject = (self.IFA_unselectedDestinationEntities)[(NSUInteger) indexPath.row];
         l_deleteButtonView.hidden = YES;
 	}
 	cell.textLabel.text = [managedObject ifa_longDisplayValue];
@@ -481,9 +481,9 @@ enum {
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
 	NSArray *l_managedObjects;
 	if (editingStyle==UITableViewCellEditingStyleInsert) {
-		l_managedObjects = @[[self.IFA_unselectedDestinationEntities objectAtIndex:(NSUInteger) indexPath.row]];
+		l_managedObjects = @[(self.IFA_unselectedDestinationEntities)[(NSUInteger) indexPath.row]];
 	}else {
-		l_managedObjects = @[[self.IFA_selectedDestinationEntities objectAtIndex:(NSUInteger) indexPath.row]];
+		l_managedObjects = @[(self.IFA_selectedDestinationEntities)[(NSUInteger) indexPath.row]];
 	}
     [self IFA_handleUserSelectionForManagedObjects:l_managedObjects
                                           isAdding:editingStyle == UITableViewCellEditingStyleInsert];
@@ -495,10 +495,10 @@ enum {
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath{
 
-	NSManagedObject *fromManagedObject = [self.IFA_selectedDestinationEntities objectAtIndex:(NSUInteger) fromIndexPath.row];
-	NSManagedObject *toManagedObject = [self.IFA_selectedDestinationEntities objectAtIndex:(NSUInteger) toIndexPath.row];
-    [self.IFA_selectedDestinationEntities replaceObjectAtIndex:(NSUInteger) toIndexPath.row withObject:fromManagedObject];
-    [self.IFA_selectedDestinationEntities replaceObjectAtIndex:(NSUInteger) fromIndexPath.row withObject:toManagedObject];
+	NSManagedObject *fromManagedObject = (self.IFA_selectedDestinationEntities)[(NSUInteger) fromIndexPath.row];
+	NSManagedObject *toManagedObject = (self.IFA_selectedDestinationEntities)[(NSUInteger) toIndexPath.row];
+    (self.IFA_selectedDestinationEntities)[(NSUInteger) toIndexPath.row] = fromManagedObject;
+    (self.IFA_selectedDestinationEntities)[(NSUInteger) fromIndexPath.row] = toManagedObject;
     [self IFA_updateModel];
 
     [self reloadMovedCellAtIndexPath:toIndexPath];
