@@ -17,13 +17,14 @@
 
 #import "IFAFormInputAccessoryView.h"
 #import "UITableView+IFACategory.h"
+#import "IFAUtils.h"
 
 @interface IFAFormInputAccessoryView ()
 
 @property (weak, nonatomic) UITableView *IFA_tableView;
-@property (strong, nonatomic) NSIndexPath *currentInputFieldIndexPath;
-@property (strong, nonatomic) NSIndexPath *previousInputFieldIndexPath;
-@property (strong, nonatomic) NSIndexPath *nextInputFieldIndexPath;
+@property (strong, nonatomic) NSIndexPath *IFA_currentInputFieldIndexPath;
+@property (strong, nonatomic) NSIndexPath *IFA_previousInputFieldIndexPath;
+@property (strong, nonatomic) NSIndexPath *IFA_nextInputFieldIndexPath;
 @property(nonatomic) BOOL IFA_scrollRequested;
 @property (strong, nonatomic) NSIndexPath *IFA_scrollPendingIndexPath;
 
@@ -36,15 +37,15 @@
 #pragma mark - Private
 
 - (void)IFA_updateUiState {
-    BOOL l_previousButtonEnabled = self.previousInputFieldIndexPath != nil;
+    BOOL l_previousButtonEnabled = self.IFA_previousInputFieldIndexPath != nil;
     [self.segmentedControl setEnabled:l_previousButtonEnabled forSegmentAtIndex:0];
-    BOOL l_nextButtonEnabled = self.nextInputFieldIndexPath != nil;
+    BOOL l_nextButtonEnabled = self.IFA_nextInputFieldIndexPath != nil;
     [self.segmentedControl setEnabled:l_nextButtonEnabled forSegmentAtIndex:1];
 }
 
 - (NSIndexPath *)IFA_indexPathForDirection:(IFAFormInputAccessoryViewDirection)a_direction {
 //    NSLog(@" ");
-//    NSLog(@"self.currentInputFieldIndexPath: %@", [self.currentInputFieldIndexPath description]);
+//    NSLog(@"self.IFA_currentInputFieldIndexPath: %@", [self.IFA_currentInputFieldIndexPath description]);
 
     NSIndexPath *l_inputFieldIndexPath = nil;
 
@@ -52,14 +53,14 @@
 
     NSInteger l_numberOfSections = [self.IFA_tableView.dataSource numberOfSectionsInTableView:self.IFA_tableView];
 //    NSLog(@"l_numberOfSections: %u", l_numberOfSections);
-    for (NSInteger l_section = self.currentInputFieldIndexPath.section; l_section >= 0 && l_section < l_numberOfSections; ) {
+    for (NSInteger l_section = self.IFA_currentInputFieldIndexPath.section; l_section >= 0 && l_section < l_numberOfSections; ) {
         @autoreleasepool {
             NSInteger l_numberOfRows = [self.IFA_tableView.dataSource tableView:self.IFA_tableView
                                                           numberOfRowsInSection:l_section];
 //            NSLog(@"l_numberOfRows: %u", l_numberOfRows);
             NSInteger l_startRow = 0;
-            if (l_section==self.currentInputFieldIndexPath.section) {
-                l_startRow = self.currentInputFieldIndexPath.row;
+            if (l_section==self.IFA_currentInputFieldIndexPath.section) {
+                l_startRow = self.IFA_currentInputFieldIndexPath.row;
             }else if(a_direction == IFAFormInputAccessoryViewDirectionPrevious){
                 l_startRow = l_numberOfRows - 1;
             }
@@ -67,7 +68,7 @@
                 @autoreleasepool {
 //                    NSLog(@"  %u-%u", l_section, l_row);
                     NSIndexPath *l_indexPath = [NSIndexPath indexPathForRow:l_row inSection:l_section];
-                    if (![l_indexPath isEqual:self.currentInputFieldIndexPath]) {
+                    if (![l_indexPath isEqual:self.IFA_currentInputFieldIndexPath]) {
 //                        NSLog(@"    not current field");
                         if ([self.dataSource formInputAccessoryView:self canReceiveKeyboardInputAtIndexPath:l_indexPath]) {
 //                            NSLog(@"      is input field");
@@ -102,36 +103,37 @@
 }
 
 - (void)notifyOfCurrentInputFieldIndexPath:(NSIndexPath *)a_indexPath {
-    self.currentInputFieldIndexPath = a_indexPath;
-    self.previousInputFieldIndexPath = [self IFA_indexPathForDirection:IFAFormInputAccessoryViewDirectionPrevious];
-    self.nextInputFieldIndexPath = [self IFA_indexPathForDirection:IFAFormInputAccessoryViewDirectionNext];
+    self.IFA_currentInputFieldIndexPath = a_indexPath;
+    self.IFA_previousInputFieldIndexPath = [self IFA_indexPathForDirection:IFAFormInputAccessoryViewDirectionPrevious];
+    self.IFA_nextInputFieldIndexPath = [self IFA_indexPathForDirection:IFAFormInputAccessoryViewDirectionNext];
 //    NSLog(@" ");
-//    NSLog(@"self.currentInputFieldIndexPath: %@", [self.currentInputFieldIndexPath description]);
-//    NSLog(@"self.previousInputFieldIndexPath: %@", [self.previousInputFieldIndexPath description]);
-//    NSLog(@"self.nextInputFieldIndexPath: %@", [self.nextInputFieldIndexPath description]);
-    [self IFA_updateUiState];
+//    NSLog(@"self.IFA_currentInputFieldIndexPath: %@", [self.IFA_currentInputFieldIndexPath description]);
+//    NSLog(@"self.IFA_previousInputFieldIndexPath: %@", [self.IFA_previousInputFieldIndexPath description]);
+//    NSLog(@"self.IFA_nextInputFieldIndexPath: %@", [self.IFA_nextInputFieldIndexPath description]);
+        [self IFA_updateUiState];
 }
 
 - (void)notifyTableViewDidEndScrollingAnimation {
-    if (self.IFA_scrollRequested && [self.IFA_scrollPendingIndexPath isEqual:self.currentInputFieldIndexPath]) {
+    if (self.IFA_scrollRequested && [self.IFA_scrollPendingIndexPath isEqual:self.IFA_currentInputFieldIndexPath]) {
         self.IFA_scrollRequested = NO;
         [[self.dataSource formInputAccessoryView:self
-      responderForKeyboardInputFocusAtIndexPath:self.currentInputFieldIndexPath] becomeFirstResponder];
+       responderForKeyboardInputFocusAtIndexPath:self.IFA_currentInputFieldIndexPath] becomeFirstResponder];
     }
 }
 
 - (IBAction)onSegmentedControlValueChanged:(UISegmentedControl *)a_segmentedControl {
     NSIndexPath * l_indexPath;
     if (a_segmentedControl.selectedSegmentIndex==0) {
-        l_indexPath = self.previousInputFieldIndexPath;
+        l_indexPath = self.IFA_previousInputFieldIndexPath;
     }else{
-        l_indexPath = self.nextInputFieldIndexPath;
+        l_indexPath = self.IFA_nextInputFieldIndexPath;
     }
-    self.currentInputFieldIndexPath = l_indexPath;
+    self.IFA_currentInputFieldIndexPath = l_indexPath;
     if (l_indexPath) {
         if ([self.IFA_tableView ifa_isCellFullyVisibleForRowAtIndexPath:l_indexPath]) {
-            [[self.dataSource formInputAccessoryView:self responderForKeyboardInputFocusAtIndexPath:l_indexPath] becomeFirstResponder];
-        }else{
+            [[self.dataSource formInputAccessoryView:self
+           responderForKeyboardInputFocusAtIndexPath:l_indexPath] becomeFirstResponder];
+        } else {
             [self.IFA_tableView scrollToRowAtIndexPath:l_indexPath
                                       atScrollPosition:UITableViewScrollPositionBottom animated:YES];
             self.IFA_scrollRequested = YES;

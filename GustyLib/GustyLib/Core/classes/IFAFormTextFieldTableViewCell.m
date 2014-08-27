@@ -107,11 +107,7 @@
 #pragma mark - UITextFieldDelegate
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    //wip: this could be done via notification to decouple
-    //wip: should style active input field?
-    if ([self.formViewController.inputAccessoryView isKindOfClass:[IFAFormInputAccessoryView class]]) {
-        [(IFAFormInputAccessoryView *) self.formViewController.inputAccessoryView notifyOfCurrentInputFieldIndexPath:self.indexPath];
-    }
+    [self.formViewController.formInputAccessoryView notifyOfCurrentInputFieldIndexPath:self.indexPath];
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField{

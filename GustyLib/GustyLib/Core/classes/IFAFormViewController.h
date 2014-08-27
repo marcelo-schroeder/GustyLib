@@ -35,6 +35,7 @@
 
 @property(nonatomic, strong, readonly) NSMutableDictionary *tagToPropertyName;
 @property(nonatomic, strong, readonly) NSMutableDictionary *propertyNameToIndexPath;
+@property(nonatomic, strong, readonly) IFAFormInputAccessoryView *formInputAccessoryView;
 
 /* Submission forms */
 - (id)initWithObject:(NSObject *)anObject;

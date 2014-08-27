@@ -24,9 +24,9 @@ static const NSUInteger k_segmentIndexPrevious = 0;
 static const NSUInteger k_segmentIndexNext = 1;
 
 @interface IFAFormInputAccessoryView (Tests)
-@property (strong, nonatomic) NSIndexPath *currentInputFieldIndexPath;
-@property (strong, nonatomic) NSIndexPath *previousInputFieldIndexPath;
-@property (strong, nonatomic) NSIndexPath *nextInputFieldIndexPath;
+@property (strong, nonatomic) NSIndexPath *IFA_currentInputFieldIndexPath;
+@property (strong, nonatomic) NSIndexPath *IFA_previousInputFieldIndexPath;
+@property (strong, nonatomic) NSIndexPath *IFA_nextInputFieldIndexPath;
 - (NSIndexPath *)IFA_indexPathForDirection:(IFAFormInputAccessoryViewDirection)a_direction;
 @end
 
@@ -187,7 +187,7 @@ static const NSUInteger k_segmentIndexNext = 1;
     [self.p_view notifyOfCurrentInputFieldIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
     id l_mockSegmentedControl = [OCMockObject mockForClass:[UISegmentedControl class]];
     [[[l_mockSegmentedControl stub] ifa_andReturnInteger:k_segmentIndexNext] selectedSegmentIndex];
-    [[self.p_mockTableView expect] scrollToRowAtIndexPath:self.p_view.nextInputFieldIndexPath
+    [[self.p_mockTableView expect] scrollToRowAtIndexPath:self.p_view.IFA_nextInputFieldIndexPath
                                          atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 
     // when
@@ -202,7 +202,7 @@ static const NSUInteger k_segmentIndexNext = 1;
     [self.p_view notifyOfCurrentInputFieldIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
     id l_mockSegmentedControl = [OCMockObject mockForClass:[UISegmentedControl class]];
     [[[l_mockSegmentedControl stub] ifa_andReturnInteger:k_segmentIndexNext] selectedSegmentIndex];
-    NSIndexPath *l_nextInputFieldIndexPath = self.p_view.nextInputFieldIndexPath;
+    NSIndexPath *l_nextInputFieldIndexPath = self.p_view.IFA_nextInputFieldIndexPath;
     [[[self.p_mockTableView expect] ifa_andReturnBool:YES] ifa_isCellFullyVisibleForRowAtIndexPath:l_nextInputFieldIndexPath];
     [[self.p_mockDataSource expect] formInputAccessoryView:self.p_view
                  responderForKeyboardInputFocusAtIndexPath:l_nextInputFieldIndexPath];
@@ -221,7 +221,7 @@ static const NSUInteger k_segmentIndexNext = 1;
     [self.p_view notifyOfCurrentInputFieldIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
     id l_mockSegmentedControl = [OCMockObject mockForClass:[UISegmentedControl class]];
     [[[l_mockSegmentedControl stub] ifa_andReturnInteger:k_segmentIndexPrevious] selectedSegmentIndex];
-    [[self.p_mockTableView expect] scrollToRowAtIndexPath:self.p_view.previousInputFieldIndexPath
+    [[self.p_mockTableView expect] scrollToRowAtIndexPath:self.p_view.IFA_previousInputFieldIndexPath
                                          atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 
     // when
@@ -236,7 +236,7 @@ static const NSUInteger k_segmentIndexNext = 1;
     [self.p_view notifyOfCurrentInputFieldIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
     id l_mockSegmentedControl = [OCMockObject mockForClass:[UISegmentedControl class]];
     [[[l_mockSegmentedControl stub] ifa_andReturnInteger:k_segmentIndexPrevious] selectedSegmentIndex];
-    NSIndexPath *l_previousInputFieldIndexPath = self.p_view.previousInputFieldIndexPath;
+    NSIndexPath *l_previousInputFieldIndexPath = self.p_view.IFA_previousInputFieldIndexPath;
     [[[self.p_mockTableView expect] ifa_andReturnBool:YES] ifa_isCellFullyVisibleForRowAtIndexPath:l_previousInputFieldIndexPath];
     [[self.p_mockDataSource expect] formInputAccessoryView:self.p_view
                  responderForKeyboardInputFocusAtIndexPath:l_previousInputFieldIndexPath];

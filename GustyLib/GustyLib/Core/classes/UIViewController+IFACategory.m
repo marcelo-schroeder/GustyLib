@@ -227,8 +227,8 @@ typedef enum {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)IFA_spaceBarButtonItems:(NSMutableArray *)a_items side:(IFANavigationBarButtonItemsSide)a_side
-                        barType:(IFABarButtonItemSpacingBarType)a_barType {
+- (void)IFA_addSpacingToBarButtonItems:(NSMutableArray *)a_items side:(IFANavigationBarButtonItemsSide)a_side
+                               barType:(IFABarButtonItemSpacingBarType)a_barType {
 
     if (a_items.count==0) {
         return;
@@ -534,8 +534,8 @@ typedef enum {
         }
 
         // Bar button item spacing automation
-        [self IFA_spaceBarButtonItems:l_leftBarButtonItems side:IFANavigationBarButtonItemsSideLeft
-                              barType:IFABarButtonItemSpacingBarTypeNavigationBar];
+        [self IFA_addSpacingToBarButtonItems:l_leftBarButtonItems side:IFANavigationBarButtonItemsSideLeft
+                                     barType:IFABarButtonItemSpacingBarTypeNavigationBar];
 
         [l_navigationItem setLeftBarButtonItems:l_leftBarButtonItems animated:NO];
 //        NSLog(@"m_insertLeftBarButtonItem - button inserted for %@, tag: %u, navigationItem.title: %@: %@", [self description], a_barButtonItem.tag, l_navigationItem.title, [l_navigationItem.leftBarButtonItems description]);
@@ -555,8 +555,8 @@ typedef enum {
     if (l_leftBarButtonItems) {
         [self IFA_removeAutomatedSpacingFromBarButtonItems:l_leftBarButtonItems];
         [l_leftBarButtonItems removeObject:a_barButtonItem];
-        [self IFA_spaceBarButtonItems:l_leftBarButtonItems side:IFANavigationBarButtonItemsSideLeft
-                              barType:IFABarButtonItemSpacingBarTypeNavigationBar];
+        [self IFA_addSpacingToBarButtonItems:l_leftBarButtonItems side:IFANavigationBarButtonItemsSideLeft
+                                     barType:IFABarButtonItemSpacingBarTypeNavigationBar];
         [l_navigationItem setLeftBarButtonItems:l_leftBarButtonItems animated:NO];
 //        NSLog(@"m_removeLeftBarButtonItem - button removed for %@: %@", l_navigationItem.title, [l_navigationItem.leftBarButtonItems description]);
     }
@@ -598,8 +598,8 @@ typedef enum {
         }
         
         // Bar button item spacing automation
-        [self IFA_spaceBarButtonItems:l_rightBarButtonItems side:IFANavigationBarButtonItemsSideRight
-                              barType:IFABarButtonItemSpacingBarTypeNavigationBar];
+        [self IFA_addSpacingToBarButtonItems:l_rightBarButtonItems side:IFANavigationBarButtonItemsSideRight
+                                     barType:IFABarButtonItemSpacingBarTypeNavigationBar];
 
         [l_navigationItem setRightBarButtonItems:l_rightBarButtonItems animated:NO];
         //        NSLog(@"m_insertRightBarButtonItem - button inserted for %@, navigationItem.title: %@: %@", [self description], l_navigationItem.title, [l_navigationItem.rightBarButtonItems description]);
@@ -619,8 +619,8 @@ typedef enum {
     if (l_rightBarButtonItems) {
         [self IFA_removeAutomatedSpacingFromBarButtonItems:l_rightBarButtonItems];
         [l_rightBarButtonItems removeObject:a_barButtonItem];
-        [self IFA_spaceBarButtonItems:l_rightBarButtonItems side:IFANavigationBarButtonItemsSideRight
-                              barType:IFABarButtonItemSpacingBarTypeNavigationBar];
+        [self IFA_addSpacingToBarButtonItems:l_rightBarButtonItems side:IFANavigationBarButtonItemsSideRight
+                                     barType:IFABarButtonItemSpacingBarTypeNavigationBar];
         [l_navigationItem setRightBarButtonItems:l_rightBarButtonItems animated:NO];
         //        NSLog(@"m_removeRightBarButtonItem - button removed for %@: %@", l_navigationItem.title, [l_navigationItem.rightBarButtonItems description]);
     }
@@ -649,8 +649,8 @@ typedef enum {
 //    NSLog(@"toolbar items before: %@", [self.toolbarItems description]);
     if(self.ifa_manageToolbar || anEditModeFlag){
         NSMutableArray *toolbarItems = [anEditModeFlag ? [self ifa_editModeToolbarItems] : [self ifa_nonEditModeToolbarItems] mutableCopy];
-        [self IFA_spaceBarButtonItems:toolbarItems side:IFANavigationBarButtonItemsSideNotApplicable
-                              barType:IFABarButtonItemSpacingBarTypeToolbar];
+        [self IFA_addSpacingToBarButtonItems:toolbarItems side:IFANavigationBarButtonItemsSideNotApplicable
+                                     barType:IFABarButtonItemSpacingBarTypeToolbar];
 //        NSLog(@"self.navigationController.toolbar: %@", [self.navigationController.toolbar description]);
 //        NSLog(@" self.navigationController.toolbarHidden: %u, animated: %u", self.navigationController.toolbarHidden, anAnimatedFlag);
         [self.navigationController setToolbarHidden:(![toolbarItems count]) animated:anAnimatedFlag];

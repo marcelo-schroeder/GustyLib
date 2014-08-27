@@ -25,9 +25,6 @@ typedef enum{
     IFAFormInputAccessoryViewDirectionNext,
 } IFAFormInputAccessoryViewDirection;
 
-//wip: rename symbols to follow GustyLib's convention
-//wip: add the missing tests
-//wip: complete documentation
 /**
 * Input accessory view that manages a toolbar containing buttons (i.e. previous and next) for navigating through input fields that accept keyboard input in a form view.
 * It also presents a Done button to dismiss the keyboard.

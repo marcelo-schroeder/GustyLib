@@ -40,7 +40,7 @@
 @property(nonatomic) BOOL IFA_restoringNonEditingState;
 @property(nonatomic) BOOL IFA_isManagedObject;
 @property(nonatomic) BOOL IFA_createModeAutoFieldEditDone;
-@property(nonatomic, strong) IFAFormInputAccessoryView *IFA_inputAccessoryView;
+@property(nonatomic, strong) IFAFormInputAccessoryView *formInputAccessoryView;
 
 /* Public as readonly */
 @property(nonatomic, strong) NSMutableDictionary *tagToPropertyName;
@@ -56,12 +56,12 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 #pragma mark - Private
 
-- (IFAFormInputAccessoryView *)IFA_inputAccessoryView {
-    if (!_IFA_inputAccessoryView) {
-        _IFA_inputAccessoryView = [[IFAFormInputAccessoryView alloc] initWithTableView:self.tableView];
-        _IFA_inputAccessoryView.dataSource = self;
+- (IFAFormInputAccessoryView *)formInputAccessoryView {
+    if (!_formInputAccessoryView) {
+        _formInputAccessoryView = [[IFAFormInputAccessoryView alloc] initWithTableView:self.tableView];
+        _formInputAccessoryView.dataSource = self;
     }
-    return _IFA_inputAccessoryView;
+    return _formInputAccessoryView;
 }
 
 // Private initialiser
@@ -1485,13 +1485,13 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 #endif
 
 - (UIView *)inputAccessoryView {
-    return self.IFA_inputAccessoryView;
+    return self.formInputAccessoryView;
 }
 
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-    [self.IFA_inputAccessoryView notifyTableViewDidEndScrollingAnimation];
+    [self.formInputAccessoryView notifyTableViewDidEndScrollingAnimation];
 }
 
 #pragma mark - IFAInputAccessoryViewDelegate
