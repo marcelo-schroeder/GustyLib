@@ -22,8 +22,9 @@
 #import "IFAFormTableViewCell.h"
 #import "IFAFormTextFieldTableViewCell.h"
 #import "IFAConstants.h"
+#import "IFAFormInputAccessoryView.h"
 
-@interface IFAFormViewController : IFATableViewController <UIActionSheetDelegate>
+@interface IFAFormViewController : IFATableViewController <UIActionSheetDelegate, IFAFormInputAccessoryViewDataSource>
 
 @property (nonatomic, strong) NSObject *object;
 @property (nonatomic, strong) NSString *formName;

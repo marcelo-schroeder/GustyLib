@@ -28,21 +28,28 @@
     [self deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
--(BOOL)ifa_isCellFullyVisibleForRowAtIndexPath:(NSIndexPath*)a_indexPath{
+-(BOOL)ifa_isCellFullyVisibleForRowAtIndexPath:(NSIndexPath*)a_indexPath {
+
+//    NSLog(@"ifa_isCellFullyVisibleForRowAtIndexPath: %@", [a_indexPath description]);
 
     BOOL l_fullyVisible = NO;
 
     UITableViewCell *l_cell;
-    if ((l_cell=[self cellForRowAtIndexPath:a_indexPath])) {
+    if ((l_cell = [self cellForRowAtIndexPath:a_indexPath])) {
 
         // Convert local coordinates to global coordinates
         CGRect l_cellViewRect = CGRectOffset(l_cell.frame, -self.contentOffset.x, -self.contentOffset.y);
-        CGRect l_tableViewRect = CGRectMake(0.0f, 0.0f, self.bounds.size.width, self.bounds.size.height);
-//        NSLog(@"l_cellViewRect: %@", NSStringFromCGRect(l_cellViewRect));
-//        NSLog(@"l_tableViewRect: %@", NSStringFromCGRect(l_tableViewRect));
+        IFAApplicationDelegate *l_appDelegate = (IFAApplicationDelegate *) [UIApplication sharedApplication].delegate;
+        CGFloat l_heightOffset = l_appDelegate.keyboardVisible ? -self.contentInset.bottom : 0;
+        CGRect l_tableViewVisibleRect = CGRectMake(0.0f, 0.0f, self.bounds.size.width, self.bounds.size.height + l_heightOffset);
+//        NSLog(@"          l_cellViewRect: %@", NSStringFromCGRect(l_cellViewRect));
+//        NSLog(@"             self.bounds: %@", NSStringFromCGRect(self.bounds));
+//        NSLog(@"       self.contentInset: %@", NSStringFromUIEdgeInsets(self.contentInset));
+//        NSLog(@"          l_heightOffset: %f", l_heightOffset);
+//        NSLog(@"  l_tableViewVisibleRect: %@", NSStringFromCGRect(l_tableViewVisibleRect));
 
         // Check if it's fully visible
-        if ((l_fullyVisible = CGRectContainsRect(l_tableViewRect, l_cellViewRect))) {
+        if ((l_fullyVisible = CGRectContainsRect(l_tableViewVisibleRect, l_cellViewRect))) {
             if ([self.delegate tableView:self viewForHeaderInSection:a_indexPath.section]) {
                 CGRect l_sectionHeaderRect = [self rectForHeaderInSection:a_indexPath.section];
 //                NSLog(@"  l_sectionHeaderRect: %@", NSStringFromCGRect(l_sectionHeaderRect));
@@ -57,7 +64,7 @@
         }
 
     }
-//    NSLog(@"l_fullyVisible: %u", l_fullyVisible);
+//    NSLog(@"  l_fullyVisible: %u", l_fullyVisible);
 
     return l_fullyVisible;
 

@@ -40,6 +40,7 @@
 @property(nonatomic) BOOL IFA_restoringNonEditingState;
 @property(nonatomic) BOOL IFA_isManagedObject;
 @property(nonatomic) BOOL IFA_createModeAutoFieldEditDone;
+@property(nonatomic, strong) IFAFormInputAccessoryView *IFA_inputAccessoryView;
 
 /* Public as readonly */
 @property(nonatomic, strong) NSMutableDictionary *tagToPropertyName;
@@ -54,6 +55,14 @@ static NSString* const k_TT_CELL_IDENTIFIER_VIEW_CONTROLLER = @"viewControllerCe
 static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 #pragma mark - Private
+
+- (IFAFormInputAccessoryView *)IFA_inputAccessoryView {
+    if (!_IFA_inputAccessoryView) {
+        _IFA_inputAccessoryView = [[IFAFormInputAccessoryView alloc] initWithTableView:self.tableView];
+        _IFA_inputAccessoryView.dataSource = self;
+    }
+    return _IFA_inputAccessoryView;
+}
 
 // Private initialiser
 - (id)initWithObject:(NSObject *)anObject readOnlyMode:(BOOL)aReadOnlyMode createMode:(BOOL)aCreateMode inForm:(NSString*)aFormName isSubForm:(BOOL)aSubFormFlag{
@@ -943,6 +952,12 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return [[IFAPersistenceManager sharedInstance].entityConfig formSectionsCountForObject:self.object
+                                                                                    inForm:self.formName
+                                                                                createMode:self.createMode];
+}
+
 #pragma mark -
 #pragma mark UITableViewDelegate
 
@@ -1469,10 +1484,33 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 }
 #endif
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [[IFAPersistenceManager sharedInstance].entityConfig formSectionsCountForObject:self.object
-                                                                                    inForm:self.formName
-                                                                                createMode:self.createMode];
+- (UIView *)inputAccessoryView {
+    return self.IFA_inputAccessoryView;
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    [self.IFA_inputAccessoryView notifyTableViewDidEndScrollingAnimation];
+}
+
+#pragma mark - IFAInputAccessoryViewDelegate
+
+- (BOOL)    formInputAccessoryView:(IFAFormInputAccessoryView *)a_formInputAccessoryView
+canReceiveKeyboardInputAtIndexPath:(NSIndexPath *)a_indexPath {
+    IFAEditorType l_editorType = [self editorTypeForIndexPath:a_indexPath];
+    return l_editorType==IFAEditorTypeText;
+}
+
+- (UIResponder *)  formInputAccessoryView:(IFAFormInputAccessoryView *)a_formInputAccessoryView
+responderForKeyboardInputFocusAtIndexPath:(NSIndexPath *)a_indexPath {
+    IFAEditorType l_editorType = [self editorTypeForIndexPath:a_indexPath];
+    if (l_editorType==IFAEditorTypeText) {
+        IFAFormTextFieldTableViewCell *l_cell = (IFAFormTextFieldTableViewCell *) [self.tableView cellForRowAtIndexPath:a_indexPath];
+        return l_cell.textField;
+    }else{
+        return nil;
+    }
 }
 
 @end

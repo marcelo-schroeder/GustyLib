@@ -177,4 +177,5 @@
 #import "UIViewController+IFACategory.h"
 #import "UIWebView+IFACategory.h"
 #import "IFAGridViewController.h"
+#import "IFAFormInputAccessoryView.h"
 

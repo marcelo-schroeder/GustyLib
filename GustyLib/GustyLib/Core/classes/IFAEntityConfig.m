@@ -175,7 +175,7 @@
 
 - (IFADataType)dataTypeForProperty:(NSString*)aPropertyName inEntity:(NSString*)anEntityName{
 	NSString *dataTypeName = [[[[[self entityConfigDictionary] valueForKey:anEntityName] valueForKey:@"properties"] valueForKey:aPropertyName] valueForKey:@"dataType"];
-	IFADataType dataType = NSNotFound;
+	IFADataType dataType = (IFADataType) NSNotFound;
 	if (dataTypeName) {
 		if ([dataTypeName isEqualToString:@"timeInterval"]) {
 			dataType = IFADataTypeTimeInterval;
@@ -280,7 +280,7 @@
 
 - (IFAEditorType)fieldEditorForEntity:(NSString*)anEntityName{
 	NSString *fieldEditorName = [[[self entityConfigDictionary] valueForKey:anEntityName] valueForKey:@"fieldEditor"];
-	IFAEditorType fieldEditor = NSNotFound;
+	IFAEditorType fieldEditor = (IFAEditorType) NSNotFound;
 	if (fieldEditorName) {
 		if ([fieldEditorName isEqualToString:@"selectionList"]) {
 			fieldEditor = IFAEditorTypeSelectionList;

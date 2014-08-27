@@ -239,7 +239,7 @@ enum {
             NSManagedObject *l_managedObject = [[IFAPersistenceManager sharedInstance] instantiate:self.entityName];
             [l_managedObject setValue:self.managedObject forKey:self.IFA_originRelationshipName];
             [l_managedObject setValue:l_selectedDestinationManagedObject forKey:self.IFA_destinationRelationshipName];
-            [l_managedObject setValue:[NSNumber numberWithInt:l_seq++] forKey:@"seq"];
+            [l_managedObject setValue:@(l_seq++) forKey:@"seq"];
             [self.IFA_originalSortedEntities addObject:l_managedObject];
 //            NSLog(@"inserted managed object: %@", l_managedObject);
         }

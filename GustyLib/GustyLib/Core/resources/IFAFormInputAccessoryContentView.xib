@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IFAFormInputAccessoryView">
+            <connections>
+                <outlet property="contentView" destination="uNe-7t-Fbr" id="4bn-78-mRX"/>
+                <outlet property="doneBarButtonItem" destination="an8-g7-Tt8" id="6wh-lr-vIv"/>
+                <outlet property="segmentedControl" destination="qMB-7x-E09" id="Ia2-Fm-NLL"/>
+                <outlet property="toolbar" destination="UVp-gX-GhY" id="XW0-vH-KZu"/>
+            </connections>
+        </placeholder>
+        <view contentMode="scaleToFill" id="uNe-7t-Fbr">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UVp-gX-GhY">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <items>
+                        <barButtonItem style="plain" id="jjf-eC-H19">
+                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" momentary="YES" id="qMB-7x-E09">
+                                <rect key="frame" x="16" y="7" width="133" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Previous"/>
+                                    <segment title="Next"/>
+                                </segments>
+                                <connections>
+                                    <action selector="onSegmentedControlValueChanged:" destination="-1" eventType="valueChanged" id="eJy-tq-eRA"/>
+                                </connections>
+                            </segmentedControl>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="srv-ef-la9"/>
+                        <barButtonItem title="Done" style="done" id="an8-g7-Tt8">
+                            <connections>
+                                <action selector="onDoneButtonTap:" destination="-1" id="FJa-1j-ncw"/>
+                            </connections>
+                        </barButtonItem>
+                    </items>
+                </toolbar>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+        </view>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+    </objects>
+</document>
