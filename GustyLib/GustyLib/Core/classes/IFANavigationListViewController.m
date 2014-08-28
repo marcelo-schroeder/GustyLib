@@ -42,7 +42,7 @@
 }
 
 -(UITableViewCellAccessoryType)IFA_tableViewCellAccessoryType {
-    return UITableViewCellAccessoryNone;
+    return UITableViewCellAccessoryDisclosureIndicator;
 }
 
 #pragma mark - UITableViewDelegate Protocol
@@ -58,7 +58,7 @@
 #ifdef IFA_AVAILABLE_Help
     if (![IFAHelpManager sharedInstance].helpMode) {
 #endif
-        [self showEditFormForManagedObject:(NSManagedObject*) [self objectForIndexPath:indexPath]];
+    [self showEditFormForManagedObject:(NSManagedObject *) [self objectForIndexPath:indexPath]];
 #ifdef IFA_AVAILABLE_Help
     }
 #endif

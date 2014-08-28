@@ -24,6 +24,7 @@
 #import "GustyLibHelp.h"
 #endif
 
+//wip: clean up
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -46,6 +47,7 @@
 @property(nonatomic, strong) NSMutableDictionary *tagToPropertyName;
 @property(nonatomic, strong) NSMutableDictionary *propertyNameToIndexPath;
 
+@property(nonatomic) BOOL IFA_readOnlyModeSuspendedForEditing;
 @end
 
 @implementation IFAFormViewController
@@ -56,16 +58,9 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 #pragma mark - Private
 
-- (IFAFormInputAccessoryView *)formInputAccessoryView {
-    if (!_formInputAccessoryView) {
-        _formInputAccessoryView = [[IFAFormInputAccessoryView alloc] initWithTableView:self.tableView];
-        _formInputAccessoryView.dataSource = self;
-    }
-    return _formInputAccessoryView;
-}
-
 // Private initialiser
-- (id)initWithObject:(NSObject *)anObject readOnlyMode:(BOOL)aReadOnlyMode createMode:(BOOL)aCreateMode inForm:(NSString*)aFormName isSubForm:(BOOL)aSubFormFlag{
+- (id)initWithObject:(NSObject *)anObject readOnlyMode:(BOOL)aReadOnlyMode createMode:(BOOL)aCreateMode
+              inForm:(NSString *)aFormName isSubForm:(BOOL)aSubFormFlag showEditButton:(BOOL)aShowEditButtonFlag {
 
     //    NSLog(@"hello from init - form");
 
@@ -76,15 +71,16 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 		self.object = anObject;
 		self.formName = aFormName;
 		self.isSubForm = aSubFormFlag;
+        self.showEditButton = aShowEditButtonFlag;
 
 #ifdef IFA_AVAILABLE_Help
         self.helpTargetId = [IFAUIUtils helpTargetIdForName:[@"form" stringByAppendingString:self.createMode ? @".new" : @".existing"]];
 #endif
 
     }
-	
+
 	return self;
-	
+
 }
 
 -(IFAFormTableViewCell *)IFA_cellForTable:(UITableView *)a_tableView indexPath:(NSIndexPath *)a_indexPath className:(NSString*)a_className{
@@ -394,7 +390,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
             }
             if (self.readOnlyMode) {
                 controller = [[formViewControllerClass alloc] initWithReadOnlyObject:self.object inForm:propertyName
-                                                                           isSubForm:YES];
+                                                                           isSubForm:YES showEditButton:NO];
             }else{
                 controller = [[formViewControllerClass alloc] initWithObject:self.object createMode:self.editing
                                                                       inForm:propertyName isSubForm:YES];
@@ -466,6 +462,10 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 }
 
+- (BOOL)IFA_isReadOnlyWithEditButtonCase {
+    return self.readOnlyMode && self.showEditButton;
+}
+
 #pragma mark - Public
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -482,19 +482,20 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 /* Submission forms */
 
-- (id)initWithObject:(NSObject *)anObject {
-    return [self initWithObject:anObject readOnlyMode:NO createMode:YES inForm:IFAEntityConfigFormNameDefault
-                      isSubForm:NO];
-}
+//- (id)initWithObject:(NSObject *)anObject {
+//    return [self initWithObject:anObject readOnlyMode:NO createMode:YES inForm:IFAEntityConfigFormNameDefault
+//                      isSubForm:NO];
+//}
 
-- (id)initWithObject:(NSObject *)anObject inForm:(NSString *)aFormName isSubForm:(BOOL)aSubFormFlag {
-    return [self initWithObject:anObject readOnlyMode:NO createMode:YES inForm:aFormName isSubForm:aSubFormFlag];
-}
+//- (id)initWithObject:(NSObject *)anObject inForm:(NSString *)aFormName isSubForm:(BOOL)aSubFormFlag {
+//    return [self initWithObject:anObject readOnlyMode:NO createMode:YES inForm:aFormName isSubForm:aSubFormFlag];
+//}
 
 /* CRUD forms */
 
 - (id)initWithObject:(NSObject *)anObject createMode:(BOOL)aCreateMode inForm:(NSString*)aFormName isSubForm:(BOOL)aSubFormFlag{
-	return [self initWithObject:anObject readOnlyMode:NO createMode:aCreateMode inForm:aFormName isSubForm:aSubFormFlag];
+	return [self initWithObject:anObject readOnlyMode:!aCreateMode createMode:aCreateMode inForm:aFormName isSubForm:aSubFormFlag
+                 showEditButton:!aCreateMode];
 }
 
 - (id)initWithObject:(NSObject *)anObject createMode:(BOOL)aCreateMode{
@@ -502,13 +503,15 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                       isSubForm:NO];
 }
 
-- (id)initWithReadOnlyObject:(NSObject *)anObject inForm:(NSString*)aFormName isSubForm:(BOOL)aSubFormFlag{
-	return [self initWithObject:anObject readOnlyMode:YES createMode:NO inForm:aFormName isSubForm:aSubFormFlag];
+- (id)initWithReadOnlyObject:(NSObject *)anObject inForm:(NSString *)aFormName isSubForm:(BOOL)aSubFormFlag
+                                                                          showEditButton:(BOOL)aShowEditButtonFlag {
+	return [self initWithObject:anObject readOnlyMode:YES createMode:NO inForm:aFormName isSubForm:aSubFormFlag
+                 showEditButton:aShowEditButtonFlag];
 }
 
-- (id)initWithReadOnlyObject:(NSObject *)anObject{
-	return [self initWithReadOnlyObject:anObject inForm:IFAEntityConfigFormNameDefault isSubForm:NO];
-}
+//- (id)initWithReadOnlyObject:(NSObject *)anObject{
+//	return [self initWithReadOnlyObject:anObject inForm:IFAEntityConfigFormNameDefault isSubForm:NO];
+//}
 
 -(IFAFormTableViewCell *)populateCell:(IFAFormTableViewCell *)a_cell{
     
@@ -762,6 +765,14 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 }
 
+- (IFAFormInputAccessoryView *)formInputAccessoryView {
+    if (!_formInputAccessoryView) {
+        _formInputAccessoryView = [[IFAFormInputAccessoryView alloc] initWithTableView:self.tableView];
+        _formInputAccessoryView.dataSource = self;
+    }
+    return _formInputAccessoryView;
+}
+
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -781,7 +792,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 				if (![[IFAPersistenceManager sharedInstance] deleteAndSaveObject:l_managedObject]) {
 					return;
 				}
-                [self ifa_notifySessionCompletionWithChangesMade:YES data:nil ];
+                [self ifa_notifySessionCompletionWithChangesMade:YES data:nil ];    //wip: review this after the read only mode with edit button change
                 [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:@"%@ deleted",
                                                                                                     self.title]];
 			}
@@ -1133,7 +1144,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     
     self.IFA_uiControlsWithTargets = [NSMutableArray new];
 
-	if (!self.readOnlyMode && !self.isSubForm) {
+    if ((!self.readOnlyMode && !self.isSubForm) || self.IFA_isReadOnlyWithEditButtonCase) {
         self.editButtonItem.tag = IFABarItemTagEditButton;
         [self ifa_addRightBarButtonItem:self.editButtonItem];
 	}
@@ -1389,8 +1400,14 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         [super setEditing:editing animated:animated];
 
         if (!self.isSubForm) {
-            if([[IFAPersistenceManager sharedInstance].entityConfig hasSubmitButtonForForm:self.formName inEntity:[self.object ifa_entityName]]) {
-                self.editButtonItem.title = [[IFAPersistenceManager sharedInstance].entityConfig submitButtonLabelForForm:self.formName inEntity:[self.object ifa_entityName]];
+            if (self.IFA_isReadOnlyWithEditButtonCase) {
+                self.readOnlyMode = NO;
+                self.IFA_readOnlyModeSuspendedForEditing = YES;
+            }
+            if ([[IFAPersistenceManager sharedInstance].entityConfig hasSubmitButtonForForm:self.formName
+                                                                                   inEntity:[self.object ifa_entityName]]) {
+                self.editButtonItem.title = [[IFAPersistenceManager sharedInstance].entityConfig submitButtonLabelForForm:self.formName
+                                                                                                                 inEntity:[self.object ifa_entityName]];
 //                self.editButtonItem.accessibilityLabel = self.editButtonItem.title;
             }else{
                 self.editButtonItem.title = IFAButtonLabelSave;
@@ -1447,7 +1464,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
         }
 
-        self.skipEditingUiStateChange = YES;
+        self.skipEditingUiStateChange = !self.IFA_readOnlyModeSuspendedForEditing;
         [super setEditing:editing animated:animated];
 
         if (!self.isSubForm) {   // does not execute this block if it's a context switching scenario for a sub-form
@@ -1459,7 +1476,13 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
             BOOL l_canDismissView = self.ifa_presentedAsModal || (self.navigationController.viewControllers)[0] !=self;
             if ((self.IFA_saveButtonTapped || self.createMode) && l_canDismissView && !self.IFA_restoringNonEditingState) {
                 if (!l_contextSwitchRequestPending) {    // Make sure this controller has not already been popped by a context switch request somewhere else
-                    [self ifa_notifySessionCompletionWithChangesMade:self.IFA_objectSaved data:nil];
+                    if (self.IFA_readOnlyModeSuspendedForEditing) {
+                        self.readOnlyMode = YES;
+                        self.IFA_readOnlyModeSuspendedForEditing = NO;
+                        self.doneButtonSaves = NO;
+                    }else{
+                        [self ifa_notifySessionCompletionWithChangesMade:self.IFA_objectSaved data:nil];
+                    }
                 }
             }
 

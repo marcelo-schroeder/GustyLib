@@ -24,6 +24,7 @@
 #import "IFAConstants.h"
 #import "IFAFormInputAccessoryView.h"
 
+//wip: clean up
 @interface IFAFormViewController : IFATableViewController <UIActionSheetDelegate, IFAFormInputAccessoryViewDataSource>
 
 @property (nonatomic, strong) NSObject *object;
@@ -32,20 +33,23 @@
 @property (nonatomic) BOOL createMode;
 @property (nonatomic) BOOL readOnlyMode;
 @property (nonatomic) BOOL isSubForm;
+@property (nonatomic) BOOL showEditButton;
 
 @property(nonatomic, strong, readonly) NSMutableDictionary *tagToPropertyName;
 @property(nonatomic, strong, readonly) NSMutableDictionary *propertyNameToIndexPath;
 @property(nonatomic, strong, readonly) IFAFormInputAccessoryView *formInputAccessoryView;
 
 /* Submission forms */
-- (id)initWithObject:(NSObject *)anObject;
-- (id)initWithObject:(NSObject *)anObject inForm:(NSString *)aFormName isSubForm:(BOOL)aSubFormFlag;
+//- (id)initWithObject:(NSObject *)anObject;
+//- (id)initWithObject:(NSObject *)anObject inForm:(NSString *)aFormName isSubForm:(BOOL)aSubFormFlag;
 
 /* CRUD forms */
 - (id)initWithObject:(NSObject *)anObject createMode:(BOOL)aCreateMode;
 - (id)initWithObject:(NSObject *)anObject createMode:(BOOL)aCreateMode inForm:(NSString*)aFormName isSubForm:(BOOL)aSubFormFlag;
-- (id)initWithReadOnlyObject:(NSObject *)anObject;
-- (id)initWithReadOnlyObject:(NSObject *)anObject inForm:(NSString*)aFormName isSubForm:(BOOL)aSubFormFlag;
+
+//- (id)initWithReadOnlyObject:(NSObject *)anObject;
+- (id)initWithReadOnlyObject:(NSObject *)anObject inForm:(NSString *)aFormName isSubForm:(BOOL)aSubFormFlag
+                                                                          showEditButton:(BOOL)aShowEditButtonFlag;
 
 - (void)onSegmentedControlAction:(id)aSender;
 

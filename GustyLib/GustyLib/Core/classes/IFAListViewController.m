@@ -325,19 +325,24 @@
         l_formViewControllerClass = NSClassFromString(@"IFAFormViewController");
     }
     NSString *l_formName = [self editFormNameForCreateMode:aCreateMode];
-	//TODO: does this need to be optimised? e.g. instantiate only once and then re-use? (if changing anything, check overrides too)
-	return [[l_formViewControllerClass alloc] initWithObject:aManagedObject createMode:aCreateMode inForm:l_formName isSubForm:NO];
+    if (aCreateMode) {
+        return [[l_formViewControllerClass alloc] initWithObject:aManagedObject createMode:aCreateMode inForm:l_formName isSubForm:NO];
+    }else{
+        return [[l_formViewControllerClass alloc] initWithReadOnlyObject:aManagedObject inForm:l_formName isSubForm:NO
+                                                          showEditButton:YES];
+    }
 }
 
-- (void)showEditFormForManagedObject:(NSManagedObject *)aManagedObject{
+//wip: how do the changes made here relate to preferences? (should preferences follow the same approach?)
+- (void)showEditFormForManagedObject:(NSManagedObject *)a_managedObject {
 
-    BOOL l_isCreateMode = aManagedObject==nil;
-    self.editedManagedObjectId = aManagedObject.objectID;
+    BOOL l_isCreateMode = a_managedObject ==nil;
+    self.editedManagedObjectId = a_managedObject.objectID;
     
     IFAPersistenceManager *l_pm = [IFAPersistenceManager sharedInstance];
     
     // Push new child managed object context
-    [l_pm pushChildManagedObjectContext];
+    [l_pm pushChildManagedObjectContext];   //wip: review this after the edit mode changes
     
     NSManagedObject *l_mo;
     if(l_isCreateMode){
@@ -356,7 +361,12 @@
     
     // Present form view controller
     UIViewController *l_viewController = [self formViewControllerForManagedObject:l_mo createMode:l_isCreateMode];
-    [self ifa_presentModalFormViewController:l_viewController];
+    if (l_isCreateMode) {
+        [self ifa_presentModalFormViewController:l_viewController];
+    }else{
+        [self.navigationController pushViewController:l_viewController
+                                             animated:YES];
+    }
 
 }
 
