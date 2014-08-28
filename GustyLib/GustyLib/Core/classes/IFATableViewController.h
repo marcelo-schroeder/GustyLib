@@ -47,9 +47,16 @@
 -(void)updateSectionHeaderBounds;
 -(UIView*)newTableViewCellAccessoryView;
 
-// Reload target cell so it does appear on top of any custom section header or footer views
-//  (i.e. it tries to fix what seems to be a UIKit bug)
--(void)reloadMovedCellAtIndexPath:(NSIndexPath*)a_indexPath;
+/**
+* Reload sections related to the index paths given as parameters.
+* This method assumes an implicit CATransaction (for example, implemented by UIKit when calling UITableViewDelegate's tableView:moveRowAtIndexPath:toIndexPath:).
+* The reloading of the sections involved is done after the CATransaction has been completed by UIKit.
+* This method is normally called to update the UI state of the table view sections involved in a row move after the model has been updated in the implementation of UITableViewDelegate's tableView:moveRowAtIndexPath:toIndexPath: method.
+* @param a_fromIndexPath Index path the cell has been moved from.
+* @param a_toIndexPath Index path the cell has been moved to.
+*/
+- (void)reloadInvolvedSectionsAfterImplicitAnimationForRowMovedFromIndexPath:(NSIndexPath *)a_fromIndexPath
+                                                                 toIndexPath:(NSIndexPath *)a_toIndexPath;
 
 // Message "beginRefreshing" to self.refreshControl but does not show the control
 -(void)beginRefreshing;

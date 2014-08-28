@@ -189,11 +189,15 @@
     self.sectionHeaderView.bounds = CGRectMake( (self.editing && !l_swipedToDelete ) ? 0 : [self sectionHeaderNonEditingXOffset], 0, self.tableView.frame.size.width, self.sectionHeaderView.frame.size.height);
 }
 
--(void)reloadMovedCellAtIndexPath:(NSIndexPath*)a_indexPath{
-    __weak __typeof(self) l_weakSelf = self;
-    [IFAUtils dispatchAsyncMainThreadBlock:^{
-        [l_weakSelf.tableView reloadRowsAtIndexPaths:@[a_indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    }                           afterDelay:IFAAnimationDuration];
+- (void)reloadInvolvedSectionsAfterImplicitAnimationForRowMovedFromIndexPath:(NSIndexPath *)a_fromIndexPath toIndexPath:(NSIndexPath *)a_toIndexPath {
+    [CATransaction setCompletionBlock:^{
+        [IFAUtils dispatchAsyncMainThreadBlock:^{
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:(NSUInteger) a_toIndexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+            if (a_fromIndexPath.section!=a_toIndexPath.section) {
+                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:(NSUInteger) a_fromIndexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+            }
+        }];
+    }];
 }
 
 -(void)beginRefreshing {

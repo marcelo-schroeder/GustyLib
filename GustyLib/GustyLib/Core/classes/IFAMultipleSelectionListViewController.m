@@ -372,12 +372,6 @@ static const NSUInteger k_sectionSelectedObjects = 0;
     
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell
-forRowAtIndexPath:(NSIndexPath *)indexPath {
-    [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
-    NSLog(@"[indexPath description] = %@", [indexPath description]);
-}
-
 #pragma mark -
 #pragma mark UITableViewDelegate
 
@@ -398,8 +392,6 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
 }
 
-//wip: select all and none should probably scroll to the top.
-//wip: reordering screws up with the separators
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSArray *l_managedObjects;
@@ -432,6 +424,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 	return self.IFA_isJoinEntity && indexPath.section==k_sectionSelectedObjects;
 }
 
+//wip: there is a bug in reordering - it seems to occur when the last row in involved in the move
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath{
 
 	NSManagedObject *fromManagedObject = (self.IFA_selectedDestinationEntities)[(NSUInteger) fromIndexPath.row];
@@ -440,7 +433,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     (self.IFA_selectedDestinationEntities)[(NSUInteger) fromIndexPath.row] = toManagedObject;
     [self IFA_updateModel];
 
-    [self reloadMovedCellAtIndexPath:toIndexPath];
+    [self reloadInvolvedSectionsAfterImplicitAnimationForRowMovedFromIndexPath:fromIndexPath
+                                                                   toIndexPath:toIndexPath];
 
 }
 

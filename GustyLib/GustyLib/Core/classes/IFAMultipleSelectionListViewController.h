@@ -18,6 +18,7 @@
 //  limitations under the License.
 //
 
+//todo: help system review: empty Selected or Unselected sections should have some help in them (probably use a table section footer for that)
 @interface IFAMultipleSelectionListViewController : IFAAbstractSelectionListViewController {
 }
 
