@@ -160,8 +160,10 @@
 
     }
 
-    [self reloadInvolvedSectionsAfterImplicitAnimationForRowMovedFromIndexPath:fromIndexPath
-                                                                   toIndexPath:toIndexPath];
+    if (!self.fetchedResultsController) {
+        [self reloadInvolvedSectionsAfterImplicitAnimationForRowMovedFromIndexPath:fromIndexPath
+                                                                       toIndexPath:toIndexPath];
+    }
 
 }
 
