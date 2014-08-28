@@ -400,6 +400,8 @@ static const NSUInteger k_sectionUnselectedObjects = 1;
 }
 
 //wip: the "empty" row is allowing selection
+//wip: select all and none should probably scroll to the top.
+//wip: reordering screws up with the separators
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSArray *l_managedObjects;
     BOOL l_isSelectedOptionsSection = indexPath.section==k_sectionSelectedObjects;
@@ -444,7 +446,7 @@ static const NSUInteger k_sectionUnselectedObjects = 1;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-	return section==k_sectionSelectedObjects ? @"Selected entries" : @"Unselected entries";
+	return section==k_sectionSelectedObjects ? @"Selected" : @"Unselected";
 }
 
 @end
