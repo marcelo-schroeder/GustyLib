@@ -19,6 +19,7 @@
 //
 
 #import "GustyLibCore.h"
+#import "NSMutableArray+IFACategory.h"
 
 #ifdef IFA_AVAILABLE_Help
 #import "GustyLibHelp.h"
@@ -424,18 +425,12 @@ static const NSUInteger k_sectionSelectedObjects = 0;
 	return self.IFA_isJoinEntity && indexPath.section==k_sectionSelectedObjects;
 }
 
-//wip: there is a bug in reordering - it seems to occur when the last row in involved in the move
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath{
-
-	NSManagedObject *fromManagedObject = (self.IFA_selectedDestinationEntities)[(NSUInteger) fromIndexPath.row];
-	NSManagedObject *toManagedObject = (self.IFA_selectedDestinationEntities)[(NSUInteger) toIndexPath.row];
-    (self.IFA_selectedDestinationEntities)[(NSUInteger) toIndexPath.row] = fromManagedObject;
-    (self.IFA_selectedDestinationEntities)[(NSUInteger) fromIndexPath.row] = toManagedObject;
+    [self.IFA_selectedDestinationEntities ifa_moveObjectFromIndex:(NSUInteger) fromIndexPath.row
+                                                          toIndex:(NSUInteger) toIndexPath.row];
     [self IFA_updateModel];
-
     [self reloadInvolvedSectionsAfterImplicitAnimationForRowMovedFromIndexPath:fromIndexPath
                                                                    toIndexPath:toIndexPath];
-
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
