@@ -78,6 +78,10 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }
 }
 
+- (UIColor *)IFA_defaultTintColor {
+    return [UIApplication sharedApplication].delegate.window.tintColor;
+}
+
 #pragma mark - IFAAppearanceTheme
 
 -(void)setAppearance {
@@ -224,10 +228,12 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
     [self setOrientationDependentBackgroundImagesForViewController:a_viewController];
     if ([a_viewController isKindOfClass:[UITableViewController class]]) {
+
         UITableViewController *l_tableViewController = (UITableViewController*)a_viewController;
         if (l_tableViewController.tableView.style==UITableViewStyleGrouped) {
             l_tableViewController.tableView.separatorColor = [self IFA_colorForInfoPlistKey:@"IFAThemeGroupedTableSeparatorColor"];
         }
+
     }else if([a_viewController isKindOfClass:[IFAMasterDetailViewController class]]) {
 
         IFAMasterDetailViewController *l_viewController = (IFAMasterDetailViewController *) a_viewController;
@@ -299,12 +305,17 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 -(void)setAppearanceOnAwakeFromNibForView:(UIView*)a_view{
     if ([a_view isKindOfClass:[UITableViewCell class]]) {
         [self setLabelTextStyleForChildrenOfView:((UITableViewCell *) a_view).contentView];
+        if ([a_view isKindOfClass:[IFAMultipleSelectionListViewCell class]]) {
+            IFAMultipleSelectionListViewCell *l_cell = (IFAMultipleSelectionListViewCell *) a_view;
+            UIColor *l_defaultTintColor = [self IFA_defaultTintColor];
+            l_cell.addToSelectionImageView.image = [l_cell.addToSelectionImageView.image ifa_imageWithOverlayColor:l_defaultTintColor];
+            l_cell.removeFromSelectionImageView.image = [l_cell.removeFromSelectionImageView.image ifa_imageWithOverlayColor:l_defaultTintColor];
+        }
     }else if ([a_view isKindOfClass:[IFAFormTableViewCellContentView class]]) {
         IFAFormTableViewCellContentView *l_view = (IFAFormTableViewCellContentView *) a_view;
         l_view.formTableViewCell.topSeparatorImageView.image = [UIImage ifa_separatorImageForType:IFASeparatorImageTypeHorizontalBottom];
         l_view.formTableViewCell.bottomSeparatorImageView.image = [UIImage ifa_separatorImageForType:IFASeparatorImageTypeHorizontalBottom];
     }
-
 }
 
 -(void)setAppearanceOnInitReusableCellForViewController:(UITableViewController *)a_tableViewController cell:(UITableViewCell*)a_cell{

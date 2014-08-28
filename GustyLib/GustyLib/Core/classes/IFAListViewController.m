@@ -559,26 +559,6 @@
     return cell;
 }
 
-#pragma mark - UITableViewDelegate
-
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    IFATableSectionHeaderView *l_view = nil;
-    NSString *l_title = [self tableView:tableView titleForHeaderInSection:section];
-    if (l_title) {
-        NSString *l_xibName = [IFAUtils infoPList][@"IFAThemeListSectionHeaderViewXib"];
-        if (l_xibName) {
-            l_view = [[NSBundle mainBundle] loadNibNamed:l_xibName owner:self options:nil][0];
-            l_view.titleLabel.text = l_title;
-        }
-    }
-    return l_view;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    NSString *l_title = [self tableView:tableView titleForHeaderInSection:section];
-    return l_title ? IFATableSectionHeaderDefaultHeight : 0;
-}
-
 #pragma mark - IFASelectionManagerDelegate
 
 - (NSObject*)selectionManagerObjectForIndexPath:(NSIndexPath*)a_indexPath{

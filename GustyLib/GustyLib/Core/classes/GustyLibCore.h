@@ -104,7 +104,7 @@
 #import "IFAMasterDetailViewController.h"
 #import "IFAMenuViewController.h"
 #import "IFAModalViewController.h"
-#import "IFAMultiSelectionListViewController.h"
+#import "IFAMultipleSelectionListViewController.h"
 #import "IFANavigationController.h"
 #import "IFANavigationItemTitleView.h"
 #import "IFANavigationListViewController.h"
@@ -178,4 +178,5 @@
 #import "UIWebView+IFACategory.h"
 #import "IFAGridViewController.h"
 #import "IFAFormInputAccessoryView.h"
+#import "IFAMultipleSelectionListViewCell.h"
 

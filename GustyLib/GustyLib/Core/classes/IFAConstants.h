@@ -19,7 +19,6 @@
 //
 
 static CGFloat const IFATableViewEditingCellXOffset = 38;
-static CGFloat const IFATableSectionHeaderDefaultHeight = 22;
 static CGFloat const IFAFormSectionHeaderDefaultHeight = 39;
 static CGFloat const IFAMinimumTapAreaDimension = 44;
 static CGFloat const IFATableViewCellSeparatorDefaultInsetLeft = 15;

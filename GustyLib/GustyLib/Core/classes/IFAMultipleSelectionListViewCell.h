@@ -1,9 +1,6 @@
 //
-//  IFAMultiSelectionListViewController.h
-//  Gusty
-//
-//  Created by Marcelo Schroeder on 10/01/11.
-//  Copyright 2011 InfoAccent Pty Limited. All rights reserved.
+// Created by Marcelo Schroeder on 28/08/2014.
+// Copyright (c) 2014 InfoAccent Pty Ltd. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -18,7 +15,14 @@
 //  limitations under the License.
 //
 
-@interface IFAMultiSelectionListViewController : IFAAbstractSelectionListViewController <UIActionSheetDelegate> {
-}
+#import <Foundation/Foundation.h>
+#import "IFATableViewCell.h"
 
+
+@interface IFAMultipleSelectionListViewCell : IFATableViewCell{
+    
+}
+@property (strong, nonatomic) IBOutlet UIImageView *addToSelectionImageView;
+@property (strong, nonatomic) IBOutlet UIImageView *removeFromSelectionImageView;
+@property (strong, nonatomic) IBOutlet UILabel *label;
 @end
