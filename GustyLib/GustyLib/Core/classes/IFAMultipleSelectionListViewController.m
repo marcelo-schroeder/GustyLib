@@ -27,7 +27,6 @@
 static NSString *const k_cellReuseId = @"cell";
 
 static const NSUInteger k_sectionSelectedObjects = 0;
-static const NSUInteger k_sectionUnselectedObjects = 1;
 
 @interface IFAMultipleSelectionListViewController ()
 
@@ -92,14 +91,6 @@ static const NSUInteger k_sectionUnselectedObjects = 1;
 
 	// Determine index paths to delete
 	NSMutableArray *l_indexPathsToDelete = [NSMutableArray array];
-    if (!self.IFA_selectedDestinationEntities.count) {
-        [l_indexPathsToDelete addObject:[NSIndexPath indexPathForRow:0
-                                                           inSection:k_sectionSelectedObjects]];
-    }
-    if (!self.IFA_unselectedDestinationEntities.count) {
-        [l_indexPathsToDelete addObject:[NSIndexPath indexPathForRow:0
-                                                           inSection:k_sectionUnselectedObjects]];
-    }
 	for (NSManagedObject *l_managedObject in a_managedObjects) {
 		@autoreleasepool {
 			NSIndexPath *l_indexPathToDelete;
@@ -159,22 +150,23 @@ static const NSUInteger k_sectionUnselectedObjects = 1;
 			[l_indexPathsToInsert addObject:l_indexPathToInsert];
 		}
 	}
-    if (!self.IFA_selectedDestinationEntities.count) {
-        [l_indexPathsToInsert addObject:[NSIndexPath indexPathForRow:0
-                                                           inSection:k_sectionSelectedObjects]];
-    }
-    if (!self.IFA_unselectedDestinationEntities.count) {
-        [l_indexPathsToInsert addObject:[NSIndexPath indexPathForRow:0
-                                                           inSection:k_sectionUnselectedObjects]];
-    }
 
+    // Schedule table view row updates
+    [CATransaction begin];
+    [CATransaction setCompletionBlock: ^{
+        // Update cell state after the move (e.g. the remove button needs to turn into an add button (or vice-versa), cell separators may be incorrect after the move, so this fix them up)
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]
+                      withRowAnimation:UITableViewRowAnimationNone];
+    }];
     [self.tableView beginUpdates];
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)] withRowAnimation:UITableViewRowAnimationAutomatic];
-//    [self.tableView deleteRowsAtIndexPaths:l_indexPathsToDelete
-//                          withRowAnimation:UITableViewRowAnimationFade];
-//    [self.tableView insertRowsAtIndexPaths:l_indexPathsToInsert
-//                          withRowAnimation:UITableViewRowAnimationFade];
-    [self.tableView endUpdates];
+        for (NSUInteger i = 0; i < a_managedObjects.count; ++i) {
+            NSIndexPath *l_fromIndexPath = l_indexPathsToDelete[i];
+            NSIndexPath *l_toIndexPath = l_indexPathsToInsert[i];
+            [self.tableView moveRowAtIndexPath:l_fromIndexPath toIndexPath:l_toIndexPath];
+        }
+        [self.tableView endUpdates];
+    [CATransaction commit];
+    [UIView commitAnimations];
 
     [self IFA_updateModel];
 	[self updateUiState];
@@ -337,14 +329,10 @@ static const NSUInteger k_sectionUnselectedObjects = 1;
             l_cell.addToSelectionImageView.hidden = NO;
         }
 	}
-    if (l_managedObject) {
-        l_cell.label.text = [l_managedObject ifa_longDisplayValue];
+    l_cell.label.text = [l_managedObject ifa_longDisplayValue];
 #ifdef IFA_AVAILABLE_Help
-        l_cell.helpTargetId = [[self ifa_helpTargetIdForName:@"tableCell."] stringByAppendingString:indexPath.section == 0 ? @"selected" : @"unselected"];
+    l_cell.helpTargetId = [[self ifa_helpTargetIdForName:@"tableCell."] stringByAppendingString:indexPath.section == 0 ? @"selected" : @"unselected"];
 #endif
-    }else{
-        l_cell.label.text = @"Empty - CHANGE ME";
-    }
     return l_cell;
 
 }
@@ -379,6 +367,12 @@ static const NSUInteger k_sectionUnselectedObjects = 1;
     
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell
+forRowAtIndexPath:(NSIndexPath *)indexPath {
+    [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
+    NSLog(@"[indexPath description] = %@", [indexPath description]);
+}
+
 #pragma mark -
 #pragma mark UITableViewDelegate
 
@@ -399,10 +393,10 @@ static const NSUInteger k_sectionUnselectedObjects = 1;
     return NO;
 }
 
-//wip: the "empty" row is allowing selection
 //wip: select all and none should probably scroll to the top.
 //wip: reordering screws up with the separators
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSArray *l_managedObjects;
     BOOL l_isSelectedOptionsSection = indexPath.section==k_sectionSelectedObjects;
     if (l_isSelectedOptionsSection) {
@@ -423,9 +417,9 @@ static const NSUInteger k_sectionUnselectedObjects = 1;
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 	if (section==k_sectionSelectedObjects) {
-		return [self.IFA_selectedDestinationEntities count]?:1;
+		return [self.IFA_selectedDestinationEntities count];
 	}else {
-		return [self.IFA_unselectedDestinationEntities count]?:1;
+		return [self.IFA_unselectedDestinationEntities count];
 	}
 }
 
