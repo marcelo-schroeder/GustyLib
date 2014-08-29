@@ -36,7 +36,7 @@
 @property (nonatomic, strong) NSMutableArray *IFA_editableTextFieldCells;
 @property(nonatomic, strong) NSMutableDictionary *IFA_propertyNameToCell;
 @property(nonatomic, strong) NSMutableArray *IFA_uiControlsWithTargets;
-@property(nonatomic) BOOL IFA_objectSaved;
+@property(nonatomic) BOOL IFA_changesMade;
 @property(nonatomic) BOOL IFA_saveButtonTapped;
 @property(nonatomic) BOOL IFA_restoringNonEditingState;
 @property(nonatomic) BOOL IFA_isManagedObject;
@@ -796,7 +796,8 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 				if (![[IFAPersistenceManager sharedInstance] deleteAndSaveObject:l_managedObject]) {
 					return;
 				}
-                [self ifa_notifySessionCompletionWithChangesMade:YES data:nil ];    //wip: review this after the read only mode with edit button change
+                self.IFA_changesMade = YES;
+                [self ifa_notifySessionCompletion];    //wip: review this after the read only mode with edit button change
                 [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:@"%@ deleted",
                                                                                                     self.title]];
 			}
@@ -1123,6 +1124,8 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    
+    self.
 
     self.IFA_isManagedObject = [self.object isKindOfClass:NSManagedObject.class];
     
@@ -1398,7 +1401,6 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 //    NSLog(@"setEditing: %u", editing);
 
     self.IFA_saveButtonTapped = NO;
-    self.IFA_objectSaved = NO;
     self.doneButtonSaves = NO;
 
     BOOL l_contextSwitchRequestPending = self.contextSwitchRequestPending;    // save this value before the super class resets it
@@ -1452,7 +1454,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                         return;
                     }
 
-                    self.IFA_objectSaved = YES;
+                    self.IFA_changesMade = YES;
 
                     [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:@"%@ %@",
                                                                                                         self.title,
@@ -1490,7 +1492,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                         self.IFA_readOnlyModeSuspendedForEditing = NO;
                         self.doneButtonSaves = NO;
                     }else{
-                        [self ifa_notifySessionCompletionWithChangesMade:self.IFA_objectSaved data:nil];
+                        [self ifa_notifySessionCompletion];
                     }
                 }
             }
@@ -1518,6 +1520,10 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 - (UIView *)inputAccessoryView {
     return self.formInputAccessoryView;
+}
+
+- (void)ifa_notifySessionCompletion {
+    [self ifa_notifySessionCompletionWithChangesMade:self.IFA_changesMade data:self.object];
 }
 
 #pragma mark - UIScrollViewDelegate
