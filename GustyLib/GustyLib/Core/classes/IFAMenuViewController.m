@@ -115,13 +115,9 @@
             self.slidingViewController.topViewController = l_viewController;
         }
     }else {
-        if ([l_viewController isKindOfClass:[IFAPreferencesFormViewController class]]) {
-            [self ifa_presentModalFormViewController:l_viewController];
-        }else{
-            [self.navigationController pushViewController:l_viewController animated:YES];
-        }
+        [self.navigationController pushViewController:l_viewController animated:YES];
     }
-    
+
     self.selectedIndexPath = a_indexPath;
     //    NSLog(@"self.selectedIndexPath: %@", [self.selectedIndexPath description]);
     
