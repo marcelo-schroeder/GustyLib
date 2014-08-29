@@ -118,10 +118,14 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 - (void)IFA_restoreNonEditingState {
     [[IFAPersistenceManager sharedInstance] rollback];
-    self.IFA_restoringNonEditingState = YES;
-    [self setEditing:NO animated:YES];
-    self.IFA_restoringNonEditingState = NO;
-    [self ifa_notifySessionCompletion];
+    if (self.IFA_readOnlyModeSuspendedForEditing) {
+        [self setEditing:NO animated:YES];
+    }else{
+        self.IFA_restoringNonEditingState = YES;
+        [self setEditing:NO animated:YES];
+        self.IFA_restoringNonEditingState = NO;
+        [self ifa_notifySessionCompletion];
+    }
 }
 
 - (void)IFA_onCancelButtonTap:(id)sender {
