@@ -79,7 +79,7 @@ static UIImage *c_menuBarButtonItemImage = nil;
         NSMutableSet *l_visibleSections = [NSMutableSet new];
         for (NSIndexPath *l_indexPath in l_fullyVisibleIndexPaths) {
             @autoreleasepool {
-                NSNumber *l_section = [NSNumber numberWithUnsignedInteger:l_indexPath.section];
+                NSNumber *l_section = [NSNumber numberWithUnsignedInteger:(NSUInteger) l_indexPath.section];
                 [l_visibleSections addObject:l_section];
             }
         }
@@ -249,7 +249,7 @@ static UIImage *c_menuBarButtonItemImage = nil;
 //			barButtonItem.accessibilityLabel = @"Done Button";
 			break;
 		case IFABarButtonItemDelete:
-			barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"310-RemoveButton.png"] style:UIBarButtonItemStylePlain target:aTarget action:anAction];
+			barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IFA_ICon_Delete"] style:UIBarButtonItemStylePlain target:aTarget action:anAction];
 #ifdef IFA_AVAILABLE_Help
             barButtonItem.helpTargetId = [self helpTargetIdForName:@"deleteButton"];
 #endif
@@ -407,7 +407,7 @@ static UIImage *c_menuBarButtonItemImage = nil;
 		[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
 		return [dateFormatter stringFromDate:anObject];
 	}else if ([anObject isKindOfClass:[NSManagedObject class]]) {
-		return [anObject ifa_longDisplayValue];
+		return [(NSManagedObject *)anObject ifa_longDisplayValue];
 	}else if ([anObject isKindOfClass:[NSSet class]]) {
 		if ([anObject count]==0) {
 			return @"";
@@ -473,7 +473,7 @@ static UIImage *c_menuBarButtonItemImage = nil;
     UIWindow *l_window = [UIApplication sharedApplication].delegate.window;
     if ([l_window.rootViewController isKindOfClass:[UISplitViewController class]]) {
         UISplitViewController *l_splitViewController = (UISplitViewController*) l_window.rootViewController;
-        UIViewController *l_detailViewController = [l_splitViewController.viewControllers objectAtIndex:1];
+        UIViewController *l_detailViewController = (l_splitViewController.viewControllers)[1];
         l_view = l_detailViewController.view;
     }else{
         l_view = l_window;
@@ -518,7 +518,7 @@ static UIImage *c_menuBarButtonItemImage = nil;
 }
 
 +(NSString*)menuBarButtonItemImageName {
-    NSString *l_imageName = [[IFAUtils infoPList] objectForKey:@"IFAMenuButtonImage"];
+    NSString *l_imageName = [IFAUtils infoPList][@"IFAMenuButtonImage"];
     if (!l_imageName) {
         l_imageName = @"271-ThreeColumn.png";
     }
@@ -559,12 +559,12 @@ static UIImage *c_menuBarButtonItemImage = nil;
 
 +(UIColor*)colorForInfoPlistKey:(NSString*)a_infoPlistKey{
     UIColor *l_color = nil;
-    NSDictionary *l_colorDictionary = [[IFAUtils infoPList] objectForKey:a_infoPlistKey];
+    NSDictionary *l_colorDictionary = [IFAUtils infoPList][a_infoPlistKey];
     if (l_colorDictionary) {
-        CGFloat l_red = [[l_colorDictionary objectForKey:@"red"] floatValue];
-        CGFloat l_green = [[l_colorDictionary objectForKey:@"green"] floatValue];
-        CGFloat l_blue = [[l_colorDictionary objectForKey:@"blue"] floatValue];
-        CGFloat l_alpha = [[l_colorDictionary objectForKey:@"alpha"] floatValue];
+        NSUInteger l_red = [l_colorDictionary[@"red"] unsignedIntValue];
+        NSUInteger l_green = [l_colorDictionary[@"green"] unsignedIntValue];
+        NSUInteger l_blue = [l_colorDictionary[@"blue"] unsignedIntValue];
+        CGFloat l_alpha = [l_colorDictionary[@"alpha"] floatValue];
         l_color = [UIColor ifa_colorWithRed:l_red green:l_green blue:l_blue alpha:l_alpha];
     }
     return l_color;
