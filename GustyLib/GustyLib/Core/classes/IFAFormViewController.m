@@ -24,7 +24,6 @@
 #import "GustyLibHelp.h"
 #endif
 
-//wip: clean up
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -797,7 +796,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 					return;
 				}
                 self.IFA_changesMade = YES;
-                [self ifa_notifySessionCompletion];    //wip: review this after the read only mode with edit button change
+                [self ifa_notifySessionCompletion];
                 [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:@"%@ deleted",
                                                                                                     self.title]];
 			}

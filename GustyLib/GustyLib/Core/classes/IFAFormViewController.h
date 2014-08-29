@@ -24,7 +24,6 @@
 #import "IFAConstants.h"
 #import "IFAFormInputAccessoryView.h"
 
-//wip: clean up
 @interface IFAFormViewController : IFATableViewController <UIActionSheetDelegate, IFAFormInputAccessoryViewDataSource>
 
 @property (nonatomic, strong) NSObject *object;

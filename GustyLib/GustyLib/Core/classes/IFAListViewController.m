@@ -342,7 +342,7 @@
     IFAPersistenceManager *l_pm = [IFAPersistenceManager sharedInstance];
     
     // Push new child managed object context
-    [l_pm pushChildManagedObjectContext];   //wip: review this after the edit mode changes
+    [l_pm pushChildManagedObjectContext];
     
     NSManagedObject *l_mo;
     if(l_isCreateMode){
