@@ -45,23 +45,26 @@
     return UITableViewCellAccessoryDisclosureIndicator;
 }
 
+- (void)iFA_handleSelectionForEditingAtIndexPath:(NSIndexPath *)a_indexPath {
+#ifdef IFA_AVAILABLE_Help
+    if (![IFAHelpManager sharedInstance].helpMode) {
+#endif
+        [self showEditFormForManagedObject:(NSManagedObject *) [self objectForIndexPath:a_indexPath]];
+#ifdef IFA_AVAILABLE_Help
+    }
+#endif
+}
+
 #pragma mark - UITableViewDelegate Protocol
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (![[[IFAPersistenceManager sharedInstance] entityConfig] disallowDetailDisclosureForEntity:self.entityName]) {
-        [self tableView:tableView accessoryButtonTappedForRowWithIndexPath:indexPath];
-        [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:NO];
+        [self iFA_handleSelectionForEditingAtIndexPath:indexPath];
     }
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
-#ifdef IFA_AVAILABLE_Help
-    if (![IFAHelpManager sharedInstance].helpMode) {
-#endif
-    [self showEditFormForManagedObject:(NSManagedObject *) [self objectForIndexPath:indexPath]];
-#ifdef IFA_AVAILABLE_Help
-    }
-#endif
+    [self iFA_handleSelectionForEditingAtIndexPath:indexPath];
 }
 
 #pragma mark - UITableViewDataSource Protocol

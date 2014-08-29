@@ -334,7 +334,6 @@
     }
 }
 
-//wip: how do the changes made here relate to preferences? (should preferences follow the same approach?)
 - (void)showEditFormForManagedObject:(NSManagedObject *)a_managedObject {
 
     BOOL l_isCreateMode = a_managedObject ==nil;
