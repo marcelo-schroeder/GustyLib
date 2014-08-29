@@ -64,43 +64,26 @@
     NSNotification *l_notification = [NSNotification notificationWithName:l_notificationName
                                                                    object:self.contextSwitchRequestObject userInfo:nil];
     [[NSNotificationQueue defaultQueue] enqueueNotification:l_notification 
-                                               postingStyle:NSPostASAP
-                                               coalesceMask:NSNotificationNoCoalescing 
+                                               postingStyle:NSPostNow  // The only posting style that works - others would cause the tabbar to stop responding after setting the selected tab programmatically
+                                               coalesceMask:NSNotificationNoCoalescing
                                                    forModes:nil];
     self.contextSwitchRequestPending = NO;
     self.contextSwitchRequestObject = nil;
-//    NSLog(@"IFA_NOTIFICATION_CONTEXT_SWITCH_REQUEST_%@ sent by %@", a_granted?@"GRANTED":@"DENIED", [self description]);
-}
-
--(BOOL)contextSwitchRequestRequired {
-    if ([self.navigationController isKindOfClass:[IFANavigationController class]]) {
-        return ((IFANavigationController *)self.navigationController).contextSwitchRequestRequired;
-    }else{
-        return NO;
-    }
-}
-
--(void)setContextSwitchRequestRequired:(BOOL)a_contextSwitchRequestRequired{
-//    NSLog(@"setting contextSwitchRequestRequired 2...");
-    if ([self.navigationController isKindOfClass:[IFANavigationController class]]) {
-        ((IFANavigationController *)self.navigationController).contextSwitchRequestRequired = a_contextSwitchRequestRequired;
-//        NSLog(@"   *** contextSwitchRequestRequired set to %u", self.contextSwitchRequestRequired);
-    }
+//    NSLog(@"IFANotificationContextSwitchRequest%@ sent by %@", a_granted?@"Granted":@"Denied", [self description]);
 }
 
 - (void)reloadData{
     [self.tableView reloadData];
 }
 
-- (void)oncontextSwitchRequestNotification:(NSNotification*)aNotification{
+- (void)onContextSwitchRequestNotification:(NSNotification*)aNotification{
 //    NSLog(@"IFANotificationContextSwitchRequest received by %@", [self description]);
     self.contextSwitchRequestPending = YES;
     self.contextSwitchRequestObject = aNotification.object;
     [self quitEditing];
 }
 
-// To be overriden by subclasses
-- (BOOL)contextSwitchRequestRequiredInEditMode{
+- (BOOL)automaticallyHandleContextSwitchingBasedOnEditingState {
     return YES;
 }
 
@@ -282,7 +265,7 @@
         
         // Add observers
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(oncontextSwitchRequestNotification:)
+                                                 selector:@selector(onContextSwitchRequestNotification:)
                                                      name:IFANotificationContextSwitchRequest
                                                    object:nil];
         
@@ -397,11 +380,6 @@
     if (self.contextSwitchRequestPending) {
         // Notify that any pending context switch can occur
         [self replyToContextSwitchRequestWithGranted:YES];
-    }
-
-    if ([self contextSwitchRequestRequiredInEditMode]) {
-//        NSLog(@"setting contextSwitchRequestRequired 1...");
-        self.contextSwitchRequestRequired =  editing;
     }
 
     if (self.pagingContainerViewController) {
@@ -526,6 +504,16 @@
     NSIndexPath *l_selectedIndexPath = self.tableView.indexPathForSelectedRow;
     if (l_selectedIndexPath) {
         [self.tableView deselectRowAtIndexPath:l_selectedIndexPath animated:YES];
+    }
+}
+
+#pragma mark - IFAContextSwitchTarget
+
+-(BOOL)contextSwitchRequestRequired {
+    if ([self automaticallyHandleContextSwitchingBasedOnEditingState]) {
+        return self.editing;
+    }else{
+        return NO;
     }
 }
 

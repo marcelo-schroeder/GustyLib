@@ -1,9 +1,6 @@
 //
-//  IFANavigationController.h
-//  Gusty
-//
-//  Created by Marcelo Schroeder on 18/05/11.
-//  Copyright 2011 InfoAccent Pty Limited. All rights reserved.
+// Created by Marcelo Schroeder on 30/08/2014.
+// Copyright (c) 2014 InfoAccent Pty Ltd. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -18,10 +15,9 @@
 //  limitations under the License.
 //
 
-#import "IFAContextSwitchTarget.h"
+#import <Foundation/Foundation.h>
 
-@interface IFANavigationController : UINavigationController <IFAContextSwitchTarget> {
-    
-}
-
+@protocol IFAContextSwitchTarget <NSObject>
+@required
+@property (nonatomic, readonly) BOOL contextSwitchRequestRequired;
 @end

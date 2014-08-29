@@ -37,7 +37,7 @@
 @property(nonatomic, strong) NSMutableArray *IFA_uiControlsWithTargets;
 @property(nonatomic) BOOL IFA_changesMade;
 @property(nonatomic) BOOL IFA_saveButtonTapped;
-@property(nonatomic) BOOL IFA_restoringNonEditingState;
+@property(nonatomic) BOOL IFA_preparingForDismissalAfterRollback;
 @property(nonatomic) BOOL IFA_isManagedObject;
 @property(nonatomic) BOOL IFA_createModeAutoFieldEditDone;
 @property(nonatomic, strong) IFAFormInputAccessoryView *formInputAccessoryView;
@@ -115,14 +115,14 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                                        tag:IFAViewTagActionSheetDelete];
 }
 
-- (void)IFA_restoreNonEditingState {
+- (void)IFA_rollbackAndRestoreNonEditingState {
     [[IFAPersistenceManager sharedInstance] rollback];
-    if (self.IFA_readOnlyModeSuspendedForEditing) {
+    if (self.IFA_readOnlyModeSuspendedForEditing && !self.contextSwitchRequestPending) {
         [self setEditing:NO animated:YES];
     }else{
-        self.IFA_restoringNonEditingState = YES;
+        self.IFA_preparingForDismissalAfterRollback = YES;
         [self setEditing:NO animated:YES];
-        self.IFA_restoringNonEditingState = NO;
+        self.IFA_preparingForDismissalAfterRollback = NO;
         [self ifa_notifySessionCompletion];
     }
 }
@@ -782,7 +782,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 	switch (actionSheet.tag) {
 		case IFAViewTagActionSheetCancel:
 			if(buttonIndex==0){
-                [self IFA_restoreNonEditingState];
+                [self IFA_rollbackAndRestoreNonEditingState];
 			}else{
                 // Notify that any pending context switch has been denied
                 [self replyToContextSwitchRequestWithGranted:NO];
@@ -1123,11 +1123,9 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    
-    self.
 
     self.IFA_isManagedObject = [self.object isKindOfClass:NSManagedObject.class];
-    
+
     // Set managed object default values based on backing preferences
     if (self.createMode && !self.isSubForm) {
         [[IFAPersistenceManager sharedInstance].entityConfig setDefaultValuesFromBackingPreferencesForObject:self.object];
@@ -1237,12 +1235,9 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 //    NSLog(@"self.navigationController.presentingViewController: %@", [self.navigationController.presentingViewController description]);
 
     [super viewWillAppear:animated];
-    
+
     if (!self.readOnlyMode && !self.editing) {
         self.editing = YES;
-    }else if(self.editing && ![self ifa_isReturningVisibleViewController] && [self contextSwitchRequestRequiredInEditMode]) {
-        // If it's already in editing mode, need to make sure context switch request is required (e.g. the view controller could be cached by the menu)
-        self.contextSwitchRequestRequired = YES;
     }
 
     [self IFA_updateLeftBarButtonItemsStates];
@@ -1326,17 +1321,19 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 }
 
-- (void)quitEditing{
-	if (self.IFA_isManagedObject && ([IFAPersistenceManager sharedInstance].isCurrentManagedObjectDirty || self.IFA_textFieldTextChanged)) {
-        [IFAUIUtils showActionSheetWithMessage:@"Are you sure you want to discard your changes?"
-                  destructiveButtonLabelSuffix:@"discard"
-                                viewController:self
-                                 barButtonItem:nil
-                                      delegate:self
-                                           tag:IFAViewTagActionSheetCancel];
-	}else{
-        [self IFA_restoreNonEditingState];
-	}
+- (void)quitEditing {
+    if (self.editing) {
+        if (self.IFA_isManagedObject && ([IFAPersistenceManager sharedInstance].isCurrentManagedObjectDirty || self.IFA_textFieldTextChanged)) {
+            [IFAUIUtils showActionSheetWithMessage:@"Are you sure you want to discard your changes?"
+                      destructiveButtonLabelSuffix:@"discard"
+                                    viewController:self
+                                     barButtonItem:nil
+                                          delegate:self
+                                               tag:IFAViewTagActionSheetCancel];
+        } else {
+            [self IFA_rollbackAndRestoreNonEditingState];
+        }
+    }
 }
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
@@ -1354,18 +1351,6 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         
     }
 
-}
-
--(BOOL)contextSwitchRequestRequired {
-    if (self.IFA_isManagedObject) {
-        return [super contextSwitchRequestRequired];
-    }else{
-        return NO;
-    }
-}
-
--(void)setContextSwitchRequestRequired:(BOOL)a_contextSwitchRequestRequired{
-    [super setContextSwitchRequestRequired:self.IFA_isManagedObject ? a_contextSwitchRequestRequired : NO];
 }
 
 -(void)ifa_onKeyboardNotification:(NSNotification*)a_notification{
@@ -1429,13 +1414,13 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
     }else {
 
-        if (![self IFA_endTextFieldEditingWithCommit:!self.IFA_restoringNonEditingState]) {
+        if (![self IFA_endTextFieldEditingWithCommit:!self.IFA_preparingForDismissalAfterRollback]) {
             return;
         };
 
         if (!self.isSubForm) {   // does not execute this block if it's a context switching scenario for a sub-form
 
-            self.IFA_saveButtonTapped = !self.IFA_restoringNonEditingState;
+            self.IFA_saveButtonTapped = !self.IFA_preparingForDismissalAfterRollback;
 
             if (self.IFA_isManagedObject) {
 
@@ -1465,7 +1450,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
                 [self IFA_updateAndSaveBackingPreferences];
 
-                if (!self.IFA_restoringNonEditingState) {
+                if (!self.IFA_preparingForDismissalAfterRollback) {
                     [self onSubmitButtonTap];
                     return;
                 }
@@ -1474,7 +1459,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
         }
 
-        self.skipEditingUiStateChange = !self.IFA_readOnlyModeSuspendedForEditing;
+        self.skipEditingUiStateChange = ! (self.IFA_readOnlyModeSuspendedForEditing && !l_contextSwitchRequestPending);
         [super setEditing:editing animated:animated];
 
         if (!self.isSubForm) {   // does not execute this block if it's a context switching scenario for a sub-form
@@ -1484,7 +1469,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                 [self IFA_updateLeftBarButtonItemsStates];
             }
             BOOL l_canDismissView = self.ifa_presentedAsModal || (self.navigationController.viewControllers)[0] !=self;
-            if ((self.IFA_saveButtonTapped || self.createMode) && l_canDismissView && !self.IFA_restoringNonEditingState) {
+            if ((self.IFA_saveButtonTapped || self.createMode) && l_canDismissView && !self.IFA_preparingForDismissalAfterRollback) {
                 if (!l_contextSwitchRequestPending) {    // Make sure this controller has not already been popped by a context switch request somewhere else
                     if (self.IFA_readOnlyModeSuspendedForEditing) {
                         self.readOnlyMode = YES;
@@ -1523,6 +1508,22 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 - (void)ifa_notifySessionCompletion {
     [self ifa_notifySessionCompletionWithChangesMade:self.IFA_changesMade data:self.object];
+}
+
+- (BOOL)automaticallyHandleContextSwitchingBasedOnEditingState {
+    return NO;
+}
+
+- (BOOL)contextSwitchRequestRequired {
+    return self.IFA_isManagedObject;
+}
+
+- (void)onContextSwitchRequestNotification:(NSNotification *)aNotification {
+    [super onContextSwitchRequestNotification:aNotification];
+    if (!self.editing) {
+        [self replyToContextSwitchRequestWithGranted:YES];
+        [self ifa_notifySessionCompletion];
+    }
 }
 
 #pragma mark - UIScrollViewDelegate

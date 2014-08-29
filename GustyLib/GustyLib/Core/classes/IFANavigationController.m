@@ -20,9 +20,7 @@
 
 #import "GustyLibCore.h"
 
-@interface IFANavigationController (){
-}
-
+@interface IFANavigationController ()
 @end
 
 @implementation IFANavigationController {
@@ -82,6 +80,16 @@
 
 -(BOOL)disablesAutomaticKeyboardDismissal{
     return self.visibleViewController.disablesAutomaticKeyboardDismissal;
+}
+
+#pragma mark - IFAContextSwitchTarget
+
+- (BOOL)contextSwitchRequestRequired {
+    if ([self.topViewController conformsToProtocol:@protocol(IFAContextSwitchTarget)]) {
+        return ((id <IFAContextSwitchTarget>) self.topViewController).contextSwitchRequestRequired;
+    }else{
+        return NO;
+    }
 }
 
 @end

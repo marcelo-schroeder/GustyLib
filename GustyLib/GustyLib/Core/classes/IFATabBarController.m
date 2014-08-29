@@ -34,12 +34,13 @@
 
 -(void)IFA_selectViewController:(UIViewController*)a_viewController{
 //    NSLog(@"going to select tab view controller...");
+    //continuehere
     self.selectedViewController = a_viewController;
     [self tabBarController:self didSelectViewController:self.selectedViewController];
 //    NSLog(@"tab view controller selected");
 }
 
-- (void)oncontextSwitchRequestGrantedNotification:(NSNotification*)aNotification{
+- (void)onContextSwitchRequestGrantedNotification:(NSNotification*)aNotification{
 //    NSLog(@"IFANotificationContextSwitchRequestGranted received by %@", [self description]);
     [self IFA_selectViewController:aNotification.object];
 }
@@ -74,12 +75,12 @@
     // Check if we are in help mode first
     if ([IFAHelpManager sharedInstance].helpMode) {
         NSUInteger l_selectedViewControllerIndex = [self.viewControllers indexOfObject:viewController];
-        UITabBarItem *l_tabBarItem = ((UITabBarItem*)[tabBarController.tabBar.items objectAtIndex:l_selectedViewControllerIndex]);
+        UITabBarItem *l_tabBarItem = ((UITabBarItem*) (tabBarController.tabBar.items)[l_selectedViewControllerIndex]);
         NSString *l_title = l_tabBarItem.title;
         if (!l_title && [viewController isKindOfClass:[UINavigationController class]]) {
             // If a title is not available (e.g. the tab bar item is a system item), then it will attempt to derive the title from the navigation controller's root view controller
             UINavigationController *l_navigationController = (UINavigationController*)viewController;
-            UIViewController *l_rootViewController = [l_navigationController.viewControllers objectAtIndex:0];
+            UIViewController *l_rootViewController = (l_navigationController.viewControllers)[0];
             l_title = l_rootViewController.title;
         }
         l_title = [NSString stringWithFormat:@"%@ Tab", l_title];
@@ -90,20 +91,16 @@
 #endif
 
     BOOL l_shouldSelectViewController = YES;
-    if ([self.selectedViewController isKindOfClass:[IFANavigationController class]]) {
-        IFANavigationController *l_selectedNavigationController = (IFANavigationController *)self.selectedViewController;
-//        NSLog(@"l_navigationController.contextSwitchRequestRequired: %u", l_selectedNavigationController.contextSwitchRequestRequired);
-        if (l_selectedNavigationController.contextSwitchRequestRequired) {
-            NSNotification *l_notification = [NSNotification notificationWithName:IFANotificationContextSwitchRequest
-                                                                           object:viewController userInfo:nil];
-            [[NSNotificationQueue defaultQueue] enqueueNotification:l_notification 
-                                                       postingStyle:NSPostASAP
-                                                       coalesceMask:NSNotificationNoCoalescing 
-                                                           forModes:nil];
-//            NSLog(@" ");
-//            NSLog(@"IFANotificationContextSwitchRequest sent by %@", [self description]);
-            return NO;
-        }
+    if ([self.selectedViewController conformsToProtocol:@protocol(IFAContextSwitchTarget)] && ((id <IFAContextSwitchTarget>) self.selectedViewController).contextSwitchRequestRequired) {
+        NSNotification *l_notification = [NSNotification notificationWithName:IFANotificationContextSwitchRequest
+                                                                       object:viewController userInfo:nil];
+        [[NSNotificationQueue defaultQueue] enqueueNotification:l_notification
+                                                   postingStyle:NSPostASAP
+                                                   coalesceMask:NSNotificationNoCoalescing
+                                                       forModes:nil];
+//        NSLog(@" ");
+//        NSLog(@"IFANotificationContextSwitchRequest sent by %@", [self description]);
+        l_shouldSelectViewController = NO;
     }
     return l_shouldSelectViewController;
 
@@ -144,7 +141,7 @@
     
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(oncontextSwitchRequestGrantedNotification:)
+                                             selector:@selector(onContextSwitchRequestGrantedNotification:)
                                                  name:IFANotificationContextSwitchRequestGranted
                                                object:nil];
 

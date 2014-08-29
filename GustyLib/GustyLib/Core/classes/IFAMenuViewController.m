@@ -249,19 +249,16 @@
     UIViewController *l_selectedViewController = nil;
     if (self.splitViewController || self.slidingViewController) {
         l_selectedViewController = self.splitViewController ? (self.splitViewController.viewControllers)[1] : self.slidingViewController.topViewController;
-        if ([l_selectedViewController isKindOfClass:[IFANavigationController class]]) {
-            //    NSLog(@"l_navigationController.contextSwitchRequestRequired: %u", l_selectedNavigationController.contextSwitchRequestRequired);
-            if (((IFANavigationController *)l_selectedViewController).contextSwitchRequestRequired) {
-                NSNotification *l_notification = [NSNotification notificationWithName:IFANotificationContextSwitchRequest
-                                                                               object:indexPath userInfo:nil];
-                [[NSNotificationQueue defaultQueue] enqueueNotification:l_notification 
-                                                           postingStyle:NSPostASAP
-                                                           coalesceMask:NSNotificationNoCoalescing 
-                                                               forModes:nil];
-                //        NSLog(@" ");
-                //        NSLog(@"IFANotificationContextSwitchRequest sent by %@", [self description]);
-                return;
-            }
+        if ([l_selectedViewController conformsToProtocol:@protocol(IFAContextSwitchTarget)] && ((id <IFAContextSwitchTarget>) l_selectedViewController).contextSwitchRequestRequired) {
+            NSNotification *l_notification = [NSNotification notificationWithName:IFANotificationContextSwitchRequest
+                                                                           object:indexPath userInfo:nil];
+            [[NSNotificationQueue defaultQueue] enqueueNotification:l_notification
+                                                       postingStyle:NSPostASAP
+                                                       coalesceMask:NSNotificationNoCoalescing
+                                                           forModes:nil];
+//            NSLog(@" ");
+//            NSLog(@"IFANotificationContextSwitchRequest sent by %@", [self description]);
+            return;
         }
     }
 

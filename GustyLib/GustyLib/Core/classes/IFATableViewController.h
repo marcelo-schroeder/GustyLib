@@ -18,11 +18,12 @@
 //  limitations under the License.
 //
 
+#import "IFAContextSwitchTarget.h"
+
 @class IFAAbstractPagingContainerViewController;
 
-@interface IFATableViewController : UITableViewController <UIAlertViewDelegate>
+@interface IFATableViewController : UITableViewController <UIAlertViewDelegate, IFAContextSwitchTarget>
 
-@property (nonatomic) BOOL contextSwitchRequestRequired;
 @property (nonatomic) BOOL contextSwitchRequestPending;
 @property (nonatomic) BOOL doneButtonSaves;
 @property (nonatomic, strong) id contextSwitchRequestObject;
@@ -37,7 +38,7 @@
 @property (nonatomic) BOOL skipEditingUiStateChange;
 
 - (void)reloadData;
-- (void)oncontextSwitchRequestNotification:(NSNotification*)aNotification;
+- (void)onContextSwitchRequestNotification:(NSNotification*)aNotification;
 - (void)replyToContextSwitchRequestWithGranted:(BOOL)a_granted;
 - (UITableViewCell*)visibleCellForIndexPath:(NSIndexPath*)a_indexPath;
 - (UITableViewCell *)dequeueAndCreateReusableCellWithIdentifier:(NSString *)a_reuseIdentifier atIndexPath:(NSIndexPath*)a_indexPath;
@@ -68,7 +69,7 @@
 - (BOOL)shouldClearSelectionOnViewDidAppear;
 
 // to be overriden by subclasses
-- (BOOL)contextSwitchRequestRequiredInEditMode;
+- (BOOL)automaticallyHandleContextSwitchingBasedOnEditingState;
 - (void)quitEditing;
 
 -(NSCalendar*)calendar;

@@ -85,10 +85,6 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IFAPresenter>
 
 #pragma mark - Overrides
 
-- (BOOL)contextSwitchRequestRequiredInEditMode{
-    return NO;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.edgesForExtendedLayout = UIRectEdgeNone;

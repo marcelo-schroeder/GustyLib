@@ -222,4 +222,14 @@
     
 }
 
+#pragma mark - IFAContextSwitchTarget
+
+- (BOOL)contextSwitchRequestRequired {
+    if ([self.selectedViewController conformsToProtocol:@protocol(IFAContextSwitchTarget)]) {
+        return ((id <IFAContextSwitchTarget>) self.selectedViewController).contextSwitchRequestRequired;
+    }else{
+        return NO;
+    }
+}
+
 @end

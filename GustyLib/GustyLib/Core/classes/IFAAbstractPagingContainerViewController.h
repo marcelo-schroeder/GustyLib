@@ -22,7 +22,7 @@
 
 @class IFATableViewController;
 
-@interface IFAAbstractPagingContainerViewController : IFAViewController <UIScrollViewDelegate>
+@interface IFAAbstractPagingContainerViewController : IFAViewController <UIScrollViewDelegate, IFAContextSwitchTarget>
 
 @property (nonatomic, readonly) UIScrollView *scrollView;
 @property (nonatomic, readonly, strong) IFATableViewController *selectedViewController;
