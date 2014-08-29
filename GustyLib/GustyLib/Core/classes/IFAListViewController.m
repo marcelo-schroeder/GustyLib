@@ -29,6 +29,7 @@
 @property (nonatomic, strong) IFA_MBProgressHUD *IFA_hud;
 @property(nonatomic, strong) void (^IFA_sectionDataBlock)(NSString *, NSObject *, NSArray *, NSMutableArray *, NSMutableArray *);
 
+@property(nonatomic) BOOL IFA_childManagedObjectContextPushed;
 @end
 
 @implementation IFAListViewController {
@@ -341,11 +342,13 @@
     
     IFAPersistenceManager *l_pm = [IFAPersistenceManager sharedInstance];
     
-    // Push new child managed object context
-    [l_pm pushChildManagedObjectContext];
-    
     NSManagedObject *l_mo;
     if(l_isCreateMode){
+
+        // Push new child managed object context
+        [l_pm pushChildManagedObjectContext];
+        NSAssert(self.IFA_childManagedObjectContextPushed == NO, @"Unexpected value for self.IFA_childManagedObjectContextPushed: %u", self.IFA_childManagedObjectContextPushed);
+        self.IFA_childManagedObjectContextPushed = YES;
         
         self.editing = NO;
         
@@ -495,23 +498,30 @@
 
     [super sessionDidCompleteForViewController:a_viewController changesMade:a_changesMade data:a_data
                         shouldAnimateDismissal:a_shouldAnimateDismissal];
-    
-    // It is returning from an edit form
-    if (self.editedManagedObjectId) {
+
+
+    if (self.IFA_childManagedObjectContextPushed) {
 
         IFAPersistenceManager *l_pm = [IFAPersistenceManager sharedInstance];
-        if (a_changesMade) {
 
-            // Save changes in the main managed object context
-            [l_pm saveMainManagedObjectContext];
-            
+        // It is returning from an edit form
+        if (self.editedManagedObjectId) {
+
+            if (a_changesMade) {
+
+                // Save changes in the main managed object context
+                [l_pm saveMainManagedObjectContext];
+
+            }
+
+            // Reset the saved ID
+            self.editedManagedObjectId = nil;
+
         }
-        
+
         // Discard the temporary managed object context
         [l_pm popChildManagedObjectContext];
-
-        // Reset the saved ID
-        self.editedManagedObjectId = nil;
+        self.IFA_childManagedObjectContextPushed = NO;
 
     }
 
