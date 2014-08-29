@@ -364,6 +364,7 @@
     if (l_isCreateMode) {
         [self ifa_presentModalFormViewController:l_viewController];
     }else{
+        l_viewController.ifa_presenter = self;
         [self.navigationController pushViewController:l_viewController
                                              animated:YES];
     }

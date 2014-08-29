@@ -94,8 +94,8 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    BOOL l_isBeingPoppedByNavigationController = self.isMovingFromParentViewController;
-    if (l_isBeingPoppedByNavigationController) {
+    BOOL l_hasBeenPoppedByNavigationController = self.isMovingFromParentViewController;
+    if (l_hasBeenPoppedByNavigationController) {
         [self done];
     }
 }

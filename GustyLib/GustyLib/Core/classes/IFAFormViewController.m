@@ -1306,6 +1306,11 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidEndEditingNotification object:nil];
 
+    BOOL l_hasBeenPoppedByNavigationController = self.isMovingFromParentViewController;
+    if (l_hasBeenPoppedByNavigationController) {
+        [self ifa_notifySessionCompletion];
+    }
+
 }
 
 - (NSArray*)ifa_editModeToolbarItems {
