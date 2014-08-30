@@ -1223,6 +1223,8 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
+    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
