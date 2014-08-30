@@ -330,17 +330,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 * Indicate whether an accessory type can mutate for a given editor type.
 */
 - (BOOL)IFA_isMutableAccessoryTypeForEditorType:(IFAEditorType)a_editorType {
-    IFAFormTableViewCellAccessoryType l_accessoryType = [self IFA_accessoryTypeForEditorType:a_editorType];
-    if (l_accessoryType==IFAFormTableViewCellAccessoryTypeNone) {
-        return NO;
-    }else{
-        switch (a_editorType) {
-            case IFAEditorTypeForm:
-                return NO;
-            default:
-                return YES;
-        }
-    }
+    return [self IFA_accessoryTypeForEditorType:a_editorType] != IFAFormTableViewCellAccessoryTypeNone;
 }
 
 -(BOOL)IFA_isFormEditorTypeForIndexPath:(NSIndexPath*)a_indexPath{
@@ -359,12 +349,16 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 }
 
 - (BOOL)IFA_shouldEnableUserInteractionForIndexPath:(NSIndexPath *)anIndexPath {
-    IFAFormTableViewCellAccessoryType l_accessoryType = [self accessoryTypeForIndexPath:anIndexPath];
-    if (l_accessoryType==IFAFormTableViewCellAccessoryTypeNone) {
-        if (self.editing) {
-            return [self IFA_hasEmbeddedEditorForFieldAtIndexPath:anIndexPath];
-        }else{
-            return [self IFA_isFormEditorTypeForIndexPath:anIndexPath] || [self IFA_shouldLinkToUrlForIndexPath:anIndexPath];
+    if (self.editing) {
+        IFAFormTableViewCellAccessoryType l_accessoryType = [self accessoryTypeForIndexPath:anIndexPath];
+        if (l_accessoryType == IFAFormTableViewCellAccessoryTypeNone) {
+            if ([self IFA_hasEmbeddedEditorForFieldAtIndexPath:anIndexPath]) {
+                return YES;
+            } else {
+                return [self IFA_isFormEditorTypeForIndexPath:anIndexPath] || [self IFA_shouldLinkToUrlForIndexPath:anIndexPath];
+            }
+        } else {
+            return YES;
         }
     }else{
         return YES;
@@ -467,6 +461,30 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 - (BOOL)IFA_isReadOnlyWithEditButtonCase {
     return self.readOnlyMode && self.showEditButton;
+}
+
+- (void)IFA_transitionToEditModeWithSelectedRowAtIndexPath:(NSIndexPath *)a_indexPath {
+
+    // Transition to edit mode
+    [self setEditing:YES animated:YES];
+
+    // If it is a field that can receive keyboard input than let it receive focus automatically
+    BOOL l_canReceiveKeyboardInput = [self formInputAccessoryView:self.formInputAccessoryView
+                               canReceiveKeyboardInputAtIndexPath:a_indexPath];
+    if (l_canReceiveKeyboardInput) {
+        UIResponder *l_firstResponder = [self formInputAccessoryView:self.formInputAccessoryView
+                           responderForKeyboardInputFocusAtIndexPath:a_indexPath];
+        [l_firstResponder becomeFirstResponder];
+    }
+
+    // If cell is not fully visible after the transition to edit mode (e.g. it could become hidden by the toolbar), then make it visibler
+    BOOL l_isCellFullyVisible = [self.tableView ifa_isCellFullyVisibleForRowAtIndexPath:a_indexPath];
+    if (!l_isCellFullyVisible) {
+        [self.tableView scrollToRowAtIndexPath:a_indexPath
+                              atScrollPosition:UITableViewScrollPositionMiddle
+                                      animated:YES];
+    };
+
 }
 
 #pragma mark - Public
@@ -859,7 +877,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         if (!l_cell) {
             l_cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                             reuseIdentifier:k_TT_CELL_IDENTIFIER_CUSTOM];
-            l_cell.userInteractionEnabled = NO;
+            l_cell.userInteractionEnabled = NO; //wip: review this - it is used by the About form
             // Set appearance
             [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
                                                                                                                            cell:l_cell];
@@ -978,22 +996,28 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
+    // Implements the non-editing mode behaviour for when the user taps on a row
+    if (!self.editing) {
+        [self IFA_transitionToEditModeWithSelectedRowAtIndexPath:indexPath];
+        return;
+    }
 
-	if ([self IFA_shouldLinkToUrlForIndexPath:indexPath]) {
+    if ([self IFA_shouldLinkToUrlForIndexPath:indexPath]) {
         NSString *l_urlPropertyName = [self IFA_urlPropertyNameForIndexPath:indexPath];
         NSString *l_urlString = [self.object valueForKeyPath:l_urlPropertyName];
         NSURL *l_url = [NSURL URLWithString:l_urlString];
         [self ifa_openUrl:l_url];
         return;
     }
-    
+
+    IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
+
     if ([l_entityConfig isViewControllerFieldTypeForIndexPath:indexPath inObject:self.object inForm:self.formName
                                                    createMode:self.createMode]) {
         NSString *l_viewControllerClassName = [[IFAPersistenceManager sharedInstance].entityConfig classNameForViewControllerFieldTypeAtIndexPath:indexPath
-                                                                                                                                        inObject:self.object
-                                                                                                                                          inForm:self.formName
-                                                                                                                                      createMode:self.createMode];
+                                                                                                                                         inObject:self.object
+                                                                                                                                           inForm:self.formName
+                                                                                                                                       createMode:self.createMode];
         Class l_viewControllerClass = NSClassFromString(l_viewControllerClassName);
         UIViewController *l_viewController = [l_viewControllerClass new];
         if (!l_viewController.title) {
@@ -1015,51 +1039,51 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                                                                   inForm:self.formName createMode:self.createMode]) {
             [self ifa_presentModalViewController:l_viewController presentationStyle:UIModalPresentationFullScreen
                                  transitionStyle:UIModalTransitionStyleCoverVertical];
-        }else{
+        } else {
             [self.navigationController pushViewController:l_viewController animated:YES];
         }
         return;
     }
 
-	if ([self accessoryTypeForIndexPath:indexPath]!=IFAFormTableViewCellAccessoryTypeNone) {
+    if ([self accessoryTypeForIndexPath:indexPath] != IFAFormTableViewCellAccessoryTypeNone) {
 
         if ([self IFA_isFormEditorTypeForIndexPath:indexPath]) {
-            
+
             // Push appropriate editor view controller
             UIViewController *l_viewController = [self IFA_editorViewControllerForIndexPath:indexPath];
             [self.navigationController pushViewController:l_viewController animated:YES];
-            
-        }else{
-            
+
+        } else {
+
             if ([self IFA_endTextFieldEditingWithCommit:YES]) {
 
                 __weak IFAFormViewController *l_weakSelf = self;
-                
+
                 UIViewController *l_viewController = [self IFA_editorViewControllerForIndexPath:indexPath];
                 l_viewController.ifa_presenter = l_weakSelf;
-                
+
                 self.IFA_indexPathForPopoverController = indexPath;
                 CGRect l_fromPopoverRect = [self IFA_fromPopoverRectForIndexPath:self.IFA_indexPathForPopoverController];
-                
+
                 if ([l_viewController ifa_hasFixedSize]) {
                     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
                 }
 
                 [self ifa_presentModalSelectionViewController:l_viewController fromRect:l_fromPopoverRect
                                                        inView:l_weakSelf.tableView];
-                
-            }else{
+
+            } else {
 
                 [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 
             }
-            
+
         }
-        
-    }else{
+
+    } else {
         [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
     }
-	
+
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath{
