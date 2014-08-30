@@ -45,6 +45,7 @@
 @property (nonatomic, strong) IFANavigationItemTitleView *ifa_titleViewLandscapePhone;
 @property (nonatomic, strong) ODRefreshControl *ifa_refreshControl;
 @property (nonatomic) BOOL ifa_shouldUseKeyboardPassthroughView;
+@property (nonatomic, readonly) BOOL ifa_hasViewAppeared;
 
 // to be overriden by subclasses
 @property (nonatomic, readonly) BOOL ifa_manageToolbar;

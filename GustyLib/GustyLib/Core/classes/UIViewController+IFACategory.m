@@ -46,6 +46,7 @@ static char c_keyboardPassthroughViewKey;
 static char c_notificationObserversToRemoveOnDeallocKey;
 static char c_shouldUseKeyboardPassthroughViewKey;
 static char c_childManagedObjectContextCountOnViewDidLoadKey;
+static char c_hasViewAppearedKey;
 //static char c_delegateKey;
 
 @interface UIViewController (IFACategory_Private)
@@ -57,6 +58,7 @@ static char c_childManagedObjectContextCountOnViewDidLoadKey;
 @property (nonatomic, strong) IFAPassthroughView *IFA_keyboardPassthroughView;
 @property (nonatomic, strong) NSMutableArray *IFA_notificationObserversToRemoveOnDealloc;
 @property (nonatomic) NSUInteger IFA_childManagedObjectContextCountOnViewDidLoad;   // Used for assertion only
+@property (nonatomic) BOOL ifa_hasViewAppeared;
 
 @end
 
@@ -451,6 +453,14 @@ typedef enum {
     objc_setAssociatedObject(self, &c_changesMadeByPresentedViewControllerKey, @(a_changesMadeByPresentedViewController), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+-(BOOL)ifa_hasViewAppeared {
+    return ((NSNumber*)objc_getAssociatedObject(self, &c_hasViewAppearedKey)).boolValue;
+}
+
+-(void)setIfa_hasViewAppeared:(BOOL)a_hasViewAppeared{
+    objc_setAssociatedObject(self, &c_hasViewAppearedKey, @(a_hasViewAppeared), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 -(NSUInteger)IFA_childManagedObjectContextCountOnViewDidLoad {
     return ((NSNumber*)objc_getAssociatedObject(self, &c_childManagedObjectContextCountOnViewDidLoadKey)).unsignedIntegerValue;
 }
@@ -653,7 +663,8 @@ typedef enum {
                                      barType:IFABarButtonItemSpacingBarTypeToolbar];
 //        NSLog(@"self.navigationController.toolbar: %@", [self.navigationController.toolbar description]);
 //        NSLog(@" self.navigationController.toolbarHidden: %u, animated: %u", self.navigationController.toolbarHidden, anAnimatedFlag);
-        [self.navigationController setToolbarHidden:(![toolbarItems count]) animated:anAnimatedFlag];
+        BOOL l_shouldHideToolbar = ![toolbarItems count];
+        [self.navigationController setToolbarHidden:l_shouldHideToolbar animated:anAnimatedFlag];
 //        NSLog(@" self.navigationController.toolbarHidden: %u", self.navigationController.toolbarHidden);
         if ([toolbarItems count]) {
             if (self.ifa_manageToolbar) {
@@ -667,7 +678,8 @@ typedef enum {
             }
         }
     }else{
-        [self.navigationController setToolbarHidden:(![self.toolbarItems count]) animated:anAnimatedFlag];
+        BOOL l_shouldHideToolbar = ![self.toolbarItems count];
+        [self.navigationController setToolbarHidden:l_shouldHideToolbar animated:anAnimatedFlag];
     }
 //    NSLog(@"toolbar items after: %@", [self.toolbarItems description]);
 }
@@ -1047,6 +1059,11 @@ typedef enum {
     [self ifa_registerForHelp];
 #endif
 
+    // Make sure toolbar is already visible when the view appears for the first time (only for top level view controllers)
+    if (self.ifa_manageToolbar && !self.ifa_hasViewAppeared && self.navigationController.visibleViewController==self && self.navigationController.viewControllers[0]==self) {
+        [self ifa_updateToolbarForMode:self.editing animated:NO];
+    }
+
 }
 
 - (BOOL)ifa_shouldShowLeftSlidingPaneButton {
@@ -1068,11 +1085,15 @@ typedef enum {
 
 //    NSLog(@"ifa_viewDidAppear: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
 
+    self.ifa_hasViewAppeared = YES;
+
+    if (self.ifa_manageToolbar) {
+        [self ifa_updateToolbarForMode:self.editing animated:YES];
+    }
+
 #ifdef IFA_AVAILABLE_GoogleMobileAdsSupport
     [self ifa_startGoogleMobileAdsRequests];
 #endif
-
-    [self ifa_updateToolbarForMode:self.editing animated:YES];
 
 }
 
