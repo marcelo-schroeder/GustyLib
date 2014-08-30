@@ -1036,11 +1036,6 @@ typedef enum {
                                                  name:UIKeyboardDidHideNotification
                                                object:nil];
 
-    if (self.ifa_manageToolbar && [self.navigationController.viewControllers count]==1 && ![self ifa_isReturningVisibleViewController]) {
-        //            NSLog(@"About to call m_updateToolbarForMode in ifa_viewWillAppear...");
-        [self ifa_updateToolbarForMode:self.editing animated:NO];
-    }
-
     // Manage left sliding menu button visibility
     [self IFA_showLeftSlidingPaneButtonIfRequired];
 
@@ -1077,10 +1072,7 @@ typedef enum {
     [self ifa_startGoogleMobileAdsRequests];
 #endif
 
-    if (self.ifa_manageToolbar && !([self.navigationController.viewControllers count]==1 && ![self ifa_isReturningVisibleViewController]) ) {
-        //            NSLog(@"About to call m_updateToolbarForMode in ifa_viewDidAppear...");
-        [self ifa_updateToolbarForMode:self.editing animated:YES];
-    }
+    [self ifa_updateToolbarForMode:self.editing animated:YES];
 
 }
 
