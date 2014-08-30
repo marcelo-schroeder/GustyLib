@@ -304,6 +304,14 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 }
 
+-(void)setAppearanceOnViewDidAppearForViewController:(UIViewController*)a_viewController{
+    if (a_viewController.ifa_manageToolbar) {
+        // The speed that the navigation view controller resizes its view is different than the speed of the toolbar visibility animation. This can cause an undesired visual effect if the background colours do not match.
+        // The line of code below makes sure the navigation controller view colour always matches that of the view that has a toolbar hiding or showing.
+        a_viewController.navigationController.view.backgroundColor = a_viewController.view.backgroundColor;
+    }
+}
+
 - (void)setAppearanceOnWillRotateForViewController:(UIViewController *)a_viewController
                             toInterfaceOrientation:(UIInterfaceOrientation)a_toInterfaceOrientation {
     [self setNavigationItemTitleViewForViewController:a_viewController

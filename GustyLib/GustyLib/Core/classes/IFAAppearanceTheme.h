@@ -140,5 +140,6 @@ typedef enum {
 -(void)setAppearanceForTableViewCell:(UITableViewCell *)a_cell onWillTransitionToState:(UITableViewCellStateMask)a_state;
 -(void)setAppearanceForTableViewCell:(UITableViewCell *)a_cell onDidTransitionToState:(UITableViewCellStateMask)a_state;
 -(void)setNavigationItemTitleViewForViewController:(UIViewController *)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation;
+-(void)setAppearanceOnViewDidAppearForViewController:(UIViewController*)a_viewController;
 
 @end

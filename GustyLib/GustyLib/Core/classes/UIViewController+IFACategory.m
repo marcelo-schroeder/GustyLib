@@ -1084,6 +1084,12 @@ typedef enum {
 
     self.ifa_hasViewAppeared = YES;
 
+    // Set appearance
+    id <IFAAppearanceTheme> l_appearanceTheme = [[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme];
+    if ([l_appearanceTheme respondsToSelector:@selector(setAppearanceOnViewDidAppearForViewController:)]) {
+        [l_appearanceTheme setAppearanceOnViewDidAppearForViewController:self];
+    }
+
     if (self.ifa_manageToolbar) {
         [self ifa_updateToolbarForMode:self.editing animated:YES];
     }
