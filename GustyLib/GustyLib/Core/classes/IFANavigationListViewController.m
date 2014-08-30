@@ -105,8 +105,9 @@
 
         if (self.objects.count==0) {
             self.staleData = YES;
-            NSAssert(self.editing, @"Unexpected editing state: %u", self.editing);
-            [self setEditing:NO animated:YES];
+            if (self.editing) {
+                [self setEditing:NO animated:YES];
+            }
         }else{
             [self showTipForEditing:YES];
         }
