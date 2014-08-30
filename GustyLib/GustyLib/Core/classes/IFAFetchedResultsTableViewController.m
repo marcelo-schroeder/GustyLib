@@ -28,6 +28,18 @@
     
 }
 
+#pragma mark - Public
+
+- (NSFetchedResultsController *)fetchedResultsController {
+    if (!_fetchedResultsController) {
+        if ([self.fetchedResultsTableViewControllerDataSource respondsToSelector:@selector(fetchedResultsControllerForFetchedResultsTableViewController:)]) {
+            _fetchedResultsController = [self.fetchedResultsTableViewControllerDataSource fetchedResultsControllerForFetchedResultsTableViewController:self];
+            _fetchedResultsController.delegate = self;
+        }
+    }
+    return _fetchedResultsController;
+}
+
 #pragma mark - UITableViewDataSource protocol
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -55,22 +67,24 @@
            atIndex:(NSUInteger)sectionIndex
      forChangeType:(NSFetchedResultsChangeType)type {
 
-    NSLog(@"NSFetchedResultsController section changed detected for controller: %@", [controller description]);
-    NSLog(@"  didChangeSection: %@", [sectionInfo name]);
-    NSLog(@"           atIndex: %u", sectionIndex);
+//    NSLog(@"NSFetchedResultsController section changed detected for controller: %@", [controller description]);
+//    NSLog(@"  didChangeSection: %@", [sectionInfo name]);
+//    NSLog(@"           atIndex: %u", sectionIndex);
+
+    UITableViewRowAnimation l_animation = self.IFA_tableViewRowAnimation;
 
     switch(type) {
 
         case NSFetchedResultsChangeInsert:
-            NSLog(@"    forChangeType: insert");
+//            NSLog(@"    forChangeType: insert");
             [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex]
-                          withRowAnimation:UITableViewRowAnimationFade];
+                          withRowAnimation:l_animation];
             break;
             
         case NSFetchedResultsChangeDelete:
-            NSLog(@"    forChangeType: delete");
+//            NSLog(@"    forChangeType: delete");
             [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex]
-                          withRowAnimation:UITableViewRowAnimationFade];
+                          withRowAnimation:l_animation];
             break;
             
         default:
@@ -87,37 +101,39 @@
      forChangeType:(NSFetchedResultsChangeType)type
       newIndexPath:(NSIndexPath *)newIndexPath {
     
-    NSLog(@"NSFetchedResultsController cell changed detected for controller: %@", [controller description]);
-    NSLog(@"  didChangeObject: %@", [anObject description]);
-    NSLog(@"      atIndexPath: %@", [indexPath description]);
-    NSLog(@"     newIndexPath: %@", [newIndexPath description]);
-    
+//    NSLog(@"NSFetchedResultsController cell changed detected for controller: %@", [controller description]);
+//    NSLog(@"  didChangeObject: %@", [anObject description]);
+//    NSLog(@"      atIndexPath: %@", [indexPath description]);
+//    NSLog(@"     newIndexPath: %@", [newIndexPath description]);
+
+    UITableViewRowAnimation l_animation = self.IFA_tableViewRowAnimation;
+
     switch(type) {
             
         case NSFetchedResultsChangeInsert:
-            NSLog(@"    forChangeType: insert");
+//            NSLog(@"    forChangeType: insert");
             [self.tableView insertRowsAtIndexPaths:@[newIndexPath]
-                                  withRowAnimation:UITableViewRowAnimationFade];
+                                  withRowAnimation:l_animation];
             break;
             
         case NSFetchedResultsChangeDelete:
-            NSLog(@"    forChangeType: delete");
+//            NSLog(@"    forChangeType: delete");
             [self.tableView deleteRowsAtIndexPaths:@[indexPath]
-                                  withRowAnimation:UITableViewRowAnimationFade];
+                                  withRowAnimation:l_animation];
             break;
             
         case NSFetchedResultsChangeUpdate:
-            NSLog(@"    forChangeType: update");
+//            NSLog(@"    forChangeType: update");
             [self.tableView reloadRowsAtIndexPaths:@[indexPath]
-                                  withRowAnimation:UITableViewRowAnimationFade];
+                                  withRowAnimation:l_animation];
             break;
             
         case NSFetchedResultsChangeMove:
-            NSLog(@"    forChangeType: move");
+//            NSLog(@"    forChangeType: move");
             [self.tableView deleteRowsAtIndexPaths:@[indexPath]
-                                  withRowAnimation:UITableViewRowAnimationFade];
+                                  withRowAnimation:l_animation];
             [self.tableView insertRowsAtIndexPaths:@[newIndexPath]
-                                  withRowAnimation:UITableViewRowAnimationFade];
+                                  withRowAnimation:l_animation];
             break;
 
         default:
@@ -134,14 +150,16 @@
 
 #pragma mark - Private
 
-- (NSFetchedResultsController *)fetchedResultsController {
-    if (!_fetchedResultsController) {
-        if ([self.fetchedResultsTableViewControllerDataSource respondsToSelector:@selector(fetchedResultsControllerForFetchedResultsTableViewController:)]) {
-            _fetchedResultsController = [self.fetchedResultsTableViewControllerDataSource fetchedResultsControllerForFetchedResultsTableViewController:self];
-            _fetchedResultsController.delegate = self;
-        }
+- (UITableViewRowAnimation)IFA_tableViewRowAnimation {
+    UITableViewRowAnimation l_animation;
+    if (self.navigationController.visibleViewController==self) {
+        // Visible, then use a nice animation
+        l_animation = UITableViewRowAnimationFade;
+    }else{
+        // Not visible, so update UI state straight away to avoid issues with delayed animations after popping a view controller via swipe back gesture, for instance
+        l_animation = UITableViewRowAnimationNone;
     }
-    return _fetchedResultsController;
+    return l_animation;
 }
 
 @end
