@@ -82,6 +82,29 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     return [UIApplication sharedApplication].delegate.window.tintColor;
 }
 
+- (void)IFA_setAppearanceForFormInputAccessoryView:(IFAFormInputAccessoryView *)a_view
+                                  inViewController:(UIViewController *)a_viewController {
+
+    UIToolbar *l_toolbar = a_view.toolbar;
+
+    l_toolbar.translucent = NO;
+    l_toolbar.barTintColor = [UIColor ifa_colorWithSpaceOrTabDelimitedRGB:@"240\t241\t242\t"];
+    l_toolbar.tintColor = [self IFA_defaultTintColor];
+
+    // Correct trailing space for the "Done" button
+    NSMutableArray *l_items = [l_toolbar.items mutableCopy];
+    UIBarButtonItem *l_rightSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                                  target:nil
+                                                                                  action:nil];
+    l_rightSpace.width = [self spaceBarButtonItemWidthForPosition:IFABarButtonItemSpacingPositionRight
+                                                          barType:IFABarButtonItemSpacingBarTypeToolbar
+                                                   viewController:a_viewController
+                                                            items:@[l_items[l_items.count-1]]].floatValue;
+    [l_items addObject:l_rightSpace];
+    l_toolbar.items = l_items;
+
+}
+
 #pragma mark - IFAAppearanceTheme
 
 -(void)setAppearance {
@@ -232,6 +255,13 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         UITableViewController *l_tableViewController = (UITableViewController*)a_viewController;
         if (l_tableViewController.tableView.style==UITableViewStyleGrouped) {
             l_tableViewController.tableView.separatorColor = [self IFA_colorForInfoPlistKey:@"IFAThemeGroupedTableSeparatorColor"];
+        }
+
+        if ([a_viewController isKindOfClass:[IFAFormViewController class]]) {
+            IFAFormViewController *l_viewController = (IFAFormViewController *) a_viewController;
+            [self IFA_setAppearanceForFormInputAccessoryView:l_viewController.formInputAccessoryView
+                                            inViewController:l_viewController];
+
         }
 
     }else if([a_viewController isKindOfClass:[IFAMasterDetailViewController class]]) {

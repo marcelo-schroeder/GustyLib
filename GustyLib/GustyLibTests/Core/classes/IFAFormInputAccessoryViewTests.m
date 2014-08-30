@@ -20,9 +20,6 @@
 #import "IFACommonTests.h"
 #import "GustyLibCore.h"
 
-static const NSUInteger k_segmentIndexPrevious = 0;
-static const NSUInteger k_segmentIndexNext = 1;
-
 @interface IFAFormInputAccessoryView (Tests)
 @property (strong, nonatomic) NSIndexPath *IFA_currentInputFieldIndexPath;
 @property (strong, nonatomic) NSIndexPath *IFA_previousInputFieldIndexPath;
@@ -35,7 +32,8 @@ static const NSUInteger k_segmentIndexNext = 1;
 @property(nonatomic, strong) id p_mockTableView;
 @property(nonatomic, strong) id p_mockTableViewDataSource;
 @property(nonatomic, strong) id p_mockDataSource;
-@property(nonatomic, strong) id p_mockSegmentedControl;
+@property(nonatomic, strong) id p_mockPreviousBarButtonItem;
+@property(nonatomic, strong) id p_mockNextBarButtonItem;
 @end
 
 @implementation IFAFormInputAccessoryViewTests{
@@ -67,17 +65,20 @@ static const NSUInteger k_segmentIndexNext = 1;
     IFAFormInputAccessoryView *l_view = [self m_createSystemUnderTest];
     assertThat(l_view.contentView, is(notNilValue()));
     assertThat(l_view.toolbar, is(notNilValue()));
-    assertThat(l_view.segmentedControl, is(notNilValue()));
+    assertThat(l_view.previousBarButtonItem, is(notNilValue()));
+    assertThat(l_view.nextBarButtonItem, is(notNilValue()));
     assertThat(l_view.doneBarButtonItem, is(notNilValue()));
     assertThat(l_view, is(notNilValue()));
 }
 
 - (void)testThatInterfaceBuilderEventConnectionsAreInPlace{
     IFAFormInputAccessoryView *l_view = [self m_createSystemUnderTest];
-    [self ifa_assertThatControl:l_view.segmentedControl hasValueChangedEventConfiguredWithTarget:l_view
-                       action:@selector(onSegmentedControlValueChanged:)];
+    [self ifa_assertThatBarButtonItem:l_view.previousBarButtonItem
+      hasTapEventConfiguredWithTarget:l_view action:@selector(onPreviousButtonTap)];
+    [self ifa_assertThatBarButtonItem:l_view.nextBarButtonItem
+      hasTapEventConfiguredWithTarget:l_view action:@selector(onNextButtonTap)];
     [self ifa_assertThatBarButtonItem:l_view.doneBarButtonItem
-    hasTapEventConfiguredWithTarget:l_view action:@selector(onDoneButtonTap:)];
+    hasTapEventConfiguredWithTarget:l_view action:@selector(onDoneButtonTap)];
 }
 
 - (void)testThatPreviousButtonIsEnabledWhenThereIsAnImmediatelyPrecedingCellContainingAnInputFieldToScrollTo{
@@ -185,13 +186,11 @@ static const NSUInteger k_segmentIndexNext = 1;
 - (void)testThatTableViewIsScrolledToRowAtTheNextIndexPathWithAnInputFieldWhenUserTapsTheNextButtonAndTheDestinationCellIsNotFullyVisible {
     // given
     [self.p_view notifyOfCurrentInputFieldIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
-    id l_mockSegmentedControl = [OCMockObject mockForClass:[UISegmentedControl class]];
-    [[[l_mockSegmentedControl stub] ifa_andReturnInteger:k_segmentIndexNext] selectedSegmentIndex];
     [[self.p_mockTableView expect] scrollToRowAtIndexPath:self.p_view.IFA_nextInputFieldIndexPath
                                          atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 
     // when
-    [self.p_view onSegmentedControlValueChanged:l_mockSegmentedControl];
+    [self.p_view onNextButtonTap];
 
     // then
     [self.p_mockTableView verify];
@@ -200,8 +199,6 @@ static const NSUInteger k_segmentIndexNext = 1;
 - (void)testThatTableViewIsNotScrolledToRowAtTheNextIndexPathWithAnInputFieldAndThatResponderIsRequestedWhenUserTapsTheNextButtonAndTheDestinationCellIsAlreadyFullyVisible {
     // given
     [self.p_view notifyOfCurrentInputFieldIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
-    id l_mockSegmentedControl = [OCMockObject mockForClass:[UISegmentedControl class]];
-    [[[l_mockSegmentedControl stub] ifa_andReturnInteger:k_segmentIndexNext] selectedSegmentIndex];
     NSIndexPath *l_nextInputFieldIndexPath = self.p_view.IFA_nextInputFieldIndexPath;
     [[[self.p_mockTableView expect] ifa_andReturnBool:YES] ifa_isCellFullyVisibleForRowAtIndexPath:l_nextInputFieldIndexPath];
     [[self.p_mockDataSource expect] formInputAccessoryView:self.p_view
@@ -210,7 +207,7 @@ static const NSUInteger k_segmentIndexNext = 1;
                                          atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 
     // when
-    [self.p_view onSegmentedControlValueChanged:l_mockSegmentedControl];
+    [self.p_view onNextButtonTap];
 
     // then
     [self.p_mockTableView verify];
@@ -219,13 +216,11 @@ static const NSUInteger k_segmentIndexNext = 1;
 - (void)testThatTableViewIsScrolledToRowAtThePreviousIndexPathWithAnInputFieldWhenUserTapsThePreviousButtonAndTheDestinationCellIsNotFullyVisible {
     // given
     [self.p_view notifyOfCurrentInputFieldIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
-    id l_mockSegmentedControl = [OCMockObject mockForClass:[UISegmentedControl class]];
-    [[[l_mockSegmentedControl stub] ifa_andReturnInteger:k_segmentIndexPrevious] selectedSegmentIndex];
     [[self.p_mockTableView expect] scrollToRowAtIndexPath:self.p_view.IFA_previousInputFieldIndexPath
                                          atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 
     // when
-    [self.p_view onSegmentedControlValueChanged:l_mockSegmentedControl];
+    [self.p_view onPreviousButtonTap];
 
     // then
     [self.p_mockTableView verify];
@@ -234,8 +229,6 @@ static const NSUInteger k_segmentIndexNext = 1;
 - (void)testThatTableViewIsNotScrolledToRowAtThePreviousIndexPathWithAnInputFieldAndThatResponderIsRequestedWhenUserTapsThePreviousButtonAndTheDestinationCellIsAlreadyFullyVisible {
     // given
     [self.p_view notifyOfCurrentInputFieldIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
-    id l_mockSegmentedControl = [OCMockObject mockForClass:[UISegmentedControl class]];
-    [[[l_mockSegmentedControl stub] ifa_andReturnInteger:k_segmentIndexPrevious] selectedSegmentIndex];
     NSIndexPath *l_previousInputFieldIndexPath = self.p_view.IFA_previousInputFieldIndexPath;
     [[[self.p_mockTableView expect] ifa_andReturnBool:YES] ifa_isCellFullyVisibleForRowAtIndexPath:l_previousInputFieldIndexPath];
     [[self.p_mockDataSource expect] formInputAccessoryView:self.p_view
@@ -244,7 +237,7 @@ static const NSUInteger k_segmentIndexNext = 1;
                                          atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 
     // when
-    [self.p_view onSegmentedControlValueChanged:l_mockSegmentedControl];
+    [self.p_view onPreviousButtonTap];
 
     // then
     [self.p_mockTableView verify];
@@ -259,9 +252,7 @@ static const NSUInteger k_segmentIndexNext = 1;
     [self.p_view notifyOfCurrentInputFieldIndexPath:l_currentIndexPath];
 
     // "Tap" the Next button
-    id l_mockSegmentedControl = [OCMockObject mockForClass:[UISegmentedControl class]];
-    [[[l_mockSegmentedControl stub] ifa_andReturnInteger:k_segmentIndexNext] selectedSegmentIndex];
-    [self.p_view onSegmentedControlValueChanged:l_mockSegmentedControl];
+    [self.p_view onNextButtonTap];
 
     // Simulate scrolling animation ended
     [[self.p_mockDataSource expect] formInputAccessoryView:self.p_view
@@ -316,13 +307,15 @@ static const NSUInteger k_segmentIndexNext = 1;
     self.p_mockTableViewDataSource = [OCMockObject niceMockForProtocol:@protocol(UITableViewDataSource)];
     self.p_mockTableView = [OCMockObject niceMockForClass:[UITableView class]];
     self.p_mockDataSource = [OCMockObject mockForProtocol:@protocol(IFAFormInputAccessoryViewDataSource)];
-    self.p_mockSegmentedControl = [OCMockObject niceMockForClass:[UISegmentedControl class]];
+    self.p_mockPreviousBarButtonItem = [OCMockObject niceMockForClass:[UIBarButtonItem class]];
+    self.p_mockNextBarButtonItem = [OCMockObject niceMockForClass:[UIBarButtonItem class]];
 }
 
 - (void)m_createSystemUnderTestAndSetMockObjects {
     self.p_view = [self m_createSystemUnderTest];
     self.p_view.dataSource = self.p_mockDataSource;
-    self.p_view.segmentedControl = self.p_mockSegmentedControl;
+    self.p_view.previousBarButtonItem = self.p_mockPreviousBarButtonItem;
+    self.p_view.nextBarButtonItem = self.p_mockNextBarButtonItem;
 }
 
 - (IFAFormInputAccessoryView *)m_createSystemUnderTest {
@@ -331,10 +324,11 @@ static const NSUInteger k_segmentIndexNext = 1;
 
 - (void)m_assertThatForSection:(NSInteger)a_section row:(NSInteger)a_row
        previousButtonIsEnabled:(BOOL)a_previousButtonEnabled nextButtonIsEnabled:(BOOL)a_nextButtonEnabled {
-    [[self.p_mockSegmentedControl expect] setEnabled:a_previousButtonEnabled forSegmentAtIndex:k_segmentIndexPrevious];
-    [[self.p_mockSegmentedControl expect] setEnabled:a_nextButtonEnabled forSegmentAtIndex:k_segmentIndexNext];
+    [[self.p_mockPreviousBarButtonItem expect] setEnabled:a_previousButtonEnabled];
+    [[self.p_mockNextBarButtonItem expect] setEnabled:a_nextButtonEnabled];
     [self.p_view notifyOfCurrentInputFieldIndexPath:[NSIndexPath indexPathForRow:a_row inSection:a_section]];
-    [self.p_mockSegmentedControl verify];
+    [self.p_mockPreviousBarButtonItem verify];
+    [self.p_mockNextBarButtonItem verify];
 }
 
 - (NSIndexPath *)assertNewIndexPath:(NSIndexPath *)a_newIndexPath withCurrentIndexPath:(NSIndexPath *)a_currentIndexPath

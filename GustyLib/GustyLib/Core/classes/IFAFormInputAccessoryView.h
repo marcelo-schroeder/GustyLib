@@ -33,8 +33,9 @@ typedef enum{
 
 @property (strong, nonatomic) IBOutlet UIView *contentView;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolbar;
-@property (strong, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *doneBarButtonItem;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *previousBarButtonItem;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *nextBarButtonItem;
 
 @property (weak, nonatomic) id<IFAFormInputAccessoryViewDataSource> dataSource;
 
@@ -59,8 +60,9 @@ typedef enum{
 */
 - (void)notifyTableViewDidEndScrollingAnimation;
 
-- (IBAction)onSegmentedControlValueChanged:(UISegmentedControl *)a_segmentedControl;
-- (IBAction)onDoneButtonTap:(UIBarButtonItem *)sender;
+- (IBAction)onDoneButtonTap;
+- (IBAction)onPreviousButtonTap;
+- (IBAction)onNextButtonTap;
 
 @end
 

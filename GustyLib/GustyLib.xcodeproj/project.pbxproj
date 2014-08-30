@@ -164,6 +164,10 @@
 		F72150D019AD8DA700AE2C33 /* IFAFormInputAccessoryViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F72150CF19AD8DA700AE2C33 /* IFAFormInputAccessoryViewTests.m */; };
 		F72150D219ADA5C400AE2C33 /* IFAFormInputAccessoryContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 107381325D1F590276FCBD85 /* IFAFormInputAccessoryContentView.xib */; };
 		F72150DC19AF21EE00AE2C33 /* NSMutableArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F72150DB19AF21EE00AE2C33 /* NSMutableArrayTests.m */; };
+		F72150DF19B1A9DD00AE2C33 /* IFA_Icon_Next.png in Resources */ = {isa = PBXBuildFile; fileRef = F72150C719AABAFF00AE2C33 /* IFA_Icon_Next.png */; };
+		F72150E019B1A9DD00AE2C33 /* IFA_Icon_Next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F72150C819AABAFF00AE2C33 /* IFA_Icon_Next@2x.png */; };
+		F72150E119B1A9DD00AE2C33 /* IFA_Icon_Previous.png in Resources */ = {isa = PBXBuildFile; fileRef = F72150C919AABAFF00AE2C33 /* IFA_Icon_Previous.png */; };
+		F72150E219B1A9DD00AE2C33 /* IFA_Icon_Previous@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F72150CA19AABAFF00AE2C33 /* IFA_Icon_Previous@2x.png */; };
 		F72E8FA7194E446C00CFB3B1 /* IFAHtmlDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F72E8FA2194E446C00CFB3B1 /* IFAHtmlDocument.m */; };
 		F72E8FA8194E446C00CFB3B1 /* IFAHtmlParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F72E8FA4194E446C00CFB3B1 /* IFAHtmlParser.m */; };
 		F72E8FB0194E447A00CFB3B1 /* IFAHtmlParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F72E8FAB194E447A00CFB3B1 /* IFAHtmlParserTests.m */; };
@@ -1461,10 +1465,14 @@
 			files = (
 				F72150D219ADA5C400AE2C33 /* IFAFormInputAccessoryContentView.xib in Resources */,
 				F72E8FB1194E447A00CFB3B1 /* HtmlParser_testdata1.html in Resources */,
+				F72150E119B1A9DD00AE2C33 /* IFA_Icon_Previous.png in Resources */,
+				F72150E219B1A9DD00AE2C33 /* IFA_Icon_Previous@2x.png in Resources */,
 				F72E8FB2194E447A00CFB3B1 /* HtmlParser_testdata2.html in Resources */,
 				F72E8FB3194E447A00CFB3B1 /* HtmlParser_testdata3.html in Resources */,
 				F7D4D85118EA00E600ABF401 /* InfoPlist.strings in Resources */,
 				1073881DE070F9CABAFC0D2D /* HtmlParser_testdata4.html in Resources */,
+				F72150DF19B1A9DD00AE2C33 /* IFA_Icon_Next.png in Resources */,
+				F72150E019B1A9DD00AE2C33 /* IFA_Icon_Next@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

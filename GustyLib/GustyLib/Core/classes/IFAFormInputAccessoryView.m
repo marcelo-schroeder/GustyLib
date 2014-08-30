@@ -17,7 +17,6 @@
 
 #import "IFAFormInputAccessoryView.h"
 #import "UITableView+IFACategory.h"
-#import "IFAUtils.h"
 
 @interface IFAFormInputAccessoryView ()
 
@@ -37,10 +36,8 @@
 #pragma mark - Private
 
 - (void)IFA_updateUiState {
-    BOOL l_previousButtonEnabled = self.IFA_previousInputFieldIndexPath != nil;
-    [self.segmentedControl setEnabled:l_previousButtonEnabled forSegmentAtIndex:0];
-    BOOL l_nextButtonEnabled = self.IFA_nextInputFieldIndexPath != nil;
-    [self.segmentedControl setEnabled:l_nextButtonEnabled forSegmentAtIndex:1];
+    self.previousBarButtonItem.enabled = self.IFA_previousInputFieldIndexPath != nil;
+    self.nextBarButtonItem.enabled = self.IFA_nextInputFieldIndexPath != nil;
 }
 
 - (NSIndexPath *)IFA_indexPathForDirection:(IFAFormInputAccessoryViewDirection)a_direction {
@@ -87,6 +84,21 @@
     return l_inputFieldIndexPath;
 }
 
+- (void)IFA_pointInputFocusAtIndexPath:(NSIndexPath *)a_indexPath {
+    self.IFA_currentInputFieldIndexPath = a_indexPath;
+    if (a_indexPath) {
+        if ([self.IFA_tableView ifa_isCellFullyVisibleForRowAtIndexPath:a_indexPath]) {
+            [[self.dataSource formInputAccessoryView:self
+           responderForKeyboardInputFocusAtIndexPath:a_indexPath] becomeFirstResponder];
+        } else {
+            [self.IFA_tableView scrollToRowAtIndexPath:a_indexPath
+                                      atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+            self.IFA_scrollRequested = YES;
+            self.IFA_scrollPendingIndexPath = a_indexPath;
+        }
+    }
+}
+
 #pragma mark - Public
 
 - (id)initWithTableView:(UITableView *)a_tableView {
@@ -110,7 +122,7 @@
 //    NSLog(@"self.IFA_currentInputFieldIndexPath: %@", [self.IFA_currentInputFieldIndexPath description]);
 //    NSLog(@"self.IFA_previousInputFieldIndexPath: %@", [self.IFA_previousInputFieldIndexPath description]);
 //    NSLog(@"self.IFA_nextInputFieldIndexPath: %@", [self.IFA_nextInputFieldIndexPath description]);
-        [self IFA_updateUiState];
+    [self IFA_updateUiState];
 }
 
 - (void)notifyTableViewDidEndScrollingAnimation {
@@ -121,29 +133,16 @@
     }
 }
 
-- (IBAction)onSegmentedControlValueChanged:(UISegmentedControl *)a_segmentedControl {
-    NSIndexPath * l_indexPath;
-    if (a_segmentedControl.selectedSegmentIndex==0) {
-        l_indexPath = self.IFA_previousInputFieldIndexPath;
-    }else{
-        l_indexPath = self.IFA_nextInputFieldIndexPath;
-    }
-    self.IFA_currentInputFieldIndexPath = l_indexPath;
-    if (l_indexPath) {
-        if ([self.IFA_tableView ifa_isCellFullyVisibleForRowAtIndexPath:l_indexPath]) {
-            [[self.dataSource formInputAccessoryView:self
-           responderForKeyboardInputFocusAtIndexPath:l_indexPath] becomeFirstResponder];
-        } else {
-            [self.IFA_tableView scrollToRowAtIndexPath:l_indexPath
-                                      atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-            self.IFA_scrollRequested = YES;
-            self.IFA_scrollPendingIndexPath = l_indexPath;
-        }
-    }
+- (IBAction)onDoneButtonTap {
+    [self.IFA_tableView endEditing:YES];
 }
 
-- (IBAction)onDoneButtonTap:(UIBarButtonItem *)sender {
-    [self.IFA_tableView endEditing:YES];
+- (IBAction)onPreviousButtonTap {
+    [self IFA_pointInputFocusAtIndexPath:self.IFA_previousInputFieldIndexPath];
+}
+
+- (IBAction)onNextButtonTap {
+    [self IFA_pointInputFocusAtIndexPath:self.IFA_nextInputFieldIndexPath];
 }
 
 @end
