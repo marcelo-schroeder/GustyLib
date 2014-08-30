@@ -24,8 +24,26 @@
 
 #pragma mark - Public
 
--(void)ifa_deleteRowsAtIndexPaths:(NSArray *)indexPaths{
-    [self deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+-(void)ifa_deleteRowsAtIndexPaths:(NSArray *)indexPaths {
+    if (!indexPaths.count) {
+        return;
+    }
+    NSInteger l_section = ((NSIndexPath *) indexPaths[0]).section;  // Assuming only 1 section
+    BOOL l_isCellAnimationStopFractionMustBeGreaterThanStartFractionBugScenario = [self.delegate tableView:self
+                                                                                    viewForFooterInSection:l_section] && self.contentOffset.y;
+    if (l_isCellAnimationStopFractionMustBeGreaterThanStartFractionBugScenario) {
+        //todo: has Apple fixed this bug? Once it has been resolved - clean up.
+        // My workaround for this issue: http://stackoverflow.com/questions/11664766/cell-animation-stop-fraction-must-be-greater-than-start-fraction
+        // In my case I would get the exception in this scenario:
+        // - Table view with a section footer
+        // - just enough rows to make it scroll when viewing the last row
+        // - deleting that row
+        // - I would then get the exception as the table view will attempt to scroll to the top so that all rows are now visible
+        // The fix is just to reload the whole section (assumption here is that section footer is required - that is what causes the issue).
+        [self reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+    } else {
+        [self deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+    }
 }
 
 -(BOOL)ifa_isCellFullyVisibleForRowAtIndexPath:(NSIndexPath*)a_indexPath {
