@@ -39,14 +39,14 @@
 @property(nonatomic, strong, readonly) IFAFormInputAccessoryView *formInputAccessoryView;
 
 /* Submission forms */
-//- (id)initWithObject:(NSObject *)anObject;
-//- (id)initWithObject:(NSObject *)anObject inForm:(NSString *)aFormName isSubForm:(BOOL)aSubFormFlag;
+- (id)initWithObject:(NSObject *)anObject;
+- (id)initWithObject:(NSObject *)anObject inForm:(NSString *)aFormName isSubForm:(BOOL)aSubFormFlag;
 
 /* CRUD forms */
 - (id)initWithObject:(NSObject *)anObject createMode:(BOOL)aCreateMode;
 - (id)initWithObject:(NSObject *)anObject createMode:(BOOL)aCreateMode inForm:(NSString*)aFormName isSubForm:(BOOL)aSubFormFlag;
 
-//- (id)initWithReadOnlyObject:(NSObject *)anObject;
+- (id)initWithReadOnlyObject:(NSObject *)anObject;
 - (id)initWithReadOnlyObject:(NSObject *)anObject inForm:(NSString *)aFormName isSubForm:(BOOL)aSubFormFlag
                                                                           showEditButton:(BOOL)aShowEditButtonFlag;
 

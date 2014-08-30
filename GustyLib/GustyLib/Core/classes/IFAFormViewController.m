@@ -485,14 +485,14 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 /* Submission forms */
 
-//- (id)initWithObject:(NSObject *)anObject {
-//    return [self initWithObject:anObject readOnlyMode:NO createMode:YES inForm:IFAEntityConfigFormNameDefault
-//                      isSubForm:NO];
-//}
+- (id)initWithObject:(NSObject *)anObject {
+    return [self initWithObject:anObject readOnlyMode:NO createMode:YES inForm:IFAEntityConfigFormNameDefault
+                      isSubForm:NO showEditButton:NO];
+}
 
-//- (id)initWithObject:(NSObject *)anObject inForm:(NSString *)aFormName isSubForm:(BOOL)aSubFormFlag {
-//    return [self initWithObject:anObject readOnlyMode:NO createMode:YES inForm:aFormName isSubForm:aSubFormFlag];
-//}
+- (id)initWithObject:(NSObject *)anObject inForm:(NSString *)aFormName isSubForm:(BOOL)aSubFormFlag {
+    return [self initWithObject:anObject readOnlyMode:NO createMode:YES inForm:aFormName isSubForm:aSubFormFlag showEditButton:NO];
+}
 
 /* CRUD forms */
 
@@ -512,9 +512,9 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                  showEditButton:aShowEditButtonFlag];
 }
 
-//- (id)initWithReadOnlyObject:(NSObject *)anObject{
-//	return [self initWithReadOnlyObject:anObject inForm:IFAEntityConfigFormNameDefault isSubForm:NO];
-//}
+- (id)initWithReadOnlyObject:(NSObject *)anObject{
+	return [self initWithReadOnlyObject:anObject inForm:IFAEntityConfigFormNameDefault isSubForm:NO showEditButton:YES];
+}
 
 -(IFAFormTableViewCell *)populateCell:(IFAFormTableViewCell *)a_cell{
     
@@ -592,7 +592,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         }
     }
 //    NSLog(@"  About to reload: %@", [l_indexPathsToReload description]);
-    [self.tableView reloadRowsAtIndexPaths:l_indexPathsToReload withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView reloadRowsAtIndexPaths:l_indexPathsToReload withRowAnimation:UITableViewRowAnimationFade];
 }
 
 -(void)handleReturnKeyForTextFieldCell:(IFAFormTextFieldTableViewCell *)a_cell{

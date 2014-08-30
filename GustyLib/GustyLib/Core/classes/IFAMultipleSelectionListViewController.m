@@ -154,7 +154,7 @@ static const NSUInteger k_sectionSelectedObjects = 0;
 
     // Schedule table view row updates
     [CATransaction begin];
-    [CATransaction setCompletionBlock: ^{
+    [CATransaction setCompletionBlock:^{
         // Update cell state after the move (e.g. the remove button needs to turn into an add button (or vice-versa), cell separators may be incorrect after the move, so this fix them up)
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]
                       withRowAnimation:UITableViewRowAnimationNone];
@@ -165,17 +165,16 @@ static const NSUInteger k_sectionSelectedObjects = 0;
         }
     }];
     [self.tableView beginUpdates];
-        for (NSUInteger i = 0; i < a_managedObjects.count; ++i) {
-            NSIndexPath *l_fromIndexPath = l_indexPathsToDelete[i];
-            NSIndexPath *l_toIndexPath = l_indexPathsToInsert[i];
-            [self.tableView moveRowAtIndexPath:l_fromIndexPath toIndexPath:l_toIndexPath];
-        }
-        [self.tableView endUpdates];
+    for (NSUInteger i = 0; i < a_managedObjects.count; ++i) {
+        NSIndexPath *l_fromIndexPath = l_indexPathsToDelete[i];
+        NSIndexPath *l_toIndexPath = l_indexPathsToInsert[i];
+        [self.tableView moveRowAtIndexPath:l_fromIndexPath toIndexPath:l_toIndexPath];
+    }
+    [self.tableView endUpdates];
     [CATransaction commit];
-    [UIView commitAnimations];
 
     [self IFA_updateModel];
-	[self updateUiState];
+    [self updateUiState];
 
 }
 

@@ -19,6 +19,7 @@
 //
 
 #import "IFAViewController.h"
+#import "IFAContextSwitchTarget.h"
 
 @class IFATableViewController;
 

@@ -97,7 +97,7 @@
             [self.tableView beginUpdates];
             [self.tableView ifa_deleteRowsAtIndexPaths:@[indexPath]];
             if (self.listGroupedBy && [l_sectionRows count]==0) {
-                [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:(NSUInteger) indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:(NSUInteger) indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
             }
             [self.tableView endUpdates];
 
