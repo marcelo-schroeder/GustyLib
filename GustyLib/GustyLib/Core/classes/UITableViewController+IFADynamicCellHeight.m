@@ -29,11 +29,17 @@ static char c_cachedHeightsKey;
 #pragma mark - Public
 
 -(void)setIfa_dynamicCellHeightDelegate:(id<IFATableViewControllerDynamicCellHeightDelegate>)a_dynamicCellHeightDelegate{
-    objc_setAssociatedObject(self, &c_dynamicCellHeightDelegateKey, a_dynamicCellHeightDelegate, OBJC_ASSOCIATION_ASSIGN);
+    IFAZeroingWeakReferenceContainer *l_weakReferenceContainer = objc_getAssociatedObject(self, &c_dynamicCellHeightDelegateKey);
+    if (!l_weakReferenceContainer) {
+        l_weakReferenceContainer = [IFAZeroingWeakReferenceContainer new];
+        objc_setAssociatedObject(self, &c_dynamicCellHeightDelegateKey, l_weakReferenceContainer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    l_weakReferenceContainer.weakReference = a_dynamicCellHeightDelegate;
 }
 
 -(id<IFATableViewControllerDynamicCellHeightDelegate>)ifa_dynamicCellHeightDelegate {
-    return objc_getAssociatedObject(self, &c_dynamicCellHeightDelegateKey);
+    IFAZeroingWeakReferenceContainer *l_weakReferenceContainer = objc_getAssociatedObject(self, &c_dynamicCellHeightDelegateKey);
+    return l_weakReferenceContainer.weakReference;
 }
 
 -(NSMutableDictionary*)ifa_cachedCellHeights {

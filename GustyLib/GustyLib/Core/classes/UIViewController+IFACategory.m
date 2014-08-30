@@ -47,7 +47,6 @@ static char c_notificationObserversToRemoveOnDeallocKey;
 static char c_shouldUseKeyboardPassthroughViewKey;
 static char c_childManagedObjectContextCountOnViewDidLoadKey;
 static char c_hasViewAppearedKey;
-//static char c_delegateKey;
 
 @interface UIViewController (IFACategory_Private)
 
@@ -363,20 +362,18 @@ typedef enum {
 #pragma mark - Public
 
 -(void)setIfa_presenter:(id<IFAPresenter>)a_presenter{
-    objc_setAssociatedObject(self, &c_presenterKey, a_presenter, OBJC_ASSOCIATION_ASSIGN);
+    IFAZeroingWeakReferenceContainer *l_weakReferenceContainer = objc_getAssociatedObject(self, &c_presenterKey);
+    if (!l_weakReferenceContainer) {
+        l_weakReferenceContainer = [IFAZeroingWeakReferenceContainer new];
+        objc_setAssociatedObject(self, &c_presenterKey, l_weakReferenceContainer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    l_weakReferenceContainer.weakReference = a_presenter;
 }
 
 -(id<IFAPresenter>)ifa_presenter {
-    return objc_getAssociatedObject(self, &c_presenterKey);
+    IFAZeroingWeakReferenceContainer *l_weakReferenceContainer = objc_getAssociatedObject(self, &c_presenterKey);
+    return l_weakReferenceContainer.weakReference;
 }
-
-//-(void)setIFA_delegate:(id<IFAViewControllerDelegate>)a_delegate{
-//    objc_setAssociatedObject(self, &c_delegateKey, a_delegate, OBJC_ASSOCIATION_ASSIGN);
-//}
-//
-//-(id<IFAViewControllerDelegate>)IFA_delegate {
-//    return objc_getAssociatedObject(self, &c_delegateKey);
-//}
 
 -(UIPopoverController*)ifa_activePopoverController {
     return objc_getAssociatedObject(self, &c_activePopoverControllerKey);

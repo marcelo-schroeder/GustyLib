@@ -180,3 +180,4 @@
 #import "IFAFormInputAccessoryView.h"
 #import "IFAMultipleSelectionListViewCell.h"
 #import "IFAContextSwitchTarget.h"
+#import "IFAZeroingWeakReferenceContainer.h"
