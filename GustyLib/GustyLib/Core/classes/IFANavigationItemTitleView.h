@@ -25,4 +25,10 @@
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
 @property (strong, nonatomic) IBOutlet UILabel *subTitleLabel;
 
+/**
+* Set this property to constrain the labels to the given width if you are having issues with layout (e.g. undesired visible layout changes).
+* 0 means unconstrained, which is the default behaviour.
+*/
+@property (nonatomic) CGFloat preferredWidth;
+
 @end

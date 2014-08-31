@@ -503,7 +503,8 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         for (UIView *l_view in l_titleView.subviews) {
             if ([l_view isKindOfClass:[UILabel class]]) {
                 UILabel *l_label = (UILabel*)l_view;
-                CGFloat l_maxWidth = [l_label sizeThatFits:CGSizeMake(CGFLOAT_MAX, l_navigationBarHeight)].width;
+                CGFloat l_widthConstraint = l_titleView.preferredWidth ?: CGFLOAT_MAX;
+                CGFloat l_maxWidth = [l_label sizeThatFits:CGSizeMake(l_widthConstraint, l_navigationBarHeight)].width;
                 if (l_maxWidth>l_greatestMaxWidth) {
                     l_greatestMaxWidth = l_maxWidth;
                 }

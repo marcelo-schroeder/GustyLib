@@ -162,7 +162,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
 
 -(void)ifa_updateNavigationItemState {
     [super ifa_updateNavigationItemState];
-//    NSLog(@"ifa_updateNavigationItemState v_selectedPage: %u", v_selectedPage);
+//    NSLog(@"ifa_updateNavigationItemState v_selectedPage: %u", self.selectedPage);
     NSString *l_title = [self.dataSource titleForPage:self.selectedPage];
     self.navigationItem.title = l_title;
     if ([self.ifa_appearanceTheme respondsToSelector:@selector(setNavigationItemTitleViewForViewController:interfaceOrientation:)]) {
