@@ -21,12 +21,12 @@
 @interface IFATableViewCell : UITableViewCell {
 }
 
-@property (nonatomic, strong) NSObject *object;
+@property (nonatomic, weak) NSObject *object;
 @property (nonatomic, strong) NSString *propertyName;
 @property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic) BOOL swipedToDelete;
 
--(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier object:(NSObject*)a_object propertyName:(NSString*)a_propertyName;
--(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier object:(NSObject*)a_object propertyName:(NSString*)a_propertyName indexPath:(NSIndexPath*)a_indexPath;
+-(id)initWithStyle:(UITableViewCellStyle)a_style reuseIdentifier:(NSString *)a_reuseIdentifier object:(NSObject*)a_object propertyName:(NSString*)a_propertyName;
+-(id)initWithStyle:(UITableViewCellStyle)a_style reuseIdentifier:(NSString *)a_reuseIdentifier object:(NSObject*)a_object propertyName:(NSString*)a_propertyName indexPath:(NSIndexPath*)a_indexPath;
 
 @end

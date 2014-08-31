@@ -24,6 +24,9 @@
 
 @property (nonatomic, strong) IFASegmentedControl *segmentedControl;
 
--(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier object:(NSObject*)a_object propertyName:(NSString*)a_propertyName indexPath:(NSIndexPath*)a_indexPath segmentedControl:(IFASegmentedControl *)aSegmentedControl;
+- (id)initWithReuseIdentifier:(NSString *)a_reuseIdentifier object:(NSObject *)a_object
+                 propertyName:(NSString *)a_propertyName indexPath:(NSIndexPath *)a_indexPath
+           formViewController:(IFAFormViewController *)a_formViewController
+             segmentedControl:(IFASegmentedControl *)a_segmentedControl;
 
 @end

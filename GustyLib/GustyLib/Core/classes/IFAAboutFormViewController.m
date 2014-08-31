@@ -36,7 +36,7 @@
 #pragma mark - Private
 
 -(NSString*)IFA_supportEmailAddress {
-    return [[IFAUtils infoPList] objectForKey:@"IFASupportEmailAddress"];
+    return [IFAUtils infoPList][@"IFASupportEmailAddress"];
 }
 
 - (void)IFA_ReportBugButtonTap:(id)sender{
@@ -67,10 +67,10 @@
         IFAAboutInfoModel *l_model = [IFAAboutInfoModel new];
         l_model.edition = [IFAUtils appEdition];
         l_model.version = [IFAUtils appVersionAndBuildNumber];
-        NSArray *l_appCreators = [[IFAUtils infoPList] objectForKey:@"IFAAppCreators"];
+        NSArray *l_appCreators = [IFAUtils infoPList][@"IFAAppCreators"];
         l_model.creatorName = l_appCreators[0][@"name"];
         l_model.creatorUrl = l_appCreators[0][@"url"];
-        NSArray *l_appVisualDesigners = [[IFAUtils infoPList] objectForKey:@"IFAAppVisualDesigners"];
+        NSArray *l_appVisualDesigners = [IFAUtils infoPList][@"IFAAppVisualDesigners"];
         l_model.visualDesignerName = l_appVisualDesigners[0][@"name"];
         l_model.visualDesignerUrl = l_appVisualDesigners[0][@"url"];
         
@@ -97,7 +97,7 @@
         // Configure custom view
         [[NSBundle mainBundle] loadNibNamed:@"IFAAboutCustomView" owner:self options:nil];
         self.appNameLabel.text = [IFAUtils appName];
-        self.copyrightNoticeLabel.text = [[IFAUtils infoPList] objectForKey:@"IFACopyrightNotice"];
+        self.copyrightNoticeLabel.text = [IFAUtils infoPList][@"IFACopyrightNotice"];
         
     }
     
@@ -108,7 +108,7 @@
 -(NSArray *)ifa_nonEditModeToolbarItems {
     UIBarButtonItem *l_flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     NSMutableArray *l_items = [NSMutableArray arrayWithArray:@[l_flexibleSpace, self.IFA_reportBugBarButtonItem, l_flexibleSpace, self.IFA_provideFeedbackBarButtonItem, l_flexibleSpace]];
-    if ([[[IFAUtils infoPList] objectForKey:@"IFAShowForceCrashButton"] boolValue]) {
+    if ([[IFAUtils infoPList][@"IFAShowForceCrashButton"] boolValue]) {
         [l_items addObjectsFromArray:@[self.IFA_forceCrashBarButtonItem, l_flexibleSpace]];
     }
     return l_items;

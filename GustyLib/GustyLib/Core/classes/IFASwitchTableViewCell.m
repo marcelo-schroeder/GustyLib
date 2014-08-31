@@ -26,8 +26,12 @@
 
 #pragma mark - Overrides
 
--(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier object:(NSObject*)a_object propertyName:(NSString*)a_propertyName indexPath:(NSIndexPath *)a_indexPath{
-    if ((self=[super initWithStyle:style reuseIdentifier:reuseIdentifier object:a_object propertyName:a_propertyName indexPath:a_indexPath])) {
+- (id)initWithReuseIdentifier:(NSString *)reuseIdentifier object:(NSObject *)a_object
+                 propertyName:(NSString *)a_propertyName indexPath:(NSIndexPath *)a_indexPath
+           formViewController:(IFAFormViewController *)a_formViewController {
+    if ((self= [super initWithReuseIdentifier:reuseIdentifier object:a_object propertyName:a_propertyName
+                                    indexPath:a_indexPath
+                           formViewController:a_formViewController])) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.customAccessoryType = IFAFormTableViewCellAccessoryTypeNone;
         self.switchControl = [[UISwitch alloc] init];

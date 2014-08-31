@@ -42,10 +42,11 @@ typedef enum{
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *bottomSeparatorLeftConstraint;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *topSeparatorLeftConstraint;
 
-@property (nonatomic, weak) IFAFormViewController *formViewController;
+@property (nonatomic, weak, readonly) IFAFormViewController *formViewController;
 @property (nonatomic) IFAFormTableViewCellAccessoryType customAccessoryType;
 
-//-(CGFloat)calculateFieldX;
-//-(CGFloat)calculateFieldWidth;
+- (id)initWithReuseIdentifier:(NSString *)a_reuseIdentifier object:(NSObject *)a_object
+                 propertyName:(NSString *)a_propertyName indexPath:(NSIndexPath *)a_indexPath
+           formViewController:(IFAFormViewController *)a_formViewController;
 
 @end

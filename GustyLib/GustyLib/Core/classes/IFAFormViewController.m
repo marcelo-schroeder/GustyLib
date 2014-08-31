@@ -89,9 +89,9 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     // Create reusable cell
     IFAFormTableViewCell *l_cell = [a_tableView dequeueReusableCellWithIdentifier:l_propertyName];
     if (l_cell == nil) {
-        l_cell = [[NSClassFromString(a_className) alloc] initWithStyle:UITableViewCellStyleValue1
-                                                       reuseIdentifier:l_propertyName object:self.object
-                                                          propertyName:l_propertyName indexPath:a_indexPath];
+        l_cell = [[NSClassFromString(a_className) alloc] initWithReuseIdentifier:l_propertyName object:self.object
+                                                                    propertyName:l_propertyName indexPath:a_indexPath
+                                                              formViewController:self];
         // Set appearance
         [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
                                                                                                                        cell:l_cell];
@@ -534,58 +534,63 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 	return [self initWithReadOnlyObject:anObject inForm:IFAEntityConfigFormNameDefault isSubForm:NO showEditButton:YES];
 }
 
--(IFAFormTableViewCell *)populateCell:(IFAFormTableViewCell *)a_cell{
-    
+-(IFAFormTableViewCell *)populateCell:(IFAFormTableViewCell *)a_cell {
+
+//    NSLog(@"populateCell: %@", [a_cell description]);
+//    NSLog(@"  a_cell.indexPath: %@", [a_cell.indexPath description]);
+
     id l_value = [self.object valueForKey:a_cell.propertyName];
 
     a_cell.customAccessoryType = [self accessoryTypeForIndexPath:a_cell.indexPath];
-    
+
     if ([a_cell isMemberOfClass:[IFAFormTableViewCell class]] || [a_cell isMemberOfClass:[IFASwitchTableViewCell class]] || [a_cell isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
-        
+
         NSString *l_label = [self labelForIndexPath:a_cell.indexPath];
         a_cell.leftLabel.text = l_label;
         NSString *l_valueFormat = [[IFAPersistenceManager sharedInstance].entityConfig valueFormatForProperty:a_cell.propertyName
-                                                                                                    inObject:self.object];
+                                                                                                     inObject:self.object];
         NSString *l_valueString = [self.object ifa_propertyStringValueForIndexPath:a_cell.indexPath
                                                                             inForm:self.formName
                                                                         createMode:self.createMode
                                                                           calendar:[self calendar]];
-        a_cell.rightLabel.text = l_valueFormat ? [NSString stringWithFormat:l_valueFormat, l_valueString] : l_valueString;
-        
-        if([a_cell isMemberOfClass:[IFASwitchTableViewCell class]]){
-            
-            IFASwitchTableViewCell *l_cell = (IFASwitchTableViewCell *)a_cell;
-            l_cell.switchControl.on = [(NSNumber*)l_value boolValue];
+        a_cell.rightLabel.text = l_valueFormat ? [NSString stringWithFormat:l_valueFormat,
+                                                                            l_valueString] : l_valueString;
+//        NSLog(@"    a_cell.rightLabel.text: %@", a_cell.rightLabel.text);
+
+        if ([a_cell isMemberOfClass:[IFASwitchTableViewCell class]]) {
+
+            IFASwitchTableViewCell *l_cell = (IFASwitchTableViewCell *) a_cell;
+            l_cell.switchControl.on = [(NSNumber *) l_value boolValue];
             if (!self.editing) {
                 l_cell.switchControl.enabled = NO;
             }
             l_cell.enabledInEditing = [self IFA_isDependencyEnabledForIndexPath:a_cell.indexPath];
-            
-        }else if([a_cell isMemberOfClass:[IFAFormTextFieldTableViewCell class]]){
 
-            IFAFormTextFieldTableViewCell *l_cell = (IFAFormTextFieldTableViewCell *)a_cell;
+        } else if ([a_cell isMemberOfClass:[IFAFormTextFieldTableViewCell class]]) {
+
+            IFAFormTextFieldTableViewCell *l_cell = (IFAFormTextFieldTableViewCell *) a_cell;
             [l_cell reloadData];
 
         }
-        
-    }else if([a_cell isMemberOfClass:[IFASegmentedControlTableViewCell class]]){
-        
-        IFASegmentedControlTableViewCell *l_cell = (IFASegmentedControlTableViewCell *)a_cell;
-        l_cell.segmentedControl.selectedSegmentIndex = [((NSNumber*)[l_value valueForKey:@"index"]) intValue];
+
+    } else if ([a_cell isMemberOfClass:[IFASegmentedControlTableViewCell class]]) {
+
+        IFASegmentedControlTableViewCell *l_cell = (IFASegmentedControlTableViewCell *) a_cell;
+        l_cell.segmentedControl.selectedSegmentIndex = [((NSNumber *) [l_value valueForKey:@"index"]) intValue];
         l_cell.segmentedControl.enabled = self.editing;
-        
-    }else{
-        NSAssert(false, @"Unexpected cell type: %@", [[a_cell class ] description]);
+
+    } else {
+        NSAssert(false, @"Unexpected cell type: %@", [[a_cell class] description]);
     }
 
     // Selection style
-    a_cell.selectionStyle = a_cell.customAccessoryType==IFAFormTableViewCellAccessoryTypeNone ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleDefault;
+    a_cell.selectionStyle = a_cell.customAccessoryType == IFAFormTableViewCellAccessoryTypeNone ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleDefault;
 
     // Should enable user interaction?
     a_cell.userInteractionEnabled = [self IFA_shouldEnableUserInteractionForIndexPath:a_cell.indexPath];
-    
+
     return a_cell;
-    
+
 }
 
 - (void)onSubmitButtonTap {
@@ -860,15 +865,20 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     
 //    NSLog(@"cellForRowAtIndexPath: %@", [indexPath description]);
 
+    NSString *l_propertyName = [self nameForIndexPath:indexPath];
+
     IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
+
 	if ([l_entityConfig isViewControllerFieldTypeForIndexPath:indexPath inObject:self.object inForm:self.formName
                                                    createMode:self.createMode]) {
         IFAFormTableViewCell *l_cell = [self.tableView dequeueReusableCellWithIdentifier:k_TT_CELL_IDENTIFIER_VIEW_CONTROLLER];
         if (!l_cell) {
-            l_cell = [[IFAFormTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
-                                            reuseIdentifier:k_TT_CELL_IDENTIFIER_VIEW_CONTROLLER];
+            l_cell = [[IFAFormTableViewCell alloc] initWithReuseIdentifier:k_TT_CELL_IDENTIFIER_VIEW_CONTROLLER
+                                                                    object:self.object propertyName:l_propertyName
+                                                                 indexPath:indexPath formViewController:self];
             l_cell.customAccessoryType = IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight;
             l_cell.leftLabel.textColor = [[self ifa_appearanceTheme] tableCellTextColor];
+            l_cell.rightLabel.hidden = YES;
             // Set appearance
             [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
                                                                                                                            cell:l_cell];
@@ -880,22 +890,23 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         return l_cell;
     }else if ([l_entityConfig isCustomFieldTypeForIndexPath:indexPath inObject:self.object inForm:self.formName
                                                  createMode:self.createMode]){
-        UITableViewCell *l_cell = [self.tableView dequeueReusableCellWithIdentifier:k_TT_CELL_IDENTIFIER_CUSTOM];
+        IFAFormTableViewCell *l_cell = [self.tableView dequeueReusableCellWithIdentifier:k_TT_CELL_IDENTIFIER_CUSTOM];
         if (!l_cell) {
-            l_cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                            reuseIdentifier:k_TT_CELL_IDENTIFIER_CUSTOM];
-            l_cell.userInteractionEnabled = NO; //wip: review this - it is used by the About form
+            l_cell = [[IFAFormTableViewCell alloc] initWithReuseIdentifier:k_TT_CELL_IDENTIFIER_CUSTOM
+                                                                    object:self.object propertyName:l_propertyName
+                                                                 indexPath:indexPath formViewController:self];
+            l_cell.leftLabel.hidden = YES;
+            l_cell.rightLabel.hidden = YES;
+            l_cell.customAccessoryType = IFAFormTableViewCellAccessoryTypeNone;
+            l_cell.userInteractionEnabled = NO;
             // Set appearance
             [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
                                                                                                                            cell:l_cell];
         }
         return l_cell;
     }
-    
-    // Property name
-    NSString *propertyName = [self nameForIndexPath:indexPath];
-    
-//    NSLog(@"cellForRowAtIndexPath: %@, propertyName: %@", [indexPath description], propertyName);
+
+//    NSLog(@"cellForRowAtIndexPath: %@, l_propertyName: %@", [indexPath description], l_propertyName);
     
     // The field editor type for this property
     NSUInteger editorType = [self editorTypeForIndexPath:indexPath];
@@ -931,28 +942,30 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                 // Create reusable cell
                 NSString *cellIdentifier = [NSString stringWithFormat:@"%@+%@",
                                                                       k_TT_CELL_IDENTIFIER_SEGMENTED_CONTROL,
-                                                                      propertyName];
+                                                                      l_propertyName];
                 IFAFormTableViewCell *cell = (IFAFormTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
                 if (cell == nil) {
 
                     // Load segmented UI control items
                     NSMutableArray *segmentControlItems = [NSMutableArray array];
-                    for (NSManagedObject *mo in [[IFAPersistenceManager sharedInstance] findAllForEntity:[self entityNameForProperty:propertyName]]) {
+                    for (NSManagedObject *mo in [[IFAPersistenceManager sharedInstance] findAllForEntity:[self entityNameForProperty:l_propertyName]]) {
                         [segmentControlItems addObject:[mo ifa_displayValue]];
                     }
 
                     // Instantiate segmented UI control
                     IFASegmentedControl *segmentedControl = [[IFASegmentedControl alloc] initWithItems:segmentControlItems];
-                    segmentedControl.propertyName = propertyName;
+                    segmentedControl.propertyName = l_propertyName;
                     [segmentedControl addTarget:self action:@selector(onSegmentedControlAction:) forControlEvents:UIControlEventValueChanged];
                     [self.IFA_uiControlsWithTargets addObject:segmentedControl];
 
-                    cell = [[IFASegmentedControlTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                                   reuseIdentifier:cellIdentifier object:self.object
-                                                                      propertyName:propertyName indexPath:indexPath
-                                                                  segmentedControl:segmentedControl];
+                    cell = [[IFASegmentedControlTableViewCell alloc] initWithReuseIdentifier:cellIdentifier
+                                                                                      object:self.object
+                                                                                propertyName:l_propertyName
+                                                                                   indexPath:indexPath
+                                                                          formViewController:self
+                                                                            segmentedControl:segmentedControl];
 #ifdef IFA_AVAILABLE_Help
-                    cell.helpTargetId = [IFAHelpManager helpTargetIdForPropertyName:propertyName
+                    cell.helpTargetId = [IFAHelpManager helpTargetIdForPropertyName:l_propertyName
                                                                            inObject:self.object];
 #endif
                     cell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -984,10 +997,9 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
 	}
     
-    (self.IFA_propertyNameToCell)[propertyName] = l_cellToReturn;
-    (self.propertyNameToIndexPath)[propertyName] = indexPath;
+    (self.IFA_propertyNameToCell)[l_propertyName] = l_cellToReturn;
+    (self.propertyNameToIndexPath)[l_propertyName] = indexPath;
     
-    l_cellToReturn.formViewController = self;
     return [self IFA_updateEditingStateForCell:[self populateCell:l_cellToReturn] indexPath:indexPath];
     
 }
@@ -1004,7 +1016,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
     // Implements the non-editing mode behaviour for when the user taps on a row
-    if (!self.editing) {
+    if (self.showEditButton && !self.editing) {
         [self IFA_transitionToEditModeWithSelectedRowAtIndexPath:indexPath];
         return;
     }
