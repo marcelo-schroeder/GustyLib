@@ -56,6 +56,8 @@
 
 - (IFAEditorType)editorTypeForIndexPath:(NSIndexPath *)anIndexPath;
 
+- (NSIndexPath *)indexPathForPropertyNamed:(NSString *)a_propertyName;
+
 -(IFAFormTableViewCell *)populateCell:(IFAFormTableViewCell *)a_cell;
 
 - (void)onSwitchAction:(UISwitch*)a_switch;

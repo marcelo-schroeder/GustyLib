@@ -794,6 +794,13 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     return _formInputAccessoryView;
 }
 
+- (NSIndexPath *)indexPathForPropertyNamed:(NSString *)a_propertyName {
+    return [[IFAPersistenceManager sharedInstance].entityConfig indexPathForProperty:a_propertyName
+                                                                            inObject:self.object
+                                                                              inForm:self.formName
+                                                                          createMode:self.createMode];
+}
+
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -1288,10 +1295,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     if (self.createMode && !self.IFA_createModeAutoFieldEditDone) {
-        NSIndexPath *l_indexPath = [[IFAPersistenceManager sharedInstance].entityConfig indexPathForProperty:@"name"
-                                                                                                   inObject:self.object
-                                                                                                     inForm:self.formName
-                                                                                                 createMode:self.createMode];
+        NSIndexPath *l_indexPath = [self indexPathForPropertyNamed:@"name"];
         if (l_indexPath) {
             IFAFormTextFieldTableViewCell *l_cell = (IFAFormTextFieldTableViewCell *) [self visibleCellForIndexPath:l_indexPath];
             [l_cell.textField becomeFirstResponder];
