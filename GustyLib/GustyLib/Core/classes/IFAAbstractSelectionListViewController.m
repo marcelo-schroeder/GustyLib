@@ -103,10 +103,13 @@
 -(void)willRefreshAndReloadData {
 
     [super willRefreshAndReloadData];
-    
-    // Disable user interaction while data is being refreshed asynchronously
-    self.navigationItem.rightBarButtonItem.enabled = NO;
-    self.selectNoneButtonItem.enabled = NO;
+
+    if (self.asynchronousFetch) {
+        // Disable user interaction while data is being refreshed asynchronously
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+        self.selectNoneButtonItem.enabled = NO;
+    }
+
 
 }
 

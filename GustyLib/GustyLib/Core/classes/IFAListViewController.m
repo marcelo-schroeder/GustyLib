@@ -227,9 +227,11 @@
 - (void)willRefreshAndReloadData {
 //    NSLog(@"Disabling user interaction in %@", [self description]);
     // Disable user interaction while data is being refreshed asynchronously
-    self.tableView.allowsSelection = NO;
-    self.editButtonItem.enabled = NO;
-    self.addBarButtonItem.enabled = NO;
+    if (self.asynchronousFetch) {
+        self.tableView.allowsSelection = NO;
+        self.editButtonItem.enabled = NO;
+        self.addBarButtonItem.enabled = NO;
+    }
 }
 
 // to be overriden by subclasses
