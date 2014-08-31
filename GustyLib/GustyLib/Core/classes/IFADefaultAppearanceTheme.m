@@ -379,6 +379,12 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         a_cell.textLabel.textColor = l_formFieldLabelThemeColor;
     }
 
+    if ([a_cell isKindOfClass:[IFASegmentedControlTableViewCell class]]) {
+        IFASegmentedControlTableViewCell *l_cell = (IFASegmentedControlTableViewCell *) a_cell;
+        [l_cell.segmentedControl setTitleTextAttributes:@{NSFontAttributeName : l_cell.leftLabel.font}
+                                             forState:UIControlStateNormal];
+    }
+
 }
 
 -(void)setAppearanceOnWillDisplayCell:(UITableViewCell *)a_cell forRowAtIndexPath:(NSIndexPath *)a_indexPath
