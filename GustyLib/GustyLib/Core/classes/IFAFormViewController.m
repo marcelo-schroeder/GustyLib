@@ -518,10 +518,11 @@
                 [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
                                                                                                                                 cell:l_cell];
             }
-            l_cell.leftLabel.text = [l_entityConfig labelForViewControllerFieldTypeAtIndexPath:indexPath
-                                                                                      inObject:self.object
-                                                                                        inForm:self.formName
-                                                                                    createMode:self.createMode];
+            NSString *l_labelText = [l_entityConfig labelForViewControllerFieldTypeAtIndexPath:indexPath
+                                                                                              inObject:self.object
+                                                                                                inForm:self.formName
+                                                                                            createMode:self.createMode];
+            [self IFA_setLabelText:l_labelText inCell:l_cell];
             return l_cell;
         }
 
@@ -570,6 +571,15 @@
     }
 
     return l_cell;
+
+}
+
+- (void)IFA_setLabelText:(NSString *)a_labelText inCell:(IFAFormTableViewCell *)a_cell {
+
+    a_cell.leftLabel.text = a_labelText;
+
+    // As this is a multi-line label, set the preferred max width to fit everything (i.e. it takes priority over the actual field value)
+    a_cell.leftLabel.preferredMaxLayoutWidth = [a_cell.leftLabel.text sizeWithAttributes:@{NSFontAttributeName:a_cell.leftLabel.font}].width;
 
 }
 
@@ -636,8 +646,7 @@
 
     if ([a_cell isMemberOfClass:[IFAFormTableViewCell class]] || [a_cell isMemberOfClass:[IFASwitchTableViewCell class]] || [a_cell isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
 
-        NSString *l_label = [self labelForIndexPath:a_cell.indexPath];
-        a_cell.leftLabel.text = l_label;
+        [self IFA_setLabelText:[self labelForIndexPath:a_cell.indexPath] inCell:a_cell];
         NSString *l_valueFormat = [[IFAPersistenceManager sharedInstance].entityConfig valueFormatForProperty:a_cell.propertyName
                                                                                                      inObject:self.object];
         NSString *l_valueString = [self.object ifa_propertyStringValueForIndexPath:a_cell.indexPath
