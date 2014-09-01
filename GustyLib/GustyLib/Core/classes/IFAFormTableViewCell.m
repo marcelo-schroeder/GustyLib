@@ -44,6 +44,11 @@
     return self;
 }
 
+- (IBAction)onCustomAccessoryButtonTap {
+    [self.formViewController.tableView.delegate tableView:self.formViewController.tableView
+                                  didSelectRowAtIndexPath:self.indexPath];
+}
+
 - (void)setCustomAccessoryType:(IFAFormTableViewCellAccessoryType)a_customAccessoryType {
     _customAccessoryType = a_customAccessoryType;
     [((IFADefaultAppearanceTheme *) self.ifa_appearanceTheme) setCustomAccessoryViewAppearanceForFormTableViewCell:self];
@@ -59,7 +64,15 @@
 
 - (void)layoutSubviews {
     CGFloat l_horizontalSpace = self.leftLabelLeftConstraint.constant;
-    self.rightLabelRightConstraint.constant = self.customAccessoryImageView.hidden ? l_horizontalSpace : (l_horizontalSpace * 2 + self.customAccessoryImageView.bounds.size.width);
+    BOOL l_areCustomAccessoryViewsHidden = self.customAccessoryImageView.hidden && self.customAccessoryButton.hidden;
+    if (l_areCustomAccessoryViewsHidden) {
+        self.rightLabelRightConstraint.constant = l_horizontalSpace;
+    }
+    else {
+        UIView *l_visibleCustomAccessoryView = self.customAccessoryImageView.hidden ? self.customAccessoryButton : self.customAccessoryImageView;
+        CGFloat l_customAccessoryViewWidth = l_visibleCustomAccessoryView.bounds.size.width;
+        self.rightLabelRightConstraint.constant = l_horizontalSpace * 2 + l_customAccessoryViewWidth;
+    }
     [super layoutSubviews];
 }
 

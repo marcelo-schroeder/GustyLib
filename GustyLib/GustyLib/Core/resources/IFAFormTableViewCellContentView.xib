@@ -9,6 +9,7 @@
                 <outlet property="bottomSeparatorImageView" destination="Oax-2f-JwN" id="mdu-sm-zqJ"/>
                 <outlet property="bottomSeparatorLeftConstraint" destination="asc-Se-UgJ" id="k5s-lf-Pi1"/>
                 <outlet property="centeredLabel" destination="BsX-Ip-YYH" id="I4l-Dp-o1j"/>
+                <outlet property="customAccessoryButton" destination="rSZ-Ec-zn8" id="8p3-gf-567"/>
                 <outlet property="customAccessoryImageView" destination="YDb-fv-JUs" id="PbO-lo-2M6"/>
                 <outlet property="customContentView" destination="iN0-l3-epB" id="QY5-LE-HzR"/>
                 <outlet property="leftLabel" destination="w5b-SK-4wH" id="oB5-eZ-oxr"/>
@@ -62,7 +63,7 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IFA_Icon_DisclosureIndicatorRight.png" translatesAutoresizingMaskIntoConstraints="NO" id="YDb-fv-JUs">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IFA_Icon_DisclosureIndicatorRight.png" translatesAutoresizingMaskIntoConstraints="NO" id="YDb-fv-JUs" userLabel="Custom Accessory Image View - IFA_Icon_DisclosureIndicatorRight.png">
                     <rect key="frame" x="297" y="16" width="8" height="13"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
@@ -70,6 +71,16 @@
                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="22" id="wb1-Go-ueb"/>
                     </constraints>
                 </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rSZ-Ec-zn8" userLabel="Custom Accessory Button">
+                    <rect key="frame" x="283" y="11" width="22" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="onCustomAccessoryButtonTap" destination="-1" eventType="touchUpInside" id="JaX-T1-imw"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
@@ -77,10 +88,12 @@
                 <constraint firstAttribute="trailing" secondItem="YDb-fv-JUs" secondAttribute="trailing" constant="15" id="Bk9-fT-H4z"/>
                 <constraint firstItem="BsX-Ip-YYH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="BrC-k3-SHa"/>
                 <constraint firstItem="w5b-SK-4wH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="DxO-Lo-K8c"/>
+                <constraint firstAttribute="centerY" secondItem="rSZ-Ec-zn8" secondAttribute="centerY" id="TxP-25-wIJ"/>
                 <constraint firstItem="bOx-tD-ean" firstAttribute="top" secondItem="a7O-Dd-jDy" secondAttribute="bottom" id="XYf-dc-6Sd"/>
                 <constraint firstItem="a7O-Dd-jDy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="-1" id="YOy-XO-9PI"/>
                 <constraint firstItem="Oax-2f-JwN" firstAttribute="top" secondItem="bOx-tD-ean" secondAttribute="bottom" id="ZJL-LW-7uA"/>
                 <constraint firstItem="Oax-2f-JwN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="asc-Se-UgJ"/>
+                <constraint firstAttribute="trailing" secondItem="rSZ-Ec-zn8" secondAttribute="trailing" constant="15" id="cMZ-Gg-h5d"/>
                 <constraint firstAttribute="trailing" secondItem="Oax-2f-JwN" secondAttribute="trailing" id="ev7-Dy-1Bp"/>
                 <constraint firstItem="BsX-Ip-YYH" firstAttribute="top" secondItem="a7O-Dd-jDy" secondAttribute="bottom" id="hlo-Qo-Ykn"/>
                 <constraint firstItem="Oax-2f-JwN" firstAttribute="top" secondItem="BsX-Ip-YYH" secondAttribute="bottom" id="jiW-to-oLj"/>

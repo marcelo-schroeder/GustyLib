@@ -802,9 +802,12 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 - (void)setCustomAccessoryViewAppearanceForFormTableViewCell:(IFAFormTableViewCell *)a_cell {
-    NSString *l_imageName;
-    BOOL l_shouldTintImage = NO;
+    NSString *l_imageName = nil;
+    BOOL l_shouldUseButton = NO;
+//    BOOL l_shouldTintImage = NO;
     switch (a_cell.customAccessoryType){
+        case IFAFormTableViewCellAccessoryTypeDisclosureIndicatorInfo:
+            l_shouldUseButton = YES;
         case IFAFormTableViewCellAccessoryTypeNone:
             l_imageName = nil;
             break;
@@ -814,16 +817,13 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         case IFAFormTableViewCellAccessoryTypeDisclosureIndicatorDown:
             l_imageName = @"IFA_Icon_DisclosureIndicatorDown";
             break;
-        case IFAFormTableViewCellAccessoryTypeDisclosureIndicatorInfo:
-            l_imageName = @"IFA_Icon_Info";
-            l_shouldTintImage = YES;
-            break;
     }
+    a_cell.customAccessoryButton.hidden = !l_shouldUseButton;
     UIImage *l_image = l_imageName ? [UIImage imageNamed:l_imageName] : nil;
-    if (l_shouldTintImage) {
-        UIColor *l_overlayColor = self.IFA_defaultTintColor;
-        l_image = [l_image ifa_imageWithOverlayColor:l_overlayColor];
-    }
+//    if (l_image && l_shouldTintImage) {
+//        UIColor *l_overlayColor = self.IFA_defaultTintColor;
+//        l_image = [l_image ifa_imageWithOverlayColor:l_overlayColor];
+//    }
     a_cell.customAccessoryImageView.image = l_image;
     a_cell.customAccessoryImageView.hidden = l_imageName == nil;
     [a_cell.customAccessoryImageView layoutIfNeeded]; // Make sure differences in the image sizes trigger layout constraint recalculation
