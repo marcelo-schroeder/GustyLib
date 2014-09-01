@@ -1086,6 +1086,11 @@
         return;
     }
 
+    if (![self IFA_endTextFieldEditingWithCommit:YES]) {
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];   //wip: can I test this scenario maybe when it is possible to edit a Location?
+        return;
+    }
+
     IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
 
     IFAEntityConfigFieldType l_fieldType = [self fieldTypeForIndexPath:indexPath];
@@ -1147,28 +1152,20 @@
 
         } else {
 
-            if ([self IFA_endTextFieldEditingWithCommit:YES]) {
+            __weak IFAFormViewController *l_weakSelf = self;
 
-                __weak IFAFormViewController *l_weakSelf = self;
+            UIViewController *l_viewController = [self IFA_editorViewControllerForIndexPath:indexPath];
+            l_viewController.ifa_presenter = l_weakSelf;
 
-                UIViewController *l_viewController = [self IFA_editorViewControllerForIndexPath:indexPath];
-                l_viewController.ifa_presenter = l_weakSelf;
+            self.IFA_indexPathForPopoverController = indexPath;
+            CGRect l_fromPopoverRect = [self IFA_fromPopoverRectForIndexPath:self.IFA_indexPathForPopoverController];
 
-                self.IFA_indexPathForPopoverController = indexPath;
-                CGRect l_fromPopoverRect = [self IFA_fromPopoverRectForIndexPath:self.IFA_indexPathForPopoverController];
-
-                if ([l_viewController ifa_hasFixedSize]) {
-                    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-                }
-
-                [self ifa_presentModalSelectionViewController:l_viewController fromRect:l_fromPopoverRect
-                                                       inView:l_weakSelf.tableView];
-
-            } else {
-
+            if ([l_viewController ifa_hasFixedSize]) {
                 [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
             }
+
+            [self ifa_presentModalSelectionViewController:l_viewController fromRect:l_fromPopoverRect
+                                                   inView:l_weakSelf.tableView];
 
         }
 
@@ -1342,7 +1339,7 @@
 
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
-    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
+    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 
 }
 
