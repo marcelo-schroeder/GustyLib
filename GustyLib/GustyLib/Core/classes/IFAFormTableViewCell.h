@@ -24,6 +24,7 @@ typedef enum{
     IFAFormTableViewCellAccessoryTypeNone,
     IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight,
     IFAFormTableViewCellAccessoryTypeDisclosureIndicatorDown,
+    IFAFormTableViewCellAccessoryTypeDisclosureIndicatorInfo,
 }IFAFormTableViewCellAccessoryType;
 
 @class IFAFormViewController;

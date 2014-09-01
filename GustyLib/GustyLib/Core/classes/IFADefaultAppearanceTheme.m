@@ -78,10 +78,6 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }
 }
 
-- (UIColor *)IFA_defaultTintColor {
-    return [UIApplication sharedApplication].delegate.window.tintColor;
-}
-
 - (void)IFA_setAppearanceForFormInputAccessoryView:(IFAFormInputAccessoryView *)a_view
                                   inViewController:(UIViewController *)a_viewController {
 
@@ -89,7 +85,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
     l_toolbar.translucent = NO;
     l_toolbar.barTintColor = [UIColor ifa_colorWithSpaceOrTabDelimitedRGB:@"240\t241\t242\t"];
-    l_toolbar.tintColor = [self IFA_defaultTintColor];
+    l_toolbar.tintColor = self.defaultTintColor;
 
     // Correct trailing space for the "Done" button
     NSMutableArray *l_items = [l_toolbar.items mutableCopy];
@@ -345,7 +341,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         [self setLabelTextStyleForChildrenOfView:((UITableViewCell *) a_view).contentView];
         if ([a_view isKindOfClass:[IFAMultipleSelectionListViewCell class]]) {
             IFAMultipleSelectionListViewCell *l_cell = (IFAMultipleSelectionListViewCell *) a_view;
-            UIColor *l_defaultTintColor = [self IFA_defaultTintColor];
+            UIColor *l_defaultTintColor = self.defaultTintColor;
             l_cell.addToSelectionImageView.image = [l_cell.addToSelectionImageView.image ifa_imageWithOverlayColor:l_defaultTintColor];
             l_cell.removeFromSelectionImageView.image = [l_cell.removeFromSelectionImageView.image ifa_imageWithOverlayColor:l_defaultTintColor];
         }
@@ -690,6 +686,10 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 - (Class)navigationControllerClass {
     return [IFANavigationController class];
+}
+
+- (UIColor *)defaultTintColor {
+    return [UIApplication sharedApplication].delegate.window.tintColor;
 }
 
 #pragma mark - Public

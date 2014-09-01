@@ -592,6 +592,8 @@
 		F72150DB19AF21EE00AE2C33 /* NSMutableArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMutableArrayTests.m; sourceTree = "<group>"; };
 		F72150DD19B013B600AE2C33 /* IFA_ICon_Delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IFA_ICon_Delete.png; sourceTree = "<group>"; };
 		F72150DE19B013B600AE2C33 /* IFA_ICon_Delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IFA_ICon_Delete@2x.png"; sourceTree = "<group>"; };
+		F72150E319B3E36700AE2C33 /* IFA_Icon_Info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IFA_Icon_Info.png; sourceTree = "<group>"; };
+		F72150E419B3E36700AE2C33 /* IFA_Icon_Info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IFA_Icon_Info@2x.png"; sourceTree = "<group>"; };
 		F72E8FA1194E446C00CFB3B1 /* IFAHtmlDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAHtmlDocument.h; sourceTree = "<group>"; };
 		F72E8FA2194E446C00CFB3B1 /* IFAHtmlDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAHtmlDocument.m; sourceTree = "<group>"; };
 		F72E8FA3194E446C00CFB3B1 /* IFAHtmlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAHtmlParser.h; sourceTree = "<group>"; };
@@ -954,6 +956,8 @@
 		107381CAC567494A58822E49 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				F72150E319B3E36700AE2C33 /* IFA_Icon_Info.png */,
+				F72150E419B3E36700AE2C33 /* IFA_Icon_Info@2x.png */,
 				F72150DD19B013B600AE2C33 /* IFA_ICon_Delete.png */,
 				F72150DE19B013B600AE2C33 /* IFA_ICon_Delete@2x.png */,
 				F72150D519ADC33200AE2C33 /* IFA_Icon_AddToSelection.png */,

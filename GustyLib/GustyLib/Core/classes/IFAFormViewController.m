@@ -876,7 +876,9 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
             l_cell = [[IFAFormTableViewCell alloc] initWithReuseIdentifier:k_TT_CELL_IDENTIFIER_VIEW_CONTROLLER
                                                                     object:self.object propertyName:l_propertyName
                                                                  indexPath:indexPath formViewController:self];
-            l_cell.customAccessoryType = IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight;
+            BOOL l_isModalViewController = [l_entityConfig isModalForViewControllerFieldTypeAtIndexPath:indexPath inObject:self.object
+                                                                                                 inForm:self.formName createMode:self.createMode];
+            l_cell.customAccessoryType = l_isModalViewController ? IFAFormTableViewCellAccessoryTypeDisclosureIndicatorInfo : IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight;
             l_cell.leftLabel.textColor = [[self ifa_appearanceTheme] tableCellTextColor];
             l_cell.rightLabel.hidden = YES;
             // Set appearance

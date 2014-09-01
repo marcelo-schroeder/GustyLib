@@ -45,6 +45,7 @@
 
 - (void)setCustomAccessoryType:(IFAFormTableViewCellAccessoryType)a_customAccessoryType {
     NSString *l_imageName;
+    BOOL l_shouldTintImage = NO;
     switch (a_customAccessoryType){
         case IFAFormTableViewCellAccessoryTypeNone:
             l_imageName = nil;
@@ -55,10 +56,18 @@
         case IFAFormTableViewCellAccessoryTypeDisclosureIndicatorDown:
             l_imageName = @"IFA_Icon_DisclosureIndicatorDown";
             break;
+        case IFAFormTableViewCellAccessoryTypeDisclosureIndicatorInfo:
+            l_imageName = @"IFA_Icon_Info";
+            l_shouldTintImage = YES;
+            break;
     }
-    self.customAccessoryImageView.image = l_imageName ? [UIImage imageNamed:l_imageName] : nil;
+    UIImage *l_image = l_imageName ? [UIImage imageNamed:l_imageName] : nil;
+    if (l_shouldTintImage) {
+        UIColor *l_overlayColor = self.ifa_appearanceTheme.defaultTintColor;
+        l_image = [l_image ifa_imageWithOverlayColor:l_overlayColor];
+    }
+    self.customAccessoryImageView.image = l_image;
     self.customAccessoryImageView.hidden = l_imageName == nil;
-    [self.customAccessoryImageView sizeToFit];
     _customAccessoryType = a_customAccessoryType;
 }
 
