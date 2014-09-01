@@ -133,8 +133,6 @@ typedef enum {
 - (void)setAppearanceForCell:(UITableViewCell *)a_cell onSetSelected:(BOOL)a_selected animated:(BOOL)a_shouldAnimate;
 -(void)setAppearanceOnPrepareForReuseForCell:(UITableViewCell *)a_cell;
 
-- (UIColor *)defaultTintColor;
-
 @optional
 -(void)willReloadUi;
 -(void)setAppearanceForCollectionViewCell:(UICollectionViewCell *)a_cell atIndexPath:(NSIndexPath *)a_indexPath

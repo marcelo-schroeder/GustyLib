@@ -37,6 +37,7 @@
     if (self) {
         self.formViewController = a_formViewController;
         [[NSBundle mainBundle] loadNibNamed:@"IFAFormTableViewCellContentView" owner:self options:nil];
+        self.centeredLabel.hidden = YES;
         [self.contentView addSubview:self.customContentView];
         [self.customContentView ifa_addLayoutConstraintsToFillSuperview];
     }
@@ -44,32 +45,8 @@
 }
 
 - (void)setCustomAccessoryType:(IFAFormTableViewCellAccessoryType)a_customAccessoryType {
-    NSString *l_imageName;
-    BOOL l_shouldTintImage = NO;
-    switch (a_customAccessoryType){
-        case IFAFormTableViewCellAccessoryTypeNone:
-            l_imageName = nil;
-            break;
-        case IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight:
-            l_imageName = @"IFA_Icon_DisclosureIndicatorRight";
-            break;
-        case IFAFormTableViewCellAccessoryTypeDisclosureIndicatorDown:
-            l_imageName = @"IFA_Icon_DisclosureIndicatorDown";
-            break;
-        case IFAFormTableViewCellAccessoryTypeDisclosureIndicatorInfo:
-            l_imageName = @"IFA_Icon_Info";
-            l_shouldTintImage = YES;
-            break;
-    }
-    UIImage *l_image = l_imageName ? [UIImage imageNamed:l_imageName] : nil;
-    if (l_shouldTintImage) {
-        UIColor *l_overlayColor = self.ifa_appearanceTheme.defaultTintColor;
-        l_image = [l_image ifa_imageWithOverlayColor:l_overlayColor];
-    }
-    self.customAccessoryImageView.image = l_image;
-    self.customAccessoryImageView.hidden = l_imageName == nil;
-    [self.customAccessoryImageView layoutIfNeeded]; // Make sure differences in the image sizes trigger layout constraint recalculation
     _customAccessoryType = a_customAccessoryType;
+    [((IFADefaultAppearanceTheme *) self.ifa_appearanceTheme) setCustomAccessoryViewAppearanceForFormTableViewCell:self];
 }
 
 #pragma mark - Overrides

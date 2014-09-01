@@ -482,10 +482,7 @@
 }
 
 - (BOOL)IFA_isStaticFieldTypeForIndexPath:(NSIndexPath *)a_indexPath{
-    IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
-    IFAEntityConfigFieldType l_fieldType = [l_entityConfig fieldTypeForIndexPath:a_indexPath inObject:self.object
-                                                                          inForm:self.formName
-                                                                      createMode:self.createMode];
+    IFAEntityConfigFieldType l_fieldType = [self fieldTypeForIndexPath:a_indexPath];
     switch (l_fieldType) {
         case IFAEntityConfigFieldTypeViewController:
         case IFAEntityConfigFieldTypeButton:
@@ -504,8 +501,7 @@
 
     IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
 
-    IFAEntityConfigFieldType l_fieldType = [l_entityConfig fieldTypeForIndexPath:indexPath inObject:self.object inForm:self.formName
-                                                                      createMode:self.createMode];
+    IFAEntityConfigFieldType l_fieldType = [self fieldTypeForIndexPath:indexPath];
     switch (l_fieldType) {
 
         case IFAEntityConfigFieldTypeViewController: {
@@ -517,7 +513,6 @@
                 BOOL l_isModalViewController = [l_entityConfig isModalForViewControllerFieldTypeAtIndexPath:indexPath inObject:self.object
                                                                                                      inForm:self.formName createMode:self.createMode];
                 l_cell.customAccessoryType = l_isModalViewController ? IFAFormTableViewCellAccessoryTypeDisclosureIndicatorInfo : IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight;
-                l_cell.leftLabel.textColor = [[self ifa_appearanceTheme] tableCellTextColor];
                 l_cell.rightLabel.hidden = YES;
                 // Set appearance
                 [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
@@ -537,16 +532,17 @@
                                                                         object:self.object propertyName:l_propertyName
                                                                      indexPath:indexPath formViewController:self];
                 l_cell.customAccessoryType = IFAFormTableViewCellAccessoryTypeNone;
-                l_cell.leftLabel.textColor = [[self ifa_appearanceTheme] tableCellTextColor];
+                l_cell.leftLabel.hidden = YES;
                 l_cell.rightLabel.hidden = YES;
+                l_cell.centeredLabel.hidden = NO;
                 // Set appearance
                 [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
                                                                                                                                 cell:l_cell];
             }
-            l_cell.leftLabel.text = [l_entityConfig labelForViewControllerFieldTypeAtIndexPath:indexPath
-                                                                                      inObject:self.object
-                                                                                        inForm:self.formName
-                                                                                    createMode:self.createMode];
+            l_cell.centeredLabel.text = [l_entityConfig labelForViewControllerFieldTypeAtIndexPath:indexPath
+                                                                                          inObject:self.object
+                                                                                            inForm:self.formName
+                                                                                        createMode:self.createMode];
             return l_cell;
 
         }
@@ -799,11 +795,7 @@
 
 - (IFAEditorType)editorTypeForIndexPath:(NSIndexPath*)anIndexPath{
 
-    IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
-    IFAEntityConfigFieldType l_fieldType = [l_entityConfig fieldTypeForIndexPath:anIndexPath
-                                                                    inObject:self.object
-                                                                      inForm:self.formName
-                                                                  createMode:self.createMode];
+    IFAEntityConfigFieldType l_fieldType = [self fieldTypeForIndexPath:anIndexPath];
     BOOL l_shouldLinkToUrl = [self IFA_shouldLinkToUrlForIndexPath:anIndexPath];
     if (l_fieldType == IFAEntityConfigFieldTypeViewController || l_fieldType == IFAEntityConfigFieldTypeButton || l_fieldType == IFAEntityConfigFieldTypeCustom || l_shouldLinkToUrl) {
         return IFAEditorTypeNotApplicable;
@@ -896,6 +888,12 @@
                                                                             inObject:self.object
                                                                               inForm:self.formName
                                                                           createMode:self.createMode];
+}
+
+- (IFAEntityConfigFieldType)fieldTypeForIndexPath:(NSIndexPath *)a_indexPath {
+    IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
+    return [l_entityConfig fieldTypeForIndexPath:a_indexPath inObject:self.object inForm:self.formName
+                                      createMode:self.createMode];
 }
 
 #pragma mark - UIActionSheetDelegate
@@ -1081,8 +1079,7 @@
 
     IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
 
-    BOOL l_isViewControllerFieldType = [l_entityConfig fieldTypeForIndexPath:indexPath inObject:self.object inForm:self.formName
-                                                                  createMode:self.createMode] == IFAEntityConfigFieldTypeViewController;
+    BOOL l_isViewControllerFieldType = [self fieldTypeForIndexPath:indexPath] == IFAEntityConfigFieldTypeViewController;
     if (l_isViewControllerFieldType) {
         NSString *l_viewControllerClassName = [[IFAPersistenceManager sharedInstance].entityConfig classNameForViewControllerFieldTypeAtIndexPath:indexPath
                                                                                                                                          inObject:self.object

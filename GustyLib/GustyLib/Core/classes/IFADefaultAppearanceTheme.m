@@ -85,7 +85,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
     l_toolbar.translucent = NO;
     l_toolbar.barTintColor = [UIColor ifa_colorWithSpaceOrTabDelimitedRGB:@"240\t241\t242\t"];
-    l_toolbar.tintColor = self.defaultTintColor;
+    l_toolbar.tintColor = self.IFA_defaultTintColor;
 
     // Correct trailing space for the "Done" button
     NSMutableArray *l_items = [l_toolbar.items mutableCopy];
@@ -99,6 +99,10 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     [l_items addObject:l_rightSpace];
     l_toolbar.items = l_items;
 
+}
+
+- (UIColor *)IFA_defaultTintColor {
+    return [UIApplication sharedApplication].delegate.window.tintColor;
 }
 
 #pragma mark - IFAAppearanceTheme
@@ -341,7 +345,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         [self setLabelTextStyleForChildrenOfView:((UITableViewCell *) a_view).contentView];
         if ([a_view isKindOfClass:[IFAMultipleSelectionListViewCell class]]) {
             IFAMultipleSelectionListViewCell *l_cell = (IFAMultipleSelectionListViewCell *) a_view;
-            UIColor *l_defaultTintColor = self.defaultTintColor;
+            UIColor *l_defaultTintColor = self.IFA_defaultTintColor;
             l_cell.addToSelectionImageView.image = [l_cell.addToSelectionImageView.image ifa_imageWithOverlayColor:l_defaultTintColor];
             l_cell.removeFromSelectionImageView.image = [l_cell.removeFromSelectionImageView.image ifa_imageWithOverlayColor:l_defaultTintColor];
         }
@@ -375,10 +379,16 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         a_cell.textLabel.textColor = l_formFieldLabelThemeColor;
     }
 
-    if ([a_cell isKindOfClass:[IFASegmentedControlTableViewCell class]]) {
-        IFASegmentedControlTableViewCell *l_cell = (IFASegmentedControlTableViewCell *) a_cell;
-        [l_cell.segmentedControl setTitleTextAttributes:@{NSFontAttributeName : l_cell.leftLabel.font}
-                                             forState:UIControlStateNormal];
+    if ([a_cell isKindOfClass:[IFAFormTableViewCell class]]) {
+        IFAFormTableViewCell *l_formTableViewCell = (IFAFormTableViewCell *) a_cell;
+        if ([l_formTableViewCell.formViewController fieldTypeForIndexPath:l_formTableViewCell.indexPath]==IFAEntityConfigFieldTypeButton) {
+            l_formTableViewCell.centeredLabel.textColor = self.IFA_defaultTintColor;
+        }
+        if ([l_formTableViewCell isKindOfClass:[IFASegmentedControlTableViewCell class]]) {
+            IFASegmentedControlTableViewCell *l_cell = (IFASegmentedControlTableViewCell *) l_formTableViewCell;
+            [l_cell.segmentedControl setTitleTextAttributes:@{NSFontAttributeName : l_cell.leftLabel.font}
+                                                   forState:UIControlStateNormal];
+        }
     }
 
 }
@@ -688,10 +698,6 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     return [IFANavigationController class];
 }
 
-- (UIColor *)defaultTintColor {
-    return [UIApplication sharedApplication].delegate.window.tintColor;
-}
-
 #pragma mark - Public
 
 -(void)setOrientationDependentBackgroundImagesForViewController:(UIViewController*)a_viewController{
@@ -794,6 +800,35 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
     return [[self colorScheme] colorAtIndex:a_colorIndex];
 }
+
+- (void)setCustomAccessoryViewAppearanceForFormTableViewCell:(IFAFormTableViewCell *)a_cell {
+    NSString *l_imageName;
+    BOOL l_shouldTintImage = NO;
+    switch (a_cell.customAccessoryType){
+        case IFAFormTableViewCellAccessoryTypeNone:
+            l_imageName = nil;
+            break;
+        case IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight:
+            l_imageName = @"IFA_Icon_DisclosureIndicatorRight";
+            break;
+        case IFAFormTableViewCellAccessoryTypeDisclosureIndicatorDown:
+            l_imageName = @"IFA_Icon_DisclosureIndicatorDown";
+            break;
+        case IFAFormTableViewCellAccessoryTypeDisclosureIndicatorInfo:
+            l_imageName = @"IFA_Icon_Info";
+            l_shouldTintImage = YES;
+            break;
+    }
+    UIImage *l_image = l_imageName ? [UIImage imageNamed:l_imageName] : nil;
+    if (l_shouldTintImage) {
+        UIColor *l_overlayColor = self.IFA_defaultTintColor;
+        l_image = [l_image ifa_imageWithOverlayColor:l_overlayColor];
+    }
+    a_cell.customAccessoryImageView.image = l_image;
+    a_cell.customAccessoryImageView.hidden = l_imageName == nil;
+    [a_cell.customAccessoryImageView layoutIfNeeded]; // Make sure differences in the image sizes trigger layout constraint recalculation
+}
+
 
 - (UIColor *)groupStyleTableViewBackgroundColour {
     return [UIColor ifa_colorWithRed:239

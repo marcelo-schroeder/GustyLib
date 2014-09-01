@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="bottomSeparatorImageView" destination="Oax-2f-JwN" id="mdu-sm-zqJ"/>
                 <outlet property="bottomSeparatorLeftConstraint" destination="asc-Se-UgJ" id="k5s-lf-Pi1"/>
+                <outlet property="centeredLabel" destination="BsX-Ip-YYH" id="I4l-Dp-o1j"/>
                 <outlet property="customAccessoryImageView" destination="YDb-fv-JUs" id="PbO-lo-2M6"/>
                 <outlet property="customContentView" destination="iN0-l3-epB" id="QY5-LE-HzR"/>
                 <outlet property="leftLabel" destination="w5b-SK-4wH" id="oB5-eZ-oxr"/>
@@ -53,6 +54,14 @@
                     <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.55686274509803924" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Centered Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BsX-Ip-YYH" userLabel="Centered Label">
+                    <rect key="frame" x="15" y="0.0" width="290" height="43"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IFA_Icon_DisclosureIndicatorRight.png" translatesAutoresizingMaskIntoConstraints="NO" id="YDb-fv-JUs">
                     <rect key="frame" x="297" y="16" width="8" height="13"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -64,13 +73,17 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="BsX-Ip-YYH" secondAttribute="trailing" constant="15" id="6TE-fv-QQ1"/>
                 <constraint firstAttribute="trailing" secondItem="YDb-fv-JUs" secondAttribute="trailing" constant="15" id="Bk9-fT-H4z"/>
+                <constraint firstItem="BsX-Ip-YYH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="BrC-k3-SHa"/>
                 <constraint firstItem="w5b-SK-4wH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="DxO-Lo-K8c"/>
                 <constraint firstItem="bOx-tD-ean" firstAttribute="top" secondItem="a7O-Dd-jDy" secondAttribute="bottom" id="XYf-dc-6Sd"/>
                 <constraint firstItem="a7O-Dd-jDy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="-1" id="YOy-XO-9PI"/>
                 <constraint firstItem="Oax-2f-JwN" firstAttribute="top" secondItem="bOx-tD-ean" secondAttribute="bottom" id="ZJL-LW-7uA"/>
                 <constraint firstItem="Oax-2f-JwN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="asc-Se-UgJ"/>
                 <constraint firstAttribute="trailing" secondItem="Oax-2f-JwN" secondAttribute="trailing" id="ev7-Dy-1Bp"/>
+                <constraint firstItem="BsX-Ip-YYH" firstAttribute="top" secondItem="a7O-Dd-jDy" secondAttribute="bottom" id="hlo-Qo-Ykn"/>
+                <constraint firstItem="Oax-2f-JwN" firstAttribute="top" secondItem="BsX-Ip-YYH" secondAttribute="bottom" id="jiW-to-oLj"/>
                 <constraint firstAttribute="trailing" secondItem="a7O-Dd-jDy" secondAttribute="trailing" id="k67-VY-XhW"/>
                 <constraint firstItem="bOx-tD-ean" firstAttribute="leading" secondItem="w5b-SK-4wH" secondAttribute="trailing" constant="15" id="mGi-Mo-DJG"/>
                 <constraint firstAttribute="bottom" secondItem="Oax-2f-JwN" secondAttribute="bottom" id="oWn-zy-zTp"/>

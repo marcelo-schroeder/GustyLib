@@ -23,6 +23,7 @@
 #import "IFAFormTextFieldTableViewCell.h"
 #import "IFAConstants.h"
 #import "IFAFormInputAccessoryView.h"
+#import "IFAEntityConfig.h"
 
 @interface IFAFormViewController : IFATableViewController <UIActionSheetDelegate, IFAFormInputAccessoryViewDataSource>
 
@@ -37,6 +38,8 @@
 @property(nonatomic, strong, readonly) NSMutableDictionary *tagToPropertyName;
 @property(nonatomic, strong, readonly) NSMutableDictionary *propertyNameToIndexPath;
 @property(nonatomic, strong, readonly) IFAFormInputAccessoryView *formInputAccessoryView;
+
+- (IFAEntityConfigFieldType)fieldTypeForIndexPath:(NSIndexPath *)a_indexPath;
 
 /* Submission forms */
 - (id)initWithObject:(NSObject *)anObject;

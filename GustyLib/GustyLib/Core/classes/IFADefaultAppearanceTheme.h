@@ -50,6 +50,7 @@
                         tableViewController:(UITableViewController *)a_tableViewController;
 -(IFAColorScheme *)colorScheme;
 -(UIColor*)colorWithIndex:(NSUInteger)a_colorIndex;
+-(void)setCustomAccessoryViewAppearanceForFormTableViewCell:(IFAFormTableViewCell *)a_cell;
 
 /**
 * Returns the background colour of group style table views.
