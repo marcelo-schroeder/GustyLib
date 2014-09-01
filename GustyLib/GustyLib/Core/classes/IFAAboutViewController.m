@@ -34,11 +34,11 @@
 #pragma mark - Private
 
 -(NSString*)IFA_supportEmailAddress {
-    return [[IFAUtils infoPList] objectForKey:@"IFASupportEmailAddress"];
+    return [IFAUtils infoPList][@"IFASupportEmailAddress"];
 }
 
 -(NSString*)IFA_bugReportEmailAddress {
-    NSString *l_emailAddress = [[IFAUtils infoPList] objectForKey:@"IFABugReportEmailAddress"];
+    NSString *l_emailAddress = [IFAUtils infoPList][@"IFABugReportEmailAddress"];
     if (!l_emailAddress) {
         l_emailAddress = [self IFA_supportEmailAddress];
     }
@@ -46,7 +46,7 @@
 }
 
 -(NSString*)IFA_feedbackEmailAddress {
-    NSString *l_emailAddress = [[IFAUtils infoPList] objectForKey:@"IFAFeedbackEmailAddress"];
+    NSString *l_emailAddress = [IFAUtils infoPList][@"IFAFeedbackEmailAddress"];
     if (!l_emailAddress) {
         l_emailAddress = [self IFA_supportEmailAddress];
     }
@@ -57,16 +57,12 @@
 
 - (IBAction)bugReportButtonTap:(id)sender{
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nPlease fix the following bug I have found in %@:", [IFAUtils appFullName]];
-    [self.IFA_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Bug Report",
-                                                                              [IFAUtils appNameAndEdition]]
-                                         recipient:[self IFA_bugReportEmailAddress] body:l_body];
+    [self.IFA_emailManager composeEmailWithSubject:@"Bug Report" recipient:[self IFA_bugReportEmailAddress] body:l_body];
 }
 
 - (IBAction)feedbackButtonTap:(id)sender{
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nI have the following feedback to provide for %@:", [IFAUtils appFullName]];
-    [self.IFA_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Feedback",
-                                                                              [IFAUtils appNameAndEdition]]
-                                         recipient:[self IFA_feedbackEmailAddress] body:l_body];
+    [self.IFA_emailManager composeEmailWithSubject:@"Feedback" recipient:[self IFA_feedbackEmailAddress] body:l_body];
 }
 
 - (IBAction)forceCrashButtonTap:(id)sender {
@@ -96,14 +92,14 @@
     self.appNameLabel.text = [IFAUtils appName];
     self.editionLabel.text = [IFAUtils appEdition];
     self.versionLabel.text = [IFAUtils appVersionAndBuildNumber];
-    self.copyrightNoticeLabel.text = [[IFAUtils infoPList] objectForKey:@"IFACopyrightNotice"];
-    self.createdByLabel.text = [[IFAUtils infoPList] objectForKey:@"IFACreatedBy"];
-    self.visualDesignByLabel.text = [[IFAUtils infoPList] objectForKey:@"IFAVisualDesignBy"];
+    self.copyrightNoticeLabel.text = [IFAUtils infoPList][@"IFACopyrightNotice"];
+    self.createdByLabel.text = [IFAUtils infoPList][@"IFACreatedBy"];
+    self.visualDesignByLabel.text = [IFAUtils infoPList][@"IFAVisualDesignBy"];
     
     // Set email manager
     self.IFA_emailManager = [[IFAEmailManager alloc] initWithParentViewController:self];
 
-    self.forceCrashButton.hidden = ![[[IFAUtils infoPList] objectForKey:@"IFAShowForceCrashButton"] boolValue];
+    self.forceCrashButton.hidden = ![[IFAUtils infoPList][@"IFAShowForceCrashButton"] boolValue];
 
 }
 

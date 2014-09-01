@@ -41,16 +41,12 @@
 
 - (void)IFA_ReportBugButtonTap:(id)sender{
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nPlease fix the following bug I have found in %@:", [IFAUtils appFullName]];
-    [self.IFA_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Bug Report",
-                                                                              [IFAUtils appNameAndEdition]]
-                                         recipient:[self IFA_supportEmailAddress] body:l_body];
+    [self.IFA_emailManager composeEmailWithSubject:@"Bug Report" recipient:[self IFA_supportEmailAddress] body:l_body];
 }
 
 - (void)IFA_provideFeedbackButtonTap:(id)sender{
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nI have the following feedback to provide for %@:", [IFAUtils appFullName]];
-    [self.IFA_emailManager composeEmailWithSubject:[NSString stringWithFormat:@"%@ In-App Feedback",
-                                                                              [IFAUtils appNameAndEdition]]
-                                         recipient:[self IFA_supportEmailAddress] body:l_body];
+    [self.IFA_emailManager composeEmailWithSubject:@"Feedback" recipient:[self IFA_supportEmailAddress] body:l_body];
 }
 
 - (void)IFA_forceCrashButtonTap:(id)sender{
