@@ -25,6 +25,8 @@
 #import "IFAFormInputAccessoryView.h"
 #import "IFAEntityConfig.h"
 
+@protocol IFAFormViewControllerDelegate;
+
 @interface IFAFormViewController : IFATableViewController <UIActionSheetDelegate, IFAFormInputAccessoryViewDataSource>
 
 @property (nonatomic, strong) NSObject *object;
@@ -38,6 +40,8 @@
 @property(nonatomic, strong, readonly) NSMutableDictionary *tagToPropertyName;
 @property(nonatomic, strong, readonly) NSMutableDictionary *propertyNameToIndexPath;
 @property(nonatomic, strong, readonly) IFAFormInputAccessoryView *formInputAccessoryView;
+
+@property (nonatomic, weak) id<IFAFormViewControllerDelegate> formViewControllerDelegate;
 
 - (IFAEntityConfigFieldType)fieldTypeForIndexPath:(NSIndexPath *)a_indexPath;
 
@@ -78,4 +82,14 @@
 
 -(void)updateBackingPreferences;
 
+@end
+
+@protocol IFAFormViewControllerDelegate <NSObject>
+@optional
+/**
+* This method is called when the user taps on a row configured with the "button" type in EntityConfig.plist.
+* @param a_formViewController The caller.
+* @param a_buttonName Name of the button as specified in EntityConfig.plist.
+*/
+- (void)formViewController:(IFAFormViewController *)a_formViewController didTapButtonNamed:(NSString *)a_buttonName;
 @end

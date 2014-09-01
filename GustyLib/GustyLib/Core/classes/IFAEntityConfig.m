@@ -400,7 +400,7 @@
     BOOL l_isFormFieldType = [self fieldTypeForIndexPath:anIndexPath inObject:anObject inForm:aFormName createMode:aCreateMode]==IFAEntityConfigFieldTypeForm;
     if (l_isFormFieldType) {
 		return [self labelForForm:fieldName inObject:anObject];
-	}else {	// it's a property  //wip: review this after implementing the form button idea
+	}else {	// it's a property
 		return [self labelForProperty:fieldName inObject:anObject];
 	}
 }

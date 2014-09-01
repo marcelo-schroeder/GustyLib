@@ -1079,37 +1079,53 @@
 
     IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
 
-    BOOL l_isViewControllerFieldType = [self fieldTypeForIndexPath:indexPath] == IFAEntityConfigFieldTypeViewController;
-    if (l_isViewControllerFieldType) {
-        NSString *l_viewControllerClassName = [[IFAPersistenceManager sharedInstance].entityConfig classNameForViewControllerFieldTypeAtIndexPath:indexPath
-                                                                                                                                         inObject:self.object
-                                                                                                                                           inForm:self.formName
-                                                                                                                                       createMode:self.createMode];
-        Class l_viewControllerClass = NSClassFromString(l_viewControllerClassName);
-        UIViewController *l_viewController = [l_viewControllerClass new];
-        if (!l_viewController.title) {
-            l_viewController.title = [l_entityConfig labelForViewControllerFieldTypeAtIndexPath:indexPath
-                                                                                       inObject:self.object
-                                                                                         inForm:self.formName
-                                                                                     createMode:self.createMode];
+    IFAEntityConfigFieldType l_fieldType = [self fieldTypeForIndexPath:indexPath];
+    switch (l_fieldType) {
+        case IFAEntityConfigFieldTypeViewController:{
+            NSString *l_viewControllerClassName = [[IFAPersistenceManager sharedInstance].entityConfig classNameForViewControllerFieldTypeAtIndexPath:indexPath
+                                                                                                                                             inObject:self.object
+                                                                                                                                               inForm:self.formName
+                                                                                                                                           createMode:self.createMode];
+            Class l_viewControllerClass = NSClassFromString(l_viewControllerClassName);
+            UIViewController *l_viewController = [l_viewControllerClass new];
+            if (!l_viewController.title) {
+                l_viewController.title = [l_entityConfig labelForViewControllerFieldTypeAtIndexPath:indexPath
+                                                                                           inObject:self.object
+                                                                                             inForm:self.formName
+                                                                                         createMode:self.createMode];
+            }
+            NSDictionary *l_properties = [l_entityConfig propertiesForViewControllerFieldTypeAtIndexPath:indexPath
+                                                                                                inObject:self.object
+                                                                                                  inForm:self.formName
+                                                                                              createMode:self.createMode];
+            if (l_properties) {
+                for (NSString *l_key in l_properties.allKeys) {
+                    [l_viewController setValue:l_properties[l_key] forKeyPath:l_key];
+                }
+            }
+            if ([l_entityConfig isModalForViewControllerFieldTypeAtIndexPath:indexPath inObject:self.object
+                                                                      inForm:self.formName createMode:self.createMode]) {
+                [self ifa_presentModalViewController:l_viewController presentationStyle:UIModalPresentationFullScreen
+                                     transitionStyle:UIModalTransitionStyleCoverVertical];
+            } else {
+                [self.navigationController pushViewController:l_viewController animated:YES];
+            }
+            return;
         }
-        NSDictionary *l_properties = [l_entityConfig propertiesForViewControllerFieldTypeAtIndexPath:indexPath
+        case IFAEntityConfigFieldTypeButton: {
+            if ([self.formViewControllerDelegate respondsToSelector:@selector(formViewController:didTapButtonNamed:)]) {
+                [self.formViewControllerDelegate formViewController:self
+                                                  didTapButtonNamed:[l_entityConfig nameForIndexPath:indexPath
                                                                                             inObject:self.object
                                                                                               inForm:self.formName
-                                                                                          createMode:self.createMode];
-        if (l_properties) {
-            for (NSString *l_key in l_properties.allKeys) {
-                [l_viewController setValue:l_properties[l_key] forKeyPath:l_key];
+                                                                                          createMode:self.createMode]];
             }
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+            return;
         }
-        if ([l_entityConfig isModalForViewControllerFieldTypeAtIndexPath:indexPath inObject:self.object
-                                                                  inForm:self.formName createMode:self.createMode]) {
-            [self ifa_presentModalViewController:l_viewController presentationStyle:UIModalPresentationFullScreen
-                                 transitionStyle:UIModalTransitionStyleCoverVertical];
-        } else {
-            [self.navigationController pushViewController:l_viewController animated:YES];
-        }
-        return;
+        default:
+            // Continue on
+            break;
     }
 
     if ([self accessoryTypeForIndexPath:indexPath] != IFAFormTableViewCellAccessoryTypeNone) {
@@ -1218,17 +1234,18 @@
     self.IFA_isManagedObject = [self.object isKindOfClass:NSManagedObject.class];
 
     // Set managed object default values based on backing preferences
+    IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
     if (self.createMode && !self.isSubForm) {
-        [[IFAPersistenceManager sharedInstance].entityConfig setDefaultValuesFromBackingPreferencesForObject:self.object];
+        [l_entityConfig setDefaultValuesFromBackingPreferencesForObject:self.object];
     }
 
     self.tagToPropertyName = [[NSMutableDictionary alloc] init];
     self.IFA_propertyNameToCell = [[NSMutableDictionary alloc] init];
     self.propertyNameToIndexPath = [[NSMutableDictionary alloc] init];
 
-    if (!(self.title = [[IFAPersistenceManager sharedInstance].entityConfig labelForForm:self.formName
-                                                                                inObject:self.object])) {
-        self.title = [[IFAPersistenceManager sharedInstance].entityConfig labelForObject:self.object];
+    if (!(self.title = [l_entityConfig labelForForm:self.formName
+                                           inObject:self.object])) {
+        self.title = [l_entityConfig labelForObject:self.object];
     }
 
     //		self.hidesBottomBarWhenPushed = YES;
@@ -1239,7 +1256,9 @@
 
     self.IFA_uiControlsWithTargets = [NSMutableArray new];
 
-    if ((!self.readOnlyMode && !self.isSubForm) || self.IFA_isReadOnlyWithEditButtonCase) {
+    BOOL hasNavigationBarSubmitButton = [l_entityConfig hasNavigationBarSubmitButtonForForm:self.formName
+                                                                                   inEntity:self.object.ifa_entityName];
+    if ( ((!self.readOnlyMode && !self.isSubForm) || self.IFA_isReadOnlyWithEditButtonCase) && (self.IFA_isManagedObject || hasNavigationBarSubmitButton)) {
         self.editButtonItem.tag = IFABarItemTagEditButton;
         [self ifa_addRightBarButtonItem:self.editButtonItem];
     }
@@ -1253,8 +1272,8 @@
 
     // Form header
     NSString *l_formHeader = nil;
-    if ((l_formHeader = [[IFAPersistenceManager sharedInstance].entityConfig headerForForm:self.formName
-                                                                                  inObject:self.object])) {
+    if ((l_formHeader = [l_entityConfig headerForForm:self.formName
+                                             inObject:self.object])) {
         UILabel *l_label = [UILabel new];
         l_label.textAlignment = NSTextAlignmentCenter;
         l_label.backgroundColor = [UIColor clearColor];
@@ -1266,8 +1285,8 @@
 
     // Form footer
     NSString *l_formFooter = nil;
-    if ((l_formFooter = [[IFAPersistenceManager sharedInstance].entityConfig footerForForm:self.formName
-                                                                                  inObject:self.object])) {
+    if ((l_formFooter = [l_entityConfig footerForForm:self.formName
+                                             inObject:self.object])) {
         UILabel *l_label = [UILabel new];
         l_label.textAlignment = NSTextAlignmentCenter;
         l_label.backgroundColor = [UIColor clearColor];
@@ -1585,7 +1604,7 @@
 #ifdef IFA_AVAILABLE_Help
 -(NSString *)ifa_editBarButtonItemHelpTargetId {
     if([[IFAPersistenceManager sharedInstance].entityConfig hasNavigationBarSubmitButtonForForm:self.formName
-                                                                                       inEntity:[self.object ifa_entityName]]) {
+                                                                                       inEntity:self.object.ifa_entityName]) {
         return [self ifa_helpTargetIdForName:@"navigationBarSubmitButton"];
     }else{
         return [super ifa_editBarButtonItemHelpTargetId];
