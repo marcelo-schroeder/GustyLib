@@ -468,7 +468,9 @@
     if (l_canReceiveKeyboardInput) {
         UIResponder *l_firstResponder = [self formInputAccessoryView:self.formInputAccessoryView
                            responderForKeyboardInputFocusAtIndexPath:a_indexPath];
-        [l_firstResponder becomeFirstResponder];
+        [IFAUtils dispatchAsyncMainThreadBlock:^{
+            [l_firstResponder becomeFirstResponder];
+        }];
     }
 
     // If cell is not fully visible after the transition to edit mode (e.g. it could become hidden by the toolbar), then make it visibler
@@ -730,15 +732,9 @@
     
     // The next index path
     NSIndexPath *l_nextIndexPath = [self.IFA_indexPathToTextFieldCellDictionary allKeysForObject:l_nextTextFieldCell][0];
-    
-    // Scroll to the next index path to make sure the next field will be visible
-    [self.tableView scrollToRowAtIndexPath:l_nextIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    
-    // The next text field
-    UITextField *l_nextTextField = l_nextTextFieldCell.textField;
-    
-    // Move keyboard focus to the next text field
-    [l_nextTextField becomeFirstResponder];
+
+    // Move input focus to that index path
+    [self.formInputAccessoryView moveInputFocusAtIndexPath:l_nextIndexPath];
 
 }
 
@@ -1311,7 +1307,7 @@
                                                              action:@selector(IFA_onCancelButtonTap:)];
 
     // Instantiate text field cells that will be reused.
-    //  Text fields, which are properties in the text field cells, must be know in advance to provide the functionality to cycle through text fields with the Return key.
+    //  Text fields, which are properties in the text field cells, must be known in advance to provide the functionality to cycle through text fields with the Return key.
     self.IFA_indexPathToTextFieldCellDictionary = [NSMutableDictionary new];
     self.IFA_editableTextFieldCells = [NSMutableArray new];
     for (int l_section=0; l_section<[self numberOfSectionsInTableView:self.tableView]; l_section++) {
@@ -1652,19 +1648,13 @@
 
 - (BOOL)    formInputAccessoryView:(IFAFormInputAccessoryView *)a_formInputAccessoryView
 canReceiveKeyboardInputAtIndexPath:(NSIndexPath *)a_indexPath {
-    IFAEditorType l_editorType = [self editorTypeForIndexPath:a_indexPath];
-    return l_editorType==IFAEditorTypeText;
+    return self.IFA_indexPathToTextFieldCellDictionary[a_indexPath]!=nil;
 }
 
 - (UIResponder *)  formInputAccessoryView:(IFAFormInputAccessoryView *)a_formInputAccessoryView
 responderForKeyboardInputFocusAtIndexPath:(NSIndexPath *)a_indexPath {
-    IFAEditorType l_editorType = [self editorTypeForIndexPath:a_indexPath];
-    if (l_editorType==IFAEditorTypeText) {
-        IFAFormTextFieldTableViewCell *l_cell = (IFAFormTextFieldTableViewCell *) [self.tableView cellForRowAtIndexPath:a_indexPath];
-        return l_cell.textField;
-    }else{
-        return nil;
-    }
+    IFAFormTextFieldTableViewCell *l_textFieldCell = self.IFA_indexPathToTextFieldCellDictionary[a_indexPath];
+    return l_textFieldCell.textField;
 }
 
 @end

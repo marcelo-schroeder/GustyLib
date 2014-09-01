@@ -64,6 +64,12 @@ typedef enum{
 - (IBAction)onPreviousButtonTap;
 - (IBAction)onNextButtonTap;
 
+/**
+* Call this method to move the keyboard input focus to the cell at the index path specified.
+* @param Index path of the cell to point the input focus at.
+*/
+- (void)moveInputFocusAtIndexPath:(NSIndexPath *)a_indexPath;
+
 @end
 
 @protocol IFAFormInputAccessoryViewDataSource <NSObject>
