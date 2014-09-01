@@ -22,6 +22,7 @@
 
 @class IFANavigationItemTitleView;
 @class IFAColorScheme;
+@class IFAFormTableViewCell;
 
 @interface IFADefaultAppearanceTheme : NSObject <IFAAppearanceTheme>
 
