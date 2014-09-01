@@ -23,6 +23,14 @@
 @class NSManagedObject;
 @class NSManagedObjectContext;
 
+typedef enum{
+    IFAEntityConfigFieldTypeProperty,       // type = "property"
+    IFAEntityConfigFieldTypeForm,           // type = "form"
+    IFAEntityConfigFieldTypeViewController, // type = "viewController"
+    IFAEntityConfigFieldTypeButton,         // type = "button"
+    IFAEntityConfigFieldTypeCustom,         // type = "custom"
+}IFAEntityConfigFieldType;
+
 @interface IFAEntityConfig : NSObject
 
 @property (strong, readonly) NSManagedObjectContext *managedObjectContext;
@@ -55,9 +63,6 @@
 - (NSString*)indefiniteArticleForEntity:(NSString*)anEntityName;
 - (IFAEditorType)fieldEditorForEntity:(NSString*)anEntityName;
 - (NSString*)labelForObject:(NSObject*)anObject;
-- (BOOL)isFormFieldTypeForIndexPath:(NSIndexPath*)anIndexPath inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;
-- (BOOL)isViewControllerFieldTypeForIndexPath:(NSIndexPath*)anIndexPath inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;
-- (BOOL)isCustomFieldTypeForIndexPath:(NSIndexPath*)anIndexPath inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;
 - (NSString*)labelForViewControllerFieldTypeAtIndexPath:(NSIndexPath*)anIndexPath inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;
 - (BOOL)isModalForViewControllerFieldTypeAtIndexPath:(NSIndexPath*)anIndexPath inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;
 - (NSString*)classNameForViewControllerFieldTypeAtIndexPath:(NSIndexPath*)anIndexPath inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;
@@ -93,8 +98,8 @@
 - (NSString*)footerForForm:(NSString*)aFormName inObject:(NSObject*)anObject;
 - (NSString*)viewControllerForForm:(NSString*)aFormName inObject:(NSObject*)anObject;
 
-- (BOOL)hasSubmitButtonForForm:(NSString*)aFormName inEntity:(NSString*)anEntityName;
-- (NSString*)submitButtonLabelForForm:(NSString*)aFormName inEntity:(NSString*)anEntityName;
+- (BOOL)hasNavigationBarSubmitButtonForForm:(NSString *)aFormName inEntity:(NSString*)anEntityName;
+- (NSString*)navigationBarSubmitButtonLabelForForm:(NSString *)aFormName inEntity:(NSString*)anEntityName;
 
 - (BOOL)isRelationshipForProperty:(NSString*)aPropertyName inManagedObject:(NSManagedObject*)aManagedObject;
 - (BOOL)isRelationshipForProperty:(NSString*)aPropertyName inEntity:(NSString*)anEntityName;
@@ -124,4 +129,7 @@
 //+ (IFAEntityConfig*)sharedInstance;
 
 - (BOOL)shouldShowSelectNoneButtonInSelectionForEntity:(NSString *)anEntityName;
+
+- (IFAEntityConfigFieldType)fieldTypeForIndexPath:(NSIndexPath *)a_indexPath inObject:(NSObject *)a_object
+                                                                               inForm:(NSString *)a_formName createMode:(BOOL)a_createMode;
 @end

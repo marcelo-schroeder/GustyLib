@@ -45,10 +45,13 @@
 }
 
 - (id) fieldForIndexPath:(NSIndexPath *)anIndexPath inObject:(NSObject *)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
-	return [[[[self formSectionsForObject:anObject inForm:(NSString*)aFormName createMode:aCreateMode] objectAtIndex:anIndexPath.section] objectForKey:@"fields"] objectAtIndex:anIndexPath.row];
+	return [[[self formSectionsForObject:anObject inForm:aFormName
+                              createMode:aCreateMode][(NSUInteger) anIndexPath.section] objectForKey:@"fields"] objectAtIndex:(NSUInteger) anIndexPath.row];
 }
 
-- (NSString*)typeForIndexPath:(NSIndexPath*)anIndexPath inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
+- (NSString*)fieldTypePListValueForIndexPath:(NSIndexPath *)anIndexPath inObject:(NSObject *)anObject
+                                      inForm:(NSString *)aFormName
+                                  createMode:(BOOL)aCreateMode{
 	return [[self fieldForIndexPath:anIndexPath inObject:anObject inForm:aFormName createMode:aCreateMode] valueForKey:@"type"];
 }
 
@@ -65,11 +68,12 @@
 }
 
 - (BOOL)isCreationOnlyForSectionIndex:(NSUInteger)aSectionIndex entity:(NSString*)anEntityName inForm:(NSString*)aFormName{
-	return [[[[self formSectionsForEntity:anEntityName inForm:(NSString*)aFormName] objectAtIndex:aSectionIndex] objectForKey:@"creationOnly"] boolValue];
+	return [[[self formSectionsForEntity:anEntityName
+                                  inForm:aFormName][aSectionIndex] objectForKey:@"creationOnly"] boolValue];
 }
 
-- (id)submitButtonDictionaryForForm:(NSString *)aFormName inEntity:(NSString*)anEntityName{
-    return [[self dictionaryForForm:aFormName forEntity:anEntityName] valueForKey:@"submitButton"];
+- (id)navigationBarSubmitButtonDictionaryForForm:(NSString *)aFormName inEntity:(NSString*)anEntityName{
+    return [[self dictionaryForForm:aFormName forEntity:anEntityName] valueForKey:@"navigationBarSubmitButton"];
 }
 
 - (NSDictionary*)dictionaryForEntity:(NSString*)anEntityName{
@@ -141,10 +145,10 @@
     NSArray *l_sections = [self formSectionsForObject:anObject inForm:aFormName createMode:aCreateMode];
     NSUInteger l_section = 0;
     for (NSDictionary *l_sectionDict in l_sections) {
-        NSArray *l_fields = [l_sectionDict objectForKey:@"fields"];
+        NSArray *l_fields = l_sectionDict[@"fields"];
         NSUInteger l_row = 0;
         for (NSDictionary *l_fieldDict in l_fields) {
-            if ([[l_fieldDict objectForKey:@"name"] isEqualToString:aPropertyName]) {
+            if ([l_fieldDict[@"name"] isEqualToString:aPropertyName]) {
                 return [NSIndexPath indexPathForRow:l_row inSection:l_section];
             }
             l_row++;
@@ -360,7 +364,7 @@
         NSMutableArray *l_modFormSections = [NSMutableArray new];
         for (NSUInteger i=0; i<[l_formSections count]; i++) {
             if (![self isCreationOnlyForSectionIndex:i entity:anEntityName inForm:aFormName]) {
-                [l_modFormSections addObject:[l_formSections objectAtIndex:i]];
+                [l_modFormSections addObject:l_formSections[i]];
             }
         }
 //        NSLog(@"l_modFormSections: %u", [l_modFormSections count]);
@@ -377,22 +381,26 @@
 }
 
 - (NSUInteger)fieldCountCountForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
-	return [[[[self formSectionsForObject:anObject inForm:aFormName createMode:aCreateMode] objectAtIndex:aSectionIndex] objectForKey:@"fields"] count];
+	return [[[self formSectionsForObject:anObject inForm:aFormName
+                                  createMode:aCreateMode][(NSUInteger) aSectionIndex] objectForKey:@"fields"] count];
 }
 
 - (NSString *)headerForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject *)anObject inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode {
-	return [[[self formSectionsForObject:anObject inForm:(NSString*)aFormName createMode:aCreateMode] objectAtIndex:aSectionIndex] objectForKey:@"sectionHeader"];
+	return [[self formSectionsForObject:anObject inForm:aFormName
+                                 createMode:aCreateMode][(NSUInteger) aSectionIndex] objectForKey:@"sectionHeader"];
 }
 
 - (NSString *)footerForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject *)anObject inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode {
-	return [[[self formSectionsForObject:anObject inForm:(NSString*)aFormName createMode:aCreateMode] objectAtIndex:aSectionIndex] objectForKey:@"sectionFooter"];
+	return [[self formSectionsForObject:anObject inForm:aFormName
+                                 createMode:aCreateMode][(NSUInteger) aSectionIndex] objectForKey:@"sectionFooter"];
 }
 
-- (NSString*)labelForIndexPath:(NSIndexPath*)anIndexPath inObject:(NSManagedObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
+- (NSString*)labelForIndexPath:(NSIndexPath*)anIndexPath inObject:(NSObject *)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
 	NSString *fieldName = [self nameForIndexPath:anIndexPath inObject:anObject inForm:aFormName createMode:aCreateMode];
-	if ([self isFormFieldTypeForIndexPath:anIndexPath inObject:anObject inForm:aFormName createMode:aCreateMode]) {
+    BOOL l_isFormFieldType = [self fieldTypeForIndexPath:anIndexPath inObject:anObject inForm:aFormName createMode:aCreateMode]==IFAEntityConfigFieldTypeForm;
+    if (l_isFormFieldType) {
 		return [self labelForForm:fieldName inObject:anObject];
-	}else {	// it's a property
+	}else {	// it's a property  //wip: review this after implementing the form button idea
 		return [self labelForProperty:fieldName inObject:anObject];
 	}
 }
@@ -434,18 +442,6 @@
 	return [[[self entityConfigDictionary] valueForKey:[[aManagedObject class] description]] valueForKey:@"uniqueKeys"];
 }
 
-- (BOOL)isFormFieldTypeForIndexPath:(NSIndexPath*)anIndexPath inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
-	return [[self typeForIndexPath:anIndexPath inObject:anObject inForm:aFormName createMode:aCreateMode] isEqualToString:@"form"];
-}
-
-- (BOOL)isViewControllerFieldTypeForIndexPath:(NSIndexPath*)anIndexPath inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
-	return [[self typeForIndexPath:anIndexPath inObject:anObject inForm:aFormName createMode:aCreateMode] isEqualToString:@"viewController"];
-}
-
-- (BOOL)isCustomFieldTypeForIndexPath:(NSIndexPath*)anIndexPath inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
-	return [[self typeForIndexPath:anIndexPath inObject:anObject inForm:aFormName createMode:aCreateMode] isEqualToString:@"custom"];
-}
-
 - (NSString*)labelForViewControllerFieldTypeAtIndexPath:(NSIndexPath*)anIndexPath inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
 	return [[self fieldForIndexPath:anIndexPath inObject:anObject inForm:aFormName createMode:aCreateMode] valueForKey:@"label"];
 }
@@ -475,7 +471,7 @@
 }
 
 - (NSPropertyDescription*)descriptionForProperty:(NSString*)aPropertyName inEntity:(NSString*)anEntityName{
-	return [[[self descriptionForEntity:anEntityName] propertiesByName] objectForKey:aPropertyName];
+	return [[self descriptionForEntity:anEntityName] propertiesByName][aPropertyName];
 }
 
 - (NSDictionary*) relationshipDictionaryForEntity:(NSString*)anEntityName{
@@ -520,12 +516,12 @@
     return [self dictionaryForForm:aFormName forEntity:anEntityName]!=nil;
 }
 
-- (BOOL)hasSubmitButtonForForm:(NSString*)aFormName inEntity:(NSString*)anEntityName{
-	return [self submitButtonDictionaryForForm:aFormName inEntity:anEntityName]!=nil;
+- (BOOL)hasNavigationBarSubmitButtonForForm:(NSString *)aFormName inEntity:(NSString*)anEntityName{
+	return [self navigationBarSubmitButtonDictionaryForForm:aFormName inEntity:anEntityName]!=nil;
 }
 
-- (NSString*)submitButtonLabelForForm:(NSString*)aFormName inEntity:(NSString*)anEntityName{
-    return [[self submitButtonDictionaryForForm:aFormName inEntity:anEntityName] valueForKey:@"label"];
+- (NSString*)navigationBarSubmitButtonLabelForForm:(NSString *)aFormName inEntity:(NSString*)anEntityName{
+    return [[self navigationBarSubmitButtonDictionaryForForm:aFormName inEntity:anEntityName] valueForKey:@"label"];
 }
 
 - (BOOL)shouldShowAddButtonInSelectionForEntity:(NSString*)anEntityName{
@@ -536,6 +532,30 @@
 - (BOOL)shouldShowSelectNoneButtonInSelectionForEntity:(NSString*)anEntityName{
     NSNumber *l_boolObj = [[[self entityConfigDictionary] valueForKey:anEntityName] valueForKey:@"shouldShowSelectNoneButtonInSelection"];
     return l_boolObj ? l_boolObj.boolValue : YES;   // Default value is YES.
+}
+
+- (IFAEntityConfigFieldType)fieldTypeForIndexPath:(NSIndexPath *)a_indexPath inObject:(NSObject *)a_object
+                                                                               inForm:(NSString *)a_formName
+                                       createMode:(BOOL)a_createMode {
+    IFAEntityConfigFieldType l_fieldType = IFAEntityConfigFieldTypeProperty;
+    NSString *l_pListValue = [self fieldTypePListValueForIndexPath:a_indexPath
+                                                          inObject:a_object
+                                                            inForm:a_formName
+                                                        createMode:a_createMode];
+    if ([l_pListValue isEqualToString:@"property"]) {
+        l_fieldType = IFAEntityConfigFieldTypeProperty;
+    }else if ([l_pListValue isEqualToString:@"form"]) {
+        l_fieldType = IFAEntityConfigFieldTypeForm;
+    }else if ([l_pListValue isEqualToString:@"viewController"]) {
+        l_fieldType = IFAEntityConfigFieldTypeViewController;
+    }else if ([l_pListValue isEqualToString:@"button"]) {
+        l_fieldType = IFAEntityConfigFieldTypeButton;
+    }else if ([l_pListValue isEqualToString:@"custom"]) {
+        l_fieldType = IFAEntityConfigFieldTypeCustom;
+    }else{
+        NSAssert(NO, @"Unexpected field type plist value: %@", l_pListValue);
+    }
+    return l_fieldType;
 }
 
 //+ (IFAEntityConfig*)sharedInstance {

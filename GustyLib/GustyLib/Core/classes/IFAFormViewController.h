@@ -65,7 +65,7 @@
 - (void)handleReturnKeyForTextFieldCell:(IFAFormTextFieldTableViewCell *)a_cell;
 
 /* to be overridden by subclasses */
-- (void)onSubmitButtonTap;
+- (void)onNavigationBarSubmitButtonTap;
 
 - (NSString *)labelForIndexPath:(NSIndexPath *)anIndexPath;
 
