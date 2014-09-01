@@ -276,9 +276,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 }
 
 -(BOOL)IFA_shouldLinkToUrlForIndexPath:(NSIndexPath*)a_indexPath{
-    BOOL l_b = [self IFA_urlPropertyNameForIndexPath:a_indexPath]!=nil;
-//    NSLog(@"IFA_shouldLinkToUrlForIndexPath: %@, bool: %u", [a_indexPath description], l_b);
-    return l_b;
+    return [self IFA_urlPropertyNameForIndexPath:a_indexPath]!=nil;
 }
 
 - (BOOL)IFA_canUserChangeFieldInEditModeAtIndexPath:(NSIndexPath *)a_indexPath {
@@ -555,7 +553,6 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                                                                           calendar:[self calendar]];
         a_cell.rightLabel.text = l_valueFormat ? [NSString stringWithFormat:l_valueFormat,
                                                                             l_valueString] : l_valueString;
-//        NSLog(@"    a_cell.rightLabel.text: %@", a_cell.rightLabel.text);
 
         if ([a_cell isMemberOfClass:[IFASwitchTableViewCell class]]) {
 
@@ -686,8 +683,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
     IFAFormTableViewCellAccessoryType l_accessoryType = [self IFA_accessoryTypeForEditorType:l_editorType];
     if (l_editorType==IFAEditorTypeNotApplicable) {
         if ([self IFA_shouldLinkToUrlForIndexPath:a_indexPath]){
-            //wip: the below case probably deserves a new custom accessory image (e.g. a little globe?)
-            l_accessoryType = IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight;
+            l_accessoryType = IFAFormTableViewCellAccessoryTypeDisclosureIndicatorInfo;
         }
     }else{
         if ([self IFA_isMutableAccessoryTypeForEditorType:l_editorType]) {
@@ -707,11 +703,14 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 - (IFAEditorType)editorTypeForIndexPath:(NSIndexPath*)anIndexPath{
 
     IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
-    if ([l_entityConfig isViewControllerFieldTypeForIndexPath:anIndexPath inObject:self.object inForm:self.formName
-                                                   createMode:self.createMode] || [l_entityConfig isCustomFieldTypeForIndexPath:anIndexPath
-                                                                                                                       inObject:self.object
-                                                                                                                         inForm:self.formName
-                                                                                                                     createMode:self.createMode]) {
+    BOOL l_isViewControllerField = [l_entityConfig isViewControllerFieldTypeForIndexPath:anIndexPath
+                                                                                inObject:self.object
+                                                                                  inForm:self.formName
+                                                                              createMode:self.createMode];
+    BOOL l_isCustomField = [l_entityConfig isCustomFieldTypeForIndexPath:anIndexPath inObject:self.object
+                                                                  inForm:self.formName createMode:self.createMode];
+    BOOL l_shouldLinkToUrl = [self IFA_shouldLinkToUrlForIndexPath:anIndexPath];
+    if (l_isViewControllerField || l_isCustomField || l_shouldLinkToUrl) {
         return IFAEditorTypeNotApplicable;
     }
 
@@ -1028,6 +1027,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
         NSString *l_urlString = [self.object valueForKeyPath:l_urlPropertyName];
         NSURL *l_url = [NSURL URLWithString:l_urlString];
         [self ifa_openUrl:l_url];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }
 
@@ -1087,7 +1087,7 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
                 CGRect l_fromPopoverRect = [self IFA_fromPopoverRectForIndexPath:self.IFA_indexPathForPopoverController];
 
                 if ([l_viewController ifa_hasFixedSize]) {
-                    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+                    [tableView deselectRowAtIndexPath:indexPath animated:YES];
                 }
 
                 [self ifa_presentModalSelectionViewController:l_viewController fromRect:l_fromPopoverRect
@@ -1095,14 +1095,14 @@ static NSString* const k_TT_CELL_IDENTIFIER_CUSTOM = @"customCell";
 
             } else {
 
-                [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+                [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
             }
 
         }
 
     } else {
-        [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];
     }
 
 }

@@ -68,6 +68,7 @@
     }
     self.customAccessoryImageView.image = l_image;
     self.customAccessoryImageView.hidden = l_imageName == nil;
+    [self.customAccessoryImageView layoutIfNeeded]; // Make sure differences in the image sizes trigger layout constraint recalculation
     _customAccessoryType = a_customAccessoryType;
 }
 
