@@ -629,7 +629,7 @@
 }
 
 - (id)initWithReadOnlyObject:(NSObject *)anObject{
-	return [self initWithReadOnlyObject:anObject inForm:IFAEntityConfigFormNameDefault isSubForm:NO showEditButton:YES];
+	return [self initWithReadOnlyObject:anObject inForm:IFAEntityConfigFormNameDefault isSubForm:NO showEditButton:NO];
 }
 
 -(IFAFormTableViewCell *)populateCell:(IFAFormTableViewCell *)a_cell {
