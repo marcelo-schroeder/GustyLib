@@ -46,7 +46,7 @@
 - (UITableViewCellStyle)tableViewCellStyle;
 -(CGFloat)sectionHeaderNonEditingXOffset;
 -(void)updateSectionHeaderBounds;
--(UIView*)newTableViewCellAccessoryView;
+//-(UIView*)newTableViewCellAccessoryView;
 
 /**
 * Reload sections related to the index paths given as parameters.

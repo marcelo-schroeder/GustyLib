@@ -75,7 +75,7 @@ typedef enum {
 -(UIColor*)tableCellTextColor;
 -(UIFont*)tableCellTextFont;
 
--(UIButton*)newDetailDisclosureButton;
+//-(UIButton*)newDetailDisclosureButton;
 -(UIView*)newDisclosureIndicatorView;
 - (void)setCustomDisclosureIndicatorForCell:(UITableViewCell *)a_cell
                         tableViewController:(UITableViewController *)a_tableViewController;

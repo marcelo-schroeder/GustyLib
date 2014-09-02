@@ -575,21 +575,21 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     return nil;
 }
 
--(UIButton*)newDetailDisclosureButton {
-    UIButton *l_button = nil;
-    NSString *l_imageNameNormal = [IFAUtils infoPList][@"IFAThemeDetailDisclosureButtonImageNormal"];
-    if (l_imageNameNormal) {
-        UIImage *l_imageNormal = [UIImage imageNamed:l_imageNameNormal];
-        UIImage *l_imageHighlighted = [UIImage imageNamed:[IFAUtils infoPList][@"IFAThemeDetailDisclosureButtonImageHighlighted"]];
-        l_button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, l_imageNormal.size.width, l_imageNormal.size.height)];
-        [l_button setImage:l_imageNormal forState:UIControlStateNormal];
-        [l_button setImage:l_imageHighlighted forState:UIControlStateHighlighted];
-    }
-#ifdef IFA_AVAILABLE_Help
-    l_button.helpTargetId = [IFAUIUtils helpTargetIdForName:@"detailDisclosureButton"];
-#endif
-    return l_button;
-}
+//-(UIButton*)newDetailDisclosureButton {
+//    UIButton *l_button = nil;
+//    NSString *l_imageNameNormal = [IFAUtils infoPList][@"IFAThemeDetailDisclosureButtonImageNormal"];
+//    if (l_imageNameNormal) {
+//        UIImage *l_imageNormal = [UIImage imageNamed:l_imageNameNormal];
+//        UIImage *l_imageHighlighted = [UIImage imageNamed:[IFAUtils infoPList][@"IFAThemeDetailDisclosureButtonImageHighlighted"]];
+//        l_button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, l_imageNormal.size.width, l_imageNormal.size.height)];
+//        [l_button setImage:l_imageNormal forState:UIControlStateNormal];
+//        [l_button setImage:l_imageHighlighted forState:UIControlStateHighlighted];
+//    }
+//#ifdef IFA_AVAILABLE_Help
+//    l_button.helpTargetId = [IFAUIUtils helpTargetIdForName:@"detailDisclosureButton"];
+//#endif
+//    return l_button;
+//}
 
 -(UIView*)newDisclosureIndicatorView {
     UIImageView *l_view = nil;

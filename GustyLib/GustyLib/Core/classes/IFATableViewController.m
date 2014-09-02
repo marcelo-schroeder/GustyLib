@@ -42,22 +42,22 @@
 
 #pragma mark - Private
 
--(void)IFA_onTableViewCellAccessoryButtonTap:(UIButton *)l_button withEvent:(UIEvent*)l_event{
-    NSIndexPath *l_indexPath = [self.tableView indexPathForRowAtPoint:[[[l_event touchesForView:l_button] anyObject] locationInView:self.tableView]];
-    if (l_indexPath){
-        [self.tableView.delegate tableView: self.tableView accessoryButtonTappedForRowWithIndexPath:l_indexPath];
-    }
-}
+//-(void)IFA_onTableViewCellAccessoryButtonTap:(UIButton *)l_button withEvent:(UIEvent*)l_event{
+//    NSIndexPath *l_indexPath = [self.tableView indexPathForRowAtPoint:[[[l_event touchesForView:l_button] anyObject] locationInView:self.tableView]];
+//    if (l_indexPath){
+//        [self.tableView.delegate tableView: self.tableView accessoryButtonTappedForRowWithIndexPath:l_indexPath];
+//    }
+//}
 
 #pragma mark - Public
 
--(UIView*)newTableViewCellAccessoryView {
-    UIButton *l_button = [[self ifa_appearanceTheme] newDetailDisclosureButton];
-    l_button.frame = CGRectMake(l_button.frame.origin.x, l_button.frame.origin.y, IFAMinimumTapAreaDimension, IFAMinimumTapAreaDimension);
-    [l_button addTarget:self action:@selector(IFA_onTableViewCellAccessoryButtonTap:withEvent:)
-       forControlEvents:UIControlEventTouchUpInside];
-    return l_button;
-}
+//-(UIView*)newTableViewCellAccessoryView {
+//    UIButton *l_button = [[self ifa_appearanceTheme] newDetailDisclosureButton];
+//    l_button.frame = CGRectMake(l_button.frame.origin.x, l_button.frame.origin.y, IFAMinimumTapAreaDimension, IFAMinimumTapAreaDimension);
+//    [l_button addTarget:self action:@selector(IFA_onTableViewCellAccessoryButtonTap:withEvent:)
+//       forControlEvents:UIControlEventTouchUpInside];
+//    return l_button;
+//}
 
 -(void)replyToContextSwitchRequestWithGranted:(BOOL)a_granted{
     NSString *l_notificationName = a_granted ? IFANotificationContextSwitchRequestGranted : IFANotificationContextSwitchRequestDenied;

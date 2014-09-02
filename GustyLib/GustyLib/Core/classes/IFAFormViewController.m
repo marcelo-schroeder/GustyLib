@@ -808,12 +808,12 @@
 
     NSString *propertyName = [self nameForIndexPath:anIndexPath];
 
+//    NSLog(@"editorTypeForIndexPath: %@, propertyName: %@", [anIndexPath description], propertyName);
+
     // Introspection to get property type information
     objc_property_t l_property = class_getProperty(self.object.class, [propertyName UTF8String]);
-    NSString *l_propertyDescription = @(property_getAttributes(l_property));
-    //            NSLog(@"property attributes: %@: ", l_propertyDescription);
-
-    //    NSLog(@"editorTypeForIndexPath: %@, propertyName: %@", [anIndexPath description], propertyName);
+    NSString *l_propertyDescription = l_property ? @(property_getAttributes(l_property)) : nil;
+//    NSLog(@"  property attributes: %@: ", l_propertyDescription);
 
     if (l_fieldType == IFAEntityConfigFieldTypeForm) {
 
