@@ -31,6 +31,7 @@
 //wip: implement delete as row button (this is to avoid forms jumping when going into edit mode)
 //wip: creation was crashing (and also test that the rollback is working)
 //wip: ISSUE - context switching is not working on single selection lists (review all other view controller that can be shown from forms)
+//wip: ISSUE - single selection lists (other controllers too?) seem to be interfering with the ability to cancell changes
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
