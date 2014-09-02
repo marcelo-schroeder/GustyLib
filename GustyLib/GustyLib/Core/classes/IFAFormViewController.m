@@ -24,6 +24,13 @@
 #import "GustyLibHelp.h"
 #endif
 
+//wip: need to complete reviewing all references to the "editing" property to cover all bases
+//wip: fix UI state of dependent read-only field (it shows accessory view but does not respond to touch)
+//wip: segmented control should behave like switches: a change trigger edit mode
+//wip: does this change mean subforms will always be in edit mode? (review changes made so far under this perspective)
+//wip: implement delete as row button (this is to avoid forms jumping when going into edit mode)
+//wip: creation was crashing (and also test that the rollback is working)
+//wip: ISSUE - context switching is not working on single selection lists (review all other view controller that can be shown from forms)
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -47,6 +54,7 @@
 @property(nonatomic, strong) NSMutableDictionary *propertyNameToIndexPath;
 
 @property(nonatomic) BOOL IFA_readOnlyModeSuspendedForEditing;
+@property(nonatomic) BOOL IFA_rollbackPerformed;
 @end
 
 @implementation IFAFormViewController
@@ -113,6 +121,7 @@
 
 - (void)IFA_rollbackAndRestoreNonEditingState {
     [[IFAPersistenceManager sharedInstance] rollback];
+    self.IFA_rollbackPerformed = YES;
     if (self.IFA_readOnlyModeSuspendedForEditing && !self.contextSwitchRequestPending) {
         [self setEditing:NO animated:YES];
     }else{
@@ -121,6 +130,7 @@
         self.IFA_preparingForDismissalAfterRollback = NO;
         [self ifa_notifySessionCompletion];
     }
+    self.IFA_rollbackPerformed = NO;
 }
 
 - (void)IFA_onCancelButtonTap:(id)sender {
@@ -275,7 +285,7 @@
     return [self IFA_urlPropertyNameForIndexPath:a_indexPath]!=nil;
 }
 
-- (BOOL)IFA_canUserChangeFieldInEditModeAtIndexPath:(NSIndexPath *)a_indexPath {
+- (BOOL)IFA_canUserChangeFieldAtIndexPath:(NSIndexPath *)a_indexPath {
     return ![self IFA_isReadOnlyForIndexPath:a_indexPath] && [self IFA_isDependencyEnabledForIndexPath:a_indexPath];
 }
 
@@ -320,12 +330,13 @@
     }
 }
 
-/**
-* Indicate whether an accessory type can mutate for a given editor type.
-*/
-- (BOOL)IFA_isMutableAccessoryTypeForEditorType:(IFAEditorType)a_editorType {
-    return [self IFA_accessoryTypeForEditorType:a_editorType] != IFAFormTableViewCellAccessoryTypeNone;
-}
+//wip: clean up
+///**
+//* Indicate whether an accessory type can mutate for a given editor type.
+//*/
+//- (BOOL)IFA_isMutableAccessoryTypeForEditorType:(IFAEditorType)a_editorType {
+//    return [self IFA_accessoryTypeForEditorType:a_editorType] != IFAFormTableViewCellAccessoryTypeNone;
+//}
 
 -(BOOL)IFA_isFormEditorTypeForIndexPath:(NSIndexPath*)a_indexPath{
     return [self editorTypeForIndexPath:a_indexPath]== IFAEditorTypeForm;
@@ -457,7 +468,10 @@
     return self.readOnlyMode && self.showEditButton;
 }
 
-- (void)IFA_transitionToEditModeWithSelectedRowAtIndexPath:(NSIndexPath *)a_indexPath {
+/**
+* @returns YES if the field has received focus and no more handling is required (e.g. keyboard focus).
+*/
+- (BOOL)IFA_transitionToEditModeWithSelectedRowAtIndexPath:(NSIndexPath *)a_indexPath {
 
     // Transition to edit mode
     [self setEditing:YES animated:YES];
@@ -473,6 +487,7 @@
         }];
     }
 
+    //wip: the block below should be removed after implementing the delete as a row button
     // If cell is not fully visible after the transition to edit mode (e.g. it could become hidden by the toolbar), then make it visibler
     BOOL l_isCellFullyVisible = [self.tableView ifa_isCellFullyVisibleForRowAtIndexPath:a_indexPath];
     if (!l_isCellFullyVisible) {
@@ -480,6 +495,8 @@
                               atScrollPosition:UITableViewScrollPositionMiddle
                                       animated:YES];
     };
+
+    return l_canReceiveKeyboardInput;
 
 }
 
@@ -662,9 +679,10 @@
 
             IFASwitchTableViewCell *l_cell = (IFASwitchTableViewCell *) a_cell;
             l_cell.switchControl.on = [(NSNumber *) l_value boolValue];
-            if (!self.editing) {
-                l_cell.switchControl.enabled = NO;
-            }
+            //wip: clean up
+//            if (!self.editing) {
+//                l_cell.switchControl.enabled = NO;
+//            }
             l_cell.enabledInEditing = [self IFA_isDependencyEnabledForIndexPath:a_cell.indexPath];
 
         } else if ([a_cell isMemberOfClass:[IFAFormTextFieldTableViewCell class]]) {
@@ -698,13 +716,16 @@
     // to be overridden by subclasses
 }
 
-- (void)onSwitchAction:(UISwitch*)a_switch{
+- (void)onSwitchAction:(UISwitch*)a_switch {
+    if (!self.editing) {
+        [self setEditing:YES animated:YES];
+    }
 //    NSLog(@"onSwitchAction with tag: %u", a_switch.tag);
     NSString *l_propertyName = (self.tagToPropertyName)[@(a_switch.tag)];
 //    NSLog(@"  property name: %@", l_propertyName);
     [self.object ifa_setValue:@((a_switch.on)) forProperty:l_propertyName];
     NSArray *l_dependentPropertyNames = [[IFAPersistenceManager sharedInstance].entityConfig dependentsForProperty:l_propertyName
-                                                                                                         inObject:self.object];
+                                                                                                          inObject:self.object];
 //    NSLog(@"  dependents: %@", l_dependentPropertyNames);
     NSMutableArray *l_indexPathsToReload = [[NSMutableArray alloc] init];
     for (NSString *l_dependentPropertyName in l_dependentPropertyNames) {
@@ -784,15 +805,8 @@
             l_accessoryType = IFAFormTableViewCellAccessoryTypeDisclosureIndicatorInfo;
         }
     }else{
-        if ([self IFA_isMutableAccessoryTypeForEditorType:l_editorType]) {
-            // Scenarios where the accessory type may change
-            if (self.editing) {
-                if (![self IFA_canUserChangeFieldInEditModeAtIndexPath:a_indexPath]) {
-                    l_accessoryType = IFAFormTableViewCellAccessoryTypeNone;
-                }
-            }else{
-                l_accessoryType = IFAFormTableViewCellAccessoryTypeNone;
-            }
+        if (![self IFA_canUserChangeFieldAtIndexPath:a_indexPath]) {
+            l_accessoryType = IFAFormTableViewCellAccessoryTypeNone;
         }
     }
     return l_accessoryType;
@@ -1069,7 +1083,14 @@
 
     // Implements the non-editing mode behaviour for when the user taps on a row
     if (self.showEditButton && !self.editing) {
-        [self IFA_transitionToEditModeWithSelectedRowAtIndexPath:indexPath];
+        BOOL l_transitionComplete = [self IFA_transitionToEditModeWithSelectedRowAtIndexPath:indexPath];
+        if (l_transitionComplete) {
+            return;
+        }
+    }
+
+    if (![self IFA_endTextFieldEditingWithCommit:self.editing]) {
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];   //wip: can I test this scenario maybe when it is possible to edit a Location?
         return;
     }
 
@@ -1079,11 +1100,6 @@
         NSURL *l_url = [NSURL URLWithString:l_urlString];
         [self ifa_openUrl:l_url];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        return;
-    }
-
-    if (![self IFA_endTextFieldEditingWithCommit:YES]) {
-        [tableView deselectRowAtIndexPath:indexPath animated:NO];   //wip: can I test this scenario maybe when it is possible to edit a Location?
         return;
     }
 
@@ -1268,10 +1284,6 @@
     //	self.tableView.allowsSelection = NO;
     self.tableView.allowsSelectionDuringEditing = YES;
 
-    if(self.createMode){
-        self.editing = YES;
-    }
-
     // Form header
     NSString *l_formHeader = nil;
     if ((l_formHeader = [l_entityConfig headerForForm:self.formName
@@ -1337,7 +1349,18 @@
 
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 
+    if(self.createMode){
+        self.editing = YES;
+    }
+
 }
+
+//wip: clean up
+//- (NSMutableDictionary *)IFA_indexPathToTextFieldCellDictionary {
+//    if (!_IFA_indexPathToTextFieldCellDictionary) {
+//    }
+//    return _IFA_indexPathToTextFieldCellDictionary;
+//}
 
 - (void)viewWillAppear:(BOOL)animated {
 
@@ -1525,13 +1548,13 @@
 
     }else {
 
-        if (![self IFA_endTextFieldEditingWithCommit:!self.IFA_preparingForDismissalAfterRollback]) {
+        if (![self IFA_endTextFieldEditingWithCommit:!self.IFA_rollbackPerformed]) {
             return;
         };
 
         if (!self.isSubForm) {   // does not execute this block if it's a context switching scenario for a sub-form
 
-            self.IFA_saveButtonTapped = !self.IFA_preparingForDismissalAfterRollback;
+            self.IFA_saveButtonTapped = !self.IFA_rollbackPerformed;
 
             if (self.IFA_isManagedObject) {
 
@@ -1561,7 +1584,7 @@
 
                 [self IFA_updateAndSaveBackingPreferences];
 
-                if (!self.IFA_preparingForDismissalAfterRollback) {
+                if (!self.IFA_rollbackPerformed) {
                     [self onNavigationBarSubmitButtonTap];
                     return;
                 }
@@ -1596,9 +1619,16 @@
 
     }
 
-    // Perform cell transition
-    [UIView transitionWithView:self.view duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-        [self reloadData];
+    //wip: review all this
+//    [CATransaction setCompletionBlock:^{
+//    }];
+//    // Perform cell transition
+//    [UIView transitionWithView:self.view duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+//        [self reloadData];
+//    } completion:NULL];
+    [UIView transitionWithView:self.view duration:IFAAnimationDuration options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+        [self.tableView reloadRowsAtIndexPaths:self.IFA_indexPathToTextFieldCellDictionary.allKeys
+                              withRowAnimation:UITableViewRowAnimationNone];
     } completion:NULL];
 
 }
