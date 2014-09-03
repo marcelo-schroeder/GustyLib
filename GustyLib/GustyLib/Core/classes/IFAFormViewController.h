@@ -32,10 +32,10 @@
 
 @property (nonatomic, strong) NSObject *object;
 @property (nonatomic, strong) NSString *formName;
+@property (nonatomic, weak, readonly) IFAFormViewController *parentFormViewController;
 @property (nonatomic) BOOL textFieldCommitSuspended;
 @property (nonatomic) BOOL createMode;
 @property (nonatomic) BOOL readOnlyMode;
-@property (nonatomic) BOOL isSubForm;
 @property (nonatomic) BOOL showEditButton;
 
 @property(nonatomic, strong, readonly) NSMutableDictionary *tagToPropertyName;
@@ -47,16 +47,18 @@
 - (IFAEntityConfigFieldType)fieldTypeForIndexPath:(NSIndexPath *)a_indexPath;
 
 /* Submission forms */
-- (id)initWithObject:(NSObject *)anObject;
-- (id)initWithObject:(NSObject *)anObject inForm:(NSString *)aFormName isSubForm:(BOOL)aSubFormFlag;
+- (id)initWithObject:(NSObject *)a_object;
+- (id)    initWithObject:(NSObject *)a_object inForm:(NSString *)a_formName
+parentFormViewController:(IFAFormViewController *)a_parentFormViewController;
 
 /* CRUD forms */
-- (id)initWithObject:(NSObject *)anObject createMode:(BOOL)aCreateMode;
-- (id)initWithObject:(NSObject *)anObject createMode:(BOOL)aCreateMode inForm:(NSString*)aFormName isSubForm:(BOOL)aSubFormFlag;
-
+- (id)initWithObject:(NSObject *)a_object createMode:(BOOL)a_createMode;
+- (id)    initWithObject:(NSObject *)a_object createMode:(BOOL)a_createMode inForm:(NSString *)a_formName
+parentFormViewController:(IFAFormViewController *)a_parentFormViewController;
 - (id)initWithReadOnlyObject:(NSObject *)anObject;
-- (id)initWithReadOnlyObject:(NSObject *)anObject inForm:(NSString *)aFormName isSubForm:(BOOL)aSubFormFlag
-                                                                          showEditButton:(BOOL)aShowEditButtonFlag;
+- (id)initWithReadOnlyObject:(NSObject *)a_object inForm:(NSString *)a_formName
+    parentFormViewController:(IFAFormViewController *)a_parentFormViewController
+              showEditButton:(BOOL)a_showEditButton;
 
 - (void)onSegmentedControlAction:(id)aSender;
 
@@ -71,6 +73,8 @@
 - (void)onSwitchAction:(UISwitch*)a_switch;
 
 - (void)handleReturnKeyForTextFieldCell:(IFAFormTextFieldTableViewCell *)a_cell;
+
+- (BOOL)isSubForm;
 
 /* to be overridden by subclasses */
 - (void)onNavigationBarSubmitButtonTap;

@@ -33,7 +33,6 @@
     self.createMode = NO;
     self.object = [[IFAPreferencesManager sharedInstance] preferences];
     self.formName = IFAEntityConfigFormNameDefault;
-    self.isSubForm = NO;
     return self;
 }
 

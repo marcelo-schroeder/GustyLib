@@ -329,9 +329,11 @@
     }
     NSString *l_formName = [self editFormNameForCreateMode:aCreateMode];
     if (aCreateMode) {
-        return [[l_formViewControllerClass alloc] initWithObject:aManagedObject createMode:aCreateMode inForm:l_formName isSubForm:NO];
+        return [[l_formViewControllerClass alloc] initWithObject:aManagedObject createMode:aCreateMode inForm:l_formName
+                                        parentFormViewController:nil];
     }else{
-        return [[l_formViewControllerClass alloc] initWithReadOnlyObject:aManagedObject inForm:l_formName isSubForm:NO
+        return [[l_formViewControllerClass alloc] initWithReadOnlyObject:aManagedObject inForm:l_formName
+                                                parentFormViewController:nil
                                                           showEditButton:YES];
     }
 }

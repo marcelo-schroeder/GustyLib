@@ -55,6 +55,7 @@
 /* Public as readonly */
 @property(nonatomic, strong) NSMutableDictionary *tagToPropertyName;
 @property(nonatomic, strong) NSMutableDictionary *propertyNameToIndexPath;
+@property (nonatomic, weak) IFAFormViewController *parentFormViewController;
 
 @property(nonatomic) BOOL IFA_readOnlyModeSuspendedForEditing;
 @property(nonatomic) BOOL IFA_rollbackPerformed;
@@ -66,19 +67,20 @@
 #pragma mark - Private
 
 // Private initialiser
-- (id)initWithObject:(NSObject *)anObject readOnlyMode:(BOOL)aReadOnlyMode createMode:(BOOL)aCreateMode
-              inForm:(NSString *)aFormName isSubForm:(BOOL)aSubFormFlag showEditButton:(BOOL)aShowEditButtonFlag {
+- (id)initWithObject:(NSObject *)a_object readOnlyMode:(BOOL)a_readOnlyMode createMode:(BOOL)a_createMode
+              inForm:(NSString *)a_formName parentFormViewController:(IFAFormViewController *)a_parentFormViewController
+      showEditButton:(BOOL)a_showEditButton {
 
     //    NSLog(@"hello from init - form");
 
     if ((self = [super initWithStyle:UITableViewStyleGrouped])) {
 
-		self.readOnlyMode = aReadOnlyMode;
-		self.createMode = aCreateMode;
-		self.object = anObject;
-		self.formName = aFormName;
-		self.isSubForm = aSubFormFlag;
-        self.showEditButton = aShowEditButtonFlag;
+		self.readOnlyMode = a_readOnlyMode;
+		self.createMode = a_createMode;
+		self.object = a_object;
+		self.formName = a_formName;
+		self.parentFormViewController = a_parentFormViewController;
+        self.showEditButton = a_showEditButton;
 
 #ifdef IFA_AVAILABLE_Help
         self.helpTargetId = [IFAUIUtils helpTargetIdForName:[@"form" stringByAppendingString:self.createMode ? @".new" : @".existing"]];
@@ -396,12 +398,13 @@
             }else {
                 formViewControllerClass = [IFAFormViewController class];
             }
+            __weak NSObject *l_weakObject = self.object;
             if (self.readOnlyMode) {
-                controller = [[formViewControllerClass alloc] initWithReadOnlyObject:self.object inForm:propertyName
-                                                                           isSubForm:YES showEditButton:NO];
+                controller = [[formViewControllerClass alloc] initWithReadOnlyObject:l_weakObject inForm:propertyName
+                                                            parentFormViewController:self showEditButton:NO];
             }else{
-                controller = [[formViewControllerClass alloc] initWithObject:self.object createMode:self.editing
-                                                                      inForm:propertyName isSubForm:YES];
+                controller = [[formViewControllerClass alloc] initWithObject:l_weakObject createMode:self.editing
+                                                                      inForm:propertyName parentFormViewController:self];
             }
         }
             break;
@@ -621,42 +624,48 @@
         self.readOnlyMode = NO;
         self.createMode = YES;
         self.formName = IFAEntityConfigFormNameDefault;
-        self.isSubForm = NO;
     }
     return self;
 }
 
 /* Submission forms */
 
-- (id)initWithObject:(NSObject *)anObject {
-    return [self initWithObject:anObject readOnlyMode:NO createMode:YES inForm:IFAEntityConfigFormNameDefault
-                      isSubForm:NO showEditButton:NO];
+- (id)initWithObject:(NSObject *)a_object {
+    return [self initWithObject:a_object readOnlyMode:NO createMode:YES inForm:IFAEntityConfigFormNameDefault
+       parentFormViewController:nil showEditButton:NO];
 }
 
-- (id)initWithObject:(NSObject *)anObject inForm:(NSString *)aFormName isSubForm:(BOOL)aSubFormFlag {
-    return [self initWithObject:anObject readOnlyMode:NO createMode:YES inForm:aFormName isSubForm:aSubFormFlag showEditButton:NO];
+- (id)initWithObject:(NSObject *)a_object inForm:(NSString *)a_formName
+        parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
+    return [self initWithObject:a_object readOnlyMode:NO createMode:YES inForm:a_formName
+       parentFormViewController:a_parentFormViewController showEditButton:NO];
 }
 
 /* CRUD forms */
 
-- (id)initWithObject:(NSObject *)anObject createMode:(BOOL)aCreateMode inForm:(NSString*)aFormName isSubForm:(BOOL)aSubFormFlag{
-	return [self initWithObject:anObject readOnlyMode:!aCreateMode createMode:aCreateMode inForm:aFormName isSubForm:aSubFormFlag
-                 showEditButton:!aCreateMode];
+- (id)    initWithObject:(NSObject *)a_object createMode:(BOOL)a_createMode inForm:(NSString *)a_formName
+parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
+	return [self initWithObject:a_object readOnlyMode:!a_createMode createMode:a_createMode inForm:a_formName
+       parentFormViewController:a_parentFormViewController
+                 showEditButton:!a_createMode];
 }
 
-- (id)initWithObject:(NSObject *)anObject createMode:(BOOL)aCreateMode{
-	return [self initWithObject:anObject createMode:aCreateMode inForm:IFAEntityConfigFormNameDefault
-                      isSubForm:NO];
+- (id)initWithObject:(NSObject *)a_object createMode:(BOOL)a_createMode {
+	return [self initWithObject:a_object createMode:a_createMode inForm:IFAEntityConfigFormNameDefault
+       parentFormViewController:nil];
 }
 
-- (id)initWithReadOnlyObject:(NSObject *)anObject inForm:(NSString *)aFormName isSubForm:(BOOL)aSubFormFlag
-                                                                          showEditButton:(BOOL)aShowEditButtonFlag {
-	return [self initWithObject:anObject readOnlyMode:YES createMode:NO inForm:aFormName isSubForm:aSubFormFlag
-                 showEditButton:aShowEditButtonFlag];
+- (id)initWithReadOnlyObject:(NSObject *)a_object inForm:(NSString *)a_formName
+    parentFormViewController:(IFAFormViewController *)a_parentFormViewController
+              showEditButton:(BOOL)a_showEditButton {
+	return [self initWithObject:a_object readOnlyMode:YES createMode:NO inForm:a_formName
+       parentFormViewController:a_parentFormViewController
+                 showEditButton:a_showEditButton];
 }
 
 - (id)initWithReadOnlyObject:(NSObject *)anObject{
-	return [self initWithReadOnlyObject:anObject inForm:IFAEntityConfigFormNameDefault isSubForm:NO showEditButton:NO];
+	return [self initWithReadOnlyObject:anObject inForm:IFAEntityConfigFormNameDefault parentFormViewController:nil
+                         showEditButton:NO];
 }
 
 -(IFAFormTableViewCell *)populateCell:(IFAFormTableViewCell *)a_cell {
@@ -720,6 +729,10 @@
 
     return a_cell;
 
+}
+
+- (BOOL)isSubForm {
+    return self.parentFormViewController!=nil;
 }
 
 - (void)onNavigationBarSubmitButtonTap {
@@ -1683,14 +1696,18 @@
 }
 
 - (BOOL)contextSwitchRequestRequired {
-    return self.IFA_isManagedObject;
+    return self.parentFormViewController ? self.parentFormViewController.contextSwitchRequestRequired : self.IFA_isManagedObject;
 }
 
 - (void)onContextSwitchRequestNotification:(NSNotification *)aNotification {
-    [super onContextSwitchRequestNotification:aNotification];
-    if (!self.editing) {
-        [self replyToContextSwitchRequestWithGranted:YES];
-        [self ifa_notifySessionCompletion];
+    if (self.parentFormViewController) {
+        [self.parentFormViewController onContextSwitchRequestNotification:aNotification];
+    }else{
+        [super onContextSwitchRequestNotification:aNotification];
+        if (!self.editing) {
+            [self replyToContextSwitchRequestWithGranted:YES];
+            [self ifa_notifySessionCompletion];
+        }
     }
 }
 
