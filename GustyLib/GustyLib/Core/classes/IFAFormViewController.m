@@ -24,10 +24,10 @@
 #import "GustyLibHelp.h"
 #endif
 
-//wip: location - fix UI state of dependent read-only field (it shows accessory view but does not respond to touch)
 //wip: implement delete as row button (this is to avoid forms jumping when going into edit mode)
 //wip: overall clean up of comments
 //wip: keyboard navigation with the new input accessory view does not seem to be working in Location, and it gets stuck with validation when scrolling the form to get rid of the keyboard (empty radius field)
+//wip: when tapping outside the switch in a switch cell, edit mode is enabled. same for a read-only field - is that ok?
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
