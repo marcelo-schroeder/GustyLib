@@ -27,7 +27,6 @@
 
 @protocol IFAFormViewControllerDelegate;
 
-//wip: sub forms are not popping child contexts
 @interface IFAFormViewController : IFATableViewController <UIActionSheetDelegate, IFAFormInputAccessoryViewDataSource>
 
 @property (nonatomic, strong) NSObject *object;

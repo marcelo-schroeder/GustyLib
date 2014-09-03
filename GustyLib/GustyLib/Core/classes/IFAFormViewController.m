@@ -25,13 +25,10 @@
 #endif
 
 //wip: need to complete reviewing all references to the "editing" property to cover all bases
-//wip: fix UI state of dependent read-only field (it shows accessory view but does not respond to touch)
+//wip: location - fix UI state of dependent read-only field (it shows accessory view but does not respond to touch)
 //wip: segmented control should behave like switches: a change trigger edit mode
 //wip: does this change mean subforms will always be in edit mode? (review changes made so far under this perspective)
 //wip: implement delete as row button (this is to avoid forms jumping when going into edit mode)
-//wip: creation was crashing (and also test that the rollback is working)
-//wip: ISSUE - context switching is not working on single selection lists (review all other view controller that can be shown from forms)
-//wip: ISSUE - single selection lists (other controllers too?) seem to be interfering with the ability to cancell changes
 //wip: overall clean up of comments
 //wip: test deletion
 @interface IFAFormViewController ()
