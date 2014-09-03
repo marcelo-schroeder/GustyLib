@@ -24,12 +24,9 @@
 #import "GustyLibHelp.h"
 #endif
 
-//wip: need to complete reviewing all references to the "editing" property to cover all bases
 //wip: location - fix UI state of dependent read-only field (it shows accessory view but does not respond to touch)
 //wip: implement delete as row button (this is to avoid forms jumping when going into edit mode)
 //wip: overall clean up of comments
-//wip: test deletion
-//wip: segmented control cell seems to be allowing selection
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -611,6 +608,24 @@
 
 }
 
+- (void)IFA_popChildManagedObjectContext {
+    IFAPersistenceManager *l_persistenceManager = [IFAPersistenceManager sharedInstance];
+    [l_persistenceManager popChildManagedObjectContext];
+    //wip: clean up
+//                    if (!l_changesMade) {
+//                        [l_persistenceManager rollback];
+//                    }
+    self.object = [l_persistenceManager findById:((NSManagedObject *) self.object).objectID];
+    NSAssert(l_persistenceManager.childManagedObjectContexts.count== self.IFA_initialChildManagedObjectContextCountForAssertion, @"Incorrect l_persistenceManager.childManagedObjectContexts.count: %u", l_persistenceManager.childManagedObjectContexts.count);
+}
+
+- (void)IFA_pushChildManagedObjectContext {
+    IFAPersistenceManager *l_persistenceManager = [IFAPersistenceManager sharedInstance];
+    NSAssert(l_persistenceManager.childManagedObjectContexts.count== self.IFA_initialChildManagedObjectContextCountForAssertion, @"Incorrect l_persistenceManager.childManagedObjectContexts.count: %u", l_persistenceManager.childManagedObjectContexts.count);
+    [l_persistenceManager pushChildManagedObjectContext];
+    self.object = [l_persistenceManager findById:((NSManagedObject *) self.object).objectID];
+}
+
 #pragma mark - Public
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -952,6 +967,9 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 		case IFAViewTagActionSheetDelete:
 			if(buttonIndex==0){
                 NSAssert([self.object isKindOfClass:NSManagedObject.class], @"Selection list editor type not yet implemented for non-NSManagedObject instances");
+                if (self.IFA_readOnlyModeSuspendedForEditing) {
+                    [self IFA_popChildManagedObjectContext];
+                }
                 NSManagedObject *l_managedObject = (NSManagedObject*)self.object;
 				if (![[IFAPersistenceManager sharedInstance] deleteAndSaveObject:l_managedObject]) {
 					return;
@@ -1558,9 +1576,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
             if (self.IFA_isReadOnlyWithEditButtonCase) {
                 self.readOnlyMode = NO;
                 self.IFA_readOnlyModeSuspendedForEditing = YES;
-                NSAssert(l_persistenceManager.childManagedObjectContexts.count==self.IFA_initialChildManagedObjectContextCountForAssertion, @"Incorrect l_persistenceManager.childManagedObjectContexts.count: %u", l_persistenceManager.childManagedObjectContexts.count);
-                [l_persistenceManager pushChildManagedObjectContext];
-                self.object = [l_persistenceManager findById:((NSManagedObject *) self.object).objectID];
+                [self IFA_pushChildManagedObjectContext];
             }
             if ([l_persistenceManager.entityConfig hasNavigationBarSubmitButtonForForm:self.formName
                                                                               inEntity:[self.object ifa_entityName]]) {
@@ -1615,14 +1631,8 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                     if (l_changesMade) {
                         [l_persistenceManager saveMainManagedObjectContext];
                     }
-                    [l_persistenceManager popChildManagedObjectContext];
-                    //wip: clean up
-//                    if (!l_changesMade) {
-//                        [l_persistenceManager rollback];
-//                    }
-                    self.object = [l_persistenceManager findById:((NSManagedObject *) self.object).objectID];
-                    NSAssert(l_persistenceManager.childManagedObjectContexts.count==self.IFA_initialChildManagedObjectContextCountForAssertion, @"Incorrect l_persistenceManager.childManagedObjectContexts.count: %u", l_persistenceManager.childManagedObjectContexts.count);
-                } 
+                    [self IFA_popChildManagedObjectContext];
+                }
 
             }else{
 
