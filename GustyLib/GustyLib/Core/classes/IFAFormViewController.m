@@ -410,9 +410,13 @@
             NSAssert([self.object isKindOfClass:NSManagedObject.class], @"Selection list editor type not yet implemented for non-NSManagedObject instances");
             NSManagedObject *l_managedObject = (NSManagedObject*)self.object;
             if ([[IFAPersistenceManager sharedInstance].entityConfig isToManyRelationshipForProperty:propertyName inManagedObject:l_managedObject]) {
-                controller = [[IFAMultipleSelectionListViewController alloc] initWithManagedObject:l_managedObject propertyName:propertyName];
+                controller = [[IFAMultipleSelectionListViewController alloc] initWithManagedObject:l_managedObject
+                                                                                      propertyName:propertyName
+                                                                                formViewController:self];
             }else {
-                controller = [[IFASingleSelectionListViewController alloc] initWithManagedObject:l_managedObject propertyName:propertyName];
+                controller = [[IFASingleSelectionListViewController alloc] initWithManagedObject:l_managedObject
+                                                                                    propertyName:propertyName
+                                                                              formViewController:self];
             }
         }
             break;

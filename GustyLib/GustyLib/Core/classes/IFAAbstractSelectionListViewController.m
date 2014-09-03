@@ -21,8 +21,9 @@
 #import "GustyLibCore.h"
 
 @interface IFAAbstractSelectionListViewController ()
-@property(nonatomic, strong, readwrite) NSManagedObject *managedObject;
-@property(nonatomic, strong, readwrite) NSString *propertyName;
+@property(nonatomic, weak) NSManagedObject *managedObject;
+@property(nonatomic, strong) NSString *propertyName;
+@property(nonatomic, weak) IFAFormViewController *formViewController;
 @end
 
 @implementation IFAAbstractSelectionListViewController
@@ -30,12 +31,15 @@
 #pragma mark -
 #pragma mark Public
 
-- (id) initWithManagedObject:(NSManagedObject *)aManagedObject propertyName:(NSString *)aPropertyName{
+- (id)initWithManagedObject:(NSManagedObject *)a_managedObject propertyName:(NSString *)a_propertyName
+         formViewController:(IFAFormViewController *)a_formViewController {
 	
-    if ((self = [super initWithEntityName:[[IFAPersistenceManager sharedInstance].entityConfig entityNameForProperty:aPropertyName inObject:aManagedObject]])) {
+    if ((self = [super initWithEntityName:[[IFAPersistenceManager sharedInstance].entityConfig entityNameForProperty:a_propertyName
+                                                                                                            inObject:a_managedObject]])) {
 		
-		self.managedObject = aManagedObject;
-		self.propertyName = aPropertyName;
+		self.managedObject = a_managedObject;
+		self.propertyName = a_propertyName;
+        self.formViewController = a_formViewController;
 
         self.fetchingStrategy = IFAListViewControllerFetchingStrategyFindEntities;
 		
@@ -123,6 +127,14 @@
 
     [self.tableView flashScrollIndicators];
     
+}
+
+- (BOOL)contextSwitchRequestRequired {
+    return self.formViewController!=nil;
+}
+
+- (void)onContextSwitchRequestNotification:(NSNotification *)aNotification {
+    [self.formViewController onContextSwitchRequestNotification:aNotification];
 }
 
 #pragma mark - UIPopoverControllerDelegate

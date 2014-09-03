@@ -24,10 +24,12 @@
 
 @property (nonatomic, strong) UIBarButtonItem *selectNoneButtonItem;
 
-@property(nonatomic, strong, readonly) NSManagedObject *managedObject;
+@property(nonatomic, weak, readonly) NSManagedObject *managedObject;
 @property(nonatomic, strong, readonly) NSString *propertyName;
+@property(nonatomic, weak, readonly) IFAFormViewController *formViewController;
 
-- (id) initWithManagedObject:(NSManagedObject *)aManagedObject propertyName:(NSString *)aPropertyName;
+- (id)initWithManagedObject:(NSManagedObject *)a_managedObject propertyName:(NSString *)a_propertyName
+         formViewController:(IFAFormViewController *)a_formViewController;
 
 - (void)onSelectNoneButtonTap:(id)sender;
 - (void)done;

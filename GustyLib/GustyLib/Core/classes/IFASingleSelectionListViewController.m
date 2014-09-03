@@ -100,8 +100,10 @@
 #pragma mark -
 #pragma mark Overrides
 
-- (id) initWithManagedObject:(NSManagedObject *)aManagedObject propertyName:(NSString *)aPropertyName{
-    if ((self = [super initWithManagedObject:aManagedObject propertyName:aPropertyName])){
+- (id)initWithManagedObject:(NSManagedObject *)a_managedObject propertyName:(NSString *)a_propertyName
+         formViewController:(IFAFormViewController *)a_formViewController {
+    if ((self = [super initWithManagedObject:a_managedObject propertyName:a_propertyName
+                          formViewController:a_formViewController])){
 		self.IFA_selectionManager = [[IFASingleSelectionManager alloc] initWithSelectionManagerDelegate:self
                                                                                  selectedObject:[self.managedObject valueForKey:self.propertyName]];
     }

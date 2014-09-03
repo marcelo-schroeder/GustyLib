@@ -233,9 +233,11 @@ static const NSUInteger k_sectionSelectedObjects = 0;
 #pragma mark -
 #pragma mark Overrides
 
--(id) initWithManagedObject:(NSManagedObject *)aManagedObject propertyName:(NSString *)aPropertyName{
+- (id)initWithManagedObject:(NSManagedObject *)a_managedObject propertyName:(NSString *)a_propertyName
+         formViewController:(IFAFormViewController *)a_formViewController {
 
-	if((self=[super initWithManagedObject:aManagedObject propertyName:aPropertyName])){
+	if((self= [super initWithManagedObject:a_managedObject propertyName:a_propertyName
+                        formViewController:a_formViewController])){
 
 		// First determine whether this controller is managing a pure many-to-many relationship or one which uses a join table
 		NSDictionary *l_parentRelationshipDictionary = [[IFAPersistenceManager sharedInstance].entityConfig relationshipDictionaryForEntity:[self.managedObject ifa_entityName]];
