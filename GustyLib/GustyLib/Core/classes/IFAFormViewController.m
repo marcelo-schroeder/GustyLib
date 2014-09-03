@@ -29,6 +29,7 @@
 //wip: keyboard navigation with the new input accessory view does not seem to be working in Location, and it gets stuck with validation when scrolling the form to get rid of the keyboard (empty radius field)
 //wip: when tapping outside the switch in a switch cell, edit mode is enabled. same for a read-only field - is that ok?
 //wip: not so keen on having the table view rows being unselected on return from a tab switching - it does not look good.
+//wip: it triggers didselectrow... for cells that, for instance, have switch controls - there is no visual effect, but I have seen this during debugging.
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -754,7 +755,9 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
 - (void)onSwitchAction:(UISwitch*)a_switch {
     if (!self.isSubForm && !self.editing) {
-        [self setEditing:YES animated:YES];
+        [IFAUtils dispatchAsyncMainThreadBlock:^{
+            [self setEditing:YES animated:YES];
+        } afterDelay:IFAAnimationDuration]; // Add delay to allow for the switch animation to complete
     }
 //    NSLog(@"onSwitchAction with tag: %u", a_switch.tag);
     NSString *l_propertyName = (self.tagToPropertyName)[@(a_switch.tag)];
@@ -1678,9 +1681,9 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
     }
 
-    [UIView transitionWithView:self.view duration:IFAAnimationDuration options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-        [self.tableView reloadRowsAtIndexPaths:self.IFA_indexPathToTextFieldCellDictionary.allKeys
-                              withRowAnimation:UITableViewRowAnimationNone];
+    [UIView transitionWithView:self.view duration:IFAAnimationDuration
+                       options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+        [self.tableView reloadData];
     } completion:NULL];
 
 }
