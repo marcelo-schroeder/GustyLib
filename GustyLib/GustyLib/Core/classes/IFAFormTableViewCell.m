@@ -63,11 +63,12 @@
 
 #pragma mark - Overrides
 
-- (void)willTransitionToState:(UITableViewCellStateMask)state{
-    [super willTransitionToState:state];
+//wip: clean up
+//- (void)willTransitionToState:(UITableViewCellStateMask)state{
+//    [super willTransitionToState:state];
 //    NSLog(@"willTransitionToState: %u, indexPath: %@", state, [self.indexPath description]);
-    [self.formViewController populateCell:self];
-}
+//    [self.formViewController populateCell:self];
+//}
 
 - (void)layoutSubviews {
     CGFloat l_horizontalSpace = self.leftLabelLeftConstraint.constant;

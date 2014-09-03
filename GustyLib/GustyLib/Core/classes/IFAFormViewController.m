@@ -26,11 +26,10 @@
 
 //wip: need to complete reviewing all references to the "editing" property to cover all bases
 //wip: location - fix UI state of dependent read-only field (it shows accessory view but does not respond to touch)
-//wip: segmented control should behave like switches: a change trigger edit mode
-//wip: does this change mean subforms will always be in edit mode? (review changes made so far under this perspective)
 //wip: implement delete as row button (this is to avoid forms jumping when going into edit mode)
 //wip: overall clean up of comments
 //wip: test deletion
+//wip: segmented control cell seems to be allowing selection
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -737,7 +736,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 }
 
 - (void)onSwitchAction:(UISwitch*)a_switch {
-    if (!self.editing) {
+    if (!self.isSubForm && !self.editing) {
         [self setEditing:YES animated:YES];
     }
 //    NSLog(@"onSwitchAction with tag: %u", a_switch.tag);
@@ -811,6 +810,9 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 }
 
 - (void)onSegmentedControlAction:(id)aSender{
+    if (!self.isSubForm && !self.editing) {
+        [self setEditing:YES animated:YES];
+    }
     IFASegmentedControl *segmentedControl = aSender;
     NSString *entityName = [self entityNameForProperty:segmentedControl.propertyName];
     NSManagedObject *selectedManagedObject = [[IFAPersistenceManager sharedInstance] findAllForEntity:entityName][(NSUInteger) [segmentedControl selectedSegmentIndex]];

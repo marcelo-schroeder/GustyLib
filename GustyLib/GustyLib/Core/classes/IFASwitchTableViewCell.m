@@ -64,14 +64,14 @@
 //            break;
 //    }
 //}
--(void)willTransitionToState:(UITableViewCellStateMask)state {
-    switch (state) {
-        case UITableViewCellStateDefaultMask:
-            [super willTransitionToState:state];    //wip: review this - behaviour could be in the superclass
-            break;
-        default:
-            break;
-    }
-}
+//-(void)willTransitionToState:(UITableViewCellStateMask)state {
+//    switch (state) {
+//        case UITableViewCellStateDefaultMask:
+//            [super willTransitionToState:state];    //wip: review this - behaviour could be in the superclass
+//            break;
+//        default:
+//            break;
+//    }
+//}
 
 @end
