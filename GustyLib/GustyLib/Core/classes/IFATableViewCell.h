@@ -21,6 +21,7 @@
 @interface IFATableViewCell : UITableViewCell {
 }
 
+@property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic) BOOL swipedToDelete;
 
 @end

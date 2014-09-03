@@ -33,7 +33,6 @@ typedef enum{
 @interface IFAFormTableViewCell : IFATableViewCell
 
 @property (nonatomic, strong, readonly) NSString *propertyName;
-@property (nonatomic, strong, readonly) NSIndexPath *indexPath;
 @property (nonatomic, weak, readonly) IFAFormViewController *formViewController;
 
 @property (strong, nonatomic) IBOutlet IFAFormTableViewCellContentView *customContentView;

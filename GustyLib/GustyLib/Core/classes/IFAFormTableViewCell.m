@@ -22,7 +22,6 @@
 
 @interface IFAFormTableViewCell ()
 @property (nonatomic, strong) NSString *propertyName;
-@property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, weak) IFAFormViewController *formViewController;
 @end
 
