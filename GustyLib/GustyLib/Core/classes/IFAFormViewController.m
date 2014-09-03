@@ -28,6 +28,7 @@
 //wip: overall clean up of comments
 //wip: keyboard navigation with the new input accessory view does not seem to be working in Location, and it gets stuck with validation when scrolling the form to get rid of the keyboard (empty radius field)
 //wip: when tapping outside the switch in a switch cell, edit mode is enabled. same for a read-only field - is that ok?
+//wip: not so keen on having the table view rows being unselected on return from a tab switching - it does not look good.
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
