@@ -32,6 +32,8 @@
 //wip: creation was crashing (and also test that the rollback is working)
 //wip: ISSUE - context switching is not working on single selection lists (review all other view controller that can be shown from forms)
 //wip: ISSUE - single selection lists (other controllers too?) seem to be interfering with the ability to cancell changes
+//wip: overall clean up of comments
+//wip: test deletion
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -43,7 +45,7 @@
 @property (nonatomic, strong) NSMutableArray *IFA_editableTextFieldCells;
 @property(nonatomic, strong) NSMutableDictionary *IFA_propertyNameToCell;
 @property(nonatomic, strong) NSMutableArray *IFA_uiControlsWithTargets;
-@property(nonatomic) BOOL IFA_changesMade;
+@property(nonatomic) BOOL IFA_changesMadeByThisViewController;
 @property(nonatomic) BOOL IFA_saveButtonTapped;
 @property(nonatomic) BOOL IFA_preparingForDismissalAfterRollback;
 @property(nonatomic) BOOL IFA_isManagedObject;
@@ -56,6 +58,7 @@
 
 @property(nonatomic) BOOL IFA_readOnlyModeSuspendedForEditing;
 @property(nonatomic) BOOL IFA_rollbackPerformed;
+@property(nonatomic) NSUInteger IFA_initialChildManagedObjectContextCountForAssertion;
 @end
 
 @implementation IFAFormViewController
@@ -94,7 +97,7 @@
     // Create reusable cell
     IFAFormTableViewCell *l_cell = [a_tableView dequeueReusableCellWithIdentifier:l_propertyName];
     if (l_cell == nil) {
-        l_cell = [[NSClassFromString(a_className) alloc] initWithReuseIdentifier:l_propertyName object:self.object
+        l_cell = [[NSClassFromString(a_className) alloc] initWithReuseIdentifier:l_propertyName
                                                                     propertyName:l_propertyName indexPath:a_indexPath
                                                               formViewController:self];
         // Set appearance
@@ -122,6 +125,8 @@
 
 - (void)IFA_rollbackAndRestoreNonEditingState {
     [[IFAPersistenceManager sharedInstance] rollback];
+    NSAssert(!self.IFA_rollbackPerformed, @"Incorrect value for self.IFA_rollbackPerformed: %u", self.IFA_rollbackPerformed);
+    NSAssert(!self.IFA_preparingForDismissalAfterRollback, @"Incorrect value for self.IFA_preparingForDismissalAfterRollback: %u", self.IFA_preparingForDismissalAfterRollback);
     self.IFA_rollbackPerformed = YES;
     if (self.IFA_readOnlyModeSuspendedForEditing && !self.contextSwitchRequestPending) {
         [self setEditing:NO animated:YES];
@@ -528,8 +533,8 @@
             l_cell= [self.tableView dequeueReusableCellWithIdentifier:l_propertyName];
             if (!l_cell) {
                 l_cell = [[IFAFormTableViewCell alloc] initWithReuseIdentifier:l_propertyName
-                                                                        object:self.object propertyName:l_propertyName
-                                                                     indexPath:indexPath formViewController:self];
+                                                                  propertyName:l_propertyName indexPath:indexPath
+                                                            formViewController:self];
                 BOOL l_isModalViewController = [l_entityConfig isModalForViewControllerFieldTypeAtIndexPath:indexPath inObject:self.object
                                                                                                      inForm:self.formName createMode:self.createMode];
                 l_cell.customAccessoryType = l_isModalViewController ? IFAFormTableViewCellAccessoryTypeDisclosureIndicatorInfo : IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight;
@@ -550,8 +555,8 @@
             l_cell= [self.tableView dequeueReusableCellWithIdentifier:l_propertyName];
             if (!l_cell) {
                 l_cell = [[IFAFormTableViewCell alloc] initWithReuseIdentifier:l_propertyName
-                                                                        object:self.object propertyName:l_propertyName
-                                                                     indexPath:indexPath formViewController:self];
+                                                                  propertyName:l_propertyName indexPath:indexPath
+                                                            formViewController:self];
                 l_cell.customAccessoryType = IFAFormTableViewCellAccessoryTypeNone;
                 l_cell.leftLabel.hidden = YES;
                 l_cell.rightLabel.hidden = YES;
@@ -572,8 +577,8 @@
             l_cell= [self.tableView dequeueReusableCellWithIdentifier:l_propertyName];
             if (!l_cell) {
                 l_cell = [[IFAFormTableViewCell alloc] initWithReuseIdentifier:l_propertyName
-                                                                        object:self.object propertyName:l_propertyName
-                                                                     indexPath:indexPath formViewController:self];
+                                                                  propertyName:l_propertyName indexPath:indexPath
+                                                            formViewController:self];
                 l_cell.leftLabel.hidden = YES;
                 l_cell.rightLabel.hidden = YES;
                 l_cell.customAccessoryType = IFAFormTableViewCellAccessoryTypeNone;
@@ -935,7 +940,7 @@
 				if (![[IFAPersistenceManager sharedInstance] deleteAndSaveObject:l_managedObject]) {
 					return;
 				}
-                self.IFA_changesMade = YES;
+                self.IFA_changesMadeByThisViewController = YES;
                 [self ifa_notifySessionCompletion];
                 [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:@"%@ deleted",
                                                                                                     self.title]];
@@ -1250,6 +1255,8 @@
 
     [super viewDidLoad];
 
+    self.IFA_initialChildManagedObjectContextCountForAssertion = [IFAPersistenceManager sharedInstance].childManagedObjectContexts.count;
+    
     self.IFA_isManagedObject = [self.object isKindOfClass:NSManagedObject.class];
 
     // Set managed object default values based on backing preferences
@@ -1525,6 +1532,8 @@
     BOOL l_contextSwitchRequestPending = self.contextSwitchRequestPending;    // save this value before the super class resets it
 //    BOOL l_reloadData = !l_contextSwitchRequestPending;
 
+    IFAPersistenceManager *l_persistenceManager = [IFAPersistenceManager sharedInstance];
+
     if(editing){
 
         [super setEditing:editing animated:animated];
@@ -1533,11 +1542,14 @@
             if (self.IFA_isReadOnlyWithEditButtonCase) {
                 self.readOnlyMode = NO;
                 self.IFA_readOnlyModeSuspendedForEditing = YES;
+                NSAssert(l_persistenceManager.childManagedObjectContexts.count==self.IFA_initialChildManagedObjectContextCountForAssertion, @"Incorrect l_persistenceManager.childManagedObjectContexts.count: %u", l_persistenceManager.childManagedObjectContexts.count);
+                [l_persistenceManager pushChildManagedObjectContext];
+                self.object = [l_persistenceManager findById:((NSManagedObject *) self.object).objectID];
             }
-            if ([[IFAPersistenceManager sharedInstance].entityConfig hasNavigationBarSubmitButtonForForm:self.formName
-                                                                                                inEntity:[self.object ifa_entityName]]) {
-                self.editButtonItem.title = [[IFAPersistenceManager sharedInstance].entityConfig navigationBarSubmitButtonLabelForForm:self.formName
-                                                                                                                              inEntity:[self.object ifa_entityName]];
+            if ([l_persistenceManager.entityConfig hasNavigationBarSubmitButtonForForm:self.formName
+                                                                              inEntity:[self.object ifa_entityName]]) {
+                self.editButtonItem.title = [l_persistenceManager.entityConfig navigationBarSubmitButtonLabelForForm:self.formName
+                                                                                                            inEntity:[self.object ifa_entityName]];
 //                self.editButtonItem.accessibilityLabel = self.editButtonItem.title;
             }else{
                 self.editButtonItem.title = IFAButtonLabelSave;
@@ -1561,6 +1573,7 @@
 
                 NSManagedObject *l_managedObject = (NSManagedObject *) self.object;
 
+                BOOL l_changesMade = NO;
                 if ([l_managedObject isInserted] || [l_managedObject isUpdated]) {
 
                     bool l_isInserted = [l_managedObject isInserted];
@@ -1568,18 +1581,32 @@
                     [self updateBackingPreferences];
 
                     // Persist changes
-                    if (![[IFAPersistenceManager sharedInstance] saveObject:l_managedObject]) {
+                    if (![l_persistenceManager saveObject:l_managedObject]) {
                         // If validation error occurs then simply redisplay screen (at this point, the error has already been handled from a UI POV)
                         return;
                     }
 
-                    self.IFA_changesMade = YES;
+                    l_changesMade = YES;
+                    self.IFA_changesMadeByThisViewController = YES;
 
                     [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:@"%@ %@",
                                                                                                         self.title,
                                                                                                         l_isInserted ? @"created" : @"updated"]];
 
                 }
+
+                if (self.IFA_readOnlyModeSuspendedForEditing) {
+                    if (l_changesMade) {
+                        [l_persistenceManager saveMainManagedObjectContext];
+                    }
+                    [l_persistenceManager popChildManagedObjectContext];
+                    //wip: clean up
+//                    if (!l_changesMade) {
+//                        [l_persistenceManager rollback];
+//                    }
+                    self.object = [l_persistenceManager findById:((NSManagedObject *) self.object).objectID];
+                    NSAssert(l_persistenceManager.childManagedObjectContexts.count==self.IFA_initialChildManagedObjectContextCountForAssertion, @"Incorrect l_persistenceManager.childManagedObjectContexts.count: %u", l_persistenceManager.childManagedObjectContexts.count);
+                } 
 
             }else{
 
@@ -1603,16 +1630,17 @@
 //                self.editButtonItem.accessibilityLabel = self.editButtonItem.title;
                 [self IFA_updateLeftBarButtonItemsStates];
             }
-            BOOL l_canDismissView = self.ifa_presentedAsModal || (self.navigationController.viewControllers)[0] !=self;
-            if ((self.IFA_saveButtonTapped || self.createMode) && l_canDismissView && !self.IFA_preparingForDismissalAfterRollback) {
-                if (!l_contextSwitchRequestPending) {    // Make sure this controller has not already been popped by a context switch request somewhere else
-                    if (self.IFA_readOnlyModeSuspendedForEditing) {
-                        self.readOnlyMode = YES;
-                        self.IFA_readOnlyModeSuspendedForEditing = NO;
-                        self.doneButtonSaves = NO;
-                    }else{
+
+            if (!l_contextSwitchRequestPending) {    // Make sure this controller has not already been popped by a context switch request somewhere else
+                if (self.IFA_readOnlyModeSuspendedForEditing) {
+                    self.readOnlyMode = YES;
+                    self.IFA_readOnlyModeSuspendedForEditing = NO;
+                } else {
+                    BOOL l_canDismissView = self.ifa_presentedAsModal || (self.navigationController.viewControllers)[0] != self;
+                    if ((self.IFA_saveButtonTapped || self.createMode) && l_canDismissView && !self.IFA_preparingForDismissalAfterRollback) {
                         [self ifa_notifySessionCompletion];
                     }
+
                 }
             }
 
@@ -1620,13 +1648,6 @@
 
     }
 
-    //wip: review all this
-//    [CATransaction setCompletionBlock:^{
-//    }];
-//    // Perform cell transition
-//    [UIView transitionWithView:self.view duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-//        [self reloadData];
-//    } completion:NULL];
     [UIView transitionWithView:self.view duration:IFAAnimationDuration options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
         [self.tableView reloadRowsAtIndexPaths:self.IFA_indexPathToTextFieldCellDictionary.allKeys
                               withRowAnimation:UITableViewRowAnimationNone];
@@ -1650,7 +1671,7 @@
 }
 
 - (void)ifa_notifySessionCompletion {
-    [self ifa_notifySessionCompletionWithChangesMade:self.IFA_changesMade data:self.object];
+    [self ifa_notifySessionCompletionWithChangesMade:self.IFA_changesMadeByThisViewController data:self.object];
 }
 
 - (BOOL)automaticallyHandleContextSwitchingBasedOnEditingState {

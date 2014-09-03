@@ -127,7 +127,6 @@
 #import "IFASemaphoreManager.h"
 #import "IFASingleSelectionListViewController.h"
 #import "IFASingleSelectionManager.h"
-#import "IFASliderTableViewCell.h"
 #import "IFASlidingFrostedGlassViewController.h"
 #import "IFASlidingViewController.h"
 #import "IFASplitViewController.h"

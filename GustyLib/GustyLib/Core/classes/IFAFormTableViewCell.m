@@ -21,6 +21,8 @@
 #import "GustyLibCore.h"
 
 @interface IFAFormTableViewCell ()
+@property (nonatomic, strong) NSString *propertyName;
+@property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, weak) IFAFormViewController *formViewController;
 @end
 
@@ -29,12 +31,13 @@
 
 #pragma mark - Public
 
-- (id)initWithReuseIdentifier:(NSString *)reuseIdentifier object:(NSObject *)a_object
-                 propertyName:(NSString *)a_propertyName indexPath:(NSIndexPath *)a_indexPath
+- (id)initWithReuseIdentifier:(NSString *)reuseIdentifier propertyName:(NSString *)a_propertyName
+                    indexPath:(NSIndexPath *)a_indexPath
            formViewController:(IFAFormViewController *)a_formViewController {
-    self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier object:a_object
-                   propertyName:a_propertyName indexPath:a_indexPath];
+    self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.propertyName = a_propertyName;
+        self.indexPath = a_indexPath;
         self.formViewController = a_formViewController;
         [[NSBundle mainBundle] loadNibNamed:@"IFAFormTableViewCellContentView" owner:self options:nil];
         self.centeredLabel.hidden = YES;
@@ -48,6 +51,11 @@
     [self.formViewController.tableView.delegate tableView:self.formViewController.tableView
                                   didSelectRowAtIndexPath:self.indexPath];
 }
+
+- (NSObject *)object {
+    return self.formViewController.object;
+}
+
 
 - (void)setCustomAccessoryType:(IFAFormTableViewCellAccessoryType)a_customAccessoryType {
     _customAccessoryType = a_customAccessoryType;

@@ -501,7 +501,7 @@
                         shouldAnimateDismissal:a_shouldAnimateDismissal];
 
 
-    if (self.IFA_childManagedObjectContextPushed) {
+    if (self.IFA_childManagedObjectContextPushed) { // It should be only for persistent object creation at this stage
 
         IFAPersistenceManager *l_pm = [IFAPersistenceManager sharedInstance];
 

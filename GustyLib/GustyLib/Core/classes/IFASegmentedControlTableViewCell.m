@@ -28,8 +28,8 @@
                  propertyName:(NSString *)a_propertyName indexPath:(NSIndexPath *)a_indexPath
            formViewController:(IFAFormViewController *)a_formViewController
              segmentedControl:(IFASegmentedControl *)a_segmentedControl {
-    if ((self = [super initWithReuseIdentifier:a_reuseIdentifier object:a_object propertyName:a_propertyName
-                                     indexPath:a_indexPath formViewController:a_formViewController])) {
+    if ((self = [super initWithReuseIdentifier:a_reuseIdentifier propertyName:a_propertyName indexPath:a_indexPath
+                            formViewController:a_formViewController])) {
         self.segmentedControl = a_segmentedControl;
         self.leftLabel.hidden = YES;
         self.rightLabel.hidden = YES;

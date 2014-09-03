@@ -32,6 +32,10 @@ typedef enum{
 
 @interface IFAFormTableViewCell : IFATableViewCell
 
+@property (nonatomic, strong, readonly) NSString *propertyName;
+@property (nonatomic, strong, readonly) NSIndexPath *indexPath;
+@property (nonatomic, weak, readonly) IFAFormViewController *formViewController;
+
 @property (strong, nonatomic) IBOutlet IFAFormTableViewCellContentView *customContentView;
 @property (strong, nonatomic) IBOutlet UILabel *leftLabel;
 @property (strong, nonatomic) IBOutlet UILabel *rightLabel;
@@ -45,13 +49,14 @@ typedef enum{
 @property (strong, nonatomic) IBOutlet UILabel *centeredLabel;
 @property (strong, nonatomic) IBOutlet UIButton *customAccessoryButton;
 
-@property (nonatomic, weak, readonly) IFAFormViewController *formViewController;
 @property (nonatomic) IFAFormTableViewCellAccessoryType customAccessoryType;
 
-- (id)initWithReuseIdentifier:(NSString *)a_reuseIdentifier object:(NSObject *)a_object
-                 propertyName:(NSString *)a_propertyName indexPath:(NSIndexPath *)a_indexPath
+- (id)initWithReuseIdentifier:(NSString *)a_reuseIdentifier propertyName:(NSString *)a_propertyName
+                    indexPath:(NSIndexPath *)a_indexPath
            formViewController:(IFAFormViewController *)a_formViewController;
 
 - (IBAction)onCustomAccessoryButtonTap;
+
+- (NSObject *)object;
 
 @end

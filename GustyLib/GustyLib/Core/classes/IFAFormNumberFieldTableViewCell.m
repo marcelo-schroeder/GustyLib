@@ -66,12 +66,11 @@
 
 #pragma mark - Overrides
 
-- (id)initWithReuseIdentifier:(NSString *)reuseIdentifier object:(NSObject *)a_object
-                 propertyName:(NSString *)a_propertyName indexPath:(NSIndexPath *)a_indexPath
+- (id)initWithReuseIdentifier:(NSString *)reuseIdentifier propertyName:(NSString *)a_propertyName
+                    indexPath:(NSIndexPath *)a_indexPath
            formViewController:(IFAFormViewController *)a_formViewController {
     
-    self = [super initWithReuseIdentifier:reuseIdentifier object:a_object propertyName:a_propertyName
-                                indexPath:a_indexPath
+    self = [super initWithReuseIdentifier:reuseIdentifier propertyName:a_propertyName indexPath:a_indexPath
                        formViewController:a_formViewController];
     
     NSDictionary *l_options = [[IFAPersistenceManager sharedInstance].entityConfig optionsForProperty:self.propertyName

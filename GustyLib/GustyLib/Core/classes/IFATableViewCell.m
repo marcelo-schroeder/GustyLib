@@ -25,23 +25,6 @@
     
 }
 
-
-#pragma mark - Public
-
--(id)initWithStyle:(UITableViewCellStyle)a_style reuseIdentifier:(NSString *)a_reuseIdentifier object:(NSObject*)a_object propertyName:(NSString*)a_propertyName{
-    return [self initWithStyle:a_style reuseIdentifier:a_reuseIdentifier object:a_object propertyName:a_propertyName
-                     indexPath:nil];
-}
-
--(id)initWithStyle:(UITableViewCellStyle)a_style reuseIdentifier:(NSString *)a_reuseIdentifier object:(NSObject*)a_object propertyName:(NSString*)a_propertyName indexPath:(NSIndexPath*)a_indexPath{
-    if ((self= [super initWithStyle:a_style reuseIdentifier:a_reuseIdentifier])) {
-        self.object = a_object;
-        self.propertyName = a_propertyName;
-        self.indexPath = a_indexPath;
-    }
-    return self;
-}
-
 #pragma mark - Overrides
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
