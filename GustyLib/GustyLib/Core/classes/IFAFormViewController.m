@@ -844,7 +844,9 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
             l_accessoryType = IFAFormTableViewCellAccessoryTypeDisclosureIndicatorInfo;
         }
     }else{
-        if (![self IFA_canUserChangeFieldAtIndexPath:a_indexPath]) {
+        BOOL l_cannotBeChanged = ![self IFA_canUserChangeFieldAtIndexPath:a_indexPath];
+        BOOL l_isInReadOnlyMode = self.readOnlyMode && !self.showEditButton;
+        if (l_cannotBeChanged || l_isInReadOnlyMode) {
             l_accessoryType = IFAFormTableViewCellAccessoryTypeNone;
         }
     }
