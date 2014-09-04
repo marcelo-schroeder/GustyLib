@@ -29,7 +29,6 @@
 
 @implementation IFAFormNumberFieldTableViewCell
 
-////
 #pragma mark - Private
 
 -(void)IFA_onStepperValueChange {
@@ -77,44 +76,81 @@
                                                                                             inObject:self.object];
     self.IFA_roundingIncrement = [l_options valueForKey:@"roundingIncrement"];
     self.IFA_sliderIncrement = [l_options valueForKey:@"sliderIncrement"];
-    
-    // Configure the text field
-    if (![IFAUIUtils isIPad]) {
-        self.textField.keyboardType = UIKeyboardTypeNumberPad;
-    }
-    
+
     // Min & max values
     NSNumber *l_minValue = [self.object ifa_minimumValueForProperty:self.propertyName];
     NSNumber *l_maxValue = [self.object ifa_maximumValueForProperty:self.propertyName];
 
+    // Configure input control container
+    UIView *l_inputControlContainer = [UIView new];
+    l_inputControlContainer.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.customContentView addSubview:l_inputControlContainer];
+    [l_inputControlContainer ifa_addLayoutConstraintsToFillSuperviewVertically];
+    NSLayoutConstraint *l_leftConstraint = [NSLayoutConstraint constraintWithItem:l_inputControlContainer
+                                                                        attribute:NSLayoutAttributeLeft
+                                                                        relatedBy:NSLayoutRelationEqual
+                                                                           toItem:self.rightLabel
+                                                                        attribute:NSLayoutAttributeLeft
+                                                                       multiplier:1
+                                                                         constant:0];
+    NSLayoutConstraint *l_rightConstraint = [NSLayoutConstraint constraintWithItem:l_inputControlContainer
+                                                                         attribute:NSLayoutAttributeRight
+                                                                         relatedBy:NSLayoutRelationEqual
+                                                                            toItem:self.rightLabel
+                                                                         attribute:NSLayoutAttributeRight
+                                                                        multiplier:1
+                                                                          constant:0];
+    [l_inputControlContainer.superview addConstraints:@[
+            l_leftConstraint,
+            l_rightConstraint,
+    ]];
+
+    // Configure the text field
+    if (![IFAUIUtils isIPad]) {
+        self.textField.keyboardType = UIKeyboardTypeNumberPad;
+    }
+    [l_inputControlContainer addSubview:self.textField];
+
     // Configure stepper
     self.stepper = [UIStepper new];
+    self.stepper.translatesAutoresizingMaskIntoConstraints = NO;
     self.stepper.minimumValue = [l_minValue doubleValue];
     self.stepper.maximumValue = [l_maxValue doubleValue];
     self.stepper.stepValue = [self.IFA_roundingIncrement doubleValue];
     [self.stepper addTarget:self action:@selector(IFA_onStepperValueChange)
            forControlEvents:UIControlEventValueChanged];
-    [self.contentView addSubview:self.stepper];
+    [l_inputControlContainer addSubview:self.stepper];
 
     // Configure slider
     self.slider = [UISlider new];
+    self.slider.translatesAutoresizingMaskIntoConstraints = NO;
     self.slider.minimumValue = [l_minValue floatValue];
     self.slider.maximumValue = [l_maxValue floatValue];
     [self.slider addTarget:self action:@selector(IFA_onSliderAction:) forControlEvents:UIControlEventValueChanged];
-    [self.contentView addSubview:self.slider];
+    [l_inputControlContainer addSubview:self.slider];
 
-//    // Configure slider labels
-//    self.minLabel = [UILabel new];
-//    self.minLabel.backgroundColor = [UIColor clearColor];
-//    self.minLabel.textAlignment = UITextAlignmentRight;
-//    self.minLabel.text = @"100";
-//    [self.contentView addSubview:self.minLabel];
-//    self.maxLabel = [UILabel new];
-//    self.maxLabel.backgroundColor = [UIColor clearColor];
-//    self.maxLabel.textAlignment = UITextAlignmentLeft;
-//    self.maxLabel.text = @"10,000";
-//    [self.contentView addSubview:self.maxLabel];
-    
+    id l_textField = self.textField;
+    id l_stepper = self.stepper;
+    id l_slider = self.slider;
+    NSDictionary *l_views = NSDictionaryOfVariableBindings(l_textField, l_stepper, l_slider);
+    NSMutableArray *l_horizontalConstraints = [[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[l_textField]-8-[l_stepper]|"
+                                                                                       options:NSLayoutFormatAlignAllCenterY
+                                                                                       metrics:nil
+                                                                                         views:l_views] mutableCopy];
+    [l_horizontalConstraints addObject:[NSLayoutConstraint constraintWithItem:l_stepper
+                                                                    attribute:NSLayoutAttributeRight
+                                                                    relatedBy:NSLayoutRelationEqual
+                                                                       toItem:l_slider
+                                                                    attribute:NSLayoutAttributeRight
+                                                                   multiplier:1
+                                                                     constant:0]];
+    [self.customContentView addConstraints:l_horizontalConstraints];
+    NSArray *l_verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[l_textField]-7-[l_slider]"
+                                                                             options:NSLayoutFormatAlignAllLeft
+                                                                             metrics:nil
+                                                                               views:l_views];
+    [self.customContentView addConstraints:l_verticalConstraints];
+
     // Add observers
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(IFA_onTextFieldDidChangeNotification:)
@@ -130,25 +166,6 @@
     NSNumberFormatter *l_numberFormatter = [self.object ifa_numberFormatterForProperty:self.propertyName];
     [l_numberFormatter setRoundingIncrement:self.IFA_roundingIncrement];
     return [l_numberFormatter numberFromString:self.textField.text];
-    
-}
-
--(void)layoutSubviews{
-    
-    [super layoutSubviews];
-    
-    self.stepper.frame = CGRectMake(self.textField.frame.origin.x + self.textField.frame.size.width - self.stepper.frame.size.width, 8, self.stepper.frame.size.width, self.stepper.frame.size.height);
-    self.textField.frame = CGRectMake(self.textField.frame.origin.x, self.textField.frame.origin.y, self.textField.frame.size.width - self.stepper.frame.size.width - 10, self.textField.frame.size.height);
-//    self.minLabel.frame = CGRectMake(self.textField.frame.origin.x, self.textField.frame.origin.y + self.textField.frame.size.height + 3, self.contentView.frame.size.width/10, self.slider.frame.size.height);
-//    self.maxLabel.frame = CGRectMake(self.p_stepper.frame.origin.x + self.p_stepper.frame.size.width - self.minLabel.frame.size.width, self.minLabel.frame.origin.y, self.minLabel.frame.size.width, self.minLabel.frame.size.height);
-//    NSLog(@"self.detailTextLabel.frame: %@", NSStringFromCGRect(self.detailTextLabel.frame));
-//    NSLog(@"self.p_stepper.frame: %@", NSStringFromCGRect(self.p_stepper.frame));
-//    NSLog(@"self.slider.frame: %@", NSStringFromCGRect(self.slider.frame));
-//    NSLog(@"self.minLabel.frame: %@", NSStringFromCGRect(self.minLabel.frame));
-//    NSLog(@"self.maxLabel.frame: %@", NSStringFromCGRect(self.maxLabel.frame));
-//    CGFloat l_x = self.minLabel.frame.origin.x + self.minLabel.frame.size.width + 10;
-//    self.slider.frame = CGRectMake(l_x, self.textField.frame.origin.y + self.textField.frame.size.height + 5, self.detailTextLabel.frame.size.width - (l_x - self.minLabel.frame.origin.x) - self.maxLabel.frame.size.width - 10, self.slider.frame.size.height);
-    self.slider.frame = CGRectMake(self.textField.frame.origin.x, self.textField.frame.origin.y + self.textField.frame.size.height + 5, self.detailTextLabel.frame.size.width, self.slider.frame.size.height);
     
 }
 
@@ -169,6 +186,10 @@
     // Remove observers
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
 
+}
+
+- (void)addTextFieldLayoutConstraints {
+    // Do not add the constraints added by the superclass
 }
 
 #pragma mark - UITextFieldDelegate

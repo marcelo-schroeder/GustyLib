@@ -27,9 +27,7 @@
 //wip: implement delete as row button (this is to avoid forms jumping when going into edit mode)
 //wip: overall clean up of comments
 //wip: keyboard navigation with the new input accessory view does not seem to be working in Location, and it gets stuck with validation when scrolling the form to get rid of the keyboard (empty radius field)
-//wip: when tapping outside the switch in a switch cell, edit mode is enabled. same for a read-only field - is that ok?
 //wip: not so keen on having the table view rows being unselected on return from a tab switching - it does not look good.
-//wip: it triggers didselectrow... for cells that, for instance, have switch controls - there is no visual effect, but I have seen this during debugging.
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -718,7 +716,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 //            }
             l_cell.enabledInEditing = [self IFA_isDependencyEnabledForIndexPath:a_cell.indexPath];
 
-        } else if ([a_cell isMemberOfClass:[IFAFormTextFieldTableViewCell class]]) {
+        } else if ([a_cell isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
 
             IFAFormTextFieldTableViewCell *l_cell = (IFAFormTextFieldTableViewCell *) a_cell;
             [l_cell reloadData];
@@ -1243,7 +1241,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return self.editing && [self editorTypeForIndexPath:indexPath]== IFAEditorTypeNumber ? 68 : 44;
+    return self.editing && [self editorTypeForIndexPath:indexPath]== IFAEditorTypeNumber ? 84 : 44;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{

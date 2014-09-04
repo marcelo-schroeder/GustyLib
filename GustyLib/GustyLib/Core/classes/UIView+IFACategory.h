@@ -94,6 +94,13 @@
 */
 - (NSLayoutConstraint *)ifa_newLayoutConstraintWithAttribute:(NSLayoutAttribute)a_attribute toItem:(id)a_toItem;
 
+/**
+* Removes layout constraints from the receiver matching specifications provided.
+* @param a_attribute The attribute provided here must match both first and second attributes a layout constraint for that constraint to be removed.
+* @param a_item The item provided here must match the first item or the second item of a layout constraint for that constraint to be removed.
+*/
+- (void)ifa_removeLayoutConstraintsMatchingFirstAndSecondAttribute:(NSLayoutAttribute)a_attribute firstOrSecondItem:(id)a_item;
+
 - (UIImage *)ifa_snapshotImage;
 
 - (UIImage *)ifa_snapshotImageFromRect:(CGRect)a_rectToSnapshot;

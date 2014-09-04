@@ -187,6 +187,16 @@ static char c_appearanceIdKey;
                                        multiplier:1 constant:0];
 }
 
+- (void)ifa_removeLayoutConstraintsMatchingFirstAndSecondAttribute:(NSLayoutAttribute)a_attribute firstOrSecondItem:(id)a_item {
+    for (NSLayoutConstraint *l_layoutConstraint in self.constraints) {
+        if (l_layoutConstraint.firstAttribute==a_attribute
+                && l_layoutConstraint.secondAttribute==a_attribute
+                && (l_layoutConstraint.firstItem==a_item || l_layoutConstraint.secondItem==a_item)) {
+            [self removeConstraint:l_layoutConstraint];
+        }
+    }
+}
+
 - (UIImage *)ifa_snapshotImage {
     CGRect l_rectToSnapshot = self.bounds;
     return [self ifa_snapshotImageFromRect:l_rectToSnapshot];

@@ -64,6 +64,28 @@
 
 }
 
+- (void)addTextFieldLayoutConstraints {
+    [self.textField ifa_addLayoutConstraintToCenterInSuperviewVertically];
+    NSLayoutConstraint *l_leftConstraint = [NSLayoutConstraint constraintWithItem:self.textField
+                                                                        attribute:NSLayoutAttributeLeft
+                                                                        relatedBy:NSLayoutRelationEqual
+                                                                           toItem:self.rightLabel
+                                                                        attribute:NSLayoutAttributeLeft
+                                                                       multiplier:1
+                                                                         constant:0];
+    NSLayoutConstraint *l_rightConstraint = [NSLayoutConstraint constraintWithItem:self.textField
+                                                                         attribute:NSLayoutAttributeRight
+                                                                         relatedBy:NSLayoutRelationEqual
+                                                                            toItem:self.rightLabel
+                                                                         attribute:NSLayoutAttributeRight
+                                                                        multiplier:1
+                                                                          constant:0];
+    [self.textField.superview addConstraints:@[
+            l_leftConstraint,
+            l_rightConstraint,
+    ]];
+}
+
 #pragma mark - Overrides
 
 - (id)initWithReuseIdentifier:(NSString *)reuseIdentifier propertyName:(NSString *)a_propertyName
@@ -83,25 +105,7 @@
                                                                                                        inObject:self.object];
     self.textField.translatesAutoresizingMaskIntoConstraints = NO;
     [self.customContentView addSubview:self.textField];
-    [self.textField ifa_addLayoutConstraintToCenterInSuperviewVertically];
-    NSLayoutConstraint *l_leftConstraint = [NSLayoutConstraint constraintWithItem:self.textField
-                                                                        attribute:NSLayoutAttributeLeft
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:self.rightLabel
-                                                                        attribute:NSLayoutAttributeLeft
-                                                                       multiplier:1
-                                                                         constant:0];
-    NSLayoutConstraint *l_rightConstraint = [NSLayoutConstraint constraintWithItem:self.textField
-                                                                        attribute:NSLayoutAttributeRight
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:self.rightLabel
-                                                                        attribute:NSLayoutAttributeRight
-                                                                       multiplier:1
-                                                                         constant:0];
-    [self.textField.superview addConstraints:@[
-            l_leftConstraint,
-            l_rightConstraint,
-    ]];
+    [self addTextFieldLayoutConstraints];
 
     return self;
     

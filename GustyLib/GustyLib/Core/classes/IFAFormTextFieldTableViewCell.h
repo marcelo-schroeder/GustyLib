@@ -30,4 +30,9 @@
 -(BOOL)valueChanged;
 -(id)parsedValue;
 
+/**
+* Add layout constraints related to textField.
+* This method can be overridden to provide different constraints.
+*/
+- (void)addTextFieldLayoutConstraints;
 @end
