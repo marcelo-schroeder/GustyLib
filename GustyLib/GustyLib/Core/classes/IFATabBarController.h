@@ -18,7 +18,9 @@
 //  limitations under the License.
 //
 
-@interface IFATabBarController : UITabBarController <UITabBarControllerDelegate> {
+#import "IFAContextSwitchingManager.h"
+
+@interface IFATabBarController : UITabBarController <UITabBarControllerDelegate, IFAContextSwitchingManagerDelegate> {
 }
 
 @end

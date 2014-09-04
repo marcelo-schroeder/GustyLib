@@ -19,8 +19,9 @@
 //
 
 #import "IFAFetchedResultsTableViewController.h"
+#import "IFAContextSwitchingManager.h"
 
-@interface IFAMenuViewController : IFATableViewController
+@interface IFAMenuViewController : IFATableViewController <IFAContextSwitchingManagerDelegate>
 
 @property (nonatomic, strong, readonly) NSMutableDictionary *indexPathToViewControllerDictionary;
 @property (nonatomic, strong) NSIndexPath *selectedIndexPath;

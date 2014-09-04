@@ -63,20 +63,6 @@
 
 #pragma mark - Overrides
 
-//wip: clean up
-//- (void)willTransitionToState:(UITableViewCellStateMask)state{
-//    [super willTransitionToState:state];
-////    NSLog(@"willTransitionToState: %u, indexPath: %@", state, [self.indexPath description]);
-//    switch (state) {
-//        case UITableViewCellStateDefaultMask:
-//            [self.formViewController populateCell:self];
-//            break;
-//        default:
-//            // does nothing
-//            break;
-//    }
-//}
-
 - (void)layoutSubviews {
     CGFloat l_horizontalSpace = self.leftLabelLeftConstraint.constant;
     BOOL l_areCustomAccessoryViewsHidden = self.customAccessoryImageView.hidden && self.customAccessoryButton.hidden;

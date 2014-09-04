@@ -179,3 +179,4 @@
 #import "IFAMultipleSelectionListViewCell.h"
 #import "IFAContextSwitchTarget.h"
 #import "IFAZeroingWeakReferenceContainer.h"
+#import "IFAContextSwitchingManager.h"

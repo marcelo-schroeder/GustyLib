@@ -21,26 +21,19 @@
 #import "GustyLibCore.h"
 
 @interface IFAMenuViewController ()
-
-@property (nonatomic, strong) UIViewController *IFA_previousViewController;
-
+@property (nonatomic, strong) IFAContextSwitchingManager *IFA_contextSwitchingManager;
 @end
 
-@implementation IFAMenuViewController {
-    @private
-    
-}
+@implementation IFAMenuViewController
 
 #pragma mark - Private
 
-- (void)oncontextSwitchRequestGrantedNotification:(NSNotification*)aNotification{
-//    NSLog(@"IFANotificationContextSwitchRequestGranted received by %@", [self description]);
-    [self commitSelectionForIndexPath:aNotification.object];
-}
-
-- (void)oncontextSwitchRequestDeniedNotification:(NSNotification*)aNotification{
-//    NSLog(@"IFANotificationContextSwitchRequestDenied received by %@", [self description]);
-    [self restoreCurrentSelection];
+- (IFAContextSwitchingManager *)IFA_contextSwitchingManager {
+    if (!_IFA_contextSwitchingManager) {
+        _IFA_contextSwitchingManager = [IFAContextSwitchingManager new];
+        _IFA_contextSwitchingManager.delegate = self;
+    }
+    return _IFA_contextSwitchingManager;
 }
 
 -(void)onSlidingViewTopDidResetNotification:(NSNotification*)a_notification{
@@ -122,19 +115,7 @@
     //    NSLog(@"self.selectedIndexPath: %@", [self.selectedIndexPath description]);
     
     if (self.splitViewController || self.slidingViewController) {
-        if (self.IFA_previousViewController && [self.IFA_previousViewController isKindOfClass:[UINavigationController class]]) {
-            // If the previously selected view controller is a navigation controller then make sure to pop to its root view controller
-            //  in order to minimise memory requirements and avoid complications with entities being changed somewhere else (for now)
-            UINavigationController *l_navigationController = (UINavigationController*)self.IFA_previousViewController;
-            //            NSLog(@"before...");
-            //            NSLog(@"  [l_navigationController.viewControllers count]: %u", [l_navigationController.viewControllers count]);
-            //            NSLog(@"  [l_navigationController.topViewController description]: %@", [l_navigationController.topViewController description]);
-            [l_navigationController popToRootViewControllerAnimated:NO];
-            //            NSLog(@"...after");
-            //            NSLog(@"[l_navigationController.viewControllers count]: %u", [l_navigationController.viewControllers count]);
-            //            NSLog(@"[l_navigationController.topViewController description]: %@", [l_navigationController.topViewController description]);
-        }
-        self.IFA_previousViewController = l_viewController;
+        [self.IFA_contextSwitchingManager didCommitContextSwitchForViewController:l_viewController];
     }
     
     // Dismiss the popover controller if a split view controller is used
@@ -193,14 +174,6 @@
     // Add observers if required
     if (self.splitViewController || self.slidingViewController) {
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(oncontextSwitchRequestGrantedNotification:)
-                                                     name:IFANotificationContextSwitchRequestGranted
-                                                   object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(oncontextSwitchRequestDeniedNotification:)
-                                                     name:IFANotificationContextSwitchRequestDenied
-                                                   object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(onSlidingViewTopDidResetNotification:)
                                                      name:ECSlidingViewTopDidReset
                                                    object:nil];
@@ -212,10 +185,6 @@
     
     // Remove observers if required
     if (self.splitViewController || self.slidingViewController) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationContextSwitchRequestGranted
-                                                      object:nil];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationContextSwitchRequestDenied
-                                                      object:nil];
         [[NSNotificationCenter defaultCenter] removeObserver:self name:ECSlidingViewTopDidReset
                                                       object:nil];
     }
@@ -245,24 +214,25 @@
     
     [[self firstResponder] resignFirstResponder];
     
-    UIViewController *l_selectedViewController = nil;
     if (self.splitViewController || self.slidingViewController) {
-        l_selectedViewController = self.splitViewController ? (self.splitViewController.viewControllers)[1] : self.slidingViewController.topViewController;
-        if ([l_selectedViewController conformsToProtocol:@protocol(IFAContextSwitchTarget)] && ((id <IFAContextSwitchTarget>) l_selectedViewController).contextSwitchRequestRequired) {
-            NSNotification *l_notification = [NSNotification notificationWithName:IFANotificationContextSwitchRequest
-                                                                           object:indexPath userInfo:nil];
-            [[NSNotificationQueue defaultQueue] enqueueNotification:l_notification
-                                                       postingStyle:NSPostASAP
-                                                       coalesceMask:NSNotificationNoCoalescing
-                                                           forModes:nil];
-//            NSLog(@" ");
-//            NSLog(@"IFANotificationContextSwitchRequest sent by %@", [self description]);
+        if (![self.IFA_contextSwitchingManager requestContextSwitchForObject:indexPath]) {
             return;
         }
     }
 
     [self commitSelectionForIndexPath:indexPath];
 
+}
+
+#pragma mark - IFAContextSwitchingManagerDelegate
+
+- (void)             contextSwitchingManager:(IFAContextSwitchingManager *)a_contextSwitchingManager
+didReceiveContextSwitchRequestReplyForObject:(id)a_object granted:(BOOL)a_granted {
+    if (a_granted) {
+        [self commitSelectionForIndexPath:a_object];
+    }else{
+        [self restoreCurrentSelection];
+    }
 }
 
 @end

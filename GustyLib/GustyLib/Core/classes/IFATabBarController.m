@@ -25,45 +25,27 @@
 #endif
 
 @interface IFATabBarController ()
-@property(nonatomic, strong) UIViewController *IFA_previousViewController;
+@property (nonatomic, strong) IFAContextSwitchingManager *IFA_contextSwitchingManager;
 @end
 
 @implementation IFATabBarController
 
 #pragma mark - Private
 
+- (IFAContextSwitchingManager *)IFA_contextSwitchingManager {
+    if (!_IFA_contextSwitchingManager) {
+        _IFA_contextSwitchingManager = [IFAContextSwitchingManager new];
+        _IFA_contextSwitchingManager.delegate = self;
+    }
+    return _IFA_contextSwitchingManager;
+}
+
 -(void)IFA_selectViewController:(UIViewController*)a_viewController{
 //    NSLog(@"going to select tab view controller...");
-    //continuehere
     self.selectedViewController = a_viewController;
     [self tabBarController:self didSelectViewController:self.selectedViewController];
 //    NSLog(@"tab view controller selected");
 }
-
-- (void)onContextSwitchRequestGrantedNotification:(NSNotification*)aNotification{
-//    NSLog(@"IFANotificationContextSwitchRequestGranted received by %@", [self description]);
-    [self IFA_selectViewController:aNotification.object];
-}
-
-/*
--(void)IFA_releaseMemory {
-//    NSLog(@"IFA_releaseMemory in %@", [self description]);
-    for (UIViewController *l_viewController in self.viewControllers) {
-//        NSLog(@"   inspecting view controller: %@", [l_viewController description]);
-        if (l_viewController!=self.selectedViewController) {
-//            NSLog(@"      not selected - releasing view...");
-            [l_viewController ifa_releaseView];
-        }
-    }
-}
-*/
-
-/*
--(void)ifa_onApplicationDidEnterBackgroundNotification:(NSNotification *)aNotification{
-    [super ifa_onApplicationDidEnterBackgroundNotification:aNotification];
-//    [self IFA_releaseMemory];
-}
-*/
 
 #pragma mark - UITabBarControllerDelegate
 
@@ -90,42 +72,12 @@
     }
 #endif
 
-    BOOL l_shouldSelectViewController = YES;
-    if ([self.selectedViewController conformsToProtocol:@protocol(IFAContextSwitchTarget)] && ((id <IFAContextSwitchTarget>) self.selectedViewController).contextSwitchRequestRequired) {
-        NSNotification *l_notification = [NSNotification notificationWithName:IFANotificationContextSwitchRequest
-                                                                       object:viewController userInfo:nil];
-        [[NSNotificationQueue defaultQueue] enqueueNotification:l_notification
-                                                   postingStyle:NSPostASAP
-                                                   coalesceMask:NSNotificationNoCoalescing
-                                                       forModes:nil];
-//        NSLog(@" ");
-//        NSLog(@"IFANotificationContextSwitchRequest sent by %@", [self description]);
-        l_shouldSelectViewController = NO;
-    }
-    return l_shouldSelectViewController;
+    return [self.IFA_contextSwitchingManager requestContextSwitchForObject:viewController];
 
 }
 
 -(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
-//    NSLog(@"didSelectViewController: %@", [viewController description]);
-//    if (v_previousViewController && [v_previousViewController isKindOfClass:[UINavigationController class]]) {
-//        UINavigationController *l_navigationController = (UINavigationController*)viewController;
-//        NSLog(@"[l_navigationController.viewControllers count]: %u", [l_navigationController.viewControllers count]);
-//        NSLog(@"[l_navigationController.topViewController description]: %@", [l_navigationController.topViewController description]);
-//    }
-    if (self.IFA_previousViewController && [self.IFA_previousViewController isKindOfClass:[UINavigationController class]]) {
-        // If the previously selected view controller is a navigation controller then make sure to pop to its root view controller
-        //  in order to minimise memory requirements and avoid complications with entities being changed somewhere else (for now)
-        UINavigationController *l_navigationController = (UINavigationController*) self.IFA_previousViewController;
-//        NSLog(@"before...");
-//        NSLog(@"  [l_navigationController.viewControllers count]: %u", [l_navigationController.viewControllers count]);
-//        NSLog(@"  [l_navigationController.topViewController description]: %@", [l_navigationController.topViewController description]);
-        [l_navigationController popToRootViewControllerAnimated:NO];
-//        NSLog(@"...after");
-//        NSLog(@"[l_navigationController.viewControllers count]: %u", [l_navigationController.viewControllers count]);
-//        NSLog(@"[l_navigationController.topViewController description]: %@", [l_navigationController.topViewController description]);
-    }
-    self.IFA_previousViewController = viewController;
+    [self.IFA_contextSwitchingManager didCommitContextSwitchForViewController:viewController];
 }
 
 #pragma mark - Overrides
@@ -136,23 +88,11 @@
 
     self.customizableViewControllers = nil;
     self.delegate = self;
-    self.IFA_previousViewController = (self.viewControllers)[0];
-    
-    // Add observers
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(onContextSwitchRequestGrantedNotification:)
-                                                 name:IFANotificationContextSwitchRequestGranted
-                                               object:nil];
+
+    // Update initial context
+    [self.IFA_contextSwitchingManager didCommitContextSwitchForViewController:(self.viewControllers)[0]];
 
     return self;
-}
-
--(void)dealloc{
-    
-    // Remove observers
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationContextSwitchRequestGranted
-                                                  object:nil];
-
 }
 
 -(void)viewDidLoad{
@@ -169,12 +109,13 @@
     return [self ifa_supportedInterfaceOrientations];
 }
 
-/*
--(void)didReceiveMemoryWarning{
-//    NSLog(@"didReceiveMemoryWarning in %@", [self description]);
-    [super didReceiveMemoryWarning];
-    [self IFA_releaseMemory];
+#pragma mark - IFAContextSwitchingManagerDelegate
+
+- (void)             contextSwitchingManager:(IFAContextSwitchingManager *)a_contextSwitchingManager
+didReceiveContextSwitchRequestReplyForObject:(id)a_object granted:(BOOL)a_granted {
+    if (a_granted) {
+        [self IFA_selectViewController:a_object];
+    }
 }
-*/
 
 @end
