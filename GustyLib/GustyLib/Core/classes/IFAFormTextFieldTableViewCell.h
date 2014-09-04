@@ -20,11 +20,9 @@
 
 #import "IFAFormTableViewCell.h"
 
-@class IFATextField;
-
 @interface IFAFormTextFieldTableViewCell : IFAFormTableViewCell <UITextFieldDelegate>
 
-@property (strong, nonatomic) IFATextField *textField;
+@property (strong, nonatomic) UITextField *textField;
 
 -(void)reloadData;
 -(BOOL)valueChanged;

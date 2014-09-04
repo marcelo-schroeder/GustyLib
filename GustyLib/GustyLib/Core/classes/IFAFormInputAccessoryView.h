@@ -66,9 +66,13 @@ typedef enum{
 
 /**
 * Call this method to move the keyboard input focus to the cell at the index path specified.
+* Before moving the focus, this method will check if it is possible for the current focus to resign being the first responder by calling the canResignFirstResponder method on the current first responder.
+* The current first responder is obtained by calling the formInputAccessoryView:responderForKeyboardInputFocusAtIndexPath: delegate method.
+* If it is not possible to resign the first responder, then the input focus will not change.
+* The above means that this method works well in conjunction with any validations already implemented by the responders.
 * @param Index path of the cell to point the input focus at.
 */
-- (void)moveInputFocusAtIndexPath:(NSIndexPath *)a_indexPath;
+- (void)moveInputFocusToIndexPath:(NSIndexPath *)a_indexPath;
 
 @end
 

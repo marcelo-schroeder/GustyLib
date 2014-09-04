@@ -95,7 +95,7 @@
     self = [super initWithReuseIdentifier:reuseIdentifier propertyName:a_propertyName indexPath:a_indexPath
                        formViewController:a_formViewController];
     
-    self.textField = [[IFATextField alloc] init];
+    self.textField = [[UITextField alloc] init];
     self.textField.font = self.rightLabel.font;
     self.textField.borderStyle = UITextBorderStyleRoundedRect;
     self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;

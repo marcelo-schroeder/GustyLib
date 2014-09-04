@@ -113,8 +113,9 @@
 - (void)notifyTableViewDidEndScrollingAnimation {
     if (self.IFA_scrollRequested && [self.IFA_scrollPendingIndexPath isEqual:self.IFA_currentInputFieldIndexPath]) {
         self.IFA_scrollRequested = NO;
-        [[self.dataSource formInputAccessoryView:self
-       responderForKeyboardInputFocusAtIndexPath:self.IFA_currentInputFieldIndexPath] becomeFirstResponder];
+        UIResponder *l_responderToBe = [self.dataSource formInputAccessoryView:self
+           responderForKeyboardInputFocusAtIndexPath:self.IFA_currentInputFieldIndexPath];
+        [l_responderToBe becomeFirstResponder];
     }
 }
 
@@ -123,24 +124,29 @@
 }
 
 - (IBAction)onPreviousButtonTap {
-    [self moveInputFocusAtIndexPath:self.IFA_previousInputFieldIndexPath];
+    [self moveInputFocusToIndexPath:self.IFA_previousInputFieldIndexPath];
 }
 
 - (IBAction)onNextButtonTap {
-    [self moveInputFocusAtIndexPath:self.IFA_nextInputFieldIndexPath];
+    [self moveInputFocusToIndexPath:self.IFA_nextInputFieldIndexPath];
 }
 
-- (void)moveInputFocusAtIndexPath:(NSIndexPath *)a_indexPath {
-    self.IFA_currentInputFieldIndexPath = a_indexPath;
-    if (a_indexPath) {
-        if ([self.IFA_tableView ifa_isCellFullyVisibleForRowAtIndexPath:a_indexPath]) {
-            [[self.dataSource formInputAccessoryView:self
-           responderForKeyboardInputFocusAtIndexPath:a_indexPath] becomeFirstResponder];
-        } else {
-            [self.IFA_tableView scrollToRowAtIndexPath:a_indexPath
-                                      atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-            self.IFA_scrollRequested = YES;
-            self.IFA_scrollPendingIndexPath = a_indexPath;
+- (void)moveInputFocusToIndexPath:(NSIndexPath *)a_indexPath {
+    UIResponder *l_currentResponder = [self.dataSource formInputAccessoryView:self
+                                    responderForKeyboardInputFocusAtIndexPath:self.IFA_currentInputFieldIndexPath];
+    if ([l_currentResponder canResignFirstResponder]) {
+        self.IFA_currentInputFieldIndexPath = a_indexPath;
+        if (a_indexPath) {
+            if ([self.IFA_tableView ifa_isCellFullyVisibleForRowAtIndexPath:a_indexPath]) {
+                UIResponder *l_responderToBe = [self.dataSource formInputAccessoryView:self
+                           responderForKeyboardInputFocusAtIndexPath:a_indexPath];
+                [l_responderToBe becomeFirstResponder];
+            } else {
+                [self.IFA_tableView scrollToRowAtIndexPath:a_indexPath
+                                          atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                self.IFA_scrollRequested = YES;
+                self.IFA_scrollPendingIndexPath = a_indexPath;
+            }
         }
     }
 }

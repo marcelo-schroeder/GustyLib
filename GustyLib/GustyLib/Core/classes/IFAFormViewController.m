@@ -25,8 +25,6 @@
 #endif
 
 //wip: implement delete as row button (this is to avoid forms jumping when going into edit mode)
-//wip: overall clean up of comments
-//wip: keyboard navigation with the new input accessory view does not seem to be working in Location, and it gets stuck with validation when scrolling the form to get rid of the keyboard (empty radius field)
 //wip: not so keen on having the table view rows being unselected on return from a tab switching - it does not look good.
 @interface IFAFormViewController ()
 
@@ -332,14 +330,6 @@
     }
 }
 
-//wip: clean up
-///**
-//* Indicate whether an accessory type can mutate for a given editor type.
-//*/
-//- (BOOL)IFA_isMutableAccessoryTypeForEditorType:(IFAEditorType)a_editorType {
-//    return [self IFA_accessoryTypeForEditorType:a_editorType] != IFAFormTableViewCellAccessoryTypeNone;
-//}
-
 -(BOOL)IFA_isFormEditorTypeForIndexPath:(NSIndexPath*)a_indexPath{
     return [self editorTypeForIndexPath:a_indexPath]== IFAEditorTypeForm;
 }
@@ -612,10 +602,6 @@
 - (void)IFA_popChildManagedObjectContext {
     IFAPersistenceManager *l_persistenceManager = [IFAPersistenceManager sharedInstance];
     [l_persistenceManager popChildManagedObjectContext];
-    //wip: clean up
-//                    if (!l_changesMade) {
-//                        [l_persistenceManager rollback];
-//                    }
     self.object = [l_persistenceManager findById:((NSManagedObject *) self.object).objectID];
     NSAssert(l_persistenceManager.childManagedObjectContexts.count== self.IFA_initialChildManagedObjectContextCountForAssertion, @"Incorrect l_persistenceManager.childManagedObjectContexts.count: %u", l_persistenceManager.childManagedObjectContexts.count);
 }
@@ -710,10 +696,6 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
             IFASwitchTableViewCell *l_cell = (IFASwitchTableViewCell *) a_cell;
             l_cell.switchControl.on = [(NSNumber *) l_value boolValue];
-            //wip: clean up
-//            if (!self.editing) {
-//                l_cell.switchControl.enabled = NO;
-//            }
             l_cell.enabledInEditing = [self IFA_isDependencyEnabledForIndexPath:a_cell.indexPath];
 
         } else if ([a_cell isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
@@ -792,7 +774,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     NSIndexPath *l_nextIndexPath = [self.IFA_indexPathToTextFieldCellDictionary allKeysForObject:l_nextTextFieldCell][0];
 
     // Move input focus to that index path
-    [self.formInputAccessoryView moveInputFocusAtIndexPath:l_nextIndexPath];
+    [self.formInputAccessoryView moveInputFocusToIndexPath:l_nextIndexPath];
 
 }
 
@@ -1135,7 +1117,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     }
 
     if (![self IFA_endTextFieldEditingWithCommit:self.editing]) {
-        [tableView deselectRowAtIndexPath:indexPath animated:NO];   //wip: can I test this scenario maybe when it is possible to edit a Location?
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];
         return;
     }
 
@@ -1401,13 +1383,6 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     }
 
 }
-
-//wip: clean up
-//- (NSMutableDictionary *)IFA_indexPathToTextFieldCellDictionary {
-//    if (!_IFA_indexPathToTextFieldCellDictionary) {
-//    }
-//    return _IFA_indexPathToTextFieldCellDictionary;
-//}
 
 - (void)viewWillAppear:(BOOL)animated {
 
@@ -1735,7 +1710,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
 - (BOOL)    formInputAccessoryView:(IFAFormInputAccessoryView *)a_formInputAccessoryView
 canReceiveKeyboardInputAtIndexPath:(NSIndexPath *)a_indexPath {
-    return self.IFA_indexPathToTextFieldCellDictionary[a_indexPath]!=nil;
+    return [self.IFA_editableTextFieldCells containsObject:self.IFA_indexPathToTextFieldCellDictionary[a_indexPath]];
 }
 
 - (UIResponder *)  formInputAccessoryView:(IFAFormInputAccessoryView *)a_formInputAccessoryView

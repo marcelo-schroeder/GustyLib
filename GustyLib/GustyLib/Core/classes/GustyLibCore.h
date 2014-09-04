@@ -139,7 +139,6 @@
 #import "IFATableSectionHeaderView.h"
 #import "IFATableViewCell.h"
 #import "IFATableViewController.h"
-#import "IFATextField.h"
 #import "IFATextViewContainer.h"
 #import "IFATextViewController.h"
 #import "IFAThirdPartyCodeCreditsViewController.h"
