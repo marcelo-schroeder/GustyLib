@@ -24,8 +24,7 @@
 #import "GustyLibHelp.h"
 #endif
 
-//wip: implement delete as row button (this is to avoid forms jumping when going into edit mode)
-//wip: not so keen on having the table view rows being unselected on return from a tab switching - it does not look good.
+//wip: tests are broken
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -104,17 +103,6 @@
 
     return l_cell;
     
-}
-
-- (void)IFA_onDeleteButtonTap:(id)sender{
-	NSString *entityName = [[self.object ifa_entityLabel] lowercaseString];
-	NSString *message = [NSString stringWithFormat:@"Are you sure you want to delete the %@?", entityName];
-    [IFAUIUtils showActionSheetWithMessage:message
-              destructiveButtonLabelSuffix:@"delete"
-                            viewController:self
-                             barButtonItem:nil
-                                  delegate:self
-                                       tag:IFAViewTagActionSheetDelete];
 }
 
 - (void)IFA_rollbackAndRestoreNonEditingState {
@@ -281,8 +269,12 @@
     return l_urlPropertyName;
 }
 
--(BOOL)IFA_shouldLinkToUrlForIndexPath:(NSIndexPath*)a_indexPath{
-    return [self IFA_urlPropertyNameForIndexPath:a_indexPath]!=nil;
+-(BOOL)IFA_shouldLinkToUrlForIndexPath:(NSIndexPath*)a_indexPath {
+    if ([self IFA_isDeleteButtonAtIndexPath:a_indexPath]) {
+        return NO;
+    }else{
+        return [self IFA_urlPropertyNameForIndexPath:a_indexPath] != nil;
+    }
 }
 
 - (BOOL)IFA_canUserChangeFieldAtIndexPath:(NSIndexPath *)a_indexPath {
@@ -484,15 +476,6 @@
         }];
     }
 
-    //wip: the block below should be removed after implementing the delete as a row button
-    // If cell is not fully visible after the transition to edit mode (e.g. it could become hidden by the toolbar), then make it visibler
-    BOOL l_isCellFullyVisible = [self.tableView ifa_isCellFullyVisibleForRowAtIndexPath:a_indexPath];
-    if (!l_isCellFullyVisible) {
-        [self.tableView scrollToRowAtIndexPath:a_indexPath
-                              atScrollPosition:UITableViewScrollPositionMiddle
-                                      animated:YES];
-    };
-
     return l_canReceiveKeyboardInput;
 
 }
@@ -513,7 +496,8 @@
 
     IFAFormTableViewCell *l_cell = nil;
 
-    NSString *l_propertyName = [self nameForIndexPath:indexPath];
+    BOOL l_isDeleteButton = [self IFA_isDeleteButtonAtIndexPath:indexPath];
+    NSString *l_propertyName = l_isDeleteButton ? IFAEntityConfigPropertyNameDeleteButton : [self nameForIndexPath:indexPath];
 
     IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
 
@@ -556,10 +540,19 @@
                 [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
                                                                                                                                 cell:l_cell];
             }
-            l_cell.centeredLabel.text = [l_entityConfig labelForViewControllerFieldTypeAtIndexPath:indexPath
-                                                                                          inObject:self.object
-                                                                                            inForm:self.formName
-                                                                                        createMode:self.createMode];
+            if (l_isDeleteButton) {
+                NSString *l_text = @"Delete";
+                NSString *l_entityLabel = self.object.ifa_entityLabel;
+                if (l_entityLabel) {
+                    l_text= [NSString stringWithFormat:@"Delete %@", l_entityLabel];
+                }
+                l_cell.centeredLabel.text = l_text;
+            }else{
+                l_cell.centeredLabel.text = [l_entityConfig labelForViewControllerFieldTypeAtIndexPath:indexPath
+                                                                                              inObject:self.object
+                                                                                                inForm:self.formName
+                                                                                            createMode:self.createMode];
+            }
             return l_cell;
 
         }
@@ -611,6 +604,14 @@
     NSAssert(l_persistenceManager.childManagedObjectContexts.count== self.IFA_initialChildManagedObjectContextCountForAssertion, @"Incorrect l_persistenceManager.childManagedObjectContexts.count: %u", l_persistenceManager.childManagedObjectContexts.count);
     [l_persistenceManager pushChildManagedObjectContext];
     self.object = [l_persistenceManager findById:((NSManagedObject *) self.object).objectID];
+}
+
+- (BOOL)IFA_isDeleteButtonAtIndexPath:(NSIndexPath *)a_indexPath{
+    return a_indexPath.section == self.IFA_deleteButtonSection;
+}
+
+- (NSInteger)IFA_deleteButtonSection {
+    return self.shouldShowDeleteButton ? [self.tableView.dataSource numberOfSectionsInTableView:self.tableView] - 1 : NSNotFound;
 }
 
 #pragma mark - Public
@@ -836,7 +837,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     return l_accessoryType;
 }
 
-- (IFAEditorType)editorTypeForIndexPath:(NSIndexPath*)anIndexPath{
+- (IFAEditorType)editorTypeForIndexPath:(NSIndexPath*)anIndexPath {
 
     IFAEntityConfigFieldType l_fieldType = [self fieldTypeForIndexPath:anIndexPath];
     BOOL l_shouldLinkToUrl = [self IFA_shouldLinkToUrlForIndexPath:anIndexPath];
@@ -857,60 +858,60 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
         return IFAEditorTypeForm;
 
-    }else if ([[IFAPersistenceManager sharedInstance].entityConfig isEnumerationForProperty:propertyName
-                                                                                   inObject:self.object]) {
+    } else if ([[IFAPersistenceManager sharedInstance].entityConfig isEnumerationForProperty:propertyName
+                                                                                    inObject:self.object]) {
 
         return IFAEditorTypePicker;
 
-    }else if([l_propertyDescription hasPrefix:@"T@\"NSDate\","]){
+    } else if ([l_propertyDescription hasPrefix:@"T@\"NSDate\","]) {
 
         NSDictionary *l_propertyOptions = [[[IFAPersistenceManager sharedInstance] entityConfig] optionsForProperty:propertyName
                                                                                                            inObject:self.object];
         if ([l_propertyOptions[@"datePickerMode"] isEqualToString:@"fullDateAndTime"]) {
             return IFAEditorTypeFullDateAndTime;
-        }else{
+        } else {
             return IFAEditorTypeDatePicker;
         }
 
-    }else if ([self.object isKindOfClass:NSManagedObject.class]) {
+    } else if ([self.object isKindOfClass:NSManagedObject.class]) {
 
         NSPropertyDescription *propertyDescription = [self.object ifa_descriptionForProperty:propertyName];
         //            NSLog(@"propertyDescription: %@", [propertyDescription validationPredicates]);
 
-        if ([propertyDescription isKindOfClass:[NSAttributeDescription class]] && [(NSAttributeDescription*)propertyDescription attributeType]==NSBooleanAttributeType && ![self IFA_isReadOnlyForIndexPath:anIndexPath]) {
+        if ([propertyDescription isKindOfClass:[NSAttributeDescription class]] && [(NSAttributeDescription *) propertyDescription attributeType] == NSBooleanAttributeType && ![self IFA_isReadOnlyForIndexPath:anIndexPath]) {
 
             return IFAEditorTypeSwitch;
 
-        }else if ([propertyDescription isKindOfClass:[NSAttributeDescription class]] && [(NSAttributeDescription*)propertyDescription attributeType]==NSDoubleAttributeType && ![self IFA_isReadOnlyForIndexPath:anIndexPath]) {
+        } else if ([propertyDescription isKindOfClass:[NSAttributeDescription class]] && [(NSAttributeDescription *) propertyDescription attributeType] == NSDoubleAttributeType && ![self IFA_isReadOnlyForIndexPath:anIndexPath]) {
 
             NSUInteger dataType = [[IFAPersistenceManager sharedInstance].entityConfig dataTypeForProperty:propertyName
                                                                                                   inObject:self.object];
-            if (dataType== IFADataTypeTimeInterval) {
+            if (dataType == IFADataTypeTimeInterval) {
                 return IFAEditorTypeTimeInterval;
-            }else {
+            } else {
                 return IFAEditorTypeNumber;
             }
 
-        }else if ([[IFAPersistenceManager sharedInstance].entityConfig isRelationshipForProperty:propertyName
-                                                                                 inManagedObject:(NSManagedObject *) self.object]) {
+        } else if ([[IFAPersistenceManager sharedInstance].entityConfig isRelationshipForProperty:propertyName
+                                                                                  inManagedObject:(NSManagedObject *) self.object]) {
 
             NSString *entityName = [[IFAPersistenceManager sharedInstance].entityConfig entityNameForProperty:propertyName
                                                                                                      inObject:self.object];
             IFAEditorType editorType = [[IFAPersistenceManager sharedInstance].entityConfig fieldEditorForEntity:entityName];
-            if (editorType==(IFAEditorType)NSNotFound) {
+            if (editorType == (IFAEditorType) NSNotFound) {
                 // Attempt to infer editor type from target entity
                 return [[IFAPersistenceManager sharedInstance] isSystemEntityForEntity:entityName] ? IFAEditorTypePicker : IFAEditorTypeSelectionList;
-            }else {
+            } else {
                 return editorType;
             }
 
-        }else {
+        } else {
 
             return IFAEditorTypeText;
 
         }
 
-    }else{
+    } else {
 
         return IFAEditorTypeText;
 
@@ -934,9 +935,17 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 }
 
 - (IFAEntityConfigFieldType)fieldTypeForIndexPath:(NSIndexPath *)a_indexPath {
-    IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
-    return [l_entityConfig fieldTypeForIndexPath:a_indexPath inObject:self.object inForm:self.formName
-                                      createMode:self.createMode];
+    if ([self IFA_isDeleteButtonAtIndexPath:a_indexPath]) {
+        return IFAEntityConfigFieldTypeButton;
+    }else{
+        IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
+        return [l_entityConfig fieldTypeForIndexPath:a_indexPath inObject:self.object inForm:self.formName
+                                          createMode:self.createMode];
+    }
+}
+
+- (BOOL)shouldShowDeleteButton {
+    return (self.editing && !self.createMode);
 }
 
 #pragma mark - UIActionSheetDelegate
@@ -978,22 +987,34 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return [[IFAPersistenceManager sharedInstance].entityConfig fieldCountCountForSectionIndex:section
-                                                                                     inObject:self.object
-                                                                                       inForm:self.formName
-                                                                                   createMode:self.createMode];
+    if (section==self.IFA_deleteButtonSection) {
+        return 1;
+    } else {
+        return [[IFAPersistenceManager sharedInstance].entityConfig fieldCountCountForSectionIndex:section
+                                                                                          inObject:self.object
+                                                                                            inForm:self.formName
+                                                                                        createMode:self.createMode];
+    }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-	return [[IFAPersistenceManager sharedInstance].entityConfig headerForSectionIndex:section inObject:self.object
-                                                                              inForm:self.formName
-                                                                          createMode:self.createMode];
+    if (section==self.IFA_deleteButtonSection) {
+        return nil;
+    } else {
+        return [[IFAPersistenceManager sharedInstance].entityConfig headerForSectionIndex:section inObject:self.object
+                                                                                   inForm:self.formName
+                                                                               createMode:self.createMode];
+    }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section{
-	return [[IFAPersistenceManager sharedInstance].entityConfig footerForSectionIndex:section inObject:self.object
-                                                                              inForm:self.formName
-                                                                          createMode:self.createMode];
+    if (section==self.IFA_deleteButtonSection) {
+        return nil;
+    } else {
+        return [[IFAPersistenceManager sharedInstance].entityConfig footerForSectionIndex:section inObject:self.object
+                                                                                   inForm:self.formName
+                                                                               createMode:self.createMode];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -1098,9 +1119,13 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [[IFAPersistenceManager sharedInstance].entityConfig formSectionsCountForObject:self.object
-                                                                                    inForm:self.formName
-                                                                                createMode:self.createMode];
+    NSUInteger l_numberOfSections = [[IFAPersistenceManager sharedInstance].entityConfig formSectionsCountForObject:self.object
+                                                                                                             inForm:self.formName
+                                                                                                         createMode:self.createMode];
+    if (self.shouldShowDeleteButton) {
+        l_numberOfSections++;
+    }
+    return l_numberOfSections;
 }
 
 #pragma mark -
@@ -1166,12 +1191,24 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
             return;
         }
         case IFAEntityConfigFieldTypeButton: {
-            if ([self.formViewControllerDelegate respondsToSelector:@selector(formViewController:didTapButtonNamed:)]) {
-                [self.formViewControllerDelegate formViewController:self
-                                                  didTapButtonNamed:[l_entityConfig nameForIndexPath:indexPath
-                                                                                            inObject:self.object
-                                                                                              inForm:self.formName
-                                                                                          createMode:self.createMode]];
+            IFAFormTableViewCell *l_cell = (IFAFormTableViewCell *) [tableView cellForRowAtIndexPath:indexPath];
+            if ([l_cell.propertyName isEqualToString:IFAEntityConfigPropertyNameDeleteButton]) {
+                NSString *l_entityName = [[self.object ifa_entityLabel] lowercaseString];
+                NSString *l_message = [NSString stringWithFormat:@"Are you sure you want to delete the %@?", l_entityName];
+                [IFAUIUtils showActionSheetWithMessage:l_message
+                          destructiveButtonLabelSuffix:@"delete"
+                                        viewController:self
+                                         barButtonItem:nil
+                                              delegate:self
+                                                   tag:IFAViewTagActionSheetDelete];
+            }else{
+                if ([self.formViewControllerDelegate respondsToSelector:@selector(formViewController:didTapButtonNamed:)]) {
+                    [self.formViewControllerDelegate formViewController:self
+                                                      didTapButtonNamed:[l_entityConfig nameForIndexPath:indexPath
+                                                                                                inObject:self.object
+                                                                                                  inForm:self.formName
+                                                                                              createMode:self.createMode]];
+                }
             }
             [tableView deselectRowAtIndexPath:indexPath animated:YES];
             return;
@@ -1223,7 +1260,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return self.editing && [self editorTypeForIndexPath:indexPath]== IFAEditorTypeNumber ? 84 : 44;
+    return self.editing && [self editorTypeForIndexPath:indexPath] == IFAEditorTypeNumber ? 84 : 44;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -1462,17 +1499,6 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     BOOL l_hasBeenPoppedByNavigationController = self.isMovingFromParentViewController;
     if (l_hasBeenPoppedByNavigationController) {
         [self ifa_notifySessionCompletion];
-    }
-
-}
-
-- (NSArray*)ifa_editModeToolbarItems {
-    if(!self.createMode){
-        UIBarButtonItem *deleteButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemDelete target:self
-                                                                      action:@selector(IFA_onDeleteButtonTap:)];
-        return @[deleteButtonItem];
-    }else {
-        return nil;
     }
 
 }

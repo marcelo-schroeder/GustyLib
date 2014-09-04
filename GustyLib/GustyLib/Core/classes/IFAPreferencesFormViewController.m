@@ -46,9 +46,8 @@
     return [((IFAPreferencesFormViewController *) [super initWithCoder:aDecoder]) IFA_init];
 }
 
-- (NSArray*)ifa_editModeToolbarItems {
-    // Preference cannot be deleted, so return an empty toolbar
-    return nil;
+- (BOOL)shouldShowDeleteButton {
+    return NO;
 }
 
 @end

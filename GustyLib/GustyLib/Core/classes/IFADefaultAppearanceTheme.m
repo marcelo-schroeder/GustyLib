@@ -382,7 +382,9 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     if ([a_cell isKindOfClass:[IFAFormTableViewCell class]]) {
         IFAFormTableViewCell *l_formTableViewCell = (IFAFormTableViewCell *) a_cell;
         if ([l_formTableViewCell.formViewController fieldTypeForIndexPath:l_formTableViewCell.indexPath]==IFAEntityConfigFieldTypeButton) {
-            l_formTableViewCell.centeredLabel.textColor = self.IFA_defaultTintColor;
+            BOOL l_isDeleteButton = [l_formTableViewCell.propertyName isEqualToString:IFAEntityConfigPropertyNameDeleteButton];
+            UIColor *l_textColor = l_isDeleteButton ? [UIColor redColor] : self.IFA_defaultTintColor;
+            l_formTableViewCell.centeredLabel.textColor = l_textColor;
         }
         if ([l_formTableViewCell isKindOfClass:[IFASegmentedControlTableViewCell class]]) {
             IFASegmentedControlTableViewCell *l_cell = (IFASegmentedControlTableViewCell *) l_formTableViewCell;

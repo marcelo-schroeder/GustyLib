@@ -23,6 +23,8 @@
 @class NSManagedObject;
 @class NSManagedObjectContext;
 
+static NSString *const IFAEntityConfigPropertyNameDeleteButton = @"IFAEntityConfig.propertyName.deleteButton";
+
 typedef enum{
     IFAEntityConfigFieldTypeProperty,       // type = "property"
     IFAEntityConfigFieldTypeForm,           // type = "form"

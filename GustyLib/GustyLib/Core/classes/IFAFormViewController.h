@@ -45,6 +45,8 @@
 
 - (IFAEntityConfigFieldType)fieldTypeForIndexPath:(NSIndexPath *)a_indexPath;
 
+- (BOOL)shouldShowDeleteButton;
+
 /* Submission forms */
 - (id)initWithObject:(NSObject *)a_object;
 - (id)    initWithObject:(NSObject *)a_object inForm:(NSString *)a_formName

@@ -370,11 +370,21 @@
     }
 
     if (self.IFA_initDone && !self.skipEditingUiStateChange) {
+
+        UIViewController *l_viewControllerToHaveToolbarUpdated = nil;
         if (self.ifa_manageToolbar) {
-            [self ifa_updateToolbarForMode:editing animated:animated];
+            l_viewControllerToHaveToolbarUpdated = self;
         }else{
-            [((IFAViewController *) self.parentViewController) ifa_updateToolbarForMode:editing animated:animated];
+            l_viewControllerToHaveToolbarUpdated = self.parentViewController;
         }
+
+        // Had to dispatch the below async to avoid the toolbar update kinda mid flight here...
+        // It was triggering updates to parts of the table view affected by the toolbar updates and this was causing other issues.
+        // So, this is now done after this run loop ends for consistency.
+        [IFAUtils dispatchAsyncMainThreadBlock:^{
+            [l_viewControllerToHaveToolbarUpdated ifa_updateToolbarForMode:editing animated:animated];
+        }];
+
     }
 
     if (self.contextSwitchRequestPending) {
