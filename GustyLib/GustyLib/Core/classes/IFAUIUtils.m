@@ -481,11 +481,6 @@ static UIImage *c_menuBarButtonItemImage = nil;
     return l_view;
 }
 
-+(void)postNavigationEventNotification {
-    [[NSNotificationCenter defaultCenter] postNotificationName:IFANotificationNavigationEvent object:nil];
-//    NSLog(@"IFANotificationNavigationEvent sent");
-}
-
 +(void)traverseHierarchyForView:(UIView *)a_view withBlock:(void (^) (UIView*))a_block{
     [self IFA_traverseHierarchyForView:a_view withBlock:a_block level:0];
 }

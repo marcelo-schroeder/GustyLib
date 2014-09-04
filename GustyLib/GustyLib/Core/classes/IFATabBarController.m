@@ -126,7 +126,6 @@
 //        NSLog(@"[l_navigationController.topViewController description]: %@", [l_navigationController.topViewController description]);
     }
     self.IFA_previousViewController = viewController;
-    [IFAUIUtils postNavigationEventNotification];
 }
 
 #pragma mark - Overrides

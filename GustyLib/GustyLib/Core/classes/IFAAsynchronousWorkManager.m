@@ -35,7 +35,6 @@
 @property BOOL IFA_showProgressIndicator;
 @property dispatch_queue_t IFA_mainSerialDispatchQueue;
 @property BOOL areAllBlocksCancelled;
-@property BOOL IFA_isSharedInstance;
 
 @end
 
@@ -73,11 +72,6 @@
 
 }
 
-- (void)IFA_onNavigationEventNotification:(NSNotification*)aNotification{
-//    NSLog(@"IFANotificationNavigationEvent received");
-    [self cancelAllSerialBlocks];
-}
-
 -(void)cancelAllSerialBlocks {
     [self hideNonModalProgressIndicatorWithAnimation:NO];
     self.areAllBlocksCancelled = YES;
@@ -94,24 +88,6 @@
 
 -(void)IFA_dispatchConcurrentBlock:(dispatch_block_t)a_block priority:(long)a_priority{
     dispatch_async(dispatch_get_global_queue(a_priority, 0), a_block);
-}
-
--(id)initAsSharedInstance{
-    
-    if (self=[self init]) {
-        
-        self.IFA_isSharedInstance = YES;
-        
-        // Add observers
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(IFA_onNavigationEventNotification:)
-                                                     name:IFANotificationNavigationEvent
-                                                   object:nil];
-        
-    }
-    
-    return self;
-    
 }
 
 #pragma mark -
@@ -335,11 +311,11 @@ usePrivateManagedObjectContext:a_usePrivateManagedObjectContext];
 
 #pragma mark - Singleton functions
 
-+ (IFAAsynchronousWorkManager *)instance {
++ (IFAAsynchronousWorkManager *)sharedInstance {
     static dispatch_once_t c_dispatchOncePredicate;
     static IFAAsynchronousWorkManager *c_instance = nil;
     dispatch_once(&c_dispatchOncePredicate, ^{
-        c_instance = [[self alloc] initAsSharedInstance];
+        c_instance = [self new];
     });
     return c_instance;
 }
@@ -361,15 +337,6 @@ usePrivateManagedObjectContext:a_usePrivateManagedObjectContext];
     }
 
     return self;
-
-}
-
--(void)dealloc{
-    
-    // Remove observers
-    if (self.IFA_isSharedInstance) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationNavigationEvent object:nil];
-    }
 
 }
 

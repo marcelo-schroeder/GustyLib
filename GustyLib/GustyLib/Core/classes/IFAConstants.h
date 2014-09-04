@@ -41,7 +41,6 @@ extern NSString* const IFANotificationPersistentEntityChange;
 extern NSString* const IFANotificationContextSwitchRequest;
 extern NSString* const IFANotificationContextSwitchRequestGranted;
 extern NSString* const IFANotificationContextSwitchRequestDenied;
-extern NSString* const IFANotificationNavigationEvent;
 extern NSString* const IFANotificationMenuBarButtonItemInvalidated;
 extern NSString* const IFANotificationLocationAuthorizationStatusChange;
 

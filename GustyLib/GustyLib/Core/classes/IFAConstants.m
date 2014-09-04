@@ -35,7 +35,6 @@ NSString* const IFANotificationPersistentEntityChange = @"ifa.persistentEntityCh
 NSString* const IFANotificationContextSwitchRequest = @"ifa.contextSwitchRequest";
 NSString* const IFANotificationContextSwitchRequestGranted = @"ifa.contextSwitchRequestGranted";
 NSString* const IFANotificationContextSwitchRequestDenied = @"ifa.contextSwitchRequestDenied";
-NSString* const IFANotificationNavigationEvent = @"ifa.navigationEvent";
 NSString* const IFANotificationMenuBarButtonItemInvalidated = @"ifa.menuBarButtonItemInvalidated";
 NSString* const IFANotificationLocationAuthorizationStatusChange = @"ifa.locationAuthorizationStatusChange";
 

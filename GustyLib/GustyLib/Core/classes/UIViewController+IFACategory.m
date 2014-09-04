@@ -836,7 +836,7 @@ typedef enum {
 }
 
 -(IFAAsynchronousWorkManager *)ifa_asynchronousWorkManager {
-    return [IFAAsynchronousWorkManager instance];
+    return [IFAAsynchronousWorkManager sharedInstance];
 }
 
 -(void)ifa_dismissMenuPopoverController {

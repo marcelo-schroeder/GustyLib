@@ -91,8 +91,6 @@ static const CGFloat IFAMaximumImageSizeInPixels =  5 * 1024 * 1024;
 + (void)showAndHideModeToggleConfirmationHudWithText:(NSString*)a_text on:(BOOL)a_on;
 +(UIView*)nonModalHudContainerView;
 
-+(void)postNavigationEventNotification;
-
 +(void)traverseHierarchyForView:(UIView *)a_view withBlock:(void (^) (UIView*))a_block;
 
 +(CGFloat)widthForPortraitNumerator:(float)a_portraitNumerator

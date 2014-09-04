@@ -58,26 +58,6 @@
     return [self ifa_supportedInterfaceOrientations];
 }
 
--(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated{
-    [IFAUIUtils postNavigationEventNotification];
-    [super pushViewController:viewController animated:animated];
-}
-
--(UIViewController *)popViewControllerAnimated:(BOOL)animated{
-    [IFAUIUtils postNavigationEventNotification];
-    return [super popViewControllerAnimated:animated];
-}
-
--(NSArray *)popToRootViewControllerAnimated:(BOOL)animated{
-    [IFAUIUtils postNavigationEventNotification];
-    return [super popToRootViewControllerAnimated:animated];
-}
-
--(NSArray *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated{
-    [IFAUIUtils postNavigationEventNotification];
-    return [super popToViewController:viewController animated:animated];
-}
-
 -(BOOL)disablesAutomaticKeyboardDismissal{
     return self.visibleViewController.disablesAutomaticKeyboardDismissal;
 }

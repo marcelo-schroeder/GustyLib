@@ -24,7 +24,7 @@
 
 @property (readonly) BOOL areAllBlocksCancelled;
 
-+ (IFAAsynchronousWorkManager *)instance;
++ (IFAAsynchronousWorkManager *)sharedInstance;
 
 -(void)showNonModalProgressIndicatorInView:(UIView*)a_view;
 -(void)showNonModalProgressIndicator;

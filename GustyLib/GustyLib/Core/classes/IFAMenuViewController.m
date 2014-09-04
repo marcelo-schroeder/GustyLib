@@ -135,7 +135,6 @@
             //            NSLog(@"[l_navigationController.topViewController description]: %@", [l_navigationController.topViewController description]);
         }
         self.IFA_previousViewController = l_viewController;
-        [IFAUIUtils postNavigationEventNotification];
     }
     
     // Dismiss the popover controller if a split view controller is used
