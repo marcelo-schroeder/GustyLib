@@ -34,6 +34,7 @@
 @property(nonatomic, strong) id p_mockDataSource;
 @property(nonatomic, strong) id p_mockPreviousBarButtonItem;
 @property(nonatomic, strong) id p_mockNextBarButtonItem;
+@property(nonatomic, strong) id p_mockResponder;
 @end
 
 @implementation IFAFormInputAccessoryViewTests{
@@ -185,7 +186,10 @@
 
 - (void)testThatTableViewIsScrolledToRowAtTheNextIndexPathWithAnInputFieldWhenUserTapsTheNextButtonAndTheDestinationCellIsNotFullyVisible {
     // given
-    [self.p_view notifyOfCurrentInputFieldIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
+    NSIndexPath *l_currentInputFieldIndexPath = [NSIndexPath indexPathForRow:0 inSection:2];
+    [self.p_view notifyOfCurrentInputFieldIndexPath:l_currentInputFieldIndexPath];
+    [[[self.p_mockDataSource expect] andReturn:self.p_mockResponder] formInputAccessoryView:self.p_view
+                                                  responderForKeyboardInputFocusAtIndexPath:l_currentInputFieldIndexPath];
     [[self.p_mockTableView expect] scrollToRowAtIndexPath:self.p_view.IFA_nextInputFieldIndexPath
                                          atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 
@@ -198,9 +202,12 @@
 
 - (void)testThatTableViewIsNotScrolledToRowAtTheNextIndexPathWithAnInputFieldAndThatResponderIsRequestedWhenUserTapsTheNextButtonAndTheDestinationCellIsAlreadyFullyVisible {
     // given
-    [self.p_view notifyOfCurrentInputFieldIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
+    NSIndexPath *l_currentInputFieldIndexPath = [NSIndexPath indexPathForRow:0 inSection:2];
+    [self.p_view notifyOfCurrentInputFieldIndexPath:l_currentInputFieldIndexPath];
     NSIndexPath *l_nextInputFieldIndexPath = self.p_view.IFA_nextInputFieldIndexPath;
     [[[self.p_mockTableView expect] ifa_andReturnBool:YES] ifa_isCellFullyVisibleForRowAtIndexPath:l_nextInputFieldIndexPath];
+    [[[self.p_mockDataSource expect] andReturn:self.p_mockResponder] formInputAccessoryView:self.p_view
+                                             responderForKeyboardInputFocusAtIndexPath:l_currentInputFieldIndexPath];
     [[self.p_mockDataSource expect] formInputAccessoryView:self.p_view
                  responderForKeyboardInputFocusAtIndexPath:l_nextInputFieldIndexPath];
     [[self.p_mockTableView reject] scrollToRowAtIndexPath:l_nextInputFieldIndexPath
@@ -215,7 +222,10 @@
 
 - (void)testThatTableViewIsScrolledToRowAtThePreviousIndexPathWithAnInputFieldWhenUserTapsThePreviousButtonAndTheDestinationCellIsNotFullyVisible {
     // given
-    [self.p_view notifyOfCurrentInputFieldIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
+    NSIndexPath *l_currentInputFieldIndexPath = [NSIndexPath indexPathForRow:0 inSection:2];
+    [self.p_view notifyOfCurrentInputFieldIndexPath:l_currentInputFieldIndexPath];
+    [[[self.p_mockDataSource expect] andReturn:self.p_mockResponder] formInputAccessoryView:self.p_view
+                                                  responderForKeyboardInputFocusAtIndexPath:l_currentInputFieldIndexPath];
     [[self.p_mockTableView expect] scrollToRowAtIndexPath:self.p_view.IFA_previousInputFieldIndexPath
                                          atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 
@@ -228,9 +238,12 @@
 
 - (void)testThatTableViewIsNotScrolledToRowAtThePreviousIndexPathWithAnInputFieldAndThatResponderIsRequestedWhenUserTapsThePreviousButtonAndTheDestinationCellIsAlreadyFullyVisible {
     // given
-    [self.p_view notifyOfCurrentInputFieldIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
+    NSIndexPath *l_currentInputFieldIndexPath = [NSIndexPath indexPathForRow:0 inSection:2];
+    [self.p_view notifyOfCurrentInputFieldIndexPath:l_currentInputFieldIndexPath];
     NSIndexPath *l_previousInputFieldIndexPath = self.p_view.IFA_previousInputFieldIndexPath;
     [[[self.p_mockTableView expect] ifa_andReturnBool:YES] ifa_isCellFullyVisibleForRowAtIndexPath:l_previousInputFieldIndexPath];
+    [[[self.p_mockDataSource expect] andReturn:self.p_mockResponder] formInputAccessoryView:self.p_view
+                                                  responderForKeyboardInputFocusAtIndexPath:l_currentInputFieldIndexPath];
     [[self.p_mockDataSource expect] formInputAccessoryView:self.p_view
                  responderForKeyboardInputFocusAtIndexPath:l_previousInputFieldIndexPath];
     [[self.p_mockTableView reject] scrollToRowAtIndexPath:l_previousInputFieldIndexPath
@@ -252,6 +265,8 @@
     [self.p_view notifyOfCurrentInputFieldIndexPath:l_currentIndexPath];
 
     // "Tap" the Next button
+    [[[self.p_mockDataSource expect] andReturn:self.p_mockResponder] formInputAccessoryView:self.p_view
+                 responderForKeyboardInputFocusAtIndexPath:l_currentIndexPath];
     [self.p_view onNextButtonTap];
 
     // Simulate scrolling animation ended
@@ -268,6 +283,7 @@
     [self m_configureMockTableView];
     [self m_configureMockDataSource];
     [self m_configureMockTableViewDataSource];
+    [self m_configureMockResponder];
 }
 
 - (void)m_configureMockTableView {
@@ -309,6 +325,11 @@
     self.p_mockDataSource = [OCMockObject mockForProtocol:@protocol(IFAFormInputAccessoryViewDataSource)];
     self.p_mockPreviousBarButtonItem = [OCMockObject niceMockForClass:[UIBarButtonItem class]];
     self.p_mockNextBarButtonItem = [OCMockObject niceMockForClass:[UIBarButtonItem class]];
+    self.p_mockResponder = [OCMockObject mockForClass:[UIResponder class]];
+}
+
+- (void)m_configureMockResponder {
+    [[[self.p_mockResponder expect] ifa_andReturnBool:YES] canResignFirstResponder];
 }
 
 - (void)m_createSystemUnderTestAndSetMockObjects {

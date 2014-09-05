@@ -24,7 +24,6 @@
 #import "GustyLibHelp.h"
 #endif
 
-//wip: tests are broken
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
