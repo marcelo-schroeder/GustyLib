@@ -148,11 +148,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     
+/*
+
+    UPDATE: 05/09/2014 - Commented out code below as I modernise the framework to be more iOS 7 friendly - at the moment I don't have use cases that require the below.
+
     // When the interface orientation changes in some other tab, it will trigger a scrollViewDidScroll event when this view is shown.
     // We need to ignore that event and that is reason to re-layout below so we can do set a flag to indicate we have to ignore it.
     if (self.lastActiveInterfaceOrientation !=self.interfaceOrientation) {
@@ -170,17 +174,9 @@
         
     }
     self.willRotate = NO;
-    
-    [super viewWillAppear:animated];
-    
-}
+*/
 
--(void)viewDidAppear:(BOOL)animated{
-    
-    [super viewDidAppear:animated];
-    
-    // Update scroll view content's height as it may need to change due to toolbar being hidden/shown
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.contentSize.width, self.view.frame.size.height);
+    [super viewWillAppear:animated];
     
 }
 
