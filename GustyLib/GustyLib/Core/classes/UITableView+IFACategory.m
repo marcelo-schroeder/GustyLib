@@ -50,38 +50,47 @@
 
 //    NSLog(@"ifa_isCellFullyVisibleForRowAtIndexPath: %@", [a_indexPath description]);
 
-    BOOL l_fullyVisible = NO;
+    UITableView *l_tableView = self;
+    CGRect l_tableViewFrame = l_tableView.frame;
+    CGPoint l_tableViewFrameOrigin = l_tableViewFrame.origin;
+    CGSize l_tableViewFrameSize = l_tableViewFrame.size;
+    UIEdgeInsets l_tableViewContentInset = l_tableView.contentInset;
 
-    UITableViewCell *l_cell;
-    if ((l_cell = [self cellForRowAtIndexPath:a_indexPath])) {
+    // Section header rect
+    CGRect l_sectionHeaderRectLocal = [l_tableView rectForHeaderInSection:a_indexPath.section];
 
-        // Convert local coordinates to global coordinates
-        CGRect l_cellViewRect = CGRectOffset(l_cell.frame, -self.contentOffset.x, -self.contentOffset.y);
-        IFAApplicationDelegate *l_appDelegate = (IFAApplicationDelegate *) [UIApplication sharedApplication].delegate;
-        CGFloat l_heightOffset = l_appDelegate.keyboardVisible ? -self.contentInset.bottom : 0;
-        CGRect l_tableViewVisibleRect = CGRectMake(0.0f, 0.0f, self.bounds.size.width, self.bounds.size.height + l_heightOffset);
-//        NSLog(@"          l_cellViewRect: %@", NSStringFromCGRect(l_cellViewRect));
-//        NSLog(@"             self.bounds: %@", NSStringFromCGRect(self.bounds));
-//        NSLog(@"       self.contentInset: %@", NSStringFromUIEdgeInsets(self.contentInset));
-//        NSLog(@"          l_heightOffset: %f", l_heightOffset);
-//        NSLog(@"  l_tableViewVisibleRect: %@", NSStringFromCGRect(l_tableViewVisibleRect));
+    // Section footer rect
+    CGRect l_sectionFooterRectLocal = [l_tableView rectForFooterInSection:a_indexPath.section];
 
-        // Check if it's fully visible
-        if ((l_fullyVisible = CGRectContainsRect(l_tableViewVisibleRect, l_cellViewRect))) {
-            if ([self.delegate tableView:self viewForHeaderInSection:a_indexPath.section]) {
-                CGRect l_sectionHeaderRect = [self rectForHeaderInSection:a_indexPath.section];
-//                NSLog(@"  l_sectionHeaderRect: %@", NSStringFromCGRect(l_sectionHeaderRect));
-                if ((l_fullyVisible = !CGRectIntersectsRect(l_cellViewRect, l_sectionHeaderRect))) {
-                    if ([self.delegate tableView:self viewForFooterInSection:a_indexPath.section]) {
-                        CGRect l_sectionFooterRect = [self rectForFooterInSection:a_indexPath.section];
-//                        NSLog(@"  l_sectionFooterRect: %@", NSStringFromCGRect(l_sectionFooterRect));
-                        l_fullyVisible = !CGRectIntersectsRect(l_cellViewRect, l_sectionFooterRect);
-                    }
-                }
-            }
-        }
-
+    // Table view rect - a given cell must be fully visible within this rect
+    CGFloat l_tableViewRectLocalX = l_tableViewFrameOrigin.x + l_tableViewContentInset.left;
+    CGFloat l_tableViewRectLocalY = l_tableViewFrameOrigin.y + l_tableViewContentInset.top;
+    CGFloat l_tableViewRectLocalWidthOffset = - l_tableViewContentInset.left - l_tableViewContentInset.right;
+    CGFloat l_tableViewRectLocalWidth = l_tableViewFrameSize.width + l_tableViewRectLocalWidthOffset;
+    CGFloat l_tableViewRectLocalHeightOffset = - l_tableViewContentInset.top - l_tableViewContentInset.bottom;
+    if (l_tableView.style==UITableViewStylePlain) {
+        CGFloat l_sectionHeaderRectLocalHeight = l_sectionHeaderRectLocal.size.height;
+        CGFloat l_sectionFooterRectLocalHeight = l_sectionFooterRectLocal.size.height;
+        l_tableViewRectLocalY += l_sectionHeaderRectLocalHeight;
+        l_tableViewRectLocalHeightOffset +=  - l_sectionHeaderRectLocalHeight - l_sectionFooterRectLocalHeight;
     }
+    CGFloat l_tableViewRectLocalHeight = l_tableViewFrameSize.height + l_tableViewRectLocalHeightOffset;
+    CGRect l_tableViewRectLocal = CGRectMake(l_tableViewRectLocalX, l_tableViewRectLocalY, l_tableViewRectLocalWidth, l_tableViewRectLocalHeight);
+    CGRect l_tableViewRectGlobal = [l_tableView.superview convertRect:l_tableViewRectLocal toView:nil];
+
+    // Cell rect
+    CGRect l_cellViewRectLocal = [l_tableView rectForRowAtIndexPath:a_indexPath];
+    CGRect l_cellViewRectGlobal = [l_tableView convertRect:l_cellViewRectLocal toView:nil];
+
+    BOOL l_fullyVisible = CGRectContainsRect(l_tableViewRectGlobal, l_cellViewRectGlobal);
+
+//    NSLog(@"  NSStringFromCGRect(l_tableViewRectLocal) = %@", NSStringFromCGRect(l_tableViewRectLocal));
+//    NSLog(@"  NSStringFromCGRect(l_cellViewRectLocal) = %@", NSStringFromCGRect(l_cellViewRectLocal));
+//    NSLog(@"  NSStringFromCGRect(l_sectionHeaderRectLocal) = %@", NSStringFromCGRect(l_sectionHeaderRectLocal));
+//    NSLog(@"  NSStringFromCGRect(l_sectionFooterRectLocal) = %@", NSStringFromCGRect(l_sectionFooterRectLocal));
+//    NSLog(@"  NSStringFromCGRect(l_tableViewRectGlobal) = %@", NSStringFromCGRect(l_tableViewRectGlobal));
+//    NSLog(@"  NSStringFromCGRect(l_cellViewRectGlobal) = %@", NSStringFromCGRect(l_cellViewRectGlobal));
+//    NSLog(@"  NSStringFromCGPoint(l_tableView.contentOffset) = %@", NSStringFromCGPoint(l_tableView.contentOffset));
 //    NSLog(@"  l_fullyVisible: %u", l_fullyVisible);
 
     return l_fullyVisible;

@@ -50,6 +50,7 @@
 @property(nonatomic) BOOL IFA_readOnlyModeSuspendedForEditing;
 @property(nonatomic) BOOL IFA_rollbackPerformed;
 @property(nonatomic) NSUInteger IFA_initialChildManagedObjectContextCountForAssertion;
+@property(nonatomic) BOOL IFA_fixForContentBottomInsetAppleBugEnabled;
 @end
 
 @implementation IFAFormViewController
@@ -611,6 +612,26 @@
 
 - (NSInteger)IFA_deleteButtonSection {
     return self.shouldShowDeleteButton ? [self.tableView.dataSource numberOfSectionsInTableView:self.tableView] - 1 : NSNotFound;
+}
+
+/**
+* This bug causes incorrect table view bottom content inset when keyboard is showing.
+* The fix here is an improvement on this idea: http://stackoverflow.com/questions/22051373/scroll-area-incorrect-when-editing-uitextfield-on-uitableviewcontroller
+*/
+- (void)IFA_handleContentBottomInsetAppleBugIfRequiredForKeyboardShowing:(BOOL)a_isKeyboardShowing {
+//    NSLog(@"IFA_handleContentBottomInsetAppleBugIfRequiredForKeyboardShowing: %u", a_isKeyboardShowing);
+//    NSLog(@"  [IFAUIUtils isKeyboardVisible] = %d", [IFAUIUtils isKeyboardVisible]);
+//    NSLog(@"  NSStringFromCGRect([IFAUIUtils keyboardFrame]) = %@", NSStringFromCGRect([IFAUIUtils keyboardFrame]));
+    static const CGFloat k_appleBugIncorrectBottomContentInsetOffset = 49; // At this stage, I don't know where this comes from, but the app was using a tab bar controller.
+    UIEdgeInsets l_tableViewContentInset = self.tableView.contentInset;
+    CGFloat l_incorrectBottomContentInset = [IFAUIUtils keyboardFrame].size.height + k_appleBugIncorrectBottomContentInsetOffset;
+    if ((a_isKeyboardShowing && l_tableViewContentInset.bottom == l_incorrectBottomContentInset) || (!a_isKeyboardShowing && self.IFA_fixForContentBottomInsetAppleBugEnabled)) {
+        NSAssert((a_isKeyboardShowing && !self.IFA_fixForContentBottomInsetAppleBugEnabled) || (!a_isKeyboardShowing && self.IFA_fixForContentBottomInsetAppleBugEnabled), @"Incorrect state. a_isKeyboardShowing: %u | self.IFA_fixForContentBottomInsetAppleBugEnabled: %u", a_isKeyboardShowing, self.IFA_fixForContentBottomInsetAppleBugEnabled);
+        l_tableViewContentInset.bottom += k_appleBugIncorrectBottomContentInsetOffset * (a_isKeyboardShowing ? (-1) : 1);
+        self.tableView.contentInset = l_tableViewContentInset;
+        self.tableView.scrollIndicatorInsets = l_tableViewContentInset;
+        self.IFA_fixForContentBottomInsetAppleBugEnabled = a_isKeyboardShowing;
+    }
 }
 
 #pragma mark - Public
@@ -1542,6 +1563,8 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
     if ([a_notification.name isEqualToString:UIKeyboardDidShowNotification]) {
 
+        [self IFA_handleContentBottomInsetAppleBugIfRequiredForKeyboardShowing:YES];
+
         __weak __typeof(self) l_weakSelf = self;
         [IFAUtils dispatchAsyncMainThreadBlock:^{
             [l_weakSelf.tableView flashScrollIndicators];
@@ -1556,6 +1579,8 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                                         inView:self.tableView];
 
         }
+
+        [self IFA_handleContentBottomInsetAppleBugIfRequiredForKeyboardShowing:NO];
 
     }
 

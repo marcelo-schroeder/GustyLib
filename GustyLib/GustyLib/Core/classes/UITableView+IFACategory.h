@@ -21,6 +21,12 @@
 @interface UITableView (IFACategory)
 
 -(void)ifa_deleteRowsAtIndexPaths:(NSArray *)indexPaths;
--(BOOL)ifa_isCellFullyVisibleForRowAtIndexPath:(NSIndexPath*)a_indexPath;
+
+/**
+* Use method to check if a cell at a given index path is "fully" visible or not.
+* @param a_indexPath Index path of cell to check the visibility for.
+* @returns YES if the cell at the index path provided is "fully" visible.
+*/
+- (BOOL)ifa_isCellFullyVisibleForRowAtIndexPath:(NSIndexPath *)a_indexPath;
 
 @end

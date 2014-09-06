@@ -135,4 +135,7 @@ static const CGFloat IFAMaximumImageSizeInPixels =  5 * 1024 * 1024;
 */
 + (CGFloat)widthForHeight:(CGFloat)a_height aspectRatio:(CGFloat)a_aspectRatio;
 
++ (BOOL)isKeyboardVisible;
++ (CGRect)keyboardFrame;
+
 @end

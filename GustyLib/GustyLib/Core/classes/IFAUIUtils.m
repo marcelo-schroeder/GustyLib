@@ -599,4 +599,14 @@ static UIImage *c_menuBarButtonItemImage = nil;
     return a_height * a_aspectRatio;
 }
 
++ (BOOL)isKeyboardVisible {
+    IFAApplicationDelegate *l_applicationDelegate = (IFAApplicationDelegate *)[UIApplication sharedApplication].delegate;
+    return l_applicationDelegate.isKeyboardVisible;
+}
+
++ (CGRect)keyboardFrame {
+    IFAApplicationDelegate *l_applicationDelegate = (IFAApplicationDelegate *)[UIApplication sharedApplication].delegate;
+    return l_applicationDelegate.keyboardFrame;
+}
+
 @end

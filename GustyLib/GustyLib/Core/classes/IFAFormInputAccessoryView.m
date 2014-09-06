@@ -15,8 +15,7 @@
 //  limitations under the License.
 //
 
-#import "IFAFormInputAccessoryView.h"
-#import "UITableView+IFACategory.h"
+#import "GustyLibCore.h"
 
 @interface IFAFormInputAccessoryView ()
 
@@ -137,13 +136,15 @@
     if ([l_currentResponder canResignFirstResponder]) {
         self.IFA_currentInputFieldIndexPath = a_indexPath;
         if (a_indexPath) {
-            if ([self.IFA_tableView ifa_isCellFullyVisibleForRowAtIndexPath:a_indexPath]) {
+            UITableView *l_tableView = self.IFA_tableView;
+            if ([l_tableView ifa_isCellFullyVisibleForRowAtIndexPath:a_indexPath]) {
                 UIResponder *l_responderToBe = [self.dataSource formInputAccessoryView:self
-                           responderForKeyboardInputFocusAtIndexPath:a_indexPath];
+                                             responderForKeyboardInputFocusAtIndexPath:a_indexPath];
                 [l_responderToBe becomeFirstResponder];
             } else {
-                [self.IFA_tableView scrollToRowAtIndexPath:a_indexPath
-                                          atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                [l_tableView scrollToRowAtIndexPath:a_indexPath
+                                   atScrollPosition:UITableViewScrollPositionBottom
+                                           animated:YES];
                 self.IFA_scrollRequested = YES;
                 self.IFA_scrollPendingIndexPath = a_indexPath;
             }

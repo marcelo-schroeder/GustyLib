@@ -43,7 +43,7 @@ typedef enum{
 * Designated initializer.
 * @param a_tableView Table view instance used to implement the form view.
 */
-- (instancetype) initWithTableView:(UITableView *)a_tableView;
+- (instancetype)initWithTableView:(UITableView *)a_tableView;
 
 /**
 * Call this method to notify that a given index path contains an input field that has now become the keyboard focus (i.e. user has manually tapped on an input field).
