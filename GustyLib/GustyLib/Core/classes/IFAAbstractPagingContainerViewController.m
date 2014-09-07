@@ -40,16 +40,31 @@
 }
 
 -(void)updateContentLayout {
+//    NSLog(@"updateContentLayout");
+    CGFloat l_statusBarHeight = [IFAUIUtils statusBarSize].height;
+    if (l_statusBarHeight==IFAIPhoneStatusBarDoubleHeight) {
+        l_statusBarHeight = IFAIPhoneStatusBarDoubleHeight / 2; // The extra height added by the double height status should not be added, for some strange reason...
+    }
+    CGFloat l_contentTopInset = l_statusBarHeight + self.navigationController.navigationBar.bounds.size.height;
+    CGFloat l_contentBottomInset = self.navigationController.toolbar.bounds.size.height + self.tabBarController.tabBar.bounds.size.height;
+//    NSLog(@"  l_contentTopInset = %f", l_contentTopInset);
+//    NSLog(@"  l_contentBottomInset = %f", l_contentBottomInset);
     NSUInteger l_contentWidth = 0;
     for (NSUInteger i=0; i<[self.childViewControllers count]; i++) {
+//        NSLog(@"    i = %u", i);
         UIViewController *l_viewController = (self.childViewControllers)[i];
         CGRect l_frame = self.view.frame;
-//        NSLog(@"self.view.frame: %@", NSStringFromCGRect(self.view.frame));
+//        NSLog(@"      self.view.frame: %@", NSStringFromCGRect(self.view.frame));
         l_frame.origin.x = l_frame.size.width * i;
         l_frame.origin.y = 0;
         l_viewController.view.frame = l_frame;
-//        NSLog(@"l_viewController.view.frame: %@", NSStringFromCGRect(l_viewController.view.frame));
+//        NSLog(@"      l_viewController.view.frame: %@", NSStringFromCGRect(l_viewController.view.frame));
         l_contentWidth += l_viewController.view.frame.size.width;
+        if ([l_viewController isKindOfClass:[UITableViewController class]]) {
+            UITableViewController *l_tableViewController = (UITableViewController *) l_viewController;
+            l_tableViewController.tableView.contentInset = UIEdgeInsetsMake(l_contentTopInset, 0, l_contentBottomInset, 0);
+            l_tableViewController.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(l_contentTopInset, 0, l_contentBottomInset, 0);
+        }
     }
     self.scrollView.contentSize = CGSizeMake(l_contentWidth, self.view.frame.size.height);
 }
@@ -149,6 +164,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
+    [self m_configureStatusBarFrameChangeNotificationObservers];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -226,6 +242,19 @@
     }else{
         return NO;
     }
+}
+
+#pragma mark - Private
+
+- (void)m_configureStatusBarFrameChangeNotificationObservers {
+    __weak __typeof(self) l_weakSelf = self;
+    void (^l_afterFrameChangeBlock)(NSNotification *) = ^(NSNotification *a_note) {
+        [l_weakSelf updateContentLayout];
+    };
+    [self ifa_addNotificationObserverForName:UIApplicationDidChangeStatusBarFrameNotification object:nil
+                                       queue:nil
+                                  usingBlock:l_afterFrameChangeBlock
+                                 removalTime:IFAViewControllerNotificationObserverRemovalTimeDealloc];
 }
 
 @end

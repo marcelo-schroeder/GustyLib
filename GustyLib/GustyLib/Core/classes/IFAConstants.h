@@ -22,6 +22,7 @@ static CGFloat const IFATableViewEditingCellXOffset = 38;
 static CGFloat const IFAFormSectionHeaderDefaultHeight = 39;
 static CGFloat const IFAMinimumTapAreaDimension = 44;
 static CGFloat const IFATableViewCellSeparatorDefaultInsetLeft = 15;
+static CGFloat const IFAIPhoneStatusBarDoubleHeight = 40;
 static NSTimeInterval const IFAAnimationDuration = 0.3;
 
 @interface IFAConstants : NSObject {
