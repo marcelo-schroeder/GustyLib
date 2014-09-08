@@ -28,6 +28,7 @@
 
 @property (nonatomic, strong) id<IFAAppearanceTheme> IFA_appearanceTheme;
 @property (nonatomic) BOOL useDeviceAgnosticMainStoryboard;
+@property(nonatomic, strong) CLLocationManager *locationManager;
 
 @end
 
@@ -121,6 +122,14 @@
 
 -(void)configureWindowRootViewController {
     self.window.rootViewController = [self initialViewController];
+}
+
+- (CLLocationManager *)locationManager {
+    if (!_locationManager) {
+        _locationManager = [[CLLocationManager alloc] init];
+        _locationManager.delegate = self;
+    }
+    return nil;
 }
 
 #pragma mark - UIApplicationDelegate

@@ -34,6 +34,13 @@
 @property (nonatomic) BOOL skipWindowRootViewControllerSetup;
 @property (nonatomic, readonly) BOOL useDeviceAgnosticMainStoryboard;
 
+/**
+* This property is lazily instantiated.
+* Once instantiated, the application delegate instance becomes the location manager's delegate.
+* As a convenience, the IFANotificationLocationAuthorizationStatusChange notification will be sent out so that the app can track location authorization status changes.
+*/
+@property(nonatomic, strong, readonly) CLLocationManager *locationManager;
+
 @property(nonatomic) CGRect keyboardFrame;
 
 // to be overriden by subclasses
