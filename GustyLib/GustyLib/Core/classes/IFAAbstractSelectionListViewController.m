@@ -50,7 +50,7 @@
 //            [self ifa_addLeftBarButtonItem:l_barButtonItem];
 //        }
 
-		self.selectNoneButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemSelectNone target:self
+		self.selectNoneButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemTypeSelectNone target:self
                                                               action:@selector(onSelectNoneButtonTap:)];
 		
         NSString *l_propertyLabel = [[IFAPersistenceManager sharedInstance].entityConfig labelForProperty:self.propertyName

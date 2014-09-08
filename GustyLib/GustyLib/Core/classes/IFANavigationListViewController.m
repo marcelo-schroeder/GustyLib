@@ -191,7 +191,7 @@
     [super viewDidLoad];
 	
     if (![[[IFAPersistenceManager sharedInstance] entityConfig] disallowUserAdditionForEntity:self.entityName]) {
-        self.addBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemAdd target:self
+        self.addBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemTypeAdd target:self
                                                           action:@selector(onAddButtonTap:)];
     }
 

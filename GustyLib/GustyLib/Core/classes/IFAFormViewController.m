@@ -1396,12 +1396,12 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
         self.tableView.tableFooterView = l_label;
     }
 
-    self.IFA_dismissModalFormBarButtonItem = [IFAUIUtils isIPad] ? [IFAUIUtils barButtonItemForType:IFABarButtonItemDismiss
+    self.IFA_dismissModalFormBarButtonItem = [IFAUIUtils isIPad] ? [IFAUIUtils barButtonItemForType:IFABarButtonItemTypeDismiss
                                                                                              target:self
-                                                                                             action:@selector(IFA_onDismissButtonTap:)] : [IFAUIUtils barButtonItemForType:IFABarButtonItemBack
+                                                                                             action:@selector(IFA_onDismissButtonTap:)] : [IFAUIUtils barButtonItemForType:IFABarButtonItemTypeBack
                                                                                                                                                                     target:self
                                                                                                                                                                     action:@selector(IFA_onDismissButtonTap:)];
-    self.IFA_cancelBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemCancel target:self
+    self.IFA_cancelBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemTypeCancel target:self
                                                              action:@selector(IFA_onCancelButtonTap:)];
 
     // Instantiate text field cells that will be reused.

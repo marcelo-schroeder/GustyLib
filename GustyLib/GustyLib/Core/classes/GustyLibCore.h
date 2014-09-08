@@ -180,3 +180,5 @@
 #import "IFAContextSwitchTarget.h"
 #import "IFAZeroingWeakReferenceContainer.h"
 #import "IFAContextSwitchingManager.h"
+#import "IFAMapViewController.h"
+#import "IFAMapSettingsViewController.h"

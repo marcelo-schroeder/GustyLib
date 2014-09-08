@@ -136,7 +136,7 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
     if ([[IFAPersistenceManager sharedInstance].entityConfig shouldShowAddButtonInSelectionForEntity:self.entityName]) {
-        self.addBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemAdd target:self
+        self.addBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemTypeAdd target:self
                                                           action:@selector(onAddButtonTap:)];
         [self ifa_addLeftBarButtonItem:self.addBarButtonItem];
     }

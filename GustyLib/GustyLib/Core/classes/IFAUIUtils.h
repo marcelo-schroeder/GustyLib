@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#import "IFAConstants.h"
+
 // Size limit for UIWebView to be able to display images in iOS 7 and above.
 // 5Mb seems to be limit for UIWebView to be able to display images in iOS 7 (i.e. no devices have less than 256Mb of RAM)
 // Based on the "Know iOS Resource Limits" section at https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html
@@ -60,7 +62,7 @@ static const CGFloat IFAMaximumImageSizeInPixels =  5 * 1024 * 1024;
 								tag:(NSInteger)aTag;
 
 +(NSString*)helpTargetIdForName:(NSString*)a_name;
-+ (UIBarButtonItem*) barButtonItemForType:(NSUInteger)aType target:(id)aTarget action:(SEL)anAction;
++ (UIBarButtonItem*)barButtonItemForType:(IFABarButtonItemType)a_type target:(id)a_target action:(SEL)a_action;
 
 +(BOOL)isDeviceInLandscapeOrientation;
 

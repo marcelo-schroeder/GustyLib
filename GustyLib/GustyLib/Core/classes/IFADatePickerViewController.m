@@ -131,13 +131,13 @@
 	
     NSMutableArray *l_toolbarItems = [NSMutableArray array];
     if (l_showSelectNowButton) {
-        UIBarButtonItem *selectNowButton = [IFAUIUtils barButtonItemForType:IFABarButtonItemSelectNow
+        UIBarButtonItem *selectNowButton = [IFAUIUtils barButtonItemForType:IFABarButtonItemTypeSelectNow
                                                                      target:a_target
                                                                      action:@selector(IFA_onSelectNowButtonTap:)];
         [l_toolbarItems addObject:selectNowButton];
     }
     if (l_showSelectTodayButton) {
-        UIBarButtonItem *selectTodayButton = [IFAUIUtils barButtonItemForType:IFABarButtonItemSelectToday
+        UIBarButtonItem *selectTodayButton = [IFAUIUtils barButtonItemForType:IFABarButtonItemTypeSelectToday
                                                                        target:a_target
                                                                        action:@selector(IFA_onSelectTodayButtonTap:)];
         [l_toolbarItems addObject:selectTodayButton];
@@ -151,7 +151,7 @@
         [l_toolbarItems addObject:l_resetCountDownButton];
     }
     if (l_showClearDateButton || l_showSelectDistantPastButton || l_showSelectDistantFutureButton) {
-        UIBarButtonItem *flexibleSpace = [IFAUIUtils barButtonItemForType:IFABarButtonItemFlexibleSpace
+        UIBarButtonItem *flexibleSpace = [IFAUIUtils barButtonItemForType:IFABarButtonItemTypeFlexibleSpace
                                                                    target:nil
                                                                    action:nil];
         if (l_showClearDateButton) {

@@ -68,7 +68,7 @@
     }
 	
 	// Separator
-	UIBarButtonItem *spaceBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemFlexibleSpace
+	UIBarButtonItem *spaceBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemTypeFlexibleSpace
                                                                     target:nil action:nil];
 	
 	return @[self.IFA_deleteAllButton, 

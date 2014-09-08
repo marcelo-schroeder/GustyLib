@@ -81,26 +81,30 @@ enum {
     IFABarItemTagLeftSlidingPaneButton = 2530, // split view controller master on iPad, left under view on iPhone
     IFABarItemTagAutomatedSpacingButton = 2540, // bar button item spacing automation
 
-    IFABarButtonItemAdd = 3000,
-    IFABarButtonItemDelete = 3010,
-    IFABarButtonItemSelectNone = 3020,
-    IFABarButtonItemCancel = 3030,
-    IFABarButtonItemFlexibleSpace = 3040,
-    IFABarButtonItemDone = 3050,
-    IFABarButtonItemPreviousPage = 3080,
-    IFABarButtonItemNextPage = 3090,
-    IFABarButtonItemSelectNow = 3120,
-    IFABarButtonItemFixedSpace = 3170,
-    IFABarButtonItemSelectAll = 3180,
-    IFABarButtonItemAction = 3210,
-    IFABarButtonItemSelectToday = 3220,
-    IFABarButtonItemRefresh = 3230,
-    IFABarButtonItemDismiss = 3240,
-    IFABarButtonItemBack = 3250,
-	
 };
 
 /* typedefs */
+
+typedef enum{
+    IFABarButtonItemTypeAdd,
+    IFABarButtonItemTypeDelete,
+    IFABarButtonItemTypeSelectNone,
+    IFABarButtonItemTypeCancel,
+    IFABarButtonItemTypeFlexibleSpace,
+    IFABarButtonItemTypeDone,
+    IFABarButtonItemTypePreviousPage,
+    IFABarButtonItemTypeNextPage,
+    IFABarButtonItemTypeSelectNow,
+    IFABarButtonItemTypeFixedSpace,
+    IFABarButtonItemTypeSelectAll,
+    IFABarButtonItemTypeAction,
+    IFABarButtonItemTypeSelectToday,
+    IFABarButtonItemTypeRefresh,
+    IFABarButtonItemTypeDismiss,
+    IFABarButtonItemTypeBack,
+    IFABarButtonItemTypeInfo,
+    IFABarButtonItemTypeUserLocation,
+}IFABarButtonItemType;
 
 typedef enum {
 

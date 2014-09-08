@@ -294,10 +294,10 @@ static const NSUInteger k_sectionSelectedObjects = 0;
 			}
 		}
 
-		self.IFA_flexSpaceButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemFlexibleSpace target:self
-                                                          action:nil];
-		self.IFA_selectAllButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemSelectAll target:self
-                                                          action:@selector(IFA_onSelectAllButtonTap:)];
+		self.IFA_flexSpaceButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemTypeFlexibleSpace target:self
+                                                                 action:nil];
+		self.IFA_selectAllButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemTypeSelectAll target:self
+                                                                 action:@selector(IFA_onSelectAllButtonTap:)];
 		self.editing = YES;
 
 	}
