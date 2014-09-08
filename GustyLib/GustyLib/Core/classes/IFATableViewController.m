@@ -356,6 +356,7 @@
 
     if (!self.skipEditingUiStateChange) { // Avoids unnecessary UI state change in Create mode
         [super setEditing:editing animated:animated];
+        [self ifa_setEditing:editing animated:animated];
 //        [super m_updateEditButtonItemAccessibilityLabel];
         
         // Set edit button's appearance

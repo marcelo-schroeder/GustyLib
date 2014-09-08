@@ -46,6 +46,7 @@
 @property (nonatomic, strong) ODRefreshControl *ifa_refreshControl;
 @property (nonatomic) BOOL ifa_shouldUseKeyboardPassthroughView;
 @property (nonatomic, readonly) BOOL ifa_hasViewAppeared;
+@property (nonatomic, strong) UIBarButtonItem *IFA_modalDismissalDoneBarButtonItem;
 
 // to be overriden by subclasses
 @property (nonatomic, readonly) BOOL ifa_manageToolbar;
@@ -185,12 +186,12 @@
 
 - (NSArray*)ifa_editModeToolbarItems;
 - (NSArray*)ifa_nonEditModeToolbarItems;
-- (void)ifa_viewWillAppear;
 
 - (BOOL)ifa_shouldShowLeftSlidingPaneButton;
 
 - (void)ifa_addToNavigationBarForSlidingMenuBarButtonItem:(UIBarButtonItem *)a_slidingMenuBarButtonItem;
 
+- (void)ifa_viewWillAppear;
 - (void)ifa_viewDidAppear;
 - (void)ifa_viewWillDisappear;
 - (void)ifa_viewDidDisappear;
@@ -200,6 +201,7 @@
 - (void)ifa_onApplicationDidBecomeActiveNotification:(NSNotification*)aNotification;
 - (void)ifa_onApplicationWillResignActiveNotification:(NSNotification*)aNotification;
 - (void)ifa_onApplicationDidEnterBackgroundNotification:(NSNotification *)aNotification;
+- (void)ifa_setEditing:(BOOL)a_editing animated:(BOOL)a_animated;
 
 - (void)ifa_dealloc;
 

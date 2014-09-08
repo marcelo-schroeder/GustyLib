@@ -621,6 +621,8 @@
 		F7446BD119085FA9008345FA /* GustyLib.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = GustyLib.podspec; path = ../GustyLib.podspec; sourceTree = "<group>"; };
 		F74C16E419BD4B0000B9B367 /* IFA_Icon_UserLocation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IFA_Icon_UserLocation.png; sourceTree = "<group>"; };
 		F74C16E519BD4B0000B9B367 /* IFA_Icon_UserLocation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IFA_Icon_UserLocation@2x.png"; sourceTree = "<group>"; };
+		F74C16E619BD6F4800B9B367 /* IFA_Icon_List.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IFA_Icon_List.png; sourceTree = "<group>"; };
+		F74C16E719BD6F4800B9B367 /* IFA_Icon_List@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IFA_Icon_List@2x.png"; sourceTree = "<group>"; };
 		F766D33D18ECA71000B3B590 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		F766D34018ECADCE00B3B590 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		F7C6731A19A1C3C600FF1FD0 /* IFAFormTableViewCellContentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IFAFormTableViewCellContentView.xib; sourceTree = "<group>"; };
@@ -963,6 +965,8 @@
 		107381CAC567494A58822E49 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				F74C16E619BD6F4800B9B367 /* IFA_Icon_List.png */,
+				F74C16E719BD6F4800B9B367 /* IFA_Icon_List@2x.png */,
 				F74C16E419BD4B0000B9B367 /* IFA_Icon_UserLocation.png */,
 				F74C16E519BD4B0000B9B367 /* IFA_Icon_UserLocation@2x.png */,
 				F72150E319B3E36700AE2C33 /* IFA_Icon_Info.png */,

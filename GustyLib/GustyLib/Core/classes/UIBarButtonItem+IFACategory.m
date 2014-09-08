@@ -21,6 +21,7 @@
 #import "GustyLibCore.h"
 
 static char c_buttonKey;
+static char c_typeKey;
 
 @interface UIBarButtonItem (IFACategory_Private)
 
@@ -32,8 +33,12 @@ static char c_buttonKey;
 
 #pragma mark - Private
 
--(void)setIfa_button:(UIColor*)a_button{
+-(void)setIfa_button:(UIButton*)a_button{
     objc_setAssociatedObject(self, &c_buttonKey, a_button, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+-(void)setIfa_type:(IFABarButtonItemType)a_type{
+    objc_setAssociatedObject(self, &c_typeKey, @(a_type), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 -(void)IFA_onButtonAction {
@@ -42,8 +47,12 @@ static char c_buttonKey;
 
 #pragma mark - Public
 
--(UIColor*)ifa_button {
+-(UIButton*)ifa_button {
     return objc_getAssociatedObject(self, &c_buttonKey);
+}
+
+-(IFABarButtonItemType)ifa_type {
+    return (IFABarButtonItemType) ((NSNumber *) objc_getAssociatedObject(self, &c_typeKey)).unsignedIntegerValue;
 }
 
 -(id)initWithImageName:(NSString*)a_imageName target:(id)a_target action:(SEL)a_action{

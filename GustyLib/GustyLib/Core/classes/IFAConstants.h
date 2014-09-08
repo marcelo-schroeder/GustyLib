@@ -104,6 +104,7 @@ typedef enum{
     IFABarButtonItemTypeBack,
     IFABarButtonItemTypeInfo,
     IFABarButtonItemTypeUserLocation,
+    IFABarButtonItemTypeList,
 }IFABarButtonItemType;
 
 typedef enum {

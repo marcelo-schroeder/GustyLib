@@ -366,10 +366,16 @@ static UIImage *c_menuBarButtonItemImage = nil;
                                                              style:UIBarButtonItemStylePlain target:a_target
                                                             action:a_action];
             break;
+        case IFABarButtonItemTypeList:
+            barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IFA_Icon_List"]
+                                                             style:UIBarButtonItemStylePlain target:a_target
+                                                            action:a_action];
+            break;
 		default:
 			NSAssert(NO, @"Unexpected button item code: %u", a_type);
 			break;
 	}
+    barButtonItem.ifa_type = a_type;
 	return barButtonItem;
 }
 

@@ -96,4 +96,9 @@
     [self ifa_didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
 
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+    [super setEditing:editing animated:animated];
+    [self ifa_setEditing:editing animated:animated];
+}
+
 @end

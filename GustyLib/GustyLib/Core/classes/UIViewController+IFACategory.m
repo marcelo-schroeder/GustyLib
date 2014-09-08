@@ -47,6 +47,7 @@ static char c_notificationObserversToRemoveOnDeallocKey;
 static char c_shouldUseKeyboardPassthroughViewKey;
 static char c_childManagedObjectContextCountOnViewDidLoadKey;
 static char c_hasViewAppearedKey;
+static char c_modalDismissalDoneBarButtonItemKey;
 
 @interface UIViewController (IFACategory_Private)
 
@@ -474,12 +475,20 @@ typedef enum {
     objc_setAssociatedObject(self, &c_titleViewLandscapePhoneKey, a_titleViewLandscapePhone, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(NSString*)IFA_slidingMenuBarButtonItem {
+-(UIBarButtonItem*)IFA_slidingMenuBarButtonItem {
     return objc_getAssociatedObject(self, &c_slidingMenuBarButtonItemKey);
 }
 
--(void)setIFA_slidingMenuBarButtonItem:(NSString*)a_slidingMenuBarButtonItem{
+-(void)setIFA_slidingMenuBarButtonItem:(UIBarButtonItem*)a_slidingMenuBarButtonItem{
     objc_setAssociatedObject(self, &c_slidingMenuBarButtonItemKey, a_slidingMenuBarButtonItem, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+-(UIBarButtonItem*)IFA_modalDismissalDoneBarButtonItem {
+    return objc_getAssociatedObject(self, &c_modalDismissalDoneBarButtonItemKey);
+}
+
+-(void)setIFA_modalDismissalDoneBarButtonItem:(UIBarButtonItem*)a_doneBarButtonItem{
+    objc_setAssociatedObject(self, &c_modalDismissalDoneBarButtonItemKey, a_doneBarButtonItem, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 -(void)ifa_addLeftBarButtonItem:(UIBarButtonItem*)a_barButtonItem{
@@ -768,10 +777,10 @@ typedef enum {
     if ([l_presentingViewController conformsToProtocol:@protocol(IFAPresenter)]) {
         a_viewController.ifa_presenter = (id <IFAPresenter>) l_presentingViewController;
         if (a_shouldAddDoneButton) {
-            UIBarButtonItem *l_barButtonItem = [[l_presentingViewController ifa_appearanceTheme] doneBarButtonItemWithTarget:a_viewController
-                                                                                                                    action:@selector(ifa_onDoneButtonTap:)
-                                                                                                            viewController:a_viewController];
-            [a_viewController ifa_addLeftBarButtonItem:l_barButtonItem];
+            a_viewController.IFA_modalDismissalDoneBarButtonItem = [[l_presentingViewController ifa_appearanceTheme] doneBarButtonItemWithTarget:a_viewController
+                                                                                                                                          action:@selector(ifa_onDoneButtonTap:)
+                                                                                                                                  viewController:a_viewController];
+            [a_viewController ifa_addLeftBarButtonItem:a_viewController.IFA_modalDismissalDoneBarButtonItem];
         }
     }
     id <IFAAppearanceTheme> l_appearanceTheme = [self ifa_appearanceTheme];
@@ -917,6 +926,16 @@ typedef enum {
 
 // To be overriden by subclasses
 - (void)ifa_onApplicationDidEnterBackgroundNotification:(NSNotification*)aNotification{
+}
+
+- (void)ifa_setEditing:(BOOL)a_editing animated:(BOOL)a_animated {
+    if (self.IFA_modalDismissalDoneBarButtonItem) {
+        if (a_editing) {
+            [self ifa_removeLeftBarButtonItem:self.IFA_modalDismissalDoneBarButtonItem];
+        }else{
+            [self ifa_addLeftBarButtonItem:self.IFA_modalDismissalDoneBarButtonItem];
+        }
+    }
 }
 
 -(void)ifa_dealloc {
