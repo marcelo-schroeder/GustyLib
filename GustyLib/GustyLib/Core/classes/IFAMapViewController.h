@@ -17,13 +17,15 @@
 
 #import <Foundation/Foundation.h>
 #import "IFAViewController.h"
+#import <MapKit/MapKit.h>
 
 @class MKMapView;
 
 /**
 * This class encapsulates functionality and data normally required when implementing a view controller that displays a map.
+* Once the view has loaded, an instance of this class also becomes the delegate for mapView.
 */
-@interface IFAMapViewController : IFAViewController
+@interface IFAMapViewController : IFAViewController <MKMapViewDelegate>
 
 /**
 * Bar button used to center the user's location on the map.
