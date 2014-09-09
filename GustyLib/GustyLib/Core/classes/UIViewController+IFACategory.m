@@ -48,6 +48,8 @@ static char c_shouldUseKeyboardPassthroughViewKey;
 static char c_childManagedObjectContextCountOnViewDidLoadKey;
 static char c_hasViewAppearedKey;
 static char c_modalDismissalDoneBarButtonItemKey;
+static char c_toolbarUpdatedBeforeViewAppearedKey;
+static char c_previousVisibleViewControllerKey;
 
 @interface UIViewController (IFACategory_Private)
 
@@ -59,6 +61,7 @@ static char c_modalDismissalDoneBarButtonItemKey;
 @property (nonatomic, strong) NSMutableArray *IFA_notificationObserversToRemoveOnDealloc;
 @property (nonatomic) NSUInteger IFA_childManagedObjectContextCountOnViewDidLoad;   // Used for assertion only
 @property (nonatomic) BOOL ifa_hasViewAppeared;
+@property (nonatomic) BOOL IFA_toolbarUpdatedBeforeViewAppeared;
 
 @end
 
@@ -376,6 +379,20 @@ typedef enum {
     return l_weakReferenceContainer.weakReference;
 }
 
+-(void)setIfa_previousVisibleViewController:(UIViewController *)a_previousVisibleViewController{
+    IFAZeroingWeakReferenceContainer *l_weakReferenceContainer = objc_getAssociatedObject(self, &c_previousVisibleViewControllerKey);
+    if (!l_weakReferenceContainer) {
+        l_weakReferenceContainer = [IFAZeroingWeakReferenceContainer new];
+        objc_setAssociatedObject(self, &c_previousVisibleViewControllerKey, l_weakReferenceContainer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    l_weakReferenceContainer.weakReference = a_previousVisibleViewController;
+}
+
+-(UIViewController *)ifa_previousVisibleViewController {
+    IFAZeroingWeakReferenceContainer *l_weakReferenceContainer = objc_getAssociatedObject(self, &c_previousVisibleViewControllerKey);
+    return l_weakReferenceContainer.weakReference;
+}
+
 -(UIPopoverController*)ifa_activePopoverController {
     return objc_getAssociatedObject(self, &c_activePopoverControllerKey);
 }
@@ -457,6 +474,14 @@ typedef enum {
 
 -(void)setIfa_hasViewAppeared:(BOOL)a_hasViewAppeared{
     objc_setAssociatedObject(self, &c_hasViewAppearedKey, @(a_hasViewAppeared), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+-(BOOL)IFA_toolbarUpdatedBeforeViewAppeared {
+    return ((NSNumber*)objc_getAssociatedObject(self, &c_toolbarUpdatedBeforeViewAppearedKey)).boolValue;
+}
+
+-(void)setIFA_toolbarUpdatedBeforeViewAppeared:(BOOL)a_toolbarUpdatedBeforeViewAppeared{
+    objc_setAssociatedObject(self, &c_toolbarUpdatedBeforeViewAppearedKey, @(a_toolbarUpdatedBeforeViewAppeared), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 -(NSUInteger)IFA_childManagedObjectContextCountOnViewDidLoad {
@@ -660,32 +685,32 @@ typedef enum {
             || [[IFAApplicationDelegate sharedInstance].popoverControllerPresenter.ifa_activePopoverController.contentViewController isKindOfClass:[UIActivityViewController class]];
 }
 
-- (void)ifa_updateToolbarForMode:(BOOL)anEditModeFlag animated:(BOOL)anAnimatedFlag{
+- (void)ifa_updateToolbarForEditing:(BOOL)a_editing animated:(BOOL)a_animated {
 //    NSLog(@" ");
 //    NSLog(@"toolbar items before: %@", [self.toolbarItems description]);
-    if(self.ifa_manageToolbar || anEditModeFlag){
-        NSMutableArray *toolbarItems = [anEditModeFlag ? [self ifa_editModeToolbarItems] : [self ifa_nonEditModeToolbarItems] mutableCopy];
+    if(self.ifa_manageToolbar || a_editing){
+        NSMutableArray *toolbarItems = [a_editing ? [self ifa_editModeToolbarItems] : [self ifa_nonEditModeToolbarItems] mutableCopy];
         [self IFA_addSpacingToBarButtonItems:toolbarItems side:IFANavigationBarButtonItemsSideNotApplicable
                                      barType:IFABarButtonItemSpacingBarTypeToolbar];
 //        NSLog(@"self.navigationController.toolbar: %@", [self.navigationController.toolbar description]);
 //        NSLog(@" self.navigationController.toolbarHidden: %u, animated: %u", self.navigationController.toolbarHidden, anAnimatedFlag);
         BOOL l_shouldHideToolbar = ![toolbarItems count];
-        [self.navigationController setToolbarHidden:l_shouldHideToolbar animated:anAnimatedFlag];
+        [self.navigationController setToolbarHidden:l_shouldHideToolbar animated:a_animated];
 //        NSLog(@" self.navigationController.toolbarHidden: %u", self.navigationController.toolbarHidden);
         if ([toolbarItems count]) {
             if (self.ifa_manageToolbar) {
                 if (![self.toolbarItems isEqualToArray:toolbarItems]) {
-                    [self setToolbarItems:toolbarItems animated:anAnimatedFlag];
+                    [self setToolbarItems:toolbarItems animated:a_animated];
                 }
             }else{
                 if (![self.parentViewController.toolbarItems isEqualToArray:toolbarItems]) {
-                    [self.parentViewController setToolbarItems:toolbarItems animated:anAnimatedFlag];
+                    [self.parentViewController setToolbarItems:toolbarItems animated:a_animated];
                 }
             }
         }
     }else{
         BOOL l_shouldHideToolbar = ![self.toolbarItems count];
-        [self.navigationController setToolbarHidden:l_shouldHideToolbar animated:anAnimatedFlag];
+        [self.navigationController setToolbarHidden:l_shouldHideToolbar animated:a_animated];
     }
 //    NSLog(@"toolbar items after: %@", [self.toolbarItems description]);
 }
@@ -877,17 +902,8 @@ typedef enum {
 }
 
 // To be overriden by subclasses
--(UIViewController*)ifa_previousVisibleViewController {
-    return nil;
-}
-
-// To be overriden by subclasses
 -(BOOL)ifa_doneButtonSaves {
     return NO;
-}
-
-// To be overriden by subclasses
--(void)setIfa_previousVisibleViewController:(UIViewController *)ifa_previousVisibleViewController {
 }
 
 // To be overriden by subclasses
@@ -1076,8 +1092,14 @@ typedef enum {
 #endif
 
     // Make sure toolbar is already visible when the view appears for the first time (only for top level view controllers)
-    if (self.ifa_manageToolbar && !self.ifa_hasViewAppeared && self.navigationController.visibleViewController==self && self.navigationController.viewControllers[0]==self) {
-        [self ifa_updateToolbarForMode:self.editing animated:NO];
+    self.IFA_toolbarUpdatedBeforeViewAppeared = NO;
+    if (self.ifa_manageToolbar
+            && self.navigationController.visibleViewController==self
+            && self.navigationController.viewControllers[0]==self
+            && !self.ifa_isReturningVisibleViewController
+            ) {
+        [self ifa_updateToolbarForEditing:self.editing animated:NO];
+        self.IFA_toolbarUpdatedBeforeViewAppeared = YES;
     }
 
 }
@@ -1109,8 +1131,8 @@ typedef enum {
         [l_appearanceTheme setAppearanceOnViewDidAppearForViewController:self];
     }
 
-    if (self.ifa_manageToolbar) {
-        [self ifa_updateToolbarForMode:self.editing animated:YES];
+    if (self.ifa_manageToolbar && !self.IFA_toolbarUpdatedBeforeViewAppeared) {
+        [self ifa_updateToolbarForEditing:self.editing animated:YES];
     }
 
 #ifdef IFA_AVAILABLE_GoogleMobileAdsSupport

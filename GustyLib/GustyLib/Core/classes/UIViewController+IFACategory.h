@@ -84,7 +84,7 @@
 
 - (void)ifa_onKeyboardNotification:(NSNotification *)a_notification;
 
-- (void)ifa_updateToolbarForMode:(BOOL)anEditModeFlag animated:(BOOL)anAnimatedFlag;
+- (void)ifa_updateToolbarForEditing:(BOOL)a_editing animated:(BOOL)a_animated;
 
 -(BOOL)ifa_isReturningVisibleViewController;
 -(UIView*)ifa_viewForActionSheet;

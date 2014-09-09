@@ -47,29 +47,30 @@
 
     if (self.IFA_currentViewController) {
 
-        UITableViewController *l_tableViewController = nil;
+        UIViewController *l_contentViewController = nil;
 
         if ([self.IFA_currentViewController isKindOfClass:[UINavigationController class]]) {
 
             // If the current view controller is a navigation controller then make sure to pop to its root view controller
             //  in order to minimise memory requirements and avoid complications with entities being changed somewhere else (for now)
-            UINavigationController *l_navigationController = (UINavigationController*) self.IFA_currentViewController;
+            UINavigationController *l_navigationController = (UINavigationController *) self.IFA_currentViewController;
             [l_navigationController popToRootViewControllerAnimated:NO];
 
-            if ([l_navigationController.topViewController isKindOfClass:[UITableViewController class]]) {
-                l_tableViewController = (UITableViewController *) l_navigationController.topViewController;
-            }else if ([l_navigationController.topViewController isKindOfClass:[IFAAbstractPagingContainerViewController class]]) {
-                IFAAbstractPagingContainerViewController *l_pagingContainerViewController = (IFAAbstractPagingContainerViewController *) l_navigationController.topViewController;
-                if ([l_pagingContainerViewController.selectedViewController isKindOfClass:[UITableViewController class]]) {
-                    l_tableViewController = l_pagingContainerViewController.selectedViewController;
-                }
+            UIViewController *l_topViewController = l_navigationController.topViewController;
+            if ([l_topViewController isKindOfClass:[IFAAbstractPagingContainerViewController class]]) {
+                IFAAbstractPagingContainerViewController *l_pagingContainerViewController = (IFAAbstractPagingContainerViewController *) l_topViewController;
+                l_contentViewController = l_pagingContainerViewController.selectedViewController;
+            } else {
+                l_contentViewController = l_topViewController;
             }
 
-        }else if([self.IFA_currentViewController isKindOfClass:[UITableViewController class]]) {
-            l_tableViewController = (UITableViewController *) self.IFA_currentViewController;
+        } else {
+            l_contentViewController = (UITableViewController *) self.IFA_currentViewController;
         }
 
-        if (l_tableViewController) {
+        if ([l_contentViewController isKindOfClass:[UITableViewController class]]) {
+
+            UITableViewController *l_tableViewController = (UITableViewController *) l_contentViewController;
 
             // Deselect any previously selected table view row to avoid unnecessary "deselection animation"
             UITableView *l_tableView = l_tableViewController.tableView;

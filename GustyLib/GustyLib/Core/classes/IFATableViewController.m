@@ -383,7 +383,7 @@
         // It was triggering updates to parts of the table view affected by the toolbar updates and this was causing other issues.
         // So, this is now done after this run loop ends for consistency.
         [IFAUtils dispatchAsyncMainThreadBlock:^{
-            [l_viewControllerToHaveToolbarUpdated ifa_updateToolbarForMode:editing animated:animated];
+            [l_viewControllerToHaveToolbarUpdated ifa_updateToolbarForEditing:editing animated:animated];
         }];
 
     }
