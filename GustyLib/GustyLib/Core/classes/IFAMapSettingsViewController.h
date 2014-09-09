@@ -18,13 +18,24 @@
 #import <Foundation/Foundation.h>
 #import "IFAViewController.h"
 
-//wip: add documentation
+/**
+* This class encapsulates functionality and data normally required when implementing a view controller that manages the settings of a map.
+*/
 @interface IFAMapSettingsViewController : IFAViewController
 
+/**
+* If set, changes to settings can be automatically reflected in the map (e.g. map type set by user).
+*/
 @property(nonatomic, weak) MKMapView *mapView;
 
+/**
+* Segmented control that allows the user to change the map type. It is automatically set by Interface Builder.
+*/
 @property (strong, nonatomic) IBOutlet UISegmentedControl *mapTypeSegmentedControl;
 
+/**
+* Action handler for the map type segmented control. It is automatically connected by Interface Builder.
+*/
 - (IBAction)onMapTypeSegmentedControlValueChanged:(UISegmentedControl *)sender;
 
 @end

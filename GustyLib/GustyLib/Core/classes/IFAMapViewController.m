@@ -58,7 +58,7 @@
 #pragma mark - Private
 
 - (void)IFA_onUserLocationButtonTap:(UIBarButtonItem *)a_barButtonItem {
-    if ([IFACurrentLocationManager performLocationServicesChecks]) {
+    if ([IFALocationManager performLocationServicesChecks]) {
         [self.mapView setCenterCoordinate:self.mapView.userLocation.location.coordinate animated:YES];
     }
 }

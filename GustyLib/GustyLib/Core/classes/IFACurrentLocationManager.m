@@ -18,8 +18,6 @@
 
 #import "GustyLibCore.h"
 
-static NSString *const k_LocationServiceDisableAlertMessage = @" Location Services are currently disabled for this app. Please enable them in the Privacy section in the Settings app.";
-
 @interface IFACurrentLocationManager ()
 @property (nonatomic, strong) CLLocationManager *underlyingLocationManager;
 @property (nonatomic, strong) void(^IFA_completionBlock)(CLLocation *);
@@ -51,21 +49,9 @@ static NSString *const k_LocationServiceDisableAlertMessage = @" Location Servic
     self.underlyingLocationManager.delegate = self;
 }
 
-+ (void)IFA_showLocationServicesAlertWithMessageSuffix:(NSString *)a_messageSuffix{
-    [IFAUIUtils showAlertWithMessage:[NSString stringWithFormat:@"We are unable to locate your position.%@",
-                                                                a_messageSuffix]
-            title:@"Location Services not available"];
-}
-
-+ (void)IFA_showLocationServicesAlert {
-    if ([self performLocationServicesChecks]) {
-        [self IFA_showLocationServicesAlertWithMessageSuffix:@""];
-    }
-}
-
 - (void)IFA_handleCurrentLocationErrorWithAlert:(BOOL)a_shouldShowAlert {
     if (a_shouldShowAlert) {
-        [self.class IFA_showLocationServicesAlert];
+        [IFALocationManager showLocationServicesAlert];
     }
     self.IFA_completionBlock(nil);
 }
@@ -125,36 +111,6 @@ static NSString *const k_LocationServiceDisableAlertMessage = @" Location Servic
     }else{
         [self IFA_handleCurrentLocationErrorWithAlert:NO];
     }
-}
-
-+ (BOOL)performLocationServicesChecks {
-    if (![CLLocationManager locationServicesEnabled]) {
-        NSString *l_messageSuffix = [NSString stringWithFormat:@" Location Services are currently disabled. Please enable them in the Privacy section in the Settings app."];
-        [self IFA_showLocationServicesAlertWithMessageSuffix:l_messageSuffix];
-        return NO;
-    }
-
-    switch ([CLLocationManager authorizationStatus]) {
-        case kCLAuthorizationStatusNotDetermined:
-        case kCLAuthorizationStatusAuthorized:
-            return YES;
-        case kCLAuthorizationStatusRestricted:
-        {
-            NSString *l_messageSuffix = @" Your device is not authorised to use Location Services";
-            [self IFA_showLocationServicesAlertWithMessageSuffix:l_messageSuffix];
-            return NO;
-        }
-        case kCLAuthorizationStatusDenied:
-        {
-            NSString *l_messageSuffix = [NSString stringWithFormat:k_LocationServiceDisableAlertMessage];
-            [self IFA_showLocationServicesAlertWithMessageSuffix:l_messageSuffix];
-            return NO;
-        }
-        default:
-            NSAssert(NO, @"Unexpected authorisation status: %u", [CLLocationManager authorizationStatus]);
-            return NO;
-    }
-
 }
 
 #pragma mark - CLLocationManagerDelegate

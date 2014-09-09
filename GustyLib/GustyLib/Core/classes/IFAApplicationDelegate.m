@@ -28,7 +28,6 @@
 
 @property (nonatomic, strong) id<IFAAppearanceTheme> IFA_appearanceTheme;
 @property (nonatomic) BOOL useDeviceAgnosticMainStoryboard;
-@property(nonatomic, strong) CLLocationManager *locationManager;
 
 @end
 
@@ -122,14 +121,6 @@
 
 -(void)configureWindowRootViewController {
     self.window.rootViewController = [self initialViewController];
-}
-
-- (CLLocationManager *)locationManager {
-    if (!_locationManager) {
-        _locationManager = [[CLLocationManager alloc] init];
-        _locationManager.delegate = self;
-    }
-    return nil;
 }
 
 #pragma mark - UIApplicationDelegate
@@ -239,18 +230,6 @@
 	//	under normal memory circumstances)
     //	NSLog(@"*** applicationDidReceiveMemoryWarning ***");
 	[[IFADynamicCache sharedInstance] removeAllObjects];
-}
-
-#pragma mark - CLLocationManagerDelegate
-
--(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
-//    NSLog(@"didChangeAuthorizationStatus: %u", status);
-    NSNotification *notification = [NSNotification notificationWithName:IFANotificationLocationAuthorizationStatusChange
-                                                                 object:nil userInfo:@{@"status" : @(status)}];
-    [[NSNotificationQueue defaultQueue] enqueueNotification:notification
-                                               postingStyle:NSPostASAP
-                                               coalesceMask:NSNotificationNoCoalescing
-                                                   forModes:nil];
 }
 
 @end

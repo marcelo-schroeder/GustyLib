@@ -154,7 +154,7 @@
                                         limit:(NSUInteger)aLimit
                                     countOnly:(BOOL)aCountOnlyFlag;
 
-+ (IFAPersistenceManager *)sharedInstance;
++ (instancetype)sharedInstance;
 + (BOOL)setValidationError:(NSError**)anError withMessage:(NSString*)anErrorMessage;
 + (NSMutableArray*)idsForManagedObjects:(NSArray*)a_managedObjects;
 

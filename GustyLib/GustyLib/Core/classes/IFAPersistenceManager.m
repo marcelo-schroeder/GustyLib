@@ -1269,9 +1269,9 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     
 }
 
-+ (IFAPersistenceManager *)sharedInstance {
++ (instancetype)sharedInstance {
     static dispatch_once_t c_dispatchOncePredicate;
-    static IFAPersistenceManager *c_instance = nil;
+    static id c_instance = nil;
     dispatch_once(&c_dispatchOncePredicate, ^{
         c_instance = [self new];
     });

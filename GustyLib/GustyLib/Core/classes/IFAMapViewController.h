@@ -20,12 +20,24 @@
 
 @class MKMapView;
 
-//wip: add documentation
+/**
+* This class encapsulates functionality and data normally required when implementing a view controller that displays a map.
+*/
 @interface IFAMapViewController : IFAViewController
 
+/**
+* Bar button used to center the user's location on the map.
+*/
 @property(nonatomic, strong, readonly) UIBarButtonItem *userLocationBarButtonItem;
+
+/**
+* Bar button used to show the map settings view.
+*/
 @property(nonatomic, strong, readonly) UIBarButtonItem *mapSettingsBarButtonItem;
 
+/**
+* Map view instance. Must be instantiated either by Interface Builder or programmatically.
+*/
 @property (nonatomic, strong) IBOutlet MKMapView *mapView;
 
 @end

@@ -34,5 +34,4 @@ typedef void (^CurrentLocationBlock)(CLLocation *a_location);
               locationUpdatesTimeoutThreshold:(NSTimeInterval)locationUpdatesTimeoutThreshold
                               completionBlock:(CurrentLocationBlock)a_completionBlock;
 
-+ (BOOL)performLocationServicesChecks;
 @end

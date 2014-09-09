@@ -182,3 +182,4 @@
 #import "IFAContextSwitchingManager.h"
 #import "IFAMapViewController.h"
 #import "IFAMapSettingsViewController.h"
+#import "IFALocationManager.h"
