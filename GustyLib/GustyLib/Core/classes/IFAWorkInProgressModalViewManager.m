@@ -21,7 +21,7 @@
 #import "GustyLibCore.h"
 
 @interface IFAWorkInProgressModalViewManager ()
-@property(nonatomic, strong) id IFA_cancellationCallbackReceiver;
+@property(nonatomic, weak) id IFA_cancellationCallbackReceiver;
 @property(nonatomic) SEL IFA_cancellationCallbackSelector;
 @property(nonatomic, strong) id IFA_cancellationCallbackArgument;
 @property(nonatomic, strong) NSString *IFA_message;
@@ -48,7 +48,7 @@
 
 - (void)IFA_removeGestureRecogniser {
     if ([self.IFA_hud.userInteractionView.gestureRecognizers count]==1) {
-        [self.IFA_hud.userInteractionView removeGestureRecognizer:[[self.IFA_hud.userInteractionView gestureRecognizers] objectAtIndex:0]];
+        [self.IFA_hud.userInteractionView removeGestureRecognizer:[self.IFA_hud.userInteractionView gestureRecognizers][0]];
     }
 }
 
