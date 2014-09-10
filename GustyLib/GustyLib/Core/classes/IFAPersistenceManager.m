@@ -889,9 +889,9 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     return [self fetchSingleWithPredicate:nil entity:anEntityName];
 }
 
-- (id)fetchWithExpression:(NSExpression*)anExpression
-			   resultType:(NSExpressionType)aResultType
-				   entity:(NSString*)anEntityName{
+- (id)fetchWithExpression:(NSExpression *)anExpression
+               resultType:(NSAttributeType)aResultType
+                   entity:(NSString*)anEntityName{
 	
 	// Fetch request
 	NSFetchRequest *request = [[NSFetchRequest alloc] init];
@@ -914,7 +914,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 	// Execute fetch request
 	NSMutableArray *resultArray = [self executeFetchRequestMutable:request];
 	
-	return [[resultArray objectAtIndex:0] valueForKey:resultPropertyName];
+	return [resultArray[0] valueForKey:resultPropertyName];
 	
 }
 

@@ -57,6 +57,9 @@
         case NSFetchedResultsChangeDelete:
             change[@(type)] = @(sectionIndex);
             break;
+        default:
+            NSAssert(NO, @"Unexpected section change type: %u", type);
+            break;
     }
     
     [self.IFA_sectionChanges addObject:change];
@@ -95,7 +98,7 @@
             for (NSDictionary *change in self.IFA_sectionChanges) {
                 [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
 
-                    NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                    NSFetchedResultsChangeType type = (NSFetchedResultsChangeType) key.unsignedIntegerValue;
                     switch (type) {
                         case NSFetchedResultsChangeInsert:
                             [self.collectionView insertSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
@@ -105,6 +108,9 @@
                             break;
                         case NSFetchedResultsChangeUpdate:
                             [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                            break;
+                        default:
+                            NSAssert(NO, @"Unexpected change type: %u", type);
                             break;
                     }
                 }];
@@ -130,7 +136,7 @@
                 for (NSDictionary *change in self.IFA_objectChanges) {
                     [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
 
-                        NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                        NSFetchedResultsChangeType type = (NSFetchedResultsChangeType) key.unsignedIntegerValue;
                         switch (type) {
                             case NSFetchedResultsChangeInsert:
                                 [self.collectionView insertItemsAtIndexPaths:@[obj]];
@@ -159,22 +165,14 @@
     __block BOOL shouldReload = NO;
     for (NSDictionary *change in self.IFA_objectChanges) {
         [change enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-            NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+            NSFetchedResultsChangeType type = (NSFetchedResultsChangeType) [key unsignedIntegerValue];
             NSIndexPath *indexPath = obj;
             switch (type) {
                 case NSFetchedResultsChangeInsert:
-                    if ([self.collectionView numberOfItemsInSection:indexPath.section] == 0) {
-                        shouldReload = YES;
-                    } else {
-                        shouldReload = NO;
-                    }
+                    shouldReload = [self.collectionView numberOfItemsInSection:indexPath.section] == 0;
                     break;
                 case NSFetchedResultsChangeDelete:
-                    if ([self.collectionView numberOfItemsInSection:indexPath.section] == 1) {
-                        shouldReload = YES;
-                    } else {
-                        shouldReload = NO;
-                    }
+                    shouldReload = [self.collectionView numberOfItemsInSection:indexPath.section] == 1;
                     break;
                 case NSFetchedResultsChangeUpdate:
                     shouldReload = NO;

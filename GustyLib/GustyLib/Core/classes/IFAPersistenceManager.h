@@ -101,9 +101,9 @@
                           block:(void (^)(NSFetchRequest *aFetchRequest))aBlock;
 - (NSManagedObject*) fetchSingleWithPredicate:(NSPredicate*)aPredicate entity:(NSString*)anEntityName;
 - (NSManagedObject*) fetchSingleForEntity:(NSString*)anEntityName;
-- (id)fetchWithExpression:(NSExpression*)anExpression
-			   resultType:(NSExpressionType)aResultType
-				   entity:(NSString*)anEntityName;
+- (id)fetchWithExpression:(NSExpression *)anExpression
+               resultType:(NSAttributeType)aResultType
+                   entity:(NSString*)anEntityName;
 
 - (NSFetchedResultsController*) fetchControllerWithPredicate:(NSPredicate*)aPredicate 
                                               sortDescriptor:(NSSortDescriptor*)aSortDescriptor
