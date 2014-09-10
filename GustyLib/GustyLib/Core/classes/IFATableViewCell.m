@@ -42,7 +42,7 @@
 -(void)willTransitionToState:(UITableViewCellStateMask)state{
     [super willTransitionToState:state];
 //    NSLog(@"willTransitionToState: %u", state);
-    self.swipedToDelete = (state == UITableViewCellStateShowingDeleteConfirmationMask);
+    self.swipedToDelete = (state & UITableViewCellStateShowingDeleteConfirmationMask);
     if ([self.ifa_appearanceTheme respondsToSelector:@selector(setAppearanceForTableViewCell:onWillTransitionToState:)]) {
         [self.ifa_appearanceTheme setAppearanceForTableViewCell:self
                                         onWillTransitionToState:state];
