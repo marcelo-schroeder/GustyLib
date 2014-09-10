@@ -1458,6 +1458,10 @@ typedef enum {
     return NO;
 }
 
+-(NSCalendar*)ifa_calendar {
+    return [NSCalendar ifa_threadSafeCalendar];
+}
+
 //-(void)m_simulateMemoryWarning{
 //
 //#ifdef DEBUG

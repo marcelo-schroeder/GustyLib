@@ -82,6 +82,11 @@
 
 + (BOOL)ifa_isStoryboardDeviceSpecific;
 
+/**
+* @returns Thread safe calendar.
+*/
+- (NSCalendar *)ifa_calendar;
+
 - (void)ifa_onKeyboardNotification:(NSNotification *)a_notification;
 
 - (void)ifa_updateToolbarForEditing:(BOOL)a_editing animated:(BOOL)a_animated;

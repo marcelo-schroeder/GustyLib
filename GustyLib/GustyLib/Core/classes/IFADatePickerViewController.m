@@ -59,7 +59,7 @@
 }
 
 -(void)IFA_onSelectTodayButtonTap:(id)aSender{
-    self.IFA_dateAndTime = [[NSDate date] ifa_lastMidnightForCalendar:[self calendar]] ;
+    self.IFA_dateAndTime = [[NSDate date] ifa_lastMidnightForCalendar:self.ifa_calendar] ;
 }
 
 -(void)IFA_onSelectDistantPastButtonTap:(id)aSender{

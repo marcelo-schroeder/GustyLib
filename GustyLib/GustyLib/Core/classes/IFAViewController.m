@@ -22,13 +22,6 @@
 
 @implementation IFAViewController
 
-
-#pragma mark - Public
-
--(NSCalendar*)calendar {
-    return [NSCalendar ifa_threadSafeCalendar];
-}
-
 #pragma mark - Overrides
 
 -(void)dealloc{
