@@ -12,6 +12,8 @@
 	<dict>
 		<key>5CEAE27CBE727C8AEC5348710583F21F5830AEC2</key>
 		<string>https://bitbucket.org/marcelo_schroeder/gustylib.git</string>
+		<key>D0D031A37D4F94B91DEC4141171A1EDCCF3B3336</key>
+		<string>https://bitbucket.org/marcelo_schroeder/ifatestingsupport.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>GustyLib.xcworkspace</string>
@@ -19,6 +21,8 @@
 	<dict>
 		<key>5CEAE27CBE727C8AEC5348710583F21F5830AEC2</key>
 		<string>..</string>
+		<key>D0D031A37D4F94B91DEC4141171A1EDCCF3B3336</key>
+		<string>../../../IFATestingSupport/IFATestingSupport_development</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://bitbucket.org/marcelo_schroeder/gustylib.git</string>
@@ -35,6 +39,14 @@
 			<string>5CEAE27CBE727C8AEC5348710583F21F5830AEC2</string>
 			<key>IDESourceControlWCCName</key>
 			<string>GustyLib_development</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>D0D031A37D4F94B91DEC4141171A1EDCCF3B3336</string>
+			<key>IDESourceControlWCCName</key>
+			<string>IFATestingSupport_development</string>
 		</dict>
 	</array>
 </dict>
