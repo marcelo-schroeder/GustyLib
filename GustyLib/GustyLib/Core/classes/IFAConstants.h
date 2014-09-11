@@ -107,8 +107,7 @@ typedef enum{
     IFABarButtonItemTypeList,
 }IFABarButtonItemType;
 
-typedef enum {
-
+typedef NS_ENUM(NSInteger, IFADurationFormat) {
     IFADurationFormatDecimalHours,
     IFADurationFormatHoursMinutes,
     IFADurationFormatHoursMinutesSeconds,
@@ -116,8 +115,7 @@ typedef enum {
     IFADurationFormatHoursMinutesLong,
     IFADurationFormatHoursMinutesSecondsLong,
     IFADurationFormatFullLong,
-
-} IFADurationFormat;
+};
 
 typedef enum {
 

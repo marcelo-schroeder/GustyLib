@@ -359,7 +359,7 @@ typedef enum {
     if (l_topLevelContentViewController == a_viewController) {
         NSUInteger l_childManagedObjectContextCountExpected = a_viewController.IFA_childManagedObjectContextCountOnViewDidLoad;
         NSUInteger l_childManagedObjectContextCountActual = [IFAPersistenceManager sharedInstance].childManagedObjectContexts.count;
-        NSAssert(l_childManagedObjectContextCountActual == l_childManagedObjectContextCountExpected, @"Number of child managed object context count mismatch! Expected: %u | Actual: %u", l_childManagedObjectContextCountExpected, l_childManagedObjectContextCountActual);
+        NSAssert(l_childManagedObjectContextCountActual == l_childManagedObjectContextCountExpected, @"Number of child managed object context count mismatch! Expected: %lu | Actual: %lu", (unsigned long)l_childManagedObjectContextCountExpected, (unsigned long)l_childManagedObjectContextCountActual);
     }
 }
 

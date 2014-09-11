@@ -136,7 +136,7 @@
     return contentInset;
 }
 
--(void)setMaxNumberOfLines:(int)n
+-(void)setMaxNumberOfLines:(NSInteger)n
 {
     if(n == 0 && maxHeight > 0) return; // the user specified a maxHeight themselves.
     
@@ -162,18 +162,18 @@
     maxNumberOfLines = n;
 }
 
--(int)maxNumberOfLines
+-(NSInteger)maxNumberOfLines
 {
     return maxNumberOfLines;
 }
 
-- (void)setMaxHeight:(int)height
+- (void)setMaxHeight:(NSInteger)height
 {
     maxHeight = height;
     maxNumberOfLines = 0;
 }
 
--(void)setMinNumberOfLines:(int)m
+-(void)setMinNumberOfLines:(NSInteger)m
 {
     if(m == 0 && minHeight > 0) return; // the user specified a minHeight themselves.
 
@@ -199,12 +199,12 @@
     minNumberOfLines = m;
 }
 
--(int)minNumberOfLines
+-(NSInteger)minNumberOfLines
 {
     return minNumberOfLines;
 }
 
-- (void)setMinHeight:(int)height
+- (void)setMinHeight:(NSInteger)height
 {
     minHeight = height;
     minNumberOfLines = 0;

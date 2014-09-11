@@ -107,7 +107,7 @@
 
 - (void)mapView:(MKMapView *)mapView didFailToLocateUserWithError:(NSError *)error{
     NSLog(@" ");
-    NSLog(@"didFailToLocateUserWithError - error code: %u", [error code]);
+    NSLog(@"didFailToLocateUserWithError - error code: %ld", (long)[error code]);
     NSLog(@" ");
 
     if (!self.IFA_userLocationRequestCompleted && self.IFA_progressViewManager) {

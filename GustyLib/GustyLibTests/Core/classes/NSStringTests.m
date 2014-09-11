@@ -58,8 +58,8 @@
     NSString *l_outputString = [l_inputString ifa_stringByReplacingOccurrencesOfRegexPattern:@"<img[^>]*>"
                                                                                   usingBlock:^NSString *(NSString *a_matchedString) {
                                                                                       [l_matchedStrings addObject:a_matchedString];
-                                                                                      return [NSString stringWithFormat:@"TEST%u",
-                                                                                                                        ++l_counter];
+                                                                                      return [NSString stringWithFormat:@"TEST%lu",
+                                                                                                                        (unsigned long)++l_counter];
                                                                                   }];
 
     // then

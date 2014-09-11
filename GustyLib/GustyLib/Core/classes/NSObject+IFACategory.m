@@ -81,7 +81,7 @@
                 case NSDoubleAttributeType:
                     return [self stringValueForNumberPropertyNamed:a_propertyName a_calendar:a_calendar a_value:a_value];
                 default:
-                    NSAssert(NO, @"Unexpected attribute type: %u", [l_attributeDescription attributeType]);
+                    NSAssert(NO, @"Unexpected attribute type: %lu", (unsigned long)[l_attributeDescription attributeType]);
                     return @"***UNKNOWN***";
                     break;
             }

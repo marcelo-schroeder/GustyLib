@@ -435,7 +435,7 @@ static NSString *const k_tagAttributeStyle = @"style";
 #pragma mark - Overrides
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"line: %u, column: %u", self.line, self.column];
+    return [NSString stringWithFormat:@"line: %lu, column: %lu", (unsigned long)self.line, (unsigned long)self.column];
 }
 
 @end

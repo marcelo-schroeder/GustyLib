@@ -117,7 +117,7 @@
                 unitFlags = unitFlags | NSCalendarUnitMinute;
                 break;
             default:
-                NSAssert1(NO, @"Unexpected duration format: %u", aFormat);
+                NSAssert1(NO, @"Unexpected duration format: %ld", (long)aFormat);
         }
         
         BOOL l_secondsIncluded = YES;
@@ -164,7 +164,7 @@
                     l_durationString = [NSString stringWithFormat:@"%@:%@", l_formattedHours, l_formattedMinutes];
                     break;
                 default:
-                    NSAssert1(NO, @"Unexpected duration format: %u", aFormat);
+                    NSAssert1(NO, @"Unexpected duration format: %ld", (long)aFormat);
             }
 
             return l_durationString;

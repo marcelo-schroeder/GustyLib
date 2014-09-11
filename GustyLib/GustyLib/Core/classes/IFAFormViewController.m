@@ -428,7 +428,7 @@
                         l_datePickerMode = UIDatePickerModeCountDownTimer;
                         break;
                     default:
-                        NSAssert(NO, @"Unexpected editor type - case 1: %u", editorType);
+                        NSAssert(NO, @"Unexpected editor type - case 1: %lu", (unsigned long)editorType);
                         break;
                 }
                 controller = [[IFADatePickerViewController alloc] initWithObject:self.object propertyName:propertyName
@@ -437,7 +437,7 @@
             }
             break;
         default:
-            NSAssert(NO, @"Unexpected editor type - case 2: %u", editorType);
+            NSAssert(NO, @"Unexpected editor type - case 2: %lu", (unsigned long)editorType);
             break;
     }
 
@@ -596,12 +596,12 @@
     IFAPersistenceManager *l_persistenceManager = [IFAPersistenceManager sharedInstance];
     [l_persistenceManager popChildManagedObjectContext];
     self.object = [l_persistenceManager findById:((NSManagedObject *) self.object).objectID];
-    NSAssert(l_persistenceManager.childManagedObjectContexts.count== self.IFA_initialChildManagedObjectContextCountForAssertion, @"Incorrect l_persistenceManager.childManagedObjectContexts.count: %u", l_persistenceManager.childManagedObjectContexts.count);
+    NSAssert(l_persistenceManager.childManagedObjectContexts.count== self.IFA_initialChildManagedObjectContextCountForAssertion, @"Incorrect l_persistenceManager.childManagedObjectContexts.count: %lu", (unsigned long)l_persistenceManager.childManagedObjectContexts.count);
 }
 
 - (void)IFA_pushChildManagedObjectContext {
     IFAPersistenceManager *l_persistenceManager = [IFAPersistenceManager sharedInstance];
-    NSAssert(l_persistenceManager.childManagedObjectContexts.count== self.IFA_initialChildManagedObjectContextCountForAssertion, @"Incorrect l_persistenceManager.childManagedObjectContexts.count: %u", l_persistenceManager.childManagedObjectContexts.count);
+    NSAssert(l_persistenceManager.childManagedObjectContexts.count== self.IFA_initialChildManagedObjectContextCountForAssertion, @"Incorrect l_persistenceManager.childManagedObjectContexts.count: %lu", (unsigned long)l_persistenceManager.childManagedObjectContexts.count);
     [l_persistenceManager pushChildManagedObjectContext];
     self.object = [l_persistenceManager findById:((NSManagedObject *) self.object).objectID];
 }
@@ -997,7 +997,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 			}
 			break;
 		default:
-			NSAssert(NO, @"Unexpected tag: %u", actionSheet.tag);
+			NSAssert(NO, @"Unexpected tag: %ld", (long)actionSheet.tag);
 			break;
 	}
 }
@@ -1121,7 +1121,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
             }
 
             default:
-                NSAssert(NO, @"Unexpected editor type: %u", editorType);
+                NSAssert(NO, @"Unexpected editor type: %lu", (unsigned long)editorType);
                 return nil;
         }
 

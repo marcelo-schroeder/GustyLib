@@ -345,7 +345,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
                                 [l_deleteDeniedPropertyLabels addObject:l_propertyLabel];
                                 break;
                             default:
-                                NSAssert(NO, @"Unexpected error code: %u", [error code]);
+                                NSAssert(NO, @"Unexpected error code: %ld", (long)[error code]);
                                 break;
                         }
                         [propertiesAlreadyValidated addObject:propertyName];
@@ -710,7 +710,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 }
 
 - (NSManagedObject *) findSystemEntityById:(NSUInteger)anId entity:(NSString *)anEntityName{
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"systemEntityId == %@", [NSNumber numberWithInt:anId]]; 
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"systemEntityId == %@", [NSNumber numberWithUnsignedInteger:anId]];
 	return [self fetchSingleWithPredicate:predicate entity:anEntityName];
 }
 
@@ -738,7 +738,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 
 -(NSManagedObject*)findSingleByKeysAndValues:(NSDictionary*)aDictionary entity:(NSString *)anEntityName{
     NSArray *l_result = [self findByKeysAndValues:aDictionary entity:anEntityName];
-    NSAssert(l_result.count<=1, @"Unexpected count: %u", l_result.count);
+    NSAssert(l_result.count<=1, @"Unexpected count: %lu", (unsigned long)l_result.count);
     if (l_result.count==0) {
         return nil;
     }else{
@@ -878,7 +878,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 	NSArray *resultArray = [self fetchWithPredicate:aPredicate sortDescriptor:nil entity:anEntityName];
 	NSUInteger count = [resultArray count];
 	if (count>1) {
-		NSAssert(NO, @"Unexpected entity count for single fetch: %d", count);
+		NSAssert(NO, @"Unexpected entity count for single fetch: %lu", (unsigned long)count);
 	}else if (count==1) {
 		return [resultArray objectAtIndex:0];
 	}
@@ -1070,7 +1070,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     NSUInteger l_newSystemEntitiesVersion = [(NSNumber*)[l_systemEntityConfig valueForKey:@"version"] intValue];
     NSUInteger l_oldSystemEntitiesVersion = [self systemDbTablesVersion];
     [IFAUtils logBooleanWithLabel:@"System tables loaded" value:[self systemDbTablesLoaded]];
-    NSLog(@"System tables version - old: %u, new: %u", l_oldSystemEntitiesVersion, l_newSystemEntitiesVersion);
+    NSLog(@"System tables version - old: %lu, new: %lu", (unsigned long)l_oldSystemEntitiesVersion, (unsigned long)l_newSystemEntitiesVersion);
 	if (![self systemDbTablesLoaded] || l_newSystemEntitiesVersion>l_oldSystemEntitiesVersion) {
 
         NSLog(@"Loading system tables...");
@@ -1080,14 +1080,14 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
             NSString *l_entityName = [l_systemEntityDictionary valueForKey:@"name"];
             NSLog(@"System Entity name: %@", l_entityName);
             NSUInteger l_systemTableVersion = [(NSNumber*)[l_systemEntityDictionary valueForKey:@"version"] intValue];
-            NSLog(@"System Entity version: %u", l_systemTableVersion);
+            NSLog(@"System Entity version: %lu", (unsigned long)l_systemTableVersion);
             if (![self systemDbTablesLoaded] || l_systemTableVersion>l_oldSystemEntitiesVersion) {
                 NSLog(@"Loading system table...");
                 NSArray *l_rows = [l_systemEntityDictionary valueForKey:@"rows"];
                 for (NSDictionary *l_row in l_rows) {
                     NSLog(@"Row: %@", [l_row description]);
                     NSNumber *l_systemEntityId = [l_row valueForKey:@"systemEntityId"];
-                    NSLog(@"  Checking if system entity instance with id %u already exists...", [l_systemEntityId unsignedIntegerValue]);
+                    NSLog(@"  Checking if system entity instance with id %lu already exists...", (unsigned long)[l_systemEntityId unsignedIntegerValue]);
                     IFASystemEntity *l_systemEntity = (IFASystemEntity *)[[IFAPersistenceManager sharedInstance] findSystemEntityById:[l_systemEntityId unsignedIntegerValue] entity:l_entityName];
                     NSNumber *l_activeIndicator = [l_row objectForKey:@"active"];
                     BOOL l_isActive = l_activeIndicator ? [l_activeIndicator boolValue] : YES;

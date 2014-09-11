@@ -58,7 +58,7 @@
             change[@(type)] = @(sectionIndex);
             break;
         default:
-            NSAssert(NO, @"Unexpected section change type: %u", type);
+            NSAssert(NO, @"Unexpected section change type: %lu", (unsigned long)type);
             break;
     }
     
@@ -110,7 +110,7 @@
                             [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
                             break;
                         default:
-                            NSAssert(NO, @"Unexpected change type: %u", type);
+                            NSAssert(NO, @"Unexpected change type: %lu", (unsigned long)type);
                             break;
                     }
                 }];

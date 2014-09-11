@@ -58,12 +58,12 @@
 @interface IFA_HPGrowingTextView : UIView <UITextViewDelegate> {
 	IFA_HPTextViewInternal *internalTextView;
 	
-	int minHeight;
-	int maxHeight;
+	NSInteger minHeight;
+	NSInteger maxHeight;
 	
 	//class properties
-	int maxNumberOfLines;
-	int minNumberOfLines;
+	NSInteger maxNumberOfLines;
+	NSInteger minNumberOfLines;
 	
 	BOOL animateHeightChange;
     NSTimeInterval animationDuration;
@@ -80,10 +80,10 @@
 }
 
 //real class properties
-@property int maxNumberOfLines;
-@property int minNumberOfLines;
-@property (nonatomic) int maxHeight;
-@property (nonatomic) int minHeight;
+@property NSInteger maxNumberOfLines;
+@property NSInteger minNumberOfLines;
+@property (nonatomic) NSInteger maxHeight;
+@property (nonatomic) NSInteger minHeight;
 @property BOOL animateHeightChange;
 @property NSTimeInterval animationDuration;
 @property (nonatomic, strong) NSString *placeholder;

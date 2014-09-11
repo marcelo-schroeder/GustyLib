@@ -356,7 +356,7 @@
 //    NSDictionary *l_helpDictionary = [IFAUtils getPlistAsDictionary:@"Help"];
 //    NSLog(@"   HELP VALUE: %@", [l_helpDictionary valueForKeyPath:a_barButtonItem.helpTargetId]);
 
-    NSAssert([[a_event allTouches] count]==1, @"Unexpected touch set count: %u", [[a_event allTouches] count]);
+    NSAssert([[a_event allTouches] count]==1, @"Unexpected touch set count: %lu", (unsigned long)[[a_event allTouches] count]);
     UIView *l_view = ((UITouch*)[[a_event allTouches] anyObject]).view;
     NSString *l_title = [self IFA_helpTitleForKeyPath:a_barButtonItem.helpTargetId];
     if (!l_title) {

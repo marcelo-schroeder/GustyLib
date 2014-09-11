@@ -73,7 +73,7 @@
 
 -(void)setModeInternal:(NSNumber*)l_modeNumber{
     // Dont change mode if it wasn't actually changed to prevent flickering
-    MBProgressHUDMode newMode = [l_modeNumber unsignedIntegerValue];
+    MBProgressHUDMode newMode = (MBProgressHUDMode)[l_modeNumber unsignedIntegerValue];
     if (mode && (mode == newMode)) {
         return;
     }

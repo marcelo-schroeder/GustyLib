@@ -43,9 +43,9 @@ PODS:
     - FlurrySDK/FlurrySDK
   - FlurrySDK/FlurrySDK (5.0.0)
   - Google-Mobile-Ads-SDK (6.9.2)
-  - IFATestingSupport (0.1.1):
+  - IFATestingSupport (0.1.3):
     - OCHamcrest
-    - OCMock
+    - OCMock (= 2.2.4)
   - MWFeedParser (1.0.1):
     - MWFeedParser/FeedParser
     - MWFeedParser/NSDate+InternetDateTime
@@ -63,7 +63,7 @@ DEPENDENCIES:
   - DTFoundation (= 1.7.2)
   - FlurrySDK
   - Google-Mobile-Ads-SDK
-  - IFATestingSupport (from `https://bitbucket.org/marcelo_schroeder/ifatestingsupport.git`, tag `0.1.1`)
+  - IFATestingSupport (from `/Users/mschroeder/myfiles/projects/Xcode6/IFATestingSupport/IFATestingSupport_development`)
   - MWFeedParser (= 1.0.1)
   - OCHamcrest
   - OCMock
@@ -71,14 +71,13 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   IFATestingSupport:
-    :git: https://bitbucket.org/marcelo_schroeder/ifatestingsupport.git
-    :tag: 0.1.1
+    :path: /Users/mschroeder/myfiles/projects/Xcode6/IFATestingSupport/IFATestingSupport_development
 
 SPEC CHECKSUMS:
   DTFoundation: 126729614911ae7dbab3dcc1c078f189943bee66
   FlurrySDK: 1fa28436e86e533e51ab1164c43d8f3b5f8ff99f
   Google-Mobile-Ads-SDK: da74aff80d80e7451a24ab76dd422fad29911230
-  IFATestingSupport: f77abed91b3bd8f12cffe6b036cfbc5da8b7e4e7
+  IFATestingSupport: 11a09064bc35a1a32d762ed8df1e4c75e353020b
   MWFeedParser: 003cbf5398e99a7f2057fbe9583054fd1b84be72
   OCHamcrest: b464725bbb48d0f1cd9c6f4ec3cb35fe0c4f2b94
   OCMock: 6db79185520e24f9f299548f2b8b07e41d881bd5
