@@ -67,7 +67,8 @@ static NSString *const k_LocationServiceDisableAlertMessage = @" Location Servic
 
     switch ([CLLocationManager authorizationStatus]) {
         case kCLAuthorizationStatusNotDetermined:
-        case kCLAuthorizationStatusAuthorized:
+        case kCLAuthorizationStatusAuthorizedAlways:
+        case kCLAuthorizationStatusAuthorizedWhenInUse:
             return YES;
         case kCLAuthorizationStatusRestricted:
         {

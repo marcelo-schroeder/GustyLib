@@ -295,9 +295,7 @@
 		return YES;
     
 	NSData * profileData = [profile dataUsingEncoding:NSUTF8StringEncoding];
-	NSString *error = nil;;
-	NSPropertyListFormat format;
-	NSDictionary* plist = [NSPropertyListSerialization propertyListFromData:profileData mutabilityOption:NSPropertyListImmutable format:&format errorDescription:&error];
+    NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:profileData options:NSPropertyListImmutable format:nil error:nil];
     
 	NSDictionary * entitlements = [plist objectForKey:@"Entitlements"];
     //	NSNumber * allowNumber = [entitlements objectForKey:@"get-task-allow"];

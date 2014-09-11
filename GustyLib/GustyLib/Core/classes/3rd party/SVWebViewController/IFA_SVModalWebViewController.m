@@ -36,7 +36,7 @@
     if (self = [super initWithRootViewController:self.webViewController]) {
         // Made the change below to allow the button to be styled via the appearance proxy
         //        self.webViewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:webViewController action:@selector(doneButtonClicked:)];
-        self.webViewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:webViewController action:@selector(doneButtonClicked:)];
+        self.webViewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:webViewController action:@selector(doneButtonClicked:)];
     }
     return self;
 }

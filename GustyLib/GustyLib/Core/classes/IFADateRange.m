@@ -98,7 +98,7 @@
     }else{
         
         //	NSUInteger unitFlags = NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
-        NSUInteger unitFlags = NSHourCalendarUnit;
+        NSUInteger unitFlags = NSCalendarUnitHour;
         
         BOOL dayUnitAdded = NO;
         BOOL secondUnitAdded = NO;
@@ -106,15 +106,15 @@
         switch (aFormat) {
             case IFADurationFormatFull:
             case IFADurationFormatFullLong:
-                unitFlags = unitFlags | NSDayCalendarUnit;
+                unitFlags = unitFlags | NSCalendarUnitDay;
                 dayUnitAdded = YES;
             case IFADurationFormatHoursMinutesSeconds:
             case IFADurationFormatHoursMinutesSecondsLong:
-                unitFlags = unitFlags | NSSecondCalendarUnit;
+                unitFlags = unitFlags | NSCalendarUnitSecond;
                 secondUnitAdded = YES;
             case IFADurationFormatHoursMinutes:
             case IFADurationFormatHoursMinutesLong:
-                unitFlags = unitFlags | NSMinuteCalendarUnit;
+                unitFlags = unitFlags | NSCalendarUnitMinute;
                 break;
             default:
                 NSAssert1(NO, @"Unexpected duration format: %u", aFormat);
@@ -248,7 +248,7 @@
         return [NSDecimalNumber zero];
     }
 
-	NSUInteger unitFlags = NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+	NSUInteger unitFlags = NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
 	NSDateComponents *components = [a_calendar components:unitFlags fromDate:aStartDate toDate:anEndDate options:0];
 	NSInteger hours = [components hour];
 	NSInteger minutes = [components minute];

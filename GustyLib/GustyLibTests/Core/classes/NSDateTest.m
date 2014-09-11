@@ -32,7 +32,7 @@
 - (void) testLastMidnight {
 	
 	NSDate* lastMidnight = [[self testDate] ifa_lastMidnightForCalendar:[NSCalendar ifa_threadSafeCalendar]];
-	unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+	unsigned unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
 	NSDateComponents* comps = [[NSCalendar ifa_threadSafeCalendar] components:unitFlags fromDate:lastMidnight];
 	
 	XCTAssertEqual([comps day], 26);
@@ -47,7 +47,7 @@
 - (void) testNextMidnight {
 	
 	NSDate* lastMidnight = [[self testDate] ifa_nextMidnightForCalendar:[NSCalendar ifa_threadSafeCalendar]];
-	unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+	unsigned unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
 	NSDateComponents* comps = [[NSCalendar ifa_threadSafeCalendar] components:unitFlags fromDate:lastMidnight];
 	
 	XCTAssertEqual([comps day], 27);

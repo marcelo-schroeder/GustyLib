@@ -156,7 +156,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         if (l_imageName) {
             UIImage *l_image = [[UIImage imageNamed:l_imageName] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 14, 0, 4)];
             [self.barButtonItemAppearance setBackButtonBackgroundImage:l_image forState:UIControlStateNormal
-                                                            barMetrics:UIBarMetricsLandscapePhone];
+                                                            barMetrics:UIBarMetricsCompact];
         }
     }
     
@@ -175,7 +175,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         if (l_imageName) {
             UIImage *l_image = [[UIImage imageNamed:l_imageName] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
             [self.barSegmentedControlAppearance setBackgroundImage:l_image forState:UIControlStateNormal
-                                                        barMetrics:UIBarMetricsLandscapePhone];
+                                                        barMetrics:UIBarMetricsCompact];
         }
         
         l_imageName = [IFAUtils infoPList][@"IFAThemeBarButtonItemBackgroundImageSelectedDefaultImageName"];
@@ -189,7 +189,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         if (l_imageName) {
             UIImage *l_image = [[UIImage imageNamed:l_imageName] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
             [self.barSegmentedControlAppearance setBackgroundImage:l_image forState:UIControlStateSelected
-                                                        barMetrics:UIBarMetricsLandscapePhone];
+                                                        barMetrics:UIBarMetricsCompact];
         }
         
         l_imageName = [IFAUtils infoPList][@"IFAThemeBarSegmentedControlDividerImageName"];
@@ -200,7 +200,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
             [self.barSegmentedControlAppearance setDividerImage:[UIImage imageNamed:l_imageName]
                                             forLeftSegmentState:UIControlStateNormal
                                               rightSegmentState:UIControlStateNormal
-                                                     barMetrics:UIBarMetricsLandscapePhone];
+                                                     barMetrics:UIBarMetricsCompact];
         }
         
     }
@@ -247,7 +247,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     a_viewController.ifa_titleViewDefault = [self navigationItemTitleViewForViewController:a_viewController
                                                                               barMetrics:UIBarMetricsDefault];
     a_viewController.ifa_titleViewLandscapePhone = [self navigationItemTitleViewForViewController:a_viewController
-                                                                                     barMetrics:UIBarMetricsLandscapePhone];
+                                                                                     barMetrics:UIBarMetricsCompact];
 
     [self setOrientationDependentBackgroundImagesForViewController:a_viewController];
     if ([a_viewController isKindOfClass:[UITableViewController class]]) {
@@ -472,7 +472,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }
     if (l_imageNameLandscapeIphone) {
         UIImage *l_image = [[UIImage imageNamed:l_imageNameLandscapeIphone] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
-        [a_barButtonItem setBackgroundImage:l_image forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
+        [a_barButtonItem setBackgroundImage:l_image forState:UIControlStateNormal barMetrics:UIBarMetricsCompact];
     }
 
 }
@@ -484,7 +484,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }
     NSNumber *l_backgroundVerticalPositionAdjustmentLandscapeIphone = [IFAUtils infoPList][@"IFAThemeBarButtonItemBackgroundVerticalPositionAdjustmentLandscapeIphone"];
     if (l_backgroundVerticalPositionAdjustmentLandscapeIphone) {
-        [a_barButtonItem setBackgroundVerticalPositionAdjustment:l_backgroundVerticalPositionAdjustmentLandscapeIphone.floatValue forBarMetrics:UIBarMetricsLandscapePhone];
+        [a_barButtonItem setBackgroundVerticalPositionAdjustment:l_backgroundVerticalPositionAdjustmentLandscapeIphone.floatValue forBarMetrics:UIBarMetricsCompact];
     }
 }
 

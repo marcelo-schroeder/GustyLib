@@ -25,7 +25,7 @@
 #pragma mark - Private
 
 - (NSDateComponents*)dayDateComponentsForDate:(NSDate*)aDate calendar:(NSCalendar*)a_calendar{
-	unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
+	unsigned unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay;
 	return [a_calendar components:unitFlags fromDate:aDate];
 }
 

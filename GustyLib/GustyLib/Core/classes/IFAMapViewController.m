@@ -163,7 +163,7 @@
 -(void)IFA_onLocationAuthorizationStatusChange:(NSNotification*)a_notification{
 
     // If the user has just authorised the use of his/her current location, then we attempt to show the user location again
-    if ([a_notification.userInfo[@"status"] intValue]==kCLAuthorizationStatusAuthorized) {
+    if ([a_notification.userInfo[@"status"] intValue]==kCLAuthorizationStatusAuthorizedAlways || [a_notification.userInfo[@"status"] intValue]==kCLAuthorizationStatusAuthorizedWhenInUse) {
         [self IFA_hideProgressView];  // In case the authorisation status changed while the user location was being obtained (i.e. first time user acceptance)
         [self IFA_showUserLocation];
     }

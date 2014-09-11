@@ -144,7 +144,7 @@
     }
     if (l_showResetCountDownButton) {
         UIBarButtonItem *l_resetCountDownButton = [[UIBarButtonItem alloc] initWithTitle:@"Set To Zero"
-                                                                                   style:UIBarButtonItemStyleBordered
+                                                                                   style:UIBarButtonItemStylePlain
                                                                                   target:a_target
                                                                                   action:@selector(IFA_onResetCountDownButtonTap:)];
 //        l_resetCountDownButton.accessibilityLabel = @"Set To Zero";
@@ -156,7 +156,7 @@
                                                                    action:nil];
         if (l_showClearDateButton) {
             UIBarButtonItem *clearDateButton = [[UIBarButtonItem alloc] initWithTitle:@"Clear Date"
-                                                                                style:UIBarButtonItemStyleBordered
+                                                                                style:UIBarButtonItemStylePlain
                                                                                target:a_target
                                                                                action:@selector(IFA_onClearDateButtonTap:)];
 //            clearDateButton.accessibilityLabel = @"Clear Date";
@@ -164,7 +164,7 @@
         }
         if (l_showSelectDistantPastButton) {
             UIBarButtonItem *l_selectDistantPastButton = [[UIBarButtonItem alloc] initWithTitle:@"Distant Past"
-                                                                                          style:UIBarButtonItemStyleBordered
+                                                                                          style:UIBarButtonItemStylePlain
                                                                                          target:a_target
                                                                                          action:@selector(IFA_onSelectDistantPastButtonTap:)];
 //            l_selectDistantPastButton.accessibilityLabel = @"Distant Past";
@@ -172,7 +172,7 @@
         }
         if (l_showSelectDistantFutureButton) {
             UIBarButtonItem *l_selectDistantFutureButton = [[UIBarButtonItem alloc] initWithTitle:@"Distant Future"
-                                                                                            style:UIBarButtonItemStyleBordered
+                                                                                            style:UIBarButtonItemStylePlain
                                                                                            target:a_target
                                                                                            action:@selector(IFA_onSelectDistantFutureButtonTap:)];
 //            l_selectDistantFutureButton.accessibilityLabel = @"Distant Future";
@@ -378,7 +378,7 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IFAPresenter>
     }else {
 
         if (self.IFA_seconds) {
-            NSCalendarUnit l_unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+            NSCalendarUnit l_unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
             NSDateComponents *l_dateComponents = [[NSCalendar ifa_threadSafeCalendar] components:l_unitFlags
                                                                                         fromDate:self.IFA_dateAndTime];
             [l_dateComponents setSecond:[self.IFA_seconds intValue]];

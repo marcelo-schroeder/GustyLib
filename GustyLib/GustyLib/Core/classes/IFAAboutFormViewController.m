@@ -77,14 +77,14 @@
         
         // Configure toolbar buttons
         self.IFA_reportBugBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Report Bug"
-                                                                         style:UIBarButtonItemStyleBordered target:self
+                                                                         style:UIBarButtonItemStylePlain target:self
                                                                         action:@selector(IFA_ReportBugButtonTap:)];
         self.IFA_provideFeedbackBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Provide Feedback"
-                                                                               style:UIBarButtonItemStyleBordered
+                                                                               style:UIBarButtonItemStylePlain
                                                                               target:self
                                                                               action:@selector(IFA_provideFeedbackButtonTap:)];
         self.IFA_forceCrashBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Force Crash"
-                                                                          style:UIBarButtonItemStyleBordered target:self
+                                                                          style:UIBarButtonItemStylePlain target:self
                                                                          action:@selector(IFA_forceCrashButtonTap:)];
         
         // Configure email manager
