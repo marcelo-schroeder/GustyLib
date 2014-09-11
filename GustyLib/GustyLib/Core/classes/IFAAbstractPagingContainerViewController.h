@@ -34,7 +34,9 @@
 @property (nonatomic) NSUInteger childViewDidAppearCount;
 @property (nonatomic) NSUInteger newChildViewControllerCount;
 
--(void)updateContentLayout;
+- (void)updateContentLayout;
+- (void)updateContentLayoutWithAnimation:(BOOL)a_animated;
+
 -(CGRect)visibleRectForPage:(NSUInteger)a_pageIndex;
 -(void)scrollToPage:(NSUInteger)a_pageIndex animated:(BOOL)a_animated;
 -(void)refreshAndReloadChildData;
