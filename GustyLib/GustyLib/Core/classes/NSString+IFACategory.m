@@ -77,12 +77,12 @@
     return l_outputString;
 }
 
-+ (id)ifa_stringWithFormat:(NSString *)format array:(NSArray*)arguments{
-    NSRange range = NSMakeRange(0, [arguments count]);
-    NSMutableData* data = [NSMutableData dataWithLength:sizeof(id) * [arguments count]];
-    [arguments getObjects:(__unsafe_unretained id *)data.mutableBytes range:range];
-    NSString* result = [[NSString alloc] initWithFormat:format arguments:data.mutableBytes];
-    return result;
++ (instancetype)ifa_stringWithFormat:(NSString *)a_format array:(NSArray *)a_arguments {
+    NSMutableString *string = a_format.mutableCopy;
+    for (NSString *currentReplacement in a_arguments) {
+        [string replaceCharactersInRange:[string rangeOfString:@"%@"] withString:currentReplacement];
+    }
+    return string;
 }
 
 - (NSArray *)ifa_characters {

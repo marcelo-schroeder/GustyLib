@@ -27,6 +27,12 @@ typedef void (^CurrentLocationBlock)(CLLocation *a_location);
 
 @property (nonatomic, strong, readonly) CLLocationManager *underlyingLocationManager;
 
+/**
+* View controller to be used as the presenter for any location related alerts to the user.
+* Optional.
+*/
+@property (nonatomic, weak) UIViewController *alertPresenterViewController;
+
 - (void)currentLocationWithCompletionBlock:(CurrentLocationBlock)a_completionBlock;
 
 - (void)currentLocationWithHorizontalAccuracy:(CLLocationAccuracy)horizontalAccuracy

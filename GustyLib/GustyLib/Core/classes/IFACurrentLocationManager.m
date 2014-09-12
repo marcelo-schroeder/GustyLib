@@ -51,7 +51,7 @@
 
 - (void)IFA_handleCurrentLocationErrorWithAlert:(BOOL)a_shouldShowAlert {
     if (a_shouldShowAlert) {
-        [IFALocationManager showLocationServicesAlert];
+        [IFALocationManager showLocationServicesAlertWithPresenterViewController:self.alertPresenterViewController];
     }
     self.IFA_completionBlock(nil);
 }
@@ -97,7 +97,7 @@
                               completionBlock:(CurrentLocationBlock)a_completionBlock {
 
     self.IFA_completionBlock = a_completionBlock;
-    if ([self.class performLocationServicesChecks]) {
+    if ([IFALocationManager performLocationServicesChecksWithAlertPresenterViewController:nil]) {
         self.IFA_pendingCurrentLocationRequest = YES;
         self.IFA_horizontalAccuracy = horizontalAccuracy;
         self.IFA_locationAgeThreshold = locationAgeThreshold;

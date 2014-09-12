@@ -38,6 +38,6 @@
 
 - (NSString *)ifa_stringWithNumbersOnly;
 
-+ (id)ifa_stringWithFormat:(NSString *)format array:(NSArray*)arguments;
++ (instancetype)ifa_stringWithFormat:(NSString *)a_format array:(NSArray*)a_arguments;
 
 @end

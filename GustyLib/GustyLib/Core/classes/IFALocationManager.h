@@ -18,6 +18,11 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+typedef enum{
+    IFALocationAuthorizationTypeAlways,     // Permission to use location services whenever the app is running.
+    IFALocationAuthorizationTypeWhenInUse,  // Permission to use location services while the app is in the foreground.
+}IFALocationAuthorizationType;
+
 /**
 * Convenience wrapper around CLLocationManager. Once instantiated, it also becomes the delegate for CLLocationManager;
 * As a convenience, the IFANotificationLocationAuthorizationStatusChange notification will be sent out so that the app can track location authorization status changes.
@@ -30,21 +35,34 @@
 
 /**
 * Checks if the the location manager's authorisation status is in order. If it is not in order, it conveniently handles the various statuses providing the appropriate messages to the user.
+* @param a_alertPresenterViewController View controller to be used for presenting any alerts from.
 * @returns YES if the location manager's authorisation status is in order (i.e. either kCLAuthorizationStatusNotDetermined or kCLAuthorizationStatusAuthorized). Otherwise it returns NO.
 */
-+ (BOOL)performLocationServicesChecks;
++ (BOOL)
+performLocationServicesChecksWithAlertPresenterViewController:(UIViewController *)a_alertPresenterViewController;
 
 /**
 * Shows an alert with a standard message for when the user's location cannot be obtained.
+* @param a_alertPresenterViewController View controller to be used for presenting any alerts from.
 */
-+ (void)showLocationServicesAlert;
++ (void)showLocationServicesAlertWithPresenterViewController:(UIViewController *)a_presenterViewController;
 
 /**
 * Shows an alert with a standard message for when the user's location cannot be obtained. The suffix for the message can be provided.
 * @param a_messageSuffix String to be appended to the standard message.
+* @param a_alertPresenterViewController View controller to be used for presenting any alerts from.
 */
-+ (void)showLocationServicesAlertWithMessageSuffix:(NSString *)a_messageSuffix;
++ (void)showLocationServicesAlertWithMessage:(NSString *)a_message
+                     presenterViewController:(UIViewController *)a_presenterViewController;
 
 + (instancetype)sharedInstance;
+
+/**
+* Call this method to handle a scenario where the user's location was not possible to obtain.
+* This method will perform all authorization checks. If any of those fails, the appropriate alert will be displayed to the user.
+* If the authorization checks succeed, then it is assumed that there is no connectivity. The appropriate alert for that scenario will also be displayed to the user.
+* @param a_alertPresenterViewController View controller to be used for presenting any alerts from.
+*/
++ (void)handleLocationFailureWithAlertPresenterViewController:(UIViewController *)a_alertPresenterViewController;
 
 @end

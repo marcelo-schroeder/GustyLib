@@ -17,6 +17,7 @@
 
 #import <Foundation/Foundation.h>
 #import "IFAViewController.h"
+#import "IFALocationManager.h"
 #import <MapKit/MapKit.h>
 
 @class MKMapView;
@@ -41,5 +42,11 @@
 * Map view instance. Must be instantiated either by Interface Builder or programmatically.
 */
 @property (nonatomic, strong) IBOutlet MKMapView *mapView;
+
+/**
+* Determines the authorisation type to be requested before the user location can be shown on the map.
+* Default: IFALocationAuthorizationTypeAlways.
+*/
+@property (nonatomic) IFALocationAuthorizationType locationAuthorizationType;
 
 @end

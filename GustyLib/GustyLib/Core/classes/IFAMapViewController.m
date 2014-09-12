@@ -17,7 +17,7 @@
 
 #import "GustyLibCore.h"
 
-
+//wip: when making a change that does not improve the situation (e.g. from being disabled for the app to being disabled overall) it didn't change the map when returning to foreground - should it?
 @interface IFAMapViewController ()
 @property(nonatomic, strong) UIBarButtonItem *userLocationBarButtonItem;
 @property(nonatomic, strong) UIBarButtonItem *mapSettingsBarButtonItem;
@@ -112,9 +112,7 @@
 
     if (!self.IFA_userLocationRequestCompleted && self.IFA_progressViewManager) {
         [self IFA_hideProgressView];
-        if ([IFALocationManager performLocationServicesChecks]) {
-            [IFAUIUtils showAlertWithMessage:@"Location Services are unable to obtain a location right now.\nPlease check if your device has connectivity." title:@"Location Services Error"];
-        }
+        [IFALocationManager handleLocationFailureWithAlertPresenterViewController:self];
         self.IFA_userLocationRequestCompleted = YES;
     }
 }
@@ -122,7 +120,7 @@
 #pragma mark - Private
 
 - (void)IFA_onUserLocationButtonTap:(UIBarButtonItem *)a_barButtonItem {
-    if ([IFALocationManager performLocationServicesChecks]) {
+    if ([IFALocationManager performLocationServicesChecksWithAlertPresenterViewController:self]) {
         [self.mapView setCenterCoordinate:self.mapView.userLocation.location.coordinate animated:YES];
     }
 }
@@ -155,9 +153,21 @@
 }
 
 -(void)IFA_showUserLocation {
-    self.IFA_userLocationRequestCompleted = NO;
-    [self.IFA_progressViewManager showView];
-    self.mapView.showsUserLocation = YES;
+    if ([CLLocationManager authorizationStatus]==kCLAuthorizationStatusNotDetermined) {
+        CLLocationManager *locationManager = [IFALocationManager sharedInstance].underlyingLocationManager;
+        switch (self.locationAuthorizationType){
+            case IFALocationAuthorizationTypeAlways:
+                [locationManager requestAlwaysAuthorization];
+                break;
+            case IFALocationAuthorizationTypeWhenInUse:
+                [locationManager requestWhenInUseAuthorization];
+                break;
+        }
+    }else{
+        self.IFA_userLocationRequestCompleted = NO;
+        [self.IFA_progressViewManager showView];
+        self.mapView.showsUserLocation = YES;
+    }
 }
 
 -(void)IFA_onLocationAuthorizationStatusChange:(NSNotification*)a_notification{

@@ -1462,6 +1462,21 @@ typedef enum {
     return [NSCalendar ifa_threadSafeCalendar];
 }
 
+- (void)ifa_presentAlertControllerWithTitle:(NSString *)a_title
+                                    message:(NSString *)a_message
+                             preferredStyle:(UIAlertControllerStyle)a_style
+                                    actions:(NSArray *)a_actions
+                                 completion:(void (^)(void))a_completion {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:a_title
+                                                                             message:a_message
+                                                                      preferredStyle:a_style];
+    for (UIAlertAction *action in a_actions) {
+        [alertController addAction:action];
+    }
+    [self presentViewController:alertController
+                       animated:YES completion:a_completion];
+}
+
 //-(void)m_simulateMemoryWarning{
 //
 //#ifdef DEBUG

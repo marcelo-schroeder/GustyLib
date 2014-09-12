@@ -87,6 +87,21 @@
 */
 - (NSCalendar *)ifa_calendar;
 
+/**
+* Presents an instance of a UIAlertController according to the specifications provided.
+* It animates transitions by default.
+* @param a_title The title of the alert. Use this string to get the user’s attention and communicate the reason for the alert.
+* @param a_message Descriptive text that provides additional details about the reason for the alert.
+* @param a_style The style to use when presenting the alert controller. Use this parameter to configure the alert controller as an action sheet or as a modal alert.
+* @param a_actions An array of UIAlertAction instances.
+* @param a_completion A completion block to be executed after the view transition has been completed.
+*/
+- (void)ifa_presentAlertControllerWithTitle:(NSString *)a_title
+                                    message:(NSString *)a_message
+                             preferredStyle:(UIAlertControllerStyle)a_style
+                                    actions:(NSArray *)a_actions
+                                 completion:(void (^)(void))a_completion;
+
 - (void)ifa_onKeyboardNotification:(NSNotification *)a_notification;
 
 - (void)ifa_updateToolbarForEditing:(BOOL)a_editing animated:(BOOL)a_animated;
