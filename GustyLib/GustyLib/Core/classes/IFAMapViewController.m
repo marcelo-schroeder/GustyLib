@@ -128,8 +128,11 @@
 #pragma mark - Private
 
 - (void)IFA_onUserLocationButtonTap:(UIBarButtonItem *)a_barButtonItem {
-    if ([IFALocationManager performLocationServicesChecksWithAlertPresenterViewController:self]) {
-        [self.mapView setCenterCoordinate:self.mapView.userLocation.location.coordinate animated:YES];
+    MKUserLocation *userLocation = self.mapView.userLocation;
+    if (userLocation.location) {
+        [self.mapView showAnnotations:@[userLocation] animated:YES];
+    }else{
+        [IFALocationManager handleLocationFailureWithAlertPresenterViewController:self];
     }
 }
 
