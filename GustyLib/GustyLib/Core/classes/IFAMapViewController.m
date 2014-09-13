@@ -23,6 +23,8 @@
 @property(nonatomic, strong) UIBarButtonItem *mapSettingsBarButtonItem;
 @property(nonatomic, strong) IFAWorkInProgressModalViewManager *IFA_progressViewManager;
 @property(nonatomic) BOOL IFA_initialUserLocationRequestCompleted;
+@property(nonatomic) BOOL IFA_userLocationRequestCompleted;
+@property(nonatomic, strong) void (^IFA_userLocationRequestCompletionBlock)(BOOL a_success);
 @end
 
 @implementation IFAMapViewController {
@@ -68,7 +70,7 @@
 -(void)viewDidAppear:(BOOL)animated{
 
     if (!self.ifa_hasViewAppeared) {
-        [self IFA_showUserLocation];
+        [self IFA_locateUserWithCompletionBlock:nil];
     }
 
     [super viewDidAppear:animated];
@@ -98,15 +100,9 @@
 //    NSLog(@"didUpdateUserLocation");
 //    NSLog(@" ");
 
-    if (!self.IFA_initialUserLocationRequestCompleted && self.IFA_progressViewManager) {
-        [self IFA_hideProgressView];
-        self.IFA_initialUserLocationRequestCompleted = YES;
-        if ([self.mapViewControllerDelegate respondsToSelector:@selector(mapViewController:didCompleteInitialUserLocationRequestWithSuccess:)]) {
-            [self.mapViewControllerDelegate mapViewController:self
-             didCompleteInitialUserLocationRequestWithSuccess:YES];
-        }
+    if (!self.IFA_userLocationRequestCompleted && self.IFA_progressViewManager) {
+        [self IFA_handleUserLocationRequestedCompletionWithSuccess:YES];
     }
-
 }
 
 - (void)mapView:(MKMapView *)mapView didFailToLocateUserWithError:(NSError *)error{
@@ -114,26 +110,20 @@
     NSLog(@"didFailToLocateUserWithError - error code: %ld", (long)[error code]);
     NSLog(@" ");
 
-    if (!self.IFA_initialUserLocationRequestCompleted && self.IFA_progressViewManager) {
-        [self IFA_hideProgressView];
+    if (!self.IFA_userLocationRequestCompleted && self.IFA_progressViewManager) {
         [IFALocationManager handleLocationFailureWithAlertPresenterViewController:self];
-        self.IFA_initialUserLocationRequestCompleted = YES;
-        if ([self.mapViewControllerDelegate respondsToSelector:@selector(mapViewController:didCompleteInitialUserLocationRequestWithSuccess:)]) {
-            [self.mapViewControllerDelegate mapViewController:self
-             didCompleteInitialUserLocationRequestWithSuccess:NO];
-        }
+        [self IFA_handleUserLocationRequestedCompletionWithSuccess:NO];
     }
 }
 
 #pragma mark - Private
 
 - (void)IFA_onUserLocationButtonTap:(UIBarButtonItem *)a_barButtonItem {
-    MKUserLocation *userLocation = self.mapView.userLocation;
-    if (userLocation.location) {
-        [self.mapView showAnnotations:@[userLocation] animated:YES];
-    }else{
-        [IFALocationManager handleLocationFailureWithAlertPresenterViewController:self];
-    }
+    [self IFA_locateUserWithCompletionBlock:^(BOOL a_success) {
+        if (a_success) {
+            [self.mapView showAnnotations:@[self.mapView.userLocation] animated:YES];
+        }
+    }];
 }
 
 - (void)IFA_onMapSettingsButtonTap:(UIBarButtonItem *)a_barButtonItem {
@@ -159,25 +149,30 @@
 }
 
 - (void)IFA_onUserLocationProgressViewCancelled {
-    self.mapView.showsUserLocation = NO;
-    [self IFA_hideProgressView];
+    [self IFA_handleUserLocationRequestedCompletionWithSuccess:NO];
 }
 
--(void)IFA_showUserLocation {
-    if ([CLLocationManager authorizationStatus]==kCLAuthorizationStatusNotDetermined) {
-        CLLocationManager *locationManager = [IFALocationManager sharedInstance].underlyingLocationManager;
-        switch (self.locationAuthorizationType){
-            case IFALocationAuthorizationTypeAlways:
-                [locationManager requestAlwaysAuthorization];
-                break;
-            case IFALocationAuthorizationTypeWhenInUse:
-                [locationManager requestWhenInUseAuthorization];
-                break;
-        }
+- (void)IFA_locateUserWithCompletionBlock:(void (^)(BOOL a_success))a_completionBlock {
+    if (self.mapView.userLocation.location) {
+        self.IFA_userLocationRequestCompletionBlock = nil;
+        a_completionBlock(YES);
     }else{
-        self.IFA_initialUserLocationRequestCompleted = NO;
-        [self.IFA_progressViewManager showView];
-        self.mapView.showsUserLocation = YES;
+        self.IFA_userLocationRequestCompletionBlock = a_completionBlock;
+        if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
+            CLLocationManager *locationManager = [IFALocationManager sharedInstance].underlyingLocationManager;
+            switch (self.locationAuthorizationType) {
+                case IFALocationAuthorizationTypeAlways:
+                    [locationManager requestAlwaysAuthorization];
+                    break;
+                case IFALocationAuthorizationTypeWhenInUse:
+                    [locationManager requestWhenInUseAuthorization];
+                    break;
+            }
+        } else {
+            self.IFA_userLocationRequestCompleted = NO;
+            [self.IFA_progressViewManager showView];
+            self.mapView.showsUserLocation = YES;
+        }
     }
 }
 
@@ -186,9 +181,27 @@
     // If the user has just authorised the use of his/her current location, then we attempt to show the user location again
     if ([a_notification.userInfo[@"status"] intValue]==kCLAuthorizationStatusAuthorizedAlways || [a_notification.userInfo[@"status"] intValue]==kCLAuthorizationStatusAuthorizedWhenInUse) {
         [self IFA_hideProgressView];  // In case the authorisation status changed while the user location was being obtained (i.e. first time user acceptance)
-        [self IFA_showUserLocation];
+        [self IFA_locateUserWithCompletionBlock:nil];
     }
 
+}
+
+- (void)IFA_handleUserLocationRequestedCompletionWithSuccess:(BOOL)a_success {
+    if (!a_success) {
+        self.mapView.showsUserLocation = NO;
+    }
+    [self IFA_hideProgressView];
+    self.IFA_userLocationRequestCompleted = YES;
+    if (self.IFA_userLocationRequestCompletionBlock) {
+        self.IFA_userLocationRequestCompletionBlock(a_success);
+    }
+    if (!self.IFA_initialUserLocationRequestCompleted) {
+        if ([self.mapViewControllerDelegate respondsToSelector:@selector(mapViewController:didCompleteInitialUserLocationRequestWithSuccess:)]) {
+            [self.mapViewControllerDelegate mapViewController:self
+             didCompleteInitialUserLocationRequestWithSuccess:a_success];
+        }
+        self.IFA_initialUserLocationRequestCompleted = YES;
+    }
 }
 
 @end
