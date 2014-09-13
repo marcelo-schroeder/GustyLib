@@ -1093,11 +1093,11 @@ typedef enum {
 
     // Make sure toolbar is already visible when the view appears for the first time (only for top level view controllers)
     self.IFA_toolbarUpdatedBeforeViewAppeared = NO;
-    if (self.ifa_manageToolbar
-            && self.navigationController.visibleViewController==self
+    BOOL isTopLevelViewControllerBeingPresentedForTheFirstTime = self.navigationController.visibleViewController==self
             && self.navigationController.viewControllers[0]==self
-            && !self.ifa_isReturningVisibleViewController
-            ) {
+            && !self.ifa_isReturningVisibleViewController;
+    BOOL isReturningModalPresenter = self.presentedViewController == self.navigationController.visibleViewController.navigationController;
+    if (self.ifa_manageToolbar && (isTopLevelViewControllerBeingPresentedForTheFirstTime || isReturningModalPresenter)) {
         [self ifa_updateToolbarForEditing:self.editing animated:NO];
         self.IFA_toolbarUpdatedBeforeViewAppeared = YES;
     }
