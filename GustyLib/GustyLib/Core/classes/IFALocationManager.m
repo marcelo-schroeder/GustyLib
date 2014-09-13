@@ -63,11 +63,21 @@ static NSString *const k_alertTitle = @"Unable to obtain your location";
                                                            style:UIAlertActionStyleDefault
                                                          handler:nil]];
     }
-    [a_presenterViewController ifa_presentAlertControllerWithTitle:title
-                                                           message:message
-                                                    preferredStyle:UIAlertControllerStyleAlert
-                                                           actions:l_alertActions
-                                                        completion:nil];
+    void (^l_presentationBlock)() = ^{
+        [a_presenterViewController ifa_presentAlertControllerWithTitle:title
+                                                               message:message
+                                                        preferredStyle:UIAlertControllerStyleAlert
+                                                               actions:l_alertActions
+                                                            completion:nil];
+    };
+    if (a_presenterViewController.presentedViewController) {
+        if ([a_presenterViewController.presentedViewController isKindOfClass:[UIAlertController class]]) {
+            [a_presenterViewController.presentedViewController dismissViewControllerAnimated:NO
+                                                                                  completion:l_presentationBlock];
+        }
+    }else{
+        l_presentationBlock();
+    }
 }
 
 + (void)showLocationServicesAlertWithMessage:(NSString *)a_message
