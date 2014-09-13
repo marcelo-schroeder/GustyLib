@@ -22,7 +22,7 @@
 @property(nonatomic, strong) UIBarButtonItem *userLocationBarButtonItem;
 @property(nonatomic, strong) UIBarButtonItem *mapSettingsBarButtonItem;
 @property(nonatomic, strong) IFAWorkInProgressModalViewManager *IFA_progressViewManager;
-@property(nonatomic) BOOL IFA_userLocationRequestCompleted;
+@property(nonatomic) BOOL IFA_initialUserLocationRequestCompleted;
 @end
 
 @implementation IFAMapViewController {
@@ -98,9 +98,13 @@
 //    NSLog(@"didUpdateUserLocation");
 //    NSLog(@" ");
 
-    if (!self.IFA_userLocationRequestCompleted && self.IFA_progressViewManager) {
+    if (!self.IFA_initialUserLocationRequestCompleted && self.IFA_progressViewManager) {
         [self IFA_hideProgressView];
-        self.IFA_userLocationRequestCompleted = YES;
+        self.IFA_initialUserLocationRequestCompleted = YES;
+        if ([self.mapViewControllerDelegate respondsToSelector:@selector(mapViewController:didCompleteInitialUserLocationRequestWithSuccess:)]) {
+            [self.mapViewControllerDelegate mapViewController:self
+             didCompleteInitialUserLocationRequestWithSuccess:YES];
+        }
     }
 
 }
@@ -110,10 +114,14 @@
     NSLog(@"didFailToLocateUserWithError - error code: %ld", (long)[error code]);
     NSLog(@" ");
 
-    if (!self.IFA_userLocationRequestCompleted && self.IFA_progressViewManager) {
+    if (!self.IFA_initialUserLocationRequestCompleted && self.IFA_progressViewManager) {
         [self IFA_hideProgressView];
         [IFALocationManager handleLocationFailureWithAlertPresenterViewController:self];
-        self.IFA_userLocationRequestCompleted = YES;
+        self.IFA_initialUserLocationRequestCompleted = YES;
+        if ([self.mapViewControllerDelegate respondsToSelector:@selector(mapViewController:didCompleteInitialUserLocationRequestWithSuccess:)]) {
+            [self.mapViewControllerDelegate mapViewController:self
+             didCompleteInitialUserLocationRequestWithSuccess:NO];
+        }
     }
 }
 
@@ -142,7 +150,7 @@
         _IFA_progressViewManager = [[IFAWorkInProgressModalViewManager alloc] initWithCancellationCallbackReceiver:self
                                                                                     cancellationCallbackSelector:@selector(IFA_onUserLocationProgressViewCancelled)
                                                                                     cancellationCallbackArgument:nil
-                                                                                                         message:@"Locating User..."];
+                                                                                                         message:@"Locating..."];
     }
     return _IFA_progressViewManager;
 }
@@ -164,7 +172,7 @@
                 break;
         }
     }else{
-        self.IFA_userLocationRequestCompleted = NO;
+        self.IFA_initialUserLocationRequestCompleted = NO;
         [self.IFA_progressViewManager showView];
         self.mapView.showsUserLocation = YES;
     }

@@ -21,12 +21,18 @@
 #import <MapKit/MapKit.h>
 
 @class MKMapView;
+@protocol IFAMapViewControllerDelegate;
 
 /**
 * This class encapsulates functionality and data normally required when implementing a view controller that displays a map.
 * Once the view has loaded, an instance of this class also becomes the delegate for mapView.
 */
 @interface IFAMapViewController : IFAViewController <MKMapViewDelegate>
+
+/**
+* Map view controller delegate.
+*/
+@property (nonatomic, weak) id<IFAMapViewControllerDelegate> mapViewControllerDelegate;
 
 /**
 * Bar button used to center the user's location on the map.
@@ -48,5 +54,17 @@
 * Default: IFALocationAuthorizationTypeAlways.
 */
 @property (nonatomic) IFALocationAuthorizationType locationAuthorizationType;
+
+@end
+
+@protocol IFAMapViewControllerDelegate <NSObject>
+
+@optional
+
+/**
+* Called after the initial user location request has been completed.
+* This method is called only once in the lifetime of a_mapViewController.
+*/
+- (void)mapViewController:(IFAMapViewController *)a_mapViewController didCompleteInitialUserLocationRequestWithSuccess:(BOOL)a_success;
 
 @end
