@@ -66,7 +66,7 @@ static NSString *const k_alertTitle = @"Unable to obtain your location";
     void (^l_presentationBlock)() = ^{
         [a_presenterViewController ifa_presentAlertControllerWithTitle:title
                                                                message:message
-                                                        preferredStyle:UIAlertControllerStyleAlert
+                                                                 style:UIAlertControllerStyleAlert
                                                                actions:l_alertActions
                                                             completion:nil];
     };

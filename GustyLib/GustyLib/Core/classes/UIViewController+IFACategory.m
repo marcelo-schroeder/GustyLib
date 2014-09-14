@@ -1464,10 +1464,11 @@ typedef enum {
 
 - (void)ifa_presentAlertControllerWithTitle:(NSString *)a_title
                                     message:(NSString *)a_message
-                             preferredStyle:(UIAlertControllerStyle)a_style
+                                      style:(UIAlertControllerStyle)a_style
                                     actions:(NSArray *)a_actions
                                  completion:(void (^)(void))a_completion {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:a_title
+    NSString *title = a_title || a_style==UIAlertControllerStyleActionSheet ? a_title : @"";
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
                                                                              message:a_message
                                                                       preferredStyle:a_style];
     for (UIAlertAction *action in a_actions) {
@@ -1475,6 +1476,53 @@ typedef enum {
     }
     [self presentViewController:alertController
                        animated:YES completion:a_completion];
+}
+
+- (void)ifa_presentAlertControllerWithTitle:(NSString *)a_title message:(NSString *)a_message {
+    UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"Continue"
+                                                             style:UIAlertActionStyleDefault
+                                                           handler:nil];
+    [self ifa_presentAlertControllerWithTitle:a_title message:a_message
+                                        style:UIAlertControllerStyleAlert actions:@[continueAction]
+                                   completion:nil];
+}
+
+- (void)ifa_presentAlertControllerWithTitle:(NSString *)a_title message:(NSString *)a_message
+                                      style:(UIAlertControllerStyle)a_style
+                          actionButtonTitle:(NSString *)a_actionButtonTitle actionBlock:(void (^)())a_actionBlock {
+    UIAlertAction *mainAction = [UIAlertAction actionWithTitle:a_actionButtonTitle
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction *action) {
+                                                           a_actionBlock();
+                                                       }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:nil];
+    [self ifa_presentAlertControllerWithTitle:a_title message:a_message
+                                        style:a_style actions:@[cancelAction, mainAction]
+                                   completion:nil];
+}
+
+- (void)ifa_presentAlertControllerWithTitle:(NSString *)a_title message:(NSString *)a_message
+               destructiveActionButtonTitle:(NSString *)a_destructiveActionButtonTitle
+                     destructiveActionBlock:(void (^)())a_destructiveActionBlock
+                                cancelBlock:(void (^)())a_cancelBlock {
+    void (^destructiveActionHandler)(UIAlertAction *) = ^(UIAlertAction *action) {
+        a_destructiveActionBlock();
+    };
+    UIAlertAction *destructiveAction = [UIAlertAction actionWithTitle:a_destructiveActionButtonTitle
+                                                                style:UIAlertActionStyleDestructive
+                                                              handler:destructiveActionHandler];
+    void (^cancelActionHandler)(UIAlertAction *) = ^(UIAlertAction *action) {
+        a_cancelBlock();
+    };
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:cancelActionHandler];
+    [self ifa_presentAlertControllerWithTitle:a_title message:a_message
+                                        style:UIAlertControllerStyleActionSheet
+                                      actions:@[cancelAction, destructiveAction]
+                                   completion:nil];
 }
 
 //-(void)m_simulateMemoryWarning{
