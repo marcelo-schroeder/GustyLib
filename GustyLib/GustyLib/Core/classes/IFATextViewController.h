@@ -20,7 +20,7 @@
 
 #import "IFAViewController.h"
 
-@interface IFATextViewController : IFAViewController <HPGrowingTextViewDelegate, UIActionSheetDelegate, UIScrollViewDelegate>
+@interface IFATextViewController : IFAViewController <HPGrowingTextViewDelegate, UIScrollViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UIView *contentView;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;

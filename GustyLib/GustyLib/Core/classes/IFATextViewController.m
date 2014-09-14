@@ -141,12 +141,18 @@
 
 - (IBAction)onCancelButtonAction:(id)sender {
     if ([self hasValueChanged]) {
-        [IFAUIUtils showActionSheetWithMessage:@"Are you sure you want to discard your changes?"
-                  destructiveButtonLabelSuffix:@"discard"
-                                viewController:self
-                                 barButtonItem:nil
-                                      delegate:self
-                                           tag:IFAViewTagActionSheetCancel];
+        __weak __typeof(self) l_weakSelf = self;
+        void (^destructiveActionBlock)() = ^{
+            [l_weakSelf IFA_quitEditing];
+        };
+        [self ifa_presentAlertControllerWithTitle:nil
+                                          message:@"Are you sure you want to discard your changes?"
+                     destructiveActionButtonTitle:@"Discard changes"
+                           destructiveActionBlock:destructiveActionBlock
+                                      cancelBlock:nil];
+
+
+
     }else {
         [self IFA_quitEditing];
     }
@@ -203,14 +209,6 @@
 - (void)growingTextView:(IFA_HPGrowingTextView *)growingTextView didChangeHeight:(float)height {
     [self IFA_updateScrollViewContentSize];
     [self IFA_scrollToCaret];
-}
-
-#pragma mark - UIActionSheetDelegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex==0) {
-        [self IFA_quitEditing];
-    }
 }
 
 #pragma mark - UIScrollViewDelegate

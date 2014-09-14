@@ -20,11 +20,14 @@
 
 #import "GustyLibCore.h"
 
+@interface IFAEmailManager ()
+@property (nonatomic, weak) UIViewController *IFA_parentViewController;
+@property (nonatomic, strong) void (^completionBlock)(void);
+@end
+
 @implementation IFAEmailManager
 
-
 #pragma mark - Public
-
 
 -(id)initWithParentViewController:(UIViewController *)a_parentViewController{
     return [self initWithParentViewController:a_parentViewController completionBlock:^{}];
@@ -32,7 +35,7 @@
 
 -(id)initWithParentViewController:(UIViewController*)a_parentViewController completionBlock:(void (^)(void))a_completionBlock{
     if (self=[super init]) {
-        self.parentViewController = a_parentViewController;
+        self.IFA_parentViewController = a_parentViewController;
         self.completionBlock = a_completionBlock;
     }
     return self;
@@ -59,12 +62,12 @@
 //            NSLog(@"a_attachmentUrl.lastPathComponent: %@", a_attachmentUrl.lastPathComponent);
             [l_mailer addAttachmentData:l_attachmentData mimeType:a_attachmentMimeType fileName:a_attachmentUrl.lastPathComponent];
         }
-        [self.parentViewController presentViewController:l_mailer animated:YES completion:nil];
+        [self.IFA_parentViewController presentViewController:l_mailer animated:YES completion:nil];
         
     }else{
         
         [IFAUIUtils showAlertWithMessage:@"This device is not able to send email!" title:@"Warning"];
-        
+
     }
 }
 
@@ -75,7 +78,7 @@
     self.completionBlock();
     
     // Remove the mail view
-    [self.parentViewController dismissViewControllerAnimated:YES completion:NULL];
+    [self.IFA_parentViewController dismissViewControllerAnimated:YES completion:NULL];
     
     if (result==MFMailComposeResultFailed) {
         [IFAUtils dispatchAsyncMainThreadBlock:^{

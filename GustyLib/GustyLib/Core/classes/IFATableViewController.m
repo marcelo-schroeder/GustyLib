@@ -509,15 +509,6 @@
 #endif
 }
 
-#pragma mark - UIAlertViewDelegate
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    NSIndexPath *l_selectedIndexPath = self.tableView.indexPathForSelectedRow;
-    if (l_selectedIndexPath) {
-        [self.tableView deselectRowAtIndexPath:l_selectedIndexPath animated:YES];
-    }
-}
-
 #pragma mark - IFAContextSwitchTarget
 
 -(BOOL)contextSwitchRequestRequired {

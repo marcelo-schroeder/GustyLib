@@ -968,40 +968,6 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     return (self.editing && !self.createMode);
 }
 
-#pragma mark - UIActionSheetDelegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-	switch (actionSheet.tag) {
-		case IFAViewTagActionSheetCancel:
-			if(buttonIndex==0){
-                [self IFA_rollbackAndRestoreNonEditingState];
-			}else{
-                // Notify that any pending context switch has been denied
-                [self replyToContextSwitchRequestWithGranted:NO];
-            }
-			break;
-		case IFAViewTagActionSheetDelete:
-			if(buttonIndex==0){
-                NSAssert([self.object isKindOfClass:NSManagedObject.class], @"Selection list editor type not yet implemented for non-NSManagedObject instances");
-                if (self.IFA_readOnlyModeSuspendedForEditing) {
-                    [self IFA_popChildManagedObjectContext];
-                }
-                NSManagedObject *l_managedObject = (NSManagedObject*)self.object;
-				if (![[IFAPersistenceManager sharedInstance] deleteAndSaveObject:l_managedObject]) {
-					return;
-				}
-                self.IFA_changesMadeByThisViewController = YES;
-                [self ifa_notifySessionCompletion];
-                [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:@"%@ deleted",
-                                                                                                    self.title]];
-			}
-			break;
-		default:
-			NSAssert(NO, @"Unexpected tag: %ld", (long)actionSheet.tag);
-			break;
-	}
-}
-
 #pragma mark -
 #pragma mark UITableViewDataSource
 
@@ -1215,12 +1181,27 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
             if ([l_cell.propertyName isEqualToString:IFAEntityConfigPropertyNameDeleteButton]) {
                 NSString *l_entityName = [[self.object ifa_entityLabel] lowercaseString];
                 NSString *l_message = [NSString stringWithFormat:@"Are you sure you want to delete the %@?", l_entityName];
-                [IFAUIUtils showActionSheetWithMessage:l_message
-                          destructiveButtonLabelSuffix:@"delete"
-                                        viewController:self
-                                         barButtonItem:nil
-                                              delegate:self
-                                                   tag:IFAViewTagActionSheetDelete];
+                NSString *l_destructiveActionButtonTitle = [NSString stringWithFormat:@"Delete %@", l_entityName];
+                __weak __typeof(self) l_weakSelf = self;
+                void (^destructiveActionBlock)() = ^{
+                    NSAssert([l_weakSelf.object isKindOfClass:NSManagedObject.class], @"Selection list editor type not yet implemented for non-NSManagedObject instances");
+                    if (l_weakSelf.IFA_readOnlyModeSuspendedForEditing) {
+                        [l_weakSelf IFA_popChildManagedObjectContext];
+                    }
+                    NSManagedObject *l_managedObject = (NSManagedObject *) self.object;
+                    if (![[IFAPersistenceManager sharedInstance] deleteAndSaveObject:l_managedObject]) {
+                        return;
+                    }
+                    l_weakSelf.IFA_changesMadeByThisViewController = YES;
+                    [l_weakSelf ifa_notifySessionCompletion];
+                    [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:@"%@ deleted",
+                                                                                                        l_weakSelf.title]];
+                };
+                [self ifa_presentAlertControllerWithTitle:nil
+                                                  message:l_message
+                             destructiveActionButtonTitle:l_destructiveActionButtonTitle
+                                   destructiveActionBlock:destructiveActionBlock
+                                              cancelBlock:nil];
             }else{
                 if ([self.formViewControllerDelegate respondsToSelector:@selector(formViewController:didTapButtonNamed:)]) {
                     [self.formViewControllerDelegate formViewController:self
@@ -1526,12 +1507,19 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 - (void)quitEditing {
     if (self.editing) {
         if (self.IFA_isManagedObject && ([IFAPersistenceManager sharedInstance].isCurrentManagedObjectDirty || self.IFA_textFieldTextChanged)) {
-            [IFAUIUtils showActionSheetWithMessage:@"Are you sure you want to discard your changes?"
-                      destructiveButtonLabelSuffix:@"discard"
-                                    viewController:self
-                                     barButtonItem:nil
-                                          delegate:self
-                                               tag:IFAViewTagActionSheetCancel];
+            __weak __typeof(self) l_weakSelf = self;
+            void (^destructiveActionBlock)() = ^{
+                [l_weakSelf IFA_rollbackAndRestoreNonEditingState];
+            };
+            void (^cancelBlock)() = ^{
+                // Notify that any pending context switch has been denied
+                [l_weakSelf replyToContextSwitchRequestWithGranted:NO];
+            };
+            [self ifa_presentAlertControllerWithTitle:nil
+                                              message:@"Are you sure you want to discard your changes?"
+                         destructiveActionButtonTitle:@"Discard changes"
+                               destructiveActionBlock:destructiveActionBlock
+                                          cancelBlock:cancelBlock];
         } else {
             [self IFA_rollbackAndRestoreNonEditingState];
         }

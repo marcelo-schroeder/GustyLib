@@ -22,9 +22,6 @@
 
 @interface IFAEmailManager : NSObject <MFMailComposeViewControllerDelegate>
 
-@property (nonatomic, weak) UIViewController *parentViewController;
-@property (nonatomic, strong) void (^completionBlock)(void);
-
 -(id)initWithParentViewController:(UIViewController*)a_parentViewController;
 -(id)initWithParentViewController:(UIViewController*)a_parentViewController completionBlock:(void (^)(void))a_completionBlock;
 -(void)composeEmailWithSubject:(NSString *)a_subject recipient:(NSString *)a_recipient body:(NSString*)a_body;

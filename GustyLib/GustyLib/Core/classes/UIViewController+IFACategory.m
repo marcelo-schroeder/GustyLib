@@ -1493,7 +1493,9 @@ typedef enum {
     UIAlertAction *mainAction = [UIAlertAction actionWithTitle:a_actionButtonTitle
                                                          style:UIAlertActionStyleDefault
                                                        handler:^(UIAlertAction *action) {
-                                                           a_actionBlock();
+                                                           if (a_actionBlock) {
+                                                               a_actionBlock();
+                                                           }
                                                        }];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
                                                            style:UIAlertActionStyleCancel
@@ -1508,13 +1510,17 @@ typedef enum {
                      destructiveActionBlock:(void (^)())a_destructiveActionBlock
                                 cancelBlock:(void (^)())a_cancelBlock {
     void (^destructiveActionHandler)(UIAlertAction *) = ^(UIAlertAction *action) {
-        a_destructiveActionBlock();
+        if (a_destructiveActionBlock) {
+            a_destructiveActionBlock();
+        }
     };
     UIAlertAction *destructiveAction = [UIAlertAction actionWithTitle:a_destructiveActionButtonTitle
                                                                 style:UIAlertActionStyleDestructive
                                                               handler:destructiveActionHandler];
     void (^cancelActionHandler)(UIAlertAction *) = ^(UIAlertAction *action) {
-        a_cancelBlock();
+        if (a_cancelBlock) {
+            a_cancelBlock();
+        }
     };
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
                                                            style:UIAlertActionStyleCancel

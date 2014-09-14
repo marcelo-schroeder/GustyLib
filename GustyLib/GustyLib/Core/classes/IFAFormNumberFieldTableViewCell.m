@@ -206,10 +206,10 @@
             return YES;
         }else {
             NSString *l_propertyLabel = [[IFAPersistenceManager sharedInstance].entityConfig labelForProperty:self.propertyName
-                                                                                                    inObject:self.object];
-            [IFAUIUtils showAlertWithMessage:[NSString stringWithFormat:@"Invalid number entered for %@.",
-                                                                        l_propertyLabel]
-                    title:@"Validation Error"];
+                                                                                                     inObject:self.object];
+            NSString *alertTitle = @"Validation Error";
+            NSString *alertMessage = [NSString stringWithFormat:@"Invalid number entered for %@.", l_propertyLabel];
+            [self.formViewController ifa_presentAlertControllerWithTitle:alertTitle message:alertMessage];
             return NO;
         }
 

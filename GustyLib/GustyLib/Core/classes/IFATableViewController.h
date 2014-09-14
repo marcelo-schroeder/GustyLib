@@ -22,7 +22,7 @@
 
 @class IFAAbstractPagingContainerViewController;
 
-@interface IFATableViewController : UITableViewController <UIAlertViewDelegate, IFAContextSwitchTarget>
+@interface IFATableViewController : UITableViewController <IFAContextSwitchTarget>
 
 @property (nonatomic) BOOL contextSwitchRequestPending;
 @property (nonatomic) BOOL doneButtonSaves;
