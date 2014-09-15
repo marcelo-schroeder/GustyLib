@@ -90,6 +90,8 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController;
 
 -(void)updateBackingPreferences;
 
+- (void)updateAndSaveBackingPreferences;
+
 @end
 
 @protocol IFAFormViewControllerDelegate <NSObject>

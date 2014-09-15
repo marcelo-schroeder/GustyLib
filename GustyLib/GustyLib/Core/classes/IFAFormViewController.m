@@ -165,12 +165,6 @@
     return l_dependencyEnabled;
 }
 
--(void)IFA_updateAndSaveBackingPreferences {
-    [self updateBackingPreferences];
-    [[IFAPersistenceManager sharedInstance] save];
-//    NSLog(@"backing preferences saved");
-}
-
 -(CGRect)IFA_fromPopoverRectForIndexPath:(NSIndexPath*)a_indexPath{
     UITableViewCell *l_cell = [self visibleCellForIndexPath:a_indexPath];
     CGRect l_cellContentRect = l_cell.contentView.bounds;
@@ -830,6 +824,12 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     
 }
 
+-(void)updateAndSaveBackingPreferences {
+    [self updateBackingPreferences];
+    [[IFAPersistenceManager sharedInstance] save];
+//    NSLog(@"backing preferences saved");
+}
+
 - (void)onSegmentedControlAction:(id)aSender{
     if (!self.isSubForm && !self.editing) {
         [self setEditing:YES animated:YES];
@@ -1485,7 +1485,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     [super viewWillDisappear:animated];
 
     if (!self.IFA_isManagedObject && !self.ifa_presentedAsModal) {
-        [self IFA_updateAndSaveBackingPreferences];
+        [self updateAndSaveBackingPreferences];
     }
 
 }
@@ -1664,7 +1664,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
             }else{
 
-                [self IFA_updateAndSaveBackingPreferences];
+                [self updateAndSaveBackingPreferences];
 
                 if (!self.IFA_rollbackPerformed) {
                     [self onNavigationBarSubmitButtonTap];
