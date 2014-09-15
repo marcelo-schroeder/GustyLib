@@ -76,6 +76,7 @@ typedef enum {
 
 -(NSString*)accessibilityLabelForKeyPath:(NSString*)a_keyPath;
 
+//wip: do I really need the complexity of having the type here? (header/footer) - doesn't the help make sense only as a footer?
 /**
 * @returns Form section help text.
 */
@@ -83,6 +84,11 @@ typedef enum {
                           entityName:(NSString *)a_entityName
                             formName:(NSString *)a_formName
                          sectionName:(NSString *)a_sectionName;
+
+/**
+* @returns Help text for a given property in a given entity.
+*/
+- (NSString *)helpForPropertyName:(NSString *)a_propertyName inEntityName:(NSString *)a_entityName;
 
 //wip: do I still need this? Have I encountered any cases of help at the form level?
 - (NSString *)formHelpForType:(IFAFormHelpType)a_helpType

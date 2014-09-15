@@ -329,6 +329,9 @@
 
 -(NSString*)IFA_helpStringForKeyPath:(NSString*)a_keyPath{
     NSString *l_string = [[NSBundle mainBundle] localizedStringForKey:a_keyPath value:nil table:@"Help"];
+//    NSLog(@"IFA_helpStringForKeyPath");
+//    NSLog(@"  a_keyPath = %@", a_keyPath);
+//    NSLog(@"  l_string = %@", l_string);
     return [l_string isEqualToString:a_keyPath] ? nil : l_string;
 }
 
@@ -829,6 +832,11 @@
     return [self IFA_helpDescriptionForKeyPath:keyPath];
 }
 
+- (NSString *)helpForPropertyName:(NSString *)a_propertyName inEntityName:(NSString *)a_entityName {
+    NSString *keyPath = [NSString stringWithFormat:@"entities.%@.properties.%@", a_entityName, a_propertyName];
+    return [self IFA_helpDescriptionForKeyPath:keyPath];
+}
+
 - (NSString *)formHelpForType:(IFAFormHelpType)a_helpType entityName:(NSString *)a_entityName
                      formName:(NSString *)a_formName {
     NSString *helpTypePath;
@@ -855,7 +863,7 @@
 }
 
 + (NSString*)helpTargetIdForPropertyName:(NSString *)a_propertyName inObject:(NSObject*)a_object{
-    return [NSString stringWithFormat:@"entities.%@.%@", [a_object ifa_entityName], a_propertyName];
+    return [NSString stringWithFormat:@"entities.%@.properties.%@", [a_object ifa_entityName], a_propertyName];
 }
 
 #pragma mark - Overrides

@@ -429,17 +429,35 @@
 #endif
 }
 
-- (NSString *)footerForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject *)anObject inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode {
+- (NSString *)footerForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject *)anObject inForm:(NSString *)aFormName
+                         createMode:(BOOL)aCreateMode {
     NSArray *formSections = [self formSectionsForObject:anObject inForm:aFormName createMode:aCreateMode];
     NSDictionary *formSection = formSections[(NSUInteger) aSectionIndex];
 #ifdef IFA_AVAILABLE_Help
-    NSString *help = [[IFAHelpManager sharedInstance] formSectionHelpForType:IFAFormSectionHelpTypeFooter
-                                                                  entityName:anObject.ifa_entityName
-                                                                    formName:aFormName
-                                                                 sectionName:formSection[@"name"]];
+    NSString *help;
+    NSUInteger fieldCount = [self fieldCountCountForSectionIndex:aSectionIndex
+                                                        inObject:anObject inForm:aFormName
+                                                      createMode:aCreateMode];
+    // If there is only one field in the section, then check if there is help available specifically for that field's property
+    if (fieldCount == 1) {
+        NSIndexPath *fieldIndexPath = [NSIndexPath indexPathForRow:0 inSection:aSectionIndex];
+        NSDictionary *field = [self fieldForIndexPath:fieldIndexPath
+                                             inObject:anObject
+                                               inForm:aFormName
+                                           createMode:aCreateMode];
+        help = [[IFAHelpManager sharedInstance] helpForPropertyName:field[@"name"]
+                                                       inEntityName:anObject.ifa_entityName];
+    }
+    // If there is no help available yet, try to get help for the section
+    if (!help) {
+        help = [[IFAHelpManager sharedInstance] formSectionHelpForType:IFAFormSectionHelpTypeFooter
+                                                            entityName:anObject.ifa_entityName
+                                                              formName:aFormName
+                                                           sectionName:formSection[@"name"]];
+    }
     if (help) {
         return help;
-    }else{
+    } else {
 #endif
         return formSection[@"sectionFooter"];
 #ifdef IFA_AVAILABLE_Help
