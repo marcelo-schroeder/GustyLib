@@ -134,4 +134,7 @@ typedef enum{
 
 - (IFAEntityConfigFieldType)fieldTypeForIndexPath:(NSIndexPath *)a_indexPath inObject:(NSObject *)a_object
                                                                                inForm:(NSString *)a_formName createMode:(BOOL)a_createMode;
+
+- (BOOL)isDestructiveButtonAtIndexPath:(NSIndexPath *)a_indexPath inObject:(NSObject *)a_object
+                                inForm:(NSString *)a_formName createMode:(BOOL)a_createMode;
 @end

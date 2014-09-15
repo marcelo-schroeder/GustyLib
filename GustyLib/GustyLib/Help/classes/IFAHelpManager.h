@@ -20,6 +20,16 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+    IFAFormHelpTypeHeader,
+    IFAFormHelpTypeFooter,
+}IFAFormHelpType;
+
+typedef enum {
+    IFAFormSectionHelpTypeHeader,
+    IFAFormSectionHelpTypeFooter,
+}IFAFormSectionHelpType;
+
 @protocol IFAHelpTargetContainer <NSObject>
 
 -(NSArray*)helpTargets;
@@ -65,6 +75,19 @@
 -(void)observedViewControllerWillRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration;
 
 -(NSString*)accessibilityLabelForKeyPath:(NSString*)a_keyPath;
+
+/**
+* @returns Form section help text.
+*/
+- (NSString *)formSectionHelpForType:(IFAFormSectionHelpType)a_helpType
+                          entityName:(NSString *)a_entityName
+                            formName:(NSString *)a_formName
+                         sectionName:(NSString *)a_sectionName;
+
+//wip: do I still need this? Have I encountered any cases of help at the form level?
+- (NSString *)formHelpForType:(IFAFormHelpType)a_helpType
+                   entityName:(NSString *)a_entityName
+                     formName:(NSString *)a_formName;
 
 + (IFAHelpManager *)sharedInstance;
 + (NSString*)helpTargetIdForPropertyName:(NSString *)a_propertyName inObject:(NSObject*)a_object;

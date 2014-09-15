@@ -813,6 +813,38 @@
     return l_accessibilityLabel;
 }
 
+- (NSString *)formSectionHelpForType:(IFAFormSectionHelpType)a_helpType entityName:(NSString *)a_entityName
+                            formName:(NSString *)a_formName sectionName:(NSString *)a_sectionName {
+    NSString *helpTypePath;
+    switch (a_helpType){
+        case IFAFormSectionHelpTypeHeader:
+            helpTypePath = @"header";
+            break;
+        case IFAFormSectionHelpTypeFooter:
+            helpTypePath = @"footer";
+            break;
+    }
+    NSString *keyPath = [NSString stringWithFormat:@"entities.%@.forms.%@.sections.%@.%@", a_entityName,
+                                                   a_formName, a_sectionName, helpTypePath];
+    return [self IFA_helpDescriptionForKeyPath:keyPath];
+}
+
+- (NSString *)formHelpForType:(IFAFormHelpType)a_helpType entityName:(NSString *)a_entityName
+                     formName:(NSString *)a_formName {
+    NSString *helpTypePath;
+    switch (a_helpType){
+        case IFAFormHelpTypeHeader:
+            helpTypePath = @"header";
+            break;
+        case IFAFormHelpTypeFooter:
+            helpTypePath = @"footer";
+            break;
+    }
+    NSString *keyPath = [NSString stringWithFormat:@"entities.%@.forms.%@.%@", a_entityName,
+                                                   a_formName, helpTypePath];
+    return [self IFA_helpDescriptionForKeyPath:keyPath];
+}
+
 + (IFAHelpManager *)sharedInstance {
     static dispatch_once_t c_dispatchOncePredicate;
     static IFAHelpManager *c_instance = nil;

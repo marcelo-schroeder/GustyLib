@@ -542,7 +542,7 @@
             }
             if (l_isDeleteButton) {
                 NSString *l_text = @"Delete";
-                NSString *l_entityLabel = self.object.ifa_entityLabel;
+                NSString *l_entityLabel = [self.object.ifa_entityLabel lowercaseString];
                 if (l_entityLabel) {
                     l_text= [NSString stringWithFormat:@"Delete %@", l_entityLabel];
                 }
@@ -966,6 +966,16 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
 - (BOOL)shouldShowDeleteButton {
     return (self.editing && !self.createMode);
+}
+
+- (BOOL)isDestructiveButtonForCell:(IFAFormTableViewCell *)a_cell{
+    IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
+    BOOL isDeleteButton = [a_cell.propertyName isEqualToString:IFAEntityConfigPropertyNameDeleteButton];
+    BOOL isGenericDestructiveButton = !isDeleteButton && [l_entityConfig isDestructiveButtonAtIndexPath:a_cell.indexPath
+                                                                                               inObject:self.object
+                                                                                                 inForm:self.formName
+                                                                                             createMode:self.createMode];
+    return isDeleteButton || isGenericDestructiveButton;
 }
 
 #pragma mark -

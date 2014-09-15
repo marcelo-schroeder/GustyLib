@@ -20,6 +20,10 @@
 
 #import "GustyLibCore.h"
 
+#ifdef IFA_AVAILABLE_Help
+#import "GustyLibHelp.h"
+#endif
+
 @interface IFAEntityConfig ()
 
 @property (strong) NSManagedObjectContext *managedObjectContext;
@@ -130,11 +134,33 @@
 }
 
 - (NSString*)headerForForm:(NSString*)aFormName inObject:(NSObject*)anObject{
-	return [[[[[self entityConfigDictionary] valueForKey:[anObject ifa_entityName]] valueForKey:@"forms"] valueForKey:aFormName] valueForKey:@"formHeader"];
+#ifdef IFA_AVAILABLE_Help
+    NSString *help = [[IFAHelpManager sharedInstance] formHelpForType:IFAFormHelpTypeHeader
+                                                           entityName:anObject.ifa_entityName
+                                                             formName:aFormName];
+    if (help) {
+        return help;
+    }else{
+#endif
+        return [[[[[self entityConfigDictionary] valueForKey:[anObject ifa_entityName]] valueForKey:@"forms"] valueForKey:aFormName] valueForKey:@"formHeader"];
+#ifdef IFA_AVAILABLE_Help
+    }
+#endif
 }
 
 - (NSString*)footerForForm:(NSString*)aFormName inObject:(NSObject*)anObject{
-	return [[[[[self entityConfigDictionary] valueForKey:[anObject ifa_entityName]] valueForKey:@"forms"] valueForKey:aFormName] valueForKey:@"formFooter"];
+#ifdef IFA_AVAILABLE_Help
+    NSString *help = [[IFAHelpManager sharedInstance] formHelpForType:IFAFormHelpTypeFooter
+                                                           entityName:anObject.ifa_entityName
+                                                             formName:aFormName];
+    if (help) {
+        return help;
+    }else{
+#endif
+        return [[[[[self entityConfigDictionary] valueForKey:[anObject ifa_entityName]] valueForKey:@"forms"] valueForKey:aFormName] valueForKey:@"formFooter"];
+#ifdef IFA_AVAILABLE_Help
+    }
+#endif
 }
 
 - (NSString*)viewControllerForForm:(NSString*)aFormName inEntity:(NSString*)anEntityName{
@@ -386,13 +412,39 @@
 }
 
 - (NSString *)headerForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject *)anObject inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode {
-	return [[self formSectionsForObject:anObject inForm:aFormName
-                                 createMode:aCreateMode][(NSUInteger) aSectionIndex] objectForKey:@"sectionHeader"];
+    NSArray *formSections = [self formSectionsForObject:anObject inForm:aFormName createMode:aCreateMode];
+    NSDictionary *formSection = formSections[(NSUInteger) aSectionIndex];
+#ifdef IFA_AVAILABLE_Help
+    NSString *help = [[IFAHelpManager sharedInstance] formSectionHelpForType:IFAFormSectionHelpTypeHeader
+                                                                  entityName:anObject.ifa_entityName
+                                                                    formName:aFormName
+                                                                 sectionName:formSection[@"name"]];
+    if (help) {
+        return help;
+    }else{
+#endif
+        return formSection[@"sectionHeader"];
+#ifdef IFA_AVAILABLE_Help
+    }
+#endif
 }
 
 - (NSString *)footerForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject *)anObject inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode {
-	return [[self formSectionsForObject:anObject inForm:aFormName
-                                 createMode:aCreateMode][(NSUInteger) aSectionIndex] objectForKey:@"sectionFooter"];
+    NSArray *formSections = [self formSectionsForObject:anObject inForm:aFormName createMode:aCreateMode];
+    NSDictionary *formSection = formSections[(NSUInteger) aSectionIndex];
+#ifdef IFA_AVAILABLE_Help
+    NSString *help = [[IFAHelpManager sharedInstance] formSectionHelpForType:IFAFormSectionHelpTypeFooter
+                                                                  entityName:anObject.ifa_entityName
+                                                                    formName:aFormName
+                                                                 sectionName:formSection[@"name"]];
+    if (help) {
+        return help;
+    }else{
+#endif
+        return formSection[@"sectionFooter"];
+#ifdef IFA_AVAILABLE_Help
+    }
+#endif
 }
 
 - (NSString*)labelForIndexPath:(NSIndexPath*)anIndexPath inObject:(NSObject *)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
@@ -556,6 +608,14 @@
         NSAssert(NO, @"Unexpected field type plist value: %@", l_pListValue);
     }
     return l_fieldType;
+}
+
+- (BOOL)isDestructiveButtonAtIndexPath:(NSIndexPath *)a_indexPath
+                              inObject:(NSObject *)a_object
+                                inForm:(NSString *)a_formName
+                            createMode:(BOOL)a_createMode {
+    return ((NSNumber *) [[self fieldForIndexPath:a_indexPath inObject:a_object inForm:a_formName
+                                       createMode:a_createMode] valueForKey:@"destructive"]).boolValue;
 }
 
 //+ (IFAEntityConfig*)sharedInstance {
