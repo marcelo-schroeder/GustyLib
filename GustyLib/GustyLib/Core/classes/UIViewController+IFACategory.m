@@ -1305,10 +1305,6 @@ typedef enum {
     }
 }
 
--(void)ifa_openUrl:(NSURL*)a_url{
-    [[IFAExternalUrlManager sharedInstance] openUrl:a_url];
-}
-
 /*
 -(void)ifa_releaseView {
     [self IFA_releaseViewForController:self];

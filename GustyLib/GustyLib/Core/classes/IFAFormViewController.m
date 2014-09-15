@@ -1136,7 +1136,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
         NSString *l_urlPropertyName = [self IFA_urlPropertyNameForIndexPath:indexPath];
         NSString *l_urlString = [self.object valueForKeyPath:l_urlPropertyName];
         NSURL *l_url = [NSURL URLWithString:l_urlString];
-        [self ifa_openUrl:l_url];
+        [l_url ifa_openWithAlertPresenterViewController:self];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }

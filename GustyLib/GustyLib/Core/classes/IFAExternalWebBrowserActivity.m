@@ -28,7 +28,7 @@
 }
 
 - (void)performActivity {
-    [[IFAExternalUrlManager sharedInstance] openUrl:self.url];
+    [self.url ifa_open];
     [self activityDidFinish:YES];
 }
 

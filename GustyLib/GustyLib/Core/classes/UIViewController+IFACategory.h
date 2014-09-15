@@ -218,8 +218,6 @@
 
 -(UINavigationItem*)ifa_navigationItem;
 
--(void)ifa_openUrl:(NSURL*)a_url;
-
 //-(void)ifa_releaseView;
 
 - (UIPopoverArrowDirection)ifa_permittedPopoverArrowDirectionForViewController:(UIViewController *)a_viewController;
