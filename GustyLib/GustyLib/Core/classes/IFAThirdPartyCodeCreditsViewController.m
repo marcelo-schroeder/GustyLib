@@ -86,7 +86,7 @@
 - (void)m_openUrlForIndexPath:(NSIndexPath *)a_indexPath {
     NSDictionary *l_credit = self.IFA_credits[(NSUInteger) a_indexPath.row];
     NSURL *l_url = [NSURL URLWithString:l_credit[@"url"]];
-    [self ifa_openUrl:l_url];
+    [l_url ifa_openWithAlertPresenterViewController:self];
 }
 
 @end
