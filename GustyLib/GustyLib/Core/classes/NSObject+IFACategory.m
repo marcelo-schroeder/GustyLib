@@ -83,7 +83,6 @@
                 default:
                     NSAssert(NO, @"Unexpected attribute type: %lu", (unsigned long)[l_attributeDescription attributeType]);
                     return @"***UNKNOWN***";
-                    break;
             }
         }else{
             NSAssert(NO, @"Unexpected property description class: %@", [[l_propertyDescription class] description]);
