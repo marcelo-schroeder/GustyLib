@@ -40,24 +40,24 @@
 
 - (void) resetEditSession;
 
-- (BOOL)validateValue:(id *)aValue forProperty:(NSString *)aPropertyName inManagedObject:aManagedObject alertDelegate:(id)anAlertDelegate;
+- (BOOL)validateValue:(id *)a_value forProperty:(NSString *)a_propertyName inManagedObject:a_managedObject alertPresenter:(UIViewController *)a_alertPresenter;
 - (BOOL)saveManagedObjectContext:(NSManagedObjectContext*)a_moc;
 - (BOOL)saveMainManagedObjectContext;
-- (BOOL)saveObject:(NSManagedObject *)aManagedObject;
+- (BOOL)saveObject:(NSManagedObject *)aManagedObject validationAlertPresenter:(UIViewController *)a_validationAlertPresenter;
 - (BOOL)save;
-- (BOOL)deleteObject:(NSManagedObject *)aManagedObject;
-- (BOOL)deleteAndSaveObject:(NSManagedObject *)aManagedObject;
+- (BOOL)deleteObject:(NSManagedObject *)aManagedObject validationAlertPresenter:(UIViewController *)a_validationAlertPresenter;
+- (BOOL)deleteAndSaveObject:(NSManagedObject *)aManagedObject validationAlertPresenter:(UIViewController *)a_validationAlertPresenter;
 - (void)rollback;
 //- (void)undo;
 - (NSUInteger) countEntity:(NSString*)anEntityName;
 - (NSUInteger) countEntity:(NSString*)anEntityName keysAndValues:(NSDictionary*)aDictionary;
-- (BOOL)validateForSave:(NSManagedObject *)aManagedObject;
+- (BOOL)validateForSave:(NSManagedObject *)aManagedObject validationAlertPresenter:(UIViewController *)a_validationAlertPresenter;
 
 - (NSManagedObject *)instantiate:(NSString *)entityName;
 - (NSMutableArray *) findAllForEntity:(NSString *)entityName;
 - (NSMutableArray *) findAllForEntity:(NSString *)entityName includePendingChanges:(BOOL)a_includePendingChanges;
 - (NSMutableArray *) findAllForEntity:(NSString *)entityName includePendingChanges:(BOOL)a_includePendingChanges includeSubentities:(BOOL)a_includeSubentities;
-- (void) deleteAllForEntityAndSave:(NSString *)entityName;
+- (void) deleteAllForEntityAndSave:(NSString *)entityName validationAlertPresenter:(UIViewController *)a_validationAlertPresenter;
 - (NSManagedObject *) findSystemEntityById:(NSUInteger)anId entity:(NSString *)anEntityName;
 - (NSManagedObject *) findByName:(NSString*)aName entity:(NSString *)anEntityName;
 - (NSManagedObject *) findById:(NSManagedObjectID*)anObjectId;

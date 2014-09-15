@@ -33,7 +33,7 @@
 
 - (void)onAction:(id)a_sender{
     if (a_sender== self.IFA_deleteAllButton) {
-        [[IFAPersistenceManager sharedInstance] deleteAllForEntityAndSave:self.entityName];
+        [[IFAPersistenceManager sharedInstance] deleteAllForEntityAndSave:self.entityName validationAlertPresenter:self];
     }
     [self refreshAndReloadData];
 }

@@ -77,12 +77,12 @@
 	// does nothing here, but the subclass can override it
 }
 
-- (BOOL)ifa_delete {
-	return [[IFAPersistenceManager sharedInstance] deleteObject:self];
+- (BOOL)ifa_deleteWithValidationAlertPresenter:(UIViewController *)a_validationAlertPresenter {
+	return [[IFAPersistenceManager sharedInstance] deleteObject:self validationAlertPresenter:a_validationAlertPresenter];
 }
 
-- (BOOL)ifa_deleteAndSave {
-	return [[IFAPersistenceManager sharedInstance] deleteAndSaveObject:self];
+- (BOOL)ifa_deleteAndSaveWithValidationAlertPresenter:(UIViewController *)a_validationAlertPresenter {
+	return [[IFAPersistenceManager sharedInstance] deleteAndSaveObject:self validationAlertPresenter:a_validationAlertPresenter];
 }
 
 - (BOOL)ifa_hasValueChangedForKey:(NSString*)a_key{
@@ -105,14 +105,14 @@
     return [[IFAPersistenceManager sharedInstance] findAllForEntity:[self ifa_entityName]];
 }
 
-+ (void)ifa_deleteAll {
++ (void)ifa_deleteAllWithValidationAlertPresenter:(UIViewController *)a_validationAlertPresenter {
     for (NSManagedObject *l_mo in [[IFAPersistenceManager sharedInstance] findAllForEntity:[self ifa_entityName]]) {
-        [l_mo ifa_delete];
+        [l_mo ifa_deleteWithValidationAlertPresenter:a_validationAlertPresenter];
     }
 }
 
-+ (void)ifa_deleteAllAndSave {
-    [self ifa_deleteAll];
++ (void)ifa_deleteAllAndSaveWithValidationAlertPresenter:(UIViewController *)a_validationAlertPresenter {
+    [self ifa_deleteAllWithValidationAlertPresenter:a_validationAlertPresenter];
     [[IFAPersistenceManager sharedInstance] save];
 }
 

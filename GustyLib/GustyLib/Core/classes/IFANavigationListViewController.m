@@ -75,7 +75,7 @@
         
         // Persist deletion
 		NSManagedObject	*mo = (NSManagedObject*) [self objectForIndexPath:indexPath];
-		if (![[IFAPersistenceManager sharedInstance] deleteAndSaveObject:mo]) {
+		if (![[IFAPersistenceManager sharedInstance] deleteAndSaveObject:mo validationAlertPresenter:self]) {
 			return;
 		}
 
@@ -150,7 +150,7 @@
         [fromManagedObject setValue:@(seq) forKey:@"seq"];
         
         // Save changes
-        [[IFAPersistenceManager sharedInstance] saveObject:fromManagedObject];
+        [[IFAPersistenceManager sharedInstance] saveObject:fromManagedObject validationAlertPresenter:self];
 
         if (!self.fetchedResultsController) {
 

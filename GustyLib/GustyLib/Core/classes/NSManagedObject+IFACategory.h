@@ -27,13 +27,13 @@
 - (BOOL)ifa_validateForSave:(NSError**)anError;
 - (void)ifa_willDelete;
 - (void)ifa_didDelete;
-- (BOOL)ifa_delete;
-- (BOOL)ifa_deleteAndSave;
+- (BOOL)ifa_deleteWithValidationAlertPresenter:(UIViewController *)a_validationAlertPresenter;
+- (BOOL)ifa_deleteAndSaveWithValidationAlertPresenter:(UIViewController *)a_validationAlertPresenter;
 - (BOOL)ifa_hasValueChangedForKey:(NSString*)a_key;
 
 + (NSManagedObject*)ifa_instantiate;
 + (NSMutableArray *)ifa_findAll;
-+ (void)ifa_deleteAll;
-+ (void)ifa_deleteAllAndSave;
++ (void)ifa_deleteAllWithValidationAlertPresenter:(UIViewController *)a_validationAlertPresenter;
++ (void)ifa_deleteAllAndSaveWithValidationAlertPresenter:(UIViewController *)a_validationAlertPresenter;
 
 @end

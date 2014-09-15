@@ -1199,7 +1199,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                         [l_weakSelf IFA_popChildManagedObjectContext];
                     }
                     NSManagedObject *l_managedObject = (NSManagedObject *) self.object;
-                    if (![[IFAPersistenceManager sharedInstance] deleteAndSaveObject:l_managedObject]) {
+                    if (![[IFAPersistenceManager sharedInstance] deleteAndSaveObject:l_managedObject validationAlertPresenter:self]) {
                         return;
                     }
                     l_weakSelf.IFA_changesMadeByThisViewController = YES;
@@ -1641,7 +1641,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                     [self updateBackingPreferences];
 
                     // Persist changes
-                    if (![l_persistenceManager saveObject:l_managedObject]) {
+                    if (![l_persistenceManager saveObject:l_managedObject validationAlertPresenter:self]) {
                         // If validation error occurs then simply redisplay screen (at this point, the error has already been handled from a UI POV)
                         return;
                     }

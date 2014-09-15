@@ -187,7 +187,7 @@ static const NSUInteger k_sectionSelectedObjects = 0;
         // Firstly, delete the managed objects in the original set
         for (NSManagedObject *l_managedObject in self.IFA_originalSortedEntities) {
 //            NSLog(@"deleting managed object: %@", l_managedObject);
-            [l_managedObject ifa_delete];
+            [l_managedObject ifa_deleteWithValidationAlertPresenter:self];
         }
 
         //            NSLog(@"hasChanges1: %u", [IFAPersistenceManager sharedInstance].managedObjectContext.hasChanges);

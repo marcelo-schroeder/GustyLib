@@ -299,7 +299,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 	
 	NSArray* errors = nil;
 	if([anErrorContainer code] == NSValidationMultipleErrorsError){
-		errors = [[anErrorContainer userInfo] objectForKey:NSDetailedErrorsKey];
+		errors = [anErrorContainer userInfo][NSDetailedErrorsKey];
 	}else{
 		errors = @[anErrorContainer];
 	}
@@ -315,7 +315,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
         }
 		
 		NSDictionary* errorDictionary = [error userInfo];
-		NSString* propertyName = [errorDictionary objectForKey:NSValidationKeyErrorKey];
+		NSString* propertyName = errorDictionary[NSValidationKeyErrorKey];
 //        NSLog(@"propertyName: %@", propertyName);
 		
 		if([error domain]==NSCocoaErrorDomain){
@@ -335,11 +335,17 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
                             case NSValidationMissingMandatoryPropertyError:
                             case NSValidationStringTooShortError:	
                             case NSValidationStringPatternMatchingError:
-                                [message appendFormat:@"%@ is required.\n", l_propertyLabel];
+                                if (![message ifa_isEmpty]) {
+                                    [message appendString:@"\n"];
+                                }
+                                [message appendFormat:@"%@ is required.", l_propertyLabel];
                                 break;
                             case NSValidationNumberTooSmallError:
-                            case NSValidationNumberTooLargeError:	
-                                [message appendFormat:@"%@ is outside allowed range.\n", l_propertyLabel];
+                            case NSValidationNumberTooLargeError:
+                                if (![message ifa_isEmpty]) {
+                                    [message appendString:@"\n"];
+                                }
+                                [message appendFormat:@"%@ is outside allowed range.", l_propertyLabel];
                                 break;
                             case NSValidationRelationshipDeniedDeleteError:
                                 [l_deleteDeniedPropertyLabels addObject:l_propertyLabel];
@@ -365,6 +371,9 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 	}
 	
     if ([l_deleteDeniedPropertyLabels count]>0) {
+        if (![message ifa_isEmpty]) {
+            [message appendString:@"\n"];
+        }
         [message appendString:@"One or more associations exist with the following entities: "];
         for (NSUInteger i=0; i<[l_deleteDeniedPropertyLabels count]; i++) {
             if (i>0) {
@@ -374,34 +383,22 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
                     [message appendString:@", "];
                 }
             }
-            [message appendString:[l_deleteDeniedPropertyLabels objectAtIndex:i]];
+            [message appendString:l_deleteDeniedPropertyLabels[i]];
         }
-        [message appendString:@".\n"];
     }
 	
 	return message;
 }
 
-- (void)handleCoreDataError:(NSError*)anErrorContainer withManagedObject:(NSManagedObject*)aManagedObject alertTitle:(NSString*)anAlertTitle alertDelegate:(id)anAlertDelegate{
+- (void)handleCoreDataError:(NSError *)a_errorContainer withManagedObject:(NSManagedObject *)a_managedObject
+                 alertTitle:(NSString *)a_alertTitle alertPresenter:(UIViewController *)a_alertPresenter{
 //    NSLog(@"Handling core data error: %@", [anErrorContainer description]);
-	NSString* message = [self getMessageForErrorContainer:anErrorContainer withManagedObject:aManagedObject];
-	[IFAUIUtils showAlertWithMessage:message title:anAlertTitle ? anAlertTitle : @"Validation Error"
-                            delegate:anAlertDelegate];
+    NSString *title = a_alertTitle ? a_alertTitle : @"Validation Error";
+	NSString *message = [self getMessageForErrorContainer:a_errorContainer withManagedObject:a_managedObject];
+    [a_alertPresenter ifa_presentAlertControllerWithTitle:title message:message];
 }
 
-- (void)handleCoreDataError:(NSError*)anErrorContainer withManagedObject:(NSManagedObject*)aManagedObject alertDelegate:(id)anAlertDelegate{
-    [self handleCoreDataError:anErrorContainer withManagedObject:aManagedObject alertTitle:nil alertDelegate:anAlertDelegate];
-}
-
-- (void)handleCoreDataError:(NSError*)anErrorContainer withManagedObject:(NSManagedObject*)aManagedObject alertTitle:(NSString*)anAlertTitle{
-    [self handleCoreDataError:anErrorContainer withManagedObject:aManagedObject alertTitle:anAlertTitle alertDelegate:nil];
-}
-
-- (void)handleCoreDataError:(NSError*)anErrorContainer withManagedObject:(NSManagedObject*)aManagedObject{
-	[self handleCoreDataError:anErrorContainer withManagedObject:aManagedObject alertTitle:nil alertDelegate:nil];
-}
-
-- (BOOL)validateForDelete:(NSManagedObject *)aManagedObject{
+- (BOOL)validateForDelete:(NSManagedObject *)aManagedObject alertPresenter:(UIViewController *)a_alertPresenter{
 
 	NSError *l_errorContainer;
 
@@ -416,7 +413,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 
         NSArray* l_errors = nil;
         if([l_errorContainer code] == NSValidationMultipleErrorsError){
-            l_errors = [[l_errorContainer userInfo] objectForKey:NSDetailedErrorsKey];
+            l_errors = l_errorContainer.userInfo[NSDetailedErrorsKey];
         }else{
             l_errors = @[l_errorContainer];
         }
@@ -434,7 +431,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
         
     }
 
-	[self handleCoreDataError:l_errorContainer withManagedObject:aManagedObject alertTitle:@"Deletion Not Allowed"];
+	[self handleCoreDataError:l_errorContainer withManagedObject:aManagedObject alertTitle:@"Deletion Not Allowed" alertPresenter:a_alertPresenter];
 	return NO;
 
 }
@@ -536,12 +533,14 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 	self.isCurrentManagedObjectDirty = NO;
 }
 
-- (BOOL)validateValue:(id *)aValue forProperty:(NSString *)aPropertyName inManagedObject:aManagedObject alertDelegate:(id)anAlertDelegate{
+- (BOOL)validateValue:(id *)a_value forProperty:(NSString *)a_propertyName inManagedObject:a_managedObject
+       alertPresenter:(UIViewController *)a_alertPresenter{
 	NSError* errorContainer;
-	if([aManagedObject validateValue:aValue forKey:aPropertyName error:&errorContainer]){
+	if([a_managedObject validateValue:a_value forKey:a_propertyName error:&errorContainer]){
 		return YES;
 	}else {
-		[self handleCoreDataError:errorContainer withManagedObject:aManagedObject alertDelegate:anAlertDelegate];
+        [self handleCoreDataError:errorContainer withManagedObject:a_managedObject alertTitle:nil
+                   alertPresenter:a_alertPresenter];
 		return NO;
 	}
 }
@@ -567,9 +566,9 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     return [self saveManagedObjectContext:self.managedObjectContext];
 }
 
-- (BOOL)saveObject:(NSManagedObject *)aManagedObject{
+- (BOOL)saveObject:(NSManagedObject *)aManagedObject validationAlertPresenter:(UIViewController *)a_validationAlertPresenter{
 	
-	if([self validateForSave:aManagedObject]){
+	if([self validateForSave:aManagedObject validationAlertPresenter:a_validationAlertPresenter]){
         
 		// Manage sequence if this entity's list can be reordered by the user
 		if ([self.entityConfig listReorderAllowedForObject:aManagedObject]) {
@@ -589,9 +588,9 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 /**
  Delete a managed object.
  */
-- (BOOL)deleteObject:(NSManagedObject *)aManagedObject{
+- (BOOL)deleteObject:(NSManagedObject *)aManagedObject validationAlertPresenter:(UIViewController *)a_validationAlertPresenter {
     
-	if([self validateForDelete:aManagedObject]){
+	if([self validateForDelete:aManagedObject alertPresenter:a_validationAlertPresenter]){
         
         // Run pre-delete method
         //        NSLog(@"Running pre-delete method...");
@@ -617,9 +616,9 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 /**
  Delete a managed object and save.
  */
-- (BOOL)deleteAndSaveObject:(NSManagedObject *)aManagedObject{
+- (BOOL)deleteAndSaveObject:(NSManagedObject *)aManagedObject validationAlertPresenter:(UIViewController *)a_validationAlertPresenter{
     
-	if([self validateForDelete:aManagedObject]){
+	if([self validateForDelete:aManagedObject alertPresenter:a_validationAlertPresenter]){
         
         // Run pre-delete method
         //        NSLog(@"Running pre-delete method...");
@@ -642,7 +641,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
             
 		}else {
             
-			[self handleCoreDataError:error withManagedObject:aManagedObject];
+			[self handleCoreDataError:error withManagedObject:aManagedObject alertTitle:nil alertPresenter:a_validationAlertPresenter];
 			return NO;
             
 		}
@@ -702,9 +701,9 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 
 }
 
-- (void) deleteAllForEntityAndSave:(NSString *)entityName{
+- (void) deleteAllForEntityAndSave:(NSString *)entityName validationAlertPresenter:(UIViewController *)a_validationAlertPresenter{
     for (NSManagedObject *l_managedObject in [self findAllForEntity:entityName]) {
-        [l_managedObject ifa_delete];
+        [l_managedObject ifa_deleteWithValidationAlertPresenter:a_validationAlertPresenter];
     }
     [self save];
 }
@@ -1097,7 +1096,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
                             NSLog(@"    Entity instance will be updated");
                         }else{
                             NSLog(@"    Entity instance will be deleted");
-                            [l_systemEntity ifa_delete];
+                            [l_systemEntity ifa_deleteWithValidationAlertPresenter:nil];
                         }
                     }else{
                         NSLog(@"  Entity instance does NOT exist");
@@ -1137,7 +1136,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     
 }
 
-- (BOOL)validateForSave:(NSManagedObject *)aManagedObject{
+- (BOOL)validateForSave:(NSManagedObject *)aManagedObject validationAlertPresenter:(UIViewController *)a_validationAlertPresenter{
 	NSError *error;
 	BOOL coreDataValidationOk;
 	if([aManagedObject isInserted]){
@@ -1155,7 +1154,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 			}
 		}
 	}
-	[self handleCoreDataError:error withManagedObject:aManagedObject];
+	[self handleCoreDataError:error withManagedObject:aManagedObject alertTitle:nil alertPresenter:a_validationAlertPresenter];
 	return NO;
 }
 
