@@ -272,7 +272,7 @@ static const int k_tipLabelHorizontalMargin = 15;
 }
 
 -(BOOL)shouldShowTipsForEditing:(BOOL)a_editing{
-    return self.objects.count==0 && [self.navigationItem.leftBarButtonItems containsObject:self.addBarButtonItem];
+    return self.objects.count==0 && self.addBarButtonItem.enabled;
 }
 
 -(NSString*)tipTextForEditing:(BOOL)a_editing{
