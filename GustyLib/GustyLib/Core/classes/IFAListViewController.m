@@ -202,6 +202,14 @@ static const int k_tipLabelHorizontalMargin = 15;
     return _IFA_tipLabelCenterYConstraint;
 }
 
+- (void)IFA_updateTipLabelLayout {
+    UIViewController *modelViewController;
+    if (!(modelViewController = self.pagingContainerViewController.selectedViewController)) {    // If this is a paging container child, then use the selected view controller to gather layout info from
+        modelViewController = self;
+    }
+    self.IFA_tipLabelCenterYConstraint.constant = -(modelViewController.topLayoutGuide.length + modelViewController.bottomLayoutGuide.length) / 2;
+}
+
 #pragma mark - Public
 
 - (id)initWithEntityName:(NSString *)anEntityName{
@@ -417,10 +425,10 @@ static const int k_tipLabelHorizontalMargin = 15;
 }
 
 -(void)showTipForEditing:(BOOL)a_editing{
-    //    NSLog(@"showTipForEditing");
+//    NSLog(@"showTipForEditing");
     self.tipLabel.hidden = YES;
     if ([self shouldShowTipsForEditing:a_editing]) {
-        //        NSLog(@"showTipWithText for %@", [self description]);
+//        NSLog(@"showTipWithText for %@", [self description]);
         [self IFA_showTipWithText:[self tipTextForEditing:a_editing]];
     }
 }
@@ -435,7 +443,6 @@ static const int k_tipLabelHorizontalMargin = 15;
 - (UILabel *)tipLabel {
     if (!_tipLabel) {
         _tipLabel = [UILabel new];
-        _tipLabel.backgroundColor = [UIColor yellowColor];
         _tipLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _tipLabel.textAlignment = NSTextAlignmentCenter;
         _tipLabel.numberOfLines = 0;
@@ -523,7 +530,7 @@ static const int k_tipLabelHorizontalMargin = 15;
 
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
-    self.IFA_tipLabelCenterYConstraint.constant = -(self.topLayoutGuide.length + self.bottomLayoutGuide.length) / 2;
+    [self IFA_updateTipLabelLayout];
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
