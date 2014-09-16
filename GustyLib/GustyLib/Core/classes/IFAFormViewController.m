@@ -716,6 +716,10 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
         } else if ([a_cell isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
 
             IFAFormTextFieldTableViewCell *l_cell = (IFAFormTextFieldTableViewCell *) a_cell;
+            if (self.IFA_isManagedObject) {
+                NSPropertyDescription *propertyDescription = [self.object ifa_descriptionForProperty:a_cell.propertyName];
+                l_cell.textField.placeholder = propertyDescription.isOptional ? @"Optional" : @"Required";
+            }
             [l_cell reloadData];
 
         }
