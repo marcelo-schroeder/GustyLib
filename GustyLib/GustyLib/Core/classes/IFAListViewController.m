@@ -526,6 +526,11 @@ static const int k_tipLabelHorizontalMargin = 15;
     self.IFA_tipLabelCenterYConstraint.constant = -(self.topLayoutGuide.length + self.bottomLayoutGuide.length) / 2;
 }
 
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    [super controllerDidChangeContent:controller];
+    [self showTipForEditing:self.editing];
+}
+
 #pragma mark - IFAPresenter
 
 - (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
