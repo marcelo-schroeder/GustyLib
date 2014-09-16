@@ -418,7 +418,8 @@
     NSString *help = [[IFAHelpManager sharedInstance] formSectionHelpForType:IFAFormSectionHelpTypeHeader
                                                                   entityName:anObject.ifa_entityName
                                                                     formName:aFormName
-                                                                 sectionName:formSection[@"name"]];
+                                                                 sectionName:formSection[@"name"]
+                                                                  createMode:aCreateMode];
     if (help) {
         return help;
     }else{
@@ -453,7 +454,8 @@
         help = [[IFAHelpManager sharedInstance] formSectionHelpForType:IFAFormSectionHelpTypeFooter
                                                             entityName:anObject.ifa_entityName
                                                               formName:aFormName
-                                                           sectionName:formSection[@"name"]];
+                                                           sectionName:formSection[@"name"]
+                                                            createMode:aCreateMode];
     }
     if (help) {
         return help;

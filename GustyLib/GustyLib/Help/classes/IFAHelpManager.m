@@ -555,6 +555,15 @@
     return l_helpTargetView;
 }
 
+- (NSString *)helpDescriptionFor:(NSString *)a_entityName formName:(NSString *)a_formName
+                     sectionName:(NSString *)a_sectionName helpTypePath:(NSString *)a_helpTypePath
+                                                             createMode:(BOOL)a_createMode {
+    NSObject *mode = a_createMode ? @"create" : @"any";
+    NSString *keyPath = [NSString stringWithFormat:@"entities.%@.forms.%@.sections.%@.%@.modes.%@", a_entityName,
+                                                   a_formName, a_sectionName, a_helpTypePath, mode];
+    return [self IFA_helpDescriptionForKeyPath:keyPath];
+}
+
 #pragma mark - Public
 
 -(void)observeHelpTargetContainer:(id<IFAHelpTargetContainer>)a_helpTargetContainer{
@@ -817,9 +826,10 @@
 }
 
 - (NSString *)formSectionHelpForType:(IFAFormSectionHelpType)a_helpType entityName:(NSString *)a_entityName
-                            formName:(NSString *)a_formName sectionName:(NSString *)a_sectionName {
+                            formName:(NSString *)a_formName sectionName:(NSString *)a_sectionName
+                          createMode:(BOOL)a_createMode {
     NSString *helpTypePath;
-    switch (a_helpType){
+    switch (a_helpType) {
         case IFAFormSectionHelpTypeHeader:
             helpTypePath = @"header";
             break;
@@ -827,9 +837,18 @@
             helpTypePath = @"footer";
             break;
     }
-    NSString *keyPath = [NSString stringWithFormat:@"entities.%@.forms.%@.sections.%@.%@", a_entityName,
-                                                   a_formName, a_sectionName, helpTypePath];
-    return [self IFA_helpDescriptionForKeyPath:keyPath];
+    NSString *help = nil;
+    if (a_createMode) {
+        help = [self helpDescriptionFor:a_entityName formName:a_formName sectionName:a_sectionName
+                           helpTypePath:helpTypePath
+                             createMode:YES];
+    }
+    if (!help) {
+        help = [self helpDescriptionFor:a_entityName formName:a_formName sectionName:a_sectionName
+                           helpTypePath:helpTypePath
+                             createMode:NO];
+    }
+    return help;
 }
 
 - (NSString *)helpForPropertyName:(NSString *)a_propertyName inEntityName:(NSString *)a_entityName {

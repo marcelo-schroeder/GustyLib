@@ -80,10 +80,9 @@ typedef enum {
 /**
 * @returns Form section help text.
 */
-- (NSString *)formSectionHelpForType:(IFAFormSectionHelpType)a_helpType
-                          entityName:(NSString *)a_entityName
-                            formName:(NSString *)a_formName
-                         sectionName:(NSString *)a_sectionName;
+- (NSString *)formSectionHelpForType:(IFAFormSectionHelpType)a_helpType entityName:(NSString *)a_entityName
+                            formName:(NSString *)a_formName sectionName:(NSString *)a_sectionName
+                          createMode:(BOOL)a_createMode;
 
 /**
 * @returns Help text for a given property in a given entity.
