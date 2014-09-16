@@ -262,6 +262,9 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
             [self IFA_setAppearanceForFormInputAccessoryView:l_viewController.formInputAccessoryView
                                             inViewController:l_viewController];
 
+        }else if ([a_viewController isKindOfClass:[IFAListViewController class]]) {
+            IFAListViewController *listViewController = (IFAListViewController *) a_viewController;
+            listViewController.tipLabel.textColor = [UIColor ifa_grayColorWithRGB:142];
         }
 
     }else if([a_viewController isKindOfClass:[IFAMasterDetailViewController class]]) {

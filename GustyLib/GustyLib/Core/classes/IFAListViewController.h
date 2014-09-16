@@ -41,6 +41,7 @@ typedef enum{
 @property (nonatomic, readonly) BOOL refreshAndReloadDataRequested;
 @property (nonatomic, strong) UIBarButtonItem *addBarButtonItem;
 @property (nonatomic, strong) NSManagedObjectID *editedManagedObjectId;
+@property (nonatomic, strong, readonly) UILabel *tipLabel;
 
 /**
 * Specifies the property name that corresponds to a persistent entity to group by, which will also determine the table view section arrangement.

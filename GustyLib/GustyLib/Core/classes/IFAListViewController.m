@@ -20,16 +20,18 @@
 
 #import "GustyLibCore.h"
 
+static const int k_tipLabelHorizontalMargin = 15;
+
 @interface IFAListViewController ()
 
 @property (nonatomic, strong) dispatch_block_t pagingContainerChildRefreshAndReloadDataAsynchronousBlock;
 @property (nonatomic) BOOL refreshAndReloadDataRequested;
 @property (nonatomic, strong) NSString *listGroupedBy;
-
-@property (nonatomic, strong) IFA_MBProgressHUD *IFA_hud;
 @property(nonatomic, strong) void (^IFA_sectionDataBlock)(NSString *, NSObject *, NSArray *, NSMutableArray *, NSMutableArray *);
-
 @property(nonatomic) BOOL IFA_childManagedObjectContextPushed;
+@property(nonatomic, strong) UILabel *tipLabel;
+@property(nonatomic, strong) NSLayoutConstraint *IFA_tipLabelCenterYConstraint;
+
 @end
 
 @implementation IFAListViewController {
@@ -172,11 +174,32 @@
 }
 
 -(void)IFA_showTipWithText:(NSString*)a_text{
-    self.IFA_hud = [IFAUIUtils showHudWithText:a_text inView:self.tableView animated:YES];
+    self.tipLabel.text = a_text;
+    self.tipLabel.hidden = NO;
 }
 
 - (BOOL)IFA_shouldRefreshAndReloadDueToStaleDataOnViewAppearance {
     return self.staleData && ![self ifa_isReturningVisibleViewController];
+}
+
+- (void)IFA_addTipLabelLayoutConstraints {
+    [self.tableView addSubview:self.tipLabel];
+    [self.tipLabel ifa_addLayoutConstraintToCenterInSuperviewHorizontally];
+    [self.tipLabel.superview addConstraint:self.IFA_tipLabelCenterYConstraint];
+    self.tipLabel.preferredMaxLayoutWidth = self.view.bounds.size.width - k_tipLabelHorizontalMargin * 2;
+}
+
+- (NSLayoutConstraint *)IFA_tipLabelCenterYConstraint {
+    if (!_IFA_tipLabelCenterYConstraint) {
+        _IFA_tipLabelCenterYConstraint = [NSLayoutConstraint constraintWithItem:self.tipLabel
+                                                                  attribute:NSLayoutAttributeCenterY
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:self.tipLabel.superview
+                                                                  attribute:NSLayoutAttributeCenterY
+                                                                 multiplier:1
+                                                                   constant:0];
+    }
+    return _IFA_tipLabelCenterYConstraint;
 }
 
 #pragma mark - Public
@@ -395,7 +418,7 @@
 
 -(void)showTipForEditing:(BOOL)a_editing{
     //    NSLog(@"showTipForEditing");
-    [IFAUIUtils hideHud:self.IFA_hud animated:NO];
+    self.tipLabel.hidden = YES;
     if ([self shouldShowTipsForEditing:a_editing]) {
         //        NSLog(@"showTipWithText for %@", [self description]);
         [self IFA_showTipWithText:[self tipTextForEditing:a_editing]];
@@ -407,6 +430,17 @@
         _listGroupedBy = [[[IFAPersistenceManager sharedInstance] entityConfig] listGroupedByForEntity:self.entityName];
     }
     return _listGroupedBy;
+}
+
+- (UILabel *)tipLabel {
+    if (!_tipLabel) {
+        _tipLabel = [UILabel new];
+        _tipLabel.backgroundColor = [UIColor yellowColor];
+        _tipLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _tipLabel.textAlignment = NSTextAlignmentCenter;
+        _tipLabel.numberOfLines = 0;
+    }
+    return _tipLabel;
 }
 
 #pragma mark - Overrides
@@ -453,6 +487,7 @@
                                                    object:nil];
     }
 
+    [self IFA_addTipLabelLayoutConstraints];
 
 }
 
@@ -479,17 +514,16 @@
 
 }
 
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    [IFAUIUtils hideHud:self.IFA_hud animated:NO];
-    self.IFA_hud = nil;
-}
-
 -(void)dealloc{
     if (self.shouldObservePersistenceChanges) {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationPersistentEntityChange
                                                       object:nil];
     }
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    self.IFA_tipLabelCenterYConstraint.constant = -(self.topLayoutGuide.length + self.bottomLayoutGuide.length) / 2;
 }
 
 #pragma mark - IFAPresenter
@@ -595,16 +629,6 @@
 
 - (UITableView*)selectionTableView{
 	return self.tableView;
-}
-
-#pragma mark - IFAHelpTargetContainer
-
--(void)willEnterHelpMode{
-    [IFAUIUtils hideHud:self.IFA_hud animated:NO];
-}
-
--(void)didExitHelpMode{
-    [self showTipForEditing:self.editing];
 }
 
 #pragma mark - IFAFetchedResultsTableViewControllerDataSource
