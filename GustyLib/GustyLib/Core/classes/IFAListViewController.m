@@ -265,6 +265,7 @@
     if (!_IFA_noDataHelpView) {
         _IFA_noDataHelpView = [UIView new];
 //        _IFA_noDataHelpView.backgroundColor = [UIColor magentaColor];   //comment out colours
+        _IFA_noDataHelpView.hidden = YES;
         _IFA_noDataHelpView.translatesAutoresizingMaskIntoConstraints = NO;
         [_IFA_noDataHelpView addSubview:self.noDataHelpTopHintLabel];
         [_IFA_noDataHelpView addSubview:self.IFA_noDataHelpAddHintView];
