@@ -18,6 +18,7 @@
 //  limitations under the License.
 //
 
+#import <GustyLib/IFAHelpManager.h>
 #import "GustyLibCore.h"
 
 //wip: review
@@ -579,7 +580,6 @@
         _noDataHelpTopHintLabel.numberOfLines = 0;
         _noDataHelpTopHintLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _noDataHelpTopHintLabel.textAlignment = NSTextAlignmentCenter;
-        _noDataHelpTopHintLabel.text = @"This is the top label and let's make it very, very long.\nAnd this is the second line.";   //wip: change me
     }
     return _noDataHelpTopHintLabel;
 }
@@ -590,7 +590,7 @@
         _noDataHelpBottomHintLabel.numberOfLines = 0;
         _noDataHelpBottomHintLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _noDataHelpBottomHintLabel.textAlignment = NSTextAlignmentCenter;
-        _noDataHelpBottomHintLabel.text = @"This is the bottom label.";   //wip: change me
+        _noDataHelpBottomHintLabel.text = [[IFAHelpManager sharedInstance] emptyListHelpForEntityName:self.entityName];
     }
     return _noDataHelpBottomHintLabel;
 }

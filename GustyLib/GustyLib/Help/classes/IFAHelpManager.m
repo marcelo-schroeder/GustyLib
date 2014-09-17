@@ -856,6 +856,12 @@
     return [self IFA_helpDescriptionForKeyPath:keyPath];
 }
 
+- (NSString *)emptyListHelpForEntityName:(NSString *)a_entityName {
+    NSString *keyPath = [NSString stringWithFormat:@"entities.%@.list.empty", a_entityName];
+    return [self IFA_helpDescriptionForKeyPath:keyPath];
+}
+
+
 - (NSString *)formHelpForType:(IFAFormHelpType)a_helpType entityName:(NSString *)a_entityName
                      formName:(NSString *)a_formName {
     NSString *helpTypePath;
