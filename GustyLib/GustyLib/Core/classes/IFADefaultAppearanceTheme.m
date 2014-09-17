@@ -271,9 +271,9 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
             listViewController.noDataHelpAddHintSuffixLabel.textColor = noDataHelpColor;
             listViewController.noDataHelpBottomHintLabel.textColor = noDataHelpColor;
             listViewController.noDataHelpBottomHintLabel.font = [UIFont systemFontOfSize:14];
-            UIImage *currentNoDataHelpAddHintButton = [listViewController.noDataHelpAddHintButton imageForState:UIControlStateNormal];
-            UIImage *newNoDataHelpAddHintButtonImage = [currentNoDataHelpAddHintButton ifa_imageWithOverlayColor:self.IFA_defaultTintColor];
-            [listViewController.noDataHelpAddHintButton setImage:newNoDataHelpAddHintButtonImage forState:UIControlStateNormal];
+            UIImage *currentNoDataHelpAddHintImage = listViewController.noDataHelpAddHintImageView.image;
+            UIImage *newNoDataHelpAddHintImage = [currentNoDataHelpAddHintImage ifa_imageWithOverlayColor:self.IFA_defaultTintColor];
+            listViewController.noDataHelpAddHintImageView.image = newNoDataHelpAddHintImage;
         }
 
     }else if([a_viewController isKindOfClass:[IFAMasterDetailViewController class]]) {

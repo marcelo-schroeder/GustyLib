@@ -36,7 +36,7 @@
 @property (nonatomic, strong) UIView *IFA_noDataHelpAddHintView;
 @property (nonatomic, strong) UIView *IFA_noDataHelpView;
 @property(nonatomic, strong) UILabel *noDataHelpAddHintPrefixLabel;
-@property(nonatomic, strong) UIButton *noDataHelpAddHintButton;
+@property(nonatomic, strong) UIImageView *noDataHelpAddHintImageView;
 @property(nonatomic, strong) UILabel *noDataHelpAddHintSuffixLabel;
 @property(nonatomic, strong) UILabel *noDataHelpTopHintLabel;
 @property(nonatomic, strong) UILabel *noDataHelpBottomHintLabel;
@@ -234,18 +234,21 @@
         _IFA_noDataHelpAddHintView = [UIView new];
 //        _IFA_noDataHelpAddHintView.backgroundColor = [UIColor yellowColor];
         _IFA_noDataHelpAddHintView.translatesAutoresizingMaskIntoConstraints = NO;
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                               action:@selector(showCreateManagedObjectForm)];
+        [_IFA_noDataHelpAddHintView addGestureRecognizer:tapGestureRecognizer];
         [_IFA_noDataHelpAddHintView addSubview:self.noDataHelpAddHintPrefixLabel];
-        [_IFA_noDataHelpAddHintView addSubview:self.noDataHelpAddHintButton];
+        [_IFA_noDataHelpAddHintView addSubview:self.noDataHelpAddHintImageView];
         [_IFA_noDataHelpAddHintView addSubview:self.noDataHelpAddHintSuffixLabel];
         id prefixLabel = self.noDataHelpAddHintPrefixLabel;
-        id addButton = self.noDataHelpAddHintButton;
+        id addButton = self.noDataHelpAddHintImageView;
         id suffixLabel = self.noDataHelpAddHintSuffixLabel;
         NSDictionary *views = NSDictionaryOfVariableBindings(prefixLabel, addButton, suffixLabel);
         [_IFA_noDataHelpAddHintView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[prefixLabel][addButton(21)][suffixLabel]|"
                                                                                            options:NSLayoutFormatAlignAllCenterY
                                                                                            metrics:nil
                                                                                              views:views]];
-//        [self.noDataHelpAddHintButton ifa_addLayoutConstraintsToFillSuperviewVertically]; //wip: clean up
+//        [self.noDataHelpAddHintImageView ifa_addLayoutConstraintsToFillSuperviewVertically]; //wip: clean up
         [_IFA_noDataHelpAddHintView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=0)-[prefixLabel]-(>=0)-|"
                                                                                     options:NSLayoutFormatAlignAllCenterY
                                                                                     metrics:nil
@@ -562,16 +565,13 @@
     return _noDataHelpAddHintSuffixLabel;
 }
 
-- (UIButton *)noDataHelpAddHintButton {
-    if (!_noDataHelpAddHintButton) {
-        _noDataHelpAddHintButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _noDataHelpAddHintButton.translatesAutoresizingMaskIntoConstraints = NO;
-        [_noDataHelpAddHintButton setImage:[UIImage imageNamed:@"IFA_Icon_Add"] forState:UIControlStateNormal];
-//        [_noDataHelpAddHintButton ifa_addLayoutConstraintsForSize:CGSizeMake(21, 21)];    //wip: clean up
-        [_noDataHelpAddHintButton addTarget:self action:@selector(onAddButtonTap:)
-                           forControlEvents:UIControlEventTouchUpInside];
+- (UIImageView *)noDataHelpAddHintImageView {
+    if (!_noDataHelpAddHintImageView) {
+        _noDataHelpAddHintImageView = [UIImageView new];
+        _noDataHelpAddHintImageView.translatesAutoresizingMaskIntoConstraints = NO;
+        _noDataHelpAddHintImageView.image = [UIImage imageNamed:@"IFA_Icon_Add"];
     }
-    return _noDataHelpAddHintButton;
+    return _noDataHelpAddHintImageView;
 }
 
 - (UILabel *)noDataHelpTopHintLabel {

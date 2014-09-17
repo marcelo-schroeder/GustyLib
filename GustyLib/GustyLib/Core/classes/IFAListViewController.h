@@ -43,7 +43,7 @@ typedef enum{
 @property (nonatomic, strong) NSManagedObjectID *editedManagedObjectId;
 //@property (nonatomic, strong, readonly) UILabel *tipLabel;    //wip: clean up
 @property(nonatomic, strong, readonly) UILabel *noDataHelpAddHintPrefixLabel;
-@property(nonatomic, strong, readonly) UIButton *noDataHelpAddHintButton;
+@property(nonatomic, strong, readonly) UIImageView *noDataHelpAddHintImageView;
 @property(nonatomic, strong, readonly) UILabel *noDataHelpAddHintSuffixLabel;
 @property(nonatomic, strong, readonly) UILabel *noDataHelpTopHintLabel;
 @property(nonatomic, strong, readonly) UILabel *noDataHelpBottomHintLabel;
