@@ -144,14 +144,8 @@
 
 -(void)didRefreshAndReloadData {
     [super didRefreshAndReloadData];
-    if (self.IFA_hasInitialLoadBeenDone) {
-        [self showTipForEditing:NO];
-    }else{
-        if (self.objects.count==0) {
-            [self showCreateManagedObjectForm];
-        }
-        self.IFA_hasInitialLoadBeenDone = YES;
-    }
+    [self showTipForEditing:NO];
+    self.IFA_hasInitialLoadBeenDone = YES;
 }
 
 -(NSString *)editFormNameForCreateMode:(BOOL)aCreateMode{
