@@ -857,7 +857,7 @@
 }
 
 - (NSString *)emptyListHelpForEntityName:(NSString *)a_entityName {
-    NSString *keyPath = [NSString stringWithFormat:@"entities.%@.list.empty", a_entityName];
+    NSString *keyPath = [NSString stringWithFormat:@"entities.%@.list.placeholder", a_entityName];
     return [self IFA_helpDescriptionForKeyPath:keyPath];
 }
 

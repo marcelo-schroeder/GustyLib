@@ -18,6 +18,7 @@
 //  limitations under the License.
 //
 
+//wip: add missing documentation
 #import <Foundation/Foundation.h>
 
 typedef enum {
