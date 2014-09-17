@@ -265,15 +265,20 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         }else if ([a_viewController isKindOfClass:[IFAListViewController class]]) {
             IFAListViewController *listViewController = (IFAListViewController *) a_viewController;
             UIColor *noDataHelpColor = [UIColor ifa_grayColorWithRGB:142];
-            listViewController.noDataHelpTopHintLabel.textColor = noDataHelpColor;
-            listViewController.noDataHelpTopHintLabel.font = [UIFont systemFontOfSize:14];
-            listViewController.noDataHelpAddHintPrefixLabel.textColor = noDataHelpColor;
-            listViewController.noDataHelpAddHintSuffixLabel.textColor = noDataHelpColor;
-            listViewController.noDataHelpBottomHintLabel.textColor = noDataHelpColor;
-            listViewController.noDataHelpBottomHintLabel.font = [UIFont systemFontOfSize:14];
-            UIImage *currentNoDataHelpAddHintImage = listViewController.noDataHelpAddHintImageView.image;
+            listViewController.noDataPlaceholderAddHintPrefixLabel.textColor = noDataHelpColor;
+            listViewController.noDataPlaceholderAddHintSuffixLabel.textColor = noDataHelpColor;
+            listViewController.noDataPlaceholderDescriptionLabel.textColor = noDataHelpColor;
+            BOOL showingNoDataPlaceholderAddHintView = YES;
+            id<IFAListViewControllerDataSource> listViewControllerDataSource = listViewController.listViewControllerDataSource;
+            if ([listViewControllerDataSource respondsToSelector:@selector(shouldShowNoDataPlaceholderAddHintViewForListViewController:)]) {
+                showingNoDataPlaceholderAddHintView = [listViewControllerDataSource shouldShowNoDataPlaceholderAddHintViewForListViewController:listViewController];
+            }
+            if (showingNoDataPlaceholderAddHintView) {
+                listViewController.noDataPlaceholderDescriptionLabel.font = [UIFont systemFontOfSize:14];
+            }
+            UIImage *currentNoDataHelpAddHintImage = listViewController.noDataPlaceholderAddHintImageView.image;
             UIImage *newNoDataHelpAddHintImage = [currentNoDataHelpAddHintImage ifa_imageWithOverlayColor:self.IFA_defaultTintColor];
-            listViewController.noDataHelpAddHintImageView.image = newNoDataHelpAddHintImage;
+            listViewController.noDataPlaceholderAddHintImageView.image = newNoDataHelpAddHintImage;
         }
 
     }else if([a_viewController isKindOfClass:[IFAMasterDetailViewController class]]) {

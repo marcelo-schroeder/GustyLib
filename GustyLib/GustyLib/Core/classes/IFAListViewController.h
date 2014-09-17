@@ -18,11 +18,13 @@
 //  limitations under the License.
 //
 
+//wip: add documentation for the new things
 #import "IFAFetchedResultsTableViewController.h"
 
 @class NSManagedObjectID;
 @class IFAFormViewController;
 @class NSManagedObject;
+@protocol IFAListViewControllerDataSource;
 
 /**
 * Determines the persistent object fetching strategy.
@@ -42,11 +44,11 @@ typedef enum{
 @property (nonatomic, strong) UIBarButtonItem *addBarButtonItem;
 @property (nonatomic, strong) NSManagedObjectID *editedManagedObjectId;
 //@property (nonatomic, strong, readonly) UILabel *tipLabel;    //wip: clean up
-@property(nonatomic, strong, readonly) UILabel *noDataHelpAddHintPrefixLabel;
-@property(nonatomic, strong, readonly) UIImageView *noDataHelpAddHintImageView;
-@property(nonatomic, strong, readonly) UILabel *noDataHelpAddHintSuffixLabel;
-@property(nonatomic, strong, readonly) UILabel *noDataHelpTopHintLabel;
-@property(nonatomic, strong, readonly) UILabel *noDataHelpBottomHintLabel;
+@property(nonatomic, strong, readonly) UILabel *noDataPlaceholderAddHintPrefixLabel;
+@property(nonatomic, strong, readonly) UIImageView *noDataPlaceholderAddHintImageView;
+@property(nonatomic, strong, readonly) UILabel *noDataPlaceholderAddHintSuffixLabel;
+@property(nonatomic, strong, readonly) UILabel *noDataPlaceholderDescriptionLabel;
+@property (nonatomic, weak) id<IFAListViewControllerDataSource> listViewControllerDataSource;
 
 /**
 * Specifies the property name that corresponds to a persistent entity to group by, which will also determine the table view section arrangement.
@@ -144,5 +146,14 @@ typedef enum{
 - (void)showCreateManagedObjectForm;
 - (void)onAddButtonTap:(id)sender;
 - (NSString*)editFormNameForCreateMode:(BOOL)aCreateMode;
+
+@end
+
+@protocol IFAListViewControllerDataSource <NSObject>
+
+@optional
+
+- (BOOL)shouldShowNoDataPlaceholderAddHintViewForListViewController:(IFAListViewController *)a_listViewController;
+- (NSString *)noDataPlaceholderDescriptionForListViewController:(IFAListViewController *)a_listViewController;
 
 @end
