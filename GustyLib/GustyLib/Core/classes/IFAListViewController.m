@@ -554,7 +554,7 @@
         _noDataHelpAddHintSuffixLabel.translatesAutoresizingMaskIntoConstraints = NO;
         NSString *l_textTemplate = @" to add %@ %@";
         NSString *l_indefiniteArticle = [[IFAPersistenceManager sharedInstance].entityConfig indefiniteArticleForEntity:self.entityName];
-        NSString *l_entityName = [[IFAPersistenceManager sharedInstance].entityConfig labelForEntity:self.entityName];
+        NSString *l_entityName = [[IFAPersistenceManager sharedInstance].entityConfig labelForEntity:self.entityName].lowercaseString;
         _noDataHelpAddHintSuffixLabel.text = [NSString stringWithFormat:l_textTemplate, l_indefiniteArticle, l_entityName];
     }
     return _noDataHelpAddHintSuffixLabel;

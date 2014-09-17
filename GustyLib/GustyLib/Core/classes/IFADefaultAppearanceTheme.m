@@ -266,9 +266,11 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
             IFAListViewController *listViewController = (IFAListViewController *) a_viewController;
             UIColor *noDataHelpColor = [UIColor ifa_grayColorWithRGB:142];
             listViewController.noDataHelpTopHintLabel.textColor = noDataHelpColor;
+            listViewController.noDataHelpTopHintLabel.font = [UIFont systemFontOfSize:14];
             listViewController.noDataHelpAddHintPrefixLabel.textColor = noDataHelpColor;
             listViewController.noDataHelpAddHintSuffixLabel.textColor = noDataHelpColor;
             listViewController.noDataHelpBottomHintLabel.textColor = noDataHelpColor;
+            listViewController.noDataHelpBottomHintLabel.font = [UIFont systemFontOfSize:14];
             UIImage *currentNoDataHelpAddHintButton = [listViewController.noDataHelpAddHintButton imageForState:UIControlStateNormal];
             UIImage *newNoDataHelpAddHintButtonImage = [currentNoDataHelpAddHintButton ifa_imageWithOverlayColor:self.IFA_defaultTintColor];
             [listViewController.noDataHelpAddHintButton setImage:newNoDataHelpAddHintButtonImage forState:UIControlStateNormal];
