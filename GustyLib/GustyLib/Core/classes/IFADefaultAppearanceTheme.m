@@ -264,7 +264,14 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
         }else if ([a_viewController isKindOfClass:[IFAListViewController class]]) {
             IFAListViewController *listViewController = (IFAListViewController *) a_viewController;
-            listViewController.tipLabel.textColor = [UIColor ifa_grayColorWithRGB:142];
+            UIColor *noDataHelpColor = [UIColor ifa_grayColorWithRGB:142];
+            listViewController.noDataHelpTopHintLabel.textColor = noDataHelpColor;
+            listViewController.noDataHelpAddHintPrefixLabel.textColor = noDataHelpColor;
+            listViewController.noDataHelpAddHintSuffixLabel.textColor = noDataHelpColor;
+            listViewController.noDataHelpBottomHintLabel.textColor = noDataHelpColor;
+            UIImage *currentNoDataHelpAddHintButton = [listViewController.noDataHelpAddHintButton imageForState:UIControlStateNormal];
+            UIImage *newNoDataHelpAddHintButtonImage = [currentNoDataHelpAddHintButton ifa_imageWithOverlayColor:self.IFA_defaultTintColor];
+            [listViewController.noDataHelpAddHintButton setImage:newNoDataHelpAddHintButtonImage forState:UIControlStateNormal];
         }
 
     }else if([a_viewController isKindOfClass:[IFAMasterDetailViewController class]]) {

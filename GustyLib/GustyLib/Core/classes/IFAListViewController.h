@@ -41,7 +41,12 @@ typedef enum{
 @property (nonatomic, readonly) BOOL refreshAndReloadDataRequested;
 @property (nonatomic, strong) UIBarButtonItem *addBarButtonItem;
 @property (nonatomic, strong) NSManagedObjectID *editedManagedObjectId;
-@property (nonatomic, strong, readonly) UILabel *tipLabel;
+//@property (nonatomic, strong, readonly) UILabel *tipLabel;    //wip: clean up
+@property(nonatomic, strong, readonly) UILabel *noDataHelpAddHintPrefixLabel;
+@property(nonatomic, strong, readonly) UIButton *noDataHelpAddHintButton;
+@property(nonatomic, strong, readonly) UILabel *noDataHelpAddHintSuffixLabel;
+@property(nonatomic, strong, readonly) UILabel *noDataHelpTopHintLabel;
+@property(nonatomic, strong, readonly) UILabel *noDataHelpBottomHintLabel;
 
 /**
 * Specifies the property name that corresponds to a persistent entity to group by, which will also determine the table view section arrangement.
@@ -125,7 +130,7 @@ typedef enum{
 - (UITableViewCell*)cellForTableView:(UITableView*)a_tableView;
 
 - (BOOL)shouldShowTipsForEditing:(BOOL)a_editing;
-- (NSString*)tipTextForEditing:(BOOL)a_editing;
+//- (NSString*)tipTextForEditing:(BOOL)a_editing;   //wip: review this
 - (void)showTipForEditing:(BOOL)a_editing;
 
 // IFASelectionManagerDelegate

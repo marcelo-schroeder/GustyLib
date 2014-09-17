@@ -618,6 +618,7 @@
 		F72E90271952F03100CFB3B1 /* IFAHelpTargetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAHelpTargetView.m; sourceTree = "<group>"; };
 		F72E902D1952F09500CFB3B1 /* IFA_CMPopTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFA_CMPopTipView.h; sourceTree = "<group>"; };
 		F72E902E1952F09500CFB3B1 /* IFA_CMPopTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFA_CMPopTipView.m; sourceTree = "<group>"; };
+		F743BD1E19C8E2F8004EBA3E /* IFA_Icon_Add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IFA_Icon_Add.png; sourceTree = "<group>"; };
 		F7446BD119085FA9008345FA /* GustyLib.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = GustyLib.podspec; path = ../GustyLib.podspec; sourceTree = "<group>"; };
 		F74C16E419BD4B0000B9B367 /* IFA_Icon_UserLocation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IFA_Icon_UserLocation.png; sourceTree = "<group>"; };
 		F74C16E519BD4B0000B9B367 /* IFA_Icon_UserLocation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IFA_Icon_UserLocation@2x.png"; sourceTree = "<group>"; };
@@ -965,6 +966,7 @@
 		107381CAC567494A58822E49 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				F743BD1E19C8E2F8004EBA3E /* IFA_Icon_Add.png */,
 				F74C16E619BD6F4800B9B367 /* IFA_Icon_List.png */,
 				F74C16E719BD6F4800B9B367 /* IFA_Icon_List@2x.png */,
 				F74C16E419BD4B0000B9B367 /* IFA_Icon_UserLocation.png */,

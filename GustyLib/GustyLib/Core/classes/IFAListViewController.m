@@ -20,7 +20,8 @@
 
 #import "GustyLibCore.h"
 
-static const int k_tipLabelHorizontalMargin = 15;
+//wip: review
+//static const int k_tipLabelHorizontalMargin = 15;
 
 @interface IFAListViewController ()
 
@@ -29,9 +30,15 @@ static const int k_tipLabelHorizontalMargin = 15;
 @property (nonatomic, strong) NSString *listGroupedBy;
 @property(nonatomic, strong) void (^IFA_sectionDataBlock)(NSString *, NSObject *, NSArray *, NSMutableArray *, NSMutableArray *);
 @property(nonatomic) BOOL IFA_childManagedObjectContextPushed;
-@property(nonatomic, strong) UILabel *tipLabel;
-@property(nonatomic, strong) NSLayoutConstraint *IFA_tipLabelCenterYConstraint;
-
+//@property(nonatomic, strong) UILabel *tipLabel;   //wip: clean up
+@property(nonatomic, strong) NSLayoutConstraint *IFA_noDataHelpViewCenterYConstraint;
+@property (nonatomic, strong) UIView *IFA_noDataHelpAddHintView;
+@property (nonatomic, strong) UIView *IFA_noDataHelpView;
+@property(nonatomic, strong) UILabel *noDataHelpAddHintPrefixLabel;
+@property(nonatomic, strong) UIButton *noDataHelpAddHintButton;
+@property(nonatomic, strong) UILabel *noDataHelpAddHintSuffixLabel;
+@property(nonatomic, strong) UILabel *noDataHelpTopHintLabel;
+@property(nonatomic, strong) UILabel *noDataHelpBottomHintLabel;
 @end
 
 @implementation IFAListViewController {
@@ -174,40 +181,116 @@ static const int k_tipLabelHorizontalMargin = 15;
 }
 
 -(void)IFA_showTipWithText:(NSString*)a_text{
-    self.tipLabel.text = a_text;
-    self.tipLabel.hidden = NO;
+    //wip: review - clean up
+//    self.tipLabel.text = a_text;
+//    self.tipLabel.hidden = NO;
+    self.IFA_noDataHelpView.hidden = NO;
 }
 
 - (BOOL)IFA_shouldRefreshAndReloadDueToStaleDataOnViewAppearance {
     return self.staleData && ![self ifa_isReturningVisibleViewController];
 }
 
-- (void)IFA_addTipLabelLayoutConstraints {
-    [self.tableView addSubview:self.tipLabel];
-    [self.tipLabel ifa_addLayoutConstraintToCenterInSuperviewHorizontally];
-    [self.tipLabel.superview addConstraint:self.IFA_tipLabelCenterYConstraint];
-    self.tipLabel.preferredMaxLayoutWidth = self.view.bounds.size.width - k_tipLabelHorizontalMargin * 2;
+//wip: rename "tip" things
+- (void)IFA_configureNoDataHelpView {
+    [self.tableView addSubview:self.IFA_noDataHelpView];
+    [self.IFA_noDataHelpView.superview addConstraint:self.IFA_noDataHelpViewCenterYConstraint];
+    UIView *noDataHelpView = self.IFA_noDataHelpView;
+    NSDictionary *views = NSDictionaryOfVariableBindings(noDataHelpView);
+    NSArray *horizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=15)-[noDataHelpView]-(>=15)-|"
+                                                                             options:NSLayoutFormatAlignAllCenterY
+                                                                             metrics:nil
+                                                                               views:views];
+    [noDataHelpView.superview addConstraints:horizontalConstraints];
+    [noDataHelpView ifa_addLayoutConstraintToCenterInSuperviewHorizontally];
+//wip: review this
+//    self.tipLabel.preferredMaxLayoutWidth = self.view.bounds.size.width - k_tipLabelHorizontalMargin * 2;
 }
 
-- (NSLayoutConstraint *)IFA_tipLabelCenterYConstraint {
-    if (!_IFA_tipLabelCenterYConstraint) {
-        _IFA_tipLabelCenterYConstraint = [NSLayoutConstraint constraintWithItem:self.tipLabel
+- (NSLayoutConstraint *)IFA_noDataHelpViewCenterYConstraint {
+    if (!_IFA_noDataHelpViewCenterYConstraint) {
+        _IFA_noDataHelpViewCenterYConstraint = [NSLayoutConstraint constraintWithItem:self.IFA_noDataHelpView
                                                                   attribute:NSLayoutAttributeCenterY
                                                                   relatedBy:NSLayoutRelationEqual
-                                                                     toItem:self.tipLabel.superview
+                                                                     toItem:self.IFA_noDataHelpView.superview
                                                                   attribute:NSLayoutAttributeCenterY
                                                                  multiplier:1
                                                                    constant:0];
     }
-    return _IFA_tipLabelCenterYConstraint;
+    return _IFA_noDataHelpViewCenterYConstraint;
 }
 
-- (void)IFA_updateTipLabelLayout {
+- (void)IFA_updatenoDataHelpViewLayout {
     UIViewController *modelViewController;
     if (!(modelViewController = self.pagingContainerViewController.selectedViewController)) {    // If this is a paging container child, then use the selected view controller to gather layout info from
         modelViewController = self;
     }
-    self.IFA_tipLabelCenterYConstraint.constant = -(modelViewController.topLayoutGuide.length + modelViewController.bottomLayoutGuide.length) / 2;
+    self.IFA_noDataHelpViewCenterYConstraint.constant = -(modelViewController.topLayoutGuide.length + modelViewController.bottomLayoutGuide.length) / 2;
+}
+
+- (UIView *)IFA_noDataHelpAddHintView {
+    if (!_IFA_noDataHelpAddHintView) {
+        _IFA_noDataHelpAddHintView = [UIView new];
+//        _IFA_noDataHelpAddHintView.backgroundColor = [UIColor yellowColor];
+        _IFA_noDataHelpAddHintView.translatesAutoresizingMaskIntoConstraints = NO;
+        [_IFA_noDataHelpAddHintView addSubview:self.noDataHelpAddHintPrefixLabel];
+        [_IFA_noDataHelpAddHintView addSubview:self.noDataHelpAddHintButton];
+        [_IFA_noDataHelpAddHintView addSubview:self.noDataHelpAddHintSuffixLabel];
+        id prefixLabel = self.noDataHelpAddHintPrefixLabel;
+        id addButton = self.noDataHelpAddHintButton;
+        id suffixLabel = self.noDataHelpAddHintSuffixLabel;
+        NSDictionary *views = NSDictionaryOfVariableBindings(prefixLabel, addButton, suffixLabel);
+        [_IFA_noDataHelpAddHintView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[prefixLabel][addButton(21)][suffixLabel]|"
+                                                                                           options:NSLayoutFormatAlignAllCenterY
+                                                                                           metrics:nil
+                                                                                             views:views]];
+//        [self.noDataHelpAddHintButton ifa_addLayoutConstraintsToFillSuperviewVertically]; //wip: clean up
+        [_IFA_noDataHelpAddHintView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=0)-[prefixLabel]-(>=0)-|"
+                                                                                    options:NSLayoutFormatAlignAllCenterY
+                                                                                    metrics:nil
+                                                                                      views:views]];
+        [_IFA_noDataHelpAddHintView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=0)-[addButton(21)]-(>=0)-|"
+                                                                                    options:NSLayoutFormatAlignAllCenterY
+                                                                                    metrics:nil
+                                                                                      views:views]];
+        [_IFA_noDataHelpAddHintView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=0)-[suffixLabel]-(>=0)-|"
+                                                                                    options:NSLayoutFormatAlignAllCenterY
+                                                                                    metrics:nil
+                                                                                      views:views]];
+    }
+    return _IFA_noDataHelpAddHintView;
+}
+
+- (UIView *)IFA_noDataHelpView {
+    if (!_IFA_noDataHelpView) {
+        _IFA_noDataHelpView = [UIView new];
+//        _IFA_noDataHelpView.backgroundColor = [UIColor magentaColor];   //comment out colours
+        _IFA_noDataHelpView.translatesAutoresizingMaskIntoConstraints = NO;
+        [_IFA_noDataHelpView addSubview:self.noDataHelpTopHintLabel];
+        [_IFA_noDataHelpView addSubview:self.IFA_noDataHelpAddHintView];
+        [_IFA_noDataHelpView addSubview:self.noDataHelpBottomHintLabel];
+        id topView = self.noDataHelpTopHintLabel;
+        id centreView = self.IFA_noDataHelpAddHintView;
+        id bottomView = self.noDataHelpBottomHintLabel;
+        NSDictionary *views = NSDictionaryOfVariableBindings(topView, centreView, bottomView);
+        [_IFA_noDataHelpView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[topView]-30-[centreView]-30-[bottomView]|"
+                                                                                    options:NSLayoutFormatAlignAllCenterX
+                                                                                    metrics:nil
+                                                                                      views:views]];
+        [_IFA_noDataHelpView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=0)-[topView]-(>=0)-|"
+                                                                                    options:NSLayoutFormatAlignAllCenterY
+                                                                                    metrics:nil
+                                                                                      views:views]];
+        [_IFA_noDataHelpView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=0)-[centreView]-(>=0)-|"
+                                                                                    options:NSLayoutFormatAlignAllCenterY
+                                                                                    metrics:nil
+                                                                                      views:views]];
+        [_IFA_noDataHelpView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=0)-[bottomView]-(>=0)-|"
+                                                                                    options:NSLayoutFormatAlignAllCenterY
+                                                                                    metrics:nil
+                                                                                      views:views]];
+    }
+    return _IFA_noDataHelpView;
 }
 
 #pragma mark - Public
@@ -283,12 +366,13 @@ static const int k_tipLabelHorizontalMargin = 15;
     return self.objects.count==0 && self.addBarButtonItem.enabled;
 }
 
--(NSString*)tipTextForEditing:(BOOL)a_editing{
-    NSString *l_textTemplate = @"Tap the '+' button to add %@ %@.";
-    NSString *l_indefiniteArticle = [[IFAPersistenceManager sharedInstance].entityConfig indefiniteArticleForEntity:self.entityName];
-    NSString *l_entityName = [[IFAPersistenceManager sharedInstance].entityConfig labelForEntity:self.entityName];
-    return [NSString stringWithFormat:l_textTemplate, l_indefiniteArticle, l_entityName];
-}
+//wip: clean up
+//-(NSString*)tipTextForEditing:(BOOL)a_editing{
+//    NSString *l_textTemplate = @"Tap the '+' button to add %@ %@.";
+//    NSString *l_indefiniteArticle = [[IFAPersistenceManager sharedInstance].entityConfig indefiniteArticleForEntity:self.entityName];
+//    NSString *l_entityName = [[IFAPersistenceManager sharedInstance].entityConfig labelForEntity:self.entityName];
+//    return [NSString stringWithFormat:l_textTemplate, l_indefiniteArticle, l_entityName];
+//}
 
 - (NSObject *)objectForIndexPath:(NSIndexPath*)a_indexPath{
     if (self.fetchedResultsController) {
@@ -426,10 +510,12 @@ static const int k_tipLabelHorizontalMargin = 15;
 
 -(void)showTipForEditing:(BOOL)a_editing{
 //    NSLog(@"showTipForEditing");
-    self.tipLabel.hidden = YES;
+//    self.tipLabel.hidden = YES;   //wip: clean up
+    self.IFA_noDataHelpView.hidden = YES;
     if ([self shouldShowTipsForEditing:a_editing]) {
 //        NSLog(@"showTipWithText for %@", [self description]);
-        [self IFA_showTipWithText:[self tipTextForEditing:a_editing]];
+//        NSString *text = [self tipTextForEditing:a_editing];    //wip: review this
+        [self IFA_showTipWithText:nil];    //wip: review this (it's sending a nil parameter)
     }
 }
 
@@ -440,14 +526,72 @@ static const int k_tipLabelHorizontalMargin = 15;
     return _listGroupedBy;
 }
 
-- (UILabel *)tipLabel {
-    if (!_tipLabel) {
-        _tipLabel = [UILabel new];
-        _tipLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _tipLabel.textAlignment = NSTextAlignmentCenter;
-        _tipLabel.numberOfLines = 0;
+//wip: clean up
+//- (UILabel *)tipLabel {
+//    if (!_tipLabel) {
+//        _tipLabel = [UILabel new];
+//        _tipLabel.translatesAutoresizingMaskIntoConstraints = NO;
+//        _tipLabel.textAlignment = NSTextAlignmentCenter;
+//        _tipLabel.numberOfLines = 0;
+//    }
+//    return _tipLabel;
+//}
+
+- (UILabel *)noDataHelpAddHintPrefixLabel {
+    if (!_noDataHelpAddHintPrefixLabel) {
+        _noDataHelpAddHintPrefixLabel = [UILabel new];
+//        _noDataHelpAddHintPrefixLabel.backgroundColor = [UIColor orangeColor];
+        _noDataHelpAddHintPrefixLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _noDataHelpAddHintPrefixLabel.text = @"Tap ";
     }
-    return _tipLabel;
+    return _noDataHelpAddHintPrefixLabel;
+}
+
+- (UILabel *)noDataHelpAddHintSuffixLabel {
+    if (!_noDataHelpAddHintSuffixLabel) {
+        _noDataHelpAddHintSuffixLabel = [UILabel new];
+//        _noDataHelpAddHintSuffixLabel.backgroundColor = [UIColor orangeColor];
+        _noDataHelpAddHintSuffixLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        NSString *l_textTemplate = @" to add %@ %@";
+        NSString *l_indefiniteArticle = [[IFAPersistenceManager sharedInstance].entityConfig indefiniteArticleForEntity:self.entityName];
+        NSString *l_entityName = [[IFAPersistenceManager sharedInstance].entityConfig labelForEntity:self.entityName];
+        _noDataHelpAddHintSuffixLabel.text = [NSString stringWithFormat:l_textTemplate, l_indefiniteArticle, l_entityName];
+    }
+    return _noDataHelpAddHintSuffixLabel;
+}
+
+- (UIButton *)noDataHelpAddHintButton {
+    if (!_noDataHelpAddHintButton) {
+        _noDataHelpAddHintButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _noDataHelpAddHintButton.translatesAutoresizingMaskIntoConstraints = NO;
+        [_noDataHelpAddHintButton setImage:[UIImage imageNamed:@"IFA_Icon_Add"] forState:UIControlStateNormal];
+//        [_noDataHelpAddHintButton ifa_addLayoutConstraintsForSize:CGSizeMake(21, 21)];    //wip: clean up
+        [_noDataHelpAddHintButton addTarget:self action:@selector(onAddButtonTap:)
+                           forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _noDataHelpAddHintButton;
+}
+
+- (UILabel *)noDataHelpTopHintLabel {
+    if (!_noDataHelpTopHintLabel) {
+        _noDataHelpTopHintLabel = [UILabel new];
+        _noDataHelpTopHintLabel.numberOfLines = 0;
+        _noDataHelpTopHintLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _noDataHelpTopHintLabel.textAlignment = NSTextAlignmentCenter;
+        _noDataHelpTopHintLabel.text = @"This is the top label and let's make it very, very long.\nAnd this is the second line.";   //wip: change me
+    }
+    return _noDataHelpTopHintLabel;
+}
+
+- (UILabel *)noDataHelpBottomHintLabel {
+    if (!_noDataHelpBottomHintLabel) {
+        _noDataHelpBottomHintLabel = [UILabel new];
+        _noDataHelpBottomHintLabel.numberOfLines = 0;
+        _noDataHelpBottomHintLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _noDataHelpBottomHintLabel.textAlignment = NSTextAlignmentCenter;
+        _noDataHelpBottomHintLabel.text = @"This is the bottom label.";   //wip: change me
+    }
+    return _noDataHelpBottomHintLabel;
 }
 
 #pragma mark - Overrides
@@ -494,7 +638,7 @@ static const int k_tipLabelHorizontalMargin = 15;
                                                    object:nil];
     }
 
-    [self IFA_addTipLabelLayoutConstraints];
+    [self IFA_configureNoDataHelpView];
 
 }
 
@@ -530,7 +674,7 @@ static const int k_tipLabelHorizontalMargin = 15;
 
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
-    [self IFA_updateTipLabelLayout];
+    [self IFA_updatenoDataHelpViewLayout];
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
