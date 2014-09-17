@@ -293,9 +293,9 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 -(void)setAppearanceOnViewWillAppearForViewController:(UIViewController*)a_viewController{
     
     // Navigation item title view titles and subtitle, if applicable
-    a_viewController.ifa_titleViewDefault.titleLabel.text = a_viewController.title;
+    a_viewController.ifa_titleViewDefault.titleLabel.text = a_viewController.navigationItem.title ?: a_viewController.title;
     a_viewController.ifa_titleViewDefault.subTitleLabel.text = a_viewController.ifa_subTitle;
-    a_viewController.ifa_titleViewLandscapePhone.titleLabel.text = a_viewController.title;
+    a_viewController.ifa_titleViewLandscapePhone.titleLabel.text = a_viewController.navigationItem.title ?: a_viewController.title;
     a_viewController.ifa_titleViewLandscapePhone.subTitleLabel.text = a_viewController.ifa_subTitle;
 
     [self setNavigationItemTitleViewForViewController:a_viewController
