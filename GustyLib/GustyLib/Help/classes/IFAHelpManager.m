@@ -493,7 +493,8 @@
 
 -(void)IFA_onHelpButtonTap:(UIButton*)a_button{
 
-    if ([self.observedHelpTargetContainer isKindOfClass:[IFAAbstractFieldEditorViewController class]]) { // Simple Help
+    //wip: clean up the help mode stuff
+//    if ([self.observedHelpTargetContainer isKindOfClass:[IFAAbstractFieldEditorViewController class]]) { // Simple Help
         
         IFAAbstractFieldEditorViewController *l_fieldEditorViewController = (IFAAbstractFieldEditorViewController *)self.observedHelpTargetContainer;
 //        NSLog(@"l_fieldEditorViewController.helpTargetId: %@", l_fieldEditorViewController.helpTargetId);
@@ -516,12 +517,14 @@
         [l_fieldEditorViewController.navigationController.view addSubview:l_backgroundView];
         
         // Present pop tip view
-        NSString *l_description = [self IFA_helpDescriptionForKeyPath:l_fieldEditorViewController.helpTargetId];
+//    NSString *keyPath = l_fieldEditorViewController.helpTargetId; //wip: review
+    NSString *keyPath = @"controllers.NowViewController.screen";
+    NSString *l_description = [self IFA_helpDescriptionForKeyPath:keyPath];
         [self IFA_presentPopTipViewWithTitle:nil description:l_description pointingAtView:a_button];
 
-    }else{  // Help Mode
-        [self toggleHelpMode];
-    }
+//    }else{  // Help Mode
+//        [self toggleHelpMode];
+//    }
 }
 
 -(void)IFA_onCancelButtonTap:(UIButton*)a_button{

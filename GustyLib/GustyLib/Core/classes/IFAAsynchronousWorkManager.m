@@ -26,15 +26,15 @@
 @property (strong) NSOperationQueue *IFA_operationQueue;
 @property (strong) NSOperation *IFA_operation;
 @property (strong) IFAWorkInProgressModalViewManager *IFA_wipViewManager;
-@property (strong) id IFA_callbackObject;
 @property (strong) IFA_MBProgressHUD *IFA_hud;
 @property (strong) NSString *IFA_nonModalProgressIndicatorOwnerUuid;
 @property (strong) NSString *IFA_cancelAllBlocksRequestOwnerUuid;
 
-@property SEL IFA_callbackSelector;
 @property BOOL IFA_showProgressIndicator;
 @property dispatch_queue_t IFA_mainSerialDispatchQueue;
 @property BOOL areAllBlocksCancelled;
+
+@property (strong) IFAAsynchronousWorkManagerOperationCompletionBlock IFA_operationCompletionBlock;
 
 @end
 
@@ -64,10 +64,9 @@
         [self.IFA_wipViewManager removeView];
     }
     
-    // Perform callback selector
-    if (self.IFA_callbackObject && self.IFA_callbackSelector) {
-//        [v_callbackObject performSelector:v_callbackSelector withObject:v_operation];
-        objc_msgSend(self.IFA_callbackObject, self.IFA_callbackSelector, self.IFA_operation);
+    // Execute completion block
+    if (self.IFA_operationCompletionBlock) {
+        self.IFA_operationCompletionBlock(self.IFA_operation);
     }
 
 }
@@ -126,23 +125,21 @@
 }
 
 -(void)dispatchOperation:(NSOperation*)a_operation{
-    [self dispatchOperation:a_operation showProgressIndicator:YES callbackObject:nil callbackSelector:NULL];
+    [self dispatchOperation:a_operation showProgressIndicator:YES completionBlock:nil];
 }
 
--(void)dispatchOperation:(NSOperation *)a_operation callbackObject:(id)a_callbackObject callbackSelector:(SEL)a_callbackSelector{
-    [self dispatchOperation:a_operation showProgressIndicator:YES callbackObject:a_callbackObject
-           callbackSelector:a_callbackSelector];
+- (void)dispatchOperation:(NSOperation *)a_operation completionBlock:(void (^)(NSOperation *a_completedOperation))a_completionBlock {
+    [self dispatchOperation:a_operation showProgressIndicator:YES completionBlock:a_completionBlock];
 }
 
--(void)dispatchOperation:(NSOperation *)a_operation showProgressIndicator:(BOOL)a_showProgressIndicator
-          callbackObject:(id)a_callbackObject callbackSelector:(SEL)a_callbackSelector{
+- (void)dispatchOperation:(NSOperation *)a_operation showProgressIndicator:(BOOL)a_showProgressIndicator
+          completionBlock:(void (^)(NSOperation *a_completedOperation))a_completionBlock {
     
     // Store arguments
     self.IFA_operation = a_operation;
     self.IFA_showProgressIndicator = a_showProgressIndicator;
-    self.IFA_callbackObject = a_callbackObject;
-    self.IFA_callbackSelector = a_callbackSelector;
-    
+    self.IFA_operationCompletionBlock = a_completionBlock;
+
     // Add observer for when operation is finished
     [self.IFA_operation addObserver:self forKeyPath:@"isFinished" options:0 context:nil];
     

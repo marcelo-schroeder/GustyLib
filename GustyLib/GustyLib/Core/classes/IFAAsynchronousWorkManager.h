@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+typedef void (^IFAAsynchronousWorkManagerOperationCompletionBlock)(NSOperation *a_completedOperation);
+
 @interface IFAAsynchronousWorkManager : NSObject
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
@@ -33,9 +35,11 @@
 /* the methods below are based on NSOperation */
 
 -(void)dispatchOperation:(NSOperation*)a_operation;
--(void)dispatchOperation:(NSOperation *)a_operation callbackObject:(id)a_callbackObject callbackSelector:(SEL)a_callbackSelector;
--(void)dispatchOperation:(NSOperation *)a_operation showProgressIndicator:(BOOL)a_showProgressIndicator
-          callbackObject:(id)a_callbackObject callbackSelector:(SEL)a_callbackSelector;
+
+- (void)dispatchOperation:(NSOperation *)a_operation completionBlock:(IFAAsynchronousWorkManagerOperationCompletionBlock)a_completionBlock;
+
+- (void)dispatchOperation:(NSOperation *)a_operation showProgressIndicator:(BOOL)a_showProgressIndicator
+          completionBlock:(IFAAsynchronousWorkManagerOperationCompletionBlock)a_completionBlock;
 -(void)cancelAllOperations;
 
 /* the methods below are based on GCD serial dispatch queues */
