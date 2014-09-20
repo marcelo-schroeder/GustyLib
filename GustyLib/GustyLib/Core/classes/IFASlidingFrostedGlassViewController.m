@@ -191,17 +191,17 @@
     if (self.snapshotEffectBlock) {
         l_blurredSnapshotImage = self.snapshotEffectBlock(l_snapshotImage);
     }else if (self.blurEffectTintColor) {
-        l_blurredSnapshotImage = [l_snapshotImage ifa_applyTintBlurEffectWithColor:self.blurEffectTintColor];
+        l_blurredSnapshotImage = [l_snapshotImage ifa_imageWithTintBlurEffectForColor:self.blurEffectTintColor];
     } else {
         switch (self.blurEffect) {
             case IFASlidingFrostedGlassViewControllerBlurEffectLight:
-                l_blurredSnapshotImage = [l_snapshotImage ifa_applyLightBlurEffect];
+                l_blurredSnapshotImage = [l_snapshotImage ifa_imageWithBlurEffect:IFABlurEffectLight];
                 break;
             case IFASlidingFrostedGlassViewControllerBlurEffectExtraLight:
-                l_blurredSnapshotImage = [l_snapshotImage ifa_applyExtraLightBlurEffect];
+                l_blurredSnapshotImage = [l_snapshotImage ifa_imageWithBlurEffect:IFABlurEffectExtraLight];
                 break;
             case IFASlidingFrostedGlassViewControllerBlurEffectDark:
-                l_blurredSnapshotImage = [l_snapshotImage ifa_applyDarkBlurEffect];
+                l_blurredSnapshotImage = [l_snapshotImage ifa_imageWithBlurEffect:IFABlurEffectDark];
                 break;
             default:
                 NSAssert(NO, @"Unexpected blur effect: %u", self.blurEffect);

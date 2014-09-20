@@ -70,6 +70,33 @@
 
 }
 
+- (UIImage *)ifa_imageWithBlurEffect:(IFABlurEffect)a_blurEffect {
+    switch (a_blurEffect){
+        case IFABlurEffectLight:
+            return [self IFA_applyLightBlurEffectWithRadius:30];
+        case IFABlurEffectExtraLight:
+            return [self IFA_applyExtraLightBlurEffectWithRadius:20];
+        case IFABlurEffectDark:
+            return [self IFA_applyDarkBlurEffectWithRadius:20];
+        default:
+            return nil;
+    }
+}
+
+- (UIImage *)ifa_imageWithBlurEffect:(IFABlurEffect)a_blurEffect radius:(CGFloat)a_radius {
+    switch (a_blurEffect){
+        case IFABlurEffectLight:
+            return [self IFA_applyLightBlurEffectWithRadius:a_radius];
+        case IFABlurEffectExtraLight:
+            return [self IFA_applyExtraLightBlurEffectWithRadius:a_radius];
+        case IFABlurEffectDark:
+            return [self IFA_applyDarkBlurEffectWithRadius:a_radius];
+        default:
+            return nil;
+    }
+}
+
+
 - (UIImage *)ifa_imageWithOrientationUp {
     // No-op if the orientation is already correct
     if (self.imageOrientation == UIImageOrientationUp) return self;
@@ -193,28 +220,7 @@
     return [self IFA_separatorImageNamed:l_imageName];
 }
 
-- (UIImage *)ifa_applyLightBlurEffect
-{
-    UIColor *tintColor = [UIColor colorWithWhite:1.0 alpha:0.3];
-    return [self ifa_applyBlurEffectWithRadius:30 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
-}
-
-
-- (UIImage *)ifa_applyExtraLightBlurEffect
-{
-    UIColor *tintColor = [UIColor colorWithWhite:0.97 alpha:0.82];
-    return [self ifa_applyBlurEffectWithRadius:20 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
-}
-
-
-- (UIImage *)ifa_applyDarkBlurEffect
-{
-    UIColor *tintColor = [UIColor colorWithWhite:0.11 alpha:0.73];
-    return [self ifa_applyBlurEffectWithRadius:20 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
-}
-
-
-- (UIImage *)ifa_applyTintBlurEffectWithColor:(UIColor *)tintColor
+- (UIImage *)ifa_imageWithTintBlurEffectForColor:(UIColor *)tintColor
 {
     const CGFloat EffectColorAlpha = 0.6;
     UIColor *effectColor = tintColor;
@@ -231,11 +237,11 @@
             effectColor = [UIColor colorWithRed:r green:g blue:b alpha:EffectColorAlpha];
         }
     }
-    return [self ifa_applyBlurEffectWithRadius:10 tintColor:effectColor saturationDeltaFactor:-1.0 maskImage:nil];
+    return [self ifa_imageWithBlurEffectForRadius:10 tintColor:effectColor saturationDeltaFactor:-1.0 maskImage:nil];
 }
 
-- (UIImage *)ifa_applyBlurEffectWithRadius:(CGFloat)blurRadius tintColor:(UIColor *)tintColor
-                     saturationDeltaFactor:(CGFloat)saturationDeltaFactor maskImage:(UIImage *)maskImage
+- (UIImage *)ifa_imageWithBlurEffectForRadius:(CGFloat)a_radius tintColor:(UIColor *)a_tintColor
+                        saturationDeltaFactor:(CGFloat)a_saturationDeltaFactor maskImage:(UIImage *)a_maskImage
 {
     // Check pre-conditions.
     if (self.size.width < 1 || self.size.height < 1) {
@@ -246,16 +252,16 @@
         NSLog (@"*** error: image must be backed by a CGImage: %@", self);
         return nil;
     }
-    if (maskImage && !maskImage.CGImage) {
-        NSLog (@"*** error: maskImage must be backed by a CGImage: %@", maskImage);
+    if (a_maskImage && !a_maskImage.CGImage) {
+        NSLog (@"*** error: maskImage must be backed by a CGImage: %@", a_maskImage);
         return nil;
     }
 
     CGRect imageRect = { CGPointZero, self.size };
     UIImage *effectImage = self;
 
-    BOOL hasBlur = blurRadius > __FLT_EPSILON__;
-    BOOL hasSaturationChange = fabs(saturationDeltaFactor - 1.) > __FLT_EPSILON__;
+    BOOL hasBlur = a_radius > __FLT_EPSILON__;
+    BOOL hasSaturationChange = fabs(a_saturationDeltaFactor - 1.) > __FLT_EPSILON__;
     if (hasBlur || hasSaturationChange) {
         UIGraphicsBeginImageContextWithOptions(self.size, NO, [[UIScreen mainScreen] scale]);
         CGContextRef effectInContext = UIGraphicsGetCurrentContext();
@@ -290,7 +296,7 @@
             //
             // ... if d is odd, use three box-blurs of size 'd', centered on the output pixel.
             //
-            CGFloat inputRadius = blurRadius * [[UIScreen mainScreen] scale];
+            CGFloat inputRadius = a_radius * [[UIScreen mainScreen] scale];
             uint32_t radius = floor(inputRadius * 3. * sqrt(2 * M_PI) / 4 + 0.5);
             if (radius % 2 != 1) {
                 radius += 1; // force radius to be odd so that the three box-blur methodology works.
@@ -301,7 +307,7 @@
         }
         BOOL effectImageBuffersAreSwapped = NO;
         if (hasSaturationChange) {
-            CGFloat s = saturationDeltaFactor;
+            CGFloat s = a_saturationDeltaFactor;
             CGFloat floatingPointSaturationMatrix[] = {
                     0.0722 + 0.9278 * s,  0.0722 - 0.0722 * s,  0.0722 - 0.0722 * s,  0,
                     0.7152 - 0.7152 * s,  0.7152 + 0.2848 * s,  0.7152 - 0.7152 * s,  0,
@@ -343,17 +349,17 @@
     // Draw effect image.
     if (hasBlur) {
         CGContextSaveGState(outputContext);
-        if (maskImage) {
-            CGContextClipToMask(outputContext, imageRect, maskImage.CGImage);
+        if (a_maskImage) {
+            CGContextClipToMask(outputContext, imageRect, a_maskImage.CGImage);
         }
         CGContextDrawImage(outputContext, imageRect, effectImage.CGImage);
         CGContextRestoreGState(outputContext);
     }
 
     // Add in color tint.
-    if (tintColor) {
+    if (a_tintColor) {
         CGContextSaveGState(outputContext);
-        CGContextSetFillColorWithColor(outputContext, tintColor.CGColor);
+        CGContextSetFillColorWithColor(outputContext, a_tintColor.CGColor);
         CGContextFillRect(outputContext, imageRect);
         CGContextRestoreGState(outputContext);
     }
@@ -369,6 +375,23 @@
 
 + (UIImage *)IFA_separatorImageNamed:(NSString *)a_imageName {
     return [[UIImage imageNamed:a_imageName] ifa_imageWithOverlayColor:[UITableViewCell ifa_defaultSeparatorColor]];
+}
+
+- (UIImage *)IFA_applyLightBlurEffectWithRadius:(CGFloat)a_radius {
+    UIColor *tintColor = [UIColor colorWithWhite:1.0 alpha:0.3];
+    return [self ifa_imageWithBlurEffectForRadius:a_radius tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
+}
+
+
+- (UIImage *)IFA_applyExtraLightBlurEffectWithRadius:(CGFloat)a_radius {
+    UIColor *tintColor = [UIColor colorWithWhite:0.97 alpha:0.82];
+    return [self ifa_imageWithBlurEffectForRadius:a_radius tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
+}
+
+
+- (UIImage *)IFA_applyDarkBlurEffectWithRadius:(CGFloat)a_radius {
+    UIColor *tintColor = [UIColor colorWithWhite:0.11 alpha:0.73];
+    return [self ifa_imageWithBlurEffectForRadius:a_radius tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
 }
 
 @end

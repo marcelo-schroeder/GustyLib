@@ -182,3 +182,7 @@
 #import "IFAMapViewController.h"
 #import "IFAMapSettingsViewController.h"
 #import "IFALocationManager.h"
+#import "IFAViewControllerTransitioningDelegate.h"
+#import "IFAViewControllerAnimatedTransitioning.h"
+#import "IFAHelpViewController.h"
+#import "IFAHelpNavigationController.h"

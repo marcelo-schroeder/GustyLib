@@ -27,22 +27,23 @@ typedef enum{
     IFASeparatorImageTypeVerticalRight,
 }IFASeparatorImageType;
 
+typedef enum{
+    IFABlurEffectLight,
+    IFABlurEffectExtraLight,
+    IFABlurEffectDark,
+}IFABlurEffect;
+
 @interface UIImage (IFACategory)
 
 -(UIImage*)ifa_imageWithOverlayColor:(UIColor*)a_color;
 -(UIImage*)ifa_imageWithHue:(CGFloat)a_hue;
 -(UIImage*)ifa_imageWithHueInDegrees:(CGFloat)a_hueInDegrees;
 
-- (UIImage *)ifa_applyLightBlurEffect;
-
-- (UIImage *)ifa_applyExtraLightBlurEffect;
-
-- (UIImage *)ifa_applyDarkBlurEffect;
-
-- (UIImage *)ifa_applyTintBlurEffectWithColor:(UIColor *)tintColor;
-
-- (UIImage *)ifa_applyBlurEffectWithRadius:(CGFloat)blurRadius tintColor:(UIColor *)tintColor
-                     saturationDeltaFactor:(CGFloat)saturationDeltaFactor maskImage:(UIImage *)maskImage;
+- (UIImage *)ifa_imageWithTintBlurEffectForColor:(UIColor *)tintColor;
+- (UIImage *)ifa_imageWithBlurEffectForRadius:(CGFloat)a_radius tintColor:(UIColor *)a_tintColor
+                        saturationDeltaFactor:(CGFloat)a_saturationDeltaFactor maskImage:(UIImage *)a_maskImage;
+- (UIImage *)ifa_imageWithBlurEffect:(IFABlurEffect)a_blurEffect;
+- (UIImage *)ifa_imageWithBlurEffect:(IFABlurEffect)a_blurEffect radius:(CGFloat)a_radius;
 
 - (UIImage *)ifa_imageWithOrientationUp;
 
