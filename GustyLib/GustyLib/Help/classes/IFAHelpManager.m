@@ -149,8 +149,7 @@
 //    IFAHelpViewController *helpViewController = [IFAHelpViewController new];
 //    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:helpViewController];
     UIViewController *observedViewController = (UIViewController*)self.observedHelpTargetContainer;
-    IFAHelpNavigationController *helpNavigationController = [[IFAHelpNavigationController alloc] initWithTitle:observedViewController.title
-                                                                                                          view:observedViewController.IFA_helpBarButtonItem.customView];
+    IFAHelpNavigationController *helpNavigationController = [[IFAHelpNavigationController alloc] initWithView:observedViewController.IFA_helpBarButtonItem.customView];
     helpNavigationController.ifa_presenter = observedViewController;
     [observedViewController presentViewController:helpNavigationController
                                          animated:YES completion:nil];
