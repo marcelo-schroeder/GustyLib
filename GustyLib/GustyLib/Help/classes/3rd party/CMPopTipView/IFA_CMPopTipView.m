@@ -119,13 +119,13 @@
 	CGPathCloseSubpath(bubblePath);
     
 	
-	// Draw shadow
-	CGContextAddPath(c, bubblePath);
-    CGContextSaveGState(c);
-	CGContextSetShadow(c, CGSizeMake(0, 3), 5);
-	CGContextSetRGBFillColor(c, 0.0, 0.0, 0.0, 0.9);
-	CGContextFillPath(c);
-    CGContextRestoreGState(c);
+//	// Draw shadow
+//	CGContextAddPath(c, bubblePath);
+//    CGContextSaveGState(c);
+//	CGContextSetShadow(c, CGSizeMake(0, 3), 5);
+//	CGContextSetRGBFillColor(c, 0.0, 0.0, 0.0, 0.9);
+//	CGContextFillPath(c);
+//    CGContextRestoreGState(c);
     
 	
 	// Draw clipped background gradient
@@ -347,38 +347,53 @@
     CGRect finalFrame = [self finalFramePointingAtView:targetView inView:containerView shouldInvertLandscapeFrame:a_shouldInvertLandscapeFrame];
    	
 	if (animated) {
-        if (self.animation == CMPopTipAnimationSlide) {
+
+        if (self.animation == CMPopTipAnimationDissolve) {
+
             self.alpha = 0.0;
-            CGRect startFrame = finalFrame;
-            startFrame.origin.y += 10;
-            self.frame = startFrame;
-        }
-		else if (self.animation == CMPopTipAnimationPop) {
             self.frame = finalFrame;
-            self.alpha = 0.5;
-            
-            // start a little smaller
-            self.transform = CGAffineTransformMakeScale(0.75f, 0.75f);
-            
-            // animate to a bigger size
-            [UIView beginAnimations:nil context:nil];
-            [UIView setAnimationDelegate:self];
-            [UIView setAnimationDidStopSelector:@selector(popAnimationDidStop:finished:context:)];
-            [UIView setAnimationDuration:0.15f];
-            self.transform = CGAffineTransformMakeScale(1.1f, 1.1f);
-            self.alpha = 1.0;
-            [UIView commitAnimations];
+            [self setNeedsDisplay];
+            [UIView animateWithDuration:0.3 animations:^{
+                self.alpha = 1.0;
+            }];
+
+        }else{
+
+            if (self.animation == CMPopTipAnimationSlide) {
+                self.alpha = 0.0;
+                CGRect startFrame = finalFrame;
+                startFrame.origin.y += 10;
+                self.frame = startFrame;
+            }
+            else if (self.animation == CMPopTipAnimationPop) {
+                self.frame = finalFrame;
+                self.alpha = 0.5;
+
+                // start a little smaller
+                self.transform = CGAffineTransformMakeScale(0.75f, 0.75f);
+
+                // animate to a bigger size
+                [UIView beginAnimations:nil context:nil];
+                [UIView setAnimationDelegate:self];
+                [UIView setAnimationDidStopSelector:@selector(popAnimationDidStop:finished:context:)];
+                [UIView setAnimationDuration:0.15f];
+                self.transform = CGAffineTransformMakeScale(1.1f, 1.1f);
+                self.alpha = 1.0;
+                [UIView commitAnimations];
+            }
+
+            [self setNeedsDisplay];
+
+            if (self.animation == CMPopTipAnimationSlide) {
+                [UIView beginAnimations:nil context:nil];
+                self.alpha = 1.0;
+                self.frame = finalFrame;
+                [UIView commitAnimations];
+            }
+
         }
-		
-		[self setNeedsDisplay];
-		
-		if (self.animation == CMPopTipAnimationSlide) {
-			[UIView beginAnimations:nil context:nil];
-			self.alpha = 1.0;
-			self.frame = finalFrame;
-			[UIView commitAnimations];
-		}
-	}
+
+    }
 	else {
 		// Not animated
 		[self setNeedsDisplay];
@@ -480,7 +495,7 @@
 		self.textFont = [UIFont boldSystemFontOfSize:14.0];
 		self.textColor = [UIColor whiteColor];
 		self.contentBackgroundColor = [UIColor colorWithRed:62.0/255.0 green:60.0/255.0 blue:154.0/255.0 alpha:1.0];
-        self.animation = CMPopTipAnimationSlide;
+        self.animation = CMPopTipAnimationDissolve;
     }
     return self;
 }

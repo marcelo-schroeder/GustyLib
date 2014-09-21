@@ -201,7 +201,9 @@
     self.presentationRequestInProgress = NO;
     
     // Run completion block
-    self.IFA_completionBlock();
+    if (self.IFA_completionBlock) {
+        self.IFA_completionBlock();
+    }
     self.IFA_completionBlock = nil;
     
 }

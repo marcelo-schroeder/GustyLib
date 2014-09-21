@@ -90,7 +90,8 @@ typedef enum {
 
 typedef enum {
     CMPopTipAnimationSlide = 0,
-    CMPopTipAnimationPop
+    CMPopTipAnimationPop,
+    CMPopTipAnimationDissolve,
 } CMPopTipAnimation;
 
 

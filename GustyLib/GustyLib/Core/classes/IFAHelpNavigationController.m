@@ -15,9 +15,10 @@
 //  limitations under the License.
 //
 
-#import "GustyLibCore.h"
+#import "GustyLibHelp.h"
 
 //wip: move styling to appearance theme
+//wip: after recent changes (tooltip), do I still need this class?
 @interface IFAHelpNavigationController ()
 @property (nonatomic, strong) IFAViewControllerTransitioningDelegate *IFA_viewControllerTransitioningDelegate;
 @end
@@ -28,9 +29,10 @@
 
 #pragma mark - Overrides
 
-- (instancetype)initWithTitle:(NSString *)a_title {
-    IFAHelpViewController *helpViewController = [IFAHelpViewController new];
-    helpViewController.title = a_title;
+//wip: still need title?
+- (instancetype)initWithTitle:(NSString *)a_title view:(UIView *)a_view {
+    IFAHelpViewController *helpViewController = [[IFAHelpViewController alloc] initWithView:a_view];
+//    helpViewController.title = a_title;
     self = [super initWithRootViewController:helpViewController];
     if (self) {
     }
@@ -43,7 +45,7 @@
     self.transitioningDelegate = self.IFA_viewControllerTransitioningDelegate;
     self.view.backgroundColor = [UIColor clearColor];
     [self.navigationBar setBackgroundImage:[UIImage ifa_imageWithColor:[UIColor clearColor]] forBarMetrics:UIBarMetricsDefault];
-    self.navigationBar.shadowImage = [[UIImage ifa_separatorImageForType:IFASeparatorImageTypeHorizontalTop] ifa_imageWithOverlayColor:[UIColor whiteColor]];
+//    self.navigationBar.shadowImage = [[UIImage ifa_separatorImageForType:IFASeparatorImageTypeHorizontalTop] ifa_imageWithOverlayColor:[UIColor whiteColor]];
 }
 
 #pragma mark - Private

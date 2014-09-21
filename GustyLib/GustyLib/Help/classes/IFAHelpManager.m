@@ -18,6 +18,7 @@
 //  limitations under the License.
 //
 
+//wip: review help button - it should be a simple bar button item if possible
 #import "GustyLibHelp.h"
 
 @interface IFABarButtonItemSavedState : NSObject
@@ -148,7 +149,8 @@
 //    IFAHelpViewController *helpViewController = [IFAHelpViewController new];
 //    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:helpViewController];
     UIViewController *observedViewController = (UIViewController*)self.observedHelpTargetContainer;
-    IFAHelpNavigationController *helpNavigationController = [[IFAHelpNavigationController alloc] initWithTitle:observedViewController.title];
+    IFAHelpNavigationController *helpNavigationController = [[IFAHelpNavigationController alloc] initWithTitle:observedViewController.title
+                                                                                                          view:observedViewController.IFA_helpBarButtonItem.customView];
     helpNavigationController.ifa_presenter = observedViewController;
     [observedViewController presentViewController:helpNavigationController
                                          animated:YES completion:nil];
@@ -510,10 +512,16 @@
     [self IFA_removeSimpleHelpBackground];
 }
 
+//wip: clean up code below big time
 -(void)IFA_onHelpButtonTap:(UIButton*)a_button{
 
-    if ([self.observedHelpTargetContainer isKindOfClass:[IFAAbstractFieldEditorViewController class]]) { // Simple Help
-        
+            [self toggleHelpMode];
+    return;
+
+//    if ([self.observedHelpTargetContainer isKindOfClass:[IFAAbstractFieldEditorViewController class]]) { // Simple Help
+
+    void (^completion)() = ^{
+
         IFAAbstractFieldEditorViewController *l_fieldEditorViewController = (IFAAbstractFieldEditorViewController *)self.observedHelpTargetContainer;
 //        NSLog(@"l_fieldEditorViewController.helpTargetId: %@", l_fieldEditorViewController.helpTargetId);
 //        NSLog(@"  l_fieldEditorViewController.view.frame: %@", NSStringFromCGRect(l_fieldEditorViewController.view.frame));
@@ -540,9 +548,19 @@
     NSString *l_description = [self IFA_helpDescriptionForKeyPath:keyPath];
         [self IFA_presentPopTipViewWithTitle:nil description:l_description pointingAtView:a_button];
 
-    }else{  // Help Mode
-        [self toggleHelpMode];
-    }
+    };
+
+    completion();
+
+//    UIViewController *observedViewController = (UIViewController*)self.observedHelpTargetContainer;
+//    IFAHelpNavigationController *helpNavigationController = [[IFAHelpNavigationController alloc] initWithTitle:observedViewController.title];
+//    helpNavigationController.ifa_presenter = observedViewController;
+//    [observedViewController presentViewController:helpNavigationController
+//                                         animated:YES completion:completion];
+    
+//    }else{  // Help Mode
+//        [self toggleHelpMode];
+//    }
 }
 
 -(void)IFA_onCancelButtonTap:(UIButton*)a_button{
