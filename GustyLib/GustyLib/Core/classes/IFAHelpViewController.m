@@ -23,8 +23,7 @@
 @interface IFAHelpViewController ()
 @property (nonatomic, strong) IFAHelpPopTipView *IFA_activePopTipView;
 //@property (nonatomic, strong) IFAViewControllerTransitioningDelegate *IFA_viewControllerTransitioningDelegate;
-@property(nonatomic, strong) UIView *IFA_view;
-@property(nonatomic, strong) WYPopoverController *pc;
+@property(nonatomic, weak) UIViewController *IFA_targetViewController;
 @end
 
 @implementation IFAHelpViewController {
@@ -33,10 +32,10 @@
 
 #pragma Overrides
 
-- (instancetype)initWithView:(UIView *)a_view { //wip: review parameter names and type (i.e. should it be a rect instead of a view?)
+- (instancetype)initWithTargetViewController:(UIViewController *)a_targetViewController { //wip: review parameter names and type (i.e. should it be a rect instead of a view?)
     self = [super init];
     if (self) {
-        self.IFA_view = a_view;
+        self.IFA_targetViewController = a_targetViewController;
     }
     return self;
 }
@@ -57,11 +56,11 @@
 //    [self.view addSubview:label];
 //    [label ifa_addLayoutConstraintsToFillSuperview];
 
-    UIBarButtonItem *closeBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IFA_Icon_Help"]
-                                                                           style:UIBarButtonItemStylePlain
-                                                                          target:self
-                                                                          action:@selector(IFA_onCloseButtonTap:)];
-    [self ifa_addRightBarButtonItem:closeBarButtonItem];
+//    UIBarButtonItem *closeBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IFA_Icon_Help"]
+//                                                                           style:UIBarButtonItemStylePlain
+//                                                                          target:self
+//                                                                          action:@selector(IFA_onCloseButtonTap:)];
+    [self ifa_addRightBarButtonItem:[[IFAHelpManager sharedInstance] newHelpBarButtonItemForViewController:self.IFA_targetViewController]];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -101,7 +100,7 @@
         NSString *description = @"Test description.";
         self.IFA_activePopTipView = [IFAHelpPopTipView new];
         [self.IFA_activePopTipView presentWithTitle:@"Test Title" description:description
-                                     pointingAtView:self.IFA_view inView:self.navigationController.view
+                                     pointingAtView:self.IFA_targetViewController.IFA_helpBarButtonItem.customView inView:self.navigationController.view
                                     completionBlock:nil];
 
 //    WYPopoverBackgroundView *popoverAppearance = [WYPopoverBackgroundView appearance];
@@ -129,8 +128,8 @@
 //    return _IFA_viewControllerTransitioningDelegate;
 //}
 
-- (void)IFA_onCloseButtonTap:(UIBarButtonItem *)a_button {
-    [self.parentViewController ifa_notifySessionCompletion];
-}
+//- (void)IFA_onCloseButtonTap:(UIBarButtonItem *)a_button {
+//    [self.parentViewController ifa_notifySessionCompletion];
+//}
 
 @end

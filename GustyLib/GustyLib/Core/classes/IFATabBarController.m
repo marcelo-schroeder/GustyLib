@@ -20,10 +20,6 @@
 
 #import "GustyLibCore.h"
 
-#ifdef IFA_AVAILABLE_Help
-#import "GustyLibHelp.h"
-#endif
-
 @interface IFATabBarController ()
 @property (nonatomic, strong) IFAContextSwitchingManager *IFA_contextSwitchingManager;
 @end
@@ -50,30 +46,7 @@
 #pragma mark - UITabBarControllerDelegate
 
 -(BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController{
-
-    //    NSLog(@"shouldSelectViewController: %@", [viewController description]);
-
-#ifdef IFA_AVAILABLE_Help
-    // Check if we are in help mode first
-    if ([IFAHelpManager sharedInstance].helpMode) {
-        NSUInteger l_selectedViewControllerIndex = [self.viewControllers indexOfObject:viewController];
-        UITabBarItem *l_tabBarItem = ((UITabBarItem*) (tabBarController.tabBar.items)[l_selectedViewControllerIndex]);
-        NSString *l_title = l_tabBarItem.title;
-        if (!l_title && [viewController isKindOfClass:[UINavigationController class]]) {
-            // If a title is not available (e.g. the tab bar item is a system item), then it will attempt to derive the title from the navigation controller's root view controller
-            UINavigationController *l_navigationController = (UINavigationController*)viewController;
-            UIViewController *l_rootViewController = (l_navigationController.viewControllers)[0];
-            l_title = l_rootViewController.title;
-        }
-        l_title = [NSString stringWithFormat:@"%@ Tab", l_title];
-        [[IFAHelpManager sharedInstance] helpRequestedForTabBarItemIndex:l_selectedViewControllerIndex
-                                                           helpTargetId:l_tabBarItem.helpTargetId title:l_title];
-        return NO;
-    }
-#endif
-
     return [self.IFA_contextSwitchingManager requestContextSwitchForObject:viewController];
-
 }
 
 -(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{

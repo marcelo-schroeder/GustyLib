@@ -20,10 +20,6 @@
 
 #import "GustyLibCore.h"
 
-#ifdef IFA_AVAILABLE_Help
-#import "UIBarItem+IFAHelp.h"
-#endif
-
 static UIImage *c_menuBarButtonItemImage = nil;
 
 @implementation IFAUIUtils
@@ -234,17 +230,11 @@ static UIImage *c_menuBarButtonItemImage = nil;
 		case IFABarButtonItemTypeCancel:
 			barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                                           target:a_target action:a_action];
-#ifdef IFA_AVAILABLE_Help
-            barButtonItem.helpTargetId = [self helpTargetIdForName:@"cancelButton"];
-#endif
 //			barButtonItem.accessibilityLabel = @"Cancel Button";
 			break;
 		case IFABarButtonItemTypeDone:
 			barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                           target:a_target action:a_action];
-#ifdef IFA_AVAILABLE_Help
-            barButtonItem.helpTargetId = [self helpTargetIdForName:@"doneButton"];
-#endif
             [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceForBarButtonItem:barButtonItem
                                                                                               viewController:nil
                                                                                                    important:YES ];
@@ -254,9 +244,6 @@ static UIImage *c_menuBarButtonItemImage = nil;
 			barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IFA_ICon_Delete"]
                                                              style:UIBarButtonItemStylePlain target:a_target
                                                             action:a_action];
-#ifdef IFA_AVAILABLE_Help
-            barButtonItem.helpTargetId = [self helpTargetIdForName:@"deleteButton"];
-#endif
 //			barButtonItem.accessibilityLabel = @"Delete Button";
 			break;
 		case IFABarButtonItemTypeFlexibleSpace:
@@ -272,9 +259,6 @@ static UIImage *c_menuBarButtonItemImage = nil;
 			barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                           target:a_target action:a_action];
             barButtonItem.tag = 10000;
-#ifdef IFA_AVAILABLE_Help
-            barButtonItem.helpTargetId = [self helpTargetIdForName:@"addButton"];
-#endif
 //			barButtonItem.accessibilityLabel = @"Add Button";
 			break;
 		case IFABarButtonItemTypeSelectNone:
@@ -285,9 +269,6 @@ static UIImage *c_menuBarButtonItemImage = nil;
             }
 			barButtonItem = [[UIBarButtonItem alloc] initWithTitle:l_title style:UIBarButtonItemStylePlain
                                                             target:a_target action:a_action];
-#ifdef IFA_AVAILABLE_Help
-            barButtonItem.helpTargetId = [self helpTargetIdForName:@"selectNoneButton"];
-#endif
 //			barButtonItem.accessibilityLabel = @"Select None Button";
 			break;
 		}
@@ -296,9 +277,6 @@ static UIImage *c_menuBarButtonItemImage = nil;
 			NSString *l_title = @"Select All";
 			barButtonItem = [[UIBarButtonItem alloc] initWithTitle:l_title style:UIBarButtonItemStylePlain
                                                             target:a_target action:a_action];
-#ifdef IFA_AVAILABLE_Help
-            barButtonItem.helpTargetId = [self helpTargetIdForName:@"selectAllButton"];
-#endif
 //			barButtonItem.accessibilityLabel = @"Select All Button";
 			break;
 		}
@@ -317,17 +295,11 @@ static UIImage *c_menuBarButtonItemImage = nil;
 		case IFABarButtonItemTypeSelectNow:
 			barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Now" style:UIBarButtonItemStylePlain
                                                             target:a_target action:a_action];
-#ifdef IFA_AVAILABLE_Help
-            barButtonItem.helpTargetId = [self helpTargetIdForName:@"nowButton"];
-#endif
 //			barButtonItem.accessibilityLabel = @"Now Button";
 			break;
 		case IFABarButtonItemTypeSelectToday:
 			barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Today" style:UIBarButtonItemStylePlain
                                                             target:a_target action:a_action];
-#ifdef IFA_AVAILABLE_Help
-            barButtonItem.helpTargetId = [self helpTargetIdForName:@"todaySelectionButton"];
-#endif
 //			barButtonItem.accessibilityLabel = @"Today Button";
 			break;
 		case IFABarButtonItemTypeAction:
@@ -343,17 +315,11 @@ static UIImage *c_menuBarButtonItemImage = nil;
 		case IFABarButtonItemTypeDismiss:
 			barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Dismiss" style:UIBarButtonItemStylePlain
                                                             target:a_target action:a_action];
-#ifdef IFA_AVAILABLE_Help
-            barButtonItem.helpTargetId = [self helpTargetIdForName:@"dismissButton"];
-#endif
 //			barButtonItem.accessibilityLabel = @"Dismiss Button";
 			break;
 		case IFABarButtonItemTypeBack:
 			barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain
                                                             target:a_target action:a_action];
-#ifdef IFA_AVAILABLE_Help
-            barButtonItem.helpTargetId = [self helpTargetIdForName:@"backButton"];
-#endif
 //			barButtonItem.accessibilityLabel = @"Back Button";
 			break;
         case IFABarButtonItemTypeInfo:

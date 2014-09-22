@@ -20,10 +20,6 @@
 
 #import "GustyLibCore.h"
 
-#ifdef IFA_AVAILABLE_Help
-#import "GustyLibHelp.h"
-#endif
-
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -73,10 +69,6 @@
 		self.parentFormViewController = a_parentFormViewController;
         self.showEditButton = a_showEditButton;
 
-#ifdef IFA_AVAILABLE_Help
-        self.helpTargetId = [IFAUIUtils helpTargetIdForName:[@"form" stringByAppendingString:self.createMode ? @".new" : @".existing"]];
-#endif
-
     }
 
 	return self;
@@ -97,9 +89,6 @@
         [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
                                                                                                                        cell:l_cell];
     }
-#ifdef IFA_AVAILABLE_Help
-    l_cell.helpTargetId = [IFAHelpManager helpTargetIdForPropertyName:l_propertyName inObject:self.object];
-#endif
 
     return l_cell;
     
@@ -354,9 +343,6 @@
     UIViewController *controller;
 
     NSUInteger editorType = [self editorTypeForIndexPath:anIndexPath];
-#ifdef IFA_AVAILABLE_Help
-    BOOL l_shouldSetHelpTargetId = YES;
-#endif
     switch (editorType) {
         case IFAEditorTypeForm:
         {
@@ -434,14 +420,6 @@
             NSAssert(NO, @"Unexpected editor type - case 2: %lu", (unsigned long)editorType);
             break;
     }
-
-#ifdef IFA_AVAILABLE_Help
-    // Set the help target ID for the view controller, if required
-    if (l_shouldSetHelpTargetId) {
-        UITableViewCell *l_cell = [self visibleCellForIndexPath:anIndexPath];
-        controller.helpTargetId = l_cell.helpTargetId;
-    }
-#endif
 
     return controller;
 
@@ -1078,10 +1056,6 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                                                                                    indexPath:indexPath
                                                                           formViewController:self
                                                                             segmentedControl:segmentedControl];
-#ifdef IFA_AVAILABLE_Help
-                    cell.helpTargetId = [IFAHelpManager helpTargetIdForPropertyName:l_propertyName
-                                                                           inObject:self.object];
-#endif
                     cell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
 
                     // Set appearance
@@ -1712,17 +1686,6 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     } completion:NULL];
 
 }
-
-#ifdef IFA_AVAILABLE_Help
--(NSString *)ifa_editBarButtonItemHelpTargetId {
-    if([[IFAPersistenceManager sharedInstance].entityConfig hasNavigationBarSubmitButtonForForm:self.formName
-                                                                                       inEntity:self.object.ifa_entityName]) {
-        return [self ifa_helpTargetIdForName:@"navigationBarSubmitButton"];
-    }else{
-        return [super ifa_editBarButtonItemHelpTargetId];
-    }
-}
-#endif
 
 - (UIView *)inputAccessoryView {
     return self.formInputAccessoryView;

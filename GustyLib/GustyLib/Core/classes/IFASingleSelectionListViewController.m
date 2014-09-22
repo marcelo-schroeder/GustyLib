@@ -20,10 +20,6 @@
 
 #import "GustyLibCore.h"
 
-#ifdef IFA_AVAILABLE_Help
-#import "GustyLibHelp.h"
-#endif
-
 @interface IFASingleSelectionListViewController ()
 
 @property (nonatomic) BOOL IFA_hasInitialLoadBeenDone;
@@ -60,9 +56,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
 	BOOL selected = [[self.IFA_selectionManager selectedIndexPath] isEqual:indexPath];
-#ifdef IFA_AVAILABLE_Help
-    cell.helpTargetId = [[self ifa_helpTargetIdForName:@"tableCell."] stringByAppendingString:selected?@"selected":@"unselected"];
-#endif
 	return [self decorateSelectionForCell:cell selected:selected targetObject:[self.IFA_selectionManager selectedObject]];
 }
 

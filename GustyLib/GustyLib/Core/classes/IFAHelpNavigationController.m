@@ -30,8 +30,8 @@
 #pragma mark - Overrides
 
 //wip: still need title?
-- (instancetype)initWithView:(UIView *)a_view {
-    IFAHelpViewController *helpViewController = [[IFAHelpViewController alloc] initWithView:a_view];
+- (instancetype)initWithTargetViewController:(UIViewController *)a_targetViewController {
+    IFAHelpViewController *helpViewController = [[IFAHelpViewController alloc] initWithTargetViewController:a_targetViewController];
 //    helpViewController.title = a_title;
     self = [super initWithRootViewController:helpViewController];
     if (self) {

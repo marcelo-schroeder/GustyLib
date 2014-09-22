@@ -19,5 +19,5 @@
 
 //wip: need to move this to the Help sub pod and review usage to include optional compilation
 @interface IFAHelpNavigationController : IFANavigationController
-- (instancetype)initWithView:(UIView *)a_view;
+- (instancetype)initWithTargetViewController:(UIViewController *)a_targetViewController;
 @end

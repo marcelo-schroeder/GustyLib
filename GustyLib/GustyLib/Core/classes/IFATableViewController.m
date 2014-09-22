@@ -20,10 +20,6 @@
 
 #import "GustyLibCore.h"
 
-#ifdef IFA_AVAILABLE_Help
-#import "GustyLibHelp.h"
-#endif
-
 #ifdef IFA_AVAILABLE_GoogleMobileAdsSupport
 #import "GustyLibGoogleMobileAdsSupport.h"
 #endif
@@ -131,11 +127,6 @@
     if (!l_cell) {
         
         l_cell = [self createReusableCellWithIdentifier:a_reuseIdentifier atIndexPath:a_indexPath];
-
-#ifdef IFA_AVAILABLE_Help
-        // Set help target ID
-        l_cell.helpTargetId = [self ifa_helpTargetIdForName:@"tableCell"];
-#endif
 
         // Set appearance
         [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
@@ -449,64 +440,19 @@
 #pragma mark - UITableViewDataSource protocol
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-#ifdef IFA_AVAILABLE_Help
-    if ([IFAHelpManager sharedInstance].helpMode) {
-        return NO;
-    }else{
-#endif
-        return YES;
-#ifdef IFA_AVAILABLE_Help
-    }
-#endif
+    return YES;
 }
 
 #pragma mark - UITableViewDelegate protocol
 
--(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-#ifdef IFA_AVAILABLE_Help
-    if ([IFAHelpManager sharedInstance].helpMode) {
-        return nil;
-    }
-    else {
-#endif
-        return indexPath;
-#ifdef IFA_AVAILABLE_Help
-    }
-#endif
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    return indexPath;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnWillDisplayCell:cell
                                                                                     forRowAtIndexPath:indexPath
                                                                                        viewController:self];
-}
-
-#pragma mark - UIScrollViewDelegate protocol
-
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-#ifdef IFA_AVAILABLE_Help
-    if ([IFAHelpManager sharedInstance].helpMode) {
-        [[IFAHelpManager sharedInstance] refreshHelpTargets];
-    }
-#endif
-}
-
--(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-    if (!decelerate) {
-#ifdef IFA_AVAILABLE_Help
-        if ([IFAHelpManager sharedInstance].helpMode) {
-            [[IFAHelpManager sharedInstance] refreshHelpTargets];
-        }
-#endif
-    }
-}
-
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-#ifdef IFA_AVAILABLE_Help
-    if ([IFAHelpManager sharedInstance].helpMode) {
-        [[IFAHelpManager sharedInstance] resetUi];
-    }
-#endif
 }
 
 #pragma mark - IFAContextSwitchTarget

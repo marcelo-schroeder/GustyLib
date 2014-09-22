@@ -168,8 +168,8 @@
     self.customView = self.customContainerView;
     [self addSubview:self.customView];
     
-    BOOL l_shouldInvertLandscapeFrame = YES;
-    if ([[IFAHelpManager sharedInstance].observedHelpTargetContainer isKindOfClass:[IFAAbstractFieldEditorViewController class]]) { // Simple Help
+    BOOL l_shouldInvertLandscapeFrame = YES;    //wip: is this still required?
+    if ([[IFAHelpManager sharedInstance].helpTargetViewController isKindOfClass:[IFAAbstractFieldEditorViewController class]]) { // Simple Help
         l_shouldInvertLandscapeFrame = NO;
     }
     
@@ -211,7 +211,8 @@
 #pragma mark - CMPopTipViewDelegate protocol
 
 - (void)popTipViewWasDismissedByUser:(IFA_CMPopTipView *)popTipView{
-    [[IFAHelpManager sharedInstance] removeHelpTargetSelectionWithAnimation:YES dismissPopTipView:NO];
+    //wip: review this
+//    [[IFAHelpManager sharedInstance] removeHelpTargetSelectionWithAnimation:YES dismissPopTipView:NO];
 }
 
 #pragma mark - UIGestureRecognizerDelegate

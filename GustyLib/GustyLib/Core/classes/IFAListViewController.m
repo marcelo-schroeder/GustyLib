@@ -22,8 +22,6 @@
 
 #ifdef IFA_AVAILABLE_Help
 #import "IFAHelpManager.h"
-#import "IFAListViewController.h"
-
 #endif
 
 //wip: review

@@ -20,10 +20,6 @@
 
 #import "GustyLibCore.h"
 
-#ifdef IFA_AVAILABLE_Help
-#import "GustyLibHelp.h"
-#endif
-
 static NSArray *c_pageDataLoadingOrder = nil;
 
 @interface IFADynamicPagingContainerViewController ()
@@ -98,14 +94,8 @@ static NSArray *c_pageDataLoadingOrder = nil;
     self.previousViewBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemTypePreviousPage target:self
                                                                action:NULL];
     [IFAUIUtils adjustImageInsetsForBarButtonItem:self.previousViewBarButtonItem insetValue:1];
-#ifdef IFA_AVAILABLE_Help
-    self.previousViewBarButtonItem.helpTargetId = [self ifa_helpTargetIdForName:@"previousPageButton"];
-#endif
     self.nextViewBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemTypeNextPage target:self action:NULL];
     [IFAUIUtils adjustImageInsetsForBarButtonItem:self.nextViewBarButtonItem insetValue:1];
-#ifdef IFA_AVAILABLE_Help
-    self.nextViewBarButtonItem.helpTargetId = [self ifa_helpTargetIdForName:@"nextPageButton"];
-#endif
     [self IFA_enableNavigationButtonsAction:YES];
 
 }

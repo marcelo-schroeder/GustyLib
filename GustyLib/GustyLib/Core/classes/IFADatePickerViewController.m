@@ -20,10 +20,6 @@
 
 #import "GustyLibCore.h"
 
-#ifdef IFA_AVAILABLE_Help
-#import "GustyLibHelp.h"
-#endif
-
 @interface IFADatePickerViewController ()
 
 @property (nonatomic, strong) NSDate *IFA_dateAndTime;

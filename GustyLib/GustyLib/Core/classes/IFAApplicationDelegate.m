@@ -20,10 +20,6 @@
 
 #import "GustyLibCore.h"
 
-#ifdef IFA_AVAILABLE_Help
-#import "GustyLibHelp.h"
-#endif
-
 @interface IFAApplicationDelegate ()
 
 @property (nonatomic, strong) id<IFAAppearanceTheme> IFA_appearanceTheme;
@@ -159,11 +155,6 @@
         [self configureWindowRootViewController];
 
     }
-
-#ifdef IFA_AVAILABLE_Help
-    // Configure help
-    [IFAHelpManager sharedInstance].helpEnabled = [[[IFAUtils infoPList] objectForKey:@"IFAHelpEnabled"] boolValue];
-#endif
 
     return YES;
 	

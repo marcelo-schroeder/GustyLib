@@ -974,10 +974,6 @@ typedef enum {
     
 //    NSLog(@"ifa_viewDidLoad: %@, topViewController: %@, visibleViewController: %@, presentingViewController: %@, presentedViewController: %@", [self description], [self.navigationController.topViewController description], [self.navigationController.visibleViewController description], [self.presentingViewController description], [self.presentedViewController description]);
 
-#ifdef IFA_AVAILABLE_Help
-//    [self m_updateEditButtonItemAccessibilityLabel];
-#endif
-
     UINavigationItem *l_navigationItem = [self ifa_navigationItem];
     l_navigationItem.leftItemsSupplementBackButton = YES;
     UIBarButtonItem *l_backBarButtonItem = [[self ifa_appearanceTheme] backBarButtonItemForViewController:self];
@@ -989,15 +985,6 @@ typedef enum {
         l_backBarButtonItem.action = @selector(IFA_popViewController);
         [self ifa_addLeftBarButtonItem:l_backBarButtonItem];
     }
-
-#ifdef IFA_AVAILABLE_Help
-    // Configure help button
-    if ([[IFAHelpManager sharedInstance] isHelpEnabledForViewController:self]) {
-        self.IFA_helpBarButtonItem = [[IFAHelpManager sharedInstance] newHelpBarButtonItem];
-    }else{
-        self.IFA_helpBarButtonItem = nil;
-    }
-#endif
 
     // Set appearance
     [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnViewDidLoadForViewController:self];
@@ -1085,11 +1072,6 @@ typedef enum {
 
     // Set appearance
     [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnViewWillAppearForViewController:self];
-
-#ifdef IFA_AVAILABLE_Help
-    // Configure help target
-    [self ifa_registerForHelp];
-#endif
 
     // Make sure toolbar is already visible when the view appears for the first time (only for top level view controllers)
     self.IFA_toolbarUpdatedBeforeViewAppeared = NO;
@@ -1236,14 +1218,6 @@ typedef enum {
 
 -(void)ifa_willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
 
-#ifdef IFA_AVAILABLE_Help
-    // Tell help manager about the interface orientation change
-    if (self.ifa_helpMode && [IFAHelpManager sharedInstance].observedHelpTargetContainer ==self) {
-        [[IFAHelpManager sharedInstance] observedViewControllerWillRotateToInterfaceOrientation:toInterfaceOrientation
-                                                                                  duration:duration];
-    }
-#endif
-
     [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnWillRotateForViewController:self
                                                                                            toInterfaceOrientation:toInterfaceOrientation];
 
@@ -1261,13 +1235,6 @@ typedef enum {
 }
 
 -(void)ifa_didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-
-#ifdef IFA_AVAILABLE_Help
-    // Tell help manager about the interface orientation change
-    if (self.ifa_helpMode && [IFAHelpManager sharedInstance].observedHelpTargetContainer ==self) {
-        [[IFAHelpManager sharedInstance] observedViewControllerDidRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    }
-#endif
 
     if (self.ifa_activePopoverController && self.ifa_activePopoverControllerBarButtonItem) {
         
@@ -1547,9 +1514,6 @@ typedef enum {
 - (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
                                        data:(id)a_data shouldAnimateDismissal:(BOOL)a_shouldAnimateDismissal {
     self.ifa_changesMadeByPresentedViewController = a_changesMade;
-#ifdef IFA_AVAILABLE_Help
-    [self ifa_registerForHelp];
-#endif
     if (a_viewController.ifa_presentedAsModal) {
         [self ifa_dismissModalViewControllerWithChangesMade:a_changesMade data:a_data animated:a_shouldAnimateDismissal];
     }else{

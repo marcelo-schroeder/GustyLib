@@ -21,10 +21,6 @@
 #import "GustyLibCore.h"
 #import "NSMutableArray+IFACategory.h"
 
-#ifdef IFA_AVAILABLE_Help
-#import "GustyLibHelp.h"
-#endif
-
 static NSString *const k_cellReuseId = @"cell";
 
 static const NSUInteger k_sectionSelectedObjects = 0;
@@ -337,9 +333,6 @@ static const NSUInteger k_sectionSelectedObjects = 0;
         }
 	}
     l_cell.label.text = [l_managedObject ifa_longDisplayValue];
-#ifdef IFA_AVAILABLE_Help
-    l_cell.helpTargetId = [[self ifa_helpTargetIdForName:@"tableCell."] stringByAppendingString:indexPath.section == 0 ? @"selected" : @"unselected"];
-#endif
     return l_cell;
 
 }

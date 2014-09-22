@@ -17,9 +17,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class WYPopoverController;
-
 //wip: need to move this to the Help sub pod and review usage to include optional compilation
 @interface IFAHelpViewController : IFAViewController
-- (instancetype)initWithView:(UIView *)a_view;
+- (instancetype)initWithTargetViewController:(UIViewController *)a_targetViewController;
 @end

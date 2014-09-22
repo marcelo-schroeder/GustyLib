@@ -20,10 +20,6 @@
 
 #import "GustyLibCore.h"
 
-#ifdef IFA_AVAILABLE_Help
-#import "IFAHelpManager.h"
-#endif
-
 @interface IFANavigationListViewController ()
 
 @end
@@ -46,13 +42,7 @@
 }
 
 - (void)iFA_handleSelectionForEditingAtIndexPath:(NSIndexPath *)a_indexPath {
-#ifdef IFA_AVAILABLE_Help
-    if (![IFAHelpManager sharedInstance].helpMode) {
-#endif
-        [self showEditFormForManagedObject:(NSManagedObject *) [self objectForIndexPath:a_indexPath]];
-#ifdef IFA_AVAILABLE_Help
-    }
-#endif
+    [self showEditFormForManagedObject:(NSManagedObject *) [self objectForIndexPath:a_indexPath]];
 }
 
 #pragma mark - UITableViewDelegate Protocol
@@ -115,17 +105,8 @@
     }
 }
 
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
-#ifdef IFA_AVAILABLE_Help
-    if ([IFAHelpManager sharedInstance].helpMode) {
-        return NO;
-    }
-    else {
-#endif
-        return [[IFAPersistenceManager sharedInstance].entityConfig listReorderAllowedForEntity:self.entityName];
-#ifdef IFA_AVAILABLE_Help
-    }
-#endif
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [[IFAPersistenceManager sharedInstance].entityConfig listReorderAllowedForEntity:self.entityName];
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath{

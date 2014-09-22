@@ -19,6 +19,7 @@
 //
 
 //wip: add missing documentation
+//wip: clean up
 #import <Foundation/Foundation.h>
 
 typedef enum {
@@ -31,51 +32,14 @@ typedef enum {
     IFAFormSectionHelpTypeFooter,
 }IFAFormSectionHelpType;
 
-@protocol IFAHelpTargetContainer <NSObject>
+@interface IFAHelpManager : NSObject
 
--(NSArray*)helpTargets;
--(UIView *)helpModeToggleView;
--(UIView*)targetView;
-@optional
--(void)willEnterHelpMode;
--(void)didEnterHelpMode;
--(void)willExitHelpMode;
--(void)didExitHelpMode;
+@property (nonatomic, strong, readonly) UIViewController *helpTargetViewController;
 
-@end
+-(void)toggleHelpModeForViewController:(UIViewController *)a_viewController;
 
-@protocol IFAHelpTarget <NSObject>
-
-@property (nonatomic, strong) NSString *helpTargetId;
-
-@end
-
-@interface IFAHelpManager : NSObject <UIGestureRecognizerDelegate>
-
-@property (nonatomic) BOOL helpEnabled;
-@property (nonatomic, readonly) BOOL helpMode;
-@property (nonatomic, weak) id<IFAHelpTargetContainer> observedHelpTargetContainer;
-
--(void)observeHelpTargetContainer:(id<IFAHelpTargetContainer>)a_helpTargetContainer;
-- (void)helpRequestedForTabBarItemIndex:(NSUInteger)a_index helpTargetId:(NSString *)a_helpTargetId title:(NSString*)a_title;
-
--(void)addHelpTarget:(id<IFAHelpTarget>)a_helpTarget;
--(void)removeHelpTarget:(id<IFAHelpTarget>)a_helpTarget;
-
--(void)refreshHelpTargets;
-
--(void)removeHelpTargetSelectionWithAnimation:(BOOL)a_animate dismissPopTipView:(BOOL)a_dismissPopTipView;
--(void)resetUi;
-
--(void)toggleHelpMode;
-
--(UIBarButtonItem*)newHelpBarButtonItem;
+-(UIBarButtonItem*)newHelpBarButtonItemForViewController:(UIViewController *)a_viewController;
 -(BOOL)isHelpEnabledForViewController:(UIViewController*)a_viewController;
-
--(void)observedViewControllerDidRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation;
--(void)observedViewControllerWillRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration;
-
--(NSString*)accessibilityLabelForKeyPath:(NSString*)a_keyPath;
 
 //wip: do I really need the complexity of having the type here? (header/footer) - doesn't the help make sense only as a footer?
 /**
@@ -97,7 +61,6 @@ typedef enum {
                    entityName:(NSString *)a_entityName
                      formName:(NSString *)a_formName;
 
-+ (IFAHelpManager *)sharedInstance;
-+ (NSString*)helpTargetIdForPropertyName:(NSString *)a_propertyName inObject:(NSObject*)a_object;
++ (instancetype)sharedInstance;
 
 @end

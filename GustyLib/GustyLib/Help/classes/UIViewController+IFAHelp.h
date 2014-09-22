@@ -18,15 +18,8 @@
 #import <Foundation/Foundation.h>
 #import "IFAHelpManager.h"
 
-@interface UIViewController (IFAHelp) <IFAHelpTarget, IFAHelpTargetContainer>
+@interface UIViewController (IFAHelp)
 
-@property (nonatomic, readonly) BOOL ifa_helpMode;
-@property (nonatomic, strong) UIBarButtonItem *IFA_helpBarButtonItem;
-
--(NSString*)ifa_helpTargetIdForName:(NSString*)a_name;
--(void)ifa_registerForHelp;
--(NSString*)ifa_editBarButtonItemHelpTargetId;
--(NSString*)ifa_accessibilityLabelForKeyPath:(NSString*)a_keyPath;
--(NSString*)ifa_accessibilityLabelForName:(NSString*)a_name;
+@property (nonatomic, strong, readonly) UIBarButtonItem *IFA_helpBarButtonItem;
 
 @end
