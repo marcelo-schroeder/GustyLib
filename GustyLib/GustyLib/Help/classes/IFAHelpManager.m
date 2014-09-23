@@ -197,6 +197,7 @@
 
 - (void)IFA_quitHelpMode {
     [self.helpTargetViewController dismissViewControllerAnimated:YES completion:^{
+        self.helpMode = NO;
         self.helpTargetViewController = nil;
     }];
 }
