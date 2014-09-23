@@ -137,6 +137,7 @@
         self.IFA_webView.scrollView.alwaysBounceVertical = NO;
         [self.IFA_webView ifa_removeShadow];
         self.IFA_webView.scrollView.scrollIndicatorInsets = self.IFA_webView.scrollView.contentInset;
+        self.IFA_webView.scrollView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
         
         // Configure the HTML document
         NSString *l_htmlStyleResourceName = [[IFAUtils infoPList] valueForKey:@"IFAHelpPopTipBodyCss"];
