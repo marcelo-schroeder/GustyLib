@@ -44,9 +44,13 @@
 @property (nonatomic, strong) IFANavigationItemTitleView *ifa_titleViewDefault;
 @property (nonatomic, strong) IFANavigationItemTitleView *ifa_titleViewLandscapePhone;
 @property (nonatomic, strong) ODRefreshControl *ifa_refreshControl;
-@property (nonatomic) BOOL ifa_shouldUseKeyboardPassthroughView;
 @property (nonatomic, readonly) BOOL ifa_hasViewAppeared;
 @property (nonatomic, strong) UIBarButtonItem *IFA_modalDismissalDoneBarButtonItem;
+
+/**
+* IMPORTANT: there is currently a potential issue if enabling this property. Refer to API documentation for the shouldDismissKeyboardOnNonTextInputInteractions property in IFAPassthroughView.h
+*/
+@property (nonatomic) BOOL ifa_shouldUseKeyboardPassthroughView;
 
 // to be overriden by subclasses
 @property (nonatomic, readonly) BOOL ifa_manageToolbar;

@@ -15,14 +15,13 @@
 //  limitations under the License.
 //
 
-#import <GustyLib/IFAHelpPopTipView.h>
 #import "GustyLibHelp.h"
 
 //wip: more styling to appearance theme
 
 @interface IFAHelpViewController ()
 @property (nonatomic, strong) IFAHelpPopTipView *popTipView;
-@property(nonatomic, weak) UIViewController *IFA_targetViewController;
+@property (nonatomic, weak) UIViewController *IFA_targetViewController;
 @end
 
 @implementation IFAHelpViewController {
@@ -43,6 +42,9 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
     [self ifa_addRightBarButtonItem:[[IFAHelpManager sharedInstance] newHelpBarButtonItemForViewController:self.IFA_targetViewController]];
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                           action:@selector(IFA_onBackgroundDismissalViewTap)];
+    [self.navigationController.view addGestureRecognizer:tapGestureRecognizer];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -57,7 +59,7 @@
 #pragma mark - CMPopTipViewDelegate
 
 - (void)popTipViewWasDismissedByUser:(IFA_CMPopTipView *)popTipView {
-    [self.navigationController ifa_notifySessionCompletion];
+    [self IFA_dismissHelpViewController];
 }
 
 #pragma mark - Private
@@ -68,6 +70,16 @@
         _popTipView.delegate = self;
     }
     return _popTipView;
+}
+
+- (void)IFA_onBackgroundDismissalViewTap {
+    NSLog(@"IFA_onBackgroundDismissalViewTap"); //wip: clean up
+    [[IFAHelpManager sharedInstance] toggleHelpModeForViewController:self.IFA_targetViewController];
+}
+
+- (void)IFA_dismissHelpViewController {
+    NSLog(@"IFA_dismissHelpViewController"); //wip: clean up
+    [self.navigationController ifa_notifySessionCompletion];
 }
 
 @end

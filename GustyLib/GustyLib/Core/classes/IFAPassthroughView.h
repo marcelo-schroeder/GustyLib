@@ -17,10 +17,23 @@
 
 #import "IFAView.h"
 
-// This view can be used to detect hits and, for instance, hide the keyboard when a UIView that conforms to UITextInput is hit.
+//wip: document, especially the new changes
+// This view can be used to detect hits and, for instance, hide the keyboard when a UIView that conforms to UITextInput is hit (e.g. the clear button in a text field)
 @interface IFAPassthroughView : IFAView
 
-@property (nonatomic, strong) void(^hitTestBlock)(CGPoint a_point, UIEvent *a_event, UIView *a_view);
+/**
+* As hitTest:withEvent: may be called multiple times, do not implement logic in this block that cannot be called multiple times.
+* In fact, hitTest:withEvent: should not have side effects at all.
+* A potential solution for this would be to move the side effect behaviour to the recently added touchesEndedBlock property. But the final implementation might be a collaboration between hitTestBlock and touchesEndedBlock.
+*/
+@property (nonatomic, strong) UIView *(^hitTestBlock)(CGPoint a_point, UIEvent *a_event, UIView *a_predictedView);
+
+@property (nonatomic, strong) void(^touchesEndedBlock)(NSSet *a_touches, UIEvent *a_event);
+
+/**
+* IMPORTANT: enabling this may cause some issues. The problem is that hitTest:withEvent: should not have any side effects as it may be called multiple times.
+* The behaviour enabled by this property relies on hitTest:withEvent:, which is incorrect. This should be rectified soon.
+*/
 @property (nonatomic) BOOL shouldDismissKeyboardOnNonTextInputInteractions;
 
 @end

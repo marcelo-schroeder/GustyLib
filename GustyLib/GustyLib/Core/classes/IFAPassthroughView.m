@@ -31,7 +31,7 @@
 - (UIView *)hitTestChildrenOfView:(UIView *)a_parentView point:(CGPoint)a_point withEvent:(UIEvent *)a_event {
     self.IFA_excludeMyself = YES;
     UIView *l_view = nil;
-    for (UIView *l_subView in a_parentView.subviews) {
+    for (UIView *l_subView in a_parentView.subviews.reverseObjectEnumerator) {
         CGPoint l_point = [l_subView convertPoint:a_point fromView:self];
         l_view = [l_subView hitTest:l_point withEvent:a_event];
         if (l_view) {
@@ -74,22 +74,41 @@
 }
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-    if (self.IFA_excludeMyself) {
+
+    if (self.IFA_excludeMyself) {   // It is attempting to predict which view will be hit ignoring self, so bail out immediately returning nil
         return nil;
     }
+
+    // Attempt to predict which view will be hit ignoring self
     UIView *l_topLevelView = self.window;
-    UIView *l_view = [self hitTestChildrenOfView:l_topLevelView point:point withEvent:event];
+    UIView *l_predictedView = [self hitTestChildrenOfView:l_topLevelView point:point withEvent:event];
+
     if (self.shouldDismissKeyboardOnNonTextInputInteractions) {
-        BOOL l_viewIsATextInput = [l_view conformsToProtocol:@protocol(UITextInput)];
-        BOOL l_viewIsAButtonInsideATextInput = [l_view isKindOfClass:[UIButton class]] && [l_view.superview conformsToProtocol:@protocol(UITextInput)]; //e.g. the clear button in a text field
+        BOOL l_viewIsATextInput = [l_predictedView conformsToProtocol:@protocol(UITextInput)];
+        BOOL l_viewIsAButtonInsideATextInput = [l_predictedView isKindOfClass:[UIButton class]] && [l_predictedView.superview conformsToProtocol:@protocol(UITextInput)]; //e.g. the clear button in a text field
         if (!l_viewIsATextInput && !l_viewIsAButtonInsideATextInput) {
             [self.window endEditing:YES];
         }
     }
+
     if (self.hitTestBlock) {
-        self.hitTestBlock(point, event, l_view);
+        return self.hitTestBlock(point, event, l_predictedView);
+    } else {
+        return nil;
     }
-    return l_view;
+
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesEnded:touches withEvent:event];
+//    NSLog(@"touchesBegan");
+//    NSLog(@"  touches = %@", [touches description]);
+//    NSLog(@"  event = %@", [event description]);
+//    UITouch *touch = [[event allTouches] anyObject];
+//    NSLog(@"  touch.view = %@", touch.view);
+    if (self.touchesEndedBlock) {
+        self.touchesEndedBlock(touches, event);
+    }
 }
 
 @end
