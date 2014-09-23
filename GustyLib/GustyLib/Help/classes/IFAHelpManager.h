@@ -21,6 +21,7 @@
 //wip: add missing documentation
 //wip: clean up
 #import <Foundation/Foundation.h>
+#import "IFAPresenter.h"
 
 typedef enum {
     IFAFormHelpTypeHeader,
