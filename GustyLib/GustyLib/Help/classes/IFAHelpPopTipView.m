@@ -104,12 +104,13 @@
         // Configure the superclass
         self.delegate = self;
         self.disableTapToDismiss = YES;
+        //wip: uncomment
         self.contentBackgroundColor = [IFAUIUtils colorForInfoPlistKey:@"IFAHelpPopTipBackgroundColour"];
         if (!self.contentBackgroundColor) {
             self.contentBackgroundColor = [UIColor redColor];
         }
         self.cornerRadius = 8;
-        
+
         // Load the XIB
         [[NSBundle mainBundle] loadNibNamed:@"IFAHelpPopTipCustomView" owner:self options:nil];
         self.helpTargetTitleLabel.textColor = [IFAUIUtils colorForInfoPlistKey:@"IFAHelpPopTipTitleColour"];
@@ -117,19 +118,25 @@
             self.helpTargetTitleLabel.textColor = [UIColor blackColor];
         }
 
+//        self.customContainerView.backgroundColor = [UIColor orangeColor];   //wip: review
+
         // Configure the webview
         self.IFA_webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, [self IFA_calculateWidth], 1)];
+        self.IFA_webView.scrollView.contentInset = UIEdgeInsetsMake(8, 0, 8, 0);
+//        self.IFA_webView.clipsToBounds = NO;  //wip: clean up
         self.IFA_webView.delegate = self;
         self.IFA_webView.opaque = NO;
         self.IFA_webView.backgroundColor = [IFAUIUtils colorForInfoPlistKey:@"IFAHelpPopTipContentBackgroundColour"];
         if (!self.IFA_webView.backgroundColor) {
+            //wip: review
             self.IFA_webView.backgroundColor = [UIColor clearColor];
+//            self.IFA_webView.backgroundColor = [UIColor orangeColor];
         }
         self.IFA_webView.hidden = YES;
         self.IFA_webView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         self.IFA_webView.scrollView.alwaysBounceVertical = NO;
         [self.IFA_webView ifa_removeShadow];
-        self.IFA_webView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, -2);
+        self.IFA_webView.scrollView.scrollIndicatorInsets = self.IFA_webView.scrollView.contentInset;
         
         // Configure the HTML document
         NSString *l_htmlStyleResourceName = [[IFAUtils infoPList] valueForKey:@"IFAHelpPopTipBodyCss"];

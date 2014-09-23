@@ -129,8 +129,9 @@ typedef enum {
 - (CGRect)finalFramePointingAtView:(UIView *)targetView inView:(UIView *)containerView shouldInvertLandscapeFrame:(BOOL)a_shouldInvertLandscapeFrame;
 - (void)presentPointingAtView:(UIView *)targetView inView:(UIView *)containerView animated:(BOOL)animated;
 - (void)presentPointingAtView:(UIView *)targetView inView:(UIView *)containerView animated:(BOOL)animated shouldInvertLandscapeFrame:(BOOL)a_shouldInvertLandscapeFrame;
+
 //- (void)presentPointingAtBarButtonItem:(UIBarButtonItem *)barButtonItem animated:(BOOL)animated;  // COMMENTED OUT AS IMPLEMENTATION MAKES USE OF UNDOCUMENTED METHOD
-- (void)dismissAnimated:(BOOL)animated;
+- (void)dismissAnimated:(BOOL)animated completionBlock:(void (^)())completionBlock;
 - (void)onUserDismissal;
 
 - (PointDirection) getPointDirection;

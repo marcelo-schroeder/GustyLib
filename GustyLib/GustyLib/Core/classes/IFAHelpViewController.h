@@ -16,8 +16,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "IFA_CMPopTipView.h"
+
+@class IFAHelpPopTipView;
 
 //wip: need to move this to the Help sub pod and review usage to include optional compilation
-@interface IFAHelpViewController : IFAViewController
+@interface IFAHelpViewController : IFAViewController <CMPopTipViewDelegate>
+@property (nonatomic, strong, readonly) IFAHelpPopTipView *popTipView;
 - (instancetype)initWithTargetViewController:(UIViewController *)a_targetViewController;
 @end

@@ -45,10 +45,10 @@
 
 - (CGRect)contentFrame {
 	CGRect bubbleFrame = [self bubbleFrame];
-	CGRect contentFrame = CGRectMake(bubbleFrame.origin.x + self.cornerRadius,
-									 bubbleFrame.origin.y + self.cornerRadius,
-									 bubbleFrame.size.width - self.cornerRadius*2,
-									 bubbleFrame.size.height - self.cornerRadius*2);
+	CGRect contentFrame = CGRectMake(bubbleFrame.origin.x,
+									 bubbleFrame.origin.y,
+									 bubbleFrame.size.width,
+									 bubbleFrame.size.height);
 	return contentFrame;
 }
 
@@ -260,7 +260,7 @@
         textSize = self.customView.frame.size;
     }
     
-	bubbleSize = CGSizeMake(textSize.width + self.cornerRadius*2, textSize.height + self.cornerRadius*2);
+	bubbleSize = CGSizeMake(textSize.width, textSize.height);
 	
 	CGPoint targetRelativeOrigin    = [targetView.superview convertPoint:targetView.frame.origin toView:containerView.superview];
 	CGPoint containerRelativeOrigin = [containerView.superview convertPoint:l_containerViewFrame.origin toView:containerView.superview];
@@ -313,11 +313,11 @@
 		x_p = x_b + bubbleSize.width - self.cornerRadius - self.pointerSize;
 	}
 	
-	CGFloat fullHeight = bubbleSize.height + self.pointerSize + 10.0;
+	CGFloat fullHeight = bubbleSize.height + self.pointerSize + self.sidePadding + 2;
 	CGFloat y_b;
 	if (pointDirection == PointDirectionUp) {
 		y_b = self.topMargin + pointerY;
-		targetPoint = CGPointMake(x_p-x_b+2, 0);
+		targetPoint = CGPointMake(x_p-x_b+4, 0);
 	}
 	else {
 		y_b = pointerY - fullHeight;
@@ -431,26 +431,19 @@
 	self.targetObject = nil;
 }
 
-- (void)dismissAnimationDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context {
-	[self finaliseDismiss];
-}
+- (void)dismissAnimated:(BOOL)animated completionBlock:(void (^)())completionBlock {
+    void (^animationCompletionBlock)(BOOL) = ^(BOOL finished) {
+        [self finaliseDismiss];
+        completionBlock();  // Caller's completion block
+    };
 
-- (void)dismissAnimated:(BOOL)animated {
-	
-	if (animated) {
-		CGRect frame = self.frame;
-		frame.origin.y += 10.0;
-		
-		[UIView beginAnimations:nil context:nil];
-		self.alpha = 0.0;
-		self.frame = frame;
-		[UIView setAnimationDelegate:self];
-		[UIView setAnimationDidStopSelector:@selector(dismissAnimationDidStop:finished:context:)];
-		[UIView commitAnimations];
-	}
-	else {
-		[self finaliseDismiss];
-	}
+    if (animated) {
+        [UIView animateWithDuration:0.3 animations:^{
+            self.alpha = 0.0;
+        } completion:animationCompletionBlock];
+    } else {
+        animationCompletionBlock(YES);
+    }
 }
 
 - (void)onUserDismissal{
@@ -458,11 +451,11 @@
 	highlight = YES;
 	[self setNeedsDisplay];
 	
-	[self dismissAnimated:YES];
-	
-	if (self.delegate && [self.delegate respondsToSelector:@selector(popTipViewWasDismissedByUser:)]) {
-		[self.delegate popTipViewWasDismissedByUser:self];
-	}
+	[self dismissAnimated:YES completionBlock:^{
+        if (self.delegate && [self.delegate respondsToSelector:@selector(popTipViewWasDismissedByUser:)]) {
+            [self.delegate popTipViewWasDismissedByUser:self];
+        }
+    }];
 
 }
 
@@ -488,9 +481,9 @@
 		self.opaque = NO;
 		
 		self.cornerRadius = 10.0;
-		self.topMargin = 2.0;
-		self.pointerSize = 12.0;
-		self.sidePadding = 2.0;
+		self.topMargin = -8.0f;
+		self.pointerSize = 10.0;
+		self.sidePadding = 4.0;
 		
 		self.textFont = [UIFont boldSystemFontOfSize:14.0];
 		self.textColor = [UIColor whiteColor];

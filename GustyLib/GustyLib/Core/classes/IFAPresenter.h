@@ -22,15 +22,19 @@
 
 @protocol IFAPresenter <NSObject>
 
+@required
+
+// Called when presented view controller is done handling dismissal user action
+- (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
+                                       data:(id)a_data shouldAnimateDismissal:(BOOL)a_shouldAnimateDismissal;
+
+@optional
+
 // Called after presentation transition animation
 -(void)didPresentViewController:(UIViewController*)a_viewController;
 
 // Called when changes are made by the presented view controller
 -(void)changesMadeByViewController:(UIViewController*)a_viewController;
-
-// Called when presented view controller is done handling dismissal user action
-- (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
-                                       data:(id)a_data shouldAnimateDismissal:(BOOL)a_shouldAnimateDismissal;
 
 // Called after dismissal transition animation
 - (void)didDismissViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade

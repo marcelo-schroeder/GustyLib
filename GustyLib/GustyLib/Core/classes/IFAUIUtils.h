@@ -61,7 +61,6 @@ static const CGFloat IFAMaximumImageSizeInPixels =  5 * 1024 * 1024;
 						   delegate:(id<UIActionSheetDelegate>)aDelegate
 								tag:(NSInteger)aTag;
 
-+(NSString*)helpTargetIdForName:(NSString*)a_name;
 + (UIBarButtonItem*)barButtonItemForType:(IFABarButtonItemType)a_type target:(id)a_target action:(SEL)a_action;
 
 +(BOOL)isDeviceInLandscapeOrientation;

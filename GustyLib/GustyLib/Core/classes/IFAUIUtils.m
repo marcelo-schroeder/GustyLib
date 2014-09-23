@@ -220,10 +220,6 @@ static UIImage *c_menuBarButtonItemImage = nil;
 	}
 }
 
-+(NSString*)helpTargetIdForName:(NSString*)a_name{
-    return [NSString stringWithFormat:@"controllers.common.%@", a_name];
-}
-
 + (UIBarButtonItem*)barButtonItemForType:(IFABarButtonItemType)a_type target:(id)a_target action:(SEL)a_action {
 	UIBarButtonItem *barButtonItem;
 	switch (a_type) {

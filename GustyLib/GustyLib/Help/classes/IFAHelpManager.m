@@ -30,43 +30,6 @@
 
 @implementation IFAHelpManager
 
-
-#pragma mark - Private
-
--(NSString*)IFA_helpStringForKeyPath:(NSString*)a_keyPath{
-    NSString *l_string = [[NSBundle mainBundle] localizedStringForKey:a_keyPath value:nil table:@"Help"];
-//    NSLog(@"IFA_helpStringForKeyPath");
-//    NSLog(@"  a_keyPath = %@", a_keyPath);
-//    NSLog(@"  l_string = %@", l_string);
-    return [l_string isEqualToString:a_keyPath] ? nil : l_string;
-}
-
--(NSString*)IFA_helpLabelForKeyPath:(NSString*)a_keyPath{
-    return [self IFA_helpStringForKeyPath:[NSString stringWithFormat:@"%@.label", a_keyPath]];
-}
-
--(NSString*)IFA_helpTitleForKeyPath:(NSString*)a_keyPath{
-    return [self IFA_helpStringForKeyPath:[NSString stringWithFormat:@"%@.title", a_keyPath]];
-}
-
--(NSString*)IFA_helpDescriptionForKeyPath:(NSString*)a_keyPath{
-    return [self IFA_helpStringForKeyPath:[NSString stringWithFormat:@"%@.description", a_keyPath]];
-}
-
-//wip: clean up code below big time
-- (void)IFA_onHelpButtonTap:(UIButton *)a_button {
-    [self toggleHelpModeForViewController:a_button.ifa_helpTargetViewController];
-}
-
-- (NSString *)helpDescriptionFor:(NSString *)a_entityName formName:(NSString *)a_formName
-                     sectionName:(NSString *)a_sectionName helpTypePath:(NSString *)a_helpTypePath
-                                                             createMode:(BOOL)a_createMode {
-    NSObject *mode = a_createMode ? @"create" : @"any";
-    NSString *keyPath = [NSString stringWithFormat:@"entities.%@.forms.%@.sections.%@.%@.modes.%@", a_entityName,
-                                                   a_formName, a_sectionName, a_helpTypePath, mode];
-    return [self IFA_helpDescriptionForKeyPath:keyPath];
-}
-
 #pragma mark - Public
 
 -(void)toggleHelpModeForViewController:(UIViewController *)a_viewController {
@@ -76,11 +39,16 @@
     if (self.helpMode) {
         self.helpTargetViewController = a_viewController;
         IFAHelpNavigationController *helpNavigationController = [[IFAHelpNavigationController alloc] initWithTargetViewController:a_viewController];
+        helpNavigationController.ifa_presenter = self;
         [a_viewController presentViewController:helpNavigationController
                                              animated:YES completion:nil];
     }else{
-        self.helpTargetViewController = nil;
-        [a_viewController dismissViewControllerAnimated:YES completion:nil];
+        IFAHelpNavigationController *helpNavigationController = (IFAHelpNavigationController *) a_viewController.presentedViewController;
+        IFAHelpViewController *helpViewController = (IFAHelpViewController *) helpNavigationController.visibleViewController;
+        [helpViewController.popTipView dismissAnimated:YES
+                                       completionBlock:^{
+                                           [self IFA_quitHelpMode];
+                                       }];
     }
 
 }
@@ -164,6 +132,17 @@
     return [self IFA_helpDescriptionForKeyPath:keyPath];
 }
 
+- (NSString *)helpForViewController:(UIViewController *)a_viewController {
+    NSString *entityName = nil;
+    if ([a_viewController isKindOfClass:[IFAListViewController class]]) {
+        entityName = ((IFAListViewController *) a_viewController).entityName;
+    }else if ([a_viewController isKindOfClass:[IFAFormViewController class]]) {
+        entityName = ((IFAFormViewController *) a_viewController).object.ifa_entityName;
+    }
+    NSString *keyPath = [NSString stringWithFormat:@"entities.%@", entityName];
+    return [self IFA_helpDescriptionForKeyPath:keyPath];
+}
+
 + (instancetype)sharedInstance {
     static dispatch_once_t c_dispatchOncePredicate;
     static id c_instance = nil;
@@ -171,6 +150,55 @@
         c_instance = [self new];
     });
     return c_instance;
+}
+
+#pragma mark -
+
+- (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
+                                       data:(id)a_data shouldAnimateDismissal:(BOOL)a_shouldAnimateDismissal {
+    [self IFA_quitHelpMode];
+}
+
+#pragma mark - Private
+
+-(NSString*)IFA_helpStringForKeyPath:(NSString*)a_keyPath{
+    NSString *l_string = [[NSBundle mainBundle] localizedStringForKey:a_keyPath value:nil table:@"Help"];
+//    NSLog(@"IFA_helpStringForKeyPath");
+//    NSLog(@"  a_keyPath = %@", a_keyPath);
+//    NSLog(@"  l_string = %@", l_string);
+    return [l_string isEqualToString:a_keyPath] ? nil : l_string;
+}
+
+-(NSString*)IFA_helpLabelForKeyPath:(NSString*)a_keyPath{
+    return [self IFA_helpStringForKeyPath:[NSString stringWithFormat:@"%@.label", a_keyPath]];
+}
+
+-(NSString*)IFA_helpTitleForKeyPath:(NSString*)a_keyPath{
+    return [self IFA_helpStringForKeyPath:[NSString stringWithFormat:@"%@.title", a_keyPath]];
+}
+
+-(NSString*)IFA_helpDescriptionForKeyPath:(NSString*)a_keyPath{
+    return [self IFA_helpStringForKeyPath:[NSString stringWithFormat:@"%@.description", a_keyPath]];
+}
+
+//wip: clean up code below big time
+- (void)IFA_onHelpButtonTap:(UIButton *)a_button {
+    [self toggleHelpModeForViewController:a_button.ifa_helpTargetViewController];
+}
+
+- (NSString *)helpDescriptionFor:(NSString *)a_entityName formName:(NSString *)a_formName
+                     sectionName:(NSString *)a_sectionName helpTypePath:(NSString *)a_helpTypePath
+                      createMode:(BOOL)a_createMode {
+    NSObject *mode = a_createMode ? @"create" : @"any";
+    NSString *keyPath = [NSString stringWithFormat:@"entities.%@.forms.%@.sections.%@.%@.modes.%@", a_entityName,
+                                                   a_formName, a_sectionName, a_helpTypePath, mode];
+    return [self IFA_helpDescriptionForKeyPath:keyPath];
+}
+
+- (void)IFA_quitHelpMode {
+    [self.helpTargetViewController dismissViewControllerAnimated:YES completion:^{
+        self.helpTargetViewController = nil;
+    }];
 }
 
 @end
