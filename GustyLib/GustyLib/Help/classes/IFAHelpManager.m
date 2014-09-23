@@ -45,9 +45,10 @@
     }else{
         IFAHelpNavigationController *helpNavigationController = (IFAHelpNavigationController *) a_viewController.presentedViewController;
         IFAHelpViewController *helpViewController = (IFAHelpViewController *) helpNavigationController.visibleViewController;
+        __weak __typeof(self) l_weakSelf = self;
         [helpViewController.popTipView dismissAnimated:YES
                                        completionBlock:^{
-                                           [self IFA_quitHelpMode];
+                                           [l_weakSelf IFA_quitHelpMode];
                                        }];
     }
 

@@ -23,8 +23,8 @@
 @interface IFAHelpPopTipView ()
 
 @property (strong, nonatomic) UIWebView *IFA_webView;
-@property (strong, nonatomic) UIView *IFA_viewPointedAt;
-@property (strong, nonatomic) UIView *IFA_viewPresentedIn;
+@property (weak, nonatomic) UIView *IFA_viewPointedAt;
+@property (weak, nonatomic) UIView *IFA_viewPresentedIn;
 @property (strong, nonatomic) IFAHtmlDocument *IFA_htmlDocument;
 @property (strong, nonatomic) UITapGestureRecognizer *IFA_tapGestureRecognizer;
 @property (strong, nonatomic) void (^IFA_completionBlock)(void);
