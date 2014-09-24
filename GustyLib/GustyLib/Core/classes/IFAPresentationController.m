@@ -51,7 +51,7 @@
 
 - (void)presentationTransitionWillBegin {
 
-    UIImage *overlayImage = [[self.presentingViewController.view ifa_snapshotImage] ifa_imageWithBlurEffect:IFABlurEffectDark];
+    UIImage *overlayImage = [[self.presentingViewController.view ifa_snapshotImage] ifa_imageWithBlurEffect:IFABlurEffectDark radius:3];
     self.IFA_overlayImageView.image = overlayImage;
     self.IFA_overlayImageView.alpha = 0;
     [self.containerView addSubview:self.IFA_overlayImageView];

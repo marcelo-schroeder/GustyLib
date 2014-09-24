@@ -23,7 +23,8 @@
 @class IFAHelpContentViewController;
 
 //wip: need to move this to the Help sub pod and review usage to include optional compilation
-@interface IFAHelpViewController : IFAViewController <WYPopoverControllerDelegate>
+//wip: get rid of the WYpopover stuff
+@interface IFAHelpViewController : IFAViewController <UIWebViewDelegate>
 @property (nonatomic, strong, readonly) IFAHelpPopTipView *popTipView;
 
 - (instancetype)initWithTargetViewController:(UIViewController *)a_targetViewController;

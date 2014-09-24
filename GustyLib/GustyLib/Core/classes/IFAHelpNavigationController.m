@@ -42,7 +42,7 @@
     self.transitioningDelegate = self.IFA_viewControllerTransitioningDelegate;
     self.view.backgroundColor = [UIColor clearColor];
     [self.navigationBar setBackgroundImage:[UIImage ifa_imageWithColor:[UIColor clearColor]] forBarMetrics:UIBarMetricsDefault];
-    self.navigationBar.shadowImage = [UIImage ifa_imageWithColor:[UIColor clearColor]];
+    self.navigationBar.shadowImage = [[UIImage ifa_separatorImageForType:IFASeparatorImageTypeHorizontalTop] ifa_imageWithOverlayColor:[UIColor whiteColor]];
 }
 
 #pragma mark - Private

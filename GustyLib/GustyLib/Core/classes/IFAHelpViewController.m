@@ -22,10 +22,9 @@
 //wip: make this work when the status bar height changes
 
 @interface IFAHelpViewController ()
-//@property (nonatomic, strong) IFAHelpPopTipView *popTipView;  //wip: clean up
 @property (nonatomic, weak) UIViewController *IFA_targetViewController;
-@property (nonatomic, strong) WYPopoverController *IFA_popoverController;
-@property(nonatomic, strong) IFAHelpContentViewController *IFA_helpContentViewController;
+@property (strong, nonatomic) UIWebView *webView;
+@property (strong, nonatomic) IFAHtmlDocument *IFA_htmlDocument;
 @end
 
 @implementation IFAHelpViewController {
@@ -44,91 +43,89 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.edgesForExtendedLayout = UIRectEdgeAll;
+    self.title = self.IFA_targetViewController.title;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [UIColor clearColor];
-    [self ifa_addRightBarButtonItem:[[IFAHelpManager sharedInstance] newHelpBarButtonItemForViewController:self.IFA_targetViewController]];
-//wip: clean up
-//    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
-//                                                                                           action:@selector(IFA_onBackgroundDismissalViewTap)];
-//    [self.navigationController.view addGestureRecognizer:tapGestureRecognizer];
+    [self ifa_addRightBarButtonItem:[[IFAHelpManager sharedInstance] newHelpBarButtonItemForViewController:self.IFA_targetViewController]]; //wip: should this be a close button?
+    [self.view addSubview:self.webView];
+    [self.webView ifa_addLayoutConstraintsToFillSuperview];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    //wip: clean up
-//    [self.popTipView presentWithTitle:self.IFA_targetViewController.title
-//                          description:[[IFAHelpManager sharedInstance] helpForViewController:self.IFA_targetViewController]
-//                       pointingAtView:self.IFA_targetViewController.IFA_helpBarButtonItem.customView
-//                               inView:self.navigationController.view
-//                      completionBlock:nil];
-
-    UIView *helpButton = self.IFA_targetViewController.IFA_helpBarButtonItem.customView;
-    CGRect fromRect = [self.view convertRect:helpButton.frame fromView:helpButton.superview];
-    [self.IFA_popoverController presentPopoverFromRect:fromRect inView:self.view
-                              permittedArrowDirections:WYPopoverArrowDirectionUp
-                                              animated:YES
-                                            completion:nil];
+    NSString *htmlBody = [[IFAHelpManager sharedInstance] helpForViewController:self.IFA_targetViewController];
+    NSString  *l_htmlString = [self.IFA_htmlDocument htmlStringWithBody:htmlBody];
+    [self.webView loadHTMLString:l_htmlString baseURL:nil];
 }
 
-//wip: clean up
-//#pragma mark - CMPopTipViewDelegate
-//
-//- (void)popTipViewWasDismissedByUser:(IFA_CMPopTipView *)popTipView {
-//    [self IFA_dismissHelpViewController];
-//}
+#pragma mark - UIWebViewDelegate protocol
 
-#pragma mark - WYPopoverControllerDelegate
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    __weak __typeof(self) l_weakSelf = self;
+    void (^animations)() = ^{
+        l_weakSelf.webView.alpha = 1;
+    };
+    void (^completion)(BOOL) = ^(BOOL finished) {
+        [l_weakSelf.webView.scrollView flashScrollIndicators];
+    };
+    [UIView animateWithDuration:0.3 animations:animations
+                     completion:completion];
+}
 
-- (void)popoverControllerDidDismissPopover:(WYPopoverController *)popoverController {
-    [self IFA_dismissHelpViewController];
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    [self webViewDidFinishLoad:webView];
 }
 
 #pragma mark - Private
 
 //wip: clean up
-//- (IFAHelpPopTipView *)popTipView {
-//    if (!_popTipView) {
-//        _popTipView = [IFAHelpPopTipView new];
-//        _popTipView.delegate = self;
-//    }
-//    return _popTipView;
-//}
-
-//wip: clean up
-//- (void)IFA_onBackgroundDismissalViewTap {
-//    NSLog(@"IFA_onBackgroundDismissalViewTap"); //wip: clean up
+//- (void)IFA_onTapGestureRecognizerAction {
+//    NSLog(@"IFA_onTapGestureRecognizerAction"); //wip: clean up
 //    [[IFAHelpManager sharedInstance] toggleHelpModeForViewController:self.IFA_targetViewController];
 //}
 
-- (void)IFA_dismissHelpViewController {
-    NSLog(@"IFA_dismissHelpViewController"); //wip: clean up
-    [self.navigationController ifa_notifySessionCompletion];
-}
+//wip: clean up
+//- (void)IFA_dismissHelpViewController {
+//    NSLog(@"IFA_dismissHelpViewController"); //wip: clean up
+//    [self.navigationController ifa_notifySessionCompletion];
+//}
 
-- (WYPopoverController *)IFA_popoverController {
-    if (!_IFA_popoverController) {
-        _IFA_popoverController = [[WYPopoverController alloc] initWithContentViewController:self.IFA_helpContentViewController];
-        _IFA_popoverController.delegate = self;
-        _IFA_popoverController.theme.overlayColor = [UIColor clearColor]; //wip: move styling
-        _IFA_popoverController.theme.fillTopColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
-        _IFA_popoverController.theme.fillBottomColor = _IFA_popoverController.theme.fillTopColor;
-        _IFA_popoverController.theme.viewContentInsets = UIEdgeInsetsMake(0, 1, 0, 1);  // Some breathing space for the scroll indicator
-//        _IFA_popoverController.popoverLayoutMargins = UIEdgeInsetsMake(60, 10, 60, 10);
+- (UIWebView *)webView {
+    if (!_webView) {
+
+        _webView = [[UIWebView alloc] initWithFrame:CGRectZero];    //wip: hardcoded
+        _webView.delegate = self;
+        _webView.opaque = NO;
+        _webView.alpha = 0;
+//        _webView.backgroundColor = [IFAUIUtils colorForInfoPlistKey:@"IFAHelpPopTipContentBackgroundColour"];   //wip: retire this
+//        if (!_webView.backgroundColor) {
         //wip: review
-//        _IFA_popoverController.popoverLayoutMargins = UIEdgeInsetsMake(10, 10, 10, 10);
-//        settingsPopoverController.passthroughViews = @[btn];
-//        settingsPopoverController.wantsDefaultContentAppearance = NO;
+        _webView.backgroundColor = [UIColor clearColor];
+//            _webView.backgroundColor = [UIColor orangeColor];
+//        }
+
+        // Configure scroll view
+        UIScrollView *scrollView = _webView.scrollView;
+        scrollView.contentInset = UIEdgeInsetsMake(8, 0, 8, 0);
+        scrollView.alwaysBounceVertical = NO;
+        scrollView.scrollIndicatorInsets = scrollView.contentInset;
+        scrollView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
+
     }
-    return _IFA_popoverController;
+    return _webView;
 }
 
-- (IFAHelpContentViewController *)IFA_helpContentViewController {
-    if (!_IFA_helpContentViewController) {
-        NSString *htmlBody = [[IFAHelpManager sharedInstance] helpForViewController:self.IFA_targetViewController];
-        _IFA_helpContentViewController = [[IFAHelpContentViewController alloc] initWithHtmlBody:htmlBody];
+- (IFAHtmlDocument *)IFA_htmlDocument {
+    if (!_IFA_htmlDocument) {
+        NSString *l_htmlStyleResourceName = [[IFAUtils infoPList] valueForKey:@"IFAHelpPopTipBodyCss"]; //wip: rename this plist property name (it is no longer a pop tip)
+        if (!l_htmlStyleResourceName) {
+            l_htmlStyleResourceName = @"IFAHelpPopTipView.css";
+        }
+        _IFA_htmlDocument = [[IFAHtmlDocument alloc] initWithHtmlStyleResourceName:l_htmlStyleResourceName];
+        _IFA_htmlDocument.htmlMetaString = @"";
     }
-    return _IFA_helpContentViewController;
+    return _IFA_htmlDocument;
 }
 
 @end
