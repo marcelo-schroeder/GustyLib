@@ -1,5 +1,5 @@
 //
-// Created by Marcelo Schroeder on 19/09/2014.
+// Created by Marcelo Schroeder on 20/09/2014.
 // Copyright (c) 2014 InfoAccent Pty Ltd. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,9 +16,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "IFANavigationController.h"
 
-//wip: documentation
-@interface IFAHelpViewController : IFAViewController <UIWebViewDelegate>
-@property(nonatomic, strong, readonly) UIBarButtonItem *closeBarButtonItem;
+@interface IFAHelpViewController : IFANavigationController
 - (instancetype)initWithTargetViewController:(UIViewController *)a_targetViewController;
 @end

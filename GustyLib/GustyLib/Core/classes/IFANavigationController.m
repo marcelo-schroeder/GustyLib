@@ -30,17 +30,14 @@
 #pragma mark - Overrides
 
 - (void)viewDidLoad {
-
     [super viewDidLoad];
-
-    // Set appearance
-    [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnViewDidLoadForViewController:self];
-
+    [self ifa_viewDidLoad];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
 
     [super viewWillAppear:animated];
+    [self ifa_viewWillAppear];
 
     // Force iOS to re-calculate positioning of the title label.
     // This seems to be a bug in iOS when using non system fonts in title text attributes.
@@ -48,6 +45,32 @@
         [self.navigationBar setNeedsLayout];
     }
 
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+
+    [super viewDidAppear:animated];
+    [self ifa_viewDidAppear];
+
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+
+    [super viewWillDisappear:animated];
+    [self ifa_viewWillDisappear];
+
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+
+    [super viewDidDisappear:animated];
+    [self ifa_viewDidDisappear];
+
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    [super prepareForSegue:segue sender:sender];
+    [self ifa_prepareForSegue:segue sender:sender];
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
@@ -60,6 +83,30 @@
 
 -(BOOL)disablesAutomaticKeyboardDismissal{
     return self.visibleViewController.disablesAutomaticKeyboardDismissal;
+}
+
+-(void)dealloc{
+    [self ifa_dealloc];
+}
+
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self ifa_willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+}
+
+-(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self ifa_willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+}
+
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [self ifa_didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+    [super setEditing:editing animated:animated];
+    [self ifa_setEditing:editing animated:animated];
 }
 
 #pragma mark - IFAContextSwitchTarget

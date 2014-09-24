@@ -25,3 +25,5 @@
 #import "IFAHelpManager.h"
 #import "UIButton+IFAHelp.h"
 #import "UIViewController+IFAHelp.h"
+#import "IFAHelpContentViewController.h"
+#import "IFAHelpViewController.h"

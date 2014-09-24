@@ -300,6 +300,21 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         IFAMasterDetailViewController *l_viewController = (IFAMasterDetailViewController *) a_viewController;
         l_viewController.separatorView.backgroundColor = [self.class splitViewControllerDividerColour];
 
+#ifdef IFA_AVAILABLE_Help
+    }else if ([a_viewController isKindOfClass:[IFAHelpViewController class]]) {
+
+        IFAHelpViewController *viewController = (IFAHelpViewController *) a_viewController;
+        viewController.view.backgroundColor = [UIColor clearColor];
+        [viewController.navigationBar setBackgroundImage:[UIImage ifa_imageWithColor:[UIColor clearColor]] forBarMetrics:UIBarMetricsDefault];
+        viewController.navigationBar.shadowImage = [[UIImage ifa_separatorImageForType:IFASeparatorImageTypeHorizontalTop] ifa_imageWithOverlayColor:[UIColor whiteColor]];
+
+    }else if ([a_viewController isKindOfClass:[IFAHelpContentViewController class]]) {
+
+        a_viewController.edgesForExtendedLayout = UIRectEdgeNone;
+        a_viewController.automaticallyAdjustsScrollViewInsets = NO;
+        a_viewController.view.backgroundColor = [UIColor clearColor];
+#endif
+
     }
 
 }
@@ -326,8 +341,8 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     UIColor *navigationBarTintColor = a_viewController.navigationController.navigationBar.tintColor;
     [self IFA_tintCustomViewButtonImageInBarButtonItem:a_viewController.IFA_helpBarButtonItem
                                              withColor:navigationBarTintColor];
-    if ([a_viewController isKindOfClass:[IFAHelpViewController class]]) {
-        IFAHelpViewController *helpViewController = (IFAHelpViewController *) a_viewController;
+    if ([a_viewController isKindOfClass:[IFAHelpContentViewController class]]) {
+        IFAHelpContentViewController *helpViewController = (IFAHelpContentViewController *) a_viewController;
         [self IFA_tintCustomViewButtonImageInBarButtonItem:helpViewController.closeBarButtonItem
                                                  withColor:navigationBarTintColor];
     }

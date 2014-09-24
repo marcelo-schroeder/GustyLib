@@ -188,8 +188,8 @@
 		F7D4D84818EA00E600ABF401 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4D84718EA00E600ABF401 /* UIKit.framework */; };
 		F7D4D84B18EA00E600ABF401 /* libGustyLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4D83318EA00E600ABF401 /* libGustyLib.a */; };
 		F7D4D85118EA00E600ABF401 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F7D4D84F18EA00E600ABF401 /* InfoPlist.strings */; };
-		F7F1805419D35FDD00BFB8B6 /* IFAHelpNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7F1805119D35FDD00BFB8B6 /* IFAHelpNavigationController.m */; };
-		F7F1805519D35FDD00BFB8B6 /* IFAHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7F1805319D35FDD00BFB8B6 /* IFAHelpViewController.m */; };
+		F7F1805419D35FDD00BFB8B6 /* IFAHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7F1805119D35FDD00BFB8B6 /* IFAHelpViewController.m */; };
+		F7F1805519D35FDD00BFB8B6 /* IFAHelpContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7F1805319D35FDD00BFB8B6 /* IFAHelpContentViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -637,10 +637,10 @@
 		F7D4D84E18EA00E600ABF401 /* GustyLibTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GustyLibTests-Info.plist"; sourceTree = "<group>"; };
 		F7D4D85018EA00E600ABF401 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F7D4DBED18EA11E100ABF401 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		F7F1805019D35FDD00BFB8B6 /* IFAHelpNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAHelpNavigationController.h; sourceTree = "<group>"; };
-		F7F1805119D35FDD00BFB8B6 /* IFAHelpNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAHelpNavigationController.m; sourceTree = "<group>"; };
-		F7F1805219D35FDD00BFB8B6 /* IFAHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAHelpViewController.h; sourceTree = "<group>"; };
-		F7F1805319D35FDD00BFB8B6 /* IFAHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAHelpViewController.m; sourceTree = "<group>"; };
+		F7F1805019D35FDD00BFB8B6 /* IFAHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAHelpViewController.h; sourceTree = "<group>"; };
+		F7F1805119D35FDD00BFB8B6 /* IFAHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAHelpViewController.m; sourceTree = "<group>"; };
+		F7F1805219D35FDD00BFB8B6 /* IFAHelpContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAHelpContentViewController.h; sourceTree = "<group>"; };
+		F7F1805319D35FDD00BFB8B6 /* IFAHelpContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAHelpContentViewController.m; sourceTree = "<group>"; };
 		FF387BE31CA84C679F50890D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -1305,10 +1305,10 @@
 		F72E901B1952CC8500CFB3B1 /* classes */ = {
 			isa = PBXGroup;
 			children = (
-				F7F1805019D35FDD00BFB8B6 /* IFAHelpNavigationController.h */,
-				F7F1805119D35FDD00BFB8B6 /* IFAHelpNavigationController.m */,
-				F7F1805219D35FDD00BFB8B6 /* IFAHelpViewController.h */,
-				F7F1805319D35FDD00BFB8B6 /* IFAHelpViewController.m */,
+				F7F1805019D35FDD00BFB8B6 /* IFAHelpViewController.h */,
+				F7F1805119D35FDD00BFB8B6 /* IFAHelpViewController.m */,
+				F7F1805219D35FDD00BFB8B6 /* IFAHelpContentViewController.h */,
+				F7F1805319D35FDD00BFB8B6 /* IFAHelpContentViewController.m */,
 				F72E90201952F03100CFB3B1 /* IFAHelpManager.h */,
 				F72E90211952F03100CFB3B1 /* IFAHelpManager.m */,
 				10738885C588D47BDFC5EAFF /* UIButton+IFAHelp.m */,
@@ -1608,7 +1608,7 @@
 				107387365EB8E6B9AB4A4DC5 /* IFASubjectActivityItem.m in Sources */,
 				10738E185C221D46BF52DD24 /* IFASwitchTableViewCell.m in Sources */,
 				107381288B06B7B5478CFC52 /* IFATabBarController.m in Sources */,
-				F7F1805519D35FDD00BFB8B6 /* IFAHelpViewController.m in Sources */,
+				F7F1805519D35FDD00BFB8B6 /* IFAHelpContentViewController.m in Sources */,
 				F72E8FA7194E446C00CFB3B1 /* IFAHtmlDocument.m in Sources */,
 				10738DDD9B85A9F7F2D54945 /* IFATableCellSelectedBackgroundView.m in Sources */,
 				10738C65DE6AF2167AB6451B /* IFATableSectionHeaderView.m in Sources */,
@@ -1665,7 +1665,7 @@
 				10738B1DFED5C2CD1520F736 /* IFA_SVModalWebViewController.m in Sources */,
 				10738650FB05783B553439C0 /* IFA_SVWebViewController.m in Sources */,
 				1073863056413E44F299C664 /* IFA_IBActionSheet.m in Sources */,
-				F7F1805419D35FDD00BFB8B6 /* IFAHelpNavigationController.m in Sources */,
+				F7F1805419D35FDD00BFB8B6 /* IFAHelpViewController.m in Sources */,
 				1073809D93121BE27FD14729 /* IFAGoogleMobileAdsManager.m in Sources */,
 				1073862083C98EE796A95569 /* UIViewController+IFAGoogleMobileAdsSupport.m in Sources */,
 				107384BF5B179BCC5696785F /* IFAFlurrySupportUtils.m in Sources */,

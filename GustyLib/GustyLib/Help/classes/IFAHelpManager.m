@@ -38,9 +38,9 @@
 
     if (self.helpMode) {
         self.helpTargetViewController = a_viewController;
-        IFAHelpNavigationController *helpNavigationController = [[IFAHelpNavigationController alloc] initWithTargetViewController:a_viewController];
-        helpNavigationController.ifa_presenter = self;
-        [a_viewController presentViewController:helpNavigationController
+        IFAHelpViewController *helpViewController = [[IFAHelpViewController alloc] initWithTargetViewController:a_viewController];
+        helpViewController.ifa_presenter = self;
+        [a_viewController presentViewController:helpViewController
                                              animated:YES completion:nil];
     }else{
         __weak __typeof(self) l_weakSelf = self;
