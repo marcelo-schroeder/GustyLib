@@ -27,6 +27,28 @@
 
 #pragma mark - Overrides
 
+- (instancetype)initWithPresentedViewController:(UIViewController *)presentedViewController
+                       presentingViewController:(UIViewController *)presentingViewController {
+    self = [super initWithPresentedViewController:presentedViewController
+                         presentingViewController:presentingViewController];
+    if (self) {
+        __weak __typeof(self) l_weakSelf = self;
+        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidChangeStatusBarFrameNotification object:nil
+                                                           queue:nil
+                                                      usingBlock:^(NSNotification *note) {
+                                                          // This will cause containerViewWillLayoutSubviews to be called - there is further info there as to why this is being done.
+                                                          [l_weakSelf.containerView setNeedsLayout];
+                                                          [l_weakSelf.containerView layoutIfNeeded];
+                                                      }];
+    }
+   return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarFrameNotification
+                                                  object:nil];
+}
+
 - (void)presentationTransitionWillBegin {
 
     UIImage *overlayImage = [[self.presentingViewController.view ifa_snapshotImage] ifa_imageWithBlurEffect:IFABlurEffectDark];
@@ -51,33 +73,10 @@
     [self.IFA_overlayImageView removeFromSuperview];
 }
 
-- (void)viewWillTransitionToSize:(CGSize)size
-       withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator {
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    NSLog(@"NSStringFromCGSize(size) = %@", NSStringFromCGSize(size));  //wip: clean up
-}
-
 - (void)containerViewWillLayoutSubviews {
-    [super containerViewWillLayoutSubviews];
-    //wip: clean up
-    NSLog(@"containerViewWillLayoutSubviews");
-    NSLog(@"  NSStringFromCGRect(self.containerView.frame) = %@", NSStringFromCGRect(self.containerView.frame));
-    NSLog(@"  NSStringFromCGRect(self.presentingViewController.view.frame) = %@", NSStringFromCGRect(self.presentingViewController.view.frame));
-//    CGFloat l_statusBarHeight = [IFAUIUtils statusBarSize].height;
-//    NSLog(@"  l_statusBarHeight = %f", l_statusBarHeight);
-//    if (l_statusBarHeight==IFAIPhoneStatusBarDoubleHeight) {
-//        l_statusBarHeight = IFAIPhoneStatusBarDoubleHeight / 2; // The extra height added by the double height status should not be added, for some strange reason...
-//    }
-//    CGRect containerViewNewFrame = self.containerView.frame;
-//    containerViewNewFrame.origin.y = l_statusBarHeight==IFAIPhoneStatusBarDoubleHeight ? IFAIPhoneStatusBarDoubleHeight/2 : 0;
+    // I'm not sure if this is a UIKit bug but the container frame gets out of whack when the status bar frame changes size (i.e. double height),
+    //  so I need to manually fix it here.
     self.containerView.frame = self.presentingViewController.view.frame;
-}
-
-- (void)containerViewDidLayoutSubviews {
-    [super containerViewDidLayoutSubviews];
-    //wip: clean up
-    NSLog(@"containerViewDidLayoutSubviews");
-    NSLog(@"  NSStringFromCGRect(self.containerView.frame) = %@", NSStringFromCGRect(self.containerView.frame));
 }
 
 #pragma mark - Private
