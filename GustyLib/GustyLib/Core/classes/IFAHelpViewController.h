@@ -16,16 +16,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "IFA_CMPopTipView.h"
-#import "WYPopoverController.h"
-
-@class IFAHelpPopTipView;
-@class IFAHelpContentViewController;
 
 //wip: need to move this to the Help sub pod and review usage to include optional compilation
-//wip: get rid of the WYpopover stuff
+//wip: documentation
 @interface IFAHelpViewController : IFAViewController <UIWebViewDelegate>
-@property (nonatomic, strong, readonly) IFAHelpPopTipView *popTipView;
-
 - (instancetype)initWithTargetViewController:(UIViewController *)a_targetViewController;
 @end

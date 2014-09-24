@@ -186,5 +186,4 @@
 #import "IFAViewControllerAnimatedTransitioning.h"
 #import "IFAHelpViewController.h"
 #import "IFAHelpNavigationController.h"
-#import "IFAHelpContentViewController.h"
 #import "IFAPresentationController.h"

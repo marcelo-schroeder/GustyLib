@@ -42,6 +42,5 @@ Pod::Spec.new do |s|
         ss.xcconfig      = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'IFA_AVAILABLE_Help=1' }
         ss.dependency 'GustyLib/Core'
         ss.dependency 'GustyLib/Html'
-        ss.dependency 'WYPopoverController', '0.3.0'
     end
 end

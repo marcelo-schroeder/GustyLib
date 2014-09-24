@@ -72,7 +72,6 @@ enum {
     IFAViewTagActionSheetDelete = 2010,
     IFAViewTagHelpBackground = 2020,
     IFAViewTagHelpForeground = 2030,
-    IFAViewTagHelpPopTip = 2040,
     IFAViewTagHelpButton = 2050,
 
     IFABarItemTagHelpButton = 2500,

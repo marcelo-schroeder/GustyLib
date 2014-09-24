@@ -98,12 +98,7 @@
         _webView.delegate = self;
         _webView.opaque = NO;
         _webView.alpha = 0;
-//        _webView.backgroundColor = [IFAUIUtils colorForInfoPlistKey:@"IFAHelpPopTipContentBackgroundColour"];   //wip: retire this
-//        if (!_webView.backgroundColor) {
-        //wip: review
         _webView.backgroundColor = [UIColor clearColor];
-//            _webView.backgroundColor = [UIColor orangeColor];
-//        }
 
         // Configure scroll view
         UIScrollView *scrollView = _webView.scrollView;
@@ -118,9 +113,9 @@
 
 - (IFAHtmlDocument *)IFA_htmlDocument {
     if (!_IFA_htmlDocument) {
-        NSString *l_htmlStyleResourceName = [[IFAUtils infoPList] valueForKey:@"IFAHelpPopTipBodyCss"]; //wip: rename this plist property name (it is no longer a pop tip)
+        NSString *l_htmlStyleResourceName = [[IFAUtils infoPList] valueForKey:@"IFAHelpViewControllerWebViewCss"]; //wip: rename this plist property name (it is no longer a pop tip)
         if (!l_htmlStyleResourceName) {
-            l_htmlStyleResourceName = @"IFAHelpPopTipView.css";
+            l_htmlStyleResourceName = @"IFAHelpViewControllerWebView.css";
         }
         _IFA_htmlDocument = [[IFAHtmlDocument alloc] initWithHtmlStyleResourceName:l_htmlStyleResourceName];
         _IFA_htmlDocument.htmlMetaString = @"";

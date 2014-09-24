@@ -47,13 +47,6 @@
         [a_viewController dismissViewControllerAnimated:YES completion:^{
             [l_weakSelf IFA_quitHelpMode];
         }];
-        //wip: review this
-//        IFAHelpNavigationController *helpNavigationController = (IFAHelpNavigationController *) a_viewController.presentedViewController;
-//        IFAHelpViewController *helpViewController = (IFAHelpViewController *) helpNavigationController.visibleViewController;
-//        [helpViewController.popTipView dismissAnimated:YES
-//                                       completionBlock:^{
-//                                           [l_weakSelf IFA_quitHelpMode];
-//                                       }];
     }
 
 }

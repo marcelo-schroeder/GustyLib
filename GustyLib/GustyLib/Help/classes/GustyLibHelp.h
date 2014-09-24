@@ -22,11 +22,6 @@
 #import "GustyLibCore.h"
 #import "GustyLibHtml.h"
 
-//3rd party
-#import "WYPopoverController.h"
-
-#import "IFA_CMPopTipView.h"
 #import "IFAHelpManager.h"
-#import "IFAHelpPopTipView.h"
 #import "UIButton+IFAHelp.h"
 #import "UIViewController+IFAHelp.h"
