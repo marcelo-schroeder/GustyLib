@@ -19,5 +19,6 @@
 
 //wip: documentation
 @interface IFAHelpViewController : IFAViewController <UIWebViewDelegate>
+@property(nonatomic, strong, readonly) UIBarButtonItem *closeBarButtonItem;
 - (instancetype)initWithTargetViewController:(UIViewController *)a_targetViewController;
 @end

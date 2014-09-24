@@ -25,6 +25,7 @@
 @property (nonatomic, weak) UIViewController *IFA_targetViewController;
 @property (strong, nonatomic) UIWebView *webView;
 @property (strong, nonatomic) IFAHtmlDocument *IFA_htmlDocument;
+@property(nonatomic, strong) UIBarButtonItem *closeBarButtonItem;
 @end
 
 @implementation IFAHelpViewController {
@@ -47,9 +48,14 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [UIColor clearColor];
-    [self ifa_addRightBarButtonItem:[[IFAHelpManager sharedInstance] newHelpBarButtonItemForViewController:self.IFA_targetViewController]]; //wip: should this be a close button?
+    self.closeBarButtonItem = [[IFAHelpManager sharedInstance] newHelpBarButtonItemForViewController:self.IFA_targetViewController selected:YES];
+    [self ifa_addRightBarButtonItem:self.closeBarButtonItem];
     [self.view addSubview:self.webView];
     [self.webView ifa_addLayoutConstraintsToFillSuperview];
+}
+
+- (void)IFA_onCloseButtonTap {
+    [[IFAHelpManager sharedInstance] toggleHelpModeForViewController:self.IFA_targetViewController];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

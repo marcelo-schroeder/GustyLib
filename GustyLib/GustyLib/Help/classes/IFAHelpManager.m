@@ -51,24 +51,26 @@
 
 }
 
--(UIBarButtonItem*)newHelpBarButtonItemForViewController:(UIViewController *)a_viewController {
+- (UIBarButtonItem *)newHelpBarButtonItemForViewController:(UIViewController *)a_viewController
+                                                  selected:(BOOL)a_selected {
     
     // Configure image
-    UIImage *l_helpButtonImage = [UIImage imageNamed:@"IFA_Icon_Help"];
+    NSString *helpButtonImageName = [NSString stringWithFormat:@"IFA_Icon_Help_%@", a_selected?@"selected":@"normal"];
+    UIImage *helpButtonImage = [UIImage imageNamed:helpButtonImageName];
 
     // Configure button
-    UIButton *l_helpButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    l_helpButton.ifa_helpTargetViewController = a_viewController;
-    l_helpButton.tag = IFAViewTagHelpButton;
-    l_helpButton.frame = CGRectMake(0, 0, l_helpButtonImage.size.width, 44);
-    [l_helpButton setImage:l_helpButtonImage forState:UIControlStateNormal];
-    [l_helpButton addTarget:self action:@selector(IFA_onHelpButtonTap:) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    helpButton.ifa_helpTargetViewController = a_viewController;
+    helpButton.tag = IFAViewTagHelpButton;
+    helpButton.frame = CGRectMake(0, 0, helpButtonImage.size.width, 44);
+    [helpButton setImage:helpButtonImage forState:UIControlStateNormal];
+    [helpButton addTarget:self action:@selector(IFA_onHelpButtonTap:) forControlEvents:UIControlEventTouchUpInside];
     
     // Configure bar button item
-    UIBarButtonItem *l_helpBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:l_helpButton];
-    l_helpBarButtonItem.tag = IFABarItemTagHelpButton;
+    UIBarButtonItem *helpBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:helpButton];
+    helpBarButtonItem.tag = IFABarItemTagHelpButton;
     
-    return l_helpBarButtonItem;
+    return helpBarButtonItem;
     
 }
 

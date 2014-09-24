@@ -39,7 +39,8 @@ typedef enum {
 
 -(void)toggleHelpModeForViewController:(UIViewController *)a_viewController;
 
--(UIBarButtonItem*)newHelpBarButtonItemForViewController:(UIViewController *)a_viewController;
+- (UIBarButtonItem *)newHelpBarButtonItemForViewController:(UIViewController *)a_viewController
+                                                  selected:(BOOL)a_selected;
 -(BOOL)isHelpEnabledForViewController:(UIViewController*)a_viewController;
 
 //wip: do I really need the complexity of having the type here? (header/footer) - doesn't the help make sense only as a footer?

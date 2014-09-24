@@ -105,6 +105,20 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     return [UIApplication sharedApplication].delegate.window.tintColor;
 }
 
+- (void)IFA_tintImageInButton:(UIButton *)a_button withColor:(UIColor *)a_color{
+    if (a_button && a_color) {
+        UIImage *currentImage = [a_button imageForState:UIControlStateNormal];
+        UIImage *newImage = [currentImage ifa_imageWithOverlayColor:a_color];
+        [a_button setImage:newImage forState:UIControlStateNormal];
+    }
+}
+
+- (void)IFA_tintCustomViewButtonImageInBarButtonItem:(UIBarButtonItem *)a_barButtonItem withColor:(UIColor *)a_color {
+    if ([a_barButtonItem.customView isKindOfClass:[UIButton class]] && a_color) {
+        [self IFA_tintImageInButton:(UIButton *) a_barButtonItem.customView withColor:a_color];
+    }
+}
+
 #pragma mark - IFAAppearanceTheme
 
 -(void)setAppearance {
@@ -309,13 +323,13 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }
 
 #ifdef IFA_AVAILABLE_Help
-    // Style help button
-    UIColor *l_helpButtonTintColor = a_viewController.navigationController.navigationBar.tintColor;
-    if (l_helpButtonTintColor) {
-        UIButton *l_helpButton = (UIButton *) a_viewController.IFA_helpBarButtonItem.customView;
-        UIImage *l_currentHelpButtonImage = [l_helpButton imageForState:UIControlStateNormal];
-        UIImage *l_newHelpButtonImage = [l_currentHelpButtonImage ifa_imageWithOverlayColor:l_helpButtonTintColor];
-        [l_helpButton setImage:l_newHelpButtonImage forState:UIControlStateNormal];
+    UIColor *navigationBarTintColor = a_viewController.navigationController.navigationBar.tintColor;
+    [self IFA_tintCustomViewButtonImageInBarButtonItem:a_viewController.IFA_helpBarButtonItem
+                                             withColor:navigationBarTintColor];
+    if ([a_viewController isKindOfClass:[IFAHelpViewController class]]) {
+        IFAHelpViewController *helpViewController = (IFAHelpViewController *) a_viewController;
+        [self IFA_tintCustomViewButtonImageInBarButtonItem:helpViewController.closeBarButtonItem
+                                                 withColor:navigationBarTintColor];
     }
 #endif
 

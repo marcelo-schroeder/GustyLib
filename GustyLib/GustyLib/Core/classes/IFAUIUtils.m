@@ -237,7 +237,7 @@ static UIImage *c_menuBarButtonItemImage = nil;
 //			barButtonItem.accessibilityLabel = @"Done Button";
 			break;
 		case IFABarButtonItemTypeDelete:
-			barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IFA_ICon_Delete"]
+			barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IFA_Icon_Delete.png"]
                                                              style:UIBarButtonItemStylePlain target:a_target
                                                             action:a_action];
 //			barButtonItem.accessibilityLabel = @"Delete Button";
