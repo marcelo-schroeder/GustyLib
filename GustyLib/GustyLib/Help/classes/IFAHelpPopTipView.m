@@ -123,14 +123,14 @@
         // Configure the webview
         self.IFA_webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, [self IFA_calculateWidth], 1)];
         self.IFA_webView.scrollView.contentInset = UIEdgeInsetsMake(8, 0, 8, 0);
-//        self.IFA_webView.clipsToBounds = NO;  //wip: clean up
+//        self.webView.clipsToBounds = NO;  //wip: clean up
         self.IFA_webView.delegate = self;
         self.IFA_webView.opaque = NO;
         self.IFA_webView.backgroundColor = [IFAUIUtils colorForInfoPlistKey:@"IFAHelpPopTipContentBackgroundColour"];
         if (!self.IFA_webView.backgroundColor) {
             //wip: review
             self.IFA_webView.backgroundColor = [UIColor clearColor];
-//            self.IFA_webView.backgroundColor = [UIColor orangeColor];
+//            self.webView.backgroundColor = [UIColor orangeColor];
         }
         self.IFA_webView.hidden = YES;
         self.IFA_webView.autoresizingMask = UIViewAutoresizingFlexibleHeight;

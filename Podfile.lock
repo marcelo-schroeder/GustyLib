@@ -58,6 +58,7 @@ PODS:
   - OCHamcrest (4.0.1)
   - OCMock (2.2.4)
   - ODRefreshControl (1.1.0)
+  - WYPopoverController (0.3.0)
 
 DEPENDENCIES:
   - DTFoundation (= 1.7.2)
@@ -68,6 +69,7 @@ DEPENDENCIES:
   - OCHamcrest
   - OCMock
   - ODRefreshControl (= 1.1.0)
+  - WYPopoverController (= 0.3.0)
 
 EXTERNAL SOURCES:
   IFATestingSupport:
@@ -82,5 +84,6 @@ SPEC CHECKSUMS:
   OCHamcrest: b464725bbb48d0f1cd9c6f4ec3cb35fe0c4f2b94
   OCMock: 6db79185520e24f9f299548f2b8b07e41d881bd5
   ODRefreshControl: 7bc75258d9dba1f93c4e34654d1e4b5aa39529f0
+  WYPopoverController: baedfa782641cf1d59b95730a5a9a9d613a9a12c
 
 COCOAPODS: 0.33.1

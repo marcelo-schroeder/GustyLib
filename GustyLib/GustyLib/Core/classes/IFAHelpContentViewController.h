@@ -1,5 +1,5 @@
 //
-// Created by Marcelo Schroeder on 19/09/2014.
+// Created by Marcelo Schroeder on 24/09/2014.
 // Copyright (c) 2014 InfoAccent Pty Ltd. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,15 +16,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "IFA_CMPopTipView.h"
-#import "WYPopoverController.h"
+#import "IFAViewController.h"
 
-@class IFAHelpPopTipView;
-@class IFAHelpContentViewController;
-
-//wip: need to move this to the Help sub pod and review usage to include optional compilation
-@interface IFAHelpViewController : IFAViewController <WYPopoverControllerDelegate>
-@property (nonatomic, strong, readonly) IFAHelpPopTipView *popTipView;
-
-- (instancetype)initWithTargetViewController:(UIViewController *)a_targetViewController;
+@interface IFAHelpContentViewController : IFAViewController <UIWebViewDelegate>
+@property (strong, nonatomic, readonly) UIWebView *webView;
+- (void)loadWebViewWithHtmlBody:(NSString *)a_htmlBody completion:(void(^)())a_completion;
 @end

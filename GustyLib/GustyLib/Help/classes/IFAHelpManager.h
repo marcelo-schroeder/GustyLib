@@ -62,6 +62,7 @@ typedef enum {
                    entityName:(NSString *)a_entityName
                      formName:(NSString *)a_formName;
 
+//wip: some methods in this header return plain string and some HTML - make it clearer in the method names
 - (NSString *)helpForViewController:(UIViewController *)a_viewController;
 
 + (instancetype)sharedInstance;
