@@ -19,6 +19,7 @@
 #import "IFAViewController.h"
 
 @interface IFAHelpContentViewController : IFAViewController <UIWebViewDelegate>
-@property (strong, nonatomic, readonly) UIWebView *webView;
-- (void)loadWebViewWithHtmlBody:(NSString *)a_htmlBody completion:(void(^)())a_completion;
+@property (strong, nonatomic, readonly) UIWebView *webView; //wip: I don't think this needs to be public anymore
+//- (void)loadWebViewWithHtmlBody:(NSString *)a_htmlBody completion:(void(^)())a_completion;    //wip: clean up
+- (instancetype)initWithHtmlBody:(NSString *)a_htmlBody;
 @end

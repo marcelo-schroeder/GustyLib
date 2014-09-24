@@ -18,6 +18,8 @@
 #import "GustyLibHelp.h"
 
 //wip: more styling to appearance theme
+//wip: retire the pop tip stuff
+//wip: make this work when the status bar height changes
 
 @interface IFAHelpViewController ()
 //@property (nonatomic, strong) IFAHelpPopTipView *popTipView;  //wip: clean up
@@ -61,20 +63,12 @@
 //                               inView:self.navigationController.view
 //                      completionBlock:nil];
 
-    __weak __typeof(self) l_weakSelf = self;
-    void (^completion)() = ^{
-        UIView *helpButton = l_weakSelf.IFA_targetViewController.IFA_helpBarButtonItem.customView;
-        CGRect fromRect = [l_weakSelf.view convertRect:helpButton.frame fromView:helpButton.superview];
-        [l_weakSelf.IFA_popoverController presentPopoverFromRect:fromRect inView:l_weakSelf.view
-                                        permittedArrowDirections:WYPopoverArrowDirectionUp
-                                                        animated:YES
-                                                      completion:^{
-                                                          [l_weakSelf.IFA_helpContentViewController.webView.scrollView flashScrollIndicators];
-                                                      }];
-    };
-    NSString *htmlBody = [[IFAHelpManager sharedInstance] helpForViewController:self.IFA_targetViewController];
-    [self.IFA_helpContentViewController loadWebViewWithHtmlBody:htmlBody
-                                                     completion:completion];
+    UIView *helpButton = self.IFA_targetViewController.IFA_helpBarButtonItem.customView;
+    CGRect fromRect = [self.view convertRect:helpButton.frame fromView:helpButton.superview];
+    [self.IFA_popoverController presentPopoverFromRect:fromRect inView:self.view
+                              permittedArrowDirections:WYPopoverArrowDirectionUp
+                                              animated:YES
+                                            completion:nil];
 }
 
 //wip: clean up
@@ -119,6 +113,8 @@
         _IFA_popoverController.theme.overlayColor = [UIColor clearColor]; //wip: move styling
         _IFA_popoverController.theme.fillTopColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
         _IFA_popoverController.theme.fillBottomColor = _IFA_popoverController.theme.fillTopColor;
+        _IFA_popoverController.theme.viewContentInsets = UIEdgeInsetsMake(0, 1, 0, 1);  // Some breathing space for the scroll indicator
+//        _IFA_popoverController.popoverLayoutMargins = UIEdgeInsetsMake(60, 10, 60, 10);
         //wip: review
 //        _IFA_popoverController.popoverLayoutMargins = UIEdgeInsetsMake(10, 10, 10, 10);
 //        settingsPopoverController.passthroughViews = @[btn];
@@ -129,7 +125,8 @@
 
 - (IFAHelpContentViewController *)IFA_helpContentViewController {
     if (!_IFA_helpContentViewController) {
-        _IFA_helpContentViewController = [IFAHelpContentViewController new];
+        NSString *htmlBody = [[IFAHelpManager sharedInstance] helpForViewController:self.IFA_targetViewController];
+        _IFA_helpContentViewController = [[IFAHelpContentViewController alloc] initWithHtmlBody:htmlBody];
     }
     return _IFA_helpContentViewController;
 }

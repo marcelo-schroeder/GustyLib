@@ -21,7 +21,8 @@
 @interface IFAHelpContentViewController ()
 @property (strong, nonatomic) UIWebView *webView;
 @property (strong, nonatomic) IFAHtmlDocument *IFA_htmlDocument;
-@property(nonatomic, strong) void (^IFA_completion)();
+//@property(nonatomic, strong) void (^IFA_completion)();    //wip: clean up
+@property(nonatomic, strong) NSString *htmlBody;
 @end
 
 @implementation IFAHelpContentViewController {
@@ -30,11 +31,20 @@
 
 #pragma mark - Public
 
-- (void)loadWebViewWithHtmlBody:(NSString *)a_htmlBody completion:(void (^)())a_completion {
-    self.IFA_completion = a_completion;
-    [self view];    // Make sure the view is initialised
-    NSString  *l_htmlString = [self.IFA_htmlDocument htmlStringWithBody:a_htmlBody];
-    [self.webView loadHTMLString:l_htmlString baseURL:nil];
+//wip: clean up
+//- (void)loadWebViewWithHtmlBody:(NSString *)a_htmlBody completion:(void (^)())a_completion {
+//    self.IFA_completion = a_completion;
+//    [self view];    // Make sure the view is initialised
+//    NSString  *l_htmlString = [self.IFA_htmlDocument htmlStringWithBody:a_htmlBody];
+//    [self.webView loadHTMLString:l_htmlString baseURL:nil];
+//}
+
+- (instancetype)initWithHtmlBody:(NSString *)a_htmlBody {
+    self = [super init];
+    if (self) {
+        self.htmlBody = a_htmlBody;
+    }
+    return self;
 }
 
 #pragma mark - Overrides
@@ -46,20 +56,42 @@
     [self.webView ifa_addLayoutConstraintsToFillSuperview];
 }
 
-- (CGSize)preferredContentSize {
-    CGFloat width = self.view.frame.size.width;
-    CGFloat height = self.webView.scrollView.contentSize.height;
-    return CGSizeMake(width, height);
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    NSString  *l_htmlString = [self.IFA_htmlDocument htmlStringWithBody:self.htmlBody];
+    [self.webView loadHTMLString:l_htmlString baseURL:nil];
 }
+
+//wip: clean up
+//- (CGSize)preferredContentSize {
+//    CGFloat width = self.view.frame.size.width;
+//    CGFloat height = self.webView.scrollView.contentSize.height;
+//    return CGSizeMake(width, height);
+//}
 
 #pragma mark - UIWebViewDelegate protocol
 
 //wip: clean up
 -(void)webViewDidFinishLoad:(UIWebView *)webView{
 
-    if (self.IFA_completion) {
-        self.IFA_completion();
-    }
+//    [webView sizeToFit];
+
+//    CGFloat width = self.view.frame.size.width;
+//    CGFloat height = webView.scrollView.contentSize.height;
+//    self.preferredContentSize = CGSizeMake(width, height);
+//    NSLog(@"NSStringFromCGSize([webView sizeThatFits:CGSizeMake(width, <#(CGFloat)height#>)]) = %@", NSStringFromCGSize([webView sizeThatFits:CGSizeMake(width, CGFLOAT_MAX)]));
+//    NSLog(@"webView height: %@", [webView stringByEvaluatingJavaScriptFromString: @"document.body.offsetHeight"]);
+//    NSLog(@"webView height: %@", [webView stringByEvaluatingJavaScriptFromString: @"document.height"]);
+
+    //wip: need to flash scroll indicators
+//    __weak __typeof(self) l_weakSelf = self;
+//    [IFAUtils dispatchAsyncMainThreadBlock:^{
+//        [l_weakSelf.webView.scrollView flashScrollIndicators];
+//    }                           afterDelay:0.1];
+
+//    if (self.IFA_completion) {
+//        self.IFA_completion();
+//    }
 
 //    // Reposition the web view
 //    CGFloat l_webViewY = (self.helpTargetTitleLabel.hidden ? 0 : self.helpTargetTitleLabel.frame.size.height);
@@ -120,7 +152,7 @@
 - (UIWebView *)webView {
     if (!_webView) {
 
-        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 200, 300)];    //wip: hardcoded
+        _webView = [[UIWebView alloc] initWithFrame:CGRectZero];    //wip: hardcoded
 //        _webView.clipsToBounds = NO;  //wip: clean up
         _webView.delegate = self;
         _webView.opaque = NO;
@@ -133,7 +165,7 @@
 //            _webView.backgroundColor = [UIColor orangeColor];
 //        }
 //        _webView.hidden = YES;
-        _webView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+//        _webView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 //        [_webView ifa_removeShadow];  //wip: clean up
 
         // Configure scroll view
