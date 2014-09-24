@@ -47,35 +47,15 @@
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                            action:@selector(IFA_onBackgroundDismissalViewTap)];
     [self.navigationController.view addGestureRecognizer:tapGestureRecognizer];
-
-//    __weak __typeof(self) l_weakSelf = self;
-    [self ifa_addNotificationObserverForName:UIApplicationWillChangeStatusBarFrameNotification
-                                      object:nil
-                                       queue:nil
-                                  usingBlock:^(NSNotification *a_note) {
-//                                      [self.popTipView setNeedsLayout];
-//                                      [self.popTipView layoutIfNeeded];
-                                  }
-                                 removalTime:IFAViewControllerNotificationObserverRemovalTimeDealloc];
-
-    [self ifa_addNotificationObserverForName:UIApplicationDidChangeStatusBarFrameNotification
-                                      object:nil
-                                       queue:nil
-                                  usingBlock:^(NSNotification *a_note) {
-//                                      [self.navigationController.view layoutIfNeeded];
-//                                      [l_weakSelf.navigationController.presentationController.containerView setNeedsLayout];
-//                                      [l_weakSelf.navigationController.presentationController.containerView layoutIfNeeded];
-                                  }
-                                 removalTime:IFAViewControllerNotificationObserverRemovalTimeDealloc];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-//    [self.popTipView presentWithTitle:self.IFA_targetViewController.title
-//                          description:[[IFAHelpManager sharedInstance] helpForViewController:self.IFA_targetViewController]
-//                       pointingAtView:self.IFA_targetViewController.IFA_helpBarButtonItem.customView
-//                               inView:self.navigationController.view
-//                      completionBlock:nil];
+    [self.popTipView presentWithTitle:self.IFA_targetViewController.title
+                          description:[[IFAHelpManager sharedInstance] helpForViewController:self.IFA_targetViewController]
+                       pointingAtView:self.IFA_targetViewController.IFA_helpBarButtonItem.customView
+                               inView:self.navigationController.view
+                      completionBlock:nil];
 }
 
 #pragma mark - CMPopTipViewDelegate
