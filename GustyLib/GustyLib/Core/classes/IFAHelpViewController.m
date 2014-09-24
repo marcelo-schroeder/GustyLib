@@ -40,11 +40,30 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.edgesForExtendedLayout = UIRectEdgeAll;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [UIColor clearColor];
     [self ifa_addRightBarButtonItem:[[IFAHelpManager sharedInstance] newHelpBarButtonItemForViewController:self.IFA_targetViewController]];
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                            action:@selector(IFA_onBackgroundDismissalViewTap)];
     [self.navigationController.view addGestureRecognizer:tapGestureRecognizer];
+
+    [self ifa_addNotificationObserverForName:UIApplicationWillChangeStatusBarFrameNotification
+                                      object:nil
+                                       queue:nil
+                                  usingBlock:^(NSNotification *a_note) {
+                                  }
+                                 removalTime:IFAViewControllerNotificationObserverRemovalTimeDealloc];
+
+    [self ifa_addNotificationObserverForName:UIApplicationDidChangeStatusBarFrameNotification
+                                      object:nil
+                                       queue:nil
+                                  usingBlock:^(NSNotification *a_note) {
+                                      [self.navigationController.view layoutIfNeeded];
+                                      [self.navigationController.presentationController.containerView setNeedsLayout];
+                                      [self.navigationController.presentationController.containerView layoutIfNeeded];
+                                  }
+                                 removalTime:IFAViewControllerNotificationObserverRemovalTimeDealloc];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

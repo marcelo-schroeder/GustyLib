@@ -18,7 +18,7 @@
 #import "GustyLibCore.h"
 #import "IFAViewControllerAnimatedTransitioning.h"
 
-//wip: is this the correct name for this class- should it be more specific?
+//wip: is this the correct name for this class- should it be more specific? (review the other new classes names)
 @interface IFAViewControllerTransitioningDelegate ()
 @property (nonatomic, strong) IFAViewControllerAnimatedTransitioning *viewControllerAnimatedTransitioning;
 @end
@@ -49,6 +49,14 @@
 - (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
     self.viewControllerAnimatedTransitioning.isPresenting = NO;
     return self.viewControllerAnimatedTransitioning;
+}
+
+//wip: is it ok to hardcode the presentation controller like this?
+- (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented
+                                                      presentingViewController:(UIViewController *)presenting
+                                                          sourceViewController:(UIViewController *)source {
+    return [[IFAPresentationController alloc] initWithPresentedViewController:presented
+                                                     presentingViewController:presenting];
 }
 
 @end
