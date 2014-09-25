@@ -18,18 +18,25 @@
 #import "GustyLibCore.h"
 
 @interface IFABlurredOverlayPresentationController ()
+@property(nonatomic) IFABlurEffect IFA_blurEffect;
+@property(nonatomic) CGFloat IFA_radius;
 @end
 
 @implementation IFABlurredOverlayPresentationController {
 
 }
 
-#pragma mark - Overrides
+#pragma mark - Public
 
--(instancetype)initWithPresentedViewController:(UIViewController *)presentedViewController presentingViewController:(UIViewController *)presentingViewController{
-    self = [super initWithPresentedViewController:presentedViewController
-                         presentingViewController:presentingViewController];
+-(instancetype)initWithBlurEffect:(IFABlurEffect)a_blurEffect
+                           radius:(CGFloat)a_radius
+          presentedViewController:(UIViewController *)a_presentedViewController
+         presentingViewController:(UIViewController *)a_presentingViewController {
+    self = [super initWithPresentedViewController:a_presentedViewController
+                         presentingViewController:a_presentingViewController];
     if (self) {
+        self.IFA_blurEffect = a_blurEffect;
+        self.IFA_radius = a_radius;
         self.overlayPresentationControllerDataSource = self;
     }
     return self;
@@ -39,7 +46,8 @@
 
 - (UIView *)overlayViewForOverlayPresentationController:(IFAOverlayPresentationController *)a_overlayPresentationController {
     UIImageView *overlayImageView = [UIImageView new];
-    overlayImageView.image = [[self.presentingViewController.view ifa_snapshotImage] ifa_imageWithBlurEffect:IFABlurEffectDark radius:10];  //wip: should this be parametrised further?
+    overlayImageView.image = [[self.presentingViewController.view ifa_snapshotImage] ifa_imageWithBlurEffect:self.IFA_blurEffect
+                                                                                                      radius:self.IFA_radius];
     return overlayImageView;
 }
 

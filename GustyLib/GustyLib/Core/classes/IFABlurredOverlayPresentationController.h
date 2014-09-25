@@ -19,4 +19,8 @@
 
 //wip: add documentation
 @interface IFABlurredOverlayPresentationController : IFAOverlayPresentationController <IFAOverlayPresentationControllerDataSource>
+- (instancetype)initWithBlurEffect:(IFABlurEffect)a_blurEffect
+                            radius:(CGFloat)a_radius
+           presentedViewController:(UIViewController *)a_presentedViewController
+          presentingViewController:(UIViewController *)a_presentingViewController;
 @end

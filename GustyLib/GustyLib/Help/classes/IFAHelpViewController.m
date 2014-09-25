@@ -45,7 +45,8 @@
 
 - (IFAViewControllerTransitioningDelegate *)IFA_viewControllerTransitioningDelegate {
     if (!_IFA_viewControllerTransitioningDelegate) {
-        _IFA_viewControllerTransitioningDelegate = [IFAFadingBlurViewControllerTransitioningDelegate new];
+        _IFA_viewControllerTransitioningDelegate = [[IFAFadingBlurViewControllerTransitioningDelegate alloc] initBlurEffect:IFABlurEffectDark
+                                                                                                                     radius:10];
     }
     return _IFA_viewControllerTransitioningDelegate;
 }

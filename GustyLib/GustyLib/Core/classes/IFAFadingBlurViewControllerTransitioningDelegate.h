@@ -19,4 +19,5 @@
 
 //wip: add documentation
 @interface IFAFadingBlurViewControllerTransitioningDelegate : IFAViewControllerTransitioningDelegate
+- (instancetype)initBlurEffect:(IFABlurEffect)a_blurEffect radius:(CGFloat)a_radius;
 @end

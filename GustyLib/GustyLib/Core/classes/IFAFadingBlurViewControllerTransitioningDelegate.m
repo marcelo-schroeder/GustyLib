@@ -18,17 +18,24 @@
 #import "GustyLibCore.h"
 
 
+@interface IFAFadingBlurViewControllerTransitioningDelegate ()
+@property(nonatomic) IFABlurEffect IFA_blurEffect;
+@property(nonatomic) CGFloat IFA_radius;
+@end
+
 @implementation IFAFadingBlurViewControllerTransitioningDelegate {
 
 }
 
-#pragma mark - Overrides
+#pragma mark - Public
 
-- (instancetype)init {
+- (instancetype)initBlurEffect:(IFABlurEffect)a_blurEffect
+                        radius:(CGFloat)a_radius {
     IFAViewControllerFadeTransitioning *viewControllerAnimatedTransitioning = [IFAViewControllerFadeTransitioning new];
     self = [super initWithViewControllerAnimatedTransitioning:viewControllerAnimatedTransitioning];
     if (self) {
-
+        self.IFA_blurEffect = a_blurEffect;
+        self.IFA_radius = a_radius;
     }
     return self;
 }
@@ -38,8 +45,10 @@
 - (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented
                                                       presentingViewController:(UIViewController *)presenting
                                                           sourceViewController:(UIViewController *)source {
-    return [[IFABlurredOverlayPresentationController alloc] initWithPresentedViewController:presented
-                                                                   presentingViewController:presenting];
+    return [[IFABlurredOverlayPresentationController alloc] initWithBlurEffect:self.IFA_blurEffect
+                                                                        radius:self.IFA_radius
+                                                       presentedViewController:presented
+                                                      presentingViewController:presenting];
 }
 
 @end
