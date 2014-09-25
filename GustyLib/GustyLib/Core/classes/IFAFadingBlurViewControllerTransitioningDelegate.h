@@ -1,5 +1,5 @@
 //
-// Created by Marcelo Schroeder on 19/09/2014.
+// Created by Marcelo Schroeder on 25/09/2014.
 // Copyright (c) 2014 InfoAccent Pty Ltd. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,11 +17,6 @@
 
 #import <Foundation/Foundation.h>
 
-@class IFAViewControllerAnimatedTransitioning;
-
-//wip: add doco
-@interface IFAViewControllerTransitioningDelegate : NSObject <UIViewControllerTransitioningDelegate>
-@property (nonatomic, strong, readonly) IFAViewControllerAnimatedTransitioning *viewControllerAnimatedTransitioning;
-
-- (instancetype)initWithViewControllerAnimatedTransitioning:(IFAViewControllerAnimatedTransitioning *)a_viewControllerAnimatedTransitioning;
+//wip: add documentation
+@interface IFAFadingBlurViewControllerTransitioningDelegate : IFAViewControllerTransitioningDelegate
 @end

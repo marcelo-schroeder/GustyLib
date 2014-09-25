@@ -17,7 +17,6 @@
 
 #import "GustyLibCore.h"
 
-//wip: is this the correct name for this class- should it be more specific? (review the other new classes names)
 @interface IFAViewControllerTransitioningDelegate ()
 @property (nonatomic, strong) IFAViewControllerAnimatedTransitioning *viewControllerAnimatedTransitioning;
 @end
@@ -28,7 +27,7 @@
 
 #pragma mark - Public
 
--(instancetype)initWithViewControllerAnimatedTransitioning:(IFAViewControllerAnimatedTransitioning *)a_viewControllerAnimatedTransitioning {
+- (instancetype)initWithViewControllerAnimatedTransitioning:(IFAViewControllerAnimatedTransitioning *)a_viewControllerAnimatedTransitioning {
     self = [super init];
     if (self) {
         self.viewControllerAnimatedTransitioning = a_viewControllerAnimatedTransitioning;
@@ -48,14 +47,6 @@
 - (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
     self.viewControllerAnimatedTransitioning.isPresenting = NO;
     return self.viewControllerAnimatedTransitioning;
-}
-
-//wip: is it ok to hardcode the presentation controller like this?
-- (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented
-                                                      presentingViewController:(UIViewController *)presenting
-                                                          sourceViewController:(UIViewController *)source {
-    return [[IFABlurredOverlayPresentationController alloc] initWithPresentedViewController:presented
-                                                                   presentingViewController:presenting];
 }
 
 @end
