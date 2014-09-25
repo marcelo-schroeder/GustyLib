@@ -22,11 +22,22 @@ typedef void (^IFAViewControllerAnimatedTransitioningAnimationsBlock)(BOOL a_isP
 typedef void (^IFAViewControllerAnimatedTransitioningCompletionBlock)(BOOL a_finished, BOOL a_isPresenting, UIView *a_animatingView);
 
 /**
-* View controller animated transitioning object that encapsulates common transitioning logic such as
+* View controller animated transitioning object that encapsulates common transitioning life cycle management such as logic that runs before animations, during animations and upon animation completion.
+* Code blocks for the various life cycle phases are provided in the designated initializer.
 */
 @interface IFAViewControllerAnimatedTransitioning : NSObject <UIViewControllerAnimatedTransitioning>
+
+/**
+* Indicates whether the transition is for presenting or dismissal. YES = presenting. NO = dismissal.
+*/
 @property (nonatomic) BOOL isPresenting;
 
+/**
+* Designated initializer.
+* @param a_beforeAnimationsBlock Block that runs before any transition animations.
+* @param a_animationsBlock Block that provides animations.
+* @param a_completionBlock Block that runs after transition animations have finished.
+*/
 - (instancetype)initWithBeforeAnimationsBlock:(IFAViewControllerAnimatedTransitioningBeforeAnimationsBlock)a_beforeAnimationsBlock
                               animationsBlock:(IFAViewControllerAnimatedTransitioningAnimationsBlock)a_animationsBlock
                               completionBlock:(IFAViewControllerAnimatedTransitioningCompletionBlock)a_completionBlock;

@@ -17,7 +17,7 @@
 
 #import "GustyLibCore.h"
 
-//wip: memorh profile all the new stuff
+//wip: memory profile all the new stuff
 @interface IFAViewControllerAnimatedTransitioning ()
 @property(nonatomic, strong) IFAViewControllerAnimatedTransitioningBeforeAnimationsBlock IFA_beforeAnimationsBlock;
 @property(nonatomic, strong) IFAViewControllerAnimatedTransitioningAnimationsBlock IFA_animationsBlock;

@@ -18,6 +18,9 @@
 #import <Foundation/Foundation.h>
 #import "IFAViewControllerAnimatedTransitioning.h"
 
-//wip: add documentation
+/**
+* View controller animated transitioning object that fades the presented view controller into view.
+* On dismissal it fades from the presented view controller back to the presenting view controller.
+*/
 @interface IFAViewControllerFadeTransitioning : IFAViewControllerAnimatedTransitioning
 @end
