@@ -17,11 +17,14 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol IFAOverlayPresentationControllerDataSource;
 
-@interface IFAPresentationController : UIPresentationController
+//wip: add documentation
+@interface IFAOverlayPresentationController : UIPresentationController
+@property (nonatomic, weak) id<IFAOverlayPresentationControllerDataSource> overlayPresentationControllerDataSource;
+@end
 
-#pragma mark - Overrides
-
-
-
+@protocol IFAOverlayPresentationControllerDataSource <NSObject>
+@required
+- (UIView *)overlayViewForOverlayPresentationController:(IFAOverlayPresentationController *)a_overlayPresentationController;
 @end

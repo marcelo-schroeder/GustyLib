@@ -55,8 +55,8 @@
 - (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented
                                                       presentingViewController:(UIViewController *)presenting
                                                           sourceViewController:(UIViewController *)source {
-    return [[IFAPresentationController alloc] initWithPresentedViewController:presented
-                                                     presentingViewController:presenting];
+    return [[IFABlurredOverlayPresentationController alloc] initWithPresentedViewController:presented
+                                                                   presentingViewController:presenting];
 }
 
 @end

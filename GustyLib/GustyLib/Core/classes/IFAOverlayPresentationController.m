@@ -17,11 +17,11 @@
 
 #import "GustyLibCore.h"
 
-@interface IFAPresentationController ()
-@property (nonatomic, strong) UIImageView *IFA_overlayImageView;
+@interface IFAOverlayPresentationController ()
+@property (nonatomic, strong) UIView *IFA_overlayView;
 @end
 
-@implementation IFAPresentationController {
+@implementation IFAOverlayPresentationController {
 
 }
 
@@ -50,27 +50,23 @@
 }
 
 - (void)presentationTransitionWillBegin {
-
-    UIImage *overlayImage = [[self.presentingViewController.view ifa_snapshotImage] ifa_imageWithBlurEffect:IFABlurEffectDark radius:10];
-    self.IFA_overlayImageView.image = overlayImage;
-    self.IFA_overlayImageView.alpha = 0;
-    [self.containerView addSubview:self.IFA_overlayImageView];
-    [self.IFA_overlayImageView ifa_addLayoutConstraintsToFillSuperview];
-
+    self.IFA_overlayView.alpha = 0;
+    [self.containerView addSubview:self.IFA_overlayView];
+    [self.IFA_overlayView ifa_addLayoutConstraintsToFillSuperview];
     [[self.presentedViewController transitionCoordinator] animateAlongsideTransition:^(id <UIViewControllerTransitionCoordinatorContext> context) {
-        self.IFA_overlayImageView.alpha = 1;
+        self.IFA_overlayView.alpha = 1;
     } completion:nil];
 
 }
 
 - (void)dismissalTransitionWillBegin {
     [[self.presentedViewController transitionCoordinator] animateAlongsideTransition:^(id <UIViewControllerTransitionCoordinatorContext> context) {
-        self.IFA_overlayImageView.alpha = 0;
+        self.IFA_overlayView.alpha = 0;
     } completion:nil];
 }
 
 - (void)dismissalTransitionDidEnd:(BOOL)completed {
-    [self.IFA_overlayImageView removeFromSuperview];
+    [self.IFA_overlayView removeFromSuperview];
 }
 
 - (void)containerViewWillLayoutSubviews {
@@ -81,11 +77,11 @@
 
 #pragma mark - Private
 
-- (UIImageView *)IFA_overlayImageView {
-    if (!_IFA_overlayImageView) {
-        _IFA_overlayImageView = [UIImageView new];
+- (UIView *)IFA_overlayView {
+    if (!_IFA_overlayView) {
+        _IFA_overlayView = [self.overlayPresentationControllerDataSource overlayViewForOverlayPresentationController:self];
     }
-    return _IFA_overlayImageView;
+    return _IFA_overlayView;
 }
 
 @end

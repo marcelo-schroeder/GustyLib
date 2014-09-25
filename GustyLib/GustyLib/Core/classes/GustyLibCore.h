@@ -184,4 +184,5 @@
 #import "IFALocationManager.h"
 #import "IFAViewControllerTransitioningDelegate.h"
 #import "IFAViewControllerAnimatedTransitioning.h"
-#import "IFAPresentationController.h"
+#import "IFAOverlayPresentationController.h"
+#import "IFABlurredOverlayPresentationController.h"
