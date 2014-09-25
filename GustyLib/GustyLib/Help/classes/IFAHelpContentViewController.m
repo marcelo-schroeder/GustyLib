@@ -47,10 +47,6 @@
     [self.webView ifa_addLayoutConstraintsToFillSuperview];
 }
 
-- (void)IFA_onCloseButtonTap {
-    [[IFAHelpManager sharedInstance] toggleHelpModeForViewController:self.IFA_targetViewController];
-}
-
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     NSString *htmlBody = [[IFAHelpManager sharedInstance] helpForViewController:self.IFA_targetViewController];
@@ -106,6 +102,13 @@
         }
         _IFA_htmlDocument = [[IFAHtmlDocument alloc] initWithHtmlStyleResourceName:l_htmlStyleResourceName];
         _IFA_htmlDocument.htmlMetaString = @"";
+        UIFont *bodyFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+        UIFont *SubHeadlineFont = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+        _IFA_htmlDocument.htmlStyleStringFormatArguments = @[
+                bodyFont.familyName,
+                @(bodyFont.pointSize).stringValue,
+                @(SubHeadlineFont.pointSize).stringValue,
+        ];
     }
     return _IFA_htmlDocument;
 }
