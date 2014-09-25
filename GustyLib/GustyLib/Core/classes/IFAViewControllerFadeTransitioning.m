@@ -25,17 +25,25 @@
 #pragma mark - Overrides
 
 - (instancetype)init {
-    IFAViewControllerAnimatedTransitioningAnimationsBlock animations = ^(BOOL a_isPresenting, UIView *a_animatingView) {
+    IFAViewControllerAnimatedTransitioningBeforeAnimationsBlock beforeAnimationsBlock = ^(id <UIViewControllerContextTransitioning> a_transitionContext, BOOL a_isPresenting, UIView *a_animatingView) {
+        if (a_isPresenting) {
+            a_animatingView.alpha = 0;
+            [a_transitionContext.containerView addSubview:a_animatingView];
+            [a_animatingView ifa_addLayoutConstraintsToFillSuperview];
+        }
+    };
+    IFAViewControllerAnimatedTransitioningAnimationsBlock animationsBlock = ^(BOOL a_isPresenting, UIView *a_animatingView) {
         CGFloat alpha = a_isPresenting ? 1 : 0;
         a_animatingView.alpha = alpha;
     };
-    IFAViewControllerAnimatedTransitioningCompletionBlock completion = ^(BOOL a_finished, BOOL a_isPresenting, UIView *a_animatingView) {
+    IFAViewControllerAnimatedTransitioningCompletionBlock completionBlock = ^(BOOL a_finished, BOOL a_isPresenting, UIView *a_animatingView) {
         if (!a_isPresenting) {
             [a_animatingView removeFromSuperview];
         }
     };
-    self = [super initWithAnimations:animations
-                          completion:completion];
+    self = [super initWithBeforeAnimationsBlock:beforeAnimationsBlock
+                                animationsBlock:animationsBlock
+                                completionBlock:completionBlock];
     if (self) {
     }
     return self;

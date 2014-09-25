@@ -17,7 +17,17 @@
 
 #import <Foundation/Foundation.h>
 
-//wip: add documentation
+/**
+* View controller transitioning delegate that provides a fading transition with a blurred presenting view controller.
+* The blur effect can be fine tuned with the arguments of the designated initializer.
+*/
 @interface IFAFadingBlurViewControllerTransitioningDelegate : IFAViewControllerTransitioningDelegate
+
+/**
+* Designated initializer.
+* @param a_blurEffect Type of blur effect to be applied to the overlay view.
+* @param a_radius Radius of the blur effect. The higher the value, the blurrier the results are.
+*/
 - (instancetype)initBlurEffect:(IFABlurEffect)a_blurEffect radius:(CGFloat)a_radius;
+
 @end

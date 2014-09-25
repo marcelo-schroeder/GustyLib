@@ -45,7 +45,7 @@
 - (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented
                                                       presentingViewController:(UIViewController *)presenting
                                                           sourceViewController:(UIViewController *)source {
-    return [[IFABlurredOverlayPresentationController alloc] initWithBlurEffect:self.IFA_blurEffect
+    return [[IFABlurredFadingOverlayPresentationController alloc] initWithBlurEffect:self.IFA_blurEffect
                                                                         radius:self.IFA_radius
                                                        presentedViewController:presented
                                                       presentingViewController:presenting];

@@ -17,24 +17,27 @@
 
 #import "GustyLibCore.h"
 
+//wip: memorh profile all the new stuff
 @interface IFAViewControllerAnimatedTransitioning ()
-@property(nonatomic, strong) void (^IFA_animations)(BOOL, UIView *);
-@property(nonatomic, strong) void (^IFA_completion)(BOOL, BOOL, UIView *);
+@property(nonatomic, strong) IFAViewControllerAnimatedTransitioningBeforeAnimationsBlock IFA_beforeAnimationsBlock;
+@property(nonatomic, strong) IFAViewControllerAnimatedTransitioningAnimationsBlock IFA_animationsBlock;
+@property(nonatomic, strong) IFAViewControllerAnimatedTransitioningCompletionBlock IFA_completionBlock;
 @end
 
-//wip: is this the correct name for this class- should it be more specific?
 @implementation IFAViewControllerAnimatedTransitioning {
 
 }
 
 #pragma mark - Public
 
-- (instancetype)initWithAnimations:(void (^)(BOOL a_isPresenting, UIView *a_animatingView))a_animations
-                        completion:(void (^)(BOOL a_finished, BOOL a_isPresenting, UIView *a_animatingView))a_completion {
+- (instancetype)initWithBeforeAnimationsBlock:(IFAViewControllerAnimatedTransitioningBeforeAnimationsBlock)a_beforeAnimationsBlock
+                              animationsBlock:(IFAViewControllerAnimatedTransitioningAnimationsBlock)a_animationsBlock
+                              completionBlock:(IFAViewControllerAnimatedTransitioningCompletionBlock)a_completionBlock {
     self = [super init];
     if (self) {
-        self.IFA_animations = a_animations;
-        self.IFA_completion = a_completion;
+        self.IFA_beforeAnimationsBlock = a_beforeAnimationsBlock;
+        self.IFA_animationsBlock = a_animationsBlock;
+        self.IFA_completionBlock = a_completionBlock;
     }
     return self;
 }
@@ -47,34 +50,32 @@
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext {
 
-//    transitionContext.containerView.backgroundColor = [UIColor redColor]; //wip: clean up
-
-    UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey]; //wip: clean up
+    UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIView *fromView = fromViewController.view;
-    UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey]; //wip: clean up
+    UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     UIView *toView = toViewController.view;
 
     UIView *animatingView = self.isPresenting ? toView : fromView;
 
-    if (self.isPresenting) {
-        toView.alpha = 0;
-        [transitionContext.containerView addSubview:toView];
-        [toView ifa_addLayoutConstraintsToFillSuperview];
+    if (self.IFA_beforeAnimationsBlock) {
+        self.IFA_beforeAnimationsBlock(transitionContext, self.isPresenting, animatingView);
     }
+
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     __weak __typeof(self) l_weakSelf = self;
     void (^animations)() = ^{
-        if (l_weakSelf.IFA_animations) {
-            l_weakSelf.IFA_animations(l_weakSelf.isPresenting, animatingView);
+        if (l_weakSelf.IFA_animationsBlock) {
+            l_weakSelf.IFA_animationsBlock(l_weakSelf.isPresenting, animatingView);
         }
     };
     void (^completion)(BOOL) = ^(BOOL finished) {
-        if (l_weakSelf.IFA_completion) {
-            l_weakSelf.IFA_completion(finished, l_weakSelf.isPresenting, animatingView);
+        if (l_weakSelf.IFA_completionBlock) {
+            l_weakSelf.IFA_completionBlock(finished, l_weakSelf.isPresenting, animatingView);
         }
         [transitionContext completeTransition:YES];
     };
     [UIView animateWithDuration:duration animations:animations completion:completion];
+
 }
 
 @end

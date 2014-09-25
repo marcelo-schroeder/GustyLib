@@ -20,8 +20,16 @@
 @class IFAViewControllerAnimatedTransitioning;
 
 //wip: add doco
+/**
+* View controller transitioning delegate that coordinates the use of a provided view controller animated transiting object.
+* It encapsulates logic such as determining to the animated transitioning object when whether the view is being presented or dismissed.
+*/
 @interface IFAViewControllerTransitioningDelegate : NSObject <UIViewControllerTransitioningDelegate>
-@property (nonatomic, strong, readonly) IFAViewControllerAnimatedTransitioning *viewControllerAnimatedTransitioning;
 
+/**
+* Designated initializer.
+* @param a_viewControllerAnimatedTransitioning A view controller animated transitioning object.
+*/
 - (instancetype)initWithViewControllerAnimatedTransitioning:(IFAViewControllerAnimatedTransitioning *)a_viewControllerAnimatedTransitioning;
+
 @end

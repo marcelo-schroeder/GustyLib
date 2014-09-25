@@ -17,13 +17,17 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void (^IFAViewControllerAnimatedTransitioningBeforeAnimationsBlock)(id <UIViewControllerContextTransitioning> a_transitionContext, BOOL a_isPresenting, UIView *a_animatingView);
 typedef void (^IFAViewControllerAnimatedTransitioningAnimationsBlock)(BOOL a_isPresenting, UIView *a_animatingView);
 typedef void (^IFAViewControllerAnimatedTransitioningCompletionBlock)(BOOL a_finished, BOOL a_isPresenting, UIView *a_animatingView);
 
-//wip: add doco
+/**
+* View controller animated transitioning object that encapsulates common transitioning logic such as
+*/
 @interface IFAViewControllerAnimatedTransitioning : NSObject <UIViewControllerAnimatedTransitioning>
 @property (nonatomic) BOOL isPresenting;
 
-- (instancetype)initWithAnimations:(IFAViewControllerAnimatedTransitioningAnimationsBlock)a_animations
-                        completion:(IFAViewControllerAnimatedTransitioningCompletionBlock)a_completion;
+- (instancetype)initWithBeforeAnimationsBlock:(IFAViewControllerAnimatedTransitioningBeforeAnimationsBlock)a_beforeAnimationsBlock
+                              animationsBlock:(IFAViewControllerAnimatedTransitioningAnimationsBlock)a_animationsBlock
+                              completionBlock:(IFAViewControllerAnimatedTransitioningCompletionBlock)a_completionBlock;
 @end

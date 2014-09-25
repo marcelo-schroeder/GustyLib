@@ -17,11 +17,11 @@
 
 #import "GustyLibCore.h"
 
-@interface IFAOverlayPresentationController ()
+@interface IFAFadingOverlayPresentationController ()
 @property (nonatomic, strong) UIView *IFA_overlayView;
 @end
 
-@implementation IFAOverlayPresentationController {
+@implementation IFAFadingOverlayPresentationController {
 
 }
 
@@ -79,7 +79,7 @@
 
 - (UIView *)IFA_overlayView {
     if (!_IFA_overlayView) {
-        _IFA_overlayView = [self.overlayPresentationControllerDataSource overlayViewForOverlayPresentationController:self];
+        _IFA_overlayView = [self.fadingOverlayPresentationControllerDataSource overlayViewForFadingOverlayPresentationController:self];
     }
     return _IFA_overlayView;
 }

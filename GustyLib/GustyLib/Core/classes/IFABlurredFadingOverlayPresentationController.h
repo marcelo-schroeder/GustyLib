@@ -17,10 +17,23 @@
 
 #import <Foundation/Foundation.h>
 
-//wip: add documentation
-@interface IFABlurredOverlayPresentationController : IFAOverlayPresentationController <IFAOverlayPresentationControllerDataSource>
+/**
+* Presentation controller that presents content on top of a blurred presenting view controller.
+* The type and amount of blur can be controlled by arguments passed to the designated initializer.
+* A fading animation is used for transitions. The animation runs alongside the transition coordinator's animation.
+*/
+@interface IFABlurredFadingOverlayPresentationController : IFAFadingOverlayPresentationController <IFAFadingOverlayPresentationControllerDataSource>
+
+/**
+* Designated initializer.
+* @param a_blurEffect Type of blur effect to be applied to the overlay view.
+* @param a_radius Radius of the blur effect. The higher the value, the blurrier the results are.
+* @param a_presentedViewController The view controller being presented.
+* @param a_presentingViewController The view controller that is the starting point for the presentation.
+*/
 - (instancetype)initWithBlurEffect:(IFABlurEffect)a_blurEffect
                             radius:(CGFloat)a_radius
            presentedViewController:(UIViewController *)a_presentedViewController
           presentingViewController:(UIViewController *)a_presentingViewController;
+
 @end

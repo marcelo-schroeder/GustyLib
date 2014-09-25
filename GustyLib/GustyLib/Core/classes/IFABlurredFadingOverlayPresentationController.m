@@ -17,12 +17,12 @@
 
 #import "GustyLibCore.h"
 
-@interface IFABlurredOverlayPresentationController ()
+@interface IFABlurredFadingOverlayPresentationController ()
 @property(nonatomic) IFABlurEffect IFA_blurEffect;
 @property(nonatomic) CGFloat IFA_radius;
 @end
 
-@implementation IFABlurredOverlayPresentationController {
+@implementation IFABlurredFadingOverlayPresentationController {
 
 }
 
@@ -37,14 +37,14 @@
     if (self) {
         self.IFA_blurEffect = a_blurEffect;
         self.IFA_radius = a_radius;
-        self.overlayPresentationControllerDataSource = self;
+        self.fadingOverlayPresentationControllerDataSource = self;
     }
     return self;
 }
 
 #pragma mark - IFAOverlayPresentationControllerDataSource
 
-- (UIView *)overlayViewForOverlayPresentationController:(IFAOverlayPresentationController *)a_overlayPresentationController {
+- (UIView *)overlayViewForFadingOverlayPresentationController:(IFAFadingOverlayPresentationController *)a_overlayPresentationController {
     UIImageView *overlayImageView = [UIImageView new];
     overlayImageView.image = [[self.presentingViewController.view ifa_snapshotImage] ifa_imageWithBlurEffect:self.IFA_blurEffect
                                                                                                       radius:self.IFA_radius];
