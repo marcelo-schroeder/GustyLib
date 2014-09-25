@@ -16,7 +16,6 @@
 //
 
 #import "GustyLibCore.h"
-#import "IFAViewControllerAnimatedTransitioning.h"
 
 //wip: is this the correct name for this class- should it be more specific? (review the other new classes names)
 @interface IFAViewControllerTransitioningDelegate ()

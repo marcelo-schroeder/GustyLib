@@ -45,7 +45,7 @@
 
 - (IFAViewControllerTransitioningDelegate *)IFA_viewControllerTransitioningDelegate {
     if (!_IFA_viewControllerTransitioningDelegate) {
-        IFAViewControllerAnimatedTransitioning *viewControllerAnimatedTransitioning = [IFAViewControllerAnimatedTransitioning new];
+        IFAViewControllerFadeTransitioning *viewControllerAnimatedTransitioning = [IFAViewControllerFadeTransitioning new];
         _IFA_viewControllerTransitioningDelegate = [[IFAViewControllerTransitioningDelegate alloc] initWithViewControllerAnimatedTransitioning:viewControllerAnimatedTransitioning];
     }
     return _IFA_viewControllerTransitioningDelegate;

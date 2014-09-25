@@ -18,11 +18,25 @@
 #import "GustyLibCore.h"
 
 @interface IFAViewControllerAnimatedTransitioning ()
+@property(nonatomic, strong) void (^IFA_animations)(BOOL, UIView *);
+@property(nonatomic, strong) void (^IFA_completion)(BOOL, BOOL, UIView *);
 @end
 
 //wip: is this the correct name for this class- should it be more specific?
 @implementation IFAViewControllerAnimatedTransitioning {
 
+}
+
+#pragma mark - Public
+
+- (instancetype)initWithAnimations:(void (^)(BOOL a_isPresenting, UIView *a_animatingView))a_animations
+                        completion:(void (^)(BOOL a_finished, BOOL a_isPresenting, UIView *a_animatingView))a_completion {
+    self = [super init];
+    if (self) {
+        self.IFA_animations = a_animations;
+        self.IFA_completion = a_completion;
+    }
+    return self;
 }
 
 #pragma mark - UIViewControllerAnimatedTransitioning
@@ -50,12 +64,13 @@
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     __weak __typeof(self) l_weakSelf = self;
     void (^animations)() = ^{
-        CGFloat alpha = l_weakSelf.isPresenting ? 1 : 0;
-        animatingView.alpha = alpha;
+        if (l_weakSelf.IFA_animations) {
+            l_weakSelf.IFA_animations(l_weakSelf.isPresenting, animatingView);
+        }
     };
     void (^completion)(BOOL) = ^(BOOL finished) {
-        if (!l_weakSelf.isPresenting) {
-            [animatingView removeFromSuperview];
+        if (l_weakSelf.IFA_completion) {
+            l_weakSelf.IFA_completion(finished, l_weakSelf.isPresenting, animatingView);
         }
         [transitionContext completeTransition:YES];
     };

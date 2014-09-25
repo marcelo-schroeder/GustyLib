@@ -1,5 +1,5 @@
 //
-// Created by Marcelo Schroeder on 19/09/2014.
+// Created by Marcelo Schroeder on 25/09/2014.
 // Copyright (c) 2014 InfoAccent Pty Ltd. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,14 +16,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "IFAViewControllerAnimatedTransitioning.h"
 
-typedef void (^IFAViewControllerAnimatedTransitioningAnimationsBlock)(BOOL a_isPresenting, UIView *a_animatingView);
-typedef void (^IFAViewControllerAnimatedTransitioningCompletionBlock)(BOOL a_finished, BOOL a_isPresenting, UIView *a_animatingView);
-
-//wip: add doco
-@interface IFAViewControllerAnimatedTransitioning : NSObject <UIViewControllerAnimatedTransitioning>
-@property (nonatomic) BOOL isPresenting;
-
-- (instancetype)initWithAnimations:(IFAViewControllerAnimatedTransitioningAnimationsBlock)a_animations
-                        completion:(IFAViewControllerAnimatedTransitioningCompletionBlock)a_completion;
+//wip: add documentation
+@interface IFAViewControllerFadeTransitioning : IFAViewControllerAnimatedTransitioning
 @end

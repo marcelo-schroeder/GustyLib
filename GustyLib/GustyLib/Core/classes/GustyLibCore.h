@@ -186,3 +186,4 @@
 #import "IFAViewControllerAnimatedTransitioning.h"
 #import "IFAOverlayPresentationController.h"
 #import "IFABlurredOverlayPresentationController.h"
+#import "IFAViewControllerFadeTransitioning.h"
