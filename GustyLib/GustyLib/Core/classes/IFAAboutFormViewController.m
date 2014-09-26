@@ -39,17 +39,17 @@
     return [IFAUtils infoPList][@"IFASupportEmailAddress"];
 }
 
-- (void)IFA_ReportBugButtonTap:(id)sender{
+- (void)IFA_onReportBugButtonTap {
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nPlease fix the following bug I have found in %@:", [IFAUtils appFullName]];
     [self.IFA_emailManager composeEmailWithSubject:@"Bug Report" recipient:[self IFA_supportEmailAddress] body:l_body];
 }
 
-- (void)IFA_provideFeedbackButtonTap:(id)sender{
+- (void)IFA_onProvideFeedbackButtonTap {
     NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nI have the following feedback to provide for %@:", [IFAUtils appFullName]];
     [self.IFA_emailManager composeEmailWithSubject:@"Feedback" recipient:[self IFA_supportEmailAddress] body:l_body];
 }
 
-- (void)IFA_forceCrashButtonTap:(id)sender{
+- (void)IFA_onForceCrashButtonTap {
     [IFAUtils forceCrash];
 }
 
@@ -74,19 +74,7 @@
         self.object = l_model;
         self.readOnlyMode = YES;
         self.createMode = NO;
-        
-        // Configure toolbar buttons
-        self.IFA_reportBugBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Report Bug"
-                                                                         style:UIBarButtonItemStylePlain target:self
-                                                                        action:@selector(IFA_ReportBugButtonTap:)];
-        self.IFA_provideFeedbackBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Provide Feedback"
-                                                                               style:UIBarButtonItemStylePlain
-                                                                              target:self
-                                                                              action:@selector(IFA_provideFeedbackButtonTap:)];
-        self.IFA_forceCrashBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Force Crash"
-                                                                          style:UIBarButtonItemStylePlain target:self
-                                                                         action:@selector(IFA_forceCrashButtonTap:)];
-        
+
         // Configure email manager
         self.IFA_emailManager = [[IFAEmailManager alloc] initWithParentViewController:self];
         
@@ -101,13 +89,9 @@
     
 }
 
--(NSArray *)ifa_nonEditModeToolbarItems {
-    UIBarButtonItem *l_flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    NSMutableArray *l_items = [NSMutableArray arrayWithArray:@[l_flexibleSpace, self.IFA_reportBugBarButtonItem, l_flexibleSpace, self.IFA_provideFeedbackBarButtonItem, l_flexibleSpace]];
-    if ([[IFAUtils infoPList][@"IFAShowForceCrashButton"] boolValue]) {
-        [l_items addObjectsFromArray:@[self.IFA_forceCrashBarButtonItem, l_flexibleSpace]];
-    }
-    return l_items;
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.formViewControllerDelegate = self;
 }
 
 #pragma mark - UITableViewDataSource
@@ -127,6 +111,18 @@
         [[self ifa_appearanceTheme] setLabelTextStyleForChildrenOfView:self.customView];
     }
     return l_cell;
+}
+
+#pragma mark - IFAFormViewControllerDelegate
+
+- (void)formViewController:(IFAFormViewController *)a_formViewController didTapButtonNamed:(NSString *)a_buttonName {
+    if ([a_buttonName isEqualToString:@"provideFeedbackButton"]) {
+        [self IFA_onProvideFeedbackButtonTap];
+    }else if ([a_buttonName isEqualToString:@"reportBugButton"]) {
+        [self IFA_onReportBugButtonTap];
+    }else if ([a_buttonName isEqualToString:@"forceCrashButton"]) {
+        [self IFA_onForceCrashButtonTap];
+    }
 }
 
 @end

@@ -20,7 +20,12 @@
 
 #import "IFAFormViewController.h"
 
-@interface IFAAboutFormViewController : IFAFormViewController
+/**
+* This class implements an About type of view.
+* The information shown on the About view can be configured via EntityConfig.plist.
+* TODO: add more details to the documentation.
+*/
+@interface IFAAboutFormViewController : IFAFormViewController <IFAFormViewControllerDelegate>
 
 @property (strong, nonatomic) IBOutlet UIView *customView;
 @property (strong, nonatomic) IBOutlet UILabel *appNameLabel;
