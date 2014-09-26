@@ -75,8 +75,7 @@
 }
 
 -(BOOL)isHelpEnabledForViewController:(UIViewController*)a_viewController{
-    NSArray *l_helpEnabledViewControllerClassNames = [IFAUtils infoPList][@"IFAHelpEnabledViewControllers"];
-    return [l_helpEnabledViewControllerClassNames containsObject:[a_viewController.class description]];
+    return [self helpForViewController:a_viewController]!=nil;
 }
 
 - (NSString *)formSectionHelpForType:(IFAFormSectionHelpType)a_helpType entityName:(NSString *)a_entityName

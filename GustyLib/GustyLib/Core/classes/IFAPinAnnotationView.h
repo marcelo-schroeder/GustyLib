@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#import <MapKit/MapKit.h>
+
 @interface IFAPinAnnotationView : MKPinAnnotationView {
     
 }
