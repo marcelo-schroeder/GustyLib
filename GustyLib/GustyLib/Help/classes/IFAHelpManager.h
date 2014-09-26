@@ -33,7 +33,7 @@ typedef enum {
     IFAFormSectionHelpTypeFooter,
 }IFAFormSectionHelpType;
 
-@interface IFAHelpManager : NSObject <IFAPresenter>
+@interface IFAHelpManager : NSObject
 
 @property (nonatomic, strong, readonly) UIViewController *helpTargetViewController;
 

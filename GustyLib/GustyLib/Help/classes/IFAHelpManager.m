@@ -39,13 +39,13 @@
     if (self.helpMode) {
         self.helpTargetViewController = a_viewController;
         IFAHelpViewController *helpViewController = [[IFAHelpViewController alloc] initWithTargetViewController:a_viewController];
-        helpViewController.ifa_presenter = self;
         [a_viewController presentViewController:helpViewController
                                              animated:YES completion:nil];
     }else{
         __weak __typeof(self) l_weakSelf = self;
         [a_viewController dismissViewControllerAnimated:YES completion:^{
-            [l_weakSelf IFA_quitHelpMode];
+            l_weakSelf.helpMode = NO;
+            l_weakSelf.helpTargetViewController = nil;
         }];
     }
 
@@ -151,13 +151,6 @@
     return c_instance;
 }
 
-#pragma mark -
-
-- (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
-                                       data:(id)a_data shouldAnimateDismissal:(BOOL)a_shouldAnimateDismissal {
-    [self IFA_quitHelpMode];
-}
-
 #pragma mark - Private
 
 -(NSString*)IFA_helpStringForKeyPath:(NSString*)a_keyPath{
@@ -180,7 +173,6 @@
     return [self IFA_helpStringForKeyPath:[NSString stringWithFormat:@"%@.description", a_keyPath]];
 }
 
-//wip: clean up code below big time
 - (void)IFA_onHelpButtonTap:(UIButton *)a_button {
     [self toggleHelpModeForViewController:a_button.ifa_helpTargetViewController];
 }
@@ -192,13 +184,6 @@
     NSString *keyPath = [NSString stringWithFormat:@"entities.%@.forms.%@.sections.%@.%@.modes.%@", a_entityName,
                                                    a_formName, a_sectionName, a_helpTypePath, mode];
     return [self IFA_helpDescriptionForKeyPath:keyPath];
-}
-
-- (void)IFA_quitHelpMode {
-    [self.helpTargetViewController dismissViewControllerAnimated:YES completion:^{
-        self.helpMode = NO;
-        self.helpTargetViewController = nil;
-    }];
 }
 
 @end
