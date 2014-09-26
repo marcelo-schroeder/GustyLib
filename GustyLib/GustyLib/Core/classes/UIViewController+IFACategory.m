@@ -34,6 +34,7 @@ static UIPopoverArrowDirection  const k_arrowDirectionWithKeyboard      = UIPopo
 static BOOL                     const k_animated                        = YES;
 
 static char c_presenterKey;
+static char c_delegateKey;
 static char c_activePopoverControllerKey;
 static char c_activePopoverControllerBarButtonItemKey;
 static char c_subTitleKey;
@@ -376,6 +377,20 @@ typedef enum {
 
 -(id<IFAPresenter>)ifa_presenter {
     IFAZeroingWeakReferenceContainer *l_weakReferenceContainer = objc_getAssociatedObject(self, &c_presenterKey);
+    return l_weakReferenceContainer.weakReference;
+}
+
+-(void)setIfa_delegate:(id<IFAViewControllerDelegate>)a_delegate{
+    IFAZeroingWeakReferenceContainer *l_weakReferenceContainer = objc_getAssociatedObject(self, &c_delegateKey);
+    if (!l_weakReferenceContainer) {
+        l_weakReferenceContainer = [IFAZeroingWeakReferenceContainer new];
+        objc_setAssociatedObject(self, &c_delegateKey, l_weakReferenceContainer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    l_weakReferenceContainer.weakReference = a_delegate;
+}
+
+-(id<IFAViewControllerDelegate>)ifa_delegate {
+    IFAZeroingWeakReferenceContainer *l_weakReferenceContainer = objc_getAssociatedObject(self, &c_delegateKey);
     return l_weakReferenceContainer.weakReference;
 }
 
@@ -1010,6 +1025,16 @@ typedef enum {
                                              selector:@selector(ifa_onApplicationDidEnterBackgroundNotification:)
                                                  name:UIApplicationDidEnterBackgroundNotification
                                                object:nil];
+    if ([self.ifa_delegate respondsToSelector:@selector(viewController:didChangeContentSizeCategory:)]) {
+        __weak __typeof(self) l_weakSelf = self;
+        [self ifa_addNotificationObserverForName:UIContentSizeCategoryDidChangeNotification object:nil
+                                           queue:nil
+                                      usingBlock:^(NSNotification *a_note) {
+                                          [l_weakSelf.ifa_delegate viewController:l_weakSelf
+                                                     didChangeContentSizeCategory:a_note.userInfo[UIContentSizeCategoryNewValueKey]];
+                                      }
+                                     removalTime:IFAViewControllerNotificationObserverRemovalTimeDealloc];
+    }
 
     // Configure keyboard passthrough view
     if (self.ifa_shouldUseKeyboardPassthroughView) {

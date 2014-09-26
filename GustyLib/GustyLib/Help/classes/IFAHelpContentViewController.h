@@ -19,7 +19,7 @@
 #import "IFAViewController.h"
 
 //wip: documentation
-@interface IFAHelpContentViewController : IFAViewController <UIWebViewDelegate>
+@interface IFAHelpContentViewController : IFAViewController <UIWebViewDelegate, IFAViewControllerDelegate>
 @property(nonatomic, strong, readonly) UIBarButtonItem *closeBarButtonItem;
 - (instancetype)initWithTargetViewController:(UIViewController *)a_targetViewController;
 @end

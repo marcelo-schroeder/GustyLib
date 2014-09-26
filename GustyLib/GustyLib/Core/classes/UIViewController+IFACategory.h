@@ -28,6 +28,7 @@
 
 @protocol IFAAppearanceTheme;
 @class IFAPassthroughView;
+@protocol IFAViewControllerDelegate;
 
 @interface UIViewController (IFACategory) <IFAPresenter, UIPopoverControllerDelegate>
 
@@ -38,6 +39,7 @@
 @property (nonatomic, readonly) BOOL ifa_changesMadeByPresentedViewController;
 @property (nonatomic, readonly) IFAAsynchronousWorkManager *ifa_asynchronousWorkManager;
 @property (nonatomic, weak) id<IFAPresenter> ifa_presenter;
+@property (nonatomic, weak) id<IFAViewControllerDelegate> ifa_delegate;
 @property (nonatomic, strong, readonly) UIPopoverController *ifa_activePopoverController;
 @property (nonatomic, strong, readonly) UIBarButtonItem *ifa_activePopoverControllerBarButtonItem;
 @property (nonatomic, strong) NSString *ifa_subTitle;
@@ -295,5 +297,18 @@ typedef enum{
                                removalTime:(IFAViewControllerNotificationObserverRemovalTime)a_removalTime;
 
 - (BOOL)ifa_isVisibleTopViewController;
+
+@end
+
+@protocol IFAViewControllerDelegate <NSObject>
+
+@optional
+
+/**
+* Delegate callback to notify that the content size category has changed (i.e. user's preferred font size).
+* @param a_viewController The sender.
+* @param a_contentSizeCategory The new user's preferred font size.
+*/
+- (void)viewController:(UIViewController *)a_viewController didChangeContentSizeCategory:(NSString *)a_contentSizeCategory;
 
 @end

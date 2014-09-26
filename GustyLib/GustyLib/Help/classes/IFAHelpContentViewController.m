@@ -34,6 +34,7 @@
     self = [super init];
     if (self) {
         self.IFA_targetViewController = a_targetViewController;
+        self.ifa_delegate = self;
     }
     return self;
 }
@@ -49,9 +50,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    NSString *htmlBody = [[IFAHelpManager sharedInstance] helpForViewController:self.IFA_targetViewController];
-    NSString  *l_htmlString = [self.IFA_htmlDocument htmlStringWithBody:htmlBody];
-    [self.webView loadHTMLString:l_htmlString baseURL:nil];
+    [self IFA_loadWebView];
 }
 
 #pragma mark - UIWebViewDelegate protocol
@@ -70,6 +69,12 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [self webViewDidFinishLoad:webView];
+}
+
+#pragma mark - IFAViewControllerDelegate
+
+- (void)viewController:(UIViewController *)a_viewController didChangeContentSizeCategory:(NSString *)a_contentSizeCategory {
+    [self IFA_loadWebView];
 }
 
 #pragma mark - Private
@@ -111,6 +116,13 @@
         ];
     }
     return _IFA_htmlDocument;
+}
+
+- (void)IFA_loadWebView {
+    self.IFA_htmlDocument = nil;    // Make sure any changes to dynamic font sizes are taken into consideration
+    NSString *htmlBody = [[IFAHelpManager sharedInstance] helpForViewController:self.IFA_targetViewController];
+    NSString  *l_htmlString = [self.IFA_htmlDocument htmlStringWithBody:htmlBody];
+    [self.webView loadHTMLString:l_htmlString baseURL:nil];
 }
 
 @end
