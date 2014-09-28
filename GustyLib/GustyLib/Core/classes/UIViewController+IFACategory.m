@@ -1066,8 +1066,8 @@ typedef enum {
 
 #ifdef IFA_AVAILABLE_Help
     // Add the help button if help is enabled for this view controller
-    if (self.IFA_helpBarButtonItem) {
-        [self ifa_insertRightBarButtonItem:self.IFA_helpBarButtonItem atIndex:0];
+    if (self.ifa_helpBarButtonItem) {
+        [self ifa_insertRightBarButtonItem:self.ifa_helpBarButtonItem atIndex:0];
     }
 #endif
 

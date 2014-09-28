@@ -20,23 +20,23 @@
 static char c_helpBarButtonItemKey;
 
 @interface UIViewController (IFAHelp_Private)
-@property (nonatomic, strong) UIBarButtonItem *IFA_helpBarButtonItem;
+@property (nonatomic, strong) UIBarButtonItem *ifa_helpBarButtonItem;
 @end
 
 @implementation UIViewController (IFAHelp)
 
 #pragma mark - Public
 
--(UIBarButtonItem*)IFA_helpBarButtonItem {
+-(UIBarButtonItem*)ifa_helpBarButtonItem {
     UIBarButtonItem *obj = objc_getAssociatedObject(self, &c_helpBarButtonItemKey);
     if (!obj && [[IFAHelpManager sharedInstance] isHelpEnabledForViewController:self]) {
         obj = [[IFAHelpManager sharedInstance] newHelpBarButtonItemForViewController:self selected:NO];
-        self.IFA_helpBarButtonItem = obj;
+        self.ifa_helpBarButtonItem = obj;
     }
     return obj;
 }
 
--(void)setIFA_helpBarButtonItem:(UIBarButtonItem*)a_helpBarButtonItem{
+-(void)setIfa_helpBarButtonItem:(UIBarButtonItem*)a_helpBarButtonItem{
     objc_setAssociatedObject(self, &c_helpBarButtonItemKey, a_helpBarButtonItem, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 

@@ -21,6 +21,10 @@
 //wip: add documentation for the new things
 #import "IFAFetchedResultsTableViewController.h"
 
+#ifdef IFA_AVAILABLE_Help
+#import "IFAHelpTarget.h"
+#endif
+
 @class NSManagedObjectID;
 @class IFAFormViewController;
 @class NSManagedObject;
@@ -36,7 +40,11 @@ typedef enum{
     IFAListViewControllerFetchingStrategyFindEntities,
 }IFAListViewControllerFetchingStrategy;
 
-@interface IFAListViewController : IFAFetchedResultsTableViewController <IFAFetchedResultsTableViewControllerDataSource>
+@interface IFAListViewController : IFAFetchedResultsTableViewController <IFAFetchedResultsTableViewControllerDataSource
+#ifdef IFA_AVAILABLE_Help
+        , IFAHelpTarget
+#endif
+        >
 
 @property (nonatomic, strong) NSString *entityName;
 @property (nonatomic, strong) NSDate *lastRefreshAndReloadDate;

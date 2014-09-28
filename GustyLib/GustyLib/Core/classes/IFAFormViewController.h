@@ -25,9 +25,17 @@
 #import "IFAFormInputAccessoryView.h"
 #import "IFAEntityConfig.h"
 
+#ifdef IFA_AVAILABLE_Help
+#import "IFAHelpTarget.h"
+#endif
+
 @protocol IFAFormViewControllerDelegate;
 
-@interface IFAFormViewController : IFATableViewController <UIActionSheetDelegate, IFAFormInputAccessoryViewDataSource>
+@interface IFAFormViewController : IFATableViewController <UIActionSheetDelegate, IFAFormInputAccessoryViewDataSource
+#ifdef IFA_AVAILABLE_Help
+        , IFAHelpTarget
+#endif
+        >
 
 @property (nonatomic, strong) NSObject *object;
 @property (nonatomic, strong) NSString *formName;

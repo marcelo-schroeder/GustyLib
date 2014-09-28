@@ -18,9 +18,13 @@
 //  limitations under the License.
 //
 
-#import <GustyLib/UIViewController+IFAHelp.h>
 #import "GustyLibCore.h"
 
+#ifdef IFA_AVAILABLE_Help
+#import "GustyLibHelp.h"
+#endif
+
+//wip: still need to fix the issue of showing help button in subforms
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -1716,14 +1720,6 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     }
 }
 
-- (UIBarButtonItem *)IFA_helpBarButtonItem {
-    if (self.isSubForm) {
-        return nil;
-    }else {
-        return [super IFA_helpBarButtonItem];
-    }
-}
-
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
@@ -1742,5 +1738,19 @@ responderForKeyboardInputFocusAtIndexPath:(NSIndexPath *)a_indexPath {
     IFAFormTextFieldTableViewCell *l_textFieldCell = self.IFA_indexPathToTextFieldCellDictionary[a_indexPath];
     return l_textFieldCell.textField;
 }
+
+#ifdef IFA_AVAILABLE_Help
+
+#pragma mark - IFAHelpTarget
+
+- (NSString *)helpTargetId {
+    if (self.isSubForm) {
+        return nil;
+    }else{
+        return [[IFAHelpManager sharedInstance] helpTargetIdForEntityNamed:self.object.ifa_entityName];
+    }
+}
+
+#endif
 
 @end

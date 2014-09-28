@@ -582,6 +582,7 @@
 		10738F160D0EE82ADA2F17A3 /* IFAViewControllerFadeTransitioning.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFAViewControllerFadeTransitioning.m; path = GustyLib/Core/classes/IFAViewControllerFadeTransitioning.m; sourceTree = SOURCE_ROOT; };
 		10738F20F2E47E9451D8DF09 /* IFADirectionsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFADirectionsManager.m; sourceTree = "<group>"; };
 		10738F2679EEA2D105C6A9CD /* IFACollectionViewFetchedResultsControllerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFACollectionViewFetchedResultsControllerDelegate.m; sourceTree = "<group>"; };
+		10738F2D9D513C3666E14594 /* IFAHelpTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAHelpTarget.h; sourceTree = "<group>"; };
 		10738F42395317246CFBD6F2 /* IFATableSectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFATableSectionHeaderView.m; sourceTree = "<group>"; };
 		10738F7FDA23EEB437A6C1F0 /* NSIndexPath+IFACategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexPath+IFACategory.m"; sourceTree = "<group>"; };
 		10738F8302AFE9F15436BCF4 /* NSMutableArray+IFACategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+IFACategory.h"; sourceTree = "<group>"; };
@@ -1331,6 +1332,7 @@
 				10738CF2D8248BEA956DA692 /* GustyLibHelp.h */,
 				107387B9A56C13C6683CC122 /* UIViewController+IFAHelp.h */,
 				1073835B7F7D30DF49702F3B /* UIViewController+IFAHelp.m */,
+				10738F2D9D513C3666E14594 /* IFAHelpTarget.h */,
 			);
 			path = classes;
 			sourceTree = "<group>";

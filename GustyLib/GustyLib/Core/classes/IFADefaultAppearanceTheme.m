@@ -339,7 +339,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 #ifdef IFA_AVAILABLE_Help
     UIColor *navigationBarTintColor = a_viewController.navigationController.navigationBar.tintColor;
-    [self IFA_tintCustomViewButtonImageInBarButtonItem:a_viewController.IFA_helpBarButtonItem
+    [self IFA_tintCustomViewButtonImageInBarButtonItem:a_viewController.ifa_helpBarButtonItem
                                              withColor:navigationBarTintColor];
     if ([a_viewController isKindOfClass:[IFAHelpContentViewController class]]) {
         IFAHelpContentViewController *helpViewController = (IFAHelpContentViewController *) a_viewController;

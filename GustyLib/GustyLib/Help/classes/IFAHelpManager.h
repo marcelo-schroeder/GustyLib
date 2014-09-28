@@ -66,6 +66,8 @@ typedef enum {
 //wip: some methods in this header return plain string and some HTML - make it clearer in the method names
 - (NSString *)helpForViewController:(UIViewController *)a_viewController;
 
+- (NSString *)helpTargetIdForEntityNamed:(NSString *)a_entityName;
+
 + (instancetype)sharedInstance;
 
 @end

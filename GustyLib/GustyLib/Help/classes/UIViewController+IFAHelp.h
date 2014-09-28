@@ -20,6 +20,6 @@
 
 @interface UIViewController (IFAHelp)
 
-@property (nonatomic, strong, readonly) UIBarButtonItem *IFA_helpBarButtonItem;
+@property (nonatomic, strong, readonly) UIBarButtonItem *ifa_helpBarButtonItem;
 
 @end

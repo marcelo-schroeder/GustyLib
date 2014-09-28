@@ -813,5 +813,15 @@ fetchedResultsControllerForFetchedResultsTableViewController:(IFAFetchedResultsT
     return l_controller;
 }
 
+#ifdef IFA_AVAILABLE_Help
+
+#pragma mark - IFAHelpTarget
+
+- (NSString *)helpTargetId {
+    return [[IFAHelpManager sharedInstance] helpTargetIdForEntityNamed:self.entityName];
+}
+
+#endif
+
 @end
 

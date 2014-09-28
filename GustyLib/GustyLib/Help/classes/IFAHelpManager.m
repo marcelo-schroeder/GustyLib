@@ -21,6 +21,7 @@
 //wip: review help button - it should be a simple bar button item if possible
 //wip: clean up
 #import "GustyLibHelp.h"
+#import "IFAHelpTarget.h"
 
 @interface IFAHelpManager ()
 
@@ -106,12 +107,12 @@
 
 - (NSString *)helpForPropertyName:(NSString *)a_propertyName inEntityName:(NSString *)a_entityName {
     NSString *keyPath = [NSString stringWithFormat:@"entities.%@.properties.%@", a_entityName, a_propertyName];
-    return [self IFA_helpDescriptionForKeyPath:keyPath];
+    return [self IFA_helpDescriptionForHelpTargetId:keyPath];
 }
 
 - (NSString *)emptyListHelpForEntityName:(NSString *)a_entityName {
     NSString *keyPath = [NSString stringWithFormat:@"entities.%@.list.placeholder", a_entityName];
-    return [self IFA_helpDescriptionForKeyPath:keyPath];
+    return [self IFA_helpDescriptionForHelpTargetId:keyPath];
 }
 
 
@@ -128,18 +129,20 @@
     }
     NSString *keyPath = [NSString stringWithFormat:@"entities.%@.forms.%@.%@", a_entityName,
                                                    a_formName, helpTypePath];
-    return [self IFA_helpDescriptionForKeyPath:keyPath];
+    return [self IFA_helpDescriptionForHelpTargetId:keyPath];
 }
 
 - (NSString *)helpForViewController:(UIViewController *)a_viewController {
-    NSString *entityName = nil;
-    if ([a_viewController isKindOfClass:[IFAListViewController class]]) {
-        entityName = ((IFAListViewController *) a_viewController).entityName;
-    }else if ([a_viewController isKindOfClass:[IFAFormViewController class]]) {
-        entityName = ((IFAFormViewController *) a_viewController).object.ifa_entityName;
+    if ([a_viewController conformsToProtocol:@protocol(IFAHelpTarget)]) {
+        id<IFAHelpTarget> helpTarget = (id <IFAHelpTarget>) a_viewController;
+        return [self IFA_helpDescriptionForHelpTargetId:helpTarget.helpTargetId];
+    }else{
+        return nil;
     }
-    NSString *keyPath = [NSString stringWithFormat:@"entities.%@", entityName];
-    return [self IFA_helpDescriptionForKeyPath:keyPath];
+}
+
+- (NSString *)helpTargetIdForEntityNamed:(NSString *)a_entityName {
+    return [NSString stringWithFormat:@"entities.%@", a_entityName];
 }
 
 + (instancetype)sharedInstance {
@@ -161,16 +164,18 @@
     return [l_string isEqualToString:a_keyPath] ? nil : l_string;
 }
 
--(NSString*)IFA_helpLabelForKeyPath:(NSString*)a_keyPath{
-    return [self IFA_helpStringForKeyPath:[NSString stringWithFormat:@"%@.label", a_keyPath]];
-}
+//wip: clean up
+//-(NSString*)IFA_helpLabelForKeyPath:(NSString*)a_keyPath{
+//    return [self IFA_helpStringForKeyPath:[NSString stringWithFormat:@"%@.label", a_keyPath]];
+//}
 
--(NSString*)IFA_helpTitleForKeyPath:(NSString*)a_keyPath{
-    return [self IFA_helpStringForKeyPath:[NSString stringWithFormat:@"%@.title", a_keyPath]];
-}
+//wip: clean up
+//-(NSString*)IFA_helpTitleForKeyPath:(NSString*)a_keyPath{
+//    return [self IFA_helpStringForKeyPath:[NSString stringWithFormat:@"%@.title", a_keyPath]];
+//}
 
--(NSString*)IFA_helpDescriptionForKeyPath:(NSString*)a_keyPath{
-    return [self IFA_helpStringForKeyPath:[NSString stringWithFormat:@"%@.description", a_keyPath]];
+-(NSString*)IFA_helpDescriptionForHelpTargetId:(NSString*)a_helpTargetId {
+    return [self IFA_helpStringForKeyPath:[NSString stringWithFormat:@"%@.description", a_helpTargetId]];
 }
 
 - (void)IFA_onHelpButtonTap:(UIButton *)a_button {
@@ -183,7 +188,7 @@
     NSObject *mode = a_createMode ? @"create" : @"any";
     NSString *keyPath = [NSString stringWithFormat:@"entities.%@.forms.%@.sections.%@.%@.modes.%@", a_entityName,
                                                    a_formName, a_sectionName, a_helpTypePath, mode];
-    return [self IFA_helpDescriptionForKeyPath:keyPath];
+    return [self IFA_helpDescriptionForHelpTargetId:keyPath];
 }
 
 @end
