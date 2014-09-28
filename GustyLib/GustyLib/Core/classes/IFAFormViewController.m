@@ -18,6 +18,7 @@
 //  limitations under the License.
 //
 
+#import <GustyLib/UIViewController+IFAHelp.h>
 #import "GustyLibCore.h"
 
 @interface IFAFormViewController ()
@@ -1712,6 +1713,14 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
             [self replyToContextSwitchRequestWithGranted:YES];
             [self ifa_notifySessionCompletion];
         }
+    }
+}
+
+- (UIBarButtonItem *)IFA_helpBarButtonItem {
+    if (self.isSubForm) {
+        return nil;
+    }else {
+        return [super IFA_helpBarButtonItem];
     }
 }
 
