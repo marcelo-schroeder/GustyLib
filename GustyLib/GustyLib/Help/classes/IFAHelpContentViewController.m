@@ -42,6 +42,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = self.IFA_targetViewController.title;
+    if (!self.title || [self.title ifa_isEmpty]) {
+        self.title = self.IFA_targetViewController.navigationItem.title;
+    }
     self.closeBarButtonItem = [[IFAHelpManager sharedInstance] newHelpBarButtonItemForViewController:self.IFA_targetViewController selected:YES];
     [self ifa_addRightBarButtonItem:self.closeBarButtonItem];
     [self.view addSubview:self.webView];
