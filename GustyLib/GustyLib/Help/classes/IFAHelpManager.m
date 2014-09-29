@@ -106,13 +106,21 @@
 }
 
 - (NSString *)helpForPropertyName:(NSString *)a_propertyName inEntityName:(NSString *)a_entityName {
-    NSString *keyPath = [NSString stringWithFormat:@"entities.%@.properties.%@", a_entityName, a_propertyName];
-    return [self IFA_helpDescriptionForHelpTargetId:keyPath];
+    return [self helpForPropertyName:a_propertyName inEntityName:a_entityName value:nil];
+}
+
+- (NSString *)helpForPropertyName:(NSString *)a_propertyName inEntityName:(NSString *)a_entityName
+                            value:(NSString *)a_value {
+    NSMutableString *helpTargetId = [NSMutableString stringWithFormat:@"entities.%@.properties.%@", a_entityName, a_propertyName];
+    if (a_value) {
+        [helpTargetId appendFormat:@".values.%@", a_value];
+    }
+    return [self IFA_helpDescriptionForHelpTargetId:helpTargetId];
 }
 
 - (NSString *)emptyListHelpForEntityName:(NSString *)a_entityName {
-    NSString *keyPath = [NSString stringWithFormat:@"entities.%@.list.placeholder", a_entityName];
-    return [self IFA_helpDescriptionForHelpTargetId:keyPath];
+    NSString *helpTargetId = [NSString stringWithFormat:@"entities.%@.list.placeholder", a_entityName];
+    return [self IFA_helpDescriptionForHelpTargetId:helpTargetId];
 }
 
 
@@ -127,9 +135,9 @@
             helpTypePath = @"footer";
             break;
     }
-    NSString *keyPath = [NSString stringWithFormat:@"entities.%@.forms.%@.%@", a_entityName,
+    NSString *helpTargetId = [NSString stringWithFormat:@"entities.%@.forms.%@.%@", a_entityName,
                                                    a_formName, helpTypePath];
-    return [self IFA_helpDescriptionForHelpTargetId:keyPath];
+    return [self IFA_helpDescriptionForHelpTargetId:helpTargetId];
 }
 
 - (NSString *)helpForViewController:(UIViewController *)a_viewController {
@@ -186,9 +194,9 @@
                      sectionName:(NSString *)a_sectionName helpTypePath:(NSString *)a_helpTypePath
                       createMode:(BOOL)a_createMode {
     NSObject *mode = a_createMode ? @"create" : @"any";
-    NSString *keyPath = [NSString stringWithFormat:@"entities.%@.forms.%@.sections.%@.%@.modes.%@", a_entityName,
+    NSString *helpTargetId = [NSString stringWithFormat:@"entities.%@.forms.%@.sections.%@.%@.modes.%@", a_entityName,
                                                    a_formName, a_sectionName, a_helpTypePath, mode];
-    return [self IFA_helpDescriptionForHelpTargetId:keyPath];
+    return [self IFA_helpDescriptionForHelpTargetId:helpTargetId];
 }
 
 @end

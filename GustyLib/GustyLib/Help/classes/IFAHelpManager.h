@@ -56,6 +56,8 @@ typedef enum {
 */
 - (NSString *)helpForPropertyName:(NSString *)a_propertyName inEntityName:(NSString *)a_entityName;
 
+- (NSString *)helpForPropertyName:(NSString *)a_propertyName inEntityName:(NSString *)a_entityName value:(NSString *)a_value;
+
 - (NSString *)emptyListHelpForEntityName:(NSString *)a_entityName;
 
 //wip: do I still need this? Have I encountered any cases of help at the form level?
