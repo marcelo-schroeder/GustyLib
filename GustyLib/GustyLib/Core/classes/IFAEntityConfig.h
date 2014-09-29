@@ -90,7 +90,8 @@ typedef enum{
 - (NSUInteger)formSectionsCountForObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;
 - (NSUInteger)fieldCountCountForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;
 - (NSString *)headerForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject *)anObject inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode;
-- (NSString *)footerForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject *)anObject inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode;
+- (NSString *)footerForSectionIndex:(NSInteger)a_sectionIndex inObject:(NSObject *)a_object inForm:(NSString *)a_formName
+                                                                                        createMode:(BOOL)a_createMode;
 
 - (NSString*)labelForIndexPath:(NSIndexPath*)anIndexPath inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;
 - (NSString*)nameForIndexPath:(NSIndexPath*)anIndexPath inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;

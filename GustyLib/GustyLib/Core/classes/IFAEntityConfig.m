@@ -447,40 +447,46 @@
 #endif
 }
 
-- (NSString *)footerForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject *)anObject inForm:(NSString *)aFormName
-                         createMode:(BOOL)aCreateMode {
-    NSArray *formSections = [self formSectionsForObject:anObject inForm:aFormName createMode:aCreateMode];
-    NSDictionary *formSection = formSections[(NSUInteger) aSectionIndex];
+- (NSString *)footerForSectionIndex:(NSInteger)a_sectionIndex
+                           inObject:(NSObject *)a_object
+                             inForm:(NSString *)a_formName
+                         createMode:(BOOL)a_createMode {
+    NSArray *formSections = [self formSectionsForObject:a_object inForm:a_formName createMode:a_createMode];
+    NSDictionary *formSection = formSections[(NSUInteger) a_sectionIndex];
 #ifdef IFA_AVAILABLE_Help
     NSString *help;
-    NSUInteger fieldCount = [self fieldCountCountForSectionIndex:aSectionIndex
-                                                        inObject:anObject inForm:aFormName
-                                                      createMode:aCreateMode];
+    NSUInteger fieldCount = [self fieldCountCountForSectionIndex:a_sectionIndex
+                                                        inObject:a_object inForm:a_formName
+                                                      createMode:a_createMode];
     // If there is only one field in the section, then check if there is help available specifically for that field's property
     if (fieldCount == 1) {
-        NSIndexPath *fieldIndexPath = [NSIndexPath indexPathForRow:0 inSection:aSectionIndex];
+        NSIndexPath *fieldIndexPath = [NSIndexPath indexPathForRow:0 inSection:a_sectionIndex];
         NSDictionary *field = [self fieldForIndexPath:fieldIndexPath
-                                             inObject:anObject
-                                               inForm:aFormName
-                                           createMode:aCreateMode];
+                                             inObject:a_object
+                                               inForm:a_formName
+                                           createMode:a_createMode];
         NSString *propertyHelpValue = nil;
         NSString *propertyName = field[@"name"];
-        id propertyValue = [anObject valueForKey:propertyName];
-        if ([propertyValue isKindOfClass:[NSNumber class]]) {
-            NSNumber *number = propertyValue;
-            propertyHelpValue = number.stringValue;
+        IFAEntityConfigFieldType fieldType = [self fieldTypeForIndexPath:fieldIndexPath inObject:a_object
+                                                                  inForm:a_formName createMode:a_createMode];
+        if (fieldType==IFAEntityConfigFieldTypeProperty) {
+            id propertyValue = [a_object valueForKey:propertyName];
+            if ([propertyValue isKindOfClass:[NSNumber class]]) {
+                NSNumber *number = propertyValue;
+                propertyHelpValue = number.stringValue;
+            }
         }
         help = [[IFAHelpManager sharedInstance] helpForPropertyName:propertyName
-                                                       inEntityName:anObject.ifa_entityName
+                                                       inEntityName:a_object.ifa_entityName
                                                               value:propertyHelpValue];
     }
     // If there is no help available yet, try to get help for the section
     if (!help) {
         help = [[IFAHelpManager sharedInstance] formSectionHelpForType:IFAFormSectionHelpTypeFooter
-                                                            entityName:anObject.ifa_entityName
-                                                              formName:aFormName
+                                                            entityName:a_object.ifa_entityName
+                                                              formName:a_formName
                                                            sectionName:formSection[@"name"]
-                                                            createMode:aCreateMode];
+                                                            createMode:a_createMode];
     }
     if (help) {
         return help;
