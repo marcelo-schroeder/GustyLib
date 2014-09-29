@@ -52,6 +52,7 @@
 @property(nonatomic) BOOL IFA_rollbackPerformed;
 @property(nonatomic) NSUInteger IFA_initialChildManagedObjectContextCountForAssertion;
 @property(nonatomic) BOOL IFA_fixForContentBottomInsetAppleBugEnabled;
+@property(nonatomic) UIEdgeInsets contentInsetBeforePresentingSemiModalViewController;
 @end
 
 @implementation IFAFormViewController
@@ -609,6 +610,10 @@
         self.tableView.scrollIndicatorInsets = l_tableViewContentInset;
         self.IFA_fixForContentBottomInsetAppleBugEnabled = a_isKeyboardShowing;
     }
+}
+
+- (BOOL)IFA_shouldAdjustContentInsetForPresentedViewController:(UIViewController *)a_viewController {
+    return a_viewController.ifa_hasFixedSize;
 }
 
 #pragma mark - Public
@@ -1229,20 +1234,25 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
         } else {
 
-            __weak IFAFormViewController *l_weakSelf = self;
-
             UIViewController *l_viewController = [self IFA_editorViewControllerForIndexPath:indexPath];
-            l_viewController.ifa_presenter = l_weakSelf;
+            l_viewController.ifa_presenter = self;
 
             self.IFA_indexPathForPopoverController = indexPath;
             CGRect l_fromPopoverRect = [self IFA_fromPopoverRectForIndexPath:self.IFA_indexPathForPopoverController];
 
-            if ([l_viewController ifa_hasFixedSize]) {
+            if ([self IFA_shouldAdjustContentInsetForPresentedViewController:l_viewController]) {
+                self.contentInsetBeforePresentingSemiModalViewController = tableView.contentInset;
+                CGFloat toolbarHeight = self.navigationController.toolbar.bounds.size.height;   // Not the actual toolbar that will be used. Just a reference for height.
+                CGFloat contentBottomInset = l_viewController.view.bounds.size.height + toolbarHeight;
+                tableView.contentInset = UIEdgeInsetsMake(0, 0, contentBottomInset, 0);
+                [tableView scrollToRowAtIndexPath:indexPath
+                                 atScrollPosition:UITableViewScrollPositionBottom
+                                         animated:YES];
                 [tableView deselectRowAtIndexPath:indexPath animated:YES];
             }
 
             [self ifa_presentModalSelectionViewController:l_viewController fromRect:l_fromPopoverRect
-                                                   inView:l_weakSelf.tableView];
+                                                   inView:self.tableView];
 
         }
 
@@ -1297,10 +1307,13 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 //    NSLog(@"changesMadeByViewController: %@", [a_viewController description]);
     [super changesMadeByViewController:a_viewController];
     if ([a_viewController isKindOfClass:[IFAAbstractFieldEditorViewController class]]) {
-        IFAAbstractFieldEditorViewController *fieldEditorViewController = a_viewController;
+        IFAAbstractFieldEditorViewController *fieldEditorViewController = (IFAAbstractFieldEditorViewController *) a_viewController;
         NSIndexPath *propertyIndexPath = self.propertyNameToIndexPath[fieldEditorViewController.propertyName];
         NSIndexSet *sectionsToReload = [NSIndexSet indexSetWithIndex:propertyIndexPath.section];
         [self.tableView reloadSections:sectionsToReload withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView scrollToRowAtIndexPath:propertyIndexPath
+                              atScrollPosition:UITableViewScrollPositionBottom
+                                      animated:YES];
     }else{
         [self reloadData];
     }
@@ -1312,6 +1325,14 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     [super sessionDidCompleteForViewController:a_viewController changesMade:a_changesMade data:a_data
                         shouldAnimateDismissal:a_shouldAnimateDismissal];
     [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:YES];
+    if ([self IFA_shouldAdjustContentInsetForPresentedViewController:a_viewController]) {
+        __weak __typeof(self) l_weakSelf = self;
+        [UIView animateWithDuration:IFAAnimationDuration animations:^{
+            l_weakSelf.tableView.contentInset = l_weakSelf.contentInsetBeforePresentingSemiModalViewController;
+        } completion:^(BOOL finished) {
+            l_weakSelf.contentInsetBeforePresentingSemiModalViewController = UIEdgeInsetsZero;
+        }];
+    }
 }
 
 #pragma mark -
