@@ -86,8 +86,7 @@ typedef enum{
 - (BOOL)shouldTriggerChangeNotificationForManagedObject:(NSManagedObject*)aManagedObject;
 - (BOOL)shouldTriggerChangeNotificationForEntity:(NSString*)anEntityName;
 
-- (NSArray*)formSectionsForEntity:(NSString*)anEntityName inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;
-- (NSArray*)formSectionsForObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;
+- (NSArray*)formSectionsForObject:(NSObject*)a_object inForm:(NSString*)a_formName createMode:(BOOL)a_createMode;
 - (NSUInteger)formSectionsCountForObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;
 - (NSUInteger)fieldCountCountForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;
 - (NSString *)headerForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject *)anObject inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode;

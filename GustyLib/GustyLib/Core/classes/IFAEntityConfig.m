@@ -59,6 +59,25 @@
 	return [[self fieldForIndexPath:anIndexPath inObject:anObject inForm:aFormName createMode:aCreateMode] valueForKey:@"type"];
 }
 
+- (BOOL)shouldShowSectionAtIndex:(NSUInteger)a_sectionIndex
+                          object:(NSObject *)a_object
+                        formName:(NSString *)a_formName
+                      createMode:(BOOL)a_createMode {
+    NSString *entityName = a_object.ifa_entityName;
+    NSArray *sections = [self formSectionsForEntity:entityName inForm:a_formName];
+    NSDictionary *section = sections[a_sectionIndex];
+    NSString *visibilityIndicatorPropertyName = [section valueForKey:@"visibilityIndicatorPropertyName"];
+    BOOL shouldShowSection;
+    if (visibilityIndicatorPropertyName) {
+        NSNumber *visibilityIndicatorPropertyValue = [a_object valueForKey:visibilityIndicatorPropertyName];
+        shouldShowSection = visibilityIndicatorPropertyValue ? visibilityIndicatorPropertyValue.boolValue : YES;
+    }else{
+        shouldShowSection = YES;
+    }
+    BOOL isCreationOnlySection = [self isCreationOnlyForSectionIndex:a_sectionIndex entity:entityName inForm:a_formName];
+    return shouldShowSection && !(!a_createMode && isCreationOnlySection);
+}
+
 - (NSEntityDescription*)descriptionForEntity:(NSString*)anEntityName{
 	return [NSEntityDescription entityForName:anEntityName inManagedObjectContext:self.managedObjectContext];
 }
@@ -381,25 +400,20 @@
     return l_shouldTriggerChangeNotification;
 }
 
-- (NSArray*)formSectionsForEntity:(NSString*)anEntityName inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
-    NSArray *l_formSections = [self formSectionsForEntity:anEntityName inForm:aFormName];
-    if (aCreateMode) {
-//        NSLog(@"l_formSections: %u", [l_formSections count]);
-        return l_formSections;
-    }else{
-        NSMutableArray *l_modFormSections = [NSMutableArray new];
-        for (NSUInteger i=0; i<[l_formSections count]; i++) {
-            if (![self isCreationOnlyForSectionIndex:i entity:anEntityName inForm:aFormName]) {
-                [l_modFormSections addObject:l_formSections[i]];
-            }
+- (NSArray *)formSectionsForObject:(NSObject *)a_object
+                            inForm:(NSString *)a_formName
+                        createMode:(BOOL)a_createMode {
+    NSString *entityName = a_object.ifa_entityName;
+    NSArray *formSections = [self formSectionsForEntity:entityName inForm:a_formName];
+    NSMutableArray *modFormSections = [NSMutableArray new];
+    for (NSUInteger i = 0; i < [formSections count]; i++) {
+        if ([self shouldShowSectionAtIndex:i object:a_object
+                                  formName:a_formName createMode:a_createMode]) {
+            [modFormSections addObject:formSections[i]];
         }
-//        NSLog(@"l_modFormSections: %u", [l_modFormSections count]);
-        return l_modFormSections;
     }
-}
-
-- (NSArray*)formSectionsForObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
-	return [self formSectionsForEntity:[[anObject class] description] inForm:aFormName createMode:aCreateMode]; 
+//        NSLog(@"modFormSections: %u", [modFormSections count]);
+    return modFormSections;
 }
 
 - (NSUInteger)formSectionsCountForObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
