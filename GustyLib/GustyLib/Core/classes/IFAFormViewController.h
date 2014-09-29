@@ -45,7 +45,7 @@
 @property (nonatomic) BOOL readOnlyMode;
 @property (nonatomic) BOOL showEditButton;
 
-@property(nonatomic, strong, readonly) NSMutableDictionary *tagToPropertyName;
+@property(nonatomic, strong, readonly) NSMutableDictionary *switchControlTagToPropertyName;
 @property(nonatomic, strong, readonly) NSMutableDictionary *propertyNameToIndexPath;
 @property(nonatomic, strong, readonly) IFAFormInputAccessoryView *formInputAccessoryView;
 

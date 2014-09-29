@@ -44,7 +44,7 @@
 @property(nonatomic, strong) IFAFormInputAccessoryView *formInputAccessoryView;
 
 /* Public as readonly */
-@property(nonatomic, strong) NSMutableDictionary *tagToPropertyName;
+@property(nonatomic, strong) NSMutableDictionary *switchControlTagToPropertyName;
 @property(nonatomic, strong) NSMutableDictionary *propertyNameToIndexPath;
 @property (nonatomic, weak) IFAFormViewController *parentFormViewController;
 
@@ -139,7 +139,7 @@
     [self.IFA_uiControlsWithTargets addObject:l_cell.switchControl];
     //                [l_cell addValueChangedEventHandlerWithTarget:self action:@selector(onSwitchAction:)];
     //                NSLog(@"indexpath: %@, property: %@", indexPath, propertyName);
-    (self.tagToPropertyName)[@(l_cell.switchControl.tag)] = propertyName;
+    (self.switchControlTagToPropertyName)[@(l_cell.switchControl.tag)] = propertyName;
     
     return l_cell;
     
@@ -694,7 +694,6 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
             IFASwitchTableViewCell *l_cell = (IFASwitchTableViewCell *) a_cell;
             l_cell.switchControl.on = [(NSNumber *) l_value boolValue];
-            l_cell.enabledInEditing = [self IFA_isDependencyEnabledForIndexPath:a_cell.indexPath];
 
         } else if ([a_cell isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
 
@@ -736,13 +735,9 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 }
 
 - (void)onSwitchAction:(UISwitch*)a_switch {
-    if (!self.isSubForm && !self.editing) {
-        [IFAUtils dispatchAsyncMainThreadBlock:^{
-            [self setEditing:YES animated:YES];
-        } afterDelay:IFAAnimationDuration]; // Add delay to allow for the switch animation to complete
-    }
+
 //    NSLog(@"onSwitchAction with tag: %u", a_switch.tag);
-    NSString *l_propertyName = (self.tagToPropertyName)[@(a_switch.tag)];
+    NSString *l_propertyName = (self.switchControlTagToPropertyName)[@(a_switch.tag)];
 //    NSLog(@"  property name: %@", l_propertyName);
     [self.object ifa_setValue:@((a_switch.on)) forProperty:l_propertyName];
     NSArray *l_dependentPropertyNames = [[IFAPersistenceManager sharedInstance].entityConfig dependentsForProperty:l_propertyName
@@ -757,8 +752,20 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
             [l_indexPathsToReload addObject:l_indexPath];
         }
     }
-//    NSLog(@"  About to reload: %@", [l_indexPathsToReload description]);
-    [self.tableView reloadRowsAtIndexPaths:l_indexPathsToReload withRowAnimation:UITableViewRowAnimationFade];
+
+    __weak __typeof(self) l_weakSelf = self;
+    [IFAUtils dispatchAsyncMainThreadBlock:^{
+        if (!l_weakSelf.isSubForm && !l_weakSelf.editing) {
+            [l_weakSelf setEditing:YES animated:YES];
+        }
+//        NSLog(@"  About to reload: %@", [l_indexPathsToReload description]);
+        [l_weakSelf.tableView reloadRowsAtIndexPaths:l_indexPathsToReload withRowAnimation:UITableViewRowAnimationFade];
+        NSIndexPath *propertyIndexPath = l_weakSelf.propertyNameToIndexPath[l_propertyName];
+        // Reload section in case help for the property needs to be updated
+        NSIndexSet *sectionsToReload = [NSIndexSet indexSetWithIndex:propertyIndexPath.section];
+        [l_weakSelf.tableView reloadSections:sectionsToReload withRowAnimation:UITableViewRowAnimationNone];
+    } afterDelay:IFAAnimationDuration]; // Add delay to allow for the switch animation to complete
+
 }
 
 -(void)handleReturnKeyForTextFieldCell:(IFAFormTextFieldTableViewCell *)a_cell{
@@ -1317,7 +1324,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
         [l_entityConfig setDefaultValuesFromBackingPreferencesForObject:self.object];
     }
 
-    self.tagToPropertyName = [[NSMutableDictionary alloc] init];
+    self.switchControlTagToPropertyName = [[NSMutableDictionary alloc] init];
     self.IFA_propertyNameToCell = [[NSMutableDictionary alloc] init];
     self.propertyNameToIndexPath = [[NSMutableDictionary alloc] init];
 

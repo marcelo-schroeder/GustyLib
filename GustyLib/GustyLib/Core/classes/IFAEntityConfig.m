@@ -403,12 +403,15 @@
 }
 
 - (NSUInteger)formSectionsCountForObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
-	return [[self formSectionsForObject:anObject inForm:aFormName createMode:aCreateMode] count];
+    NSArray *sections = [self formSectionsForObject:anObject inForm:aFormName createMode:aCreateMode];
+    return sections.count;
 }
 
 - (NSUInteger)fieldCountCountForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode{
-	return [[[self formSectionsForObject:anObject inForm:aFormName
-                                  createMode:aCreateMode][(NSUInteger) aSectionIndex] objectForKey:@"fields"] count];
+    NSArray *sections = [self formSectionsForObject:anObject inForm:aFormName
+                                  createMode:aCreateMode];
+    NSArray *fields = [sections[(NSUInteger) aSectionIndex] objectForKey:@"fields"];
+    return fields.count;
 }
 
 - (NSString *)headerForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject *)anObject inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode {
@@ -446,8 +449,16 @@
                                              inObject:anObject
                                                inForm:aFormName
                                            createMode:aCreateMode];
-        help = [[IFAHelpManager sharedInstance] helpForPropertyName:field[@"name"]
-                                                       inEntityName:anObject.ifa_entityName];
+        NSString *propertyHelpValue = nil;
+        NSString *propertyName = field[@"name"];
+        id propertyValue = [anObject valueForKey:propertyName];
+        if ([propertyValue isKindOfClass:[NSNumber class]]) {
+            NSNumber *number = propertyValue;
+            propertyHelpValue = number.stringValue;
+        }
+        help = [[IFAHelpManager sharedInstance] helpForPropertyName:propertyName
+                                                       inEntityName:anObject.ifa_entityName
+                                                              value:propertyHelpValue];
     }
     // If there is no help available yet, try to get help for the section
     if (!help) {
