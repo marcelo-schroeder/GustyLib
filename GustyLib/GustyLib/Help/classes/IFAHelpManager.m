@@ -105,10 +105,6 @@
     return help;
 }
 
-- (NSString *)helpForPropertyName:(NSString *)a_propertyName inEntityName:(NSString *)a_entityName {
-    return [self helpForPropertyName:a_propertyName inEntityName:a_entityName value:nil];
-}
-
 - (NSString *)helpForPropertyName:(NSString *)a_propertyName inEntityName:(NSString *)a_entityName
                             value:(NSString *)a_value {
     NSMutableString *helpTargetId = [NSMutableString stringWithFormat:@"entities.%@.properties.%@", a_entityName, a_propertyName];

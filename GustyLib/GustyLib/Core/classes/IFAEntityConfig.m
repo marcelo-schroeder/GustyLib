@@ -474,6 +474,9 @@
             if ([propertyValue isKindOfClass:[NSNumber class]]) {
                 NSNumber *number = propertyValue;
                 propertyHelpValue = number.stringValue;
+            }else if ([propertyValue isKindOfClass:[IFASystemEntity class]]) {
+                IFASystemEntity *systemEntity = propertyValue;
+                propertyHelpValue = systemEntity.systemEntityId.stringValue;
             }
         }
         help = [[IFAHelpManager sharedInstance] helpForPropertyName:propertyName

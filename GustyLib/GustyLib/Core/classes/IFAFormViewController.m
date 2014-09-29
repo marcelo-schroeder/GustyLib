@@ -1293,10 +1293,17 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
 #pragma mark - IFAPresenter
 
--(void)changesMadeByViewController:(UIViewController *)a_viewController{
+-(void)changesMadeByViewController:(UIViewController *)a_viewController {
 //    NSLog(@"changesMadeByViewController: %@", [a_viewController description]);
     [super changesMadeByViewController:a_viewController];
-    [self reloadData];
+    if ([a_viewController isKindOfClass:[IFAAbstractFieldEditorViewController class]]) {
+        IFAAbstractFieldEditorViewController *fieldEditorViewController = a_viewController;
+        NSIndexPath *propertyIndexPath = self.propertyNameToIndexPath[fieldEditorViewController.propertyName];
+        NSIndexSet *sectionsToReload = [NSIndexSet indexSetWithIndex:propertyIndexPath.section];
+        [self.tableView reloadSections:sectionsToReload withRowAnimation:UITableViewRowAnimationNone];
+    }else{
+        [self reloadData];
+    }
 }
 
 - (void)sessionDidCompleteForViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
