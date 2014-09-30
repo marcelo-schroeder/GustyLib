@@ -17,7 +17,6 @@
 
 #import "IFAView.h"
 
-//wip: document, especially the new changes
 // This view can be used to detect hits and, for instance, hide the keyboard when a UIView that conforms to UITextInput is hit (e.g. the clear button in a text field)
 @interface IFAPassthroughView : IFAView
 
@@ -28,6 +27,9 @@
 */
 @property (nonatomic, strong) UIView *(^hitTestBlock)(CGPoint a_point, UIEvent *a_event, UIView *a_predictedView);
 
+/**
+* This block set here will be called at when touchesEnded:withEvent: is called on an instance of this class.
+*/
 @property (nonatomic, strong) void(^touchesEndedBlock)(NSSet *a_touches, UIEvent *a_event);
 
 /**

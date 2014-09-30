@@ -19,7 +19,6 @@
 
 @class IFAViewControllerAnimatedTransitioning;
 
-//wip: add doco
 /**
 * View controller transitioning delegate that coordinates the use of a provided view controller animated transiting object.
 * It encapsulates logic such as determining to the animated transitioning object when whether the view is being presented or dismissed.
