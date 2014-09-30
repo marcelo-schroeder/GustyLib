@@ -24,7 +24,6 @@
 #import "GustyLibHelp.h"
 #endif
 
-//wip: still need to fix the issue of showing help button in subforms
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;

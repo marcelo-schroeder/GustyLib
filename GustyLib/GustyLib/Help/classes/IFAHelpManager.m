@@ -18,10 +18,7 @@
 //  limitations under the License.
 //
 
-//wip: review help button - it should be a simple bar button item if possible
-//wip: clean up
 #import "GustyLibHelp.h"
-#import "IFAHelpTarget.h"
 
 @interface IFAHelpManager ()
 
@@ -75,32 +72,18 @@
     
 }
 
--(BOOL)isHelpEnabledForViewController:(UIViewController*)a_viewController{
+-(BOOL)shouldEnableHelpForViewController:(UIViewController*)a_viewController{
     return [self helpForViewController:a_viewController]!=nil;
 }
 
-- (NSString *)formSectionHelpForType:(IFAFormSectionHelpType)a_helpType entityName:(NSString *)a_entityName
-                            formName:(NSString *)a_formName sectionName:(NSString *)a_sectionName
-                          createMode:(BOOL)a_createMode {
-    NSString *helpTypePath;
-    switch (a_helpType) {
-        case IFAFormSectionHelpTypeHeader:
-            helpTypePath = @"header";
-            break;
-        case IFAFormSectionHelpTypeFooter:
-            helpTypePath = @"footer";
-            break;
-    }
+- (NSString *)helpForSectionNamed:(NSString *)a_sectionName inFormNamed:(NSString *)a_formName
+                       createMode:(BOOL)a_createMode entityNamed:(NSString *)a_entityName {
     NSString *help = nil;
     if (a_createMode) {
-        help = [self helpDescriptionFor:a_entityName formName:a_formName sectionName:a_sectionName
-                           helpTypePath:helpTypePath
-                             createMode:YES];
+        help = [self helpDescriptionFor:a_entityName formName:a_formName sectionName:a_sectionName createMode:YES];
     }
     if (!help) {
-        help = [self helpDescriptionFor:a_entityName formName:a_formName sectionName:a_sectionName
-                           helpTypePath:helpTypePath
-                             createMode:NO];
+        help = [self helpDescriptionFor:a_entityName formName:a_formName sectionName:a_sectionName createMode:NO];
     }
     return help;
 }
@@ -116,23 +99,6 @@
 
 - (NSString *)emptyListHelpForEntityName:(NSString *)a_entityName {
     NSString *helpTargetId = [NSString stringWithFormat:@"entities.%@.list.placeholder", a_entityName];
-    return [self IFA_helpDescriptionForHelpTargetId:helpTargetId];
-}
-
-
-- (NSString *)formHelpForType:(IFAFormHelpType)a_helpType entityName:(NSString *)a_entityName
-                     formName:(NSString *)a_formName {
-    NSString *helpTypePath;
-    switch (a_helpType){
-        case IFAFormHelpTypeHeader:
-            helpTypePath = @"header";
-            break;
-        case IFAFormHelpTypeFooter:
-            helpTypePath = @"footer";
-            break;
-    }
-    NSString *helpTargetId = [NSString stringWithFormat:@"entities.%@.forms.%@.%@", a_entityName,
-                                                   a_formName, helpTypePath];
     return [self IFA_helpDescriptionForHelpTargetId:helpTargetId];
 }
 
@@ -162,21 +128,8 @@
 
 -(NSString*)IFA_helpStringForKeyPath:(NSString*)a_keyPath{
     NSString *l_string = [[NSBundle mainBundle] localizedStringForKey:a_keyPath value:nil table:@"Help"];
-//    NSLog(@"IFA_helpStringForKeyPath");
-//    NSLog(@"  a_keyPath = %@", a_keyPath);
-//    NSLog(@"  l_string = %@", l_string);
     return [l_string isEqualToString:a_keyPath] ? nil : l_string;
 }
-
-//wip: clean up
-//-(NSString*)IFA_helpLabelForKeyPath:(NSString*)a_keyPath{
-//    return [self IFA_helpStringForKeyPath:[NSString stringWithFormat:@"%@.label", a_keyPath]];
-//}
-
-//wip: clean up
-//-(NSString*)IFA_helpTitleForKeyPath:(NSString*)a_keyPath{
-//    return [self IFA_helpStringForKeyPath:[NSString stringWithFormat:@"%@.title", a_keyPath]];
-//}
 
 -(NSString*)IFA_helpDescriptionForHelpTargetId:(NSString*)a_helpTargetId {
     return [self IFA_helpStringForKeyPath:[NSString stringWithFormat:@"%@.description", a_helpTargetId]];
@@ -187,11 +140,10 @@
 }
 
 - (NSString *)helpDescriptionFor:(NSString *)a_entityName formName:(NSString *)a_formName
-                     sectionName:(NSString *)a_sectionName helpTypePath:(NSString *)a_helpTypePath
-                      createMode:(BOOL)a_createMode {
+                     sectionName:(NSString *)a_sectionName createMode:(BOOL)a_createMode {
     NSObject *mode = a_createMode ? @"create" : @"any";
-    NSString *helpTargetId = [NSString stringWithFormat:@"entities.%@.forms.%@.sections.%@.%@.modes.%@", a_entityName,
-                                                   a_formName, a_sectionName, a_helpTypePath, mode];
+    NSString *helpTargetId = [NSString stringWithFormat:@"entities.%@.forms.%@.sections.%@.modes.%@", a_entityName,
+                                                   a_formName, a_sectionName, mode];
     return [self IFA_helpDescriptionForHelpTargetId:helpTargetId];
 }
 

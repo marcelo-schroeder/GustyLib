@@ -18,51 +18,93 @@
 //  limitations under the License.
 //
 
-//wip: add missing documentation
-//wip: clean up
 #import <Foundation/Foundation.h>
 #import "IFAPresenter.h"
 
-typedef enum {
-    IFAFormHelpTypeHeader,
-    IFAFormHelpTypeFooter,
-}IFAFormHelpType;
-
-typedef enum {
-    IFAFormSectionHelpTypeHeader,
-    IFAFormSectionHelpTypeFooter,
-}IFAFormSectionHelpType;
-
+/**
+* Manages help mode and assists with retrieving help text used throughout the app.
+*/
 @interface IFAHelpManager : NSObject
 
+/**
+* Current help target view controller when in help mode.
+*/
 @property (nonatomic, strong, readonly) UIViewController *helpTargetViewController;
 
+/**
+* Toggles help mode on and off.
+* @param a_viewController View controller help mode is targetting.
+*/
 -(void)toggleHelpModeForViewController:(UIViewController *)a_viewController;
 
+/**
+* @param a_viewController View controller help mode will target.
+* @param a_selected YES for the selected version of the help button (i.e. help mode on). NO for the unselected version of the help button (i.e. help mode off).
+* @returns Help button used on navigation bars.
+*/
 - (UIBarButtonItem *)newHelpBarButtonItemForViewController:(UIViewController *)a_viewController
                                                   selected:(BOOL)a_selected;
--(BOOL)isHelpEnabledForViewController:(UIViewController*)a_viewController;
 
-//wip: do I really need the complexity of having the type here? (header/footer) - doesn't the help make sense only as a footer?
 /**
-* @returns Form section help text.
+* @param a_viewController View controller to check if help mode should be enabled for.
+* @returns Indicates whether help should be available for the given view controller.
 */
-- (NSString *)formSectionHelpForType:(IFAFormSectionHelpType)a_helpType entityName:(NSString *)a_entityName
-                            formName:(NSString *)a_formName sectionName:(NSString *)a_sectionName
-                          createMode:(BOOL)a_createMode;
+-(BOOL)shouldEnableHelpForViewController:(UIViewController*)a_viewController;
 
-- (NSString *)helpForPropertyName:(NSString *)a_propertyName inEntityName:(NSString *)a_entityName value:(NSString *)a_value;
+/**
+* Help text for section obtained from Help.strings.
+* Help.strings entry key format:
+*   entities.<entityName>.forms.<formName>.sections.<sectionName>.modes.(any|create).description
+* @param a_sectionName Name of the section the help is for.
+* @param a_formName Name of the form the help is for.
+* @param a_entityName Name of the persistent entity the help is for.
+* @param a_createMode Whether the help is for creation mode or not.
+* @returns Form section help in plain text format.
+*/
+- (NSString *)helpForSectionNamed:(NSString *)a_sectionName
+                      inFormNamed:(NSString *)a_formName
+                       createMode:(BOOL)a_createMode
+                      entityNamed:(NSString *)a_entityName;
 
+/**
+* Help text for property obtained from Help.strings.
+* Help.strings entry key format at property level:
+*   entities.<entityName>.properties.<propertyName>.description
+* Help.strings entry key format at property value level:
+*   entities.<entityName>.properties.<propertyName>.values.<value>.description
+* @param a_propertyName Name of the property to get the help text for.
+* @param a_entityName Name of entity the property belongs to.
+* @param a_value Optional. Provide if help for specific value is required. This is useful for input controls such as switches and pickers, where the help text may change depending on the value selected by the user.
+* @returns Property help in plain text format.
+*/
+- (NSString *)helpForPropertyName:(NSString *)a_propertyName
+                     inEntityName:(NSString *)a_entityName
+                            value:(NSString *)a_value;
+
+/**
+* Help text for empty list obtained from Help.strings.
+* Help.strings entry key format:
+*   entities.<entityName>.list.placeholder.description
+* @param a_entityName Name of the persistent entity the help text is for.
+* @returns Empty list help in plain text format.
+*/
 - (NSString *)emptyListHelpForEntityName:(NSString *)a_entityName;
 
-//wip: do I still need this? Have I encountered any cases of help at the form level?
-- (NSString *)formHelpForType:(IFAFormHelpType)a_helpType
-                   entityName:(NSString *)a_entityName
-                     formName:(NSString *)a_formName;
-
-//wip: some methods in this header return plain string and some HTML - make it clearer in the method names
+/**
+* Help text for view controllers obtained from Help.strings.
+* This help text is presented in the modal view shown when tapping the help button.
+* Help.strings entry key format:
+*   entities.<entityName>.description
+* @param a_viewController View controller the help text is for.
+* @returns View controller help in HTML format.
+*/
 - (NSString *)helpForViewController:(UIViewController *)a_viewController;
 
+/**
+* Provides the key prefix used for persistent entity related entries in Help.strings.
+* @param a_entityName Name of the entity to provide the help target ID for.
+* @returns Help target ID for the given entity name.
+*/
 - (NSString *)helpTargetIdForEntityNamed:(NSString *)a_entityName;
 
 + (instancetype)sharedInstance;

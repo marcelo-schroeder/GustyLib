@@ -29,7 +29,7 @@ static char c_helpBarButtonItemKey;
 
 -(UIBarButtonItem*)ifa_helpBarButtonItem {
     UIBarButtonItem *obj = objc_getAssociatedObject(self, &c_helpBarButtonItemKey);
-    if (!obj && [[IFAHelpManager sharedInstance] isHelpEnabledForViewController:self]) {
+    if (!obj && [[IFAHelpManager sharedInstance] shouldEnableHelpForViewController:self]) {
         obj = [[IFAHelpManager sharedInstance] newHelpBarButtonItemForViewController:self selected:NO];
         self.ifa_helpBarButtonItem = obj;
     }

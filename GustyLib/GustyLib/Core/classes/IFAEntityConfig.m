@@ -152,34 +152,12 @@
 	return [[self dictionaryForForm:aFormName forEntity:anEntityName] valueForKey:@"label"];
 }
 
-- (NSString*)headerForForm:(NSString*)aFormName inObject:(NSObject*)anObject{
-#ifdef IFA_AVAILABLE_Help
-    NSString *help = [[IFAHelpManager sharedInstance] formHelpForType:IFAFormHelpTypeHeader
-                                                           entityName:anObject.ifa_entityName
-                                                             formName:aFormName];
-    if (help) {
-        return help;
-    }else{
-#endif
-        return [[[[[self entityConfigDictionary] valueForKey:[anObject ifa_entityName]] valueForKey:@"forms"] valueForKey:aFormName] valueForKey:@"formHeader"];
-#ifdef IFA_AVAILABLE_Help
-    }
-#endif
+- (NSString *)headerForForm:(NSString *)aFormName inObject:(NSObject *)anObject {
+    return [[[[[self entityConfigDictionary] valueForKey:[anObject ifa_entityName]] valueForKey:@"forms"] valueForKey:aFormName] valueForKey:@"formHeader"];
 }
 
-- (NSString*)footerForForm:(NSString*)aFormName inObject:(NSObject*)anObject{
-#ifdef IFA_AVAILABLE_Help
-    NSString *help = [[IFAHelpManager sharedInstance] formHelpForType:IFAFormHelpTypeFooter
-                                                           entityName:anObject.ifa_entityName
-                                                             formName:aFormName];
-    if (help) {
-        return help;
-    }else{
-#endif
-        return [[[[[self entityConfigDictionary] valueForKey:[anObject ifa_entityName]] valueForKey:@"forms"] valueForKey:aFormName] valueForKey:@"formFooter"];
-#ifdef IFA_AVAILABLE_Help
-    }
-#endif
+- (NSString *)footerForForm:(NSString *)aFormName inObject:(NSObject *)anObject {
+    return [[[[[self entityConfigDictionary] valueForKey:[anObject ifa_entityName]] valueForKey:@"forms"] valueForKey:aFormName] valueForKey:@"formFooter"];
 }
 
 - (NSString*)viewControllerForForm:(NSString*)aFormName inEntity:(NSString*)anEntityName{
@@ -431,20 +409,7 @@
 - (NSString *)headerForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject *)anObject inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode {
     NSArray *formSections = [self formSectionsForObject:anObject inForm:aFormName createMode:aCreateMode];
     NSDictionary *formSection = formSections[(NSUInteger) aSectionIndex];
-#ifdef IFA_AVAILABLE_Help
-    NSString *help = [[IFAHelpManager sharedInstance] formSectionHelpForType:IFAFormSectionHelpTypeHeader
-                                                                  entityName:anObject.ifa_entityName
-                                                                    formName:aFormName
-                                                                 sectionName:formSection[@"name"]
-                                                                  createMode:aCreateMode];
-    if (help) {
-        return help;
-    }else{
-#endif
-        return formSection[@"sectionHeader"];
-#ifdef IFA_AVAILABLE_Help
-    }
-#endif
+    return formSection[@"sectionHeader"];
 }
 
 - (NSString *)footerForSectionIndex:(NSInteger)a_sectionIndex
@@ -454,7 +419,7 @@
     NSArray *formSections = [self formSectionsForObject:a_object inForm:a_formName createMode:a_createMode];
     NSDictionary *formSection = formSections[(NSUInteger) a_sectionIndex];
 #ifdef IFA_AVAILABLE_Help
-    NSString *help;
+    NSString *help = nil;
     NSUInteger fieldCount = [self fieldCountCountForSectionIndex:a_sectionIndex
                                                         inObject:a_object inForm:a_formName
                                                       createMode:a_createMode];
@@ -478,18 +443,24 @@
                 IFASystemEntity *systemEntity = propertyValue;
                 propertyHelpValue = systemEntity.systemEntityId.stringValue;
             }
+            help = [[IFAHelpManager sharedInstance] helpForPropertyName:propertyName
+                                                           inEntityName:a_object.ifa_entityName
+                                                                  value:propertyHelpValue];
         }
-        help = [[IFAHelpManager sharedInstance] helpForPropertyName:propertyName
-                                                       inEntityName:a_object.ifa_entityName
-                                                              value:propertyHelpValue];
+        // If there is no help for a specific property value, try help for the property itself
+        if (!help) {
+            help = [[IFAHelpManager sharedInstance] helpForPropertyName:propertyName
+                                                           inEntityName:a_object.ifa_entityName
+                                                                  value:nil];
+        }
     }
     // If there is no help available yet, try to get help for the section
     if (!help) {
-        help = [[IFAHelpManager sharedInstance] formSectionHelpForType:IFAFormSectionHelpTypeFooter
-                                                            entityName:a_object.ifa_entityName
-                                                              formName:a_formName
-                                                           sectionName:formSection[@"name"]
-                                                            createMode:a_createMode];
+        help = [[IFAHelpManager sharedInstance] helpForSectionNamed:formSection[@"name"]
+                                                        inFormNamed:a_formName
+                                                         createMode:a_createMode
+                                                        entityNamed:a_object.ifa_entityName];
+
     }
     if (help) {
         return help;
