@@ -1306,14 +1306,26 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 -(void)changesMadeByViewController:(UIViewController *)a_viewController {
 //    NSLog(@"changesMadeByViewController: %@", [a_viewController description]);
     [super changesMadeByViewController:a_viewController];
+
     if ([a_viewController isKindOfClass:[IFAAbstractFieldEditorViewController class]]) {
+
+        // Determine the index path for the property
         IFAAbstractFieldEditorViewController *fieldEditorViewController = (IFAAbstractFieldEditorViewController *) a_viewController;
         NSIndexPath *propertyIndexPath = self.propertyNameToIndexPath[fieldEditorViewController.propertyName];
+
+        // Clear help text to avoid some visual noise as a result of animations
+        UITableViewHeaderFooterView *sectionFooterView = [self.tableView footerViewForSection:propertyIndexPath.section];
+        sectionFooterView.textLabel.text = nil;
+
+        // Reload section to reflect new values and new help text
         NSIndexSet *sectionsToReload = [NSIndexSet indexSetWithIndex:propertyIndexPath.section];
         [self.tableView reloadSections:sectionsToReload withRowAnimation:UITableViewRowAnimationNone];
+
+        // Reposition cell as help text height may have changed
         [self.tableView scrollToRowAtIndexPath:propertyIndexPath
                               atScrollPosition:UITableViewScrollPositionBottom
                                       animated:YES];
+
     }else{
         [self reloadData];
     }
