@@ -830,13 +830,18 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 }
 
 - (void)onSegmentedControlAction:(id)aSender{
+
     if (!self.isSubForm && !self.editing) {
         [self setEditing:YES animated:YES];
     }
+
     IFASegmentedControl *segmentedControl = aSender;
     NSString *entityName = [self entityNameForProperty:segmentedControl.propertyName];
     NSManagedObject *selectedManagedObject = [[IFAPersistenceManager sharedInstance] findAllForEntity:entityName][(NSUInteger) [segmentedControl selectedSegmentIndex]];
     [self.object ifa_setValue:selectedManagedObject forProperty:segmentedControl.propertyName];
+
+    [self clearSectionFooterHelpTextForPropertyNamed:segmentedControl.propertyName];
+
 }
 
 - (IFAFormTableViewCellAccessoryType)accessoryTypeForIndexPath:(NSIndexPath *)a_indexPath {
@@ -975,6 +980,12 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                                                                                                  inForm:self.formName
                                                                                              createMode:self.createMode];
     return isDeleteButton || isGenericDestructiveButton;
+}
+
+- (void)clearSectionFooterHelpTextForPropertyNamed:(NSString *)a_propertyName {
+    NSIndexPath *propertyIndexPath = self.propertyNameToIndexPath[a_propertyName];
+    UITableViewHeaderFooterView *sectionFooterView = [self.tableView footerViewForSection:propertyIndexPath.section];
+    sectionFooterView.textLabel.text = nil;
 }
 
 #pragma mark -
@@ -1316,9 +1327,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
         IFAAbstractFieldEditorViewController *fieldEditorViewController = (IFAAbstractFieldEditorViewController *) a_viewController;
         NSIndexPath *propertyIndexPath = self.propertyNameToIndexPath[fieldEditorViewController.propertyName];
 
-        // Clear help text to avoid some visual noise as a result of animations
-        UITableViewHeaderFooterView *sectionFooterView = [self.tableView footerViewForSection:propertyIndexPath.section];
-        sectionFooterView.textLabel.text = nil;
+        [self clearSectionFooterHelpTextForPropertyNamed:fieldEditorViewController.propertyName];
 
         // Reload section to reflect new values and new help text
         NSIndexSet *sectionsToReload = [NSIndexSet indexSetWithIndex:propertyIndexPath.section];

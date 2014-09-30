@@ -57,6 +57,13 @@
 
 - (BOOL)isDestructiveButtonForCell:(IFAFormTableViewCell *)a_cell;
 
+/**
+* Clear section footer help text.
+* This method can be called before table cell animations to avoid some undesired visual effects as a result of those animations.
+* @param a_propertyName Property name whose section footer help text will be cleared.
+*/
+- (void)clearSectionFooterHelpTextForPropertyNamed:(NSString *)a_propertyName;
+
 /* Submission forms */
 - (id)initWithObject:(NSObject *)a_object;
 - (id)    initWithObject:(NSObject *)a_object inForm:(NSString *)a_formName
