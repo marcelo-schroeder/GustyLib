@@ -1242,8 +1242,9 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
             if ([self IFA_shouldAdjustContentInsetForPresentedViewController:l_viewController]) {
                 self.contentInsetBeforePresentingSemiModalViewController = tableView.contentInset;
-                CGFloat toolbarHeight = self.navigationController.toolbar.bounds.size.height;   // Not the actual toolbar that will be used. Just a reference for height.
-                CGFloat contentBottomInset = l_viewController.view.bounds.size.height + toolbarHeight;
+                CGFloat navigationBarHeight = self.navigationController.navigationBar.bounds.size.height;   // Not the actual navigation bar that will be used. Just a reference for height.
+                CGFloat toolbarHeight = l_viewController.ifa_editModeToolbarItems.count ? navigationBarHeight : 0;   // Assuming the toolbar height is the same as the navigation bar.
+                CGFloat contentBottomInset = l_viewController.view.bounds.size.height + navigationBarHeight + toolbarHeight;
                 [UIView animateWithDuration:IFAAnimationDuration animations:^{
                     tableView.contentInset = UIEdgeInsetsMake(0, 0, contentBottomInset, 0);
                 }];
