@@ -18,7 +18,6 @@
 //  limitations under the License.
 //
 
-//wip: add documentation for the new things
 #import "IFAFetchedResultsTableViewController.h"
 
 #ifdef IFA_AVAILABLE_Help
@@ -51,7 +50,6 @@ typedef enum{
 @property (nonatomic, readonly) BOOL refreshAndReloadDataRequested;
 @property (nonatomic, strong) UIBarButtonItem *addBarButtonItem;
 @property (nonatomic, strong) NSManagedObjectID *editedManagedObjectId;
-//@property (nonatomic, strong, readonly) UILabel *tipLabel;    //wip: clean up
 @property(nonatomic, strong, readonly) UILabel *noDataPlaceholderAddHintPrefixLabel;
 @property(nonatomic, strong, readonly) UIImageView *noDataPlaceholderAddHintImageView;
 @property(nonatomic, strong, readonly) UILabel *noDataPlaceholderAddHintSuffixLabel;
@@ -139,9 +137,9 @@ typedef enum{
 - (UITableViewStyle)tableViewStyle;
 - (UITableViewCell*)cellForTableView:(UITableView*)a_tableView;
 
-- (BOOL)shouldShowTipsForEditing:(BOOL)a_editing;
-//- (NSString*)tipTextForEditing:(BOOL)a_editing;   //wip: review this
-- (void)showTipForEditing:(BOOL)a_editing;
+- (BOOL)shouldShowEmptyListPlaceholder;
+
+- (void)showEmptyListPlaceholder;
 
 // IFASelectionManagerDelegate
 - (NSObject*)selectionManagerObjectForIndexPath:(NSIndexPath*)a_indexPath;
@@ -161,7 +159,21 @@ typedef enum{
 
 @optional
 
+/**
+* Called when the list view controller needs to know whether the "add hint" should be shown or not when the list is empty.
+* Example of "add hint": "Tap + to add a report".
+* If this method is not implemented, then the "add hint" will be shown.
+* @param a_listViewController The sender.
+* @return YES to show the "add hint", NO to hide the "add hint".
+*/
 - (BOOL)shouldShowNoDataPlaceholderAddHintViewForListViewController:(IFAListViewController *)a_listViewController;
+
+/**
+* Implement this method to override the placeholder text shown for empty lists.
+* If this method is not implemented, the text used as a placeholder is the string returned by the IFAHelpManager emptyListHelpForEntityName: method.
+* @param a_listViewController The sender.
+* @return The text to be used as a placeholder for empty lists.
+*/
 - (NSString *)noDataPlaceholderDescriptionForListViewController:(IFAListViewController *)a_listViewController;
 
 @end

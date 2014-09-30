@@ -137,7 +137,7 @@
 
 -(void)didRefreshAndReloadData {
     [super didRefreshAndReloadData];
-    [self showTipForEditing:NO];
+    [self showEmptyListPlaceholder];
     self.IFA_hasInitialLoadBeenDone = YES;
 }
 

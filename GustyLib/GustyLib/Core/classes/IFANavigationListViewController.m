@@ -99,7 +99,7 @@
                 [self setEditing:NO animated:YES];
             }
         }else{
-            [self showTipForEditing:YES];
+            [self showEmptyListPlaceholder];
         }
 
     }
@@ -188,7 +188,7 @@
 
 -(void)setEditing:(BOOL)editing animated:(BOOL)animated{
     [super setEditing:editing animated:animated];
-    [self showTipForEditing:editing];
+    [self showEmptyListPlaceholder];
 //    UIButton *l_helpButton = (UIButton*)[self.navigationController.view viewWithTag:IFAViewTagHelpButton];
 //    l_helpButton.enabled = !editing;
 }
@@ -198,7 +198,7 @@
     if (![self ifa_isReturningVisibleViewController] && self.editing) { // If it was left editing previously, reset it to non-editing mode.
         [self quitEditing];
     }else{
-        [self showTipForEditing:NO];
+        [self showEmptyListPlaceholder];
     }
 }
 

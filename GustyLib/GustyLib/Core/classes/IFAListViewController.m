@@ -24,9 +24,6 @@
 #import "IFAHelpManager.h"
 #endif
 
-//wip: review
-//static const int k_tipLabelHorizontalMargin = 15;
-
 @interface IFAListViewController ()
 
 @property (nonatomic, strong) dispatch_block_t pagingContainerChildRefreshAndReloadDataAsynchronousBlock;
@@ -34,7 +31,6 @@
 @property (nonatomic, strong) NSString *listGroupedBy;
 @property(nonatomic, strong) void (^IFA_sectionDataBlock)(NSString *, NSObject *, NSArray *, NSMutableArray *, NSMutableArray *);
 @property(nonatomic) BOOL IFA_childManagedObjectContextPushed;
-//@property(nonatomic, strong) UILabel *tipLabel;   //wip: clean up
 @property(nonatomic, strong) NSLayoutConstraint *IFA_noDataPlaceholderViewCenterYConstraint;
 @property (nonatomic, strong) UIView *IFA_noDataPlaceholderAddHintView;
 @property (nonatomic, strong) UIView *IFA_noDataPlaceholderView;
@@ -183,18 +179,10 @@
 
 }
 
--(void)IFA_showTipWithText:(NSString*)a_text{
-    //wip: review - clean up
-//    self.tipLabel.text = a_text;
-//    self.tipLabel.hidden = NO;
-    self.IFA_noDataPlaceholderView.hidden = NO;
-}
-
 - (BOOL)IFA_shouldRefreshAndReloadDueToStaleDataOnViewAppearance {
     return self.staleData && ![self ifa_isReturningVisibleViewController];
 }
 
-//wip: rename "tip" things
 - (void)IFA_configureNoDataPlaceholderView {
     [self.tableView addSubview:self.IFA_noDataPlaceholderView];
     [self.IFA_noDataPlaceholderView.superview addConstraint:self.IFA_noDataPlaceholderViewCenterYConstraint];
@@ -206,8 +194,6 @@
                                                                                views:views];
     [noDataPlaceholderView.superview addConstraints:horizontalConstraints];
     [noDataPlaceholderView ifa_addLayoutConstraintToCenterInSuperviewHorizontally];
-//wip: review this
-//    self.tipLabel.preferredMaxLayoutWidth = self.view.bounds.size.width - k_tipLabelHorizontalMargin * 2;
 }
 
 - (NSLayoutConstraint *)IFA_noDataPlaceholderViewCenterYConstraint {
@@ -250,7 +236,6 @@
                                                                                                   options:NSLayoutFormatAlignAllCenterY
                                                                                                   metrics:nil
                                                                                                     views:views]];
-//        [self.noDataPlaceholderAddHintImageView ifa_addLayoutConstraintsToFillSuperviewVertically]; //wip: clean up
         [_IFA_noDataPlaceholderAddHintView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=0)-[prefixLabel]-(>=0)-|"
                                                                                                   options:NSLayoutFormatAlignAllCenterY
                                                                                                   metrics:nil
@@ -377,17 +362,9 @@
 
 }
 
--(BOOL)shouldShowTipsForEditing:(BOOL)a_editing{
+- (BOOL)shouldShowEmptyListPlaceholder {
     return self.objects.count==0 && self.addBarButtonItem.enabled;
 }
-
-//wip: clean up
-//-(NSString*)tipTextForEditing:(BOOL)a_editing{
-//    NSString *l_textTemplate = @"Tap the '+' button to add %@ %@.";
-//    NSString *l_indefiniteArticle = [[IFAPersistenceManager sharedInstance].entityConfig indefiniteArticleForEntity:self.entityName];
-//    NSString *l_entityName = [[IFAPersistenceManager sharedInstance].entityConfig labelForEntity:self.entityName];
-//    return [NSString stringWithFormat:l_textTemplate, l_indefiniteArticle, l_entityName];
-//}
 
 - (NSObject *)objectForIndexPath:(NSIndexPath*)a_indexPath{
     if (self.fetchedResultsController) {
@@ -523,14 +500,10 @@
     return IFAEntityConfigFormNameDefault;
 }
 
--(void)showTipForEditing:(BOOL)a_editing{
-//    NSLog(@"showTipForEditing");
-//    self.tipLabel.hidden = YES;   //wip: clean up
+- (void)showEmptyListPlaceholder {
     self.IFA_noDataPlaceholderView.hidden = YES;
-    if ([self shouldShowTipsForEditing:a_editing]) {
-//        NSLog(@"showTipWithText for %@", [self description]);
-//        NSString *text = [self tipTextForEditing:a_editing];    //wip: review this
-        [self IFA_showTipWithText:nil];    //wip: review this (it's sending a nil parameter)
+    if ([self shouldShowEmptyListPlaceholder]) {
+        self.IFA_noDataPlaceholderView.hidden = NO;
     }
 }
 
@@ -540,17 +513,6 @@
     }
     return _listGroupedBy;
 }
-
-//wip: clean up
-//- (UILabel *)tipLabel {
-//    if (!_tipLabel) {
-//        _tipLabel = [UILabel new];
-//        _tipLabel.translatesAutoresizingMaskIntoConstraints = NO;
-//        _tipLabel.textAlignment = NSTextAlignmentCenter;
-//        _tipLabel.numberOfLines = 0;
-//    }
-//    return _tipLabel;
-//}
 
 - (UILabel *)noDataPlaceholderAddHintPrefixLabel {
     if (!_noDataPlaceholderAddHintPrefixLabel) {
@@ -687,7 +649,7 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     [super controllerDidChangeContent:controller];
-    [self showTipForEditing:self.editing];
+    [self showEmptyListPlaceholder];
 }
 
 #pragma mark - IFAPresenter
@@ -741,8 +703,8 @@
 - (void)didDismissViewController:(UIViewController *)a_viewController changesMade:(BOOL)a_changesMade
                               data:(id)a_data {
     [super didDismissViewController:a_viewController changesMade:a_changesMade data:a_data];
-    if (!self.ifa_changesMadeByPresentedViewController) { // If changes have been made by the presented view controller, then showTipForEditing will be called somewhere else
-        [self showTipForEditing:self.editing];
+    if (!self.ifa_changesMadeByPresentedViewController) { // If changes have been made by the presented view controller, then showEmptyListPlaceholder will be called somewhere else
+        [self showEmptyListPlaceholder];
     }
 }
 
