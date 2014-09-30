@@ -1244,7 +1244,9 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                 self.contentInsetBeforePresentingSemiModalViewController = tableView.contentInset;
                 CGFloat toolbarHeight = self.navigationController.toolbar.bounds.size.height;   // Not the actual toolbar that will be used. Just a reference for height.
                 CGFloat contentBottomInset = l_viewController.view.bounds.size.height + toolbarHeight;
-                tableView.contentInset = UIEdgeInsetsMake(0, 0, contentBottomInset, 0);
+                [UIView animateWithDuration:IFAAnimationDuration animations:^{
+                    tableView.contentInset = UIEdgeInsetsMake(0, 0, contentBottomInset, 0);
+                }];
                 [tableView scrollToRowAtIndexPath:indexPath
                                  atScrollPosition:UITableViewScrollPositionBottom
                                          animated:YES];
