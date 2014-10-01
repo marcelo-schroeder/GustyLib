@@ -68,6 +68,7 @@
 		10738568BB86172585CF9289 /* IFAAppTerminator.m in Sources */ = {isa = PBXBuildFile; fileRef = 10738D5070E9F48F25A986FD /* IFAAppTerminator.m */; };
 		10738585BA63BA1F93527D33 /* IFAFetchedResultsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073880D89A73D5B1A70784D /* IFAFetchedResultsTableViewController.m */; };
 		1073858748E98B60EA997816 /* IFAApplicationLogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073896E4A3C0FBB2B00681A /* IFAApplicationLogViewController.m */; };
+		107385EB932B367A6B2527C3 /* IFAViewControllerFadeTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073872447F7A65145C98C3B /* IFAViewControllerFadeTransitioning.m */; };
 		107385F1FF832809B57F6344 /* UIView+IFACategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 10738C539F23A4B0FB582E31 /* UIView+IFACategory.m */; };
 		10738601EC3BC054532E4FC6 /* IFAPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10738DF1AA249DCEA94F42CC /* IFAPickerViewController.m */; };
 		1073862083C98EE796A95569 /* UIViewController+IFAGoogleMobileAdsSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 107383B8ABDCE2409B584D58 /* UIViewController+IFAGoogleMobileAdsSupport.m */; };
@@ -90,7 +91,6 @@
 		1073881DE070F9CABAFC0D2D /* HtmlParser_testdata4.html in Resources */ = {isa = PBXBuildFile; fileRef = 1073874B2599AF4BCFAB3F71 /* HtmlParser_testdata4.html */; };
 		1073882860099B237A4AD09B /* IFADynamicCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 10738C28A8D7FB715DD6F3C7 /* IFADynamicCache.m */; };
 		10738833235737BFD90E691B /* IFASingleSelectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073879DF64852A02294B3E9 /* IFASingleSelectionManager.m */; };
-		107388399EB7CC20A1C8B360 /* IFAViewControllerFadeTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = 10738F160D0EE82ADA2F17A3 /* IFAViewControllerFadeTransitioning.m */; };
 		10738856DB4FAAE35500812A /* IFA_ECSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10738110721D30788B85EE50 /* IFA_ECSlidingViewController.m */; };
 		107388710585FD205D1F9316 /* IFAAbstractPagingContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 107381C5E6287607D16AFB0B /* IFAAbstractPagingContainerViewController.m */; };
 		1073888DEAE68241F004586C /* IFAPinAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073856780CB4D3E77030392 /* IFAPinAnnotationView.m */; };
@@ -264,7 +264,6 @@
 		107381F051543875B9393B9D /* IFAPagingStateManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAPagingStateManagerTests.m; sourceTree = "<group>"; };
 		107381FF7FDA5F5529C8C615 /* 056-PlusCircle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "056-PlusCircle@2x.png"; sourceTree = "<group>"; };
 		1073820FF6F4F78E544C77BE /* IFAGoogleMobileAdsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAGoogleMobileAdsManager.h; sourceTree = "<group>"; };
-		1073822D0035BFB0AEAF7FEF /* IFAViewControllerFadeTransitioning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFAViewControllerFadeTransitioning.h; path = GustyLib/Core/classes/IFAViewControllerFadeTransitioning.h; sourceTree = SOURCE_ROOT; };
 		107382460F720F6929AE5F44 /* IFAFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAFormViewController.h; sourceTree = "<group>"; };
 		107382472E9D02A0D00BFFAB /* IFAFadingBlurViewControllerTransitioningDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAFadingBlurViewControllerTransitioningDelegate.m; sourceTree = "<group>"; };
 		10738265A90827B213AF568C /* internalWebBrowserActivity~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "internalWebBrowserActivity~iphone.png"; sourceTree = "<group>"; };
@@ -385,6 +384,7 @@
 		1073871DD5E3611F1EB3B0BF /* NSStringTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringTests.m; sourceTree = "<group>"; };
 		1073871E69D254C2BB5B7B60 /* IFAThirdPartyCodeCreditsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAThirdPartyCodeCreditsViewController.m; sourceTree = "<group>"; };
 		1073871E86BC906ADB62E553 /* IFADefaultAppearanceTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFADefaultAppearanceTheme.h; sourceTree = "<group>"; };
+		1073872447F7A65145C98C3B /* IFAViewControllerFadeTransitioning.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAViewControllerFadeTransitioning.m; sourceTree = "<group>"; };
 		1073872D8306972B2A8BFF42 /* NSURL+IFACategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+IFACategory.m"; sourceTree = "<group>"; };
 		10738734B6072E64CD553A96 /* NSNumberFormatter+IFACategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumberFormatter+IFACategory.m"; sourceTree = "<group>"; };
 		1073873695FDC50F1DFEFCE6 /* IFAEmailManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAEmailManager.m; sourceTree = "<group>"; };
@@ -493,6 +493,7 @@
 		10738B343EAC713B1E85BFD7 /* IFATableSectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFATableSectionHeaderView.h; sourceTree = "<group>"; };
 		10738B46336949C7F41BE21B /* IFAView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAView.m; sourceTree = "<group>"; };
 		10738B4E76E6643DDA7A845F /* UITableView+IFACategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+IFACategory.h"; sourceTree = "<group>"; };
+		10738B6DD31A4BF20169A546 /* IFAViewControllerFadeTransitioning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAViewControllerFadeTransitioning.h; sourceTree = "<group>"; };
 		10738B721D9991953F32274E /* UITableViewController+IFADynamicCellHeight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewController+IFADynamicCellHeight.h"; sourceTree = "<group>"; };
 		10738B739CE7856D4CE88BBB /* IFAPreferencesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAPreferencesManager.h; sourceTree = "<group>"; };
 		10738B857EEF16F610E04844 /* IFADynamicPagingContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFADynamicPagingContainerViewController.m; sourceTree = "<group>"; };
@@ -579,7 +580,6 @@
 		10738EFB6F67B2984B82A30A /* IFAZeroingWeakReferenceContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAZeroingWeakReferenceContainer.h; sourceTree = "<group>"; };
 		10738F02451BDA9FA6CDE3E0 /* IFATableCellSelectedBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFATableCellSelectedBackgroundView.m; sourceTree = "<group>"; };
 		10738F0F7BB11DDDD9229278 /* NSIndexPathTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSIndexPathTests.m; sourceTree = "<group>"; };
-		10738F160D0EE82ADA2F17A3 /* IFAViewControllerFadeTransitioning.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFAViewControllerFadeTransitioning.m; path = GustyLib/Core/classes/IFAViewControllerFadeTransitioning.m; sourceTree = SOURCE_ROOT; };
 		10738F20F2E47E9451D8DF09 /* IFADirectionsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFADirectionsManager.m; sourceTree = "<group>"; };
 		10738F2679EEA2D105C6A9CD /* IFACollectionViewFetchedResultsControllerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFACollectionViewFetchedResultsControllerDelegate.m; sourceTree = "<group>"; };
 		10738F2D9D513C3666E14594 /* IFAHelpTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAHelpTarget.h; sourceTree = "<group>"; };
@@ -980,6 +980,8 @@
 				10738BE14C999AA26980D86B /* IFABlurredFadingOverlayPresentationController.h */,
 				107382472E9D02A0D00BFFAB /* IFAFadingBlurViewControllerTransitioningDelegate.m */,
 				10738CF5266431351C5684A4 /* IFAFadingBlurViewControllerTransitioningDelegate.h */,
+				10738B6DD31A4BF20169A546 /* IFAViewControllerFadeTransitioning.h */,
+				1073872447F7A65145C98C3B /* IFAViewControllerFadeTransitioning.m */,
 			);
 			path = classes;
 			sourceTree = "<group>";
@@ -1115,8 +1117,6 @@
 				10738561035BDD4DDA3B5088 /* MBProgressHUD */,
 				10738755B88A14C2EE270249 /* SVWebViewController */,
 				10738C1383A09B43C69C543E /* IBActionSheet */,
-				10738F160D0EE82ADA2F17A3 /* IFAViewControllerFadeTransitioning.m */,
-				1073822D0035BFB0AEAF7FEF /* IFAViewControllerFadeTransitioning.h */,
 			);
 			path = "3rd party";
 			sourceTree = "<group>";
@@ -1704,8 +1704,8 @@
 				10738C157DD7A0429F42455B /* UIViewController+IFAHelp.m in Sources */,
 				1073828CE9653253C469538D /* IFAFadingOverlayPresentationController.m in Sources */,
 				10738ADFA3E98361C065590B /* IFABlurredFadingOverlayPresentationController.m in Sources */,
-				107388399EB7CC20A1C8B360 /* IFAViewControllerFadeTransitioning.m in Sources */,
 				10738ABE3E250EA62AC61E0B /* IFAFadingBlurViewControllerTransitioningDelegate.m in Sources */,
+				107385EB932B367A6B2527C3 /* IFAViewControllerFadeTransitioning.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
