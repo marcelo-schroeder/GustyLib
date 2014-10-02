@@ -841,7 +841,9 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
             [l_weakSelf setEditing:YES animated:YES];
         }
 //        NSLog(@"  About to reload: %@", [l_indexPathsToReload description]);
-        [l_weakSelf.tableView reloadRowsAtIndexPaths:l_indexPathsToReload withRowAnimation:UITableViewRowAnimationFade];
+        if (l_indexPathsToReload.count) {
+            [l_weakSelf.tableView reloadRowsAtIndexPaths:l_indexPathsToReload withRowAnimation:UITableViewRowAnimationFade];
+        }
         NSIndexPath *propertyIndexPath = l_weakSelf.propertyNameToIndexPath[l_propertyName];
         // Reload section in case help for the property needs to be updated
         [self clearSectionFooterHelpTextForPropertyNamed:l_propertyName];
