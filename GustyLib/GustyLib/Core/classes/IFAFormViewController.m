@@ -25,9 +25,6 @@
 #endif
 
 static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
-static const CGFloat k_spaceBetweenCellAndSectionHeaderOrFooter = 7;
-static const CGFloat k_sectionHeaderFooterExternalVerticalSpace = 26;
-static const CGFloat k_sectionHeaderFooterInternalVerticalSpace = 15;
 
 //wip: cell heights get out of wack when help text changes due to changing a value in a picker
 @interface IFAFormViewController ()
@@ -624,18 +621,18 @@ static const CGFloat k_sectionHeaderFooterInternalVerticalSpace = 15;
 - (UIView *)IFA_sectionHeaderFooterWithLabelText:(NSString *)a_labelText
                                         isHeader:(BOOL)a_isHeader
                                          section:(NSUInteger)a_section {
-    if (a_labelText) {
-        IFAFormSectionHeaderFooterView *sectionFooterView = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:k_sectionHeaderFooterReuseId];
-        [self IFA_populateSectionFooterView:sectionFooterView withLabelText:a_labelText isHeader:a_isHeader section:a_section];
-        return sectionFooterView;
-    }else{
-        return nil;
-    }
+    IFAFormSectionHeaderFooterView *sectionFooterView = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:k_sectionHeaderFooterReuseId];
+    [self IFA_populateSectionFooterView:sectionFooterView withLabelText:a_labelText isHeader:a_isHeader
+                                section:a_section];
+//    sectionFooterView.customContentView.backgroundColor = a_isHeader ? [UIColor purpleColor] : [UIColor blueColor];
+//    sectionFooterView.label.backgroundColor = [UIColor orangeColor];
+    return sectionFooterView;
 }
 
 - (CGFloat)IFA_sectionHeaderFooterHeightForLabelText:(NSString *)a_labelText
                                             isHeader:(BOOL)a_isHeader
                                              section:(NSUInteger)a_section {
+    static const CGFloat k_emptySectionHeaderFooterHeight = 10;
     if (a_labelText) {
         IFAFormSectionHeaderFooterView *sectionFooterView = [[IFAFormSectionHeaderFooterView alloc] initWithReuseIdentifier:@"prototype"];  //wip: cache this
         [self IFA_populateSectionFooterView:sectionFooterView withLabelText:a_labelText isHeader:a_isHeader section:a_section];
@@ -649,13 +646,16 @@ static const CGFloat k_sectionHeaderFooterInternalVerticalSpace = 15;
         CGSize size = [sectionFooterView.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
         return size.height;
     }else{
-        return 0;
+        return k_emptySectionHeaderFooterHeight;
     }
 }
 
 //wip: should the spacing below be proportional to the dynamic type chosen by the user?
 - (void)IFA_populateSectionFooterView:(IFAFormSectionHeaderFooterView *)a_sectionFooterView
                         withLabelText:(NSString *)a_labelText isHeader:(BOOL)a_isHeader section:(NSUInteger)a_section {
+    static const CGFloat k_spaceBetweenCellAndSectionHeaderOrFooter = 7;
+    static const CGFloat k_sectionHeaderFooterExternalVerticalSpace = 26;
+    static const CGFloat k_sectionHeaderFooterInternalVerticalSpace = 15;
     if (a_isHeader) {
         BOOL isFirstHeader = a_section == 0;
         a_sectionFooterView.topLayoutConstraint.constant = isFirstHeader ? k_sectionHeaderFooterExternalVerticalSpace : k_sectionHeaderFooterInternalVerticalSpace;
