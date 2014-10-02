@@ -188,3 +188,5 @@
 #import "IFABlurredFadingOverlayPresentationController.h"
 #import "IFAViewControllerFadeTransitioning.h"
 #import "IFAFadingBlurViewControllerTransitioningDelegate.h"
+#import "IFAFormSectionHeaderFooterView.h"
+#import "IFATableViewHeaderFooterView.h"

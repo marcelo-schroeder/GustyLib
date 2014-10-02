@@ -24,6 +24,12 @@
 #import "GustyLibHelp.h"
 #endif
 
+static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
+static const CGFloat k_spaceBetweenCellAndSectionHeaderOrFooter = 7;
+static const CGFloat k_sectionHeaderFooterExternalVerticalSpace = 26;
+static const CGFloat k_sectionHeaderFooterInternalVerticalSpace = 15;
+
+//wip: cell heights get out of wack when help text changes due to changing a value in a picker
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -615,6 +621,78 @@
     return a_viewController.ifa_hasFixedSize;
 }
 
+- (UIView *)IFA_sectionHeaderFooterWithLabelText:(NSString *)a_labelText
+                                        isHeader:(BOOL)a_isHeader
+                                         section:(NSUInteger)a_section {
+    if (a_labelText) {
+        IFAFormSectionHeaderFooterView *sectionFooterView = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:k_sectionHeaderFooterReuseId];
+        [self IFA_populateSectionFooterView:sectionFooterView withLabelText:a_labelText isHeader:a_isHeader section:a_section];
+        return sectionFooterView;
+    }else{
+        return nil;
+    }
+}
+
+- (CGFloat)IFA_sectionHeaderFooterHeightForLabelText:(NSString *)a_labelText
+                                            isHeader:(BOOL)a_isHeader
+                                             section:(NSUInteger)a_section {
+    if (a_labelText) {
+        IFAFormSectionHeaderFooterView *sectionFooterView = [[IFAFormSectionHeaderFooterView alloc] initWithReuseIdentifier:@"prototype"];  //wip: cache this
+        [self IFA_populateSectionFooterView:sectionFooterView withLabelText:a_labelText isHeader:a_isHeader section:a_section];
+        [sectionFooterView.contentView addConstraint:[NSLayoutConstraint constraintWithItem:sectionFooterView.contentView
+                                                                                  attribute:NSLayoutAttributeWidth
+                                                                                  relatedBy:NSLayoutRelationEqual
+                                                                                     toItem:nil
+                                                                                  attribute:0
+                                                                                 multiplier:1
+                                                                                   constant:self.view.bounds.size.width]];
+        CGSize size = [sectionFooterView.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+        return size.height;
+    }else{
+        return 0;
+    }
+}
+
+//wip: should the spacing below be proportional to the dynamic type chosen by the user?
+- (void)IFA_populateSectionFooterView:(IFAFormSectionHeaderFooterView *)a_sectionFooterView
+                        withLabelText:(NSString *)a_labelText isHeader:(BOOL)a_isHeader section:(NSUInteger)a_section {
+    if (a_isHeader) {
+        BOOL isFirstHeader = a_section == 0;
+        a_sectionFooterView.topLayoutConstraint.constant = isFirstHeader ? k_sectionHeaderFooterExternalVerticalSpace : k_sectionHeaderFooterInternalVerticalSpace;
+        a_sectionFooterView.bottomLayoutConstraint.constant = k_spaceBetweenCellAndSectionHeaderOrFooter;
+    }else{
+        BOOL isLastFooter = a_section == self.tableView.numberOfSections - 1;
+        a_sectionFooterView.topLayoutConstraint.constant = k_spaceBetweenCellAndSectionHeaderOrFooter;
+        a_sectionFooterView.bottomLayoutConstraint.constant = isLastFooter ? k_sectionHeaderFooterExternalVerticalSpace : k_sectionHeaderFooterInternalVerticalSpace;
+    }
+    a_sectionFooterView.label.text = a_labelText;
+}
+
+- (NSString *)IFA_titleForHeaderInSection:(NSInteger)section{
+    NSString *title = nil;
+    if (section==self.IFA_deleteButtonSection) {
+        title = nil;
+    } else {
+        title = [[IFAPersistenceManager sharedInstance].entityConfig headerForSectionIndex:section
+                                                                                  inObject:self.object
+                                                                                    inForm:self.formName
+                                                                                createMode:self.createMode];
+    }
+    return title.uppercaseString;
+}
+
+- (NSString *)IFA_titleForFooterInSection:(NSInteger)section {
+    NSString *title = nil;
+    if (section == self.IFA_deleteButtonSection) {
+        title = nil;
+    } else {
+        title = [[IFAPersistenceManager sharedInstance].entityConfig footerForSectionIndex:section inObject:self.object
+                                                                                    inForm:self.formName
+                                                                                createMode:self.createMode];
+    }
+    return title;
+}
+
 #pragma mark - Public
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -766,6 +844,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
         [l_weakSelf.tableView reloadRowsAtIndexPaths:l_indexPathsToReload withRowAnimation:UITableViewRowAnimationFade];
         NSIndexPath *propertyIndexPath = l_weakSelf.propertyNameToIndexPath[l_propertyName];
         // Reload section in case help for the property needs to be updated
+        [self clearSectionFooterHelpTextForPropertyNamed:l_propertyName];
         NSIndexSet *sectionsToReload = [NSIndexSet indexSetWithIndex:propertyIndexPath.section];
         [l_weakSelf.tableView reloadSections:sectionsToReload withRowAnimation:UITableViewRowAnimationNone];
     } afterDelay:IFAAnimationDuration]; // Add delay to allow for the switch animation to complete
@@ -983,8 +1062,11 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
 - (void)clearSectionFooterHelpTextForPropertyNamed:(NSString *)a_propertyName {
     NSIndexPath *propertyIndexPath = self.propertyNameToIndexPath[a_propertyName];
-    UITableViewHeaderFooterView *sectionFooterView = [self.tableView footerViewForSection:propertyIndexPath.section];
-    sectionFooterView.textLabel.text = nil;
+    UIView *sectionFooterView = [self.tableView footerViewForSection:propertyIndexPath.section];
+    if ([sectionFooterView isKindOfClass:[IFAFormSectionHeaderFooterView class]]) {
+        IFAFormSectionHeaderFooterView *formSectionHeaderFooterView = sectionFooterView;
+        formSectionHeaderFooterView.label.text = nil;
+    }
 }
 
 #pragma mark -
@@ -999,26 +1081,6 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                                                                                           inObject:self.object
                                                                                             inForm:self.formName
                                                                                         createMode:self.createMode];
-    }
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    if (section==self.IFA_deleteButtonSection) {
-        return nil;
-    } else {
-        return [[IFAPersistenceManager sharedInstance].entityConfig headerForSectionIndex:section inObject:self.object
-                                                                                   inForm:self.formName
-                                                                               createMode:self.createMode];
-    }
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section{
-    if (section==self.IFA_deleteButtonSection) {
-        return nil;
-    } else {
-        return [[IFAPersistenceManager sharedInstance].entityConfig footerForSectionIndex:section inObject:self.object
-                                                                                   inForm:self.formName
-                                                                               createMode:self.createMode];
     }
 }
 
@@ -1284,25 +1346,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return self.editing && [self editorTypeForIndexPath:indexPath] == IFAEditorTypeNumber ? 84 : 44;
-}
-
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    IFATableSectionHeaderView *l_view = nil;
-    NSString *l_title = [self tableView:tableView titleForHeaderInSection:section];
-    if (l_title) {
-        NSString *l_xibName = [IFAUtils infoPList][@"IFAThemeFormSectionHeaderViewXib"];
-        if (l_xibName) {
-            l_view = [[NSBundle mainBundle] loadNibNamed:l_xibName owner:self options:nil][0];
-            l_view.titleLabel.text = l_title;
-        }
-    }
-    return l_view;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    NSString *l_title = [self tableView:tableView titleForHeaderInSection:section];
-    return l_title ? IFAFormSectionHeaderDefaultHeight : 0;
+    return self.editing && [self editorTypeForIndexPath:indexPath] == IFAEditorTypeNumber ? 84 : UITableViewAutomaticDimension; //wip: dynamic type - what to do in the custom size cases here?
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -1312,6 +1356,26 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     // Set custom disclosure indicator for cell
     [[self ifa_appearanceTheme] setCustomDisclosureIndicatorForCell:cell tableViewController:self];
 
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    NSString *labelText = [self IFA_titleForHeaderInSection:section];
+    return [self IFA_sectionHeaderFooterWithLabelText:labelText isHeader:YES section:section];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    NSString *labelText = [self IFA_titleForHeaderInSection:section];
+    return [self IFA_sectionHeaderFooterHeightForLabelText:labelText isHeader:YES section:section];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    NSString *labelText = [self IFA_titleForFooterInSection:section];
+    return [self IFA_sectionHeaderFooterWithLabelText:labelText isHeader:NO section:section];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    NSString *labelText = [self IFA_titleForFooterInSection:section];
+    return [self IFA_sectionHeaderFooterHeightForLabelText:labelText isHeader:NO section:section];
 }
 
 #pragma mark - IFAPresenter
@@ -1362,6 +1426,8 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 #pragma mark Overrides
 
 - (void)viewDidLoad {
+
+    self.ifa_delegate = self;
 
     [super viewDidLoad];
 
@@ -1470,6 +1536,10 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     if(self.createMode){
         self.editing = YES;
     }
+
+    [self.tableView registerClass:[IFAFormSectionHeaderFooterView class] forHeaderFooterViewReuseIdentifier:k_sectionHeaderFooterReuseId];
+
+    self.tableView.estimatedRowHeight = IFAMinimumTapAreaDimension; // Not having this may produce incorrect cell heights (added with support for dynamic type)
 
 }
 
@@ -1810,5 +1880,12 @@ responderForKeyboardInputFocusAtIndexPath:(NSIndexPath *)a_indexPath {
 }
 
 #endif
+
+#pragma mark - IFAViewControllerDelegate
+
+- (void)viewController:(UIViewController *)a_viewController didChangeContentSizeCategory:(NSString *)a_contentSizeCategory {
+    NSLog(@"didChangeContentSizeCategory: %@", a_contentSizeCategory);  //clean up
+    [self.tableView reloadData];
+}
 
 @end

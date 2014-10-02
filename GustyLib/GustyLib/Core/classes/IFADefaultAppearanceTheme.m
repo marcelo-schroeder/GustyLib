@@ -492,7 +492,11 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 }
 
--(void)setAppearanceForView:(UIView*)a_view{
+- (void)setAppearanceForView:(UIView *)a_view {
+    if ([a_view isKindOfClass:[IFAFormSectionHeaderFooterView class]]) {
+        IFAFormSectionHeaderFooterView *view = (IFAFormSectionHeaderFooterView *) a_view;
+        view.label.textColor = [UIColor ifa_grayColorWithRGB:113];
+    }
 }
 
 -(void)setAppearanceForBarButtonItem:(UIBarButtonItem*)a_barButtonItem{

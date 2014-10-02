@@ -24,6 +24,7 @@
 #import "IFAConstants.h"
 #import "IFAFormInputAccessoryView.h"
 #import "IFAEntityConfig.h"
+#import "UIViewController+IFACategory.h"
 
 #ifdef IFA_AVAILABLE_Help
 #import "IFAHelpTarget.h"
@@ -31,7 +32,7 @@
 
 @protocol IFAFormViewControllerDelegate;
 
-@interface IFAFormViewController : IFATableViewController <UIActionSheetDelegate, IFAFormInputAccessoryViewDataSource
+@interface IFAFormViewController : IFATableViewController <UIActionSheetDelegate, IFAFormInputAccessoryViewDataSource, IFAViewControllerDelegate
 #ifdef IFA_AVAILABLE_Help
         , IFAHelpTarget
 #endif
