@@ -1114,13 +1114,13 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
         switch (editorType) {
 
-            case IFAEditorTypeText: {
-                l_cellToReturn = (IFAFormTextFieldTableViewCell *) (self.IFA_indexPathToTextFieldCellDictionary)[indexPath];
-                break;
-            }
-
-            case IFAEditorTypeNumber: {
-                l_cellToReturn = (IFAFormNumberFieldTableViewCell *) (self.IFA_indexPathToTextFieldCellDictionary)[indexPath];
+            case IFAEditorTypeText:
+            case IFAEditorTypeNumber:
+            {
+                l_cellToReturn = [tableView dequeueReusableCellWithIdentifier:l_propertyName];
+                if (!l_cellToReturn) {
+                    l_cellToReturn = self.IFA_indexPathToTextFieldCellDictionary[indexPath];
+                }
                 break;
             }
 
