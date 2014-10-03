@@ -856,18 +856,21 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
     __weak __typeof(self) l_weakSelf = self;
     [IFAUtils dispatchAsyncMainThreadBlock:^{
+
         if (!l_weakSelf.isSubForm && !l_weakSelf.editing) {
             [l_weakSelf setEditing:YES animated:YES];
         }
+
 //        NSLog(@"  About to reload: %@", [l_indexPathsToReload description]);
         if (l_indexPathsToReload.count) {
             [l_weakSelf.tableView reloadRowsAtIndexPaths:l_indexPathsToReload withRowAnimation:UITableViewRowAnimationFade];
         }
         NSIndexPath *propertyIndexPath = l_weakSelf.propertyNameToIndexPath[l_propertyName];
+
         // Reload section in case help for the property needs to be updated
         [self clearSectionFooterHelpTextForPropertyNamed:l_propertyName];
-        NSIndexSet *sectionsToReload = [NSIndexSet indexSetWithIndex:propertyIndexPath.section];
-        [l_weakSelf.tableView reloadSections:sectionsToReload withRowAnimation:UITableViewRowAnimationNone];
+        [l_weakSelf.tableView reloadData];
+
     } afterDelay:IFAAnimationDuration]; // Add delay to allow for the switch animation to complete
 
 }
