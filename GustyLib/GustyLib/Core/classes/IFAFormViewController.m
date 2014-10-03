@@ -18,7 +18,6 @@
 //  limitations under the License.
 //
 
-#import <GustyLib/IFAFormSectionHeaderFooterView.h>
 #import "GustyLibCore.h"
 
 #ifdef IFA_AVAILABLE_Help
@@ -56,8 +55,6 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 @property(nonatomic) NSUInteger IFA_initialChildManagedObjectContextCountForAssertion;
 @property(nonatomic) BOOL IFA_fixForContentBottomInsetAppleBugEnabled;
 @property(nonatomic) UIEdgeInsets contentInsetBeforePresentingSemiModalViewController;
-@property(nonatomic, strong) IFAFormSectionHeaderFooterView *IFA_prototypeSectionFooterView;
-@property(nonatomic, strong) NSLayoutConstraint *IFA_prototypeSectionFooterContentViewWidthConstraint;
 @end
 
 @implementation IFAFormViewController
@@ -632,35 +629,20 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
     return sectionFooterView;
 }
 
-- (IFAFormSectionHeaderFooterView *)IFA_prototypeSectionFooterView {
-    if (!_IFA_prototypeSectionFooterView) {
-        _IFA_prototypeSectionFooterView = [[IFAFormSectionHeaderFooterView alloc] initWithReuseIdentifier:@"prototype"];
-        [_IFA_prototypeSectionFooterView.contentView addConstraint:self.IFA_prototypeSectionFooterContentViewWidthConstraint];
-    }
-    return _IFA_prototypeSectionFooterView;
-}
-
-- (NSLayoutConstraint *)IFA_prototypeSectionFooterContentViewWidthConstraint {
-    if (!_IFA_prototypeSectionFooterContentViewWidthConstraint) {
-        _IFA_prototypeSectionFooterContentViewWidthConstraint = [NSLayoutConstraint constraintWithItem:self.IFA_prototypeSectionFooterView.contentView
-                                                                                      attribute:NSLayoutAttributeWidth
-                                                                                      relatedBy:NSLayoutRelationEqual
-                                                                                         toItem:nil
-                                                                                      attribute:0
-                                                                                     multiplier:1
-                                                                                       constant:0];
-    }
-    return _IFA_prototypeSectionFooterContentViewWidthConstraint;
-}
-
 - (CGFloat)IFA_sectionHeaderFooterHeightForLabelText:(NSString *)a_labelText
                                             isHeader:(BOOL)a_isHeader
                                              section:(NSUInteger)a_section {
-    [self IFA_populateSectionFooterView:self.IFA_prototypeSectionFooterView withLabelText:a_labelText
-                               isHeader:a_isHeader
+    IFAFormSectionHeaderFooterView *sectionFooterView = [[IFAFormSectionHeaderFooterView alloc] initWithReuseIdentifier:@"prototype"];
+    [self IFA_populateSectionFooterView:sectionFooterView withLabelText:a_labelText isHeader:a_isHeader
                                 section:a_section];
-    self.IFA_prototypeSectionFooterContentViewWidthConstraint.constant = self.view.bounds.size.width;
-    CGSize size = [self.IFA_prototypeSectionFooterView.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+    [sectionFooterView.contentView addConstraint:[NSLayoutConstraint constraintWithItem:sectionFooterView.contentView
+                                                                              attribute:NSLayoutAttributeWidth
+                                                                              relatedBy:NSLayoutRelationEqual
+                                                                                 toItem:nil
+                                                                              attribute:0
+                                                                             multiplier:1
+                                                                               constant:self.view.bounds.size.width]];
+    CGSize size = [sectionFooterView.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
     return size.height;
 }
 
@@ -865,7 +847,6 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
         if (l_indexPathsToReload.count) {
             [l_weakSelf.tableView reloadRowsAtIndexPaths:l_indexPathsToReload withRowAnimation:UITableViewRowAnimationFade];
         }
-        NSIndexPath *propertyIndexPath = l_weakSelf.propertyNameToIndexPath[l_propertyName];
 
         // Reload section in case help for the property needs to be updated
         [self clearSectionFooterHelpTextForPropertyNamed:l_propertyName];
@@ -1088,7 +1069,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     NSIndexPath *propertyIndexPath = self.propertyNameToIndexPath[a_propertyName];
     UIView *sectionFooterView = [self.tableView footerViewForSection:propertyIndexPath.section];
     if ([sectionFooterView isKindOfClass:[IFAFormSectionHeaderFooterView class]]) {
-        IFAFormSectionHeaderFooterView *formSectionHeaderFooterView = sectionFooterView;
+        IFAFormSectionHeaderFooterView *formSectionHeaderFooterView = (IFAFormSectionHeaderFooterView *) sectionFooterView;
         formSectionHeaderFooterView.label.text = nil;
     }
 }
