@@ -28,6 +28,8 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
 //wip: cell heights get out of wack when help text changes due to changing a value in a picker
 //wip: about screen - version row does not change when changing dynamic type
+//wip: switch cell - should have space between it and the label
+//wip: about screen: app info at the top is not dynamic
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
