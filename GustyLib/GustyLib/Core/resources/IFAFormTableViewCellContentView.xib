@@ -86,11 +86,13 @@
                 <constraint firstItem="bOx-tD-ean" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="12" id="KGd-Uk-tdV"/>
                 <constraint firstAttribute="centerY" secondItem="BsX-Ip-YYH" secondAttribute="centerY" id="MnW-0M-SeA"/>
                 <constraint firstAttribute="centerY" secondItem="rSZ-Ec-zn8" secondAttribute="centerY" id="TxP-25-wIJ"/>
+                <constraint firstAttribute="bottom" secondItem="BsX-Ip-YYH" secondAttribute="bottom" constant="12" id="VtR-Pa-hei"/>
                 <constraint firstItem="a7O-Dd-jDy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="-1" id="YOy-XO-9PI"/>
                 <constraint firstItem="Oax-2f-JwN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="asc-Se-UgJ"/>
                 <constraint firstAttribute="trailing" secondItem="rSZ-Ec-zn8" secondAttribute="trailing" constant="15" id="cMZ-Gg-h5d"/>
                 <constraint firstAttribute="trailing" secondItem="Oax-2f-JwN" secondAttribute="trailing" id="ev7-Dy-1Bp"/>
                 <constraint firstAttribute="trailing" secondItem="a7O-Dd-jDy" secondAttribute="trailing" id="k67-VY-XhW"/>
+                <constraint firstItem="BsX-Ip-YYH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="12" id="ksr-6Y-Uoh"/>
                 <constraint firstItem="bOx-tD-ean" firstAttribute="leading" secondItem="w5b-SK-4wH" secondAttribute="trailing" constant="15" id="mGi-Mo-DJG"/>
                 <constraint firstAttribute="bottom" secondItem="Oax-2f-JwN" secondAttribute="bottom" id="oWn-zy-zTp"/>
                 <constraint firstAttribute="trailing" secondItem="bOx-tD-ean" secondAttribute="trailing" constant="38" id="rXg-8N-fff"/>
