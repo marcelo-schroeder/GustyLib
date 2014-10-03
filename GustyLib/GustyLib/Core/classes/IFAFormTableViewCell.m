@@ -42,6 +42,14 @@
         self.centeredLabel.hidden = YES;
         [self.contentView addSubview:self.customContentView];
         [self.customContentView ifa_addLayoutConstraintsToFillSuperview];
+        // Dynamic type support - this guarantees that the table cell will have the minimum tap dimension for height
+        [self.customContentView addConstraint:[NSLayoutConstraint constraintWithItem:self.customContentView
+                                                                           attribute:NSLayoutAttributeHeight
+                                                                           relatedBy:NSLayoutRelationGreaterThanOrEqual
+                                                                              toItem:nil
+                                                                           attribute:0
+                                                                          multiplier:1
+                                                                            constant:IFAMinimumTapAreaDimension]];
     }
     return self;
 }
