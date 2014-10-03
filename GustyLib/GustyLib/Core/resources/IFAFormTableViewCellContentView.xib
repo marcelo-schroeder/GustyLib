@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IFAFormTableViewCell">
@@ -13,6 +12,7 @@
                 <outlet property="customAccessoryButton" destination="rSZ-Ec-zn8" id="8p3-gf-567"/>
                 <outlet property="customAccessoryImageView" destination="YDb-fv-JUs" id="PbO-lo-2M6"/>
                 <outlet property="customContentView" destination="iN0-l3-epB" id="QY5-LE-HzR"/>
+                <outlet property="leftAndRightLabelsSpacingConstraint" destination="mGi-Mo-DJG" id="mMD-ut-kCd"/>
                 <outlet property="leftLabel" destination="w5b-SK-4wH" id="oB5-eZ-oxr"/>
                 <outlet property="leftLabelLeftConstraint" destination="DxO-Lo-K8c" id="KeZ-1b-6ES"/>
                 <outlet property="rightLabel" destination="bOx-tD-ean" id="h64-Tr-imd"/>
@@ -85,7 +85,6 @@
                 <constraint firstItem="w5b-SK-4wH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="DxO-Lo-K8c"/>
                 <constraint firstItem="bOx-tD-ean" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="12" id="KGd-Uk-tdV"/>
                 <constraint firstAttribute="centerY" secondItem="BsX-Ip-YYH" secondAttribute="centerY" id="MnW-0M-SeA"/>
-                <constraint firstItem="bOx-tD-ean" firstAttribute="width" relation="greaterThanOrEqual" secondItem="a7O-Dd-jDy" secondAttribute="width" multiplier="0.2" id="QMY-be-dbm"/>
                 <constraint firstAttribute="centerY" secondItem="rSZ-Ec-zn8" secondAttribute="centerY" id="TxP-25-wIJ"/>
                 <constraint firstItem="a7O-Dd-jDy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="-1" id="YOy-XO-9PI"/>
                 <constraint firstItem="Oax-2f-JwN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="asc-Se-UgJ"/>

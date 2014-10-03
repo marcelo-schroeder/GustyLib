@@ -47,6 +47,7 @@ typedef enum{
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *topSeparatorLeftConstraint;
 @property (strong, nonatomic) IBOutlet UILabel *centeredLabel;
 @property (strong, nonatomic) IBOutlet UIButton *customAccessoryButton;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *leftAndRightLabelsSpacingConstraint;
 
 @property (nonatomic) IFAFormTableViewCellAccessoryType customAccessoryType;
 

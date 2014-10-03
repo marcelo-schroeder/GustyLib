@@ -493,7 +493,8 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
                 BOOL l_isModalViewController = [l_entityConfig isModalForViewControllerFieldTypeAtIndexPath:indexPath inObject:self.object
                                                                                                      inForm:self.formName createMode:self.createMode];
                 l_cell.customAccessoryType = l_isModalViewController ? IFAFormTableViewCellAccessoryTypeDisclosureIndicatorInfo : IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight;
-                l_cell.rightLabel.hidden = YES;
+                l_cell.rightLabel.text = nil;
+                l_cell.leftAndRightLabelsSpacingConstraint.constant = 0;
                 // Set appearance
                 [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
                                                                                                                                 cell:l_cell];
