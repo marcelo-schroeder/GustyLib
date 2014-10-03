@@ -624,46 +624,47 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
     IFAFormSectionHeaderFooterView *sectionFooterView = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:k_sectionHeaderFooterReuseId];
     [self IFA_populateSectionFooterView:sectionFooterView withLabelText:a_labelText isHeader:a_isHeader
                                 section:a_section];
-//    sectionFooterView.customContentView.backgroundColor = a_isHeader ? [UIColor purpleColor] : [UIColor blueColor];
-//    sectionFooterView.label.backgroundColor = [UIColor orangeColor];
+    sectionFooterView.customContentView.backgroundColor = a_isHeader ? [UIColor purpleColor] : [UIColor blueColor];
+    sectionFooterView.label.backgroundColor = [UIColor orangeColor];
     return sectionFooterView;
 }
 
 - (CGFloat)IFA_sectionHeaderFooterHeightForLabelText:(NSString *)a_labelText
                                             isHeader:(BOOL)a_isHeader
                                              section:(NSUInteger)a_section {
-    static const CGFloat k_emptySectionHeaderFooterHeight = 10;
-    if (a_labelText) {
-        IFAFormSectionHeaderFooterView *sectionFooterView = [[IFAFormSectionHeaderFooterView alloc] initWithReuseIdentifier:@"prototype"];  //wip: cache this
-        [self IFA_populateSectionFooterView:sectionFooterView withLabelText:a_labelText isHeader:a_isHeader section:a_section];
-        [sectionFooterView.contentView addConstraint:[NSLayoutConstraint constraintWithItem:sectionFooterView.contentView
-                                                                                  attribute:NSLayoutAttributeWidth
-                                                                                  relatedBy:NSLayoutRelationEqual
-                                                                                     toItem:nil
-                                                                                  attribute:0
-                                                                                 multiplier:1
-                                                                                   constant:self.view.bounds.size.width]];
-        CGSize size = [sectionFooterView.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
-        return size.height;
-    }else{
-        return k_emptySectionHeaderFooterHeight;
-    }
+    IFAFormSectionHeaderFooterView *sectionFooterView = [[IFAFormSectionHeaderFooterView alloc] initWithReuseIdentifier:@"prototype"];  //wip: cache this
+    [self IFA_populateSectionFooterView:sectionFooterView withLabelText:a_labelText isHeader:a_isHeader
+                                section:a_section];
+    [sectionFooterView.contentView addConstraint:[NSLayoutConstraint constraintWithItem:sectionFooterView.contentView
+                                                                              attribute:NSLayoutAttributeWidth
+                                                                              relatedBy:NSLayoutRelationEqual
+                                                                                 toItem:nil
+                                                                              attribute:0
+                                                                             multiplier:1
+                                                                               constant:self.view.bounds.size.width]];
+    CGSize size = [sectionFooterView.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+    return size.height;
 }
 
-//wip: should the spacing below be proportional to the dynamic type chosen by the user?
 - (void)IFA_populateSectionFooterView:(IFAFormSectionHeaderFooterView *)a_sectionFooterView
                         withLabelText:(NSString *)a_labelText isHeader:(BOOL)a_isHeader section:(NSUInteger)a_section {
+    static const CGFloat k_emptySectionHeaderFooterHeight = 10;
     static const CGFloat k_spaceBetweenCellAndSectionHeaderOrFooter = 7;
     static const CGFloat k_sectionHeaderFooterExternalVerticalSpace = 26;
     static const CGFloat k_sectionHeaderFooterInternalVerticalSpace = 15;
-    if (a_isHeader) {
-        BOOL isFirstHeader = a_section == 0;
-        a_sectionFooterView.topLayoutConstraint.constant = isFirstHeader ? k_sectionHeaderFooterExternalVerticalSpace : k_sectionHeaderFooterInternalVerticalSpace;
-        a_sectionFooterView.bottomLayoutConstraint.constant = k_spaceBetweenCellAndSectionHeaderOrFooter;
+    BOOL isFirstHeader = a_isHeader && a_section == 0;
+    BOOL isLastFooter = !a_isHeader && a_section == self.tableView.numberOfSections - 1;
+    if (a_labelText) {
+        if (a_isHeader) {
+            a_sectionFooterView.topLayoutConstraint.constant = isFirstHeader ? k_sectionHeaderFooterExternalVerticalSpace : k_sectionHeaderFooterInternalVerticalSpace;
+            a_sectionFooterView.bottomLayoutConstraint.constant = k_spaceBetweenCellAndSectionHeaderOrFooter;
+        }else{
+            a_sectionFooterView.topLayoutConstraint.constant = k_spaceBetweenCellAndSectionHeaderOrFooter;
+            a_sectionFooterView.bottomLayoutConstraint.constant = isLastFooter ? k_sectionHeaderFooterExternalVerticalSpace : k_sectionHeaderFooterInternalVerticalSpace;
+        }
     }else{
-        BOOL isLastFooter = a_section == self.tableView.numberOfSections - 1;
-        a_sectionFooterView.topLayoutConstraint.constant = k_spaceBetweenCellAndSectionHeaderOrFooter;
-        a_sectionFooterView.bottomLayoutConstraint.constant = isLastFooter ? k_sectionHeaderFooterExternalVerticalSpace : k_sectionHeaderFooterInternalVerticalSpace;
+        a_sectionFooterView.topLayoutConstraint.constant = isFirstHeader || isLastFooter ? k_sectionHeaderFooterExternalVerticalSpace : k_emptySectionHeaderFooterHeight;
+        a_sectionFooterView.bottomLayoutConstraint.constant = 0;
     }
     a_sectionFooterView.label.text = a_labelText;
 }
