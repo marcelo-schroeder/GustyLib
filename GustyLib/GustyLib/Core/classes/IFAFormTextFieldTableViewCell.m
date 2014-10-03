@@ -69,17 +69,17 @@
     NSLayoutConstraint *l_leftConstraint = [NSLayoutConstraint constraintWithItem:self.textField
                                                                         attribute:NSLayoutAttributeLeft
                                                                         relatedBy:NSLayoutRelationEqual
-                                                                           toItem:self.rightLabel
-                                                                        attribute:NSLayoutAttributeLeft
+                                                                           toItem:self.leftLabel
+                                                                        attribute:NSLayoutAttributeRight
                                                                        multiplier:1
-                                                                         constant:0];
+                                                                         constant:15];
     NSLayoutConstraint *l_rightConstraint = [NSLayoutConstraint constraintWithItem:self.textField
                                                                          attribute:NSLayoutAttributeRight
                                                                          relatedBy:NSLayoutRelationEqual
-                                                                            toItem:self.rightLabel
+                                                                            toItem:self.textField.superview
                                                                          attribute:NSLayoutAttributeRight
                                                                         multiplier:1
-                                                                          constant:0];
+                                                                          constant:-15];
     [self.textField.superview addConstraints:@[
             l_leftConstraint,
             l_rightConstraint,
@@ -105,6 +105,7 @@
                                                                                                        inObject:self.object];
     self.textField.translatesAutoresizingMaskIntoConstraints = NO;
     [self.customContentView addSubview:self.textField];
+    [self.leftLabel.superview removeConstraint:self.leftAndRightLabelsSpacingConstraint];
     [self addTextFieldLayoutConstraints];
 
     return self;
