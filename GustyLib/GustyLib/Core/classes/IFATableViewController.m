@@ -108,11 +108,8 @@
 
 - (UITableViewCell*)visibleCellForIndexPath:(NSIndexPath*)a_indexPath{
     UITableViewCell *l_cell = nil;
-    if ([self.tableView.visibleCells count]>0) {
-        NSUInteger l_index = [[self.tableView indexPathsForVisibleRows] indexOfObject:a_indexPath];
-        if (l_index!=NSNotFound) {
-            l_cell = (self.tableView.visibleCells)[l_index];
-        }
+    if ([[self.tableView indexPathsForVisibleRows] indexOfObject:a_indexPath]) {
+        l_cell = [self.tableView cellForRowAtIndexPath:a_indexPath];
     }
     return l_cell;
 }
