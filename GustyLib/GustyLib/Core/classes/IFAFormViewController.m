@@ -27,6 +27,7 @@
 static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
 //wip: cell heights get out of wack when help text changes due to changing a value in a picker
+//wip: about screen - version row does not change when changing dynamic type
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -514,8 +515,8 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
                                                                   propertyName:l_propertyName indexPath:indexPath
                                                             formViewController:self];
                 l_cell.customAccessoryType = IFAFormTableViewCellAccessoryTypeNone;
-                l_cell.leftLabel.hidden = YES;
-                l_cell.rightLabel.hidden = YES;
+                l_cell.leftLabel.text = nil;
+                l_cell.rightLabel.text = nil;
                 l_cell.centeredLabel.hidden = NO;
                 // Set appearance
                 [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
