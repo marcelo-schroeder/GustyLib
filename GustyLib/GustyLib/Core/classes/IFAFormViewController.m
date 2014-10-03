@@ -18,6 +18,7 @@
 //  limitations under the License.
 //
 
+#import <GustyLib/IFAFormSectionHeaderFooterView.h>
 #import "GustyLibCore.h"
 
 #ifdef IFA_AVAILABLE_Help
@@ -55,6 +56,8 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 @property(nonatomic) NSUInteger IFA_initialChildManagedObjectContextCountForAssertion;
 @property(nonatomic) BOOL IFA_fixForContentBottomInsetAppleBugEnabled;
 @property(nonatomic) UIEdgeInsets contentInsetBeforePresentingSemiModalViewController;
+@property(nonatomic, strong) IFAFormSectionHeaderFooterView *IFA_prototypeSectionFooterView;
+@property(nonatomic, strong) NSLayoutConstraint *IFA_prototypeSectionFooterContentViewWidthConstraint;
 @end
 
 @implementation IFAFormViewController
@@ -624,25 +627,40 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
     IFAFormSectionHeaderFooterView *sectionFooterView = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:k_sectionHeaderFooterReuseId];
     [self IFA_populateSectionFooterView:sectionFooterView withLabelText:a_labelText isHeader:a_isHeader
                                 section:a_section];
-    sectionFooterView.customContentView.backgroundColor = a_isHeader ? [UIColor purpleColor] : [UIColor blueColor];
-    sectionFooterView.label.backgroundColor = [UIColor orangeColor];
+//    sectionFooterView.customContentView.backgroundColor = a_isHeader ? [UIColor purpleColor] : [UIColor blueColor];
+//    sectionFooterView.label.backgroundColor = [UIColor orangeColor];
     return sectionFooterView;
+}
+
+- (IFAFormSectionHeaderFooterView *)IFA_prototypeSectionFooterView {
+    if (!_IFA_prototypeSectionFooterView) {
+        _IFA_prototypeSectionFooterView = [[IFAFormSectionHeaderFooterView alloc] initWithReuseIdentifier:@"prototype"];
+        [_IFA_prototypeSectionFooterView.contentView addConstraint:self.IFA_prototypeSectionFooterContentViewWidthConstraint];
+    }
+    return _IFA_prototypeSectionFooterView;
+}
+
+- (NSLayoutConstraint *)IFA_prototypeSectionFooterContentViewWidthConstraint {
+    if (!_IFA_prototypeSectionFooterContentViewWidthConstraint) {
+        _IFA_prototypeSectionFooterContentViewWidthConstraint = [NSLayoutConstraint constraintWithItem:self.IFA_prototypeSectionFooterView.contentView
+                                                                                      attribute:NSLayoutAttributeWidth
+                                                                                      relatedBy:NSLayoutRelationEqual
+                                                                                         toItem:nil
+                                                                                      attribute:0
+                                                                                     multiplier:1
+                                                                                       constant:0];
+    }
+    return _IFA_prototypeSectionFooterContentViewWidthConstraint;
 }
 
 - (CGFloat)IFA_sectionHeaderFooterHeightForLabelText:(NSString *)a_labelText
                                             isHeader:(BOOL)a_isHeader
                                              section:(NSUInteger)a_section {
-    IFAFormSectionHeaderFooterView *sectionFooterView = [[IFAFormSectionHeaderFooterView alloc] initWithReuseIdentifier:@"prototype"];  //wip: cache this
-    [self IFA_populateSectionFooterView:sectionFooterView withLabelText:a_labelText isHeader:a_isHeader
+    [self IFA_populateSectionFooterView:self.IFA_prototypeSectionFooterView withLabelText:a_labelText
+                               isHeader:a_isHeader
                                 section:a_section];
-    [sectionFooterView.contentView addConstraint:[NSLayoutConstraint constraintWithItem:sectionFooterView.contentView
-                                                                              attribute:NSLayoutAttributeWidth
-                                                                              relatedBy:NSLayoutRelationEqual
-                                                                                 toItem:nil
-                                                                              attribute:0
-                                                                             multiplier:1
-                                                                               constant:self.view.bounds.size.width]];
-    CGSize size = [sectionFooterView.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+    self.IFA_prototypeSectionFooterContentViewWidthConstraint.constant = self.view.bounds.size.width;
+    CGSize size = [self.IFA_prototypeSectionFooterView.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
     return size.height;
 }
 
