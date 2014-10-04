@@ -78,13 +78,12 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="centerY" secondItem="bOx-tD-ean" secondAttribute="centerY" id="0PD-f8-han"/>
                 <constraint firstAttribute="trailing" secondItem="BsX-Ip-YYH" secondAttribute="trailing" constant="15" id="6TE-fv-QQ1"/>
+                <constraint firstItem="w5b-SK-4wH" firstAttribute="centerY" secondItem="bOx-tD-ean" secondAttribute="centerY" constant="-0.5" id="9IS-bf-2QX"/>
                 <constraint firstAttribute="trailing" secondItem="YDb-fv-JUs" secondAttribute="trailing" constant="15" id="Bk9-fT-H4z"/>
                 <constraint firstItem="BsX-Ip-YYH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="BrC-k3-SHa"/>
                 <constraint firstItem="w5b-SK-4wH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="DxO-Lo-K8c"/>
                 <constraint firstItem="bOx-tD-ean" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="12" id="KGd-Uk-tdV"/>
-                <constraint firstAttribute="centerY" secondItem="BsX-Ip-YYH" secondAttribute="centerY" id="MnW-0M-SeA"/>
                 <constraint firstAttribute="centerY" secondItem="rSZ-Ec-zn8" secondAttribute="centerY" id="TxP-25-wIJ"/>
                 <constraint firstAttribute="bottom" secondItem="BsX-Ip-YYH" secondAttribute="bottom" constant="12" id="VtR-Pa-hei"/>
                 <constraint firstItem="a7O-Dd-jDy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="-1" id="YOy-XO-9PI"/>

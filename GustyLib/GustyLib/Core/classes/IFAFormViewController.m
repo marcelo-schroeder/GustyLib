@@ -495,8 +495,6 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
                 BOOL l_isModalViewController = [l_entityConfig isModalForViewControllerFieldTypeAtIndexPath:indexPath inObject:self.object
                                                                                                      inForm:self.formName createMode:self.createMode];
                 l_cell.customAccessoryType = l_isModalViewController ? IFAFormTableViewCellAccessoryTypeDisclosureIndicatorInfo : IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight;
-                l_cell.rightLabel.text = nil;
-                l_cell.leftAndRightLabelsSpacingConstraint.constant = 0;
                 // Set appearance
                 [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
                                                                                                                                 cell:l_cell];
@@ -505,7 +503,7 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
                                                                                               inObject:self.object
                                                                                                 inForm:self.formName
                                                                                             createMode:self.createMode];
-            [self IFA_setLabelText:l_labelText inCell:l_cell];
+            [self IFA_setLeftLabelText:l_labelText rightLabelText:nil inCell:l_cell];
             return l_cell;
         }
 
@@ -566,12 +564,56 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
 }
 
-- (void)IFA_setLabelText:(NSString *)a_labelText inCell:(IFAFormTableViewCell *)a_cell {
+- (void)IFA_setLeftLabelText:(NSString *)a_leftLabelText 
+              rightLabelText:(NSString *)a_rightLabelText
+                      inCell:(IFAFormTableViewCell *)a_cell {
 
-    a_cell.leftLabel.text = a_labelText;
+    a_cell.leftLabel.text = a_leftLabelText;
+    a_cell.rightLabel.text = a_rightLabelText;
 
-    // As this is a multi-line label, set the preferred max width to fit everything (i.e. it takes priority over the actual field value)
-    a_cell.leftLabel.preferredMaxLayoutWidth = [a_cell.leftLabel.text sizeWithAttributes:@{NSFontAttributeName:a_cell.leftLabel.font}].width;
+    if (!a_rightLabelText) {
+        a_cell.leftAndRightLabelsSpacingConstraint.constant = 0;
+    }
+
+    CGFloat leftLabelPreferredMaxLayoutWidth = [a_cell.leftLabel.text sizeWithAttributes:@{NSFontAttributeName:a_cell.leftLabel.font}].width;
+    CGFloat rightLabelPreferredMaxLayoutWidth = [a_cell.rightLabel.text sizeWithAttributes:@{NSFontAttributeName:a_cell.rightLabel.font}].width;
+
+    //wip: still issue with "Multiple Timer Selection" - first time the height is much higher, but the cell is recycled, it looks ok
+
+    NSLog(@"a_cell.indexPath = %@", a_cell.indexPath);
+    NSLog(@"  a_cell.leftLabel.text = %@", a_cell.leftLabel.text);
+    NSLog(@"  a_cell.rightLabel.text = %@", a_cell.rightLabel.text);
+    NSLog(@"  a_cell.leftLabelLeftConstraint.constant = %f", a_cell.leftLabelLeftConstraint.constant);
+    NSLog(@"  a_cell.leftAndRightLabelsSpacingConstraint.constant = %f", a_cell.leftAndRightLabelsSpacingConstraint.constant);
+    NSLog(@"  a_cell.rightLabelRightConstraint.constant = %f", a_cell.rightLabelRightConstraint.constant);
+    NSLog(@"  leftLabelPreferredMaxLayoutWidth = %f", leftLabelPreferredMaxLayoutWidth);
+    NSLog(@"  rightLabelPreferredMaxLayoutWidth = %f", rightLabelPreferredMaxLayoutWidth);
+
+    CGFloat contentWidth = leftLabelPreferredMaxLayoutWidth + rightLabelPreferredMaxLayoutWidth;
+    CGFloat spacingWidth = a_cell.leftLabelLeftConstraint.constant
+            + a_cell.leftAndRightLabelsSpacingConstraint.constant
+            + a_cell.rightLabelRightConstraint.constant;    // The initial value of the right label's right constraint is the largest possible value, which is ok for the purpose of this calculation
+    CGFloat usedWidth = contentWidth + spacingWidth;
+    NSLog(@"  spacingWidth = %f", spacingWidth);
+
+    if (usedWidth > self.view.bounds.size.width) {
+        leftLabelPreferredMaxLayoutWidth = (self.view.bounds.size.width - spacingWidth) / 2;
+        rightLabelPreferredMaxLayoutWidth = leftLabelPreferredMaxLayoutWidth;
+    }
+    a_cell.leftLabel.preferredMaxLayoutWidth = leftLabelPreferredMaxLayoutWidth;
+    a_cell.rightLabel.preferredMaxLayoutWidth = rightLabelPreferredMaxLayoutWidth;
+
+//wip: hardcoded values below
+//wip: clean up - is this method still necessary?
+//    // As this is a multi-line label, set the preferred max width to fit everything (i.e. it takes priority over the actual field value)
+//    a_cell.leftLabel.preferredMaxLayoutWidth = [a_cell.leftLabel.text sizeWithAttributes:@{NSFontAttributeName:a_cell.leftLabel.font}].width;
+//    a_cell.leftLabel.preferredMaxLayoutWidth = [a_cell.leftLabel sizeThatFits:CGSizeMake(320, CGFLOAT_MAX)].width;
+//    NSLog(@"index path: %@ | preferredMaxLayoutWidth: %f", [a_cell.indexPath description], a_cell.leftLabel.preferredMaxLayoutWidth);
+
+//wip: clean up
+//        // As this is a multi-line label, set the preferred max width to fit everything
+//        a_cell.rightLabel.preferredMaxLayoutWidth = [a_cell.rightLabel.text sizeWithAttributes:@{NSFontAttributeName:a_cell.rightLabel.font}].width;
+//    a_cell.rightLabel.preferredMaxLayoutWidth = [a_cell.rightLabel sizeThatFits:CGSizeMake(320, CGFLOAT_MAX)].width;
 
 }
 
@@ -766,15 +808,15 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
     if ([a_cell isMemberOfClass:[IFAFormTableViewCell class]] || [a_cell isMemberOfClass:[IFASwitchTableViewCell class]] || [a_cell isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
 
-        [self IFA_setLabelText:[self labelForIndexPath:a_cell.indexPath] inCell:a_cell];
+        NSString *leftLabelText = [self labelForIndexPath:a_cell.indexPath];
         NSString *l_valueFormat = [[IFAPersistenceManager sharedInstance].entityConfig valueFormatForProperty:a_cell.propertyName
                                                                                                      inObject:self.object];
         NSString *l_valueString = [self.object ifa_propertyStringValueForIndexPath:a_cell.indexPath
                                                                             inForm:self.formName
                                                                         createMode:self.createMode
                                                                           calendar:[self calendar]];
-        a_cell.rightLabel.text = l_valueFormat ? [NSString stringWithFormat:l_valueFormat,
-                                                                            l_valueString] : l_valueString;
+        NSString *rightLabelText = l_valueFormat ? [NSString stringWithFormat:l_valueFormat, l_valueString] : l_valueString;
+        [self IFA_setLeftLabelText:leftLabelText rightLabelText:rightLabelText inCell:a_cell];
 
         if ([a_cell isMemberOfClass:[IFASwitchTableViewCell class]]) {
 

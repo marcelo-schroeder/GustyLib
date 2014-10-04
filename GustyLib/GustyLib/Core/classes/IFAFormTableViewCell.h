@@ -39,15 +39,17 @@ typedef enum{
 @property (strong, nonatomic) IBOutlet UILabel *leftLabel;
 @property (strong, nonatomic) IBOutlet UILabel *rightLabel;
 @property (strong, nonatomic) IBOutlet UIImageView *customAccessoryImageView;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *leftLabelLeftConstraint;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *rightLabelRightConstraint;
 @property (strong, nonatomic) IBOutlet UIImageView *bottomSeparatorImageView;
 @property (strong, nonatomic) IBOutlet UIImageView *topSeparatorImageView;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *bottomSeparatorLeftConstraint;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *topSeparatorLeftConstraint;
 @property (strong, nonatomic) IBOutlet UILabel *centeredLabel;
 @property (strong, nonatomic) IBOutlet UIButton *customAccessoryButton;
+
+/* Layout constraints */
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *leftLabelLeftConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *rightLabelRightConstraint;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *leftAndRightLabelsSpacingConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *bottomSeparatorLeftConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *topSeparatorLeftConstraint;
 
 @property (nonatomic) IFAFormTableViewCellAccessoryType customAccessoryType;
 
