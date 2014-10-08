@@ -37,14 +37,14 @@
         self.switchControl.translatesAutoresizingMaskIntoConstraints = NO;
         [self.contentView addSubview:self.switchControl];
         [self.switchControl ifa_addLayoutConstraintToCenterInSuperviewVertically];
-        NSLayoutConstraint *l_leftLayoutConstraint = [NSLayoutConstraint constraintWithItem:self.switchControl
-                                                                                   attribute:NSLayoutAttributeRight
-                                                                                   relatedBy:NSLayoutRelationEqual
-                                                                                      toItem:self.rightLabel
-                                                                                   attribute:NSLayoutAttributeRight
-                                                                                  multiplier:1
-                                                                                    constant:0];
-        [self.contentView addConstraint:l_leftLayoutConstraint];
+        NSLayoutConstraint *switchControlRightLayoutConstraint = [NSLayoutConstraint constraintWithItem:self.switchControl
+                                                                                              attribute:NSLayoutAttributeRight
+                                                                                              relatedBy:NSLayoutRelationEqual
+                                                                                                 toItem:self.contentView
+                                                                                              attribute:NSLayoutAttributeRight
+                                                                                             multiplier:1
+                                                                                               constant:-self.leftLabelLeftConstraint.constant];
+        [self.contentView addConstraint:switchControlRightLayoutConstraint];
         self.rightLabel.hidden = YES;
     }
     return self;

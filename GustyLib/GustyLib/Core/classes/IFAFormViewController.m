@@ -578,23 +578,21 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
     CGFloat leftLabelPreferredMaxLayoutWidth = [a_cell.leftLabel.text sizeWithAttributes:@{NSFontAttributeName:a_cell.leftLabel.font}].width;
     CGFloat rightLabelPreferredMaxLayoutWidth = [a_cell.rightLabel.text sizeWithAttributes:@{NSFontAttributeName:a_cell.rightLabel.font}].width;
 
-    //wip: still issue with "Multiple Timer Selection" - first time the height is much higher, but the cell is recycled, it looks ok
-
-    NSLog(@"a_cell.indexPath = %@", a_cell.indexPath);
-    NSLog(@"  a_cell.leftLabel.text = %@", a_cell.leftLabel.text);
-    NSLog(@"  a_cell.rightLabel.text = %@", a_cell.rightLabel.text);
-    NSLog(@"  a_cell.leftLabelLeftConstraint.constant = %f", a_cell.leftLabelLeftConstraint.constant);
-    NSLog(@"  a_cell.leftAndRightLabelsSpacingConstraint.constant = %f", a_cell.leftAndRightLabelsSpacingConstraint.constant);
-    NSLog(@"  a_cell.rightLabelRightConstraint.constant = %f", a_cell.rightLabelRightConstraint.constant);
-    NSLog(@"  leftLabelPreferredMaxLayoutWidth = %f", leftLabelPreferredMaxLayoutWidth);
-    NSLog(@"  rightLabelPreferredMaxLayoutWidth = %f", rightLabelPreferredMaxLayoutWidth);
-
     CGFloat contentWidth = leftLabelPreferredMaxLayoutWidth + rightLabelPreferredMaxLayoutWidth;
     CGFloat spacingWidth = a_cell.leftLabelLeftConstraint.constant
             + a_cell.leftAndRightLabelsSpacingConstraint.constant
             + a_cell.rightLabelRightConstraint.constant;    // The initial value of the right label's right constraint is the largest possible value, which is ok for the purpose of this calculation
     CGFloat usedWidth = contentWidth + spacingWidth;
-    NSLog(@"  spacingWidth = %f", spacingWidth);
+
+//    NSLog(@"a_cell.indexPath = %@", a_cell.indexPath);
+//    NSLog(@"  a_cell.leftLabel.text = %@", a_cell.leftLabel.text);
+//    NSLog(@"  a_cell.rightLabel.text = %@", a_cell.rightLabel.text);
+//    NSLog(@"  a_cell.leftLabelLeftConstraint.constant = %f", a_cell.leftLabelLeftConstraint.constant);
+//    NSLog(@"  a_cell.leftAndRightLabelsSpacingConstraint.constant = %f", a_cell.leftAndRightLabelsSpacingConstraint.constant);
+//    NSLog(@"  a_cell.rightLabelRightConstraint.constant = %f", a_cell.rightLabelRightConstraint.constant);
+//    NSLog(@"  leftLabelPreferredMaxLayoutWidth = %f", leftLabelPreferredMaxLayoutWidth);
+//    NSLog(@"  rightLabelPreferredMaxLayoutWidth = %f", rightLabelPreferredMaxLayoutWidth);
+//    NSLog(@"  spacingWidth = %f", spacingWidth);
 
     if (usedWidth > self.view.bounds.size.width) {
         leftLabelPreferredMaxLayoutWidth = (self.view.bounds.size.width - spacingWidth) / 2;
