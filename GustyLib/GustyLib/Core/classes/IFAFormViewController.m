@@ -809,28 +809,34 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     if ([a_cell isMemberOfClass:[IFAFormTableViewCell class]] || [a_cell isMemberOfClass:[IFASwitchTableViewCell class]] || [a_cell isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
 
         NSString *leftLabelText = [self labelForIndexPath:a_cell.indexPath];
-        NSString *l_valueFormat = [[IFAPersistenceManager sharedInstance].entityConfig valueFormatForProperty:a_cell.propertyName
-                                                                                                     inObject:self.object];
-        NSString *l_valueString = [self.object ifa_propertyStringValueForIndexPath:a_cell.indexPath
-                                                                            inForm:self.formName
-                                                                        createMode:self.createMode
-                                                                          calendar:[self calendar]];
-        NSString *rightLabelText = l_valueFormat ? [NSString stringWithFormat:l_valueFormat, l_valueString] : l_valueString;
-        [self IFA_setLeftLabelText:leftLabelText rightLabelText:rightLabelText inCell:a_cell];
 
         if ([a_cell isMemberOfClass:[IFASwitchTableViewCell class]]) {
 
             IFASwitchTableViewCell *l_cell = (IFASwitchTableViewCell *) a_cell;
             l_cell.switchControl.on = [(NSNumber *) l_value boolValue];
+            [self IFA_setLeftLabelText:leftLabelText rightLabelText:nil inCell:a_cell];
 
-        } else if ([a_cell isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
+        } else{
 
-            IFAFormTextFieldTableViewCell *l_cell = (IFAFormTextFieldTableViewCell *) a_cell;
-            if (self.IFA_isManagedObject) {
-                NSPropertyDescription *propertyDescription = [self.object ifa_descriptionForProperty:a_cell.propertyName];
-                l_cell.textField.placeholder = propertyDescription.isOptional ? @"Optional" : @"Required";
+            NSString *l_valueFormat = [[IFAPersistenceManager sharedInstance].entityConfig valueFormatForProperty:a_cell.propertyName
+                                                                                                         inObject:self.object];
+            NSString *l_valueString = [self.object ifa_propertyStringValueForIndexPath:a_cell.indexPath
+                                                                                inForm:self.formName
+                                                                            createMode:self.createMode
+                                                                              calendar:[self calendar]];
+            NSString *rightLabelText = l_valueFormat ? [NSString stringWithFormat:l_valueFormat, l_valueString] : l_valueString;
+            [self IFA_setLeftLabelText:leftLabelText rightLabelText:rightLabelText inCell:a_cell];
+
+            if ([a_cell isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
+
+                IFAFormTextFieldTableViewCell *l_cell = (IFAFormTextFieldTableViewCell *) a_cell;
+                if (self.IFA_isManagedObject) {
+                    NSPropertyDescription *propertyDescription = [self.object ifa_descriptionForProperty:a_cell.propertyName];
+                    l_cell.textField.placeholder = propertyDescription.isOptional ? @"Optional" : @"Required";
+                }
+                [l_cell reloadData];
+
             }
-            [l_cell reloadData];
 
         }
 
