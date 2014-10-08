@@ -61,4 +61,9 @@ typedef enum{
 
 - (NSObject *)object;
 
+/**
+* Use this method to set the text for the left and right labels.
+* It will manage the preferred max layout width for the labels based on the content.
+*/
+- (void)setLeftLabelText:(NSString *)a_leftLabelText rightLabelText:(NSString *)a_rightLabelText;
 @end

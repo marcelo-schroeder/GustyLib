@@ -69,6 +69,43 @@
     [((IFADefaultAppearanceTheme *) self.ifa_appearanceTheme) setCustomAccessoryViewAppearanceForFormTableViewCell:self];
 }
 
+- (void)setLeftLabelText:(NSString *)a_leftLabelText rightLabelText:(NSString *)a_rightLabelText {
+
+    self.leftLabel.text = a_leftLabelText;
+    self.rightLabel.text = a_rightLabelText;
+
+    if (!a_rightLabelText) {
+        self.leftAndRightLabelsSpacingConstraint.constant = 0;
+    }
+
+    CGFloat leftLabelPreferredMaxLayoutWidth = [self.leftLabel.text sizeWithAttributes:@{NSFontAttributeName:self.leftLabel.font}].width;
+    CGFloat rightLabelPreferredMaxLayoutWidth = [self.rightLabel.text sizeWithAttributes:@{NSFontAttributeName:self.rightLabel.font}].width;
+
+    CGFloat contentWidth = leftLabelPreferredMaxLayoutWidth + rightLabelPreferredMaxLayoutWidth;
+    CGFloat spacingWidth = self.leftLabelLeftConstraint.constant
+            + self.leftAndRightLabelsSpacingConstraint.constant
+            + self.rightLabelRightConstraint.constant;    // The initial value of the right label's right constraint is the largest possible value, which is ok for the purpose of this calculation
+    CGFloat usedWidth = contentWidth + spacingWidth;
+
+//    NSLog(@"self.indexPath = %@", self.indexPath);
+//    NSLog(@"  self.leftLabel.text = %@", self.leftLabel.text);
+//    NSLog(@"  self.rightLabel.text = %@", self.rightLabel.text);
+//    NSLog(@"  self.leftLabelLeftConstraint.constant = %f", self.leftLabelLeftConstraint.constant);
+//    NSLog(@"  self.leftAndRightLabelsSpacingConstraint.constant = %f", self.leftAndRightLabelsSpacingConstraint.constant);
+//    NSLog(@"  self.rightLabelRightConstraint.constant = %f", self.rightLabelRightConstraint.constant);
+//    NSLog(@"  leftLabelPreferredMaxLayoutWidth = %f", leftLabelPreferredMaxLayoutWidth);
+//    NSLog(@"  rightLabelPreferredMaxLayoutWidth = %f", rightLabelPreferredMaxLayoutWidth);
+//    NSLog(@"  spacingWidth = %f", spacingWidth);
+
+    if (usedWidth > self.formViewController.view.bounds.size.width) {
+        leftLabelPreferredMaxLayoutWidth = (self.formViewController.view.bounds.size.width - spacingWidth) / 2;
+        rightLabelPreferredMaxLayoutWidth = leftLabelPreferredMaxLayoutWidth;
+    }
+    self.leftLabel.preferredMaxLayoutWidth = leftLabelPreferredMaxLayoutWidth;
+    self.rightLabel.preferredMaxLayoutWidth = rightLabelPreferredMaxLayoutWidth;
+
+}
+
 #pragma mark - Overrides
 
 - (void)layoutSubviews {

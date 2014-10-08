@@ -21,6 +21,11 @@
 #import "GustyLibCore.h"
 
 
+@interface IFASwitchTableViewCell ()
+@property(nonatomic, strong) NSLayoutConstraint *IFA_switchControlLeftLayoutConstraint;
+@property(nonatomic, strong) NSLayoutConstraint *IFA_switchControlRightLayoutConstraint;
+@end
+
 @implementation IFASwitchTableViewCell
 
 
@@ -35,19 +40,68 @@
         self.customAccessoryType = IFAFormTableViewCellAccessoryTypeNone;
         self.switchControl = [[UISwitch alloc] init];
         self.switchControl.translatesAutoresizingMaskIntoConstraints = NO;
-        [self.contentView addSubview:self.switchControl];
+        [self.customContentView addSubview:self.switchControl];
         [self.switchControl ifa_addLayoutConstraintToCenterInSuperviewVertically];
-        NSLayoutConstraint *switchControlRightLayoutConstraint = [NSLayoutConstraint constraintWithItem:self.switchControl
-                                                                                              attribute:NSLayoutAttributeRight
-                                                                                              relatedBy:NSLayoutRelationEqual
-                                                                                                 toItem:self.contentView
-                                                                                              attribute:NSLayoutAttributeRight
-                                                                                             multiplier:1
-                                                                                               constant:-self.leftLabelLeftConstraint.constant];
-        [self.contentView addConstraint:switchControlRightLayoutConstraint];
+        [self.customContentView addConstraint:self.IFA_switchControlLeftLayoutConstraint];
+        [self.customContentView addConstraint:self.IFA_switchControlRightLayoutConstraint];
         self.rightLabel.hidden = YES;
+        NSAssert([self.customContentView.constraints containsObject:self.leftAndRightLabelsSpacingConstraint], @"Constraint not found");
+        [self.customContentView removeConstraint:self.leftAndRightLabelsSpacingConstraint];
+        [self.leftLabel setContentHuggingPriority:[self.leftLabel contentHuggingPriorityForAxis:UILayoutConstraintAxisHorizontal] + 1
+                                          forAxis:UILayoutConstraintAxisHorizontal];
+        [self.leftLabel setContentCompressionResistancePriority:[self.leftLabel contentCompressionResistancePriorityForAxis:UILayoutConstraintAxisHorizontal] + 1
+                                                        forAxis:UILayoutConstraintAxisHorizontal];
     }
     return self;
+}
+
+- (void)setLeftLabelText:(NSString *)a_leftLabelText rightLabelText:(NSString *)a_rightLabelText {
+
+    self.leftLabel.text = a_leftLabelText;
+    self.rightLabel.text = a_rightLabelText;
+
+    CGFloat leftLabelPreferredMaxLayoutWidth = [self.leftLabel.text sizeWithAttributes:@{NSFontAttributeName:self.leftLabel.font}].width;
+    CGFloat switchControlWidth = self.switchControl.bounds.size.width;
+
+    CGFloat contentWidth = leftLabelPreferredMaxLayoutWidth + switchControlWidth;
+    CGFloat spacingWidth = self.leftLabelLeftConstraint.constant
+            + self.leftAndRightLabelsSpacingConstraint.constant
+            + self.rightLabelRightConstraint.constant;    // The initial value of the right label's right constraint is the largest possible value, which is ok for the purpose of this calculation
+    CGFloat usedWidth = contentWidth + spacingWidth;
+
+    if (usedWidth > self.formViewController.view.bounds.size.width) {
+        leftLabelPreferredMaxLayoutWidth = self.formViewController.view.bounds.size.width - (usedWidth - leftLabelPreferredMaxLayoutWidth);
+    }
+    self.leftLabel.preferredMaxLayoutWidth = leftLabelPreferredMaxLayoutWidth;
+
+}
+
+#pragma mark - Private
+
+- (NSLayoutConstraint *)IFA_switchControlLeftLayoutConstraint {
+    if (!_IFA_switchControlLeftLayoutConstraint) {
+        _IFA_switchControlLeftLayoutConstraint = [NSLayoutConstraint constraintWithItem:self.switchControl
+                                                                              attribute:NSLayoutAttributeLeft
+                                                                              relatedBy:NSLayoutRelationEqual
+                                                                                 toItem:self.leftLabel
+                                                                              attribute:NSLayoutAttributeRight
+                                                                             multiplier:1
+                                                                               constant:self.leftAndRightLabelsSpacingConstraint.constant];
+    }
+    return _IFA_switchControlLeftLayoutConstraint;
+}
+
+- (NSLayoutConstraint *)IFA_switchControlRightLayoutConstraint {
+    if (!_IFA_switchControlRightLayoutConstraint) {
+        _IFA_switchControlRightLayoutConstraint = [NSLayoutConstraint constraintWithItem:self.switchControl
+                                                                               attribute:NSLayoutAttributeRight
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:self.customContentView
+                                                                               attribute:NSLayoutAttributeRight
+                                                                              multiplier:1
+                                                                                constant:-self.leftLabelLeftConstraint.constant];
+    }
+    return _IFA_switchControlRightLayoutConstraint;
 }
 
 @end
