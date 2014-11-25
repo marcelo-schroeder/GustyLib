@@ -23,17 +23,29 @@
 #pragma mark - Public
 
 - (id)ifa_andReturnUnsignedInteger:(NSUInteger)a_value {
+#if __LP64__
     NSValue *l_value = [NSValue value:&a_value withObjCType:@encode(unsigned long)];
+#else
+    NSValue *l_value = [NSValue value:&a_value withObjCType:@encode(unsigned int)];
+#endif
     return [self andReturnValue:l_value];
 }
 
 - (id)ifa_andReturnInteger:(NSInteger)a_value {
+#if __LP64__
     NSValue *l_value = [NSValue value:&a_value withObjCType:@encode(long)];
+#else
+    NSValue *l_value = [NSValue value:&a_value withObjCType:@encode(int)];
+#endif
     return [self andReturnValue:l_value];
 }
 
 - (id)ifa_andReturnFloat:(CGFloat)a_value{
+#if __LP64__
     NSValue *l_value = [NSValue value:&a_value withObjCType:@encode(double)];
+#else
+    NSValue *l_value = [NSValue value:&a_value withObjCType:@encode(float)];
+#endif
     return [self andReturnValue:l_value];
 }
 
@@ -44,7 +56,7 @@
 
 - (id)ifa_andReturnStruct:(void *)aValue objCType:(const char *)type{
     NSValue *l_value = [NSValue valueWithBytes:aValue
-                                  objCType:type];
+                                      objCType:type];
 
     return [self andReturnValue:l_value];
 }

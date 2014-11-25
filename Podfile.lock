@@ -76,7 +76,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   IFATestingSupport:
-    :commit: 448e11a08ae6b8130999995e5fb949c758db9456
+    :commit: f7559cb2b68eba284f46ae231962ab36b4b3a6a4
     :git: https://bitbucket.org/marcelo_schroeder/ifatestingsupport.git
 
 SPEC CHECKSUMS:
