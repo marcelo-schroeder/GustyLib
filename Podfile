@@ -18,6 +18,7 @@ pod 'MWFeedParser', '1.0.1'
 
 # Tests dependencies
 #pod 'IFATestingSupport', :git => 'https://bitbucket.org/marcelo_schroeder/ifatestingsupport.git', :tag => '0.1.1'
-pod 'IFATestingSupport', :path => '/Users/mschroeder/myfiles/projects/Xcode6/IFATestingSupport/IFATestingSupport_development'
+pod 'IFATestingSupport', :git => 'https://bitbucket.org/marcelo_schroeder/ifatestingsupport.git', :branch => 'development'
+#pod 'IFATestingSupport', :path => '/Users/mschroeder/myfiles/projects/Xcode6/IFATestingSupport/IFATestingSupport_development'
 pod 'OCHamcrest'
 pod 'OCMock'

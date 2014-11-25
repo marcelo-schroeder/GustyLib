@@ -63,7 +63,7 @@ DEPENDENCIES:
   - DTFoundation (= 1.7.2)
   - FlurrySDK
   - Google-Mobile-Ads-SDK
-  - IFATestingSupport (from `/Users/mschroeder/myfiles/projects/Xcode6/IFATestingSupport/IFATestingSupport_development`)
+  - IFATestingSupport (from `https://bitbucket.org/marcelo_schroeder/ifatestingsupport.git`, branch `development`)
   - MWFeedParser (= 1.0.1)
   - OCHamcrest
   - OCMock
@@ -71,7 +71,13 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   IFATestingSupport:
-    :path: /Users/mschroeder/myfiles/projects/Xcode6/IFATestingSupport/IFATestingSupport_development
+    :branch: development
+    :git: https://bitbucket.org/marcelo_schroeder/ifatestingsupport.git
+
+CHECKOUT OPTIONS:
+  IFATestingSupport:
+    :commit: 448e11a08ae6b8130999995e5fb949c758db9456
+    :git: https://bitbucket.org/marcelo_schroeder/ifatestingsupport.git
 
 SPEC CHECKSUMS:
   DTFoundation: 126729614911ae7dbab3dcc1c078f189943bee66
