@@ -27,8 +27,8 @@
 static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
 //wip: switch cell - should have space between it and the label
-//wip: about screen: app info at the top is not dynamic
 //wip: task form: anything bigger than medium size causes the dates to go double line when they shouldn't
+//wip: input text field's height is not dynamic
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
