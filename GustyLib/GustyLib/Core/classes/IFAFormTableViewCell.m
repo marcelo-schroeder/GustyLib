@@ -95,11 +95,27 @@
 //    NSLog(@"  self.rightLabelRightConstraint.constant = %f", self.rightLabelRightConstraint.constant);
 //    NSLog(@"  leftLabelPreferredMaxLayoutWidth = %f", leftLabelPreferredMaxLayoutWidth);
 //    NSLog(@"  rightLabelPreferredMaxLayoutWidth = %f", rightLabelPreferredMaxLayoutWidth);
+//    NSLog(@"  contentWidth = %f", contentWidth);
 //    NSLog(@"  spacingWidth = %f", spacingWidth);
+//    NSLog(@"  usedWidth = %f", usedWidth);
+//    NSLog(@"  self.formViewController.view.bounds.size.width = %f", self.formViewController.view.bounds.size.width);
 
     if (usedWidth > self.formViewController.view.bounds.size.width) {
-        leftLabelPreferredMaxLayoutWidth = (self.formViewController.view.bounds.size.width - spacingWidth) / 2;
-        rightLabelPreferredMaxLayoutWidth = leftLabelPreferredMaxLayoutWidth;
+        CGFloat maximumContentWidth = self.formViewController.view.bounds.size.width - spacingWidth;
+        CGFloat maximumLabelWidth = maximumContentWidth / 2;
+        if (leftLabelPreferredMaxLayoutWidth > maximumLabelWidth && rightLabelPreferredMaxLayoutWidth > maximumLabelWidth) {
+//            NSLog(@"  ADJUSTMENT CASE 1");
+            leftLabelPreferredMaxLayoutWidth = maximumLabelWidth;
+            rightLabelPreferredMaxLayoutWidth = leftLabelPreferredMaxLayoutWidth;
+        }else if (leftLabelPreferredMaxLayoutWidth > maximumLabelWidth) {
+//            NSLog(@"  ADJUSTMENT CASE 2");
+            leftLabelPreferredMaxLayoutWidth = maximumContentWidth - rightLabelPreferredMaxLayoutWidth;
+        }else if (rightLabelPreferredMaxLayoutWidth > maximumLabelWidth) {
+//            NSLog(@"  ADJUSTMENT CASE 3");
+            rightLabelPreferredMaxLayoutWidth = maximumContentWidth - leftLabelPreferredMaxLayoutWidth;
+        }
+//        NSLog(@"  ADJUSTED leftLabelPreferredMaxLayoutWidth = %f", leftLabelPreferredMaxLayoutWidth);
+//        NSLog(@"  ADJUSTED rightLabelPreferredMaxLayoutWidth = %f", rightLabelPreferredMaxLayoutWidth);
     }
     self.leftLabel.preferredMaxLayoutWidth = leftLabelPreferredMaxLayoutWidth;
     self.rightLabel.preferredMaxLayoutWidth = rightLabelPreferredMaxLayoutWidth;
@@ -107,20 +123,6 @@
 }
 
 #pragma mark - Overrides
-
-- (void)layoutSubviews {
-    CGFloat l_horizontalSpace = self.leftLabelLeftConstraint.constant;
-    BOOL l_areCustomAccessoryViewsHidden = self.customAccessoryImageView.hidden && self.customAccessoryButton.hidden;
-    if (l_areCustomAccessoryViewsHidden) {
-        self.rightLabelRightConstraint.constant = l_horizontalSpace;
-    }
-    else {
-        UIView *l_visibleCustomAccessoryView = self.customAccessoryImageView.hidden ? self.customAccessoryButton : self.customAccessoryImageView;
-        CGFloat l_customAccessoryViewWidth = l_visibleCustomAccessoryView.bounds.size.width;
-        self.rightLabelRightConstraint.constant = l_horizontalSpace * 2 + l_customAccessoryViewWidth;
-    }
-    [super layoutSubviews];
-}
 
 - (void)prepareForReuse {
     [super prepareForReuse];

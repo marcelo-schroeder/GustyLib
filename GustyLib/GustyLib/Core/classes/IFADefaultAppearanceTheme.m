@@ -851,6 +851,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 - (void)setCustomAccessoryViewAppearanceForFormTableViewCell:(IFAFormTableViewCell *)a_cell {
+
     NSString *l_imageName = nil;
     BOOL l_shouldUseButton = NO;
 //    BOOL l_shouldTintImage = NO;
@@ -875,7 +876,21 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 //    }
     a_cell.customAccessoryImageView.image = l_image;
     a_cell.customAccessoryImageView.hidden = l_imageName == nil;
+
+    // Update right label right constraint accordingly
+    CGFloat l_horizontalSpace = a_cell.leftLabelLeftConstraint.constant;
+    BOOL l_areCustomAccessoryViewsHidden = a_cell.customAccessoryImageView.hidden && a_cell.customAccessoryButton.hidden;
+    if (l_areCustomAccessoryViewsHidden) {
+        a_cell.rightLabelRightConstraint.constant = l_horizontalSpace;
+    }
+    else {
+        UIView *l_visibleCustomAccessoryView = a_cell.customAccessoryImageView.hidden ? a_cell.customAccessoryButton : a_cell.customAccessoryImageView;
+        CGFloat l_customAccessoryViewWidth = l_visibleCustomAccessoryView.bounds.size.width;
+        a_cell.rightLabelRightConstraint.constant = l_horizontalSpace * 2 + l_customAccessoryViewWidth;
+    }
+
     [a_cell.customAccessoryImageView layoutIfNeeded]; // Make sure differences in the image sizes trigger layout constraint recalculation
+
 }
 
 
