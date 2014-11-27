@@ -544,8 +544,9 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
                 l_cell = [[IFAFormTableViewCell alloc] initWithReuseIdentifier:l_propertyName
                                                                   propertyName:l_propertyName indexPath:indexPath
                                                             formViewController:self];
-                l_cell.leftLabel.hidden = YES;
-                l_cell.rightLabel.hidden = YES;
+                [l_cell.leftLabel removeFromSuperview];
+                [l_cell.centeredLabel removeFromSuperview];
+                [l_cell.rightLabel removeFromSuperview];
                 l_cell.customAccessoryType = IFAFormTableViewCellAccessoryTypeNone;
                 l_cell.userInteractionEnabled = NO;
                 // Set appearance
@@ -1887,7 +1888,7 @@ responderForKeyboardInputFocusAtIndexPath:(NSIndexPath *)a_indexPath {
 #pragma mark - IFAViewControllerDelegate
 
 - (void)viewController:(UIViewController *)a_viewController didChangeContentSizeCategory:(NSString *)a_contentSizeCategory {
-    NSLog(@"didChangeContentSizeCategory: %@", a_contentSizeCategory);  //clean up
+    NSLog(@"didChangeContentSizeCategory: %@", a_contentSizeCategory);  //wip: clean up
     [self.tableView reloadData];
 }
 

@@ -96,20 +96,17 @@
 
 #pragma mark - UITableViewDataSource
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ([[self nameForIndexPath:indexPath] isEqualToString:@"appName"]) {
-        return self.customView.frame.size.height;
-    }else{
-        return [super tableView:tableView heightForRowAtIndexPath:indexPath];
-    }
-}
-
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *l_cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    IFAFormTableViewCell *l_cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     if ([[self nameForIndexPath:indexPath] isEqualToString:@"appName"]) {
-        [l_cell.contentView addSubview:self.customView];
-        [[self ifa_appearanceTheme] setLabelTextStyleForChildrenOfView:self.customView];
+        if (!self.customView.superview) {
+            [l_cell.customContentView addSubview:self.customView];
+            [self.customView ifa_addLayoutConstraintsToFillSuperview];
+        }
     }
+    //wip: should probably be in the appearance class
+    self.appNameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    self.copyrightNoticeLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
     return l_cell;
 }
 
