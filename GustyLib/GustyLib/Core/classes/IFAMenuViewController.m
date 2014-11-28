@@ -19,6 +19,7 @@
 //
 
 #import "GustyLibCore.h"
+#import "IFAMenuViewController.h"
 
 @interface IFAMenuViewController ()
 @property (nonatomic, strong) IFAContextSwitchingManager *IFA_contextSwitchingManager;
@@ -60,7 +61,12 @@
     UITableViewCell *l_cell = [self tableView:self.tableView cellForRowAtIndexPath:a_indexPath];
     BOOL l_useDeviceAgnosticMainStoryboard = [IFAApplicationDelegate sharedInstance].useDeviceAgnosticMainStoryboard;
     UIStoryboard *l_storyboard = l_useDeviceAgnosticMainStoryboard ? self.storyboard : [self ifa_commonStoryboard];
-    UIViewController *l_viewController = [l_storyboard instantiateViewControllerWithIdentifier:l_cell.reuseIdentifier];
+    NSString *storyboardViewControllerId = l_cell.reuseIdentifier;  // Use the cell reuse ID by default
+    if ([self.menuViewControllerDataSource respondsToSelector:@selector(storyboardViewControllerIdForIndexPath:menuViewController:)]) {
+        storyboardViewControllerId = [self.menuViewControllerDataSource storyboardViewControllerIdForIndexPath:a_indexPath
+                                                                                            menuViewController:self];
+    }
+    UIViewController *l_viewController = [l_storyboard instantiateViewControllerWithIdentifier:storyboardViewControllerId];
     if ((self.splitViewController || self.slidingViewController) && ![l_viewController isKindOfClass:[UINavigationController class]]) {
         // Automatically add a navigation controller as the parent
         l_viewController = [[[[self ifa_appearanceTheme] navigationControllerClass] alloc] initWithRootViewController:l_viewController];

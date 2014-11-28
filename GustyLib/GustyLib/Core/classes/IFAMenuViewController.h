@@ -21,7 +21,11 @@
 #import "IFAFetchedResultsTableViewController.h"
 #import "IFAContextSwitchingManager.h"
 
+@protocol IFAMenuViewControllerDataSource;
+
 @interface IFAMenuViewController : IFATableViewController <IFAContextSwitchingManagerDelegate>
+
+@property (nonatomic, weak) id<IFAMenuViewControllerDataSource> menuViewControllerDataSource;
 
 @property (nonatomic, strong, readonly) NSMutableDictionary *indexPathToViewControllerDictionary;
 @property (nonatomic, strong) NSIndexPath *selectedIndexPath;
@@ -43,5 +47,17 @@
 -(void)selectMenuItemAtIndex:(NSUInteger)a_index;
 
 +(IFAMenuViewController *)mainMenuViewController;
+
+@end
+
+@protocol IFAMenuViewControllerDataSource <NSObject>
+
+/**
+* Assists the menu view controller in determining the view controller selected by the user.
+* @param a_indexPath Index path indicating the user selection.
+* @param a_menuViewController The sender.
+* @return ID of the view controller in the app's main storyboard to be instantiated and pushed onto the view when a given index path is selected by the user.
+*/
+-(NSString *)storyboardViewControllerIdForIndexPath:(NSIndexPath *)a_indexPath menuViewController:(IFAMenuViewController *)a_menuViewController;
 
 @end

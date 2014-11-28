@@ -97,7 +97,7 @@
 #pragma mark - UITableViewDataSource
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    IFAFormTableViewCell *l_cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    IFAFormTableViewCell *l_cell = (IFAFormTableViewCell *) [super tableView:tableView cellForRowAtIndexPath:indexPath];
     if ([[self nameForIndexPath:indexPath] isEqualToString:@"appName"]) {
         if (!self.customView.superview) {
             [l_cell.customContentView addSubview:self.customView];
