@@ -47,9 +47,4 @@
     return self;
 }
 
-- (void)prepareForReuse {
-    [super prepareForReuse];
-    self.label.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];   //wip: move to appearance theme? should probably be set at init as well? (same for other cells that do something similar)
-}
-
 @end

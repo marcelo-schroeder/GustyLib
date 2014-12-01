@@ -119,6 +119,27 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }
 }
 
+/**
+* Used for setting the preferred font for dynamic text styles chosen by the user.
+*/
+- (void)IFA_setPreferredFontForTextStyleForLabelsInObject:(id)a_object {
+    if ([a_object isKindOfClass:[IFAFormSectionHeaderFooterView class]]) {
+        IFAFormSectionHeaderFooterView *obj = a_object;
+        obj.label.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];   //wip: move to appearance theme? should probably be set at init as well? (same for other cells that do something similar)
+    } else if ([a_object isKindOfClass:[IFAFormTableViewCell class]]) {
+        IFAFormTableViewCell *obj = a_object;
+        //wip: review - this should probably be moved to the appearance theme
+        obj.leftLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+        obj.centeredLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+        obj.rightLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+        if ([a_object isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
+            IFAFormTextFieldTableViewCell *obj = a_object;
+            //wip: review - this should probably be moved to the appearance theme
+            obj.textField.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+        }
+    }
+}
+
 #pragma mark - IFAAppearanceTheme
 
 -(void)setAppearance {
@@ -369,6 +390,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 -(void)setAppearanceOnInitForView:(UIView*)a_view{
+    [self IFA_setPreferredFontForTextStyleForLabelsInObject:a_view];
 }
 
 - (void)setAppearanceForCell:(UITableViewCell *)a_cell onSetHighlighted:(BOOL)a_highlighted
@@ -552,7 +574,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 - (void)setAppearanceOnPrepareForReuseForCell:(UITableViewCell *)a_cell {
-    // to be implemented by subclasses, if required
+    [self IFA_setPreferredFontForTextStyleForLabelsInObject:a_cell];
 }
 
 -(void)setNavigationItemTitleViewForViewController:(UIViewController *)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation{

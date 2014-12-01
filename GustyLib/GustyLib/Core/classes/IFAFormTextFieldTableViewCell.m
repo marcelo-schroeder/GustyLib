@@ -112,12 +112,6 @@
     
 }
 
-- (void)prepareForReuse {
-    [super prepareForReuse];
-    //wip: review - this should probably be moved to the appearance theme
-    self.textField.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-}
-
 #pragma mark - UITextFieldDelegate
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {

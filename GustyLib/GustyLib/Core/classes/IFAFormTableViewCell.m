@@ -122,14 +122,4 @@
 
 }
 
-#pragma mark - Overrides
-
-- (void)prepareForReuse {
-    [super prepareForReuse];
-    //wip: review - this should probably be moved to the appearance theme
-    self.leftLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-    self.centeredLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-    self.rightLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-}
-
 @end
