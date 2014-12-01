@@ -125,16 +125,14 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 - (void)IFA_setPreferredFontForTextStyleForLabelsInObject:(id)a_object {
     if ([a_object isKindOfClass:[IFAFormSectionHeaderFooterView class]]) {
         IFAFormSectionHeaderFooterView *obj = a_object;
-        obj.label.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];   //wip: move to appearance theme? should probably be set at init as well? (same for other cells that do something similar)
+        obj.label.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
     } else if ([a_object isKindOfClass:[IFAFormTableViewCell class]]) {
         IFAFormTableViewCell *obj = a_object;
-        //wip: review - this should probably be moved to the appearance theme
         obj.leftLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
         obj.centeredLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
         obj.rightLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
         if ([a_object isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
             IFAFormTextFieldTableViewCell *obj = a_object;
-            //wip: review - this should probably be moved to the appearance theme
             obj.textField.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
         }
     }
