@@ -22,9 +22,6 @@
 
 @interface IFAAboutFormViewController ()
 
-@property (nonatomic, strong) UIBarButtonItem *IFA_reportBugBarButtonItem;
-@property (nonatomic, strong) UIBarButtonItem *IFA_provideFeedbackBarButtonItem;
-@property (nonatomic, strong) UIBarButtonItem *IFA_forceCrashBarButtonItem;
 @property (nonatomic, strong) IFAEmailManager *IFA_emailManager;
 
 @end
@@ -97,17 +94,17 @@
 #pragma mark - UITableViewDataSource
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    IFAFormTableViewCell *l_cell = (IFAFormTableViewCell *) [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    IFAFormTableViewCell *cell = (IFAFormTableViewCell *) [super tableView:tableView cellForRowAtIndexPath:indexPath];
     if ([[self nameForIndexPath:indexPath] isEqualToString:@"appName"]) {
         if (!self.customView.superview) {
-            [l_cell.customContentView addSubview:self.customView];
+            [cell.customContentView addSubview:self.customView];
             [self.customView ifa_addLayoutConstraintsToFillSuperview];
         }
     }
-    //wip: should probably be in the appearance class
-    self.appNameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
-    self.copyrightNoticeLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
-    return l_cell;
+    [self.ifa_appearanceTheme setAppearanceForCell:cell
+                                       atIndexPath:indexPath
+                                    viewController:self];
+    return cell;
 }
 
 #pragma mark - IFAFormViewControllerDelegate

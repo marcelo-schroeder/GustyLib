@@ -383,7 +383,11 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 - (void)setAppearanceForCell:(UITableViewCell *)a_cell atIndexPath:(NSIndexPath *)a_indexPath
               viewController:(IFATableViewController *)a_tableViewController {
-
+    if ([a_tableViewController isKindOfClass:[IFAAboutFormViewController class]]) {
+        IFAAboutFormViewController *viewController = (IFAAboutFormViewController *) a_tableViewController;
+        viewController.appNameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+        viewController.copyrightNoticeLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+    }
 }
 
 -(void)setAppearanceOnAwakeFromNibForView:(UIView*)a_view{
