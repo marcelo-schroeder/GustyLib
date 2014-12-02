@@ -143,7 +143,7 @@
                 [l_responderToBe becomeFirstResponder];
             } else {
                 [l_tableView scrollToRowAtIndexPath:a_indexPath
-                                   atScrollPosition:UITableViewScrollPositionBottom
+                                   atScrollPosition:UITableViewScrollPositionTop
                                            animated:YES];
                 self.IFA_scrollRequested = YES;
                 self.IFA_scrollPendingIndexPath = a_indexPath;

@@ -26,9 +26,6 @@
 
 static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
-//wip: switch cell - should have space between it and the label
-//wip: task form: anything bigger than medium size causes the dates to go double line when they shouldn't
-//wip: input text field's height is not dynamic
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -1888,7 +1885,7 @@ responderForKeyboardInputFocusAtIndexPath:(NSIndexPath *)a_indexPath {
 #pragma mark - IFAViewControllerDelegate
 
 - (void)viewController:(UIViewController *)a_viewController didChangeContentSizeCategory:(NSString *)a_contentSizeCategory {
-    NSLog(@"didChangeContentSizeCategory: %@", a_contentSizeCategory);  //wip: clean up
+//    NSLog(@"didChangeContentSizeCategory: %@", a_contentSizeCategory);
     [self.tableView reloadData];
 }
 

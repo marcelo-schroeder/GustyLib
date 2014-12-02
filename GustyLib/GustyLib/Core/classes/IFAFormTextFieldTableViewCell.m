@@ -20,6 +20,8 @@
 
 #import "GustyLibCore.h"
 
+static const int k_horizontalMargin = 15;
+
 @interface IFAFormTextFieldTableViewCell ()
 
 @end
@@ -66,23 +68,23 @@
 
 - (void)addTextFieldLayoutConstraints {
     [self.textField ifa_addLayoutConstraintToCenterInSuperviewVertically];
-    NSLayoutConstraint *l_leftConstraint = [NSLayoutConstraint constraintWithItem:self.textField
-                                                                        attribute:NSLayoutAttributeLeft
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:self.leftLabel
-                                                                        attribute:NSLayoutAttributeRight
-                                                                       multiplier:1
-                                                                         constant:15];
-    NSLayoutConstraint *l_rightConstraint = [NSLayoutConstraint constraintWithItem:self.textField
-                                                                         attribute:NSLayoutAttributeRight
-                                                                         relatedBy:NSLayoutRelationEqual
-                                                                            toItem:self.textField.superview
-                                                                         attribute:NSLayoutAttributeRight
-                                                                        multiplier:1
-                                                                          constant:-15];
+    NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:self.textField
+                                                                      attribute:NSLayoutAttributeLeft
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:self.leftLabel
+                                                                      attribute:NSLayoutAttributeRight
+                                                                     multiplier:1
+                                                                       constant:k_horizontalMargin];
+    NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:self.textField
+                                                                       attribute:NSLayoutAttributeRight
+                                                                       relatedBy:NSLayoutRelationEqual
+                                                                          toItem:self.textField.superview
+                                                                       attribute:NSLayoutAttributeRight
+                                                                      multiplier:1
+                                                                        constant:-k_horizontalMargin];
     [self.textField.superview addConstraints:@[
-            l_leftConstraint,
-            l_rightConstraint,
+            leftConstraint,
+            rightConstraint,
     ]];
 }
 

@@ -128,13 +128,18 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         obj.label.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
     } else if ([a_object isKindOfClass:[IFAFormTableViewCell class]]) {
         IFAFormTableViewCell *obj = a_object;
-        obj.leftLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-        obj.centeredLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-        obj.rightLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+        UIFont *headlineSizeFont = [UIFont systemFontOfSize:[UIFont preferredFontForTextStyle:UIFontTextStyleHeadline].pointSize];  // Font based on the headline text style font size
+        obj.leftLabel.font = headlineSizeFont;
+        obj.centeredLabel.font = headlineSizeFont;
+        obj.rightLabel.font = headlineSizeFont;
         if ([a_object isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
-            IFAFormTextFieldTableViewCell *obj = a_object;
-            obj.textField.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+            IFAFormTextFieldTableViewCell *textFieldCell = a_object;
+            textFieldCell.textField.font = headlineSizeFont;
         }
+    } else if([a_object isKindOfClass:[IFAAboutFormViewController class]]) {
+        IFAAboutFormViewController *obj = (IFAAboutFormViewController *) a_object;
+        obj.appNameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+        obj.copyrightNoticeLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
     }
 }
 
@@ -404,9 +409,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 - (void)setAppearanceForCell:(UITableViewCell *)a_cell atIndexPath:(NSIndexPath *)a_indexPath
               viewController:(IFATableViewController *)a_tableViewController {
     if ([a_tableViewController isKindOfClass:[IFAAboutFormViewController class]]) {
-        IFAAboutFormViewController *viewController = (IFAAboutFormViewController *) a_tableViewController;
-        viewController.appNameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
-        viewController.copyrightNoticeLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+        [self IFA_setPreferredFontForTextStyleForLabelsInObject:a_tableViewController];
     }
 }
 

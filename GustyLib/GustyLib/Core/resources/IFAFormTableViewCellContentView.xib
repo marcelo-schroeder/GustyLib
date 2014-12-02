@@ -38,22 +38,22 @@
                         <constraint firstAttribute="height" constant="1" id="847-cL-xPQ"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Left Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="76" translatesAutoresizingMaskIntoConstraints="NO" id="w5b-SK-4wH" userLabel="Left Label">
-                    <rect key="frame" x="15" y="12" width="169" height="19"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Left Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w5b-SK-4wH" userLabel="Left Label">
+                    <rect key="frame" x="15" y="11" width="169" height="22"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Right Label" textAlignment="right" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="176" translatesAutoresizingMaskIntoConstraints="NO" id="bOx-tD-ean" userLabel="Right Label">
-                    <rect key="frame" x="199" y="12" width="83" height="20"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Right Label" textAlignment="right" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bOx-tD-ean" userLabel="Right Label">
+                    <rect key="frame" x="199" y="11" width="83" height="22"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                     <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.55686274509803924" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Centered Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BsX-Ip-YYH" userLabel="Centered Label">
-                    <rect key="frame" x="15" y="12" width="290" height="20"/>
+                    <rect key="frame" x="15" y="11" width="290" height="22"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -79,26 +79,25 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="BsX-Ip-YYH" secondAttribute="trailing" constant="15" id="6TE-fv-QQ1"/>
-                <constraint firstItem="w5b-SK-4wH" firstAttribute="centerY" secondItem="bOx-tD-ean" secondAttribute="centerY" constant="-0.5" id="9IS-bf-2QX"/>
                 <constraint firstAttribute="trailing" secondItem="YDb-fv-JUs" secondAttribute="trailing" constant="15" id="Bk9-fT-H4z"/>
                 <constraint firstItem="BsX-Ip-YYH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="BrC-k3-SHa"/>
                 <constraint firstItem="w5b-SK-4wH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="DxO-Lo-K8c"/>
-                <constraint firstItem="bOx-tD-ean" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="12" id="KGd-Uk-tdV"/>
+                <constraint firstItem="bOx-tD-ean" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="11" id="KGd-Uk-tdV"/>
                 <constraint firstAttribute="centerY" secondItem="rSZ-Ec-zn8" secondAttribute="centerY" id="TxP-25-wIJ"/>
-                <constraint firstAttribute="bottom" secondItem="BsX-Ip-YYH" secondAttribute="bottom" constant="12" id="VtR-Pa-hei"/>
+                <constraint firstAttribute="bottom" secondItem="BsX-Ip-YYH" secondAttribute="bottom" constant="11" id="VtR-Pa-hei"/>
                 <constraint firstItem="a7O-Dd-jDy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="-1" id="YOy-XO-9PI"/>
                 <constraint firstItem="Oax-2f-JwN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="asc-Se-UgJ"/>
                 <constraint firstAttribute="trailing" secondItem="rSZ-Ec-zn8" secondAttribute="trailing" constant="15" id="cMZ-Gg-h5d"/>
                 <constraint firstAttribute="trailing" secondItem="Oax-2f-JwN" secondAttribute="trailing" id="ev7-Dy-1Bp"/>
                 <constraint firstAttribute="trailing" secondItem="a7O-Dd-jDy" secondAttribute="trailing" id="k67-VY-XhW"/>
-                <constraint firstItem="BsX-Ip-YYH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="12" id="ksr-6Y-Uoh"/>
+                <constraint firstItem="BsX-Ip-YYH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="11" id="ksr-6Y-Uoh"/>
                 <constraint firstItem="bOx-tD-ean" firstAttribute="leading" secondItem="w5b-SK-4wH" secondAttribute="trailing" constant="15" id="mGi-Mo-DJG"/>
                 <constraint firstAttribute="bottom" secondItem="Oax-2f-JwN" secondAttribute="bottom" id="oWn-zy-zTp"/>
-                <constraint firstAttribute="bottom" secondItem="w5b-SK-4wH" secondAttribute="bottom" constant="13" id="qnU-fO-mpo"/>
+                <constraint firstAttribute="bottom" secondItem="w5b-SK-4wH" secondAttribute="bottom" constant="11" id="qnU-fO-mpo"/>
                 <constraint firstAttribute="trailing" secondItem="bOx-tD-ean" secondAttribute="trailing" constant="38" id="rXg-8N-fff"/>
                 <constraint firstAttribute="centerY" secondItem="YDb-fv-JUs" secondAttribute="centerY" id="s37-xL-0NZ"/>
-                <constraint firstAttribute="bottom" secondItem="bOx-tD-ean" secondAttribute="bottom" constant="12" id="wng-dh-CBa"/>
-                <constraint firstItem="w5b-SK-4wH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="12" id="xYN-Dy-Z0P"/>
+                <constraint firstAttribute="bottom" secondItem="bOx-tD-ean" secondAttribute="bottom" constant="11" id="wng-dh-CBa"/>
+                <constraint firstItem="w5b-SK-4wH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="11" id="xYN-Dy-Z0P"/>
                 <constraint firstItem="a7O-Dd-jDy" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="xuH-n4-81P"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

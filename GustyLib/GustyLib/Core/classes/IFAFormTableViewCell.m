@@ -50,6 +50,7 @@
                                                                            attribute:0
                                                                           multiplier:1
                                                                             constant:IFAMinimumTapAreaDimension]];
+        [self.ifa_appearanceTheme setAppearanceOnInitForView:self];
     }
     return self;
 }
