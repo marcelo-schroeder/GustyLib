@@ -44,4 +44,9 @@
     [self ifa_awakeFromNib];
 }
 
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    [[self ifa_appearanceTheme] setAppearanceOnPrepareForReuseForTableViewHeaderFooterView:self];
+}
+
 @end

@@ -22,7 +22,7 @@
 #pragma mark - Public
 
 - (void)ifa_prepareForReuse {
-    [[self ifa_appearanceTheme] setAppearanceOnPrepareForReuseForCell:self];
+    [[self ifa_appearanceTheme] setAppearanceOnPrepareForReuseForTableViewCell:self];
 }
 
 + (UIColor *)ifa_defaultSeparatorColor {

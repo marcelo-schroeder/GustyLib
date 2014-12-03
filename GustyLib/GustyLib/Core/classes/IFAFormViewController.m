@@ -1346,10 +1346,6 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     return UITableViewCellEditingStyleNone;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return self.editing && [self editorTypeForIndexPath:indexPath] == IFAEditorTypeNumber ? 84 : UITableViewAutomaticDimension; //wip: dynamic type - what to do in the custom size cases here?
-}
-
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
 
     [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
@@ -1427,8 +1423,6 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 #pragma mark Overrides
 
 - (void)viewDidLoad {
-
-    self.ifa_delegate = self;
 
     [super viewDidLoad];
 
@@ -1881,12 +1875,5 @@ responderForKeyboardInputFocusAtIndexPath:(NSIndexPath *)a_indexPath {
 }
 
 #endif
-
-#pragma mark - IFAViewControllerDelegate
-
-- (void)viewController:(UIViewController *)a_viewController didChangeContentSizeCategory:(NSString *)a_contentSizeCategory {
-//    NSLog(@"didChangeContentSizeCategory: %@", a_contentSizeCategory);
-    [self.tableView reloadData];
-}
 
 @end

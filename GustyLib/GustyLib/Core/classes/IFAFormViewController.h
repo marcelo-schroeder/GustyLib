@@ -33,7 +33,7 @@
 @protocol IFAFormViewControllerDelegate;
 @class IFAFormSectionHeaderFooterView;
 
-@interface IFAFormViewController : IFATableViewController <UIActionSheetDelegate, IFAFormInputAccessoryViewDataSource, IFAViewControllerDelegate
+@interface IFAFormViewController : IFATableViewController <UIActionSheetDelegate, IFAFormInputAccessoryViewDataSource
 #ifdef IFA_AVAILABLE_Help
         , IFAHelpTarget
 #endif

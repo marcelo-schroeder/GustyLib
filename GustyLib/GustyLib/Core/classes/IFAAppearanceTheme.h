@@ -31,6 +31,7 @@ typedef enum {
 
 @class IFATableViewController;
 @class IFACollectionViewCell;
+@class IFATableViewHeaderFooterView;
 
 @protocol IFAAppearanceTheme <NSObject>
 
@@ -131,7 +132,8 @@ typedef enum {
                     animated:(BOOL)a_shouldAnimate;
 
 - (void)setAppearanceForCell:(UITableViewCell *)a_cell onSetSelected:(BOOL)a_selected animated:(BOOL)a_shouldAnimate;
--(void)setAppearanceOnPrepareForReuseForCell:(UITableViewCell *)a_cell;
+- (void)setAppearanceOnPrepareForReuseForTableViewCell:(UITableViewCell *)a_cell;
+- (void)setAppearanceOnPrepareForReuseForTableViewHeaderFooterView:(IFATableViewHeaderFooterView *)a_view;
 
 @optional
 -(void)willReloadUi;

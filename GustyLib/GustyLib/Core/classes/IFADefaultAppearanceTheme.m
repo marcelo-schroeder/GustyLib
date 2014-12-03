@@ -408,9 +408,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 - (void)setAppearanceForCell:(UITableViewCell *)a_cell atIndexPath:(NSIndexPath *)a_indexPath
               viewController:(IFATableViewController *)a_tableViewController {
-    if ([a_tableViewController isKindOfClass:[IFAAboutFormViewController class]]) {
-        [self IFA_setPreferredFontForTextStyleForLabelsInObject:a_tableViewController];
-    }
+    [self IFA_setPreferredFontForTextStyleForLabelsInObject:a_tableViewController];
 }
 
 -(void)setAppearanceOnAwakeFromNibForView:(UIView*)a_view{
@@ -574,8 +572,12 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }
 }
 
-- (void)setAppearanceOnPrepareForReuseForCell:(UITableViewCell *)a_cell {
+- (void)setAppearanceOnPrepareForReuseForTableViewCell:(UITableViewCell *)a_cell {
     [self IFA_setPreferredFontForTextStyleForLabelsInObject:a_cell];
+}
+
+- (void)setAppearanceOnPrepareForReuseForTableViewHeaderFooterView:(IFATableViewHeaderFooterView *)a_view {
+    [self IFA_setPreferredFontForTextStyleForLabelsInObject:a_view];
 }
 
 -(void)setNavigationItemTitleViewForViewController:(UIViewController *)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation{

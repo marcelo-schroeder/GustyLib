@@ -1030,8 +1030,10 @@ typedef enum {
         [self ifa_addNotificationObserverForName:UIContentSizeCategoryDidChangeNotification object:nil
                                            queue:nil
                                       usingBlock:^(NSNotification *a_note) {
+                                          NSString *contentSizeCategory = a_note.userInfo[UIContentSizeCategoryNewValueKey];
+//                                          NSLog(@"UIContentSizeCategoryDidChangeNotification: %@", contentSizeCategory);
                                           [l_weakSelf.ifa_delegate viewController:l_weakSelf
-                                                     didChangeContentSizeCategory:a_note.userInfo[UIContentSizeCategoryNewValueKey]];
+                                                     didChangeContentSizeCategory:contentSizeCategory];
                                       }
                                      removalTime:IFAViewControllerNotificationObserverRemovalTimeDealloc];
     }
