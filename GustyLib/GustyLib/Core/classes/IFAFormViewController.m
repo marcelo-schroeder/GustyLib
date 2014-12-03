@@ -26,6 +26,8 @@
 
 static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
+//wip: investigate case of text field's text getting stuck at the end
+//wip: when in non-edit mode the label shows multiple lines, what should happen when in edit mode and the text field replaces the label?
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -1533,8 +1535,6 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     }
 
     [self.tableView registerClass:[IFAFormSectionHeaderFooterView class] forHeaderFooterViewReuseIdentifier:k_sectionHeaderFooterReuseId];
-
-    self.tableView.estimatedRowHeight = IFAMinimumTapAreaDimension; // Not having this may produce incorrect cell heights (added with support for dynamic type)
 
 }
 

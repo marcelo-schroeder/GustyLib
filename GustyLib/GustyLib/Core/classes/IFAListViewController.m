@@ -739,6 +739,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [self cellForTableView:tableView];
 	cell.textLabel.text = self.listGroupedBy ? [[self objectForIndexPath:indexPath] ifa_displayValue] : [[self objectForIndexPath:indexPath] ifa_longDisplayValue];
+    cell.textLabel.numberOfLines = 0;   // For dynamic type
     [[self ifa_appearanceTheme] setAppearanceForView:cell.textLabel];
     return cell;
 }

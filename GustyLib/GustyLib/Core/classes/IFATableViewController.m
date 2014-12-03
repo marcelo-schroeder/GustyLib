@@ -333,6 +333,8 @@
         self.clearsSelectionOnViewWillAppear = NO;
     }
 
+    self.tableView.estimatedRowHeight = IFAMinimumTapAreaDimension; // Not having this may produce incorrect cell heights (added with support for dynamic type)
+
 }
 
 -(void)viewDidUnload{
