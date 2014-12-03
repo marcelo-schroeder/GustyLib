@@ -18,16 +18,16 @@
 //  limitations under the License.
 //
 
-static CGFloat const IFATableViewEditingCellXOffset = 38;
-static CGFloat const IFAFormSectionHeaderDefaultHeight = 39;
-static CGFloat const IFAMinimumTapAreaDimension = 44;
-static CGFloat const IFATableViewCellSeparatorDefaultInsetLeft = 15;
-static CGFloat const IFAIPhoneStatusBarDoubleHeight = 40;
-static NSTimeInterval const IFAAnimationDuration = 0.3;
-
 @interface IFAConstants : NSObject {
 
 }
+
+extern CGFloat const IFAMinimumTapAreaDimension;
+extern CGFloat const IFATableViewEditingCellXOffset;
+extern CGFloat const IFAFormSectionHeaderDefaultHeight;
+extern CGFloat const IFATableViewCellSeparatorDefaultInsetLeft;
+extern CGFloat const IFAIPhoneStatusBarDoubleHeight;
+extern NSTimeInterval const IFAAnimationDuration;
 
 extern NSString* const IFAButtonLabelSave;
 extern NSString* const IFAButtonLabelCancel;
