@@ -70,6 +70,7 @@
     UITableViewCell *l_cell = [self dequeueAndCreateReusableCellWithIdentifier:k_cellId atIndexPath:indexPath];
     NSDictionary *l_credit = self.IFA_credits[(NSUInteger) indexPath.row];
     l_cell.textLabel.text = l_credit[@"name"];
+    l_cell.textLabel.numberOfLines = 0;
     return l_cell;
 }
 
