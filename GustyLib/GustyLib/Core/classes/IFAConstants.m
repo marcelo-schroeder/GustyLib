@@ -22,7 +22,6 @@
 
 @implementation IFAConstants
 
-//wip: do the same with the others? (for swift)
 CGFloat const IFAMinimumTapAreaDimension = 44;
 CGFloat const IFATableViewEditingCellXOffset = 38;
 CGFloat const IFAFormSectionHeaderDefaultHeight = 39;
