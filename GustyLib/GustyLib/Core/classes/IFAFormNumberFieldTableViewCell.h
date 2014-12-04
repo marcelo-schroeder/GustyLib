@@ -22,9 +22,4 @@
 
 @interface IFAFormNumberFieldTableViewCell : IFAFormTextFieldTableViewCell
 
-@property (strong, nonatomic) UISlider *slider;
-@property (strong, nonatomic) UIStepper *stepper;
-//@property (strong, nonatomic) UILabel *minLabel;
-//@property (strong, nonatomic) UILabel *maxLabel;
-
 @end

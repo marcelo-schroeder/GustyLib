@@ -27,7 +27,6 @@
 static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
 //wip: investigate case of text field's text getting stuck at the end
-//wip: when in non-edit mode the label shows multiple lines, what should happen when in edit mode and the text field replaces the label?
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -241,12 +240,8 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 //        NSLog(@"  l_editing: %u, self.editing: %u, [self IFA_isReadOnlyForIndexPath:[self.tableView indexPathForCell:l_textFieldCell]]: %u", l_editing, self.editing, [self isReadOnlyForIndexPath:[self.tableView indexPathForCell:l_textFieldCell]]);
         l_textFieldCell.rightLabel.hidden = l_editing;
         l_textFieldCell.textField.hidden = !l_editing;
-        if ([l_textFieldCell isKindOfClass:[IFAFormNumberFieldTableViewCell class]]) {
-            IFAFormNumberFieldTableViewCell *l_numberFieldCell = (IFAFormNumberFieldTableViewCell *)l_textFieldCell;
-            l_numberFieldCell.stepper.hidden = !l_editing;
-            l_numberFieldCell.slider.hidden = !l_editing;
-//            l_numberFieldCell.minLabel.hidden = !l_editing;
-//            l_numberFieldCell.maxLabel.hidden = !l_editing;
+        if (l_textFieldCell.rightLabel.hidden) {
+            l_textFieldCell.rightLabel.text = nil;  // Prevents a hidden label to have an influence on the cell's dynamic height
         }
     }
     return a_cell;
