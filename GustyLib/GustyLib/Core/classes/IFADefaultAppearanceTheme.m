@@ -134,7 +134,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         obj.rightLabel.font = headlineSizeFont;
         if ([a_object isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
             IFAFormTextFieldTableViewCell *textFieldCell = a_object;
-            textFieldCell.textField.font = headlineSizeFont;
+            textFieldCell.textField.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];   // This font does not cause truncation of the text at the largest size
         }
     } else if([a_object isKindOfClass:[IFAAboutFormViewController class]]) {
         IFAAboutFormViewController *obj = (IFAAboutFormViewController *) a_object;
