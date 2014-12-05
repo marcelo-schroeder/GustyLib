@@ -26,9 +26,6 @@
 
 static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
-//wip: investigate case of text field's text getting stuck at the end
-//wip: wasn't the cursor supposed to be automatically placed on the first field when creating a new entity?
-//wip: list jumps to top when selecting an object at the bottom of the list (e.g. customer c1,c2,c3,c4 and then a long name - select the long name) - user font must be big
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
