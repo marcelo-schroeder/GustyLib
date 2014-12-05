@@ -97,8 +97,8 @@
                 <constraint firstAttribute="trailing" secondItem="bOx-tD-ean" secondAttribute="trailing" constant="38" id="rXg-8N-fff"/>
                 <constraint firstAttribute="centerY" secondItem="YDb-fv-JUs" secondAttribute="centerY" id="s37-xL-0NZ"/>
                 <constraint firstAttribute="bottom" secondItem="bOx-tD-ean" secondAttribute="bottom" constant="11" id="wng-dh-CBa"/>
-                <constraint firstItem="w5b-SK-4wH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="11" id="xYN-Dy-Z0P"/>
                 <constraint firstItem="a7O-Dd-jDy" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="xuH-n4-81P"/>
+                <constraint firstItem="w5b-SK-4wH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="11" id="y5r-Mk-UnN"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
