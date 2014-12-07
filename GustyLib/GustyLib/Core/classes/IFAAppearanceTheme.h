@@ -61,7 +61,12 @@ typedef enum {
 -(void)setAppearanceForToolbarButtonItem:(UIBarButtonItem*)a_barButtonItem;
 -(void)setAppearanceForPopoverController:(UIPopoverController*)a_popoverController;
 
--(void)setLabelTextStyleForChildrenOfView:(UIView*)a_view;
+-(void)setTextAppearanceForChildrenOfView:(UIView*)a_view;
+
+/**
+* Used for setting the preferred font for dynamic text styles chosen by the user.
+*/
+- (void)setTextAppearanceForSelectedContentSizeCategoryInObject:(id)a_object;
 
 -(NSString*)themeName;
 -(NSString*)fallbackThemeName;

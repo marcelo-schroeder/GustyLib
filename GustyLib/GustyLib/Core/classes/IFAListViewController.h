@@ -39,7 +39,7 @@ typedef enum{
     IFAListViewControllerFetchingStrategyFindEntities,
 }IFAListViewControllerFetchingStrategy;
 
-@interface IFAListViewController : IFAFetchedResultsTableViewController <IFAFetchedResultsTableViewControllerDataSource
+@interface IFAListViewController : IFAFetchedResultsTableViewController <IFAFetchedResultsTableViewControllerDataSource, IFAViewControllerDelegate
 #ifdef IFA_AVAILABLE_Help
         , IFAHelpTarget
 #endif

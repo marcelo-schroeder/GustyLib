@@ -119,30 +119,6 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }
 }
 
-/**
-* Used for setting the preferred font for dynamic text styles chosen by the user.
-*/
-- (void)IFA_setPreferredFontForTextStyleForLabelsInObject:(id)a_object {
-    if ([a_object isKindOfClass:[IFAFormSectionHeaderFooterView class]]) {
-        IFAFormSectionHeaderFooterView *obj = a_object;
-        obj.label.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
-    } else if ([a_object isKindOfClass:[IFAFormTableViewCell class]]) {
-        IFAFormTableViewCell *obj = a_object;
-        UIFont *headlineSizeFont = [UIFont systemFontOfSize:[UIFont preferredFontForTextStyle:UIFontTextStyleHeadline].pointSize];  // Font based on the headline text style font size
-        obj.leftLabel.font = headlineSizeFont;
-        obj.centeredLabel.font = headlineSizeFont;
-        obj.rightLabel.font = headlineSizeFont;
-        if ([a_object isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
-            IFAFormTextFieldTableViewCell *textFieldCell = a_object;
-            textFieldCell.textField.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];   // This font does not cause truncation of the text at the largest size
-        }
-    } else if([a_object isKindOfClass:[IFAAboutFormViewController class]]) {
-        IFAAboutFormViewController *obj = (IFAAboutFormViewController *) a_object;
-        obj.appNameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
-        obj.copyrightNoticeLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
-    }
-}
-
 #pragma mark - IFAAppearanceTheme
 
 -(void)setAppearance {
@@ -306,14 +282,6 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
             listViewController.noDataPlaceholderAddHintPrefixLabel.textColor = noDataHelpColor;
             listViewController.noDataPlaceholderAddHintSuffixLabel.textColor = noDataHelpColor;
             listViewController.noDataPlaceholderDescriptionLabel.textColor = noDataHelpColor;
-            BOOL showingNoDataPlaceholderAddHintView = YES;
-            id<IFAListViewControllerDataSource> listViewControllerDataSource = listViewController.listViewControllerDataSource;
-            if ([listViewControllerDataSource respondsToSelector:@selector(shouldShowNoDataPlaceholderAddHintViewForListViewController:)]) {
-                showingNoDataPlaceholderAddHintView = [listViewControllerDataSource shouldShowNoDataPlaceholderAddHintViewForListViewController:listViewController];
-            }
-            if (showingNoDataPlaceholderAddHintView) {
-                listViewController.noDataPlaceholderDescriptionLabel.font = [UIFont systemFontOfSize:14];
-            }
             UIImage *currentNoDataHelpAddHintImage = listViewController.noDataPlaceholderAddHintImageView.image;
             UIImage *newNoDataHelpAddHintImage = [currentNoDataHelpAddHintImage ifa_imageWithOverlayColor:self.IFA_defaultTintColor];
             listViewController.noDataPlaceholderAddHintImageView.image = newNoDataHelpAddHintImage;
@@ -340,6 +308,8 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 #endif
 
     }
+
+    [self setTextAppearanceForSelectedContentSizeCategoryInObject:a_viewController];
 
 }
 
@@ -393,7 +363,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 -(void)setAppearanceOnInitForView:(UIView*)a_view{
-    [self IFA_setPreferredFontForTextStyleForLabelsInObject:a_view];
+    [self setTextAppearanceForSelectedContentSizeCategoryInObject:a_view];
 }
 
 - (void)setAppearanceForCell:(UITableViewCell *)a_cell onSetHighlighted:(BOOL)a_highlighted
@@ -408,12 +378,12 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 - (void)setAppearanceForCell:(UITableViewCell *)a_cell atIndexPath:(NSIndexPath *)a_indexPath
               viewController:(IFATableViewController *)a_tableViewController {
-    [self IFA_setPreferredFontForTextStyleForLabelsInObject:a_tableViewController];
+    [self setTextAppearanceForSelectedContentSizeCategoryInObject:a_tableViewController];
 }
 
 -(void)setAppearanceOnAwakeFromNibForView:(UIView*)a_view{
     if ([a_view isKindOfClass:[UITableViewCell class]]) {
-        [self setLabelTextStyleForChildrenOfView:((UITableViewCell *) a_view).contentView];
+        [self setTextAppearanceForChildrenOfView:((UITableViewCell *) a_view).contentView];
         if ([a_view isKindOfClass:[IFAMultipleSelectionListViewCell class]]) {
             IFAMultipleSelectionListViewCell *l_cell = (IFAMultipleSelectionListViewCell *) a_view;
             UIColor *l_defaultTintColor = self.IFA_defaultTintColor;
@@ -440,7 +410,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     }
     
     // Label text color
-    [self setLabelTextStyleForChildrenOfView:a_cell.contentView];
+    [self setTextAppearanceForChildrenOfView:a_cell.contentView];
     UIColor *l_formFieldLabelThemeColor = [self IFA_colorForInfoPlistKey:@"IFAThemeFormFieldLabelColor"];
     if (l_formFieldLabelThemeColor 
             && [a_tableViewController isKindOfClass:[IFAFormViewController class]] 
@@ -573,11 +543,11 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 - (void)setAppearanceOnPrepareForReuseForTableViewCell:(UITableViewCell *)a_cell {
-    [self IFA_setPreferredFontForTextStyleForLabelsInObject:a_cell];
+    [self setTextAppearanceForSelectedContentSizeCategoryInObject:a_cell];
 }
 
 - (void)setAppearanceOnPrepareForReuseForTableViewHeaderFooterView:(IFATableViewHeaderFooterView *)a_view {
-    [self IFA_setPreferredFontForTextStyleForLabelsInObject:a_view];
+    [self setTextAppearanceForSelectedContentSizeCategoryInObject:a_view];
 }
 
 -(void)setNavigationItemTitleViewForViewController:(UIViewController *)a_viewController interfaceOrientation:(UIInterfaceOrientation)a_interfaceOrientation{
@@ -614,6 +584,32 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         // Set it in the navigation item
         [self titleViewNavigationItemForViewViewController:a_viewController].titleView = l_titleView;
 
+    }
+}
+
+- (void)setTextAppearanceForSelectedContentSizeCategoryInObject:(id)a_object {
+    if ([a_object isKindOfClass:[IFAFormSectionHeaderFooterView class]]) {
+        IFAFormSectionHeaderFooterView *obj = a_object;
+        obj.label.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+    } else if ([a_object isKindOfClass:[IFAFormTableViewCell class]]) {
+        IFAFormTableViewCell *obj = a_object;
+        UIFont *headlineSizeFont = [UIFont systemFontOfSize:[UIFont preferredFontForTextStyle:UIFontTextStyleHeadline].pointSize];  // Font based on the headline text style font size
+        obj.leftLabel.font = headlineSizeFont;
+        obj.centeredLabel.font = headlineSizeFont;
+        obj.rightLabel.font = headlineSizeFont;
+        if ([a_object isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
+            IFAFormTextFieldTableViewCell *textFieldCell = a_object;
+            textFieldCell.textField.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];   // This font does not cause truncation of the text at the largest size
+        }
+    } else if([a_object isKindOfClass:[IFAAboutFormViewController class]]) {
+        IFAAboutFormViewController *obj = (IFAAboutFormViewController *) a_object;
+        obj.appNameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+        obj.copyrightNoticeLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+    } else if([a_object isKindOfClass:[IFAListViewController class]]) {
+        IFAListViewController *obj = (IFAListViewController *) a_object;
+        obj.noDataPlaceholderAddHintPrefixLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+        obj.noDataPlaceholderAddHintSuffixLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+        obj.noDataPlaceholderDescriptionLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
     }
 }
 
@@ -696,7 +692,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 }
 
--(void)setLabelTextStyleForChildrenOfView:(UIView*)a_view{
+-(void)setTextAppearanceForChildrenOfView:(UIView*)a_view{
     UIFont *l_tableCellTextColor = [self tableCellTextFont];
     if (l_tableCellTextColor) {
         for (UIView *l_subView in a_view.subviews) {

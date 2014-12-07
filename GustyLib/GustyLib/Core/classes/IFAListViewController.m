@@ -568,6 +568,8 @@
 
 -(void)viewDidLoad{
 
+    self.ifa_delegate = self;
+
     [super viewDidLoad];
 
     if (self.fetchingStrategy==IFAListViewControllerFetchingStrategyFetchedResultsController) {
@@ -785,6 +787,12 @@ fetchedResultsControllerForFetchedResultsTableViewController:(IFAFetchedResultsT
 }
 
 #endif
+
+#pragma mark - IFAViewControllerDelegate
+
+- (void)viewController:(UIViewController *)a_viewController didChangeContentSizeCategory:(NSString *)a_contentSizeCategory {
+    [self.ifa_appearanceTheme setTextAppearanceForSelectedContentSizeCategoryInObject:self];
+}
 
 @end
 
