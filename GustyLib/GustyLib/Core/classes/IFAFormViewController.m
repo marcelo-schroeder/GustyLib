@@ -658,31 +658,6 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
     a_sectionFooterView.label.text = a_labelText;
 }
 
-- (NSString *)IFA_titleForHeaderInSection:(NSInteger)section{
-    NSString *title = nil;
-    if (section==self.IFA_deleteButtonSection) {
-        title = nil;
-    } else {
-        title = [[IFAPersistenceManager sharedInstance].entityConfig headerForSectionIndex:section
-                                                                                  inObject:self.object
-                                                                                    inForm:self.formName
-                                                                                createMode:self.createMode];
-    }
-    return title.uppercaseString;
-}
-
-- (NSString *)IFA_titleForFooterInSection:(NSInteger)section {
-    NSString *title = nil;
-    if (section == self.IFA_deleteButtonSection) {
-        title = nil;
-    } else {
-        title = [[IFAPersistenceManager sharedInstance].entityConfig footerForSectionIndex:section inObject:self.object
-                                                                                    inForm:self.formName
-                                                                                createMode:self.createMode];
-    }
-    return title;
-}
-
 #pragma mark - Public
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -1069,6 +1044,32 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     }
 }
 
+- (NSString *)titleForHeaderInSection:(NSInteger)a_section {
+    NSString *title = nil;
+    if (a_section ==self.IFA_deleteButtonSection) {
+        title = nil;
+    } else {
+        title = [[IFAPersistenceManager sharedInstance].entityConfig headerForSectionIndex:a_section
+                                                                                  inObject:self.object
+                                                                                    inForm:self.formName
+                                                                                createMode:self.createMode];
+    }
+    return title.uppercaseString;
+}
+
+- (NSString *)titleForFooterInSection:(NSInteger)a_section {
+    NSString *title = nil;
+    if (a_section == self.IFA_deleteButtonSection) {
+        title = nil;
+    } else {
+        title = [[IFAPersistenceManager sharedInstance].entityConfig footerForSectionIndex:a_section
+                                                                                  inObject:self.object
+                                                                                    inForm:self.formName
+                                                                                createMode:self.createMode];
+    }
+    return title;
+}
+
 #pragma mark -
 #pragma mark UITableViewDataSource
 
@@ -1355,22 +1356,22 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    NSString *labelText = [self IFA_titleForHeaderInSection:section];
+    NSString *labelText = [self titleForHeaderInSection:section];
     return [self IFA_sectionHeaderFooterWithLabelText:labelText isHeader:YES section:section];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    NSString *labelText = [self IFA_titleForHeaderInSection:section];
+    NSString *labelText = [self titleForHeaderInSection:section];
     return [self IFA_sectionHeaderFooterHeightForLabelText:labelText isHeader:YES section:section];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    NSString *labelText = [self IFA_titleForFooterInSection:section];
+    NSString *labelText = [self titleForFooterInSection:section];
     return [self IFA_sectionHeaderFooterWithLabelText:labelText isHeader:NO section:section];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    NSString *labelText = [self IFA_titleForFooterInSection:section];
+    NSString *labelText = [self titleForFooterInSection:section];
     return [self IFA_sectionHeaderFooterHeightForLabelText:labelText isHeader:NO section:section];
 }
 

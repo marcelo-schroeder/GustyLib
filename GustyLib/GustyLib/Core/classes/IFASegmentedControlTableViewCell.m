@@ -31,8 +31,7 @@
     if ((self = [super initWithReuseIdentifier:a_reuseIdentifier propertyName:a_propertyName indexPath:a_indexPath
                             formViewController:a_formViewController])) {
         self.segmentedControl = a_segmentedControl;
-        self.leftLabel.hidden = YES;
-        self.rightLabel.hidden = YES;
+        [self.customContentView removeFromSuperview];
     }
     return self;
 }

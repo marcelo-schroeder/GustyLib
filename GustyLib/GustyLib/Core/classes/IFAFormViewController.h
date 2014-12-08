@@ -109,6 +109,22 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController;
 
 - (void)updateAndSaveBackingPreferences;
 
+/**
+* This method is called by tableView:viewForHeaderInSection: and tableView:heightForHeaderInSection: to determine the string to be used as the section header.
+* It can be overridden to, for instance, provide a custom section header such as when the string has to change dynamically (as opposed to using a static string from EntityConfig.plist).
+* @param Section the header title relates to.
+* @returns Header title for a given section.
+*/
+- (NSString *)titleForHeaderInSection:(NSInteger)a_section;
+
+/**
+* This method is called by tableView:viewForFooterInSection: and tableView:heightForFooterInSection: to determine the string to be used as the section footer.
+* It can be overridden to, for instance, provide custom help content such as when the help string changes dynamically.
+* @param Section the footer title relates to.
+* @returns Footer title for a given section.
+*/
+- (NSString *)titleForFooterInSection:(NSInteger)a_section;
+
 @end
 
 @protocol IFAFormViewControllerDelegate <NSObject>

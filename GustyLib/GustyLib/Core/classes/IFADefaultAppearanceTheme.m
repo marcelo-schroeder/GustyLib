@@ -598,8 +598,12 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         obj.centeredLabel.font = headlineSizeFont;
         obj.rightLabel.font = headlineSizeFont;
         if ([a_object isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
-            IFAFormTextFieldTableViewCell *textFieldCell = a_object;
-            textFieldCell.textField.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];   // This font does not cause truncation of the text at the largest size
+            IFAFormTextFieldTableViewCell *cell = a_object;
+            cell.textField.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];   // Form some obscure reason, this font does not cause truncation of the text at the largest size.
+        }else if ([a_object isKindOfClass:[IFASegmentedControlTableViewCell class]]) {
+            IFASegmentedControlTableViewCell *cell = a_object;
+            [cell.segmentedControl setTitleTextAttributes:@{NSFontAttributeName : headlineSizeFont}
+                                                 forState:UIControlStateNormal];
         }
     } else if([a_object isKindOfClass:[IFAAboutFormViewController class]]) {
         IFAAboutFormViewController *obj = (IFAAboutFormViewController *) a_object;
