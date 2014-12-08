@@ -79,8 +79,8 @@
         self.leftAndRightLabelsSpacingConstraint.constant = 0;
     }
 
-    CGFloat leftLabelPreferredMaxLayoutWidth = [self.leftLabel.text sizeWithAttributes:@{NSFontAttributeName:self.leftLabel.font}].width;
-    CGFloat rightLabelPreferredMaxLayoutWidth = [self.rightLabel.text sizeWithAttributes:@{NSFontAttributeName:self.rightLabel.font}].width;
+    CGFloat leftLabelPreferredMaxLayoutWidth = ceilf([self.leftLabel.text sizeWithAttributes:@{NSFontAttributeName:self.leftLabel.font}].width);
+    CGFloat rightLabelPreferredMaxLayoutWidth = ceilf([self.rightLabel.text sizeWithAttributes:@{NSFontAttributeName:self.rightLabel.font}].width);
 
     CGFloat contentWidth = leftLabelPreferredMaxLayoutWidth + rightLabelPreferredMaxLayoutWidth;
     CGFloat spacingWidth = self.leftLabelLeftConstraint.constant
@@ -104,6 +104,8 @@
     if (usedWidth > self.formViewController.view.bounds.size.width) {
         CGFloat maximumContentWidth = self.formViewController.view.bounds.size.width - spacingWidth;
         CGFloat maximumLabelWidth = maximumContentWidth / 2;
+//        NSLog(@"  maximumContentWidth = %f", maximumContentWidth);
+//        NSLog(@"  maximumLabelWidth = %f", maximumLabelWidth);
         if (leftLabelPreferredMaxLayoutWidth > maximumLabelWidth && rightLabelPreferredMaxLayoutWidth > maximumLabelWidth) {
 //            NSLog(@"  ADJUSTMENT CASE 1");
             leftLabelPreferredMaxLayoutWidth = maximumLabelWidth;
