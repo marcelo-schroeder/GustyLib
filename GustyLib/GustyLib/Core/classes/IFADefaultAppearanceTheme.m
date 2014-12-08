@@ -382,6 +382,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 -(void)setAppearanceOnAwakeFromNibForView:(UIView*)a_view{
+    [self setTextAppearanceForSelectedContentSizeCategoryInObject:a_view];
     if ([a_view isKindOfClass:[UITableViewCell class]]) {
         [self setTextAppearanceForChildrenOfView:((UITableViewCell *) a_view).contentView];
         if ([a_view isKindOfClass:[IFAMultipleSelectionListViewCell class]]) {
