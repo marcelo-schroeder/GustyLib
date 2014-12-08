@@ -168,6 +168,14 @@
 - (void)IFA_didCompleteFindEntities {
     [self refreshSectionsWithRows];
     [self reloadData];
+
+    {
+        // Workaround for dynamic type issue: forces table view to recalculate cell heights so they are correct.
+        // I have submitted bug 19170676 to Apple re this on 08/12/2014.
+        [self.view layoutIfNeeded];
+        [self reloadData];
+    }
+
     [self didRefreshAndReloadData];
 }
 
