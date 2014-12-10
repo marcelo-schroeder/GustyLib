@@ -191,7 +191,7 @@
     [[[self.p_mockDataSource expect] andReturn:self.p_mockResponder] formInputAccessoryView:self.p_view
                                                   responderForKeyboardInputFocusAtIndexPath:l_currentInputFieldIndexPath];
     [[self.p_mockTableView expect] scrollToRowAtIndexPath:self.p_view.IFA_nextInputFieldIndexPath
-                                         atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                                         atScrollPosition:UITableViewScrollPositionTop animated:YES];
 
     // when
     [self.p_view onNextButtonTap];
@@ -211,7 +211,7 @@
     [[self.p_mockDataSource expect] formInputAccessoryView:self.p_view
                  responderForKeyboardInputFocusAtIndexPath:l_nextInputFieldIndexPath];
     [[self.p_mockTableView reject] scrollToRowAtIndexPath:l_nextInputFieldIndexPath
-                                         atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                                         atScrollPosition:UITableViewScrollPositionTop animated:YES];
 
     // when
     [self.p_view onNextButtonTap];
@@ -227,7 +227,7 @@
     [[[self.p_mockDataSource expect] andReturn:self.p_mockResponder] formInputAccessoryView:self.p_view
                                                   responderForKeyboardInputFocusAtIndexPath:l_currentInputFieldIndexPath];
     [[self.p_mockTableView expect] scrollToRowAtIndexPath:self.p_view.IFA_previousInputFieldIndexPath
-                                         atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                                         atScrollPosition:UITableViewScrollPositionTop animated:YES];
 
     // when
     [self.p_view onPreviousButtonTap];
@@ -247,7 +247,7 @@
     [[self.p_mockDataSource expect] formInputAccessoryView:self.p_view
                  responderForKeyboardInputFocusAtIndexPath:l_previousInputFieldIndexPath];
     [[self.p_mockTableView reject] scrollToRowAtIndexPath:l_previousInputFieldIndexPath
-                                         atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                                         atScrollPosition:UITableViewScrollPositionTop animated:YES];
 
     // when
     [self.p_view onPreviousButtonTap];
