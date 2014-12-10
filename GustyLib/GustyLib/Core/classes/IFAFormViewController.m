@@ -27,7 +27,7 @@
 static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
 //wip: bug: iphone5s - location form - the field navigation arrow down does not work - it scrolls but field does not gain focus
-//wip: need to cater for all situations where a header or footer may dynamically change content (e.g. preference switches, report segmented control, etc)
+//wip: report period: segmented control changes causes some abrupt animations
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -1123,12 +1123,19 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 }
 
 - (void)clearSectionFooterHelpTextForPropertyNamed:(NSString *)a_propertyName {
+
     NSIndexPath *propertyIndexPath = self.propertyNameToIndexPath[a_propertyName];
-    UIView *sectionFooterView = [self.tableView footerViewForSection:propertyIndexPath.section];
+    NSInteger section = propertyIndexPath.section;
+
+    // Remove section footer height cache entry
+    [self.IFA_cachedSectionFooterHeightsBySection removeObjectForKey:@(section)];
+
+    UIView *sectionFooterView = [self.tableView footerViewForSection:section];
     if ([sectionFooterView isKindOfClass:[IFAFormSectionHeaderFooterView class]]) {
         IFAFormSectionHeaderFooterView *formSectionHeaderFooterView = (IFAFormSectionHeaderFooterView *) sectionFooterView;
         formSectionHeaderFooterView.label.text = nil;
     }
+
 }
 
 - (NSString *)titleForHeaderInSection:(NSInteger)a_section {
