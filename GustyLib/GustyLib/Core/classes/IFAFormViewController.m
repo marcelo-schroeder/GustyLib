@@ -26,6 +26,8 @@
 
 static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
+//wip: bug: iphone5s - location form - the field navigation arrow down does not work - it scrolls but field does not gain focus
+//wip: need to cater for all situations where a header or footer may dynamically change content (e.g. preference switches, report segmented control, etc)
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -54,6 +56,9 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 @property(nonatomic) NSUInteger IFA_initialChildManagedObjectContextCountForAssertion;
 @property(nonatomic) BOOL IFA_fixForContentBottomInsetAppleBugEnabled;
 @property(nonatomic) UIEdgeInsets contentInsetBeforePresentingSemiModalViewController;
+//@property(nonatomic) NSTimeInterval totalDuration;
+@property(nonatomic, strong) NSMutableDictionary *IFA_cachedSectionHeaderHeightsBySection;
+@property(nonatomic, strong) NSMutableDictionary *IFA_cachedSectionFooterHeightsBySection;
 @end
 
 @implementation IFAFormViewController
@@ -653,29 +658,67 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
     return sectionFooterView;
 }
 
-- (CGFloat)IFA_sectionHeaderFooterHeightForLabelText:(NSString *)a_labelText
-                                            isHeader:(BOOL)a_isHeader
-                                             section:(NSUInteger)a_section {
+- (NSMutableDictionary *)IFA_cachedSectionHeaderHeightsBySection {
+    if (!_IFA_cachedSectionHeaderHeightsBySection) {
+        _IFA_cachedSectionHeaderHeightsBySection = [@{} mutableCopy];
+    }
+    return _IFA_cachedSectionHeaderHeightsBySection;
+}
 
-    IFAFormSectionHeaderFooterView *view;
-    if (a_isHeader) {
-        view = (IFAFormSectionHeaderFooterView *) [self tableView:self.tableView viewForHeaderInSection:a_section];
-    }else{
-        view = (IFAFormSectionHeaderFooterView *) [self tableView:self.tableView viewForFooterInSection:a_section];
+- (NSMutableDictionary *)IFA_cachedSectionFooterHeightsBySection {
+    if (!_IFA_cachedSectionFooterHeightsBySection) {
+        _IFA_cachedSectionFooterHeightsBySection = [@{} mutableCopy];
+    }
+    return _IFA_cachedSectionFooterHeightsBySection;
+}
+
+- (CGFloat)IFA_sectionHeaderFooterHeightForLabelTextIsHeader:(BOOL)a_isHeader section:(NSUInteger)a_section {
+
+//    NSTimeInterval timeInterval1 = [NSDate date].timeIntervalSinceReferenceDate;
+
+    NSMutableDictionary *cachedSectionHeightsBySection = a_isHeader ? self.IFA_cachedSectionHeaderHeightsBySection : self.IFA_cachedSectionFooterHeightsBySection;
+    NSNumber *cachedHeightNumber = cachedSectionHeightsBySection[@(a_section)];
+
+    CGFloat height;
+
+    if (cachedHeightNumber) {   // cache hit
+
+        height = cachedHeightNumber.floatValue;
+
+    } else {    // cache miss
+
+        IFAFormSectionHeaderFooterView *view;
+        if (a_isHeader) {
+            view = (IFAFormSectionHeaderFooterView *) [self tableView:self.tableView viewForHeaderInSection:a_section];
+        }else{
+            view = (IFAFormSectionHeaderFooterView *) [self tableView:self.tableView viewForFooterInSection:a_section];
+        }
+
+        NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:view.contentView
+                                                                           attribute:NSLayoutAttributeWidth
+                                                                           relatedBy:NSLayoutRelationEqual
+                                                                              toItem:nil
+                                                                           attribute:0
+                                                                          multiplier:1
+                                                                            constant:self.view.bounds.size.width];
+        [view.contentView addConstraint:widthConstraint];
+        CGSize size = [view.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+        [view.contentView removeConstraint:widthConstraint];
+
+        height = size.height;
+
+        cachedSectionHeightsBySection[@(a_section)] = @(height);
+
     }
 
-    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:view.contentView
-                                                                       attribute:NSLayoutAttributeWidth
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:nil
-                                                                       attribute:0
-                                                                      multiplier:1
-                                                                        constant:self.view.bounds.size.width];
-    [view.contentView addConstraint:widthConstraint];
-    CGSize size = [view.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
-    [view.contentView removeConstraint:widthConstraint];
+//    NSTimeInterval timeInterval2 = [NSDate date].timeIntervalSinceReferenceDate;
+//    NSTimeInterval duration = timeInterval2 - timeInterval1;
+//    self.totalDuration += duration;
+//    NSLog(@" ");
+//    NSLog(@"*** duration = %f", duration);
+//    NSLog(@"***   self.totalDuration = %f", self.totalDuration);
 
-    return size.height;
+    return height;
 
 }
 
@@ -1402,8 +1445,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    NSString *labelText = [self titleForHeaderInSection:section];
-    return [self IFA_sectionHeaderFooterHeightForLabelText:labelText isHeader:YES section:section];
+    return [self IFA_sectionHeaderFooterHeightForLabelTextIsHeader:YES section:section];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
@@ -1412,8 +1454,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    NSString *labelText = [self titleForFooterInSection:section];
-    return [self IFA_sectionHeaderFooterHeightForLabelText:labelText isHeader:NO section:section];
+    return [self IFA_sectionHeaderFooterHeightForLabelTextIsHeader:NO section:section];
 }
 
 #pragma mark - IFAPresenter
@@ -1465,9 +1506,10 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
 - (void)viewDidLoad {
 
-    //wip: clean up
-    NSTimeInterval interval1 = [NSDate date].timeIntervalSinceReferenceDate;
-    NSLog(@"viewDidLoad interval1 = %f", interval1);
+//    NSTimeInterval interval1 = [NSDate date].timeIntervalSinceReferenceDate;
+//    NSLog(@"viewDidLoad interval1 = %f", interval1);
+
+    self.ifa_delegate = self;
 
     [self.tableView registerClass:[IFAFormSectionHeaderFooterView class] forHeaderFooterViewReuseIdentifier:k_sectionHeaderFooterReuseId];
 
@@ -1552,10 +1594,9 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
         self.editing = YES;
     }
 
-    //wip: clean up
-    NSTimeInterval interval2 = [NSDate date].timeIntervalSinceReferenceDate;
-    NSLog(@"viewDidLoad interval2 = %f", interval2);
-    NSLog(@"viewDidLoad interval2 - interval1 = %f", interval2 - interval1);
+//    NSTimeInterval interval2 = [NSDate date].timeIntervalSinceReferenceDate;
+//    NSLog(@"viewDidLoad interval2 = %f", interval2);
+//    NSLog(@"viewDidLoad interval2 - interval1 = %f", interval2 - interval1);
 
 }
 
@@ -1917,5 +1958,18 @@ responderForKeyboardInputFocusAtIndexPath:(NSIndexPath *)a_indexPath {
 }
 
 #endif
+
+#pragma mark - IFAViewControllerDelegate
+
+- (void)viewController:(UIViewController *)a_viewController didChangeContentSizeCategory:(NSString *)a_contentSizeCategory{
+
+    // Clear section header/footer height cache
+    self.IFA_cachedSectionHeaderHeightsBySection = nil;
+    self.IFA_cachedSectionFooterHeightsBySection = nil;
+
+    // Force a table reload as section header/footer heights may need to change
+    [self.tableView reloadData];
+
+}
 
 @end
