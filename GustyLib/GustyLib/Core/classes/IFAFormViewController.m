@@ -621,18 +621,27 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 - (CGFloat)IFA_sectionHeaderFooterHeightForLabelText:(NSString *)a_labelText
                                             isHeader:(BOOL)a_isHeader
                                              section:(NSUInteger)a_section {
-    IFAFormSectionHeaderFooterView *sectionFooterView = [[IFAFormSectionHeaderFooterView alloc] initWithReuseIdentifier:@"prototype"];
-    [self IFA_populateSectionFooterView:sectionFooterView withLabelText:a_labelText isHeader:a_isHeader
-                                section:a_section];
-    [sectionFooterView.contentView addConstraint:[NSLayoutConstraint constraintWithItem:sectionFooterView.contentView
-                                                                              attribute:NSLayoutAttributeWidth
-                                                                              relatedBy:NSLayoutRelationEqual
-                                                                                 toItem:nil
-                                                                              attribute:0
-                                                                             multiplier:1
-                                                                               constant:self.view.bounds.size.width]];
-    CGSize size = [sectionFooterView.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+
+    IFAFormSectionHeaderFooterView *view;
+    if (a_isHeader) {
+        view = (IFAFormSectionHeaderFooterView *) [self tableView:self.tableView viewForHeaderInSection:a_section];
+    }else{
+        view = (IFAFormSectionHeaderFooterView *) [self tableView:self.tableView viewForFooterInSection:a_section];
+    }
+
+    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:view.contentView
+                                                                       attribute:NSLayoutAttributeWidth
+                                                                       relatedBy:NSLayoutRelationEqual
+                                                                          toItem:nil
+                                                                       attribute:0
+                                                                      multiplier:1
+                                                                        constant:self.view.bounds.size.width];
+    [view.contentView addConstraint:widthConstraint];
+    CGSize size = [view.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+    [view.contentView removeConstraint:widthConstraint];
+
     return size.height;
+
 }
 
 - (void)IFA_populateSectionFooterView:(IFAFormSectionHeaderFooterView *)a_sectionFooterView
@@ -1424,6 +1433,11 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
 - (void)viewDidLoad {
 
+//    NSTimeInterval interval1 = [NSDate date].timeIntervalSinceReferenceDate;
+//    NSLog(@"viewDidLoad interval1 = %f", interval1);
+
+    [self.tableView registerClass:[IFAFormSectionHeaderFooterView class] forHeaderFooterViewReuseIdentifier:k_sectionHeaderFooterReuseId];
+
     [super viewDidLoad];
 
     self.IFA_initialChildManagedObjectContextCountForAssertion = [IFAPersistenceManager sharedInstance].childManagedObjectContexts.count;
@@ -1532,7 +1546,9 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
         self.editing = YES;
     }
 
-    [self.tableView registerClass:[IFAFormSectionHeaderFooterView class] forHeaderFooterViewReuseIdentifier:k_sectionHeaderFooterReuseId];
+//    NSTimeInterval interval2 = [NSDate date].timeIntervalSinceReferenceDate;
+//    NSLog(@"viewDidLoad interval2 = %f", interval2);
+//    NSLog(@"viewDidLoad interval2 - interval1 = %f", interval2 - interval1);
 
 }
 
