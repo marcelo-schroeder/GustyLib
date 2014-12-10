@@ -82,8 +82,10 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
 }
 
--(IFAFormTableViewCell *)IFA_cellForTable:(UITableView *)a_tableView indexPath:(NSIndexPath *)a_indexPath className:(NSString*)a_className{
-    
+- (IFAFormTableViewCell *)IFA_cellForTableView:(UITableView *)a_tableView
+                                     indexPath:(NSIndexPath *)a_indexPath
+                                     className:(NSString *)a_className {
+
     NSString *l_propertyName = [self nameForIndexPath:a_indexPath];
 
     // Create reusable cell
@@ -94,11 +96,43 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
                                                               formViewController:self];
         // Set appearance
         [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnInitReusableCellForViewController:self
-                                                                                                                       cell:l_cell];
+                                                                                                                        cell:l_cell];
     }
 
     return l_cell;
-    
+
+}
+
+- (IFAFormTextFieldTableViewCell *)IFA_textFieldCellForTableView:(UITableView *)a_tableView
+                                                     atIndexPath:(NSIndexPath *)a_indexPath {
+    NSUInteger editorType = [self editorTypeForIndexPath:a_indexPath];
+    NSString *className = [(editorType == IFAEditorTypeText ? [IFAFormTextFieldTableViewCell class] : [IFAFormNumberFieldTableViewCell class]) description];
+    IFAFormTextFieldTableViewCell *cell = (IFAFormTextFieldTableViewCell *) [self IFA_cellForTableView:a_tableView
+                                                                                             indexPath:a_indexPath
+                                                                                             className:className];
+    if (!self.IFA_indexPathToTextFieldCellDictionary[a_indexPath]) {
+        self.IFA_indexPathToTextFieldCellDictionary[a_indexPath] = cell;
+        if ([self IFA_isReadOnlyForIndexPath:a_indexPath]) {
+            [cell.textField removeFromSuperview];
+        } else {
+            [self.IFA_editableTextFieldCells addObject:cell];
+        }
+    }
+    return cell;
+}
+
+- (NSMutableDictionary *)IFA_indexPathToTextFieldCellDictionary {
+    if (!_IFA_indexPathToTextFieldCellDictionary) {
+        _IFA_indexPathToTextFieldCellDictionary = [NSMutableDictionary new];
+    }
+    return _IFA_indexPathToTextFieldCellDictionary;
+}
+
+- (NSMutableArray *)IFA_editableTextFieldCells {
+    if (!_IFA_editableTextFieldCells) {
+        _IFA_editableTextFieldCells = [NSMutableArray new];
+    }
+    return _IFA_editableTextFieldCells;
 }
 
 - (void)IFA_rollbackAndRestoreNonEditingState {
@@ -131,8 +165,9 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
 -(IFASwitchTableViewCell *)IFA_switchCellForTable:(UITableView *)a_tableView indexPath:(NSIndexPath*)a_indexPath{
     
-    IFASwitchTableViewCell *l_cell = (IFASwitchTableViewCell *) [self IFA_cellForTable:a_tableView indexPath:a_indexPath
-                                                                             className:@"IFASwitchTableViewCell"];
+    IFASwitchTableViewCell *l_cell = (IFASwitchTableViewCell *) [self IFA_cellForTableView:a_tableView
+                                                                                 indexPath:a_indexPath
+                                                                                 className:@"IFASwitchTableViewCell"];
     NSString *propertyName = [self nameForIndexPath:a_indexPath];
     
     // Set up event handling
@@ -1118,10 +1153,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
             case IFAEditorTypeText:
             case IFAEditorTypeNumber:
             {
-                l_cellToReturn = [tableView dequeueReusableCellWithIdentifier:l_propertyName];
-                if (!l_cellToReturn) {
-                    l_cellToReturn = self.IFA_indexPathToTextFieldCellDictionary[indexPath];
-                }
+                l_cellToReturn = [self IFA_textFieldCellForTableView:tableView atIndexPath:indexPath];
                 break;
             }
 
@@ -1180,7 +1212,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
     } else {
 
-        l_cellToReturn = [self IFA_cellForTable:tableView indexPath:indexPath className:@"IFAFormTableViewCell"];
+        l_cellToReturn = [self IFA_cellForTableView:tableView indexPath:indexPath className:@"IFAFormTableViewCell"];
 
     }
 
@@ -1433,8 +1465,9 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
 - (void)viewDidLoad {
 
-//    NSTimeInterval interval1 = [NSDate date].timeIntervalSinceReferenceDate;
-//    NSLog(@"viewDidLoad interval1 = %f", interval1);
+    //wip: clean up
+    NSTimeInterval interval1 = [NSDate date].timeIntervalSinceReferenceDate;
+    NSLog(@"viewDidLoad interval1 = %f", interval1);
 
     [self.tableView registerClass:[IFAFormSectionHeaderFooterView class] forHeaderFooterViewReuseIdentifier:k_sectionHeaderFooterReuseId];
 
@@ -1511,33 +1544,6 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     self.IFA_cancelBarButtonItem = [IFAUIUtils barButtonItemForType:IFABarButtonItemTypeCancel target:self
                                                              action:@selector(IFA_onCancelButtonTap:)];
 
-    // Instantiate text field cells that will be reused.
-    //  Text fields, which are properties in the text field cells, must be known in advance to provide the functionality to cycle through text fields with the Return key.
-    self.IFA_indexPathToTextFieldCellDictionary = [NSMutableDictionary new];
-    self.IFA_editableTextFieldCells = [NSMutableArray new];
-    for (int l_section=0; l_section<[self numberOfSectionsInTableView:self.tableView]; l_section++) {
-        for (int l_row=0; l_row<[self tableView:self.tableView numberOfRowsInSection:l_section]; l_row++) {
-            @autoreleasepool {
-                NSIndexPath *l_indexPath = [NSIndexPath indexPathForRow:l_row inSection:l_section];
-//                NSLog(@"l_indexPath: %@", [l_indexPath description]);
-                NSUInteger l_editorType = [self editorTypeForIndexPath:l_indexPath];
-                if (l_editorType== IFAEditorTypeText || l_editorType== IFAEditorTypeNumber) {
-                    NSString *l_className = [(l_editorType== IFAEditorTypeText ?[IFAFormTextFieldTableViewCell class]:[IFAFormNumberFieldTableViewCell class]) description];
-                    IFAFormTextFieldTableViewCell *l_cell = (IFAFormTextFieldTableViewCell *) [self IFA_cellForTable:self.tableView
-                                                                                                           indexPath:l_indexPath
-                                                                                                           className:l_className];
-                    (self.IFA_indexPathToTextFieldCellDictionary)[l_indexPath] = l_cell;
-                    if ([self IFA_isReadOnlyForIndexPath:l_indexPath]) {
-                        [l_cell.textField removeFromSuperview];
-                    }else {
-                        [self.IFA_editableTextFieldCells addObject:l_cell];
-                    }
-                }
-            }
-        }
-    }
-//    NSLog(@"IFA_editableTextFieldCells: %@", [self.IFA_editableTextFieldCells description]);
-
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
@@ -1546,9 +1552,10 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
         self.editing = YES;
     }
 
-//    NSTimeInterval interval2 = [NSDate date].timeIntervalSinceReferenceDate;
-//    NSLog(@"viewDidLoad interval2 = %f", interval2);
-//    NSLog(@"viewDidLoad interval2 - interval1 = %f", interval2 - interval1);
+    //wip: clean up
+    NSTimeInterval interval2 = [NSDate date].timeIntervalSinceReferenceDate;
+    NSLog(@"viewDidLoad interval2 = %f", interval2);
+    NSLog(@"viewDidLoad interval2 - interval1 = %f", interval2 - interval1);
 
 }
 
@@ -1587,7 +1594,27 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+
+    // Make sure all text field cells that will be reused are instantiated at this point.
+    //  Text fields, which are properties in the text field cells, must be known in advance to provide the functionality to cycle through text fields with the Return key.
+//    NSLog(@"IFA_editableTextFieldCells before full instantiation: %@", [self.IFA_editableTextFieldCells description]);
+    for (int l_section = 0; l_section < [self numberOfSectionsInTableView:self.tableView]; l_section++) {
+        for (int l_row = 0; l_row < [self tableView:self.tableView numberOfRowsInSection:l_section]; l_row++) {
+            @autoreleasepool {
+                NSIndexPath *l_indexPath = [NSIndexPath indexPathForRow:l_row inSection:l_section];
+//                NSLog(@"  l_indexPath: %@", [l_indexPath description]);
+                NSUInteger l_editorType = [self editorTypeForIndexPath:l_indexPath];
+                if (l_editorType == IFAEditorTypeText || l_editorType == IFAEditorTypeNumber) {
+//                    NSLog(@"    requesting text field cell...");
+                    [self IFA_textFieldCellForTableView:self.tableView atIndexPath:l_indexPath];
+                }
+            }
+        }
+    }
+//    NSLog(@"IFA_editableTextFieldCells after full instantiation: %@", [self.IFA_editableTextFieldCells description]);
+
     [super viewDidAppear:animated];
+
     if (self.createMode && !self.IFA_createModeAutoFieldEditDone) {
         NSIndexPath *l_indexPath = [self indexPathForPropertyNamed:@"name"];
         if (l_indexPath) {
@@ -1596,6 +1623,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
         }
         self.IFA_createModeAutoFieldEditDone = YES;
     }
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
