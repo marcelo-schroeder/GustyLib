@@ -906,6 +906,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 //    }
     a_cell.customAccessoryImageView.image = l_image;
     a_cell.customAccessoryImageView.hidden = l_imageName == nil;
+    [a_cell.customAccessoryImageView sizeToFit];    // Make sure the size is available below
 
     // Update right label right constraint accordingly
     CGFloat l_horizontalSpace = a_cell.leftLabelLeftConstraint.constant;

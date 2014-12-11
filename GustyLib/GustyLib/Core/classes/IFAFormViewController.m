@@ -26,8 +26,6 @@
 
 static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
-//wip: report period: segmented control changes causes some abrupt animations
-//wip: should I set estimated heights for section headers and footers?
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
