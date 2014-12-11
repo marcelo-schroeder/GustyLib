@@ -26,8 +26,8 @@
 
 static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
-//wip: bug: iphone5s - location form - the field navigation arrow down does not work - it scrolls but field does not gain focus
 //wip: report period: segmented control changes causes some abrupt animations
+//wip: should I set estimated heights for section headers and footers?
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -110,12 +110,13 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
 - (IFAFormTextFieldTableViewCell *)IFA_textFieldCellForTableView:(UITableView *)a_tableView
                                                      atIndexPath:(NSIndexPath *)a_indexPath {
-    NSUInteger editorType = [self editorTypeForIndexPath:a_indexPath];
-    NSString *className = [(editorType == IFAEditorTypeText ? [IFAFormTextFieldTableViewCell class] : [IFAFormNumberFieldTableViewCell class]) description];
-    IFAFormTextFieldTableViewCell *cell = (IFAFormTextFieldTableViewCell *) [self IFA_cellForTableView:a_tableView
-                                                                                             indexPath:a_indexPath
-                                                                                             className:className];
-    if (!self.IFA_indexPathToTextFieldCellDictionary[a_indexPath]) {
+    IFAFormTextFieldTableViewCell *cell = self.IFA_indexPathToTextFieldCellDictionary[a_indexPath];
+    if (!cell) {
+        NSUInteger editorType = [self editorTypeForIndexPath:a_indexPath];
+        NSString *className = [(editorType == IFAEditorTypeText ? [IFAFormTextFieldTableViewCell class] : [IFAFormNumberFieldTableViewCell class]) description];
+        cell = (IFAFormTextFieldTableViewCell *) [self IFA_cellForTableView:a_tableView
+                                                                  indexPath:a_indexPath
+                                                                  className:className];
         self.IFA_indexPathToTextFieldCellDictionary[a_indexPath] = cell;
         if ([self IFA_isReadOnlyForIndexPath:a_indexPath]) {
             [cell.textField removeFromSuperview];
