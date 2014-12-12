@@ -26,6 +26,7 @@
 
 static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
+//wip: text field still as issues when appending text using the largest font within normal range.
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
