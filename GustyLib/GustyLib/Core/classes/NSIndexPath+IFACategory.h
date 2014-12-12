@@ -29,4 +29,18 @@
 */
 + (NSArray *)ifa_indexPathsForRowRange:(NSRange)a_rowRange section:(NSInteger)a_section;
 
+/**
+* Use this method to avoid equality issues when using NSIndexPath instance as keys in mutable dictionaries in the context of a table view.
+* Inspired by this: http://stackoverflow.com/questions/19613927/issues-using-nsindexpath-as-key-in-nsmutabledictionary
+* @returns Table view index path instance that can be used as key in mutable dictionaries.
+*/
+- (NSIndexPath *)ifa_tableViewKey;
+
+/**
+* Use this method to avoid equality issues when using NSIndexPath instance as keys in mutable dictionaries in the context of a collection view.
+* Inspired by this: http://stackoverflow.com/questions/19613927/issues-using-nsindexpath-as-key-in-nsmutabledictionary
+* @returns Collection view index path instance that can be used as key in mutable dictionaries.
+*/
+- (NSIndexPath *)ifa_collectionViewKey;
+
 @end

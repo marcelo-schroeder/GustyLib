@@ -28,8 +28,9 @@
 
 @property (nonatomic, strong) UITableView *IFA_tableView;
 @property(nonatomic, strong) NSLayoutConstraint *IFA_tableViewBottomLayoutConstraint;
-
 @property(nonatomic) BOOL IFA_initDone;
+@property(nonatomic, strong) NSMutableDictionary *IFA_cellHeightCacheByIndexPath;
+
 @end
 
 @implementation IFATableViewController {
@@ -44,6 +45,13 @@
 //        [self.tableView.delegate tableView: self.tableView accessoryButtonTappedForRowWithIndexPath:l_indexPath];
 //    }
 //}
+
+- (NSMutableDictionary *)IFA_cellHeightCacheByIndexPath {
+    if (!_IFA_cellHeightCacheByIndexPath) {
+        _IFA_cellHeightCacheByIndexPath = [@{} mutableCopy];
+    }
+    return _IFA_cellHeightCacheByIndexPath;
+}
 
 #pragma mark - Public
 
@@ -333,8 +341,6 @@
         self.clearsSelectionOnViewWillAppear = NO;
     }
 
-    self.tableView.estimatedRowHeight = IFAMinimumTapAreaDimension; // Not having this may produce incorrect cell heights (added with support for dynamic type)
-
 }
 
 -(void)viewDidUnload{
@@ -449,9 +455,25 @@
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    // Cache cell height
+    self.IFA_cellHeightCacheByIndexPath[indexPath.ifa_tableViewKey] = @(cell.bounds.size.height);
+
+    // Set appearance
     [[[IFAAppearanceThemeManager sharedInstance] activeAppearanceTheme] setAppearanceOnWillDisplayCell:cell
                                                                                     forRowAtIndexPath:indexPath
                                                                                        viewController:self];
+
+}
+
+// Not having this may produce incorrect cell heights (added with support for dynamic type)
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSNumber *heightNumber = self.IFA_cellHeightCacheByIndexPath[indexPath.ifa_tableViewKey];
+    if (heightNumber) { // Cell height cache hit
+        return heightNumber.floatValue;
+    }else{  // Cell height cache miss
+        return IFAMinimumTapAreaDimension;
+    }
 }
 
 #pragma mark - IFAContextSwitchTarget

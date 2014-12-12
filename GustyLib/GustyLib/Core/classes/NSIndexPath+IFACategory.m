@@ -30,4 +30,24 @@
     return l_indexPaths;
 }
 
+- (NSIndexPath *)ifa_tableViewKey {
+    NSIndexPath *key;
+    if ([self isMemberOfClass:[NSIndexPath class]]) {
+        key = self;
+    }else{
+        key= [NSIndexPath indexPathForRow:self.row inSection:self.section];
+    }
+    return key;
+}
+
+- (NSIndexPath *)ifa_collectionViewKey {
+    NSIndexPath *key;
+    if ([self isMemberOfClass:[NSIndexPath class]]) {
+        key = self;
+    }else{
+        key= [NSIndexPath indexPathForRow:self.item inSection:self.section];
+    }
+    return key;
+}
+
 @end
