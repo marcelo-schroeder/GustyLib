@@ -423,8 +423,8 @@ static const NSUInteger k_sectionSelectedObjects = 0;
     [self.IFA_selectedDestinationEntities ifa_moveObjectFromIndex:(NSUInteger) fromIndexPath.row
                                                           toIndex:(NSUInteger) toIndexPath.row];
     [self IFA_updateModel];
-    [self reloadInvolvedSectionsAfterImplicitAnimationForRowMovedFromIndexPath:fromIndexPath
-                                                                   toIndexPath:toIndexPath];
+//    [self reloadInvolvedSectionsAfterImplicitAnimationForRowMovedFromIndexPath:fromIndexPath
+//                                                                   toIndexPath:toIndexPath];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{

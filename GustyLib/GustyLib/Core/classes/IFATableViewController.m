@@ -168,16 +168,18 @@
     self.sectionHeaderView.bounds = CGRectMake( (self.editing && !l_swipedToDelete ) ? 0 : [self sectionHeaderNonEditingXOffset], 0, self.tableView.frame.size.width, self.sectionHeaderView.frame.size.height);
 }
 
-- (void)reloadInvolvedSectionsAfterImplicitAnimationForRowMovedFromIndexPath:(NSIndexPath *)a_fromIndexPath toIndexPath:(NSIndexPath *)a_toIndexPath {
-    [CATransaction setCompletionBlock:^{
-        [IFAUtils dispatchAsyncMainThreadBlock:^{
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:(NSUInteger) a_toIndexPath.section] withRowAnimation:UITableViewRowAnimationNone];
-            if (a_fromIndexPath.section!=a_toIndexPath.section) {
-                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:(NSUInteger) a_fromIndexPath.section] withRowAnimation:UITableViewRowAnimationNone];
-            }
-        }];
-    }];
-}
+// Commented the method below out as it was causing issues with self sizing cells (i.e. cells would have incorrect height after reordering)
+
+//- (void)reloadInvolvedSectionsAfterImplicitAnimationForRowMovedFromIndexPath:(NSIndexPath *)a_fromIndexPath toIndexPath:(NSIndexPath *)a_toIndexPath {
+//    [CATransaction setCompletionBlock:^{
+//        [IFAUtils dispatchAsyncMainThreadBlock:^{
+//            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:(NSUInteger) a_toIndexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+//            if (a_fromIndexPath.section!=a_toIndexPath.section) {
+//                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:(NSUInteger) a_fromIndexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+//            }
+//        }];
+//    }];
+//}
 
 -(void)beginRefreshing {
     [self beginRefreshingWithControlShowing:YES];
