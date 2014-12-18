@@ -24,7 +24,6 @@
 #import "IFAHelpManager.h"
 #endif
 
-//wip: need to quit edit mode when user changes font size to avoid the incorrect height when leaving edit mode
 //wip: multiple selection reordering issue - Report Group By - add some items from bottom section to upper section. Scroll down: some items in the bottom section will show the reorder control.
 @interface IFAListViewController ()
 
@@ -801,6 +800,13 @@ fetchedResultsControllerForFetchedResultsTableViewController:(IFAFetchedResultsT
 #pragma mark - IFAViewControllerDelegate
 
 - (void)viewController:(UIViewController *)a_viewController didChangeContentSizeCategory:(NSString *)a_contentSizeCategory {
+    if (self.editing) {
+        // The code below prevents the scenario where cells end up with the wrong height due to accessory views compressing text when in edit mode
+        [self setEditing:NO animated:NO];
+        [IFAUtils dispatchAsyncMainThreadBlock:^{
+            [self.tableView reloadData];
+        }];
+    }
     [self.ifa_appearanceTheme setTextAppearanceForSelectedContentSizeCategoryInObject:self];
 }
 
