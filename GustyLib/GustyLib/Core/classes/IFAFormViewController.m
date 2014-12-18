@@ -26,6 +26,7 @@
 
 static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
+//wip: now field labels do no dynamically resize when user changes the system font size
 //wip: text field still as issues when appending text using the largest font within normal range.
 @interface IFAFormViewController ()
 
