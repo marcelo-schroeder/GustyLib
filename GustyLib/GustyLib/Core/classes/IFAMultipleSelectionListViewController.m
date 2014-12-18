@@ -151,15 +151,23 @@ static const NSUInteger k_sectionSelectedObjects = 0;
     // Schedule table view row updates
     [CATransaction begin];
     [CATransaction setCompletionBlock:^{
+
         // Update cell state after the move (e.g. the remove button needs to turn into an add button (or vice-versa), cell separators may be incorrect after the move, so this fix them up)
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]
                       withRowAnimation:UITableViewRowAnimationNone];
+
         BOOL l_shouldScrollToTop = !self.IFA_selectedDestinationEntities.count || !self.IFA_unselectedDestinationEntities.count;
         if (l_shouldScrollToTop) {
             [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1)
                                        animated:YES];
         }
-    }];
+
+		// Workaround for Apple bug report #19289969
+		self.editing = NO;
+		self.editing = YES;
+
+
+	}];
     [self.tableView beginUpdates];
     for (NSUInteger i = 0; i < a_managedObjects.count; ++i) {
         NSIndexPath *l_fromIndexPath = l_indexPathsToDelete[i];

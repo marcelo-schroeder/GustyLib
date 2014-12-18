@@ -24,7 +24,6 @@
 #import "IFAHelpManager.h"
 #endif
 
-//wip: multiple selection reordering issue - Report Group By - add some items from bottom section to upper section. Scroll down: some items in the bottom section will show the reorder control.
 @interface IFAListViewController ()
 
 @property (nonatomic, strong) dispatch_block_t pagingContainerChildRefreshAndReloadDataAsynchronousBlock;
