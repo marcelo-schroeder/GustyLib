@@ -26,8 +26,6 @@
 
 static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
-//wip: now field labels do no dynamically resize when user changes the system font size
-//wip: text field still as issues when appending text using the largest font within normal range.
 @interface IFAFormViewController ()
 
 @property (nonatomic, strong) NSIndexPath *IFA_indexPathForPopoverController;
@@ -93,9 +91,13 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
     NSString *l_propertyName = [self nameForIndexPath:a_indexPath];
 
+//    NSLog(@"IFA_cellForTableView [a_indexPath description] = %@", [a_indexPath description]);
+//    NSLog(@"  l_propertyName = %@", l_propertyName);
+
     // Create reusable cell
     IFAFormTableViewCell *l_cell = [a_tableView dequeueReusableCellWithIdentifier:l_propertyName];
     if (l_cell == nil) {
+//        NSLog(@"    initialising cell...");
         l_cell = [[NSClassFromString(a_className) alloc] initWithReuseIdentifier:l_propertyName
                                                                     propertyName:l_propertyName indexPath:a_indexPath
                                                               formViewController:self];
@@ -111,7 +113,10 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 - (IFAFormTextFieldTableViewCell *)IFA_textFieldCellForTableView:(UITableView *)a_tableView
                                                      atIndexPath:(NSIndexPath *)a_indexPath {
     IFAFormTextFieldTableViewCell *cell = self.IFA_indexPathToTextFieldCellDictionary[a_indexPath];
-    if (!cell) {
+    if (cell) {
+        // Make sure things such as setting dynamic fonts are done
+        [self.ifa_appearanceTheme setAppearanceForCell:cell atIndexPath:a_indexPath viewController:self];
+    } else {
         NSUInteger editorType = [self editorTypeForIndexPath:a_indexPath];
         NSString *className = [(editorType == IFAEditorTypeText ? [IFAFormTextFieldTableViewCell class] : [IFAFormNumberFieldTableViewCell class]) description];
         cell = (IFAFormTextFieldTableViewCell *) [self IFA_cellForTableView:a_tableView

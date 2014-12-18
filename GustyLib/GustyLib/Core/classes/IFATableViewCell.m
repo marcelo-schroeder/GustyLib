@@ -58,6 +58,7 @@
 }
 
 - (void)prepareForReuse {
+//    NSLog(@"********** prepareForReuse [self.indexPath description] = %@", [self.indexPath description]);
     [super prepareForReuse];
     [self ifa_prepareForReuse];
 }

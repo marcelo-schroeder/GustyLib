@@ -378,7 +378,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
 - (void)setAppearanceForCell:(UITableViewCell *)a_cell atIndexPath:(NSIndexPath *)a_indexPath
               viewController:(IFATableViewController *)a_tableViewController {
-    [self setTextAppearanceForSelectedContentSizeCategoryInObject:a_tableViewController];
+    [self setTextAppearanceForSelectedContentSizeCategoryInObject:a_cell];
 }
 
 -(void)setAppearanceOnAwakeFromNibForView:(UIView*)a_view{

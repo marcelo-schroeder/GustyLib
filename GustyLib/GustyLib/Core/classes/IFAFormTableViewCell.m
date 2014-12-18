@@ -33,6 +33,9 @@
 - (id)initWithReuseIdentifier:(NSString *)reuseIdentifier propertyName:(NSString *)a_propertyName
                     indexPath:(NSIndexPath *)a_indexPath
            formViewController:(IFAFormViewController *)a_formViewController {
+//    NSLog(@"     initWithReuseIdentifier reuseIdentifier = %@", reuseIdentifier);
+//    NSLog(@"       a_propertyName = %@", a_propertyName);
+//    NSLog(@"       [a_indexPath description] = %@", [a_indexPath description]);
     self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
     if (self) {
         self.propertyName = a_propertyName;
