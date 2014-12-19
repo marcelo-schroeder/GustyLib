@@ -314,6 +314,7 @@ static const NSUInteger k_sectionSelectedObjects = 0;
     [super viewDidLoad];
     [self.tableView registerNib:[UINib nibWithNibName:@"IFAMultipleSelectionListViewCell" bundle:nil]
          forCellReuseIdentifier:k_cellReuseId];
+	self.shouldReloadTableViewDataAfterQuittingEditing = NO;
     self.tableView.allowsSelectionDuringEditing = YES;
 }
 
