@@ -57,6 +57,14 @@
     [self iFA_handleSelectionForEditingAtIndexPath:indexPath];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if ([self tableView:tableView titleForHeaderInSection:section]) {
+        return [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline].pointSize * 1.5;
+    }else {
+        return 0;
+    }
+}
+
 #pragma mark - UITableViewDataSource Protocol
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
