@@ -580,6 +580,8 @@
 
     [super viewDidLoad];
 
+    self.shouldReloadTableViewDataAfterQuittingEditing = YES;
+
     if (self.fetchingStrategy==IFAListViewControllerFetchingStrategyFetchedResultsController) {
         self.fetchedResultsTableViewControllerDataSource = self;
     }

@@ -34,6 +34,13 @@
 @property (nonatomic, strong) UIColor *tableCellTextColor;
 @property (nonatomic) BOOL shouldCreateContainerViewOnLoadView;
 
+/**
+* Indicate whether reloadData will be called on the table view after quitting editing.
+* This can be used to minimise issues with self sizing cell height calculations (i.e. when using system dynamic fonts).
+* The default value is NO.
+*/
+@property (nonatomic) BOOL shouldReloadTableViewDataAfterQuittingEditing;
+
 // Used to indicate to the setEditing method whether we are navigating away from the current view and that a UI stage change is no longer required
 @property (nonatomic) BOOL skipEditingUiStateChange;
 

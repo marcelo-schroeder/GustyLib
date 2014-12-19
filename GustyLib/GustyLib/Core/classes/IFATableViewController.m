@@ -395,6 +395,15 @@
         self.pagingContainerViewController.scrollView.scrollEnabled = !editing;
     }
 
+    if (self.shouldReloadTableViewDataAfterQuittingEditing && !editing) {
+        [IFAUtils dispatchAsyncMainThreadBlock:^{
+            [UIView transitionWithView:self.view duration:IFAAnimationDuration
+                               options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+                        [self.tableView reloadData];
+                    }       completion:NULL];
+        }                           afterDelay:IFAAnimationDuration];
+    }
+
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{

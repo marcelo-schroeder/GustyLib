@@ -27,7 +27,7 @@ CGFloat const IFATableViewEditingCellXOffset = 38;
 CGFloat const IFAFormSectionHeaderDefaultHeight = 39;
 CGFloat const IFATableViewCellSeparatorDefaultInsetLeft = 15;
 CGFloat const IFAIPhoneStatusBarDoubleHeight = 40;
-NSTimeInterval const IFAAnimationDuration = 0.3;
+NSTimeInterval const IFAAnimationDuration = 0.5;
 
 NSString* const IFAButtonLabelSave = @"Save";
 NSString* const IFAButtonLabelCancel = @"Cancel";
