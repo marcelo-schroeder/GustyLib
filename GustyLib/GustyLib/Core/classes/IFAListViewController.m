@@ -801,13 +801,6 @@ fetchedResultsControllerForFetchedResultsTableViewController:(IFAFetchedResultsT
 #pragma mark - IFAViewControllerDelegate
 
 - (void)viewController:(UIViewController *)a_viewController didChangeContentSizeCategory:(NSString *)a_contentSizeCategory {
-    if (self.editing) {
-        // The code below prevents the scenario where cells end up with the wrong height due to accessory views compressing text when in edit mode
-        [self setEditing:NO animated:NO];
-        [IFAUtils dispatchAsyncMainThreadBlock:^{
-            [self.tableView reloadData];
-        }];
-    }
     [self.ifa_appearanceTheme setTextAppearanceForSelectedContentSizeCategoryInObject:self];
 }
 

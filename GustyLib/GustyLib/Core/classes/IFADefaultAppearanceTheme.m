@@ -589,33 +589,53 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 - (void)setTextAppearanceForSelectedContentSizeCategoryInObject:(id)a_object {
-    if ([a_object isKindOfClass:[IFAFormSectionHeaderFooterView class]]) {
-        IFAFormSectionHeaderFooterView *obj = a_object;
-        obj.label.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
-    } else if ([a_object isKindOfClass:[IFAFormTableViewCell class]]) {
-        IFAFormTableViewCell *obj = a_object;
-        UIFont *headlineSizeFont = [UIFont systemFontOfSize:[UIFont preferredFontForTextStyle:UIFontTextStyleHeadline].pointSize];  // Font based on the headline text style font size
-        obj.leftLabel.font = headlineSizeFont;
-        obj.centeredLabel.font = headlineSizeFont;
-        obj.rightLabel.font = headlineSizeFont;
-        if ([a_object isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
-            IFAFormTextFieldTableViewCell *cell = a_object;
-            cell.textField.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];   // Form some obscure reason, this font does not cause truncation of the text at the largest size.
-        }else if ([a_object isKindOfClass:[IFASegmentedControlTableViewCell class]]) {
-            IFASegmentedControlTableViewCell *cell = a_object;
-            [cell.segmentedControl setTitleTextAttributes:@{NSFontAttributeName : headlineSizeFont}
-                                                 forState:UIControlStateNormal];
+
+    if ([a_object isKindOfClass:[UIView class]]) {
+
+        if ([a_object isKindOfClass:[IFAFormSectionHeaderFooterView class]]) {
+
+            IFAFormSectionHeaderFooterView *obj = a_object;
+            obj.label.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+
+        } else if ([a_object isKindOfClass:[UITableViewCell class]]) {
+
+            UIFont *headlineSizeFont = [UIFont systemFontOfSize:[UIFont preferredFontForTextStyle:UIFontTextStyleHeadline].pointSize];  // Font based on the headline text style font size
+
+            if ([a_object isKindOfClass:[IFAFormTableViewCell class]]) {
+                IFAFormTableViewCell *obj = a_object;
+                obj.leftLabel.font = headlineSizeFont;
+                obj.centeredLabel.font = headlineSizeFont;
+                obj.rightLabel.font = headlineSizeFont;
+                if ([a_object isKindOfClass:[IFAFormTextFieldTableViewCell class]]) {
+                    IFAFormTextFieldTableViewCell *cell = a_object;
+                    cell.textField.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];   // Form some obscure reason, this font does not cause truncation of the text at the largest size.
+                } else if ([a_object isKindOfClass:[IFASegmentedControlTableViewCell class]]) {
+                    IFASegmentedControlTableViewCell *cell = a_object;
+                    [cell.segmentedControl setTitleTextAttributes:@{NSFontAttributeName : headlineSizeFont}
+                                                         forState:UIControlStateNormal];
+                }
+            } else if ([a_object isKindOfClass:[IFAMultipleSelectionListViewCell class]]) {
+                IFAMultipleSelectionListViewCell *obj = (IFAMultipleSelectionListViewCell *) a_object;
+                obj.label.font = headlineSizeFont;
+            }
+
         }
-    } else if([a_object isKindOfClass:[IFAAboutFormViewController class]]) {
-        IFAAboutFormViewController *obj = (IFAAboutFormViewController *) a_object;
-        obj.appNameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
-        obj.copyrightNoticeLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
-    } else if([a_object isKindOfClass:[IFAListViewController class]]) {
-        IFAListViewController *obj = (IFAListViewController *) a_object;
-        obj.noDataPlaceholderAddHintPrefixLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
-        obj.noDataPlaceholderAddHintSuffixLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
-        obj.noDataPlaceholderDescriptionLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+
+    } else if ([a_object isKindOfClass:[UIViewController class]]) {
+
+        if ([a_object isKindOfClass:[IFAAboutFormViewController class]]) {
+            IFAAboutFormViewController *obj = (IFAAboutFormViewController *) a_object;
+            obj.appNameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+            obj.copyrightNoticeLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+        } else if ([a_object isKindOfClass:[IFAListViewController class]]) {
+            IFAListViewController *obj = (IFAListViewController *) a_object;
+            obj.noDataPlaceholderAddHintPrefixLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+            obj.noDataPlaceholderAddHintSuffixLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+            obj.noDataPlaceholderDescriptionLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+        }
+
     }
+
 }
 
 -(NSString *)themeName {
