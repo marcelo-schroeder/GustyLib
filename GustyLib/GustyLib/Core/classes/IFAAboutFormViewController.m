@@ -100,10 +100,8 @@
             [cell.customContentView addSubview:self.customView];
             [self.customView ifa_addLayoutConstraintsToFillSuperview];
         }
+        [self.ifa_appearanceTheme setTextAppearanceForSelectedContentSizeCategoryInObject:self];
     }
-    [self.ifa_appearanceTheme setAppearanceForCell:cell
-                                       atIndexPath:indexPath
-                                    viewController:self];
     return cell;
 }
 
