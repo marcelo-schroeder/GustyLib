@@ -23,6 +23,7 @@
 @interface IFAFormTableViewCell ()
 @property (nonatomic, strong) NSString *propertyName;
 @property (nonatomic, weak) IFAFormViewController *formViewController;
+@property(nonatomic) CGFloat IFA_originalLeftAndRightLabelsSpacingConstraintConstant;
 @end
 
 @implementation IFAFormTableViewCell
@@ -42,6 +43,7 @@
         self.indexPath = a_indexPath;
         self.formViewController = a_formViewController;
         [[NSBundle mainBundle] loadNibNamed:@"IFAFormTableViewCellContentView" owner:self options:nil];
+        self.IFA_originalLeftAndRightLabelsSpacingConstraintConstant = self.leftAndRightLabelsSpacingConstraint.constant;
         self.centeredLabel.hidden = YES;
         [self.contentView addSubview:self.customContentView];
         [self.customContentView ifa_addLayoutConstraintsToFillSuperview];
@@ -78,7 +80,9 @@
     self.leftLabel.text = a_leftLabelText;
     self.rightLabel.text = a_rightLabelText;
 
-    if (!a_rightLabelText) {
+    if (a_rightLabelText) {
+        self.leftAndRightLabelsSpacingConstraint.constant = self.IFA_originalLeftAndRightLabelsSpacingConstraintConstant;
+    } else {
         self.leftAndRightLabelsSpacingConstraint.constant = 0;
     }
 

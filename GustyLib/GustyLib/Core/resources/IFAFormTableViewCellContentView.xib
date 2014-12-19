@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IFAFormTableViewCell">
@@ -59,7 +59,7 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IFA_Icon_DisclosureIndicatorRight.png" translatesAutoresizingMaskIntoConstraints="NO" id="YDb-fv-JUs" userLabel="Custom Accessory Image View - IFA_Icon_DisclosureIndicatorRight.png">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="IFA_Icon_DisclosureIndicatorRight.png" translatesAutoresizingMaskIntoConstraints="NO" id="YDb-fv-JUs" userLabel="Custom Accessory Image View - IFA_Icon_DisclosureIndicatorRight.png">
                     <rect key="frame" x="297" y="16" width="8" height="13"/>
                     <constraints>
                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="22" id="vzm-yQ-AK3"/>
