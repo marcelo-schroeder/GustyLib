@@ -24,6 +24,7 @@
 
 CGFloat const IFAMinimumTapAreaDimension = 44;
 CGFloat const IFATableViewEditingCellXOffset = 38;
+CGFloat const IFATableViewCellContentViewRightOffsetWhenStandardAccessoryIsVisible = -33;
 CGFloat const IFAFormSectionHeaderDefaultHeight = 39;
 CGFloat const IFATableViewCellSeparatorDefaultInsetLeft = 15;
 CGFloat const IFAIPhoneStatusBarDoubleHeight = 40;
