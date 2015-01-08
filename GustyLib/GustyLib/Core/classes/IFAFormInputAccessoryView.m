@@ -92,7 +92,8 @@
         NSBundle *l_bundle = [NSBundle bundleForClass:[self class]];
         [l_bundle loadNibNamed:@"IFAFormInputAccessoryContentView" owner:self options:nil];
         [self addSubview:self.contentView];
-        self.frame = self.contentView.frame;
+        self.bounds = self.contentView.bounds;
+        [self.contentView ifa_addLayoutConstraintsToFillSuperview];
     }
 
     return self;

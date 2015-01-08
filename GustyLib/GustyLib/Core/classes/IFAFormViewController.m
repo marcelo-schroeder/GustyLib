@@ -1093,6 +1093,8 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     if (!_formInputAccessoryView) {
         _formInputAccessoryView = [[IFAFormInputAccessoryView alloc] initWithTableView:self.tableView];
         _formInputAccessoryView.dataSource = self;
+        _formInputAccessoryView.bounds = CGRectMake(0, 0, self.view.bounds.size.width, _formInputAccessoryView.bounds.size.height);
+        _formInputAccessoryView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
     }
     return _formInputAccessoryView;
 }
