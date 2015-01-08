@@ -22,8 +22,6 @@
 
 @interface IFASingleSelectionListViewController ()
 
-@property (nonatomic) BOOL IFA_hasInitialLoadBeenDone;
-
 @property(nonatomic, strong) NSManagedObjectID *IFA_editedManagedObjectId;
 @property(nonatomic, strong) IFASingleSelectionManager *IFA_selectionManager;
 
@@ -49,6 +47,41 @@
         [l_pm saveMainManagedObjectContext];
         [l_pm popChildManagedObjectContext];
     }
+}
+
+- (IFASingleSelectionListViewControllerHeaderView *)customHeaderView {
+    if (!_customHeaderView) {
+        [[NSBundle mainBundle] loadNibNamed:@"IFASingleSelectionListViewControllerHeaderView" owner:self options:nil];
+        _customHeaderView.textLabel.text = @"Tap any entry below to select or deselect it";
+    }
+    return _customHeaderView;
+}
+
+- (void)IFA_updateTableHeaderView {
+    UIView *view;
+    if (self.shouldShowEmptyListPlaceholder) {
+        view = nil;
+    }else{
+        view = self.customHeaderView;
+        [self IFA_resizeTableHeaderView];
+    }
+    self.tableView.tableHeaderView = view;
+}
+
+- (void)IFA_resizeTableHeaderView {
+    [self.ifa_appearanceTheme setTextAppearanceForSelectedContentSizeCategoryInObject:self.customHeaderView];
+    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:self.customHeaderView
+                                                                       attribute:NSLayoutAttributeWidth
+                                                                       relatedBy:NSLayoutRelationEqual
+                                                                          toItem:nil
+                                                                       attribute:NSLayoutAttributeNotAnAttribute
+                                                                      multiplier:1
+                                                                        constant:self.view.bounds.size.width];
+    [self.customHeaderView addConstraint:widthConstraint];
+    CGSize sizeThatFits = [self.customHeaderView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+    [self.customHeaderView removeConstraint:widthConstraint];
+    CGRect bounds = CGRectMake(0, 0, sizeThatFits.width, sizeThatFits.height);
+    self.customHeaderView.bounds = bounds;
 }
 
 #pragma mark - UITableViewDataSource
@@ -138,7 +171,6 @@
 -(void)didRefreshAndReloadData {
     [super didRefreshAndReloadData];
     [self showEmptyListPlaceholder];
-    self.IFA_hasInitialLoadBeenDone = YES;
 }
 
 -(NSString *)editFormNameForCreateMode:(BOOL)aCreateMode{
@@ -155,6 +187,17 @@
 - (void)setDisallowDeselection:(BOOL)disallowDeselection {
     _disallowDeselection = disallowDeselection;
     self.IFA_selectionManager.disallowDeselection = self.disallowDeselection;
+}
+
+- (void)      viewController:(UIViewController *)a_viewController
+didChangeContentSizeCategory:(NSString *)a_contentSizeCategory {
+    [super viewController:a_viewController didChangeContentSizeCategory:a_contentSizeCategory];
+    [self IFA_resizeTableHeaderView];
+}
+
+- (void)showEmptyListPlaceholder {
+    [super showEmptyListPlaceholder];
+    [self IFA_updateTableHeaderView];
 }
 
 #pragma mark - IFAPresenter protocol

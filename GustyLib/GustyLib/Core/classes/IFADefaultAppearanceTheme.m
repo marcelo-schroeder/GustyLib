@@ -19,6 +19,7 @@
 //
 
 #import "GustyLibCore.h"
+#import "IFASingleSelectionListViewControllerHeaderView.h"
 
 #ifdef IFA_AVAILABLE_Help
 #import "GustyLibHelp.h"
@@ -35,6 +36,22 @@
 }
 
 #pragma mark - Private
+
+typedef enum{
+    IFAThemeColourInlineHelpText,
+}IFAThemeColour;
+
+- (UIColor *)IFA_themeColour:(IFAThemeColour)a_themeColour {
+    UIColor *colour = nil;
+    switch (a_themeColour){
+        case IFAThemeColourInlineHelpText:
+            colour = [UIColor ifa_grayColorWithRGB:142];
+            break;
+        default:
+            NSAssert(NO, @"Unexpected theme colour: %u", a_themeColour);
+    }
+    return colour;
+}
 
 -(UIColor*)IFA_colorForInfoPlistKey:(NSString*)a_infoPlistKey{
     return [IFAUIUtils colorForInfoPlistKey:a_infoPlistKey];
@@ -278,7 +295,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
         }else if ([a_viewController isKindOfClass:[IFAListViewController class]]) {
             IFAListViewController *listViewController = (IFAListViewController *) a_viewController;
-            UIColor *noDataHelpColor = [UIColor ifa_grayColorWithRGB:142];
+            UIColor *noDataHelpColor = [self IFA_themeColour:IFAThemeColourInlineHelpText];
             listViewController.noDataPlaceholderAddHintPrefixLabel.textColor = noDataHelpColor;
             listViewController.noDataPlaceholderAddHintSuffixLabel.textColor = noDataHelpColor;
             listViewController.noDataPlaceholderDescriptionLabel.textColor = noDataHelpColor;
@@ -395,6 +412,10 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         IFAFormTableViewCellContentView *l_view = (IFAFormTableViewCellContentView *) a_view;
         l_view.formTableViewCell.topSeparatorImageView.image = [UIImage ifa_separatorImageForType:IFASeparatorImageTypeHorizontalBottom];
         l_view.formTableViewCell.bottomSeparatorImageView.image = [UIImage ifa_separatorImageForType:IFASeparatorImageTypeHorizontalBottom];
+    }else if ([a_view isKindOfClass:[IFASingleSelectionListViewControllerHeaderView class]]) {
+        IFASingleSelectionListViewControllerHeaderView *view = (IFASingleSelectionListViewControllerHeaderView *) a_view;
+        view.textLabel.textColor = [self IFA_themeColour:IFAThemeColourInlineHelpText];
+        view.textLabel.textAlignment = NSTextAlignmentLeft;
     }
 }
 
@@ -596,6 +617,11 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
             IFAFormSectionHeaderFooterView *obj = a_object;
             obj.label.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+
+        }else if ([a_object isKindOfClass:[IFASingleSelectionListViewControllerHeaderView class]]) {
+
+            IFASingleSelectionListViewControllerHeaderView *obj = (IFASingleSelectionListViewControllerHeaderView *) a_object;
+            obj.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
 
         } else if ([a_object isKindOfClass:[UITableViewCell class]]) {
 

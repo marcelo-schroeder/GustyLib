@@ -190,3 +190,4 @@
 #import "IFAFadingBlurViewControllerTransitioningDelegate.h"
 #import "IFAFormSectionHeaderFooterView.h"
 #import "IFATableViewHeaderFooterView.h"
+#import "IFASingleSelectionListViewControllerHeaderView.h"

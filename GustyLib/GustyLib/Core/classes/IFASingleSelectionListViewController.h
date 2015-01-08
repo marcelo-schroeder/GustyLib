@@ -20,11 +20,13 @@
 
 @class NSManagedObject, IFASingleSelectionManager;
 @protocol IFASelectionManagerDelegate;
+@class IFASingleSelectionListViewControllerHeaderView;
 
 @interface IFASingleSelectionListViewController : IFAAbstractSelectionListViewController <IFASelectionManagerDelegate>
 
 @property (nonatomic, strong) UIImage *selectedIconImageNormal;
 @property (nonatomic, strong) UIImage *selectedIconImageHighlighted;
 @property(nonatomic) BOOL disallowDeselection;
+@property (strong, nonatomic) IBOutlet IFASingleSelectionListViewControllerHeaderView *customHeaderView;
 
 @end
