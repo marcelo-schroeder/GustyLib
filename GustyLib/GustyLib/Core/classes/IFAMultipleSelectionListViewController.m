@@ -437,7 +437,16 @@ static const NSUInteger k_sectionSelectedObjects = 0;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-	return section==k_sectionSelectedObjects ? @"Selected" : @"Unselected";
+	return section==k_sectionSelectedObjects ? @"Selected" : @"Available for selection";
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+	if (section == k_sectionSelectedObjects) {
+		return [self.IFA_selectedDestinationEntities count] ? nil : @"No selected entries";
+	}
+	else {
+		return [self.IFA_unselectedDestinationEntities count] ? nil : @"No entries available for selection";
+	}
 }
 
 @end
