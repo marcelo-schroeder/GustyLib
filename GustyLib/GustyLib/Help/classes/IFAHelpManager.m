@@ -72,8 +72,12 @@
     
 }
 
--(BOOL)shouldEnableHelpForViewController:(UIViewController*)a_viewController{
-    return [self helpForViewController:a_viewController]!=nil;
+-(BOOL)shouldEnableHelpForViewController:(UIViewController*)a_viewController {
+    if ([a_viewController isKindOfClass:[IFAAbstractSelectionListViewController class]]) {
+        return NO;
+    }else{
+        return [self helpForViewController:a_viewController] != nil;
+    }
 }
 
 - (NSString *)helpForSectionNamed:(NSString *)a_sectionName inFormNamed:(NSString *)a_formName
