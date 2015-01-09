@@ -169,7 +169,6 @@
             }
         }
     }
-    self.sectionHeaderView.bounds = CGRectMake( (self.editing && !l_swipedToDelete ) ? 0 : [self sectionHeaderNonEditingXOffset], 0, self.tableView.frame.size.width, self.sectionHeaderView.frame.size.height);
 }
 
 // Commented the method below out as it was causing issues with self sizing cells (i.e. cells would have incorrect height after reordering)
@@ -375,11 +374,6 @@
         [[self ifa_appearanceTheme] setAppearanceForBarButtonItem:self.editButtonItem viewController:nil
                                                       important:editing];
         
-        if (self.sectionHeaderView) {
-            [UIView animateWithDuration:IFAAnimationDuration animations:^{
-                [self updateSectionHeaderBounds];
-            }];
-        }
     }
 
     if (self.IFA_initDone && !self.skipEditingUiStateChange) {

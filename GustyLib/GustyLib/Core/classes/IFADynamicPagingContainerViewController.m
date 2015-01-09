@@ -153,12 +153,14 @@ static NSArray *c_pageDataLoadingOrder = nil;
 -(void)ifa_updateNavigationItemState {
     [super ifa_updateNavigationItemState];
 //    NSLog(@"ifa_updateNavigationItemState v_selectedPage: %u", self.selectedPage);
-    NSString *l_title = [self.dataSource titleForPage:self.selectedPage];
-    self.navigationItem.title = l_title;
-    if ([self.ifa_appearanceTheme respondsToSelector:@selector(setNavigationItemTitleViewForViewController:interfaceOrientation:)]) {
-        self.ifa_titleViewDefault.titleLabel.text = l_title;
-        [self.ifa_appearanceTheme setNavigationItemTitleViewForViewController:self
-                                                         interfaceOrientation:[UIApplication sharedApplication].statusBarOrientation];
+    if ([self.dataSource respondsToSelector:@selector(titleForPage:)]) {
+        NSString *l_title = [self.dataSource titleForPage:self.selectedPage];
+        self.navigationItem.title = l_title;
+        if ([self.ifa_appearanceTheme respondsToSelector:@selector(setNavigationItemTitleViewForViewController:interfaceOrientation:)]) {
+            self.ifa_titleViewDefault.titleLabel.text = l_title;
+            [self.ifa_appearanceTheme setNavigationItemTitleViewForViewController:self
+                                                             interfaceOrientation:[UIApplication sharedApplication].statusBarOrientation];
+        }
     }
 }
 

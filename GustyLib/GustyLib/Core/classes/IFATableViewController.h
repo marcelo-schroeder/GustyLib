@@ -30,7 +30,6 @@
 @property (nonatomic, readonly) BOOL selectedViewControllerInPagingContainer;
 @property (nonatomic, readonly) IFAAbstractPagingContainerViewController *pagingContainerViewController;
 @property (nonatomic, weak) UIViewController *previousVisibleViewController;
-@property (nonatomic, strong) UIView *sectionHeaderView;
 @property (nonatomic, strong) UIColor *tableCellTextColor;
 @property (nonatomic) BOOL shouldCreateContainerViewOnLoadView;
 

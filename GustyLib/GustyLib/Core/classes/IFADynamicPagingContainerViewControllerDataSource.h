@@ -22,14 +22,9 @@
 
 @protocol IFADynamicPagingContainerViewControllerDataSource <NSObject>
 
-/*
- This method is called so the container view controller can obtain the title for each page.
- The method is called once for each page represented in the IFAScrollPage enum, with the exception of IFAScrollPageLeftFar and IFAScrollPageRightFar.
- Those pages never fully appear so their titles do not appear either.
- */
--(NSString*)titleForPage:(IFAScrollPage)a_page;
+@required
 
-/* 
+/*
  This method is called so the container view controller can obtain an instance of a child view controller for each page.
  The method is called once for each page represented in the IFAScrollPage enum.
  The child view controller for the centre page (i.e. IFAScrollPageCentre) is always obtained first. That way the child view controller for the other pages can have their model
@@ -37,5 +32,14 @@
  To indicate the left or right boundaries just return a nil value;
  */
 -(UITableViewController*)childViewControlerForPage:(IFAScrollPage)a_page;
+
+@optional
+
+/*
+ This method is called so the container view controller can obtain the title for each page.
+ The method is called once for each page represented in the IFAScrollPage enum, with the exception of IFAScrollPageLeftFar and IFAScrollPageRightFar.
+ Those pages never fully appear so their titles do not appear either.
+ */
+-(NSString*)titleForPage:(IFAScrollPage)a_page;
 
 @end
