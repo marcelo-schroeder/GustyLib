@@ -53,6 +53,10 @@
     return _IFA_cellHeightCacheByIndexPath;
 }
 
+- (CGFloat)IFA_calculateHeightForView:(UIView *)view {
+    return [view ifa_calculateHeightForWidth:self.tableView.bounds.size.width];
+}
+
 #pragma mark - Public
 
 //-(UIView*)newTableViewCellAccessoryView {
@@ -196,6 +200,16 @@
 
 - (BOOL)shouldClearSelectionOnViewDidAppear {
     return YES;
+}
+
+- (CGFloat)calculateHeaderHeightForSection:(NSInteger)a_section {
+    UIView *view = [self.tableView.delegate tableView:self.tableView viewForHeaderInSection:a_section];
+    return [self IFA_calculateHeightForView:view];
+}
+
+- (CGFloat)calculateFooterHeightForSection:(NSInteger)a_section {
+    UIView *view = [self.tableView.delegate tableView:self.tableView viewForFooterInSection:a_section];
+    return [self IFA_calculateHeightForView:view];
 }
 
 #pragma mark - Overrides

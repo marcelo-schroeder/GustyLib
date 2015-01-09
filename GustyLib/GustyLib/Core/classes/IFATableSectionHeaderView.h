@@ -22,7 +22,6 @@
 
 @interface IFATableSectionHeaderView : IFAView
 
-@property (strong, nonatomic) NSNumber *type;
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
 
 @end

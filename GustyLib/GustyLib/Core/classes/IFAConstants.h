@@ -157,9 +157,4 @@ typedef enum {
     IFAScrollPageInit,
 } IFAScrollPage;
 
-typedef enum IFATableSectionHeaderType : NSUInteger {
-    IFATableSectionHeaderTypeList,
-    IFATableSectionHeaderTypeForm,
-} IFATableSectionHeaderType;
-
 @end

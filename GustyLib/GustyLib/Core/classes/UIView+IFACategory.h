@@ -108,4 +108,10 @@
 - (BOOL)ifa_frameIntersectsWithView:(UIView *)a_theOtherView;
 
 - (void)ifa_traverseViewHierarchyWithBlock:(void (^) (UIView*))a_block;
+
+/**
+* Calculates the height of the view given a width constraint using auto layout.
+* @param a_width Width constraint to be temporarily added to the view for height calculation.
+*/
+- (CGFloat)ifa_calculateHeightForWidth:(CGFloat)a_width;
 @end

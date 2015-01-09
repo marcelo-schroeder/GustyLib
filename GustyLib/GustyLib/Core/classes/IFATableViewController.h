@@ -85,4 +85,18 @@
 
 - (NSUInteger)numberOfRows;
 
+/**
+* Calculates the height of a table view's section header view using auto layout.
+* It can be called from methods such as UITableViewDelegate's tableView:heightForHeaderInSection: when dynamic system fonts are in use.
+* @param a_section Table view section the header view belongs to.
+*/
+- (CGFloat)calculateHeaderHeightForSection:(NSInteger)a_section;
+
+/**
+* Calculates the height of a table view's section footer view using auto layout.
+* It can be called from methods such as UITableViewDelegate's tableView:heightForFooterInSection: when dynamic system fonts are in use.
+* @param a_section Table view section the footer view belongs to.
+*/
+- (CGFloat)calculateFooterHeightForSection:(NSInteger)a_section;
+
 @end

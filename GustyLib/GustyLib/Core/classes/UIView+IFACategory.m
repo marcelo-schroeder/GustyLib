@@ -220,4 +220,18 @@ static char c_appearanceIdKey;
     [IFAUIUtils traverseHierarchyForView:self withBlock:a_block];
 }
 
+- (CGFloat)ifa_calculateHeightForWidth:(CGFloat)a_width{
+    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:self
+                                                                       attribute:NSLayoutAttributeWidth
+                                                                       relatedBy:NSLayoutRelationEqual
+                                                                          toItem:nil
+                                                                       attribute:NSLayoutAttributeNotAnAttribute
+                                                                      multiplier:1
+                                                                        constant:a_width];
+    [self addConstraint:widthConstraint];
+    CGSize size = [self systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+    [self removeConstraint:widthConstraint];
+    return size.height;
+}
+
 @end
