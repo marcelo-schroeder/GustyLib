@@ -191,8 +191,8 @@
 
 - (void)      viewController:(UIViewController *)a_viewController
 didChangeContentSizeCategory:(NSString *)a_contentSizeCategory {
-    [super viewController:a_viewController didChangeContentSizeCategory:a_contentSizeCategory];
     [self IFA_resizeTableHeaderView];
+    [super viewController:a_viewController didChangeContentSizeCategory:a_contentSizeCategory];
 }
 
 - (void)showEmptyListPlaceholder {

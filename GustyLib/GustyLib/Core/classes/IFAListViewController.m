@@ -168,15 +168,15 @@
 - (void)IFA_didCompleteFindEntities {
     [self refreshSectionsWithRows];
     [self reloadData];
-
-    {
-        // Workaround for dynamic type issue: forces table view to recalculate cell heights so they are correct.
-        // I have submitted bug 19170676 to Apple re this on 08/12/2014.
-        [self.view layoutIfNeeded];
-        [self reloadData];
-    }
-
+    [self IFA_updateLayoutForDynamicFont];
     [self didRefreshAndReloadData];
+}
+
+// Workaround for dynamic type issue: forces table view to recalculate cell heights so they are correct.
+// I have submitted bug 19170676 to Apple re this on 08/12/2014.
+- (void)IFA_updateLayoutForDynamicFont {
+    [self.view layoutIfNeeded];
+    [self reloadData];
 }
 
 -(void)IFA_onPersistenceChangeNotification:(NSNotification*)a_notification{
@@ -802,6 +802,7 @@ fetchedResultsControllerForFetchedResultsTableViewController:(IFAFetchedResultsT
 
 - (void)viewController:(UIViewController *)a_viewController didChangeContentSizeCategory:(NSString *)a_contentSizeCategory {
     [self.ifa_appearanceTheme setTextAppearanceForSelectedContentSizeCategoryInObject:self];
+    [self IFA_updateLayoutForDynamicFont];
 }
 
 @end
