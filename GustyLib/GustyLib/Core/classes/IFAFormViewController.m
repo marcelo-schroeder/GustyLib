@@ -1857,7 +1857,8 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 //                    [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:@"%@ %@",
 //                                                                                                        self.title,
 //                                                                                                        l_isInserted ? @"created" : @"updated"]];
-                    UIViewController *hudViewController = [IFAHudViewController new];
+                    IFAHudViewController *hudViewController = [IFAHudViewController new];
+                    hudViewController.text = @"Testing text that is a little bit longer than usual...";
 //                    [hudViewController view];
                     [self presentViewController:hudViewController animated:YES
                                      completion:^{

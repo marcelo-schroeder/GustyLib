@@ -8,4 +8,5 @@
 
 //wip: add documentation
 @interface IFAHudViewController : IFAViewController
+@property (nonatomic, strong) NSString *text;
 @end
