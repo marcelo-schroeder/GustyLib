@@ -1858,7 +1858,9 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 //                                                                                                        self.title,
 //                                                                                                        l_isInserted ? @"created" : @"updated"]];
                     IFAHudViewController *hudViewController = [IFAHudViewController new];
-                    hudViewController.text = @"Testing text that is a little bit longer than usual...";
+//                    hudViewController.text = @"Testing text that is a little bit longer than usual...";
+                    hudViewController.text = @"Short";
+                    hudViewController.detailText = @"And this is the detail";
 //                    [hudViewController view];
                     [self presentViewController:hudViewController animated:YES
                                      completion:^{
