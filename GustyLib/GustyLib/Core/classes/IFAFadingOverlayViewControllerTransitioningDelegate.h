@@ -7,6 +7,8 @@
 #import "IFAViewControllerTransitioningDelegate.h"
 
 //wip: add documentation
-//wip: update Evernote notes
-@interface IFADimmedFadingOverlayViewControllerTransitioningDelegate : IFAFadingOverlayViewControllerTransitioningDelegate
+//wip: add missing license info to all classes recently created
+@interface IFAFadingOverlayViewControllerTransitioningDelegate : IFAViewControllerTransitioningDelegate
+
+
 @end

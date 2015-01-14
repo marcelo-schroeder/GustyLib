@@ -31,8 +31,7 @@
 
 - (instancetype)initBlurEffect:(IFABlurEffect)a_blurEffect
                         radius:(CGFloat)a_radius {
-    IFAViewControllerFadeTransitioning *viewControllerAnimatedTransitioning = [IFAViewControllerFadeTransitioning new];
-    self = [super initWithViewControllerAnimatedTransitioning:viewControllerAnimatedTransitioning];
+    self = [super init];
     if (self) {
         self.IFA_blurEffect = a_blurEffect;
         self.IFA_radius = a_radius;

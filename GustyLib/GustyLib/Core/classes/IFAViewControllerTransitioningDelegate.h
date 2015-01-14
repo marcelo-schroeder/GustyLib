@@ -29,6 +29,6 @@
 * Designated initializer.
 * @param a_viewControllerAnimatedTransitioning A view controller animated transitioning object.
 */
-- (instancetype)initWithViewControllerAnimatedTransitioning:(IFAViewControllerAnimatedTransitioning *)a_viewControllerAnimatedTransitioning;
+- (instancetype)initWithViewControllerAnimatedTransitioning:(IFAViewControllerAnimatedTransitioning *)a_viewControllerAnimatedTransitioning NS_DESIGNATED_INITIALIZER;
 
 @end

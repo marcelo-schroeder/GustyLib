@@ -10,13 +10,6 @@
 
 }
 
-#pragma mark - Overrides
-
-- (instancetype)init {
-    IFAViewControllerFadeTransitioning *viewControllerAnimatedTransitioning = [IFAViewControllerFadeTransitioning new];
-    return [super initWithViewControllerAnimatedTransitioning:viewControllerAnimatedTransitioning];
-}
-
 #pragma mark - UIViewControllerTransitioningDelegate
 
 - (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented

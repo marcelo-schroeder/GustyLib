@@ -42,6 +42,7 @@
 		107382E35629C773782C2DA2 /* IFAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 10738965F98BC376E7C75FED /* IFAConstants.m */; };
 		107382FC5B168A5ECC1F095D /* IFASingleSelectionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10738AA00346BD790D612AFE /* IFASingleSelectionListViewController.m */; };
 		10738307A37B950136F43E0E /* NSNumberFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073829EBEBC256BADBD3E7E /* NSNumberFormatterTests.m */; };
+		1073832FBFEFF33B16E7AB0B /* IFAFadingOverlayViewControllerTransitioningDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 107388FFE1C4A023A784569E /* IFAFadingOverlayViewControllerTransitioningDelegate.m */; };
 		10738340153AAA3F5E81A7D0 /* IFADateRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 10738B8E58B0B6360A34C2D9 /* IFADateRange.m */; };
 		1073835DCA3A497FC886B2B8 /* IFADynamicPagingContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10738B857EEF16F610E04844 /* IFADynamicPagingContainerViewController.m */; };
 		107383A71E7DEC043B67CCE6 /* IFAEmailManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1073873695FDC50F1DFEFCE6 /* IFAEmailManager.m */; };
@@ -440,6 +441,7 @@
 		107388B51A8AFF4CA03F8E4D /* UIBarButtonItem+IFACategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+IFACategory.m"; sourceTree = "<group>"; };
 		107388B527F358AC9D291711 /* IFAMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAMenuViewController.m; sourceTree = "<group>"; };
 		107388B5F27D3E6543C81E68 /* IFAFlurrySupportUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAFlurrySupportUtils.m; sourceTree = "<group>"; };
+		107388BB042E4EDEDD7445EC /* IFAFadingOverlayViewControllerTransitioningDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAFadingOverlayViewControllerTransitioningDelegate.h; sourceTree = "<group>"; };
 		107388BBBAD7EAFF4E9016A4 /* NSURL+IFACategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+IFACategory.h"; sourceTree = "<group>"; };
 		107388BEBC9BDC5A9A28CA5F /* IFANavigationItemTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFANavigationItemTitleView.h; sourceTree = "<group>"; };
 		107388BF33F47D96F555B238 /* IFAPreferencesFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAPreferencesFormViewController.h; sourceTree = "<group>"; };
@@ -450,6 +452,7 @@
 		107388D5DF6947E448A233E4 /* IFABlurredFadingOverlayPresentationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFABlurredFadingOverlayPresentationController.m; sourceTree = "<group>"; };
 		107388DCEF58AB9478C3BF95 /* IFASingleSelectionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFASingleSelectionListViewController.h; sourceTree = "<group>"; };
 		107388DEF1B3616486BDEB51 /* IFASplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFASplitViewController.m; sourceTree = "<group>"; };
+		107388FFE1C4A023A784569E /* IFAFadingOverlayViewControllerTransitioningDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAFadingOverlayViewControllerTransitioningDelegate.m; sourceTree = "<group>"; };
 		107389019A431820BC9F0D70 /* IFASubjectActivityItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFASubjectActivityItem.m; sourceTree = "<group>"; };
 		10738903DF618D6E9D9ECE94 /* IFAGridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAGridViewController.h; sourceTree = "<group>"; };
 		1073890AFDDB3A1A1BAD9787 /* IFALongTextEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFALongTextEditorViewController.h; sourceTree = "<group>"; };
@@ -1015,6 +1018,8 @@
 				10738F6205EE2789FAEB947B /* IFADimmedFadingOverlayPresentationController.h */,
 				1073807531A5C2AC8DA13AE6 /* IFADimmedFadingOverlayViewControllerTransitioningDelegate.m */,
 				1073856755A7EB4A2674467F /* IFADimmedFadingOverlayViewControllerTransitioningDelegate.h */,
+				107388FFE1C4A023A784569E /* IFAFadingOverlayViewControllerTransitioningDelegate.m */,
+				107388BB042E4EDEDD7445EC /* IFAFadingOverlayViewControllerTransitioningDelegate.h */,
 			);
 			path = classes;
 			sourceTree = "<group>";
@@ -1756,6 +1761,7 @@
 				107384F77E8F2AA2DBAFDF5A /* IFAHudViewController.m in Sources */,
 				1073811026129523F867DD82 /* IFADimmedFadingOverlayPresentationController.m in Sources */,
 				10738A4F05FFF5015C2CC3CF /* IFADimmedFadingOverlayViewControllerTransitioningDelegate.m in Sources */,
+				1073832FBFEFF33B16E7AB0B /* IFAFadingOverlayViewControllerTransitioningDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -194,3 +194,4 @@
 #import "IFAHudViewController.h"
 #import "IFADimmedFadingOverlayPresentationController.h"
 #import "IFADimmedFadingOverlayViewControllerTransitioningDelegate.h"
+#import "IFAFadingOverlayViewControllerTransitioningDelegate.h"
