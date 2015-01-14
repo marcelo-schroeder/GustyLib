@@ -18,12 +18,12 @@
 #import "GustyLibCore.h"
 
 
-@interface IFAFadingBlurViewControllerTransitioningDelegate ()
+@interface IFABlurredFadingOverlayViewControllerTransitioningDelegate ()
 @property(nonatomic) IFABlurEffect IFA_blurEffect;
 @property(nonatomic) CGFloat IFA_radius;
 @end
 
-@implementation IFAFadingBlurViewControllerTransitioningDelegate {
+@implementation IFABlurredFadingOverlayViewControllerTransitioningDelegate {
 
 }
 

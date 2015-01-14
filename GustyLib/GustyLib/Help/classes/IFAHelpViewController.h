@@ -19,5 +19,5 @@
 #import "IFANavigationController.h"
 
 @interface IFAHelpViewController : IFANavigationController
-- (instancetype)initWithTargetViewController:(UIViewController *)a_targetViewController;
+- (instancetype)initWithTargetViewController:(UIViewController *)a_targetViewController NS_DESIGNATED_INITIALIZER;
 @end

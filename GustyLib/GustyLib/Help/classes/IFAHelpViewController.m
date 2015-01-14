@@ -25,27 +25,23 @@
 
 }
 
-#pragma mark - Overrides
+#pragma mark - Public
 
 - (instancetype)initWithTargetViewController:(UIViewController *)a_targetViewController {
     IFAHelpContentViewController *helpContentViewController = [[IFAHelpContentViewController alloc] initWithTargetViewController:a_targetViewController];
     self = [super initWithRootViewController:helpContentViewController];
     if (self) {
+        self.modalPresentationStyle = UIModalPresentationCustom;
+        self.transitioningDelegate = self.IFA_viewControllerTransitioningDelegate;
     }
     return self;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.modalPresentationStyle = UIModalPresentationCustom;
-    self.transitioningDelegate = self.IFA_viewControllerTransitioningDelegate;
 }
 
 #pragma mark - Private
 
 - (IFAViewControllerTransitioningDelegate *)IFA_viewControllerTransitioningDelegate {
     if (!_IFA_viewControllerTransitioningDelegate) {
-        _IFA_viewControllerTransitioningDelegate = [[IFAFadingBlurViewControllerTransitioningDelegate alloc] initBlurEffect:IFABlurEffectDark
+        _IFA_viewControllerTransitioningDelegate = [[IFABlurredFadingOverlayViewControllerTransitioningDelegate alloc] initBlurEffect:IFABlurEffectDark
                                                                                                                      radius:10];
     }
     return _IFA_viewControllerTransitioningDelegate;

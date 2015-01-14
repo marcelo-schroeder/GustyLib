@@ -16,12 +16,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "IFAViewControllerTransitioningDelegate.h"
 
 /**
 * View controller transitioning delegate that provides a fading transition with a blurred presenting view controller.
 * The blur effect can be fine tuned with the arguments of the designated initializer.
 */
-@interface IFAFadingBlurViewControllerTransitioningDelegate : IFAViewControllerTransitioningDelegate
+@interface IFABlurredFadingOverlayViewControllerTransitioningDelegate : IFAViewControllerTransitioningDelegate
 
 /**
 * Designated initializer.

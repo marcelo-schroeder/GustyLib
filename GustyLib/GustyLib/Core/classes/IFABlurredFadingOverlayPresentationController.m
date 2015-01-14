@@ -42,7 +42,7 @@
     return self;
 }
 
-#pragma mark - IFAOverlayPresentationControllerDataSource
+#pragma mark - IFAFadingOverlayPresentationControllerDataSource
 
 - (UIView *)overlayViewForFadingOverlayPresentationController:(IFAFadingOverlayPresentationController *)a_overlayPresentationController {
     UIImageView *overlayImageView = [UIImageView new];

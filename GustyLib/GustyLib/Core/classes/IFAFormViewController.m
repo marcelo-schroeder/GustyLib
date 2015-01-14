@@ -1840,7 +1840,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                 BOOL l_changesMade = NO;
                 if ([l_managedObject isInserted] || [l_managedObject isUpdated]) {
 
-                    bool l_isInserted = [l_managedObject isInserted];
+//                    bool l_isInserted = [l_managedObject isInserted];
 
                     [self updateBackingPreferences];
 
@@ -1853,9 +1853,20 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                     l_changesMade = YES;
                     self.IFA_changesMadeByThisViewController = YES;
 
-                    [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:@"%@ %@",
-                                                                                                        self.title,
-                                                                                                        l_isInserted ? @"created" : @"updated"]];
+                    //wip: review this when the new HUD is ready
+//                    [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:@"%@ %@",
+//                                                                                                        self.title,
+//                                                                                                        l_isInserted ? @"created" : @"updated"]];
+                    UIViewController *hudViewController = [IFAHudViewController new];
+//                    [hudViewController view];
+                    [self presentViewController:hudViewController animated:YES
+                                     completion:^{
+                                         [IFAUtils dispatchAsyncMainThreadBlock:^{
+                                                     [self dismissViewControllerAnimated:YES
+                                                                              completion:nil];
+                                                 }
+                                                                     afterDelay:2];
+                                     }];
 
                 }
 
