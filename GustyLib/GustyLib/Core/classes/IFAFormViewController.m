@@ -1861,6 +1861,9 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 //                    hudViewController.text = @"Testing text that is a little bit longer than usual...";
                     hudViewController.text = @"Short";
                     hudViewController.detailText = @"And this is the detail";
+                    hudViewController.tapActionBlock = ^{
+                        NSLog(@"hello");
+                    };
 //                    [hudViewController view];
                     [self presentViewController:hudViewController animated:YES
                                      completion:^{

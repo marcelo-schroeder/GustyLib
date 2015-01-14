@@ -10,4 +10,5 @@
 @interface IFAHudViewController : IFAViewController
 @property (nonatomic, strong) NSString *text;
 @property (nonatomic, strong) NSString *detailText;
+@property (nonatomic, strong) void (^tapActionBlock) ();
 @end

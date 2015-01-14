@@ -17,6 +17,7 @@
 @property(nonatomic, strong) NSArray *IFA_contentViewSizeConstraints;
 @property(nonatomic, strong) UIActivityIndicatorView *IFA_activityIndicatorView;
 @property(nonatomic, strong) UIProgressView *IFA_progressView;
+@property (nonatomic, strong) UITapGestureRecognizer *IFA_tapGestureRecognizer;
 @end
 
 @implementation IFAHudViewController {
@@ -39,6 +40,10 @@
     [self IFA_updateContentViewLayoutConstraints];
 }
 
+- (void)setTapActionBlock:(void (^)())tapActionBlock {
+    _tapActionBlock = tapActionBlock;
+}
+
 #pragma mark - Overrides
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -52,6 +57,7 @@
         [self.IFA_contentView addSubview:self.IFA_detailTextLabel];
         [self.view addSubview:self.IFA_contentView];
         [self.IFA_contentView ifa_addLayoutConstraintsToCenterInSuperview];
+        [self.IFA_contentView addGestureRecognizer:self.IFA_tapGestureRecognizer];
     }
     return self;
 }
@@ -127,6 +133,20 @@
         _IFA_progressView.progressTintColor = [UIColor blackColor];   //wip: move to theme?
     }
     return _IFA_progressView;
+}
+
+- (UITapGestureRecognizer *)IFA_tapGestureRecognizer {
+    if (!_IFA_tapGestureRecognizer) {
+        _IFA_tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                            action:@selector(IFA_onTapGestureRecognizerAction)];
+    }
+    return _IFA_tapGestureRecognizer;
+}
+
+- (void)IFA_onTapGestureRecognizerAction {
+    if (self.tapActionBlock) {
+        self.tapActionBlock();
+    }
 }
 
 - (NSMutableArray *)IFA_contentHorizontalLayoutConstraints {
