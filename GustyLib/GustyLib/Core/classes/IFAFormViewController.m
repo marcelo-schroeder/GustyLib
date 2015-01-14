@@ -1871,7 +1871,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                                                      [self dismissViewControllerAnimated:YES
                                                                               completion:nil];
                                                  }
-                                                                     afterDelay:2];
+                                                                     afterDelay:5];
                                      }];
 
                 }

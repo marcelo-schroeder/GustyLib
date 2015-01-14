@@ -49,8 +49,10 @@
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+
         self.modalPresentationStyle = UIModalPresentationCustom;
         self.transitioningDelegate = self.IFA_viewControllerTransitioningDelegate;
+
         [self.IFA_contentView addSubview:self.IFA_activityIndicatorView];
         [self.IFA_contentView addSubview:self.IFA_progressView];
         [self.IFA_contentView addSubview:self.IFA_textLabel];
@@ -58,6 +60,7 @@
         [self.view addSubview:self.IFA_contentView];
         [self.IFA_contentView ifa_addLayoutConstraintsToCenterInSuperview];
         [self.IFA_contentView addGestureRecognizer:self.IFA_tapGestureRecognizer];
+
     }
     return self;
 }
@@ -66,6 +69,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
     [self IFA_updateContentViewLayoutConstraints];
+    [self IFA_addMotionEffects];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -215,6 +219,21 @@
     [contentView removeConstraint:contentViewMaxWidthConstraint];
     self.IFA_contentViewSizeConstraints = [contentView ifa_addLayoutConstraintsForSize:newContentViewSize];
 
+}
+
+- (void)IFA_addMotionEffects {
+    CGFloat offset = 20.0;
+    UIInterpolatingMotionEffect *motionEffectX = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x"
+                                                                                                 type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+    motionEffectX.maximumRelativeValue = @(offset);
+    motionEffectX.minimumRelativeValue = @(-offset);
+    UIInterpolatingMotionEffect *motionEffectY = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y"
+                                                                                                 type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+    motionEffectY.maximumRelativeValue = @(offset);
+    motionEffectY.minimumRelativeValue = @(-offset);
+    UIMotionEffectGroup *group = [UIMotionEffectGroup new];
+    group.motionEffects = @[motionEffectX, motionEffectY];
+    [self.IFA_contentView addMotionEffect:group];
 }
 
 @end
