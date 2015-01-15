@@ -1857,22 +1857,19 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 //                    [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:@"%@ %@",
 //                                                                                                        self.title,
 //                                                                                                        l_isInserted ? @"created" : @"updated"]];
-                    IFAHudViewController *hudViewController = [IFAHudViewController new];
-//                    hudViewController.text = @"Testing text that is a little bit longer than usual...";
-                    hudViewController.text = @"Short";
-                    hudViewController.detailText = @"And this is the detail";
-                    hudViewController.tapActionBlock = ^{
+                    IFAHud *hud = [IFAHud new];
+                    hud.text = @"Testing text that is a little bit longer than usual...";
+//                    hud.text = @"Short";
+                    hud.detailText = @"And this is the detail";
+                    hud.tapActionBlock = ^{
                         NSLog(@"hello");
                     };
-//                    [hudViewController view];
-                    [self presentViewController:hudViewController animated:YES
-                                     completion:^{
-                                         [IFAUtils dispatchAsyncMainThreadBlock:^{
-                                                     [self dismissViewControllerAnimated:YES
-                                                                              completion:nil];
-                                                 }
-                                                                     afterDelay:5];
-                                     }];
+                    [hud showWithAnimation:YES completion:^{
+                        [IFAUtils dispatchAsyncMainThreadBlock:^{
+                                    [hud hideWithAnimation:YES completion:nil];
+                                }
+                                                    afterDelay:5];
+                    }];
 
                 }
 
