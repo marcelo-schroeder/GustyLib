@@ -12,6 +12,7 @@
 @property (nonatomic, strong) NSString *text;
 @property (nonatomic, strong) NSString *detailText;
 @property (nonatomic, strong) void (^tapActionBlock) ();
+@property (nonatomic) BOOL shouldHideOnTap;
 
 - (void)showWithAnimation:(BOOL)a_animated completion:(void(^)())a_completion;
 - (void)hideWithAnimation:(BOOL)a_animated completion:(void(^)())a_completion;

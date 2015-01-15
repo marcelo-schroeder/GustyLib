@@ -8,12 +8,13 @@
 //wip: does the dynamic font stuff work?
 @interface IFAHudViewController ()
 @property(nonatomic, strong) id <UIViewControllerTransitioningDelegate> IFA_viewControllerTransitioningDelegate;
+@property(nonatomic, strong) UIVisualEffectView *IFA_frameView;
 @property(nonatomic, strong) UIView *IFA_contentView;
 @property (nonatomic, strong) UILabel *IFA_textLabel;
 @property (nonatomic, strong) UILabel *IFA_detailTextLabel;
 @property(nonatomic, strong) NSMutableArray *IFA_contentHorizontalLayoutConstraints;
 @property(nonatomic, strong) NSArray *IFA_contentVerticalLayoutConstraints;
-@property(nonatomic, strong) NSArray *IFA_contentViewSizeConstraints;
+@property(nonatomic, strong) NSArray *IFA_frameViewSizeConstraints;
 @property(nonatomic, strong) UIActivityIndicatorView *IFA_activityIndicatorView;
 @property(nonatomic, strong) UIProgressView *IFA_progressView;
 @property (nonatomic, strong) UITapGestureRecognizer *IFA_tapGestureRecognizer;
@@ -56,9 +57,11 @@
         [self.IFA_contentView addSubview:self.IFA_progressView];
         [self.IFA_contentView addSubview:self.IFA_textLabel];
         [self.IFA_contentView addSubview:self.IFA_detailTextLabel];
-        [self.view addSubview:self.IFA_contentView];
-        [self.IFA_contentView ifa_addLayoutConstraintsToCenterInSuperview];
-        [self.IFA_contentView addGestureRecognizer:self.IFA_tapGestureRecognizer];
+        [self.view addSubview:self.IFA_frameView];
+        [self.IFA_frameView ifa_addLayoutConstraintsToCenterInSuperview];
+        [self.IFA_frameView.contentView addSubview:self.IFA_contentView];
+        [self.IFA_contentView ifa_addLayoutConstraintsToFillSuperview];
+        [self.IFA_frameView addGestureRecognizer:self.IFA_tapGestureRecognizer];
 
     }
     return self;
@@ -89,10 +92,7 @@
     if (!_IFA_contentView) {
         _IFA_contentView = [UIView new];
         _IFA_contentView.translatesAutoresizingMaskIntoConstraints = NO;
-        _IFA_contentView.backgroundColor = [UIColor whiteColor];
-        CALayer *layer = _IFA_contentView.layer;
-        layer.cornerRadius = 9.0;
-        layer.masksToBounds = YES;
+        _IFA_contentView.backgroundColor = [UIColor clearColor];
     }
     return _IFA_contentView;
 }
@@ -203,28 +203,29 @@
                                                                           views:views];
     [contentView addConstraints:self.IFA_contentVerticalLayoutConstraints];
 
-    // Content container view size constraints
-    [contentView removeConstraints:self.IFA_contentViewSizeConstraints];
+    // Frame view size constraints
+    UIView *frameView = self.IFA_frameView;
+    [frameView removeConstraints:self.IFA_frameViewSizeConstraints];
     CGFloat referenceScreenWidth = 320;   //wip: hardcoded - maybe this should be exposed?
     if (self.view.bounds.size.width < referenceScreenWidth) {
         referenceScreenWidth = self.view.bounds.size.width;
     }
     CGFloat horizontalMargin = 20 + 20;   //wip: hardcoded - maybe this should be exposed?
-    if (referenceScreenWidth > horizontalMargin) {
+    if (referenceScreenWidth <= horizontalMargin) {
         horizontalMargin = 0;
     }
-    CGFloat contentViewMaxWidth = referenceScreenWidth - horizontalMargin;
-    NSLayoutConstraint *contentViewMaxWidthConstraint = [NSLayoutConstraint constraintWithItem:contentView
-                                                                                  attribute:NSLayoutAttributeWidth
-                                                                                  relatedBy:NSLayoutRelationLessThanOrEqual
-                                                                                     toItem:nil
-                                                                                  attribute:NSLayoutAttributeNotAnAttribute
-                                                                                 multiplier:1
-                                                                                   constant:contentViewMaxWidth];
-    [contentView addConstraint:contentViewMaxWidthConstraint];
-    CGSize newContentViewSize = [contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
-    [contentView removeConstraint:contentViewMaxWidthConstraint];
-    self.IFA_contentViewSizeConstraints = [contentView ifa_addLayoutConstraintsForSize:newContentViewSize];
+    CGFloat frameViewMaxWidth = referenceScreenWidth - horizontalMargin;
+    NSLayoutConstraint *frameViewMaxWidthConstraint = [NSLayoutConstraint constraintWithItem:frameView
+                                                                                   attribute:NSLayoutAttributeWidth
+                                                                                   relatedBy:NSLayoutRelationLessThanOrEqual
+                                                                                      toItem:nil
+                                                                                   attribute:NSLayoutAttributeNotAnAttribute
+                                                                                  multiplier:1
+                                                                                    constant:frameViewMaxWidth];
+    [frameView addConstraint:frameViewMaxWidthConstraint];
+    CGSize newFrameViewSize = [frameView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+    [frameView removeConstraint:frameViewMaxWidthConstraint];
+    self.IFA_frameViewSizeConstraints = [frameView ifa_addLayoutConstraintsForSize:newFrameViewSize];
 
 }
 
@@ -241,6 +242,19 @@
     UIMotionEffectGroup *group = [UIMotionEffectGroup new];
     group.motionEffects = @[motionEffectX, motionEffectY];
     [self.IFA_contentView addMotionEffect:group];
+}
+
+- (UIVisualEffectView *)IFA_frameView {
+    if (!_IFA_frameView) {
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        _IFA_frameView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        _IFA_frameView.translatesAutoresizingMaskIntoConstraints = NO;
+        _IFA_frameView.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.36];
+        CALayer *layer = _IFA_frameView.layer;
+        layer.cornerRadius = 9.0;
+        layer.masksToBounds = YES;
+    }
+    return _IFA_frameView;
 }
 
 @end

@@ -18,23 +18,29 @@
 
 #pragma mark - Public
 
-- (void)showWithAnimation:(BOOL)a_animated completion:(void(^)())a_completion{
-    [self.IFA_window makeKeyAndVisible];
-    [self.IFA_window.rootViewController presentViewController:self.IFA_hudViewController
-                                                     animated:a_animated
-                                                   completion:a_completion];
+- (void)showWithAnimation:(BOOL)a_animated completion:(void (^)())a_completion {
+    if (self.IFA_window.hidden) {
+        [self.IFA_window makeKeyAndVisible];
+        [self.IFA_window.rootViewController presentViewController:self.IFA_hudViewController
+                                                         animated:a_animated
+                                                       completion:a_completion];
+    }
 
 }
 
-- (void)hideWithAnimation:(BOOL)a_animated completion:(void(^)())a_completion{
-    void(^completion)() = ^{
-        if (a_completion) {
-            a_completion();
-        }
-        [self.IFA_window resignKeyWindow];
-    };
-    [self.IFA_window.rootViewController dismissViewControllerAnimated:a_animated
-                                                           completion:completion];
+- (void)hideWithAnimation:(BOOL)a_animated completion:(void (^)())a_completion {
+    if (!self.IFA_window.hidden) {
+        __weak __typeof(self) l_weakSelf = self;
+        void(^completion)() = ^{
+            if (a_completion) {
+                a_completion();
+            }
+            [l_weakSelf.IFA_window resignKeyWindow];
+            l_weakSelf.IFA_window.hidden = YES;
+        };
+        [l_weakSelf.IFA_window.rootViewController dismissViewControllerAnimated:a_animated
+                                                                     completion:completion];
+    }
 }
 
 - (void)setText:(NSString *)text {
@@ -55,11 +61,20 @@
 }
 
 - (void)setTapActionBlock:(void (^)())tapActionBlock {
-    self.IFA_hudViewController.tapActionBlock = tapActionBlock;
+    _tapActionBlock = tapActionBlock;
+    __weak __typeof(self) l_weakSelf = self;
+    self.IFA_hudViewController.tapActionBlock = ^{
+        if (l_weakSelf.tapActionBlock) {
+            l_weakSelf.tapActionBlock();
+        }
+        if (l_weakSelf.shouldHideOnTap) {
+            [l_weakSelf hideWithAnimation:YES completion:nil];
+        }
+    };
 }
 
-- (void (^)())tapActionBlock {
-    return self.IFA_hudViewController.tapActionBlock;
+- (void)setShouldHideOnTap:(BOOL)shouldHideOnTap {
+    _shouldHideOnTap = shouldHideOnTap;
 }
 
 #pragma mark - Private

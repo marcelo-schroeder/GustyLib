@@ -1864,6 +1864,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                     hud.tapActionBlock = ^{
                         NSLog(@"hello");
                     };
+                    hud.shouldHideOnTap = YES;
                     [hud showWithAnimation:YES completion:^{
                         [IFAUtils dispatchAsyncMainThreadBlock:^{
                                     [hud hideWithAnimation:YES completion:nil];
