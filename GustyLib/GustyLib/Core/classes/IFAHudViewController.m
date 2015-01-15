@@ -39,7 +39,6 @@
     if (!_textLabel) {
         _textLabel = [UILabel new];
         _textLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _textLabel.hidden = YES;
         _textLabel.textAlignment = NSTextAlignmentCenter;
         _textLabel.numberOfLines = 0;
         _textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];   //wip: move to theme?
@@ -52,7 +51,6 @@
     if (!_detailTextLabel) {
         _detailTextLabel = [UILabel new];
         _detailTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _detailTextLabel.hidden = YES;
         _detailTextLabel.textAlignment = NSTextAlignmentCenter;
         _detailTextLabel.numberOfLines = 0;
         _detailTextLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];   //wip: move to theme?
@@ -65,7 +63,6 @@
     if (!_activityIndicatorView) {
         _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         _activityIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
-        _activityIndicatorView.hidden = YES;
         _activityIndicatorView.color = [self IFA_foregroundColour];  //wip: move to theme?
     }
     return _activityIndicatorView;
@@ -75,7 +72,6 @@
     if (!_progressView) {
         _progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
         _progressView.translatesAutoresizingMaskIntoConstraints = NO;
-        _progressView.hidden = YES;
         _progressView.progress = 0.25;  //wip: hardcoded
         _progressView.progressTintColor = [self IFA_foregroundColour];   //wip: move to theme?
         _progressView.trackTintColor = [UIColor lightGrayColor];    //wip: move to theme?
@@ -92,8 +88,14 @@
         self.modalPresentationStyle = UIModalPresentationCustom;
         self.transitioningDelegate = self.IFA_viewControllerTransitioningDelegate;
 
-        [self IFA_configureViewHierarchy];
         [self IFA_addObservers];
+
+        [self IFA_configureViewHierarchy];
+
+        self.activityIndicatorView.hidden = YES;
+        self.progressView.hidden = YES;
+        self.textLabel.hidden = YES;
+        self.detailTextLabel.hidden = YES;
 
     }
     return self;
@@ -110,16 +112,13 @@
     [self IFA_addMotionEffects];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.activityIndicatorView startAnimating];    //wip: is this in the right place?
-}
-
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change
                        context:(void *)context {
-    if ([keyPath isEqualToString:@"text"]) {
-        UILabel *label = object;
-        label.hidden = change[NSKeyValueChangeNewKey]==[NSNull null];
+    if ([keyPath isEqualToString:@"text"] || [keyPath isEqualToString:@"hidden"]) {
+        if ([keyPath isEqualToString:@"text"]) {
+            UILabel *label = object;
+            label.hidden = change[NSKeyValueChangeNewKey]==[NSNull null];
+        }
         [self IFA_updateContentViewLayoutConstraints];
     }
 }
@@ -350,13 +349,31 @@
 }
 
 - (void)IFA_addObservers {
+
+    // "text" observations
     [self.textLabel addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
     [self.detailTextLabel addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
+
+    // "hidden" observations
+    [self.activityIndicatorView addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
+    [self.progressView addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
+    [self.textLabel addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
+    [self.detailTextLabel addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
+
 }
 
 - (void)IFA_removeObservers {
+
+    // "text" observations
     [self.textLabel removeObserver:self forKeyPath:@"text" context:nil];
     [self.detailTextLabel removeObserver:self forKeyPath:@"text" context:nil];
+
+    // "hidden" observations
+    [self.activityIndicatorView removeObserver:self forKeyPath:@"hidden" context:nil];
+    [self.progressView removeObserver:self forKeyPath:@"hidden" context:nil];
+    [self.textLabel removeObserver:self forKeyPath:@"hidden" context:nil];
+    [self.detailTextLabel removeObserver:self forKeyPath:@"hidden" context:nil];
+
 }
 
 @end
