@@ -6,9 +6,13 @@
 #import "GustyLibCore.h"
 
 //wip: does the dynamic font stuff work?
+//wip: test rotation again when some serious blurring is available (e.g. map view)
+//wip: I'm relying on the dimming plumming - I am going to use a dimmed bg? Clean up.
 @interface IFAHudViewController ()
 @property(nonatomic, strong) id <UIViewControllerTransitioningDelegate> IFA_viewControllerTransitioningDelegate;
-@property(nonatomic, strong) UIVisualEffectView *IFA_frameView;
+@property(nonatomic, strong) UIView *IFA_frameView;
+@property(nonatomic, strong) UIVisualEffectView *IFA_blurEffectView;
+@property(nonatomic, strong) UIVisualEffectView *IFA_vibrancyEffectView;
 @property(nonatomic, strong) UIView *IFA_contentView;
 @property (nonatomic, strong) UILabel *IFA_textLabel;
 @property (nonatomic, strong) UILabel *IFA_detailTextLabel;
@@ -49,20 +53,9 @@
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-
         self.modalPresentationStyle = UIModalPresentationCustom;
         self.transitioningDelegate = self.IFA_viewControllerTransitioningDelegate;
-
-        [self.IFA_contentView addSubview:self.IFA_activityIndicatorView];
-        [self.IFA_contentView addSubview:self.IFA_progressView];
-        [self.IFA_contentView addSubview:self.IFA_textLabel];
-        [self.IFA_contentView addSubview:self.IFA_detailTextLabel];
-        [self.view addSubview:self.IFA_frameView];
-        [self.IFA_frameView ifa_addLayoutConstraintsToCenterInSuperview];
-        [self.IFA_frameView.contentView addSubview:self.IFA_contentView];
-        [self.IFA_contentView ifa_addLayoutConstraintsToFillSuperview];
-        [self.IFA_frameView addGestureRecognizer:self.IFA_tapGestureRecognizer];
-
+        [self IFA_configureViewHierarchy];
     }
     return self;
 }
@@ -123,7 +116,7 @@
     if (!_IFA_activityIndicatorView) {
         _IFA_activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         _IFA_activityIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
-        _IFA_activityIndicatorView.color = [UIColor blackColor];
+//        _IFA_activityIndicatorView.color = [UIColor blackColor];  //wip: move to theme?
     }
     return _IFA_activityIndicatorView;
 }
@@ -244,17 +237,60 @@
     [self.IFA_contentView addMotionEffect:group];
 }
 
-- (UIVisualEffectView *)IFA_frameView {
+- (UIVisualEffectView *)IFA_blurEffectView {
+    if (!_IFA_blurEffectView) {
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        _IFA_blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        _IFA_blurEffectView.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _IFA_blurEffectView;
+}
+
+- (UIVisualEffectView *)IFA_vibrancyEffectView {
+    if (!_IFA_vibrancyEffectView) {
+        UIVibrancyEffect *vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:(UIBlurEffect *) self.IFA_blurEffectView.effect];
+        _IFA_vibrancyEffectView = [[UIVisualEffectView alloc] initWithEffect:vibrancyEffect];
+        _IFA_vibrancyEffectView.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _IFA_vibrancyEffectView;
+}
+
+- (UIView *)IFA_frameView {
     if (!_IFA_frameView) {
-        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-        _IFA_frameView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        _IFA_frameView = [UIView new];
         _IFA_frameView.translatesAutoresizingMaskIntoConstraints = NO;
-        _IFA_frameView.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.36];
-        CALayer *layer = _IFA_frameView.layer;
+        CALayer *layer = _IFA_blurEffectView.layer;
         layer.cornerRadius = 9.0;
         layer.masksToBounds = YES;
+        [_IFA_frameView addGestureRecognizer:self.IFA_tapGestureRecognizer];
     }
     return _IFA_frameView;
+}
+
+- (void)IFA_configureViewHierarchy {
+
+    // Content views
+    [self.IFA_contentView addSubview:self.IFA_activityIndicatorView];
+    [self.IFA_contentView addSubview:self.IFA_progressView];
+    [self.IFA_contentView addSubview:self.IFA_textLabel];
+    [self.IFA_contentView addSubview:self.IFA_detailTextLabel];
+
+    // Content container view
+    [self.IFA_vibrancyEffectView.contentView addSubview:self.IFA_contentView];
+    [self.IFA_contentView ifa_addLayoutConstraintsToFillSuperview];
+
+    // Vibrancy effect view
+    [self.IFA_blurEffectView.contentView addSubview:self.IFA_vibrancyEffectView];
+    [self.IFA_vibrancyEffectView ifa_addLayoutConstraintsToFillSuperview];
+
+    // Blur effect view
+    [self.IFA_frameView addSubview:self.IFA_blurEffectView];
+    [self.IFA_blurEffectView ifa_addLayoutConstraintsToFillSuperview];
+
+    // Frame view
+    [self.view addSubview:self.IFA_frameView];
+    [self.IFA_frameView ifa_addLayoutConstraintsToCenterInSuperview];
+
 }
 
 @end

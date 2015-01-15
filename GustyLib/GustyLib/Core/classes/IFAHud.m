@@ -18,7 +18,7 @@
 
 #pragma mark - Public
 
-- (void)showWithAnimation:(BOOL)a_animated completion:(void (^)())a_completion {
+- (void)showWithAnimation:(BOOL)a_animated completion:(void (^)())a_completion {    //wip: is animation going to work with the blur thing?
     if (self.IFA_window.hidden) {
         [self.IFA_window makeKeyAndVisible];
         [self.IFA_window.rootViewController presentViewController:self.IFA_hudViewController
