@@ -126,7 +126,8 @@
         _IFA_progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
         _IFA_progressView.translatesAutoresizingMaskIntoConstraints = NO;
         _IFA_progressView.progress = 0.25;  //wip: hardcoded
-        _IFA_progressView.progressTintColor = [UIColor blackColor];   //wip: move to theme?
+//        _IFA_progressView.progressTintColor = [UIColor blackColor];   //wip: move to theme?
+        _IFA_progressView.trackTintColor = [UIColor clearColor];    //wip: move to theme?
     }
     return _IFA_progressView;
 }
