@@ -5,7 +5,6 @@
 
 #import "GustyLibCore.h"
 
-//wip: handle rotation now?
 //wip: does the dynamic font stuff work?
 @interface IFAHudViewController ()
 @property(nonatomic, strong) id <UIViewControllerTransitioningDelegate> IFA_viewControllerTransitioningDelegate;
@@ -206,7 +205,15 @@
 
     // Content container view size constraints
     [contentView removeConstraints:self.IFA_contentViewSizeConstraints];
-    CGFloat contentViewMaxWidth = self.view.bounds.size.width - 20 - 20;   //wip: hardcoded
+    CGFloat referenceScreenWidth = 320;   //wip: hardcoded - maybe this should be exposed?
+    if (self.view.bounds.size.width < referenceScreenWidth) {
+        referenceScreenWidth = self.view.bounds.size.width;
+    }
+    CGFloat horizontalMargin = 20 + 20;   //wip: hardcoded - maybe this should be exposed?
+    if (referenceScreenWidth > horizontalMargin) {
+        horizontalMargin = 0;
+    }
+    CGFloat contentViewMaxWidth = referenceScreenWidth - horizontalMargin;
     NSLayoutConstraint *contentViewMaxWidthConstraint = [NSLayoutConstraint constraintWithItem:contentView
                                                                                   attribute:NSLayoutAttributeWidth
                                                                                   relatedBy:NSLayoutRelationLessThanOrEqual
