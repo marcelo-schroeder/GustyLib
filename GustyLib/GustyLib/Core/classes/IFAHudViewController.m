@@ -8,6 +8,7 @@
 //wip: does the dynamic font stuff work?
 //wip: test rotation again when some serious blurring is available (e.g. map view)
 //wip: I'm relying on the dimming plumming - I am going to use a dimmed bg? Clean up.
+//wip: does the motion stuff has to respect accessibility settings?
 @interface IFAHudViewController ()
 @property(nonatomic, strong) id <UIViewControllerTransitioningDelegate> IFA_viewControllerTransitioningDelegate;
 @property(nonatomic, strong) UIView *IFA_frameView;

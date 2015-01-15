@@ -62,19 +62,12 @@
 
 - (void)setTapActionBlock:(void (^)())tapActionBlock {
     _tapActionBlock = tapActionBlock;
-    __weak __typeof(self) l_weakSelf = self;
-    self.IFA_hudViewController.tapActionBlock = ^{
-        if (l_weakSelf.tapActionBlock) {
-            l_weakSelf.tapActionBlock();
-        }
-        if (l_weakSelf.shouldHideOnTap) {
-            [l_weakSelf hideWithAnimation:YES completion:nil];
-        }
-    };
+    [self IFA_updateHudViewControllerTapActionBlock];
 }
 
 - (void)setShouldHideOnTap:(BOOL)shouldHideOnTap {
     _shouldHideOnTap = shouldHideOnTap;
+    [self IFA_updateHudViewControllerTapActionBlock];
 }
 
 #pragma mark - Private
@@ -94,6 +87,18 @@
         _IFA_hudViewController = [IFAHudViewController new];
     }
     return _IFA_hudViewController;
+}
+
+- (void)IFA_updateHudViewControllerTapActionBlock {
+    __weak __typeof(self) l_weakSelf = self;
+    self.IFA_hudViewController.tapActionBlock = ^{
+        if (l_weakSelf.tapActionBlock) {
+            l_weakSelf.tapActionBlock();
+        }
+        if (l_weakSelf.shouldHideOnTap) {
+            [l_weakSelf hideWithAnimation:YES completion:nil];
+        }
+    };
 }
 
 @end
