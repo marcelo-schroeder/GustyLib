@@ -15,13 +15,13 @@
 //@property(nonatomic, strong) UIVisualEffectView *IFA_blurEffectView;  //wip: clean up stuff related to visual effects (lots of comments)
 //@property(nonatomic, strong) UIVisualEffectView *IFA_vibrancyEffectView;
 @property(nonatomic, strong) UIView *IFA_contentView;
-@property (nonatomic, strong) UILabel *IFA_textLabel;
-@property (nonatomic, strong) UILabel *IFA_detailTextLabel;
+@property (nonatomic, strong) UILabel *textLabel;
+@property (nonatomic, strong) UILabel *detailTextLabel;
 @property(nonatomic, strong) NSMutableArray *IFA_contentHorizontalLayoutConstraints;
 @property(nonatomic, strong) NSArray *IFA_contentVerticalLayoutConstraints;
 @property(nonatomic, strong) NSArray *IFA_frameViewSizeConstraints;
-@property(nonatomic, strong) UIActivityIndicatorView *IFA_activityIndicatorView;
-@property(nonatomic, strong) UIProgressView *IFA_progressView;
+@property(nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
+@property(nonatomic, strong) UIProgressView *progressView;
 @property (nonatomic, strong) UITapGestureRecognizer *IFA_tapGestureRecognizer;
 @end
 
@@ -31,22 +31,52 @@
 
 #pragma mark - Public
 
-- (void)setText:(NSString *)text {
-    _text = text;
-    self.IFA_textLabel.text = _text;
-    [self.IFA_textLabel sizeToFit];
-    [self IFA_updateContentViewLayoutConstraints];
-}
-
-- (void)setDetailText:(NSString *)detailText {
-    _detailText = detailText;
-    self.IFA_detailTextLabel.text = _detailText;
-    [self.IFA_detailTextLabel sizeToFit];
-    [self IFA_updateContentViewLayoutConstraints];
-}
-
 - (void)setTapActionBlock:(void (^)())tapActionBlock {
     _tapActionBlock = tapActionBlock;
+}
+
+- (UILabel *)textLabel {
+    if (!_textLabel) {
+        _textLabel = [UILabel new];
+        _textLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _textLabel.textAlignment = NSTextAlignmentCenter;
+        _textLabel.numberOfLines = 0;
+        _textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];   //wip: move to theme?
+        _textLabel.textColor = [self IFA_foregroundColour];   //wip: move to theme?
+    }
+    return _textLabel;
+}
+
+- (UILabel *)detailTextLabel {
+    if (!_detailTextLabel) {
+        _detailTextLabel = [UILabel new];
+        _detailTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _detailTextLabel.textAlignment = NSTextAlignmentCenter;
+        _detailTextLabel.numberOfLines = 0;
+        _detailTextLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];   //wip: move to theme?
+        _detailTextLabel.textColor = [self IFA_foregroundColour];   //wip: move to theme?
+    }
+    return _detailTextLabel;
+}
+
+- (UIActivityIndicatorView *)activityIndicatorView {
+    if (!_activityIndicatorView) {
+        _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        _activityIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
+        _activityIndicatorView.color = [self IFA_foregroundColour];  //wip: move to theme?
+    }
+    return _activityIndicatorView;
+}
+
+- (UIProgressView *)progressView {
+    if (!_progressView) {
+        _progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+        _progressView.translatesAutoresizingMaskIntoConstraints = NO;
+        _progressView.progress = 0.25;  //wip: hardcoded
+        _progressView.progressTintColor = [self IFA_foregroundColour];   //wip: move to theme?
+        _progressView.trackTintColor = [UIColor lightGrayColor];    //wip: move to theme?
+    }
+    return _progressView;
 }
 
 #pragma mark - Overrides
@@ -57,8 +87,13 @@
         self.modalPresentationStyle = UIModalPresentationCustom;
         self.transitioningDelegate = self.IFA_viewControllerTransitioningDelegate;
         [self IFA_configureViewHierarchy];
+        [self IFA_addObservers];
     }
     return self;
+}
+
+- (void)dealloc {
+    [self IFA_removeObservers];
 }
 
 - (void)viewDidLoad {
@@ -70,7 +105,16 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.IFA_activityIndicatorView startAnimating];
+    [self.activityIndicatorView startAnimating];    //wip: is this in the right place?
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change
+                       context:(void *)context {
+    if ([keyPath isEqualToString:@"text"]) {
+        UILabel *label = object;
+        label.hidden = change[NSKeyValueChangeNewKey]==[NSNull null];
+        [self IFA_updateContentViewLayoutConstraints];
+    }
 }
 
 #pragma mark - Private
@@ -89,50 +133,6 @@
         _IFA_contentView.backgroundColor = [UIColor clearColor];
     }
     return _IFA_contentView;
-}
-
-- (UILabel *)IFA_textLabel {
-    if (!_IFA_textLabel) {
-        _IFA_textLabel = [UILabel new];
-        _IFA_textLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _IFA_textLabel.textAlignment = NSTextAlignmentCenter;
-        _IFA_textLabel.numberOfLines = 0;
-        _IFA_textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];   //wip: move to theme?
-        _IFA_textLabel.textColor = [self IFA_foregroundColour];   //wip: move to theme?
-    }
-    return _IFA_textLabel;
-}
-
-- (UILabel *)IFA_detailTextLabel {
-    if (!_IFA_detailTextLabel) {
-        _IFA_detailTextLabel = [UILabel new];
-        _IFA_detailTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _IFA_detailTextLabel.textAlignment = NSTextAlignmentCenter;
-        _IFA_detailTextLabel.numberOfLines = 0;
-        _IFA_detailTextLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];   //wip: move to theme?
-        _IFA_detailTextLabel.textColor = [self IFA_foregroundColour];   //wip: move to theme?
-    }
-    return _IFA_detailTextLabel;
-}
-
-- (UIActivityIndicatorView *)IFA_activityIndicatorView {
-    if (!_IFA_activityIndicatorView) {
-        _IFA_activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        _IFA_activityIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
-        _IFA_activityIndicatorView.color = [self IFA_foregroundColour];  //wip: move to theme?
-    }
-    return _IFA_activityIndicatorView;
-}
-
-- (UIProgressView *)IFA_progressView {
-    if (!_IFA_progressView) {
-        _IFA_progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
-        _IFA_progressView.translatesAutoresizingMaskIntoConstraints = NO;
-        _IFA_progressView.progress = 0.25;  //wip: hardcoded
-        _IFA_progressView.progressTintColor = [self IFA_foregroundColour];   //wip: move to theme?
-        _IFA_progressView.trackTintColor = [UIColor lightGrayColor];    //wip: move to theme?
-    }
-    return _IFA_progressView;
 }
 
 - (UITapGestureRecognizer *)IFA_tapGestureRecognizer {
@@ -159,40 +159,60 @@
 - (void)IFA_updateContentViewLayoutConstraints {
 
     UIView *contentView = self.IFA_contentView;
-    UIActivityIndicatorView *activityIndicatorView = self.IFA_activityIndicatorView;
-    UIProgressView *progressView = self.IFA_progressView;
-    UILabel *textLabel = self.IFA_textLabel;
-    UILabel *detailTextLabel = self.IFA_detailTextLabel;
+    UIActivityIndicatorView *activityIndicatorView = self.activityIndicatorView;
+    UIProgressView *progressView = self.progressView;
+    UILabel *textLabel = self.textLabel;
+    UILabel *detailTextLabel = self.detailTextLabel;
     NSDictionary *views = NSDictionaryOfVariableBindings(activityIndicatorView, progressView, textLabel, detailTextLabel);
+
+    // Update label sizes
+    [self.textLabel sizeToFit];
+    [self.detailTextLabel sizeToFit];
 
     // Content horizontal layout constraints
     [contentView removeConstraints:self.IFA_contentHorizontalLayoutConstraints];
     [self.IFA_contentHorizontalLayoutConstraints removeAllObjects];
-    [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[activityIndicatorView]-(>=8)-|"
-                                                                                                             options:NSLayoutFormatAlignAllCenterY
-                                                                                                             metrics:nil
-                                                                                                               views:views]];
-    [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[progressView]-|"
-                                                                                                             options:NSLayoutFormatAlignAllCenterY
-                                                                                                             metrics:nil
-                                                                                                               views:views]];
-    [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[textLabel]-(>=8)-|"
-                                                                                                             options:NSLayoutFormatAlignAllCenterY
-                                                                                                             metrics:nil
-                                                                                                               views:views]];
-    [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[detailTextLabel]-(>=8)-|"
-                                                                                                             options:NSLayoutFormatAlignAllCenterY
-                                                                                                             metrics:nil
-                                                                                                               views:views]];
+    if (!self.activityIndicatorView.hidden) {
+        [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[activityIndicatorView]-(>=8)-|"
+                                                                                                                 options:NSLayoutFormatAlignAllCenterY
+                                                                                                                 metrics:nil
+                                                                                                                   views:views]];
+    }
+    if (!self.progressView.hidden) {
+        [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[progressView]-|"
+                                                                                                                 options:NSLayoutFormatAlignAllCenterY
+                                                                                                                 metrics:nil
+                                                                                                                   views:views]];
+    }
+    if (!self.textLabel.hidden) {
+        [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[textLabel]-(>=8)-|"
+                                                                                                                 options:NSLayoutFormatAlignAllCenterY
+                                                                                                                 metrics:nil
+                                                                                                                   views:views]];
+    }
+    if (!self.detailTextLabel.hidden) {
+        [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[detailTextLabel]-(>=8)-|"
+                                                                                                                 options:NSLayoutFormatAlignAllCenterY
+                                                                                                                 metrics:nil
+                                                                                                                   views:views]];
+    }
     [contentView addConstraints:self.IFA_contentHorizontalLayoutConstraints];
 
     // Content vertical layout constraints
     [contentView removeConstraints:self.IFA_contentVerticalLayoutConstraints];
     NSMutableString *contentVerticalLayoutConstraintsVisualFormat = [@"V:|" mutableCopy];
-    [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[activityIndicatorView]"];
-    [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[progressView]"];
-    [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[textLabel]"];
-    [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[detailTextLabel]"];
+    if (!self.activityIndicatorView.hidden) {
+        [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[activityIndicatorView]"];
+    }
+    if (!self.progressView.hidden) {
+        [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[progressView]"];
+    }
+    if (!self.textLabel.hidden) {
+        [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[textLabel]"];
+    }
+    if (!self.detailTextLabel.hidden) {
+        [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[detailTextLabel]"];
+    }
     [contentVerticalLayoutConstraintsVisualFormat appendString:@"-|"];
     self.IFA_contentVerticalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:contentVerticalLayoutConstraintsVisualFormat
                                                                         options:NSLayoutFormatAlignAllCenterX
@@ -238,7 +258,7 @@
     motionEffectY.minimumRelativeValue = @(-offset);
     UIMotionEffectGroup *group = [UIMotionEffectGroup new];
     group.motionEffects = @[motionEffectX, motionEffectY];
-    [self.IFA_contentView addMotionEffect:group];
+    [self.IFA_frameView addMotionEffect:group];
 }
 
 //- (UIVisualEffectView *)IFA_blurEffectView {
@@ -275,10 +295,10 @@
 - (void)IFA_configureViewHierarchy {
 
     // Content views
-    [self.IFA_contentView addSubview:self.IFA_activityIndicatorView];
-    [self.IFA_contentView addSubview:self.IFA_progressView];
-    [self.IFA_contentView addSubview:self.IFA_textLabel];
-    [self.IFA_contentView addSubview:self.IFA_detailTextLabel];
+    [self.IFA_contentView addSubview:self.activityIndicatorView];
+    [self.IFA_contentView addSubview:self.progressView];
+    [self.IFA_contentView addSubview:self.textLabel];
+    [self.IFA_contentView addSubview:self.detailTextLabel];
 
     // Content container view
     [self.IFA_frameView addSubview:self.IFA_contentView];
@@ -308,6 +328,16 @@
 
 - (UIColor *)IFA_backgroundColour{
     return [UIColor whiteColor];
+}
+
+- (void)IFA_addObservers {
+    [self.textLabel addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
+    [self.detailTextLabel addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)IFA_removeObservers {
+    [self.textLabel removeObserver:self forKeyPath:@"text" context:nil];
+    [self.detailTextLabel removeObserver:self forKeyPath:@"text" context:nil];
 }
 
 @end

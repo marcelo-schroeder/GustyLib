@@ -44,20 +44,20 @@
 }
 
 - (void)setText:(NSString *)text {
-    self.IFA_hudViewController.text = text;
+    self.IFA_hudViewController.textLabel.text = text;
 }
 
 - (NSString *)text {
-    return self.IFA_hudViewController.text;
+    return self.IFA_hudViewController.textLabel.text;
 }
 
 
 - (void)setDetailText:(NSString *)detailText {
-    self.IFA_hudViewController.detailText = detailText;
+    self.IFA_hudViewController.detailTextLabel.text = detailText;
 }
 
 - (NSString *)detailText {
-    return self.IFA_hudViewController.detailText;
+    return self.IFA_hudViewController.detailTextLabel.text;
 }
 
 - (void)setTapActionBlock:(void (^)())tapActionBlock {
@@ -68,6 +68,18 @@
 - (void)setShouldHideOnTap:(BOOL)shouldHideOnTap {
     _shouldHideOnTap = shouldHideOnTap;
     [self IFA_updateHudViewControllerTapActionBlock];
+}
+
+#pragma mark - Overrides
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        // Trigger setters which will do some initialisation
+        self.text = nil;
+        self.detailText = nil;
+    }
+   return self;
 }
 
 #pragma mark - Private

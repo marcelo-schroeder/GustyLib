@@ -8,7 +8,9 @@
 
 //wip: add documentation
 @interface IFAHudViewController : IFAViewController
-@property (nonatomic, strong) NSString *text;
-@property (nonatomic, strong) NSString *detailText;
 @property (nonatomic, strong) void (^tapActionBlock) ();
+@property(nonatomic, strong, readonly) UIActivityIndicatorView *activityIndicatorView;
+@property(nonatomic, strong, readonly) UIProgressView *progressView;
+@property (nonatomic, strong, readonly) UILabel *textLabel;
+@property (nonatomic, strong, readonly) UILabel *detailTextLabel;
 @end
