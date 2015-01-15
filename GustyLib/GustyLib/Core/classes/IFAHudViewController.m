@@ -11,8 +11,8 @@
 @interface IFAHudViewController ()
 @property(nonatomic, strong) id <UIViewControllerTransitioningDelegate> IFA_viewControllerTransitioningDelegate;
 @property(nonatomic, strong) UIView *IFA_frameView;
-@property(nonatomic, strong) UIVisualEffectView *IFA_blurEffectView;
-@property(nonatomic, strong) UIVisualEffectView *IFA_vibrancyEffectView;
+//@property(nonatomic, strong) UIVisualEffectView *IFA_blurEffectView;  //wip: clean up stuff related to visual effects (lots of comments)
+//@property(nonatomic, strong) UIVisualEffectView *IFA_vibrancyEffectView;
 @property(nonatomic, strong) UIView *IFA_contentView;
 @property (nonatomic, strong) UILabel *IFA_textLabel;
 @property (nonatomic, strong) UILabel *IFA_detailTextLabel;
@@ -97,6 +97,7 @@
         _IFA_textLabel.textAlignment = NSTextAlignmentCenter;
         _IFA_textLabel.numberOfLines = 0;
         _IFA_textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];   //wip: move to theme?
+        _IFA_textLabel.textColor = [self IFA_foregroundColour];   //wip: move to theme?
     }
     return _IFA_textLabel;
 }
@@ -108,6 +109,7 @@
         _IFA_detailTextLabel.textAlignment = NSTextAlignmentCenter;
         _IFA_detailTextLabel.numberOfLines = 0;
         _IFA_detailTextLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];   //wip: move to theme?
+        _IFA_detailTextLabel.textColor = [self IFA_foregroundColour];   //wip: move to theme?
     }
     return _IFA_detailTextLabel;
 }
@@ -116,7 +118,7 @@
     if (!_IFA_activityIndicatorView) {
         _IFA_activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         _IFA_activityIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
-//        _IFA_activityIndicatorView.color = [UIColor blackColor];  //wip: move to theme?
+        _IFA_activityIndicatorView.color = [self IFA_foregroundColour];  //wip: move to theme?
     }
     return _IFA_activityIndicatorView;
 }
@@ -126,8 +128,8 @@
         _IFA_progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
         _IFA_progressView.translatesAutoresizingMaskIntoConstraints = NO;
         _IFA_progressView.progress = 0.25;  //wip: hardcoded
-//        _IFA_progressView.progressTintColor = [UIColor blackColor];   //wip: move to theme?
-        _IFA_progressView.trackTintColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];    //wip: move to theme?
+        _IFA_progressView.progressTintColor = [self IFA_foregroundColour];   //wip: move to theme?
+        _IFA_progressView.trackTintColor = [UIColor lightGrayColor];    //wip: move to theme?
     }
     return _IFA_progressView;
 }
@@ -238,29 +240,30 @@
     [self.IFA_contentView addMotionEffect:group];
 }
 
-- (UIVisualEffectView *)IFA_blurEffectView {
-    if (!_IFA_blurEffectView) {
-        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-        _IFA_blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-        _IFA_blurEffectView.translatesAutoresizingMaskIntoConstraints = NO;
-    }
-    return _IFA_blurEffectView;
-}
+//- (UIVisualEffectView *)IFA_blurEffectView {
+//    if (!_IFA_blurEffectView) {
+//        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+//        _IFA_blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+//        _IFA_blurEffectView.translatesAutoresizingMaskIntoConstraints = NO;
+//    }
+//    return _IFA_blurEffectView;
+//}
 
-- (UIVisualEffectView *)IFA_vibrancyEffectView {
-    if (!_IFA_vibrancyEffectView) {
-        UIVibrancyEffect *vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:(UIBlurEffect *) self.IFA_blurEffectView.effect];
-        _IFA_vibrancyEffectView = [[UIVisualEffectView alloc] initWithEffect:vibrancyEffect];
-        _IFA_vibrancyEffectView.translatesAutoresizingMaskIntoConstraints = NO;
-    }
-    return _IFA_vibrancyEffectView;
-}
+//- (UIVisualEffectView *)IFA_vibrancyEffectView {
+//    if (!_IFA_vibrancyEffectView) {
+//        UIVibrancyEffect *vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:(UIBlurEffect *) self.IFA_blurEffectView.effect];
+//        _IFA_vibrancyEffectView = [[UIVisualEffectView alloc] initWithEffect:vibrancyEffect];
+//        _IFA_vibrancyEffectView.translatesAutoresizingMaskIntoConstraints = NO;
+//    }
+//    return _IFA_vibrancyEffectView;
+//}
 
 - (UIView *)IFA_frameView {
     if (!_IFA_frameView) {
         _IFA_frameView = [UIView new];
         _IFA_frameView.translatesAutoresizingMaskIntoConstraints = NO;
-        CALayer *layer = _IFA_blurEffectView.layer;
+        _IFA_frameView.backgroundColor = [[self IFA_backgroundColour] colorWithAlphaComponent:0.95];    //wip: move to theme
+        CALayer *layer = _IFA_frameView.layer;
         layer.cornerRadius = 9.0;
         layer.masksToBounds = YES;
         [_IFA_frameView addGestureRecognizer:self.IFA_tapGestureRecognizer];
@@ -277,21 +280,33 @@
     [self.IFA_contentView addSubview:self.IFA_detailTextLabel];
 
     // Content container view
-    [self.IFA_vibrancyEffectView.contentView addSubview:self.IFA_contentView];
+    [self.IFA_frameView addSubview:self.IFA_contentView];
     [self.IFA_contentView ifa_addLayoutConstraintsToFillSuperview];
 
-    // Vibrancy effect view
-    [self.IFA_blurEffectView.contentView addSubview:self.IFA_vibrancyEffectView];
-    [self.IFA_vibrancyEffectView ifa_addLayoutConstraintsToFillSuperview];
+//    // Content container view
+//    [self.IFA_vibrancyEffectView.contentView addSubview:self.IFA_contentView];
+//    [self.IFA_contentView ifa_addLayoutConstraintsToFillSuperview];
 
-    // Blur effect view
-    [self.IFA_frameView addSubview:self.IFA_blurEffectView];
-    [self.IFA_blurEffectView ifa_addLayoutConstraintsToFillSuperview];
+//    // Vibrancy effect view
+//    [self.IFA_blurEffectView.contentView addSubview:self.IFA_vibrancyEffectView];
+//    [self.IFA_vibrancyEffectView ifa_addLayoutConstraintsToFillSuperview];
+
+//    // Blur effect view
+//    [self.IFA_frameView addSubview:self.IFA_blurEffectView];
+//    [self.IFA_blurEffectView ifa_addLayoutConstraintsToFillSuperview];
 
     // Frame view
     [self.view addSubview:self.IFA_frameView];
     [self.IFA_frameView ifa_addLayoutConstraintsToCenterInSuperview];
 
+}
+
+- (UIColor *)IFA_foregroundColour{
+    return [UIColor blackColor];
+}
+
+- (UIColor *)IFA_backgroundColour{
+    return [UIColor whiteColor];
 }
 
 @end
