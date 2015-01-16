@@ -107,6 +107,22 @@
     self.IFA_hudViewController.frameViewLayoutFittingSize = frameViewLayoutFittingMode == IFAHudFrameViewLayoutFittingModeExpanded ? UILayoutFittingExpandedSize : UILayoutFittingCompressedSize;
 }
 
+- (NSTimeInterval)presentationTransitionDuration {
+    return self.IFA_hudViewController.viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.presentationTransitionDuration;
+}
+
+- (void)setPresentationTransitionDuration:(NSTimeInterval)presentationTransitionDuration {
+    self.IFA_hudViewController.viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.presentationTransitionDuration = presentationTransitionDuration;
+}
+
+- (NSTimeInterval)dismissalTransitionDuration {
+    return self.IFA_hudViewController.viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.dismissalTransitionDuration;
+}
+
+- (void)setDismissalTransitionDuration:(NSTimeInterval)dismissalTransitionDuration {
+    self.IFA_hudViewController.viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.dismissalTransitionDuration = dismissalTransitionDuration;
+}
+
 #pragma mark - Private
 
 - (UIWindow *)IFA_window {

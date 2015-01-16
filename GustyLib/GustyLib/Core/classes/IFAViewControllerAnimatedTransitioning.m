@@ -34,6 +34,8 @@
                               completionBlock:(IFAViewControllerAnimatedTransitioningCompletionBlock)a_completionBlock {
     self = [super init];
     if (self) {
+        self.presentationTransitionDuration = 1;
+        self.dismissalTransitionDuration = 1;
         self.IFA_beforeAnimationsBlock = a_beforeAnimationsBlock;
         self.IFA_animationsBlock = a_animationsBlock;
         self.IFA_completionBlock = a_completionBlock;
@@ -44,7 +46,7 @@
 #pragma mark - UIViewControllerAnimatedTransitioning
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext {
-    return 1;
+    return self.isPresenting ? self.presentationTransitionDuration : self.dismissalTransitionDuration;
 }
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext {

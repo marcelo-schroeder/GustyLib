@@ -26,6 +26,12 @@
 @interface IFAViewControllerTransitioningDelegate : NSObject <UIViewControllerTransitioningDelegate>
 
 /**
+* Underlying view controller transitioning delegate.
+* The instance returned here can be used to set properties on for changing behaviour.
+*/
+@property (nonatomic, strong, readonly) IFAViewControllerAnimatedTransitioning *viewControllerAnimatedTransitioning;
+
+/**
 * Designated initializer.
 * @param a_viewControllerAnimatedTransitioning A view controller animated transitioning object.
 */

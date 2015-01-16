@@ -10,7 +10,7 @@
 //wip: I'm relying on the dimming plumming - I am going to use a dimmed bg? Clean up.
 //wip: does the motion stuff has to respect accessibility settings?
 @interface IFAHudViewController ()
-@property(nonatomic, strong) id <UIViewControllerTransitioningDelegate> IFA_viewControllerTransitioningDelegate;
+@property(nonatomic, strong) IFAViewControllerTransitioningDelegate *viewControllerTransitioningDelegate;
 @property(nonatomic, strong) UIView *IFA_frameView;
 //@property(nonatomic, strong) UIVisualEffectView *IFA_blurEffectView;  //wip: clean up stuff related to visual effects (lots of comments)
 //@property(nonatomic, strong) UIVisualEffectView *IFA_vibrancyEffectView;
@@ -91,7 +91,7 @@
         self.frameViewLayoutFittingSize = UILayoutFittingCompressedSize;
 
         self.modalPresentationStyle = UIModalPresentationCustom;
-        self.transitioningDelegate = self.IFA_viewControllerTransitioningDelegate;
+        self.transitioningDelegate = self.viewControllerTransitioningDelegate;
 
         [self IFA_addObservers];
 
@@ -126,11 +126,13 @@
 
 #pragma mark - Private
 
-- (IFAViewControllerTransitioningDelegate *)IFA_viewControllerTransitioningDelegate {
-    if (!_IFA_viewControllerTransitioningDelegate) {
-        _IFA_viewControllerTransitioningDelegate = [IFADimmedFadingOverlayViewControllerTransitioningDelegate new];
+- (IFAViewControllerTransitioningDelegate *)viewControllerTransitioningDelegate {
+    if (!_viewControllerTransitioningDelegate) {
+        _viewControllerTransitioningDelegate = [IFADimmedFadingOverlayViewControllerTransitioningDelegate new];
+        _viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.presentationTransitionDuration = 0.3;
+        _viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.dismissalTransitionDuration = 1;
     }
-    return _IFA_viewControllerTransitioningDelegate;
+    return _viewControllerTransitioningDelegate;
 }
 
 - (UIView *)IFA_contentView {

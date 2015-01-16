@@ -8,10 +8,14 @@
 
 //wip: add documentation
 @interface IFAHudViewController : IFAViewController
-@property (nonatomic, strong) void (^tapActionBlock) ();
+
 @property(nonatomic, strong, readonly) UIActivityIndicatorView *activityIndicatorView;
 @property(nonatomic, strong, readonly) UIProgressView *progressView;
 @property (nonatomic, strong, readonly) UILabel *textLabel;
 @property (nonatomic, strong, readonly) UILabel *detailTextLabel;
+@property(nonatomic, strong, readonly) IFAViewControllerTransitioningDelegate *viewControllerTransitioningDelegate;
+
+@property (nonatomic, strong) void (^tapActionBlock) ();
 @property(nonatomic) CGSize frameViewLayoutFittingSize;
+
 @end

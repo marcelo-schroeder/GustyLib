@@ -41,6 +41,17 @@ typedef enum {
 
 @property (nonatomic) BOOL shouldHideOnTap;
 
+/**
+* Duration (in seconds) of the presentation's transition animation.
+*/
+@property(nonatomic) NSTimeInterval presentationTransitionDuration;
+
+
+/**
+* Duration (in seconds) of the dismissal's transition animation.
+*/
+@property(nonatomic) NSTimeInterval dismissalTransitionDuration;
+
 - (void)showWithAnimation:(BOOL)a_animated completion:(void(^)())a_completion;
 - (void)hideWithAnimation:(BOOL)a_animated completion:(void(^)())a_completion;
 

@@ -33,6 +33,17 @@ typedef void (^IFAViewControllerAnimatedTransitioningCompletionBlock)(BOOL a_fin
 @property (nonatomic) BOOL isPresenting;
 
 /**
+* Duration (in seconds) of the presentation's transition animation.
+*/
+@property(nonatomic) NSTimeInterval presentationTransitionDuration;
+
+
+/**
+* Duration (in seconds) of the dismissal's transition animation.
+*/
+@property(nonatomic) NSTimeInterval dismissalTransitionDuration;
+
+/**
 * Designated initializer.
 * @param a_beforeAnimationsBlock Block that runs before any transition animations.
 * @param a_animationsBlock Block that provides animations.
