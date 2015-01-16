@@ -6,7 +6,7 @@
 //
 
 #import "IFACommonTests.h"
-#import "NSMutableArray+IFACategory.h"
+#import "NSMutableArray+IFACoreUI.h"
 
 @interface NSMutableArrayTests : XCTestCase
 @property(nonatomic, strong) NSMutableArray *p_mutableArray;

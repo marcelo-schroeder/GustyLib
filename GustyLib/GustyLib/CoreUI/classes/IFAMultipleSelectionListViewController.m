@@ -19,7 +19,7 @@
 //
 
 #import "GustyLibCoreUI.h"
-#import "NSMutableArray+IFACategory.h"
+#import "NSMutableArray+IFACoreUI.h"
 
 static NSString *const k_cellReuseId = @"cell";
 

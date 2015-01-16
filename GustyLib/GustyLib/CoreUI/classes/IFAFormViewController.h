@@ -24,7 +24,7 @@
 #import "IFACoreUiConstants.h"
 #import "IFAFormInputAccessoryView.h"
 #import "IFAEntityConfig.h"
-#import "UIViewController+IFACategory.h"
+#import "UIViewController+IFACoreUI.h"
 
 #ifdef IFA_AVAILABLE_Help
 #import "IFAHelpTarget.h"
