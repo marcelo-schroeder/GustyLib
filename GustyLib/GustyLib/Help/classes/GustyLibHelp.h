@@ -19,7 +19,7 @@
 //
 
 // GustyLib
-#import "GustyLibCore.h"
+#import "GustyLibCoreUI.h"
 #import "GustyLibHtml.h"
 
 #import "IFAHelpManager.h"
