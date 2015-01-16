@@ -27,6 +27,7 @@
     self = [super init];
     if (self) {
         self.frameViewLayoutFittingMode = a_frameViewLayoutFittingMode;
+        self.progressMode = IFAHudProgressModeNone;
     }
     return self;
 }
@@ -93,7 +94,11 @@
 
 - (void)setProgressMode:(IFAHudProgressMode)progressMode {
     _progressMode = progressMode;
-    self.IFA_hudViewController.activityIndicatorView.hidden = progressMode!=IFAHudProgressModeIndeterminate;
+    if (progressMode==IFAHudProgressModeIndeterminate) {
+        [self.IFA_hudViewController.activityIndicatorView startAnimating];
+    } else {
+        [self.IFA_hudViewController.activityIndicatorView stopAnimating];
+    }
     self.IFA_hudViewController.progressView.hidden = progressMode!=IFAHudProgressModeDeterminate;
 }
 

@@ -18,7 +18,7 @@
 @property (nonatomic, strong) UILabel *textLabel;
 @property (nonatomic, strong) UILabel *detailTextLabel;
 @property(nonatomic, strong) NSMutableArray *IFA_contentHorizontalLayoutConstraints;
-@property(nonatomic, strong) NSArray *IFA_contentVerticalLayoutConstraints;
+@property(nonatomic, strong) NSMutableArray *IFA_contentVerticalLayoutConstraints;
 @property(nonatomic, strong) NSArray *IFA_frameViewSizeConstraints;
 @property(nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
 @property(nonatomic, strong) UIProgressView *progressView;
@@ -39,6 +39,7 @@
     if (!_textLabel) {
         _textLabel = [UILabel new];
         _textLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _textLabel.hidden = YES;
         _textLabel.textAlignment = NSTextAlignmentCenter;
         _textLabel.numberOfLines = 0;
         _textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];   //wip: move to theme?
@@ -51,6 +52,7 @@
     if (!_detailTextLabel) {
         _detailTextLabel = [UILabel new];
         _detailTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _detailTextLabel.hidden = YES;
         _detailTextLabel.textAlignment = NSTextAlignmentCenter;
         _detailTextLabel.numberOfLines = 0;
         _detailTextLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];   //wip: move to theme?
@@ -63,6 +65,7 @@
     if (!_activityIndicatorView) {
         _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         _activityIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
+        _activityIndicatorView.hidden = YES;
         _activityIndicatorView.color = [self IFA_foregroundColour];  //wip: move to theme?
     }
     return _activityIndicatorView;
@@ -72,6 +75,7 @@
     if (!_progressView) {
         _progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
         _progressView.translatesAutoresizingMaskIntoConstraints = NO;
+        _progressView.hidden = YES;
         _progressView.progressTintColor = [self IFA_foregroundColour];   //wip: move to theme?
         _progressView.trackTintColor = [UIColor lightGrayColor];    //wip: move to theme?
     }
@@ -92,11 +96,7 @@
         [self IFA_addObservers];
 
         [self IFA_configureViewHierarchy];
-
-        self.activityIndicatorView.hidden = YES;
-        self.progressView.hidden = YES;
-        self.textLabel.hidden = YES;
-        self.detailTextLabel.hidden = YES;
+        [self IFA_addImmutableLayoutConstraints];
 
     }
     return self;
@@ -164,6 +164,13 @@
     return _IFA_contentHorizontalLayoutConstraints;
 }
 
+- (NSMutableArray *)IFA_contentVerticalLayoutConstraints {
+    if (!_IFA_contentVerticalLayoutConstraints) {
+        _IFA_contentVerticalLayoutConstraints = [@[] mutableCopy];
+    }
+    return _IFA_contentVerticalLayoutConstraints;
+}
+
 - (void)IFA_updateContentViewLayoutConstraints {
 
     UIView *contentView = self.IFA_contentView;
@@ -175,41 +182,41 @@
     NSDictionary *views = NSDictionaryOfVariableBindings(activityIndicatorView, progressView, textLabel, detailTextLabel);
 
     // Update label sizes
-    [self.textLabel sizeToFit];
-    [self.detailTextLabel sizeToFit];
+    [textLabel sizeToFit];
+    [detailTextLabel sizeToFit];
 
     // Remove existing constraints
     [contentView removeConstraints:self.IFA_contentHorizontalLayoutConstraints];
     [contentView removeConstraints:self.IFA_contentVerticalLayoutConstraints];
     [frameView removeConstraints:self.IFA_frameViewSizeConstraints];
 
-    BOOL allContentItemsHidden = self.activityIndicatorView.hidden
-            && self.progressView.hidden
-            && self.textLabel.hidden
-            && self.detailTextLabel.hidden;
+    BOOL allContentItemsHidden = activityIndicatorView.hidden
+            && progressView.hidden
+            && textLabel.hidden
+            && detailTextLabel.hidden;
     if (!allContentItemsHidden) {
 
         // Content horizontal layout constraints
         [self.IFA_contentHorizontalLayoutConstraints removeAllObjects];
-        if (!self.activityIndicatorView.hidden) {
+        if (!activityIndicatorView.hidden) {
             [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[activityIndicatorView]-(>=8)-|"
                                                                                                                      options:NSLayoutFormatAlignAllCenterY
                                                                                                                      metrics:nil
                                                                                                                        views:views]];
         }
-        if (!self.progressView.hidden) {
+        if (!progressView.hidden) {
             [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[progressView]-|"
                                                                                                                      options:NSLayoutFormatAlignAllCenterY
                                                                                                                      metrics:nil
                                                                                                                        views:views]];
         }
-        if (!self.textLabel.hidden) {
+        if (!textLabel.hidden) {
             [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[textLabel]-(>=8)-|"
                                                                                                                      options:NSLayoutFormatAlignAllCenterY
                                                                                                                      metrics:nil
                                                                                                                        views:views]];
         }
-        if (!self.detailTextLabel.hidden) {
+        if (!detailTextLabel.hidden) {
             [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[detailTextLabel]-(>=8)-|"
                                                                                                                      options:NSLayoutFormatAlignAllCenterY
                                                                                                                      metrics:nil
@@ -218,24 +225,29 @@
         [contentView addConstraints:self.IFA_contentHorizontalLayoutConstraints];
 
         // Content vertical layout constraints
+        [self.IFA_contentVerticalLayoutConstraints removeAllObjects];
         NSMutableString *contentVerticalLayoutConstraintsVisualFormat = [@"V:|" mutableCopy];
-        if (!self.activityIndicatorView.hidden) {
+        if (!activityIndicatorView.hidden) {
             [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[activityIndicatorView]"];
+            [self.IFA_contentVerticalLayoutConstraints addObject:[activityIndicatorView ifa_addLayoutConstraintToCenterInSuperviewHorizontally]];
         }
-        if (!self.progressView.hidden) {
+        if (!progressView.hidden) {
             [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[progressView]"];
+            [self.IFA_contentVerticalLayoutConstraints addObject:[progressView ifa_addLayoutConstraintToCenterInSuperviewHorizontally]];
         }
-        if (!self.textLabel.hidden) {
+        if (!textLabel.hidden) {
             [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[textLabel]"];
+            [self.IFA_contentVerticalLayoutConstraints addObject:[textLabel ifa_addLayoutConstraintToCenterInSuperviewHorizontally]];
         }
-        if (!self.detailTextLabel.hidden) {
+        if (!detailTextLabel.hidden) {
             [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[detailTextLabel]"];
+            [self.IFA_contentVerticalLayoutConstraints addObject:[detailTextLabel ifa_addLayoutConstraintToCenterInSuperviewHorizontally]];
         }
         [contentVerticalLayoutConstraintsVisualFormat appendString:@"-|"];
-        self.IFA_contentVerticalLayoutConstraints = [NSLayoutConstraint constraintsWithVisualFormat:contentVerticalLayoutConstraintsVisualFormat
-                                                                                            options:NSLayoutFormatAlignAllCenterX
-                                                                                            metrics:nil
-                                                                                              views:views];
+        [self.IFA_contentVerticalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:contentVerticalLayoutConstraintsVisualFormat
+                                                                                                               options:NSLayoutFormatAlignAllCenterX
+                                                                                                               metrics:nil
+                                                                                                                 views:views]];
         [contentView addConstraints:self.IFA_contentVerticalLayoutConstraints];
 
     }
@@ -321,7 +333,6 @@
 
     // Content container view
     [self.IFA_frameView addSubview:self.IFA_contentView];
-    [self.IFA_contentView ifa_addLayoutConstraintsToFillSuperview];
 
 //    // Content container view
 //    [self.IFA_vibrancyEffectView.contentView addSubview:self.IFA_contentView];
@@ -337,6 +348,15 @@
 
     // Frame view
     [self.view addSubview:self.IFA_frameView];
+
+}
+
+- (void)IFA_addImmutableLayoutConstraints{
+
+    // Content container view
+    [self.IFA_contentView ifa_addLayoutConstraintsToFillSuperview];
+
+    // Frame view
     [self.IFA_frameView ifa_addLayoutConstraintsToCenterInSuperview];
 
 }
