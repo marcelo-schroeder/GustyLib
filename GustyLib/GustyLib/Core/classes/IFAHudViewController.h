@@ -13,4 +13,5 @@
 @property(nonatomic, strong, readonly) UIProgressView *progressView;
 @property (nonatomic, strong, readonly) UILabel *textLabel;
 @property (nonatomic, strong, readonly) UILabel *detailTextLabel;
+@property(nonatomic) CGSize frameViewLayoutFittingSize;
 @end

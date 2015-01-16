@@ -72,7 +72,6 @@
     if (!_progressView) {
         _progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
         _progressView.translatesAutoresizingMaskIntoConstraints = NO;
-        _progressView.progress = 0.25;  //wip: hardcoded
         _progressView.progressTintColor = [self IFA_foregroundColour];   //wip: move to theme?
         _progressView.trackTintColor = [UIColor lightGrayColor];    //wip: move to theme?
     }
@@ -84,6 +83,8 @@
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+
+        self.frameViewLayoutFittingSize = UILayoutFittingCompressedSize;
 
         self.modalPresentationStyle = UIModalPresentationCustom;
         self.transitioningDelegate = self.IFA_viewControllerTransitioningDelegate;
@@ -257,7 +258,7 @@
                                                                                   multiplier:1
                                                                                     constant:frameViewMaxWidth];
     [frameView addConstraint:frameViewMaxWidthConstraint];
-    CGSize newFrameViewSize = [frameView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+    CGSize newFrameViewSize = [frameView systemLayoutSizeFittingSize:self.frameViewLayoutFittingSize];
     [frameView removeConstraint:frameViewMaxWidthConstraint];
     self.IFA_frameViewSizeConstraints = [frameView ifa_addLayoutConstraintsForSize:newFrameViewSize];
 

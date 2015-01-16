@@ -10,6 +10,7 @@
 @interface IFAHud ()
 @property(nonatomic, strong) UIWindow *IFA_window;
 @property(nonatomic, strong) IFAHudViewController *IFA_hudViewController;
+@property(nonatomic) IFAHudFrameViewLayoutFittingMode frameViewLayoutFittingMode;
 @end
 
 @implementation IFAHud {
@@ -17,6 +18,18 @@
 }
 
 #pragma mark - Public
+
+- (instancetype)init {
+    return [self initWithFrameViewLayoutFittingMode:IFAHudFrameViewLayoutFittingModeCompressed];
+}
+
+- (instancetype)initWithFrameViewLayoutFittingMode:(IFAHudFrameViewLayoutFittingMode)a_frameViewLayoutFittingMode {
+    self = [super init];
+    if (self) {
+        self.frameViewLayoutFittingMode = a_frameViewLayoutFittingMode;
+    }
+    return self;
+}
 
 - (void)showWithAnimation:(BOOL)a_animated completion:(void (^)())a_completion {    //wip: is animation going to work with the blur thing?
     if (self.IFA_window.hidden) {
@@ -70,16 +83,23 @@
     [self IFA_updateHudViewControllerTapActionBlock];
 }
 
-#pragma mark - Overrides
+- (void)setProgress:(CGFloat)progress {
+    self.IFA_hudViewController.progressView.progress = progress;
+}
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        // Trigger setters which will do some initialisation
-        self.text = nil;
-        self.detailText = nil;
-    }
-   return self;
+- (CGFloat)progress {
+    return self.IFA_hudViewController.progressView.progress;
+}
+
+- (void)setProgressMode:(IFAHudProgressMode)progressMode {
+    _progressMode = progressMode;
+    self.IFA_hudViewController.activityIndicatorView.hidden = progressMode!=IFAHudProgressModeIndeterminate;
+    self.IFA_hudViewController.progressView.hidden = progressMode!=IFAHudProgressModeDeterminate;
+}
+
+- (void)setFrameViewLayoutFittingMode:(IFAHudFrameViewLayoutFittingMode)frameViewLayoutFittingMode {
+    _frameViewLayoutFittingMode = frameViewLayoutFittingMode;
+    self.IFA_hudViewController.frameViewLayoutFittingSize = frameViewLayoutFittingMode == IFAHudFrameViewLayoutFittingModeExpanded ? UILayoutFittingExpandedSize : UILayoutFittingCompressedSize;
 }
 
 #pragma mark - Private
