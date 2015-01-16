@@ -32,28 +32,48 @@
     return self;
 }
 
-- (void)showWithAnimation:(BOOL)a_animated completion:(void (^)())a_completion {    //wip: is animation going to work with the blur thing?
-    if (self.IFA_window.hidden) {
-        [self.IFA_window makeKeyAndVisible];
-        [self.IFA_window.rootViewController presentViewController:self.IFA_hudViewController
-                                                         animated:a_animated
-                                                       completion:a_completion];
-    }
-
+- (void)presentWithCompletion:(void (^)())a_completion {
+    [self presentWithPresentingViewController:nil animated:YES completion:a_completion];
 }
 
-- (void)hideWithAnimation:(BOOL)a_animated completion:(void (^)())a_completion {
-    if (!self.IFA_window.hidden) {
-        __weak __typeof(self) l_weakSelf = self;
-        void(^completion)() = ^{
-            if (a_completion) {
-                a_completion();
-            }
-            [l_weakSelf.IFA_window resignKeyWindow];
-            l_weakSelf.IFA_window.hidden = YES;
-        };
-        [l_weakSelf.IFA_window.rootViewController dismissViewControllerAnimated:a_animated
-                                                                     completion:completion];
+- (void)presentWithPresentingViewController:(UIViewController *)a_presentingViewController animated:(BOOL)a_animated
+                                 completion:(void (^)())a_completion {
+    if (a_presentingViewController) {
+        [a_presentingViewController presentViewController:self.IFA_hudViewController
+                                                 animated:a_animated
+                                               completion:a_completion];
+    } else {
+        if (self.IFA_window.hidden) {
+            [self.IFA_window makeKeyAndVisible];
+            [self.IFA_window.rootViewController presentViewController:self.IFA_hudViewController
+                                                             animated:a_animated
+                                                           completion:a_completion];
+        }
+    }
+}
+
+- (void)dismissWithCompletion:(void (^)())a_completion {
+    [self dismissWithPresentingViewController:nil animated:YES completion:a_completion];
+}
+
+- (void)dismissWithPresentingViewController:(UIViewController *)a_presentingViewController animated:(BOOL)a_animated
+                                 completion:(void (^)())a_completion {
+    if (a_presentingViewController) {
+        [a_presentingViewController dismissViewControllerAnimated:a_animated
+                                                       completion:a_completion];
+    } else {
+        if (!self.IFA_window.hidden) {
+            __weak __typeof(self) l_weakSelf = self;
+            void(^completion)() = ^{
+                if (a_completion) {
+                    a_completion();
+                }
+                [l_weakSelf.IFA_window resignKeyWindow];
+                l_weakSelf.IFA_window.hidden = YES;
+            };
+            [l_weakSelf.IFA_window.rootViewController dismissViewControllerAnimated:a_animated
+                                                                         completion:completion];
+        }
     }
 }
 
@@ -149,7 +169,7 @@
             l_weakSelf.tapActionBlock();
         }
         if (l_weakSelf.shouldHideOnTap) {
-            [l_weakSelf hideWithAnimation:YES completion:nil];
+            [l_weakSelf dismissWithPresentingViewController:nil animated:YES completion:nil];
         }
     };
 }

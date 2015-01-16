@@ -52,8 +52,15 @@ typedef enum {
 */
 @property(nonatomic) NSTimeInterval dismissalTransitionDuration;
 
-- (void)showWithAnimation:(BOOL)a_animated completion:(void(^)())a_completion;
-- (void)hideWithAnimation:(BOOL)a_animated completion:(void(^)())a_completion;
+- (void)presentWithCompletion:(void (^)())a_completion;
+
+- (void)presentWithPresentingViewController:(UIViewController *)a_presentingViewController animated:(BOOL)a_animated
+                                 completion:(void (^)())a_completion;
+
+- (void)dismissWithCompletion:(void (^)())a_completion;
+
+- (void)dismissWithPresentingViewController:(UIViewController *)a_presentingViewController animated:(BOOL)a_animated
+                                 completion:(void (^)())a_completion;
 
 - (instancetype)initWithFrameViewLayoutFittingMode:(IFAHudFrameViewLayoutFittingMode)a_frameViewLayoutFittingMode NS_DESIGNATED_INITIALIZER;
 
