@@ -1868,9 +1868,18 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                     hud.shouldHideOnTap = YES;
                     [hud showWithAnimation:YES completion:^{
                         [IFAUtils dispatchAsyncMainThreadBlock:^{
+                                    hud.progress = 0.33;
+                                }
+                                                    afterDelay:1];
+                        [IFAUtils dispatchAsyncMainThreadBlock:^{
+                                    hud.progress = 0.66;
+                                }
+                                                    afterDelay:2];
+                        [IFAUtils dispatchAsyncMainThreadBlock:^{
+                                    hud.progress = 1;
                                     [hud hideWithAnimation:YES completion:nil];
                                 }
-                                                    afterDelay:5];
+                                                    afterDelay:3];
                     }];
 
                 }
