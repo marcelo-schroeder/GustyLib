@@ -306,7 +306,6 @@
 		1073835B7F7D30DF49702F3B /* UIViewController+IFAHelp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+IFAHelp.m"; sourceTree = "<group>"; };
 		107383640ED152025C7FDBDF /* UIButton+IFACoreUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+IFACoreUI.h"; sourceTree = "<group>"; };
 		10738365E8D4103EE939FBD4 /* IFAAppearanceTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAAppearanceTheme.h; sourceTree = "<group>"; };
-		107383726939C74A325E8D3A /* GustyLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GustyLib.h; sourceTree = "<group>"; };
 		10738379878C0B483699CFAD /* NSDateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDateTest.m; sourceTree = "<group>"; };
 		1073837DFC67D9546103B4EE /* IFACircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFACircleView.m; sourceTree = "<group>"; };
 		107383879F10B16B5319EEFB /* IFAHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAHud.h; sourceTree = "<group>"; };
@@ -494,6 +493,7 @@
 		10738A52D02AC68260C4D1EF /* TempTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempTest.h; sourceTree = "<group>"; };
 		10738A650E9692599B8B1B1A /* IFA_1PixelLineHorizontalBottom@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IFA_1PixelLineHorizontalBottom@2x.png"; sourceTree = "<group>"; };
 		10738A66340247B0094029A4 /* IFAAppearanceThemeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAAppearanceThemeManager.h; sourceTree = "<group>"; };
+		10738A66D64396EF41425AB3 /* GustyLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GustyLib.h; sourceTree = "<group>"; };
 		10738A91558B17EDE1076E1A /* IFASlidingFrostedGlassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFASlidingFrostedGlassViewController.h; sourceTree = "<group>"; };
 		10738A93879FAE4D301BCBC2 /* GustyLibGoogleMobileAdsSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GustyLibGoogleMobileAdsSupport.h; sourceTree = "<group>"; };
 		10738AA00346BD790D612AFE /* IFASingleSelectionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFASingleSelectionListViewController.m; sourceTree = "<group>"; };
@@ -738,7 +738,6 @@
 			isa = PBXGroup;
 			children = (
 				10738588DCC2724325274180 /* 3rd party */,
-				107383726939C74A325E8D3A /* GustyLib.h */,
 				10738A2EA6B3F9AE5B1F6448 /* GustyLibCoreUI.h */,
 				107382B2AF6B1104B5522087 /* IFAAboutFormViewController.h */,
 				10738C2FF86C98599243A6D4 /* IFAAboutFormViewController.m */,
@@ -1471,6 +1470,7 @@
 				10738CCDA4AD218A93898A1B /* GoogleMobileAdsSupport */,
 				107389D4098AC8681B3FF2EA /* FlurrySupport */,
 				10738A8092C32AF1BB0A9488 /* Foundation */,
+				10738A66D64396EF41425AB3 /* GustyLib.h */,
 			);
 			path = GustyLib;
 			sourceTree = "<group>";
