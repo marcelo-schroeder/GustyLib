@@ -3,7 +3,7 @@ workspace 'GustyLib'
 xcodeproj 'GustyLib/GustyLib.xcodeproj'
 link_with 'GustyLibTests'
 
-# HighLevelUI dependencies
+# CoreUI dependencies
 pod 'ODRefreshControl', '1.1.0'
 
 # GoogleMobileAdsSupport dependencies

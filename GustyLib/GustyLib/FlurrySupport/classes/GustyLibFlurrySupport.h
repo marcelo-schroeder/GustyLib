@@ -22,7 +22,7 @@
 #import "Flurry.h"
 
 // GustyLib
-#import "GustyLibHighLevelUI.h"
+#import "GustyLibCoreUI.h"
 
 #import "IFAFlurrySupportUtils.h"
 #import "UIViewController+IFAFlurrySupport.h"

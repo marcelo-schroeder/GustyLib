@@ -1,9 +1,9 @@
 //
-//  GustyLibHelp.h
+//  GustyLib.h
 //  GustyLib
 //
-//  Created by Marcelo Schroeder on 23/08/14.
-//  Copyright (c) 2014 InfoAccent Pty Limited. All rights reserved.
+//  Created by Marcelo Schroeder on 30/07/10.
+//  Copyright 2010 InfoAccent Pty Limited. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -18,13 +18,28 @@
 //  limitations under the License.
 //
 
-// GustyLib
-#import "GustyLibCoreUI.h"
-#import "GustyLibHtml.h"
+// Foundation
+#import "GustyLibFoundation.h"
 
-#import "IFAHelpManager.h"
-#import "UIButton+IFAHelp.h"
-#import "UIViewController+IFAHelp.h"
-#import "IFAHelpContentViewController.h"
-#import "IFAHelpViewController.h"
-#import "IFAHelpTarget.h"
+// CoreUI
+#import "GustyLibCoreUI.h"
+
+// FlurrySupport
+#ifdef IFA_AVAILABLE_FlurrySupport
+#import "GustyLibFlurrySupport.h"
+#endif
+
+// GoogleMobileAdsSupport
+#ifdef IFA_AVAILABLE_GoogleMobileAdsSupport
+#import "GustyLibGoogleMobileAdsSupport.h"
+#endif
+
+// Help
+#ifdef IFA_AVAILABLE_Help
+#import "GustyLibHelp.h"
+#endif
+
+// Html
+#ifdef IFA_AVAILABLE_Html
+#import "GustyLibHtml.h"
+#endif

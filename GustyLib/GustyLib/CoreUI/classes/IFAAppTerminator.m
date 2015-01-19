@@ -1,9 +1,9 @@
 //
-//  GustyLibHelp.h
-//  GustyLib
+//  IFAAppTerminator.m
+//  Gusty
 //
-//  Created by Marcelo Schroeder on 23/08/14.
-//  Copyright (c) 2014 InfoAccent Pty Limited. All rights reserved.
+//  Created by Marcelo Schroeder on 7/01/11.
+//  Copyright 2011 InfoAccent Pty Limited. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -18,13 +18,13 @@
 //  limitations under the License.
 //
 
-// GustyLib
 #import "GustyLibCoreUI.h"
-#import "GustyLibHtml.h"
 
-#import "IFAHelpManager.h"
-#import "UIButton+IFAHelp.h"
-#import "UIViewController+IFAHelp.h"
-#import "IFAHelpContentViewController.h"
-#import "IFAHelpViewController.h"
-#import "IFAHelpTarget.h"
+
+@implementation IFAAppTerminator
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+	exit(-1);  //TODO: is that it? are we losing important info here?
+}
+
+@end

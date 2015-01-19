@@ -1,9 +1,6 @@
 //
-//  GustyLibHelp.h
-//  GustyLib
-//
-//  Created by Marcelo Schroeder on 23/08/14.
-//  Copyright (c) 2014 InfoAccent Pty Limited. All rights reserved.
+// Created by Marcelo Schroeder on 1/08/13.
+// Copyright (c) 2013 InfoAccent Pty Limited. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -18,13 +15,18 @@
 //  limitations under the License.
 //
 
-// GustyLib
 #import "GustyLibCoreUI.h"
-#import "GustyLibHtml.h"
 
-#import "IFAHelpManager.h"
-#import "UIButton+IFAHelp.h"
-#import "UIViewController+IFAHelp.h"
-#import "IFAHelpContentViewController.h"
-#import "IFAHelpViewController.h"
-#import "IFAHelpTarget.h"
+@implementation UITableViewCell (IFACoreUI)
+
+#pragma mark - Public
+
+- (void)ifa_prepareForReuse {
+    [[self ifa_appearanceTheme] setAppearanceOnPrepareForReuseForTableViewCell:self];
+}
+
++ (UIColor *)ifa_defaultSeparatorColor {
+    return [UIColor ifa_colorWithRed:200 green:199 blue:204];
+}
+
+@end

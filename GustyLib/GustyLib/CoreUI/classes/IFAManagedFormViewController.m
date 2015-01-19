@@ -1,9 +1,9 @@
 //
-//  GustyLibHelp.h
-//  GustyLib
+//  IFAManagedFormViewController.m
+//  Gusty
 //
-//  Created by Marcelo Schroeder on 23/08/14.
-//  Copyright (c) 2014 InfoAccent Pty Limited. All rights reserved.
+//  Created by Marcelo Schroeder on 27/02/12.
+//  Copyright (c) 2012 InfoAccent Pty Limited. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -18,13 +18,18 @@
 //  limitations under the License.
 //
 
-// GustyLib
 #import "GustyLibCoreUI.h"
-#import "GustyLibHtml.h"
 
-#import "IFAHelpManager.h"
-#import "UIButton+IFAHelp.h"
-#import "UIViewController+IFAHelp.h"
-#import "IFAHelpContentViewController.h"
-#import "IFAHelpViewController.h"
-#import "IFAHelpTarget.h"
+@implementation IFAManagedFormViewController
+
+#pragma mark - Public
+
+-(void)setManagedObject:(NSManagedObject*)a_managedObject{
+    self.object = a_managedObject;
+}
+
+-(NSManagedObject*)managedObject {
+    return (NSManagedObject*)self.object;
+}
+
+@end
