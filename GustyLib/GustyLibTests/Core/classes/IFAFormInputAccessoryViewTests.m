@@ -18,7 +18,7 @@
 //
 
 #import "IFACommonTests.h"
-#import "GustyLibCoreUI.h"
+#import "GustyLibHighLevelUI.h"
 
 @interface IFAFormInputAccessoryView (Tests)
 @property (strong, nonatomic) NSIndexPath *IFA_currentInputFieldIndexPath;

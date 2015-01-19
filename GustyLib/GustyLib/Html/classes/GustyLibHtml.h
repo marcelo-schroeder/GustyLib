@@ -22,7 +22,7 @@
 #import "NSString+HTML.h"
 
 // GustyLib
-#import "GustyLibCoreUI.h"
+#import "GustyLibHighLevelUI.h"
 
 #import "IFAHtmlDocument.h"
 #import "IFAHtmlParser.h"

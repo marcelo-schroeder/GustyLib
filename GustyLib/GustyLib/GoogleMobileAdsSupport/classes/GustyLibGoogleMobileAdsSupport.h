@@ -26,7 +26,7 @@
 #import <StoreKit/StoreKit.h>
 
 // GustyLib
-#import "GustyLibCoreUI.h"
+#import "GustyLibHighLevelUI.h"
 
 #import "IFAGoogleMobileAdsManager.h"
 #import "UIViewController+IFAGoogleMobileAdsSupport.h"

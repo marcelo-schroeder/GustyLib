@@ -1,9 +1,8 @@
 //
-//  IFAAssertionUtils.m
-//  Gusty
+// Created by Marcelo Schroeder on 6/06/13.
+// Copyright (c) 2013 InfoAccent Pty Limited. All rights reserved.
 //
-//  Created by Marcelo Schroeder on 6/07/10.
-//  Copyright 2010 InfoAccent Pty Limited. All rights reserved.
+// To change the template use AppCode | Preferences | File Templates.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -21,6 +20,13 @@
 #import "GustyLibHighLevelUI.h"
 
 
-@implementation IFAAssertionUtils
+@implementation UIButton (IFACoreUI)
+
++ (id)ifa_buttonWithType:(UIButtonType)a_buttonType appearanceId:(NSString *)a_appearanceId {
+    UIButton *a_button = [self buttonWithType:a_buttonType];
+    a_button.ifa_appearanceId = a_appearanceId;
+    [a_button ifa_init];
+    return a_button;
+}
 
 @end

@@ -1,9 +1,6 @@
 //
-//  IFAAssertionUtils.m
-//  Gusty
-//
-//  Created by Marcelo Schroeder on 6/07/10.
-//  Copyright 2010 InfoAccent Pty Limited. All rights reserved.
+// Created by Marcelo Schroeder on 1/08/13.
+// Copyright (c) 2013 InfoAccent Pty Limited. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -20,7 +17,16 @@
 
 #import "GustyLibHighLevelUI.h"
 
+@implementation UITableViewCell (IFACoreUI)
 
-@implementation IFAAssertionUtils
+#pragma mark - Public
+
+- (void)ifa_prepareForReuse {
+    [[self ifa_appearanceTheme] setAppearanceOnPrepareForReuseForTableViewCell:self];
+}
+
++ (UIColor *)ifa_defaultSeparatorColor {
+    return [UIColor ifa_colorWithRed:200 green:199 blue:204];
+}
 
 @end

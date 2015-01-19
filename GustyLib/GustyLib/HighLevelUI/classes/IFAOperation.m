@@ -1,9 +1,9 @@
 //
-//  IFAAssertionUtils.m
+//  IFAOperation.m
 //  Gusty
 //
-//  Created by Marcelo Schroeder on 6/07/10.
-//  Copyright 2010 InfoAccent Pty Limited. All rights reserved.
+//  Created by Marcelo Schroeder on 2/09/11.
+//  Copyright 2011 InfoAccent Pty Limited. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -20,7 +20,16 @@
 
 #import "GustyLibHighLevelUI.h"
 
+@implementation IFAOperation
 
-@implementation IFAAssertionUtils
+
+#pragma mark - Overrides
+
+-(id)init{
+    if (self=[super init]) {
+        self.allowCancellation = YES;
+    }
+    return self;
+}
 
 @end

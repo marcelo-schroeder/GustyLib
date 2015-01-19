@@ -1,9 +1,9 @@
 //
-//  IFAAssertionUtils.m
+//  IFAAppTerminator.m
 //  Gusty
 //
-//  Created by Marcelo Schroeder on 6/07/10.
-//  Copyright 2010 InfoAccent Pty Limited. All rights reserved.
+//  Created by Marcelo Schroeder on 7/01/11.
+//  Copyright 2011 InfoAccent Pty Limited. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -21,6 +21,10 @@
 #import "GustyLibHighLevelUI.h"
 
 
-@implementation IFAAssertionUtils
+@implementation IFAAppTerminator
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+	exit(-1);  //TODO: is that it? are we losing important info here?
+}
 
 @end

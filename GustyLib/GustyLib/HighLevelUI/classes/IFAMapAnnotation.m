@@ -1,9 +1,9 @@
 //
-//  IFAAssertionUtils.m
+//  IFAMapAnnotation.m
 //  Gusty
 //
-//  Created by Marcelo Schroeder on 6/07/10.
-//  Copyright 2010 InfoAccent Pty Limited. All rights reserved.
+//  Created by Marcelo Schroeder on 27/04/11.
+//  Copyright 2011 InfoAccent Pty Limited. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -21,6 +21,14 @@
 #import "GustyLibHighLevelUI.h"
 
 
-@implementation IFAAssertionUtils
+@implementation IFAMapAnnotation
+
+
+- (id) initWithCoordinate:(CLLocationCoordinate2D)a_coordinate{
+    if ((self=[super init])) {
+        self.coordinate = a_coordinate;
+    }
+    return self;
+}
 
 @end

@@ -1,8 +1,8 @@
 //
-//  IFAAssertionUtils.m
+//  IFASegmentedControl.m
 //  Gusty
 //
-//  Created by Marcelo Schroeder on 6/07/10.
+//  Created by Marcelo Schroeder on 9/12/10.
 //  Copyright 2010 InfoAccent Pty Limited. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +21,7 @@
 #import "GustyLibHighLevelUI.h"
 
 
-@implementation IFAAssertionUtils
+@implementation IFASegmentedControl
+
 
 @end
