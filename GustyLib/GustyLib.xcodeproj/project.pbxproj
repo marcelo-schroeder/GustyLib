@@ -664,6 +664,7 @@
 		F766D33D18ECA71000B3B590 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		F766D34018ECADCE00B3B590 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		F7944FF51A68F8FD00E059A3 /* GustyLibFoundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GustyLibFoundation.h; sourceTree = "<group>"; };
+		F7C5F0A31A6DCB4800F108F4 /* IFA_Icon_Check@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IFA_Icon_Check@3x.png"; sourceTree = "<group>"; };
 		F7C6731A19A1C3C600FF1FD0 /* IFAFormTableViewCellContentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IFAFormTableViewCellContentView.xib; sourceTree = "<group>"; };
 		F7C6731F19A1E35F00FF1FD0 /* IFA_Icon_DisclosureIndicatorRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IFA_Icon_DisclosureIndicatorRight.png; sourceTree = "<group>"; };
 		F7C6732019A1E35F00FF1FD0 /* IFA_Icon_DisclosureIndicatorRight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IFA_Icon_DisclosureIndicatorRight@2x.png"; sourceTree = "<group>"; };
@@ -1008,6 +1009,7 @@
 		107381CAC567494A58822E49 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				F7C5F0A31A6DCB4800F108F4 /* IFA_Icon_Check@3x.png */,
 				F743BD1E19C8E2F8004EBA3E /* IFA_Icon_Add.png */,
 				F74C16E619BD6F4800B9B367 /* IFA_Icon_List.png */,
 				F74C16E719BD6F4800B9B367 /* IFA_Icon_List@2x.png */,

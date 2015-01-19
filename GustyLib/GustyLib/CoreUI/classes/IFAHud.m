@@ -33,21 +33,38 @@
 }
 
 - (void)presentWithCompletion:(void (^)())a_completion {
-    [self presentWithPresentingViewController:nil animated:YES completion:a_completion];
+    [self presentWithAutoDismissalDelay:0 completion:a_completion];
+}
+
+- (void)presentWithAutoDismissalDelay:(NSTimeInterval)a_autoDismissalDelay completion:(void (^)())a_completion {
+    [self presentWithPresentingViewController:nil animated:YES autoDismissalDelay:a_autoDismissalDelay
+                                   completion:a_completion];
 }
 
 - (void)presentWithPresentingViewController:(UIViewController *)a_presentingViewController animated:(BOOL)a_animated
-                                 completion:(void (^)())a_completion {
+                         autoDismissalDelay:(NSTimeInterval)a_autoDismissalDelay completion:(void (^)())a_completion {
+    void (^completion)() = ^{
+        __weak UIViewController *presentingViewController = a_presentingViewController?:self.IFA_window.rootViewController;
+        if (a_autoDismissalDelay) {
+            [IFAUtils dispatchAsyncMainThreadBlock:^{
+                [self dismissWithPresentingViewController:presentingViewController
+                                                 animated:a_animated completion:nil];
+            } afterDelay:a_autoDismissalDelay];
+        }
+        if (a_completion) {
+            a_completion();
+        }
+    };
     if (a_presentingViewController) {
         [a_presentingViewController presentViewController:self.IFA_hudViewController
                                                  animated:a_animated
-                                               completion:a_completion];
+                                               completion:completion];
     } else {
         if (self.IFA_window.hidden) {
             [self.IFA_window makeKeyAndVisible];
             [self.IFA_window.rootViewController presentViewController:self.IFA_hudViewController
                                                              animated:a_animated
-                                                           completion:a_completion];
+                                                           completion:completion];
         }
     }
 }
@@ -99,8 +116,8 @@
     [self IFA_updateHudViewControllerTapActionBlock];
 }
 
-- (void)setShouldHideOnTap:(BOOL)shouldHideOnTap {
-    _shouldHideOnTap = shouldHideOnTap;
+- (void)setShouldDismissOnTap:(BOOL)shouldDismissOnTap {
+    _shouldDismissOnTap = shouldDismissOnTap;
     [self IFA_updateHudViewControllerTapActionBlock];
 }
 
@@ -168,7 +185,7 @@
         if (l_weakSelf.tapActionBlock) {
             l_weakSelf.tapActionBlock();
         }
-        if (l_weakSelf.shouldHideOnTap) {
+        if (l_weakSelf.shouldDismissOnTap) {
             [l_weakSelf dismissWithPresentingViewController:nil animated:YES completion:nil];
         }
     };

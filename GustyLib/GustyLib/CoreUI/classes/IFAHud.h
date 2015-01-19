@@ -5,7 +5,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, IFAHudProgressMode) {
 
     /** No progress indicator is shown */
     IFAHudProgressModeNone,
@@ -16,14 +16,14 @@ typedef enum {
     /** Progress is shown using a UIProgressView. */
     IFAHudProgressModeDeterminate,
 
-} IFAHudProgressMode;
+};
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, IFAHudFrameViewLayoutFittingMode) {
 
     IFAHudFrameViewLayoutFittingModeCompressed,
     IFAHudFrameViewLayoutFittingModeExpanded,
 
-} IFAHudFrameViewLayoutFittingMode;
+};
 
 // wip: add documentation
 // wip: add license
@@ -39,7 +39,7 @@ typedef enum {
 
 @property (nonatomic, strong) void (^tapActionBlock) ();
 
-@property (nonatomic) BOOL shouldHideOnTap;
+@property (nonatomic) BOOL shouldDismissOnTap;
 
 /**
 * Duration (in seconds) of the presentation's transition animation.
@@ -54,12 +54,18 @@ typedef enum {
 
 - (void)presentWithCompletion:(void (^)())a_completion;
 
-- (void)presentWithPresentingViewController:(UIViewController *)a_presentingViewController animated:(BOOL)a_animated
+- (void)presentWithAutoDismissalDelay:(NSTimeInterval)a_autoDismissalDelay
+                           completion:(void (^)())a_completion;
+
+- (void)presentWithPresentingViewController:(UIViewController *)a_presentingViewController
+                                   animated:(BOOL)a_animated
+                         autoDismissalDelay:(NSTimeInterval)a_autoDismissalDelay
                                  completion:(void (^)())a_completion;
 
 - (void)dismissWithCompletion:(void (^)())a_completion;
 
-- (void)dismissWithPresentingViewController:(UIViewController *)a_presentingViewController animated:(BOOL)a_animated
+- (void)dismissWithPresentingViewController:(UIViewController *)a_presentingViewController
+                                   animated:(BOOL)a_animated
                                  completion:(void (^)())a_completion;
 
 - (instancetype)initWithFrameViewLayoutFittingMode:(IFAHudFrameViewLayoutFittingMode)a_frameViewLayoutFittingMode NS_DESIGNATED_INITIALIZER;

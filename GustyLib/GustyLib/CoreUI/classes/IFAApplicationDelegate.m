@@ -72,13 +72,18 @@
 -(id<IFAAppearanceTheme>)appearanceTheme {
     Class l_appearanceThemeClass = [self appearanceThemeClass];
     if (!self.IFA_appearanceTheme || ![self.IFA_appearanceTheme isMemberOfClass:l_appearanceThemeClass]) {
-        self.IFA_appearanceTheme = [l_appearanceThemeClass new];
+        self.IFA_appearanceTheme = (id <IFAAppearanceTheme>) [l_appearanceThemeClass new];
     }
     return self.IFA_appearanceTheme;
 }
 
 +(IFAApplicationDelegate *)sharedInstance {
-    return (IFAApplicationDelegate *)[UIApplication sharedApplication].delegate;
+    id applicationDelegate = [UIApplication sharedApplication].delegate;
+    if ([applicationDelegate isKindOfClass:[IFAApplicationDelegate class]]) {
+        return (IFAApplicationDelegate *) applicationDelegate;
+    }else{
+        return nil;
+    }
 }
 
 // Note on device specific storyboards:

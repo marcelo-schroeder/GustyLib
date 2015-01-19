@@ -200,6 +200,12 @@
 
         // Content horizontal layout constraints
         [self.IFA_contentHorizontalLayoutConstraints removeAllObjects];
+        if (!textLabel.hidden) {
+            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[textLabel]-(>=8)-|"
+                                                                                                                     options:NSLayoutFormatAlignAllCenterY
+                                                                                                                     metrics:nil
+                                                                                                                       views:views]];
+        }
         if (!activityIndicatorView.hidden) {
             [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[activityIndicatorView]-(>=8)-|"
                                                                                                                      options:NSLayoutFormatAlignAllCenterY
@@ -208,12 +214,6 @@
         }
         if (!progressView.hidden) {
             [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[progressView]-|"
-                                                                                                                     options:NSLayoutFormatAlignAllCenterY
-                                                                                                                     metrics:nil
-                                                                                                                       views:views]];
-        }
-        if (!textLabel.hidden) {
-            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[textLabel]-(>=8)-|"
                                                                                                                      options:NSLayoutFormatAlignAllCenterY
                                                                                                                      metrics:nil
                                                                                                                        views:views]];
@@ -229,6 +229,10 @@
         // Content vertical layout constraints
         [self.IFA_contentVerticalLayoutConstraints removeAllObjects];
         NSMutableString *contentVerticalLayoutConstraintsVisualFormat = [@"V:|" mutableCopy];
+        if (!textLabel.hidden) {
+            [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[textLabel]"];
+            [self.IFA_contentVerticalLayoutConstraints addObject:[textLabel ifa_addLayoutConstraintToCenterInSuperviewHorizontally]];
+        }
         if (!activityIndicatorView.hidden) {
             [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[activityIndicatorView]"];
             [self.IFA_contentVerticalLayoutConstraints addObject:[activityIndicatorView ifa_addLayoutConstraintToCenterInSuperviewHorizontally]];
@@ -236,10 +240,6 @@
         if (!progressView.hidden) {
             [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[progressView]"];
             [self.IFA_contentVerticalLayoutConstraints addObject:[progressView ifa_addLayoutConstraintToCenterInSuperviewHorizontally]];
-        }
-        if (!textLabel.hidden) {
-            [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[textLabel]"];
-            [self.IFA_contentVerticalLayoutConstraints addObject:[textLabel ifa_addLayoutConstraintToCenterInSuperviewHorizontally]];
         }
         if (!detailTextLabel.hidden) {
             [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[detailTextLabel]"];
