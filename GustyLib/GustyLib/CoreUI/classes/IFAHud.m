@@ -137,8 +137,9 @@
         [self.IFA_hudViewController.activityIndicatorView stopAnimating];
     }
     self.IFA_hudViewController.progressView.hidden = visualIndicatorMode !=IFAHudVisualIndicatorModeProgressDeterminate;
-    if (visualIndicatorMode == IFAHudVisualIndicatorModeOk || visualIndicatorMode == IFAHudVisualIndicatorModeError) {
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"IFA_Icon_Check"]];
+    if (visualIndicatorMode == IFAHudVisualIndicatorModeSuccess || visualIndicatorMode == IFAHudVisualIndicatorModeError) {
+        NSString *imageName = visualIndicatorMode == IFAHudVisualIndicatorModeSuccess ? @"IFA_Icon_HudSuccess" : @"IFA_Icon_HudError";
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
         self.IFA_hudViewController.customView = imageView;
     }
 }

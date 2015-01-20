@@ -20,7 +20,7 @@ typedef NS_ENUM(NSUInteger, IFAHudVisualIndicatorMode) {
     IFAHudVisualIndicatorModeProgressDeterminate,
 
     /** A check mark is shown. **/
-    IFAHudVisualIndicatorModeOk,
+    IFAHudVisualIndicatorModeSuccess,
 
     /** An "X" is shown. **/
     IFAHudVisualIndicatorModeError,
