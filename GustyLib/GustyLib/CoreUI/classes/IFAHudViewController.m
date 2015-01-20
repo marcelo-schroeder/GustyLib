@@ -31,10 +31,6 @@
 
 #pragma mark - Public
 
-- (void)setTapActionBlock:(void (^)())tapActionBlock {
-    _tapActionBlock = tapActionBlock;
-}
-
 - (UILabel *)textLabel {
     if (!_textLabel) {
         _textLabel = [UILabel new];
