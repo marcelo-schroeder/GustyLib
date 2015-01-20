@@ -438,15 +438,16 @@
 
     // Frame foreground
     UIColor *foregroundColour = self.frameForegroundColour;
-    _textLabel.textColor = foregroundColour;   //wip: move to theme?
-    _detailTextLabel.textColor = foregroundColour;   //wip: move to theme?
-    _activityIndicatorView.color = foregroundColour;  //wip: move to theme?
-    _progressView.progressTintColor = foregroundColour;   //wip: move to theme?
-    _progressView.trackTintColor = [UIColor lightGrayColor];    //wip: move to theme?
+    self.textLabel.textColor = foregroundColour;   //wip: move to theme?
+    self.detailTextLabel.textColor = foregroundColour;   //wip: move to theme?
+    self.activityIndicatorView.color = foregroundColour;  //wip: move to theme?
+    self.progressView.progressTintColor = foregroundColour;   //wip: move to theme?
+    self.progressView.trackTintColor = [UIColor lightGrayColor];    //wip: move to theme? (ALSO: VALUE HARDCODED)
+    self.customView.tintColor = foregroundColour;   //wip: move to theme?
 
     // Frame background
     UIColor *backgroundColour = self.frameBackgroundColour;
-    _IFA_frameView.backgroundColor = backgroundColour;    //wip: move to theme
+    self.IFA_frameView.backgroundColor = backgroundColour;    //wip: move to theme
 
 }
 
