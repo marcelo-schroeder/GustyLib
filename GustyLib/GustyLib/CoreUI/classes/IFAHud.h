@@ -5,16 +5,25 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, IFAHudProgressMode) {
+typedef NS_ENUM(NSUInteger, IFAHudVisualIndicatorMode) {
 
-    /** No progress indicator is shown */
-    IFAHudProgressModeNone,
+    /** No visual indicator is shown. */
+    IFAHudVisualIndicatorModeNone,
 
-    /** Progress is shown using a UIActivityIndicatorView.*/
-    IFAHudProgressModeIndeterminate,
+    /** The view set in the 'customVisualIndicatorView' property is shown. */
+    IFAHudVisualIndicatorModeCustom,
 
-    /** Progress is shown using a UIProgressView. */
-    IFAHudProgressModeDeterminate,
+    /** Progress indicator is shown using a UIActivityIndicatorView.*/
+    IFAHudVisualIndicatorModeProgressIndeterminate,
+
+    /** Progress indicator is shown using a UIProgressView. */
+    IFAHudVisualIndicatorModeProgressDeterminate,
+
+    /** A check mark is shown. **/
+    IFAHudVisualIndicatorModeOk,
+
+    /** An "X" is shown. **/
+    IFAHudVisualIndicatorModeError,
 
 };
 
@@ -31,11 +40,12 @@ typedef NS_ENUM(NSUInteger, IFAHudFrameViewLayoutFittingMode) {
 
 @property(nonatomic, readonly) IFAHudFrameViewLayoutFittingMode frameViewLayoutFittingMode;
 
-@property (nonatomic) IFAHudProgressMode progressMode;
+@property (nonatomic) IFAHudVisualIndicatorMode visualIndicatorMode;
 @property (nonatomic) CGFloat progress;
 
 @property (nonatomic, strong) NSString *text;
 @property (nonatomic, strong) NSString *detailText;
+@property (nonatomic, strong) UIView *customVisualIndicatorView;
 
 @property (nonatomic, strong) void (^tapActionBlock) ();
 

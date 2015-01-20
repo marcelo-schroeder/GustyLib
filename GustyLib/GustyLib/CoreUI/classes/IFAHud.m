@@ -27,7 +27,7 @@
     self = [super init];
     if (self) {
         self.frameViewLayoutFittingMode = a_frameViewLayoutFittingMode;
-        self.progressMode = IFAHudProgressModeNone;
+        self.visualIndicatorMode = IFAHudVisualIndicatorModeNone;
     }
     return self;
 }
@@ -129,14 +129,18 @@
     return self.IFA_hudViewController.progressView.progress;
 }
 
-- (void)setProgressMode:(IFAHudProgressMode)progressMode {
-    _progressMode = progressMode;
-    if (progressMode==IFAHudProgressModeIndeterminate) {
+- (void)setVisualIndicatorMode:(IFAHudVisualIndicatorMode)visualIndicatorMode {
+    _visualIndicatorMode = visualIndicatorMode;
+    if (visualIndicatorMode == IFAHudVisualIndicatorModeProgressIndeterminate) {
         [self.IFA_hudViewController.activityIndicatorView startAnimating];
     } else {
         [self.IFA_hudViewController.activityIndicatorView stopAnimating];
     }
-    self.IFA_hudViewController.progressView.hidden = progressMode!=IFAHudProgressModeDeterminate;
+    self.IFA_hudViewController.progressView.hidden = visualIndicatorMode !=IFAHudVisualIndicatorModeProgressDeterminate;
+    if (visualIndicatorMode == IFAHudVisualIndicatorModeOk || visualIndicatorMode == IFAHudVisualIndicatorModeError) {
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"IFA_Icon_Check"]];
+        self.IFA_hudViewController.customView = imageView;
+    }
 }
 
 - (void)setFrameViewLayoutFittingMode:(IFAHudFrameViewLayoutFittingMode)frameViewLayoutFittingMode {
@@ -158,6 +162,15 @@
 
 - (void)setDismissalTransitionDuration:(NSTimeInterval)dismissalTransitionDuration {
     self.IFA_hudViewController.viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.dismissalTransitionDuration = dismissalTransitionDuration;
+}
+
+- (UIView *)customVisualIndicatorView {
+    return self.IFA_hudViewController.customView;
+}
+
+- (void)setCustomVisualIndicatorView:(UIView *)customVisualIndicatorView {
+    self.visualIndicatorMode = customVisualIndicatorView ? IFAHudVisualIndicatorModeCustom : IFAHudVisualIndicatorModeNone;
+    self.IFA_hudViewController.customView = customVisualIndicatorView;
 }
 
 #pragma mark - Private

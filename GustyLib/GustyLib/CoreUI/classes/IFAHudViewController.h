@@ -14,6 +14,7 @@
 @property (nonatomic, strong, readonly) UILabel *textLabel;
 @property (nonatomic, strong, readonly) UILabel *detailTextLabel;
 @property(nonatomic, strong, readonly) IFAViewControllerTransitioningDelegate *viewControllerTransitioningDelegate;
+@property (nonatomic, strong) UIView *customView;
 
 @property (nonatomic, strong) void (^tapActionBlock) ();
 @property(nonatomic) CGSize frameViewLayoutFittingSize;

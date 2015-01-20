@@ -82,6 +82,14 @@
     return _progressView;
 }
 
+- (void)setCustomView:(UIView *)customView {
+    [_customView removeFromSuperview];
+    _customView = customView;
+    _customView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.IFA_contentView addSubview:_customView];
+    [self IFA_updateContentViewLayoutConstraints];
+}
+
 #pragma mark - Overrides
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -179,9 +187,13 @@
     UIView *frameView = self.IFA_frameView;
     UIActivityIndicatorView *activityIndicatorView = self.activityIndicatorView;
     UIProgressView *progressView = self.progressView;
+    UIView *customView = self.customView;
     UILabel *textLabel = self.textLabel;
     UILabel *detailTextLabel = self.detailTextLabel;
-    NSDictionary *views = NSDictionaryOfVariableBindings(activityIndicatorView, progressView, textLabel, detailTextLabel);
+    NSMutableDictionary *views = [NSDictionaryOfVariableBindings(activityIndicatorView, progressView, textLabel, detailTextLabel) mutableCopy];
+    if (customView) {
+        views[@"customView"] = customView;
+    }
 
     // Update label sizes
     [textLabel sizeToFit];
@@ -192,8 +204,10 @@
     [contentView removeConstraints:self.IFA_contentVerticalLayoutConstraints];
     [frameView removeConstraints:self.IFA_frameViewSizeConstraints];
 
-    BOOL allContentItemsHidden = activityIndicatorView.hidden
+    BOOL allContentItemsHidden =
+            activityIndicatorView.hidden
             && progressView.hidden
+            && (!customView || customView.hidden)
             && textLabel.hidden
             && detailTextLabel.hidden;
     if (!allContentItemsHidden) {
@@ -214,6 +228,12 @@
         }
         if (!progressView.hidden) {
             [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[progressView]-|"
+                                                                                                                     options:NSLayoutFormatAlignAllCenterY
+                                                                                                                     metrics:nil
+                                                                                                                       views:views]];
+        }
+        if (customView && !customView.hidden) {
+            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[customView]-(>=8)-|"
                                                                                                                      options:NSLayoutFormatAlignAllCenterY
                                                                                                                      metrics:nil
                                                                                                                        views:views]];
@@ -240,6 +260,10 @@
         if (!progressView.hidden) {
             [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[progressView]"];
             [self.IFA_contentVerticalLayoutConstraints addObject:[progressView ifa_addLayoutConstraintToCenterInSuperviewHorizontally]];
+        }
+        if (customView && !customView.hidden) {
+            [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[customView]"];
+            [self.IFA_contentVerticalLayoutConstraints addObject:[customView ifa_addLayoutConstraintToCenterInSuperviewHorizontally]];
         }
         if (!detailTextLabel.hidden) {
             [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[detailTextLabel]"];
