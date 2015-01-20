@@ -39,7 +39,6 @@
         _textLabel.textAlignment = NSTextAlignmentCenter;
         _textLabel.numberOfLines = 0;
         _textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];   //wip: move to theme?
-        _textLabel.textColor = [self IFA_foregroundColour];   //wip: move to theme?
     }
     return _textLabel;
 }
@@ -52,7 +51,6 @@
         _detailTextLabel.textAlignment = NSTextAlignmentCenter;
         _detailTextLabel.numberOfLines = 0;
         _detailTextLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];   //wip: move to theme?
-        _detailTextLabel.textColor = [self IFA_foregroundColour];   //wip: move to theme?
     }
     return _detailTextLabel;
 }
@@ -62,7 +60,6 @@
         _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         _activityIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
         _activityIndicatorView.hidden = YES;
-        _activityIndicatorView.color = [self IFA_foregroundColour];  //wip: move to theme?
     }
     return _activityIndicatorView;
 }
@@ -72,8 +69,6 @@
         _progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
         _progressView.translatesAutoresizingMaskIntoConstraints = NO;
         _progressView.hidden = YES;
-        _progressView.progressTintColor = [self IFA_foregroundColour];   //wip: move to theme?
-        _progressView.trackTintColor = [UIColor lightGrayColor];    //wip: move to theme?
     }
     return _progressView;
 }
@@ -84,6 +79,20 @@
     _customView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.IFA_contentView addSubview:_customView];
     [self IFA_updateContentViewLayoutConstraints];
+}
+
+- (UIColor *)frameForegroundColour {
+    if (!_frameForegroundColour) {
+        _frameForegroundColour = [UIColor whiteColor];
+    }
+    return _frameForegroundColour;
+}
+
+- (UIColor *)frameBackgroundColour {
+    if (!_frameBackgroundColour) {
+        _frameBackgroundColour = [[UIColor blackColor] colorWithAlphaComponent:0.95];
+    }
+    return _frameBackgroundColour;
 }
 
 #pragma mark - Overrides
@@ -113,6 +122,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
+    [self IFA_updateFrameColours];
     [self IFA_updateContentViewLayoutConstraints];
     [self IFA_addMotionEffects];
 }
@@ -125,6 +135,8 @@
             label.hidden = change[NSKeyValueChangeNewKey]==[NSNull null];
         }
         [self IFA_updateContentViewLayoutConstraints];
+    } else if ([keyPath isEqualToString:@"frameForegroundColour"] || [keyPath isEqualToString:@"frameBackgroundColour"]) {
+        [self IFA_updateFrameColours];
     }
 }
 
@@ -335,7 +347,6 @@
     if (!_IFA_frameView) {
         _IFA_frameView = [UIView new];
         _IFA_frameView.translatesAutoresizingMaskIntoConstraints = NO;
-        _IFA_frameView.backgroundColor = [[self IFA_backgroundColour] colorWithAlphaComponent:0.95];    //wip: move to theme
         CALayer *layer = _IFA_frameView.layer;
         layer.cornerRadius = 9.0;
         layer.masksToBounds = YES;
@@ -383,14 +394,6 @@
 
 }
 
-- (UIColor *)IFA_foregroundColour{
-    return [UIColor blackColor];
-}
-
-- (UIColor *)IFA_backgroundColour{
-    return [UIColor whiteColor];
-}
-
 - (void)IFA_addObservers {
 
     // "text" observations
@@ -402,6 +405,12 @@
     [self.progressView addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
     [self.textLabel addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
     [self.detailTextLabel addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
+
+    // "frameForegroundColour" observations
+    [self addObserver:self forKeyPath:@"frameForegroundColour" options:NSKeyValueObservingOptionNew context:nil];
+
+    // "frameBackgroundColour" observations
+    [self addObserver:self forKeyPath:@"frameBackgroundColour" options:NSKeyValueObservingOptionNew context:nil];
 
 }
 
@@ -416,6 +425,28 @@
     [self.progressView removeObserver:self forKeyPath:@"hidden" context:nil];
     [self.textLabel removeObserver:self forKeyPath:@"hidden" context:nil];
     [self.detailTextLabel removeObserver:self forKeyPath:@"hidden" context:nil];
+
+    // "frameForegroundColour" observations
+    [self removeObserver:self forKeyPath:@"frameForegroundColour" context:nil];
+
+    // "frameBackgroundColour" observations
+    [self removeObserver:self forKeyPath:@"frameBackgroundColour" context:nil];
+
+}
+
+- (void)IFA_updateFrameColours {
+
+    // Frame foreground
+    UIColor *foregroundColour = self.frameForegroundColour;
+    _textLabel.textColor = foregroundColour;   //wip: move to theme?
+    _detailTextLabel.textColor = foregroundColour;   //wip: move to theme?
+    _activityIndicatorView.color = foregroundColour;  //wip: move to theme?
+    _progressView.progressTintColor = foregroundColour;   //wip: move to theme?
+    _progressView.trackTintColor = [UIColor lightGrayColor];    //wip: move to theme?
+
+    // Frame background
+    UIColor *backgroundColour = self.frameBackgroundColour;
+    _IFA_frameView.backgroundColor = backgroundColour;    //wip: move to theme
 
 }
 

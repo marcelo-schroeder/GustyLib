@@ -51,6 +51,9 @@ typedef NS_ENUM(NSUInteger, IFAHudFrameViewLayoutFittingMode) {
 
 @property (nonatomic) BOOL shouldDismissOnTap;
 
+@property (nonatomic, strong) UIColor *frameForegroundColour;
+@property (nonatomic, strong) UIColor *frameBackgroundColour;
+
 /**
 * Duration (in seconds) of the presentation's transition animation.
 */

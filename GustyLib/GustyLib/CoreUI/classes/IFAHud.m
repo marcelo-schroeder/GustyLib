@@ -174,6 +174,23 @@
     self.IFA_hudViewController.customView = customVisualIndicatorView;
 }
 
+- (UIColor *)frameForegroundColour {
+    return self.IFA_hudViewController.frameForegroundColour;
+}
+
+- (void)setFrameForegroundColour:(UIColor *)frameForegroundColour {
+    self.IFA_hudViewController.frameForegroundColour = frameForegroundColour;
+}
+
+- (UIColor *)frameBackgroundColour {
+    return self.IFA_hudViewController.frameBackgroundColour;
+}
+
+- (void)setFrameBackgroundColour:(UIColor *)frameBackgroundColour {
+    self.IFA_hudViewController.frameBackgroundColour = frameBackgroundColour;
+}
+
+
 #pragma mark - Private
 
 - (UIWindow *)IFA_window {

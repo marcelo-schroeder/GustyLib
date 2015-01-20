@@ -19,4 +19,7 @@
 @property (nonatomic, strong) void (^tapActionBlock) ();
 @property(nonatomic) CGSize frameViewLayoutFittingSize;
 
+@property (nonatomic, strong) UIColor *frameForegroundColour;
+@property (nonatomic, strong) UIColor *frameBackgroundColour;
+
 @end
