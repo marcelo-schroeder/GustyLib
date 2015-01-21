@@ -66,18 +66,22 @@
     return _progressView;
 }
 
-- (UIColor *)frameForegroundColour {
-    if (!_frameForegroundColour) {
+- (void)setFrameForegroundColour:(UIColor *)frameForegroundColour {
+    if (frameForegroundColour) {
+        _frameForegroundColour = frameForegroundColour;
+    } else {
         _frameForegroundColour = [UIColor whiteColor];
     }
-    return _frameForegroundColour;
+    [self IFA_updateFrameColours];
 }
 
-- (UIColor *)frameBackgroundColour {
-    if (!_frameBackgroundColour) {
+- (void)setFrameBackgroundColour:(UIColor *)frameBackgroundColour {
+    if (frameBackgroundColour) {
+        _frameBackgroundColour = frameBackgroundColour;
+    } else {
         _frameBackgroundColour = [[UIColor blackColor] colorWithAlphaComponent:0.95];
     }
-    return _frameBackgroundColour;
+    [self IFA_updateFrameColours];
 }
 
 - (UIView *)contentView {
@@ -115,17 +119,12 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.frameViewLayoutFittingSize = UILayoutFittingCompressedSize;
-        [self IFA_addObservers];
         [self IFA_configureViewHierarchy];
         [self IFA_addImmutableLayoutConstraints];
         [self IFA_updateFrameColours];
         [self IFA_addMotionEffects];
     }
     return self;
-}
-
-- (void)dealloc {
-    [self IFA_removeObservers];
 }
 
 - (void)layoutSubviews {
@@ -251,13 +250,6 @@
 
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change
-                       context:(void *)context {
-    if ([keyPath isEqualToString:@"frameForegroundColour"] || [keyPath isEqualToString:@"frameBackgroundColour"]) {
-        [self IFA_updateFrameColours];
-    }
-}
-
 #pragma mark - Private
 
 - (NSMutableArray *)IFA_contentHorizontalLayoutConstraints {
@@ -341,26 +333,6 @@
     // Frame background
     UIColor *backgroundColour = self.frameBackgroundColour;
     self.frameView.backgroundColor = backgroundColour;    //wip: move to theme
-
-}
-
-- (void)IFA_addObservers {
-
-    // "frameForegroundColour" observations
-    [self addObserver:self forKeyPath:@"frameForegroundColour" options:NSKeyValueObservingOptionNew context:nil];
-
-    // "frameBackgroundColour" observations
-    [self addObserver:self forKeyPath:@"frameBackgroundColour" options:NSKeyValueObservingOptionNew context:nil];
-
-}
-
-- (void)IFA_removeObservers {
-
-    // "frameForegroundColour" observations
-    [self removeObserver:self forKeyPath:@"frameForegroundColour" context:nil];
-
-    // "frameBackgroundColour" observations
-    [self removeObserver:self forKeyPath:@"frameBackgroundColour" context:nil];
 
 }
 

@@ -53,8 +53,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
-//    [self.hudView setNeedsLayout];
-//    [self.hudView layoutIfNeeded];  //wip: are these correct?
 }
 
 //wip: clean up
