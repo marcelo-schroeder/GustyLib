@@ -38,7 +38,6 @@
     if (self) {
         self.modalPresentationStyle = UIModalPresentationCustom;
         self.transitioningDelegate = self.viewControllerTransitioningDelegate;
-        [self IFA_addObservers];
         [self.view addSubview:self.hudView];
         [self.hudView ifa_addLayoutConstraintsToFillSuperview];
         [self.hudView.frameView addGestureRecognizer:self.IFA_tapGestureRecognizer];
@@ -46,34 +45,9 @@
     return self;
 }
 
-- (void)dealloc {
-    [self IFA_removeObservers];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
-}
-
-//wip: clean up
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change
-                       context:(void *)context {
-    if ([keyPath isEqualToString:@"text"] || [keyPath isEqualToString:@"hidden"]) {
-        if ([keyPath isEqualToString:@"text"]) {
-            UILabel *label = object;
-            label.hidden = change[NSKeyValueChangeNewKey]==[NSNull null];
-        }
-        [self.hudView setNeedsLayout];
-//        [self.hudView layoutIfNeeded];  //wip: are these correct?
-    }
 }
 
 #pragma mark - Private
@@ -118,33 +92,5 @@
 //    }
 //    return _IFA_vibrancyEffectView;
 //}
-
-- (void)IFA_addObservers {
-
-    // "text" observations
-    [self.hudView.textLabel addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
-    [self.hudView.detailTextLabel addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
-
-    // "hidden" observations
-    [self.hudView.activityIndicatorView addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
-    [self.hudView.progressView addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
-    [self.hudView.textLabel addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
-    [self.hudView.detailTextLabel addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
-
-}
-
-- (void)IFA_removeObservers {
-
-    // "text" observations
-    [self.hudView.textLabel removeObserver:self forKeyPath:@"text" context:nil];
-    [self.hudView.detailTextLabel removeObserver:self forKeyPath:@"text" context:nil];
-
-    // "hidden" observations
-    [self.hudView.activityIndicatorView removeObserver:self forKeyPath:@"hidden" context:nil];
-    [self.hudView.progressView removeObserver:self forKeyPath:@"hidden" context:nil];
-    [self.hudView.textLabel removeObserver:self forKeyPath:@"hidden" context:nil];
-    [self.hudView.detailTextLabel removeObserver:self forKeyPath:@"hidden" context:nil];
-
-}
 
 @end

@@ -191,6 +191,13 @@
     self.IFA_hudViewController.hudView.frameBackgroundColour = frameBackgroundColour;
 }
 
+- (BOOL)shouldAnimateLayoutChanges {
+    return self.IFA_hudViewController.hudView.shouldAnimateLayoutChanges;
+}
+
+- (void)setShouldAnimateLayoutChanges:(BOOL)shouldAnimateLayoutChanges {
+    self.IFA_hudViewController.hudView.shouldAnimateLayoutChanges = shouldAnimateLayoutChanges;
+}
 
 #pragma mark - Private
 

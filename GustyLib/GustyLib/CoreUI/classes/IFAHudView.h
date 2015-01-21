@@ -24,4 +24,5 @@
 
 @property(nonatomic) CGSize frameViewLayoutFittingSize;
 
+@property(nonatomic) BOOL shouldAnimateLayoutChanges;
 @end

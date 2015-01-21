@@ -54,6 +54,8 @@ typedef NS_ENUM(NSUInteger, IFAHudFrameViewLayoutFittingMode) {
 @property (nonatomic, strong) UIColor *frameForegroundColour;
 @property (nonatomic, strong) UIColor *frameBackgroundColour;
 
+@property(nonatomic) BOOL shouldAnimateLayoutChanges;
+
 /**
 * Duration (in seconds) of the presentation's transition animation.
 */

@@ -119,8 +119,7 @@
     _customView = customView;
     _customView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:_customView];
-    [self setNeedsLayout];
-//    [self layoutIfNeeded];  //wip: are these correct?
+    [self IFA_updateLayout];
 }
 
 #pragma mark - Overrides
@@ -129,6 +128,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.frameViewLayoutFittingSize = UILayoutFittingCompressedSize;
+        [self IFA_addObservers];
         [self IFA_configureViewHierarchy];
         [self IFA_addImmutableLayoutConstraints];
         [self IFA_updateColours];
@@ -137,7 +137,11 @@
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)dealloc {
+    [self IFA_removeObservers];
+}
+
+- (void)updateConstraints {
 
     UIView *contentView = self.contentView;
     UIView *frameView = self.frameView;
@@ -256,8 +260,19 @@
     [frameView removeConstraint:frameViewMaxWidthConstraint];
     self.IFA_frameViewSizeConstraints = [frameView ifa_addLayoutConstraintsForSize:newFrameViewSize];
 
-    [super layoutSubviews];
+    [super updateConstraints];
 
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change
+                       context:(void *)context {
+    if ([keyPath isEqualToString:@"text"] || [keyPath isEqualToString:@"hidden"]) {
+        if ([keyPath isEqualToString:@"text"]) {
+            UILabel *label = object;
+            label.hidden = change[NSKeyValueChangeNewKey]==[NSNull null];
+        }
+        [self IFA_updateLayout];
+    }
 }
 
 #pragma mark - Private
@@ -345,6 +360,45 @@
 
     // Frame background
     self.frameView.backgroundColor = self.frameBackgroundColour;    //wip: move to theme
+
+}
+
+- (void)IFA_updateLayout {
+    [self setNeedsUpdateConstraints];
+    if (self.shouldAnimateLayoutChanges) {
+        [UIView animateWithDuration:0.1 animations:^{
+            [self layoutIfNeeded];
+        }];
+    } else {
+        [self layoutIfNeeded];
+    }
+}
+
+- (void)IFA_addObservers {
+
+    // "text" observations
+    [self.textLabel addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
+    [self.detailTextLabel addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
+
+    // "hidden" observations
+    [self.activityIndicatorView addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
+    [self.progressView addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
+    [self.textLabel addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
+    [self.detailTextLabel addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
+
+}
+
+- (void)IFA_removeObservers {
+
+    // "text" observations
+    [self.textLabel removeObserver:self forKeyPath:@"text" context:nil];
+    [self.detailTextLabel removeObserver:self forKeyPath:@"text" context:nil];
+
+    // "hidden" observations
+    [self.activityIndicatorView removeObserver:self forKeyPath:@"hidden" context:nil];
+    [self.progressView removeObserver:self forKeyPath:@"hidden" context:nil];
+    [self.textLabel removeObserver:self forKeyPath:@"hidden" context:nil];
+    [self.detailTextLabel removeObserver:self forKeyPath:@"hidden" context:nil];
 
 }
 
