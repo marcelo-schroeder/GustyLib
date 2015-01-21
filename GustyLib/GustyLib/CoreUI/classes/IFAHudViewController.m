@@ -80,7 +80,7 @@
 
 - (IFAViewControllerTransitioningDelegate *)viewControllerTransitioningDelegate {
     if (!_viewControllerTransitioningDelegate) {
-        _viewControllerTransitioningDelegate = [IFADimmedFadingOverlayViewControllerTransitioningDelegate new];
+        _viewControllerTransitioningDelegate = [IFAFadingOverlayViewControllerTransitioningDelegate new];
         _viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.presentationTransitionDuration = 0.3;
         _viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.dismissalTransitionDuration = 1;
     }

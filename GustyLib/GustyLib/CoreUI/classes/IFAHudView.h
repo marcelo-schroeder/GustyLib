@@ -18,6 +18,7 @@
 @property (nonatomic, strong, readonly) UILabel *detailTextLabel;
 @property (nonatomic, strong) UIView *customView;
 
+@property (nonatomic, strong) UIColor *overlayColour UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor *frameForegroundColour UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor *frameBackgroundColour UI_APPEARANCE_SELECTOR;
 

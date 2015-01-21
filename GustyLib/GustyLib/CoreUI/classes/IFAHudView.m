@@ -66,22 +66,32 @@
     return _progressView;
 }
 
+- (void)setOverlayColour:(UIColor *)overlayColour {
+    if (overlayColour) {
+        _overlayColour = overlayColour;
+    } else {
+        _overlayColour = [UIColor clearColor];
+    }
+    _overlayColour = overlayColour;
+    [self IFA_updateColours];
+}
+
 - (void)setFrameForegroundColour:(UIColor *)frameForegroundColour {
     if (frameForegroundColour) {
         _frameForegroundColour = frameForegroundColour;
     } else {
         _frameForegroundColour = [UIColor whiteColor];
     }
-    [self IFA_updateFrameColours];
+    [self IFA_updateColours];
 }
 
 - (void)setFrameBackgroundColour:(UIColor *)frameBackgroundColour {
     if (frameBackgroundColour) {
         _frameBackgroundColour = frameBackgroundColour;
     } else {
-        _frameBackgroundColour = [[UIColor blackColor] colorWithAlphaComponent:0.95];
+        _frameBackgroundColour = [[UIColor blackColor] colorWithAlphaComponent:0.75];
     }
-    [self IFA_updateFrameColours];
+    [self IFA_updateColours];
 }
 
 - (UIView *)contentView {
@@ -121,7 +131,7 @@
         self.frameViewLayoutFittingSize = UILayoutFittingCompressedSize;
         [self IFA_configureViewHierarchy];
         [self IFA_addImmutableLayoutConstraints];
-        [self IFA_updateFrameColours];
+        [self IFA_updateColours];
         [self IFA_addMotionEffects];
     }
     return self;
@@ -319,7 +329,10 @@
 
 }
 
-- (void)IFA_updateFrameColours {
+- (void)IFA_updateColours {
+
+    // Overlay
+    self.backgroundColor = self.overlayColour;    //wip: move to theme
 
     // Frame foreground
     UIColor *foregroundColour = self.frameForegroundColour;
@@ -331,8 +344,7 @@
     self.customView.tintColor = foregroundColour;   //wip: move to theme?
 
     // Frame background
-    UIColor *backgroundColour = self.frameBackgroundColour;
-    self.frameView.backgroundColor = backgroundColour;    //wip: move to theme
+    self.frameView.backgroundColor = self.frameBackgroundColour;    //wip: move to theme
 
 }
 
