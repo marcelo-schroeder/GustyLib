@@ -6,20 +6,15 @@
 #import <Foundation/Foundation.h>
 #import "IFAViewController.h"
 
+@class IFAHudView;
+
 //wip: add documentation
 @interface IFAHudViewController : IFAViewController
 
-@property(nonatomic, strong, readonly) UIActivityIndicatorView *activityIndicatorView;
-@property(nonatomic, strong, readonly) UIProgressView *progressView;
-@property (nonatomic, strong, readonly) UILabel *textLabel;
-@property (nonatomic, strong, readonly) UILabel *detailTextLabel;
+@property (nonatomic, strong, readonly) IFAHudView *hudView;
+
 @property(nonatomic, strong, readonly) IFAViewControllerTransitioningDelegate *viewControllerTransitioningDelegate;
-@property (nonatomic, strong) UIView *customView;
 
 @property (nonatomic, strong) void (^tapActionBlock) ();
-@property(nonatomic) CGSize frameViewLayoutFittingSize;
-
-@property (nonatomic, strong) UIColor *frameForegroundColour;
-@property (nonatomic, strong) UIColor *frameBackgroundColour;
 
 @end

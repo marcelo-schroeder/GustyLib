@@ -95,20 +95,20 @@
 }
 
 - (void)setText:(NSString *)text {
-    self.IFA_hudViewController.textLabel.text = text;
+    self.IFA_hudViewController.hudView.textLabel.text = text;
 }
 
 - (NSString *)text {
-    return self.IFA_hudViewController.textLabel.text;
+    return self.IFA_hudViewController.hudView.textLabel.text;
 }
 
 
 - (void)setDetailText:(NSString *)detailText {
-    self.IFA_hudViewController.detailTextLabel.text = detailText;
+    self.IFA_hudViewController.hudView.detailTextLabel.text = detailText;
 }
 
 - (NSString *)detailText {
-    return self.IFA_hudViewController.detailTextLabel.text;
+    return self.IFA_hudViewController.hudView.detailTextLabel.text;
 }
 
 - (void)setTapActionBlock:(void (^)())tapActionBlock {
@@ -122,32 +122,32 @@
 }
 
 - (void)setProgress:(CGFloat)progress {
-    self.IFA_hudViewController.progressView.progress = progress;
+    self.IFA_hudViewController.hudView.progressView.progress = progress;
 }
 
 - (CGFloat)progress {
-    return self.IFA_hudViewController.progressView.progress;
+    return self.IFA_hudViewController.hudView.progressView.progress;
 }
 
 - (void)setVisualIndicatorMode:(IFAHudVisualIndicatorMode)visualIndicatorMode {
     _visualIndicatorMode = visualIndicatorMode;
     if (visualIndicatorMode == IFAHudVisualIndicatorModeProgressIndeterminate) {
-        [self.IFA_hudViewController.activityIndicatorView startAnimating];
+        [self.IFA_hudViewController.hudView.activityIndicatorView startAnimating];
     } else {
-        [self.IFA_hudViewController.activityIndicatorView stopAnimating];
+        [self.IFA_hudViewController.hudView.activityIndicatorView stopAnimating];
     }
-    self.IFA_hudViewController.progressView.hidden = visualIndicatorMode !=IFAHudVisualIndicatorModeProgressDeterminate;
+    self.IFA_hudViewController.hudView.progressView.hidden = visualIndicatorMode !=IFAHudVisualIndicatorModeProgressDeterminate;
     if (visualIndicatorMode == IFAHudVisualIndicatorModeSuccess || visualIndicatorMode == IFAHudVisualIndicatorModeError) {
         NSString *imageName = visualIndicatorMode == IFAHudVisualIndicatorModeSuccess ? @"IFA_Icon_HudSuccess" : @"IFA_Icon_HudError";
         UIImage *image = [[UIImage imageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-        self.IFA_hudViewController.customView = imageView;
+        self.IFA_hudViewController.hudView.customView = imageView;
     }
 }
 
 - (void)setFrameViewLayoutFittingMode:(IFAHudFrameViewLayoutFittingMode)frameViewLayoutFittingMode {
     _frameViewLayoutFittingMode = frameViewLayoutFittingMode;
-    self.IFA_hudViewController.frameViewLayoutFittingSize = frameViewLayoutFittingMode == IFAHudFrameViewLayoutFittingModeExpanded ? UILayoutFittingExpandedSize : UILayoutFittingCompressedSize;
+    self.IFA_hudViewController.hudView.frameViewLayoutFittingSize = frameViewLayoutFittingMode == IFAHudFrameViewLayoutFittingModeExpanded ? UILayoutFittingExpandedSize : UILayoutFittingCompressedSize;
 }
 
 - (NSTimeInterval)presentationTransitionDuration {
@@ -167,28 +167,28 @@
 }
 
 - (UIView *)customVisualIndicatorView {
-    return self.IFA_hudViewController.customView;
+    return self.IFA_hudViewController.hudView.customView;
 }
 
 - (void)setCustomVisualIndicatorView:(UIView *)customVisualIndicatorView {
     self.visualIndicatorMode = customVisualIndicatorView ? IFAHudVisualIndicatorModeCustom : IFAHudVisualIndicatorModeNone;
-    self.IFA_hudViewController.customView = customVisualIndicatorView;
+    self.IFA_hudViewController.hudView.customView = customVisualIndicatorView;
 }
 
 - (UIColor *)frameForegroundColour {
-    return self.IFA_hudViewController.frameForegroundColour;
+    return self.IFA_hudViewController.hudView.frameForegroundColour;
 }
 
 - (void)setFrameForegroundColour:(UIColor *)frameForegroundColour {
-    self.IFA_hudViewController.frameForegroundColour = frameForegroundColour;
+    self.IFA_hudViewController.hudView.frameForegroundColour = frameForegroundColour;
 }
 
 - (UIColor *)frameBackgroundColour {
-    return self.IFA_hudViewController.frameBackgroundColour;
+    return self.IFA_hudViewController.hudView.frameBackgroundColour;
 }
 
 - (void)setFrameBackgroundColour:(UIColor *)frameBackgroundColour {
-    self.IFA_hudViewController.frameBackgroundColour = frameBackgroundColour;
+    self.IFA_hudViewController.hudView.frameBackgroundColour = frameBackgroundColour;
 }
 
 
