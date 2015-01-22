@@ -23,6 +23,8 @@
 @property (nonatomic) IFAHudViewStyle style;
 @property(nonatomic, strong) NSArray *IFA_contentViewSizeConstraints;
 @property(nonatomic, strong) NSArray *IFA_chromeViewCentreConstraints;
+@property (nonatomic, strong) UITapGestureRecognizer *IFA_chromeTapGestureRecognizer;
+@property (nonatomic, strong) UITapGestureRecognizer *IFA_overlayTapGestureRecognizer;
 @end
 
 @implementation IFAHudView {
@@ -45,6 +47,7 @@
 
         [self IFA_addObservers];
         [self IFA_configureViewHierarchy];
+        [self IFA_addGestureRecognisers];
         [self IFA_updateColours];
         [self IFA_addMotionEffects];
         [self IFA_updateLayout];    //wip: do I need this?
@@ -509,6 +512,39 @@
             break;
     }
     return color;
+}
+
+- (UITapGestureRecognizer *)IFA_chromeTapGestureRecognizer {
+    if (!_IFA_chromeTapGestureRecognizer) {
+        _IFA_chromeTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                  action:@selector(IFA_onChromeTapGestureRecognizerAction)];
+    }
+    return _IFA_chromeTapGestureRecognizer;
+}
+
+- (UITapGestureRecognizer *)IFA_overlayTapGestureRecognizer {
+    if (!_IFA_overlayTapGestureRecognizer) {
+        _IFA_overlayTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                   action:@selector(IFA_onOverlayTapGestureRecognizerAction)];
+    }
+    return _IFA_overlayTapGestureRecognizer;
+}
+
+- (void)IFA_onChromeTapGestureRecognizerAction {
+    if (self.chromeTapActionBlock) {
+        self.chromeTapActionBlock();
+    }
+}
+
+- (void)IFA_onOverlayTapGestureRecognizerAction {
+    if (self.overlayTapActionBlock) {
+        self.overlayTapActionBlock();
+    }
+}
+
+- (void)IFA_addGestureRecognisers {
+    [self.chromeView addGestureRecognizer:self.IFA_chromeTapGestureRecognizer];
+    [self addGestureRecognizer:self.IFA_overlayTapGestureRecognizer];
 }
 
 @end

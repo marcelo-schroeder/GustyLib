@@ -1863,10 +1863,10 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                     hud.text = @"Short";
                     hud.detailText = @"And this is the detail";
                     hud.visualIndicatorMode = IFAHudVisualIndicatorModeNone;
-                    hud.tapActionBlock = ^{
+                    hud.chromeTapActionBlock = ^{
                         NSLog(@"hello");
                     };
-                    hud.shouldDismissOnTap = YES;
+                    hud.shouldDismissOnChromeTap = YES;
                     [hud presentWithPresentingViewController:nil animated:YES autoDismissalDelay:0 completion:^{
                         [IFAUtils dispatchAsyncMainThreadBlock:^{
                                     hud.progress = 0.33;

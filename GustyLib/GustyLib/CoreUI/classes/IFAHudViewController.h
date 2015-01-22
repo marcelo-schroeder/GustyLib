@@ -16,8 +16,6 @@
 
 @property(nonatomic, strong, readonly) IFAViewControllerTransitioningDelegate *viewControllerTransitioningDelegate;
 
-@property (nonatomic, strong) void (^tapActionBlock) ();
-
 - (instancetype)initWithStyle:(IFAHudViewStyle)a_style NS_DESIGNATED_INITIALIZER;
 
 @end

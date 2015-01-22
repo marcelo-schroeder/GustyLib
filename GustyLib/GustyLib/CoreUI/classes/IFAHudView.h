@@ -38,6 +38,9 @@ typedef NS_ENUM(NSUInteger, IFAHudViewStyle) {
 
 @property (nonatomic, readonly) IFAHudViewStyle style;
 
+@property (nonatomic, strong) void (^chromeTapActionBlock) ();
+@property (nonatomic, strong) void (^overlayTapActionBlock) ();
+
 - (instancetype)initWithStyle:(IFAHudViewStyle)a_style NS_DESIGNATED_INITIALIZER;
 
 @end

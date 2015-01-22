@@ -43,11 +43,12 @@
 - (void)presentWithPresentingViewController:(UIViewController *)a_presentingViewController animated:(BOOL)a_animated
                          autoDismissalDelay:(NSTimeInterval)a_autoDismissalDelay completion:(void (^)())a_completion {
     void (^completion)() = ^{
-        __weak UIViewController *presentingViewController = a_presentingViewController?:self.IFA_window.rootViewController;
+        __weak UIViewController *weakPresentingViewController = a_presentingViewController;
         if (a_autoDismissalDelay) {
+            __weak __typeof(self) weakSelf = self;
             [IFAUtils dispatchAsyncMainThreadBlock:^{
-                [self dismissWithPresentingViewController:presentingViewController
-                                                 animated:a_animated completion:nil];
+                [weakSelf dismissWithPresentingViewController:weakPresentingViewController
+                                                     animated:a_animated completion:nil];
             } afterDelay:a_autoDismissalDelay];
         }
         if (a_completion) {
@@ -59,12 +60,10 @@
                                                  animated:a_animated
                                                completion:completion];
     } else {
-        if (self.IFA_window.hidden) {
-            [self.IFA_window makeKeyAndVisible];
-            [self.IFA_window.rootViewController presentViewController:self.hudViewController
-                                                             animated:a_animated
-                                                           completion:completion];
-        }
+        [self.IFA_window makeKeyAndVisible];
+        [self.IFA_window.rootViewController presentViewController:self.hudViewController
+                                                         animated:a_animated
+                                                       completion:completion];
     }
 }
 
@@ -78,18 +77,16 @@
         [a_presentingViewController dismissViewControllerAnimated:a_animated
                                                        completion:a_completion];
     } else {
-        if (!self.IFA_window.hidden) {
-            __weak __typeof(self) l_weakSelf = self;
-            void(^completion)() = ^{
-                if (a_completion) {
-                    a_completion();
-                }
-                [l_weakSelf.IFA_window resignKeyWindow];
-                l_weakSelf.IFA_window.hidden = YES;
-            };
-            [l_weakSelf.IFA_window.rootViewController dismissViewControllerAnimated:a_animated
-                                                                         completion:completion];
-        }
+        __weak __typeof(self) weakSelf = self;
+        void(^completion)() = ^{
+            if (a_completion) {
+                a_completion();
+            }
+            [weakSelf.IFA_window resignKeyWindow];
+            weakSelf.IFA_window = nil;
+        };
+        [weakSelf.IFA_window.rootViewController dismissViewControllerAnimated:a_animated
+                                                                     completion:completion];
     }
 }
 
@@ -110,14 +107,24 @@
     return self.hudViewController.hudView.detailTextLabel.text;
 }
 
-- (void)setTapActionBlock:(void (^)())tapActionBlock {
-    _tapActionBlock = tapActionBlock;
-    [self IFA_updateHudViewControllerTapActionBlock];
+- (void)setOverlayTapActionBlock:(void (^)())overlayTapActionBlock {
+    _overlayTapActionBlock = overlayTapActionBlock;
+    [self IFA_updateHudViewControllerOverlayTapActionBlock];
 }
 
-- (void)setShouldDismissOnTap:(BOOL)shouldDismissOnTap {
-    _shouldDismissOnTap = shouldDismissOnTap;
-    [self IFA_updateHudViewControllerTapActionBlock];
+- (void)setShouldDismissOnOverlayTap:(BOOL)shouldDismissOnOverlayTap {
+    _shouldDismissOnOverlayTap = shouldDismissOnOverlayTap;
+    [self IFA_updateHudViewControllerOverlayTapActionBlock];
+}
+
+- (void)setChromeTapActionBlock:(void (^)())chromeTapActionBlock {
+    _chromeTapActionBlock = chromeTapActionBlock;
+    [self IFA_updateHudViewControllerChromeTapActionBlock];
+}
+
+- (void)setShouldDismissOnChromeTap:(BOOL)shouldDismissOnChromeTap {
+    _shouldDismissOnChromeTap = shouldDismissOnChromeTap;
+    [self IFA_updateHudViewControllerChromeTapActionBlock];
 }
 
 - (void)setProgress:(CGFloat)progress {
@@ -221,13 +228,25 @@
     return _IFA_window;
 }
 
-- (void)IFA_updateHudViewControllerTapActionBlock {
+- (void)IFA_updateHudViewControllerOverlayTapActionBlock {
     __weak __typeof(self) l_weakSelf = self;
-    self.hudViewController.tapActionBlock = ^{
-        if (l_weakSelf.tapActionBlock) {
-            l_weakSelf.tapActionBlock();
+    self.hudViewController.hudView.overlayTapActionBlock = ^{
+        if (l_weakSelf.overlayTapActionBlock) {
+            l_weakSelf.overlayTapActionBlock();
         }
-        if (l_weakSelf.shouldDismissOnTap) {
+        if (l_weakSelf.shouldDismissOnOverlayTap) {
+            [l_weakSelf dismissWithPresentingViewController:nil animated:YES completion:nil];
+        }
+    };
+}
+
+- (void)IFA_updateHudViewControllerChromeTapActionBlock {
+    __weak __typeof(self) l_weakSelf = self;
+    self.hudViewController.hudView.chromeTapActionBlock = ^{
+        if (l_weakSelf.chromeTapActionBlock) {
+            l_weakSelf.chromeTapActionBlock();
+        }
+        if (l_weakSelf.shouldDismissOnChromeTap) {
             [l_weakSelf dismissWithPresentingViewController:nil animated:YES completion:nil];
         }
     };

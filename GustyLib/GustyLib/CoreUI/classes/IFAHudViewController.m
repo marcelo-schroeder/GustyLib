@@ -11,7 +11,6 @@
 @interface IFAHudViewController ()
 @property (nonatomic, strong) IFAHudView *hudView;
 @property(nonatomic, strong) IFAViewControllerTransitioningDelegate *viewControllerTransitioningDelegate;
-@property (nonatomic, strong) UITapGestureRecognizer *IFA_tapGestureRecognizer;
 @end
 
 @implementation IFAHudViewController {
@@ -31,7 +30,6 @@
         self.transitioningDelegate = self.viewControllerTransitioningDelegate;
         [self.view addSubview:self.hudView];
         [self.hudView ifa_addLayoutConstraintsToFillSuperview];
-        [self.hudView.chromeView addGestureRecognizer:self.IFA_tapGestureRecognizer];
 
     }
     return self;
@@ -53,20 +51,6 @@
         _viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.dismissalTransitionDuration = 1;
     }
     return _viewControllerTransitioningDelegate;
-}
-
-- (UITapGestureRecognizer *)IFA_tapGestureRecognizer {
-    if (!_IFA_tapGestureRecognizer) {
-        _IFA_tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                            action:@selector(IFA_onTapGestureRecognizerAction)];
-    }
-    return _IFA_tapGestureRecognizer;
-}
-
-- (void)IFA_onTapGestureRecognizerAction {
-    if (self.tapActionBlock) {
-        self.tapActionBlock();
-    }
 }
 
 @end
