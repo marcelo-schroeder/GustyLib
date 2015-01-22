@@ -4,6 +4,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <GustyLib/IFAHud.h>
+#import "IFAHudView.h"
+
+@class IFAHudViewController;
 
 typedef NS_ENUM(NSUInteger, IFAHudVisualIndicatorMode) {
 
@@ -27,18 +31,21 @@ typedef NS_ENUM(NSUInteger, IFAHudVisualIndicatorMode) {
 
 };
 
-typedef NS_ENUM(NSUInteger, IFAHudFrameViewLayoutFittingMode) {
+typedef NS_ENUM(NSUInteger, IFAHudChromeViewLayoutFittingMode) {
 
-    IFAHudFrameViewLayoutFittingModeCompressed,
-    IFAHudFrameViewLayoutFittingModeExpanded,
+    IFAHudChromeViewLayoutFittingModeCompressed,
+    IFAHudChromeViewLayoutFittingModeExpanded,
 
 };
 
 // wip: add documentation
 // wip: add license
+// wip: rename to IFAHudManager
 @interface IFAHud : NSObject
 
-@property(nonatomic, readonly) IFAHudFrameViewLayoutFittingMode frameViewLayoutFittingMode;
+@property(nonatomic, strong, readonly) IFAHudViewController *hudViewController;
+
+@property(nonatomic, readonly) IFAHudChromeViewLayoutFittingMode chromeViewLayoutFittingMode;
 
 @property (nonatomic) IFAHudVisualIndicatorMode visualIndicatorMode;
 @property (nonatomic) CGFloat progress;
@@ -51,10 +58,12 @@ typedef NS_ENUM(NSUInteger, IFAHudFrameViewLayoutFittingMode) {
 
 @property (nonatomic) BOOL shouldDismissOnTap;
 
-@property (nonatomic, strong) UIColor *frameForegroundColour;
-@property (nonatomic, strong) UIColor *frameBackgroundColour;
+@property (nonatomic, strong) UIColor *chromeForegroundColour;
+@property (nonatomic, strong) UIColor *chromeBackgroundColour;
 
 @property(nonatomic) BOOL shouldAnimateLayoutChanges;
+
+@property (nonatomic, readonly) IFAHudViewStyle style;
 
 /**
 * Duration (in seconds) of the presentation's transition animation.
@@ -83,6 +92,7 @@ typedef NS_ENUM(NSUInteger, IFAHudFrameViewLayoutFittingMode) {
                                    animated:(BOOL)a_animated
                                  completion:(void (^)())a_completion;
 
-- (instancetype)initWithFrameViewLayoutFittingMode:(IFAHudFrameViewLayoutFittingMode)a_frameViewLayoutFittingMode NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithStyle:(IFAHudViewStyle)a_style
+  chromeViewLayoutFittingMode:(IFAHudChromeViewLayoutFittingMode)a_frameViewLayoutFittingMode NS_DESIGNATED_INITIALIZER;
 
 @end

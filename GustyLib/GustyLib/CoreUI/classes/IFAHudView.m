@@ -5,9 +5,11 @@
 
 #import "GustyLib.h"
 
+//wip: test rotation again when some serious blurring is available (e.g. map view)
 //wip: clean up comments
+//wip: need to manage whether the background blocks user interaction or not (somehow I lost that ability)
 @interface IFAHudView ()
-@property(nonatomic, strong) UIView *frameView;
+@property(nonatomic, strong) UIView *chromeView;
 @property(nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) UILabel *textLabel;
 @property (nonatomic, strong) UILabel *detailTextLabel;
@@ -15,14 +17,41 @@
 @property(nonatomic, strong) UIProgressView *progressView;
 @property(nonatomic, strong) NSMutableArray *IFA_contentHorizontalLayoutConstraints;
 @property(nonatomic, strong) NSMutableArray *IFA_contentVerticalLayoutConstraints;
-@property(nonatomic, strong) NSArray *IFA_frameViewSizeConstraints;
+@property(nonatomic, strong) NSArray *IFA_chromeViewSizeConstraints;
+@property(nonatomic, strong) UIVisualEffectView *IFA_blurEffectView;
+@property(nonatomic, strong) UIVisualEffectView *IFA_vibrancyEffectView;
+@property (nonatomic) IFAHudViewStyle style;
+@property(nonatomic, strong) NSArray *IFA_contentViewSizeConstraints;
+@property(nonatomic, strong) NSArray *IFA_chromeViewCentreConstraints;
 @end
 
 @implementation IFAHudView {
-
+    UIColor *_overlayColour;
+    UIColor *_chromeForegroundColour;
+    UIColor *_chromeBackgroundColour;
 }
 
 #pragma mark - Public
+
+- (instancetype)initWithStyle:(IFAHudViewStyle)a_style {
+    self = [super init];
+    if (self) {
+
+        self.style = a_style;
+        self.chromeViewLayoutFittingSize = UILayoutFittingCompressedSize;
+
+        // Set ivar's directly otherwise UIKit won't override via appearance API
+        _blurEffectStyle = UIBlurEffectStyleDark;
+
+        [self IFA_addObservers];
+        [self IFA_configureViewHierarchy];
+        [self IFA_updateColours];
+        [self IFA_addMotionEffects];
+        [self IFA_updateLayout];    //wip: do I need this?
+
+    }
+    return self;
+}
 
 - (UILabel *)textLabel {
     if (!_textLabel) {
@@ -67,51 +96,71 @@
 }
 
 - (void)setOverlayColour:(UIColor *)overlayColour {
-    if (overlayColour) {
-        _overlayColour = overlayColour;
-    } else {
-        _overlayColour = [UIColor clearColor];
-    }
     _overlayColour = overlayColour;
     [self IFA_updateColours];
 }
 
-- (void)setFrameForegroundColour:(UIColor *)frameForegroundColour {
-    if (frameForegroundColour) {
-        _frameForegroundColour = frameForegroundColour;
+- (UIColor *)overlayColour {
+    if (_overlayColour) {
+        return _overlayColour;
     } else {
-        _frameForegroundColour = [UIColor whiteColor];
+        return self.IFA_defaultOverlayColour;
     }
+}
+
+- (void)setChromeForegroundColour:(UIColor *)chromeForegroundColour {
+    _chromeForegroundColour = chromeForegroundColour;
     [self IFA_updateColours];
 }
 
-- (void)setFrameBackgroundColour:(UIColor *)frameBackgroundColour {
-    if (frameBackgroundColour) {
-        _frameBackgroundColour = frameBackgroundColour;
+- (UIColor *)chromeForegroundColour {
+    if (_chromeForegroundColour) {
+        return _chromeForegroundColour;
     } else {
-        _frameBackgroundColour = [[UIColor blackColor] colorWithAlphaComponent:0.75];
+        return self.IFA_defaultChromeForegroundColour;
     }
+}
+
+- (void)setChromeBackgroundColour:(UIColor *)chromeBackgroundColour {
+    _chromeBackgroundColour = chromeBackgroundColour;
     [self IFA_updateColours];
+}
+
+- (UIColor *)chromeBackgroundColour {
+    if (_chromeBackgroundColour) {
+        return _chromeBackgroundColour;
+    } else {
+        return self.IFA_defaultChromeBackgroundColour;
+    }
+}
+
+- (void)setBlurEffectStyle:(UIBlurEffectStyle)blurEffectStyle {
+    _blurEffectStyle = blurEffectStyle;
+    [self IFA_updateChromeViewHierarchy];
+    [self IFA_updateColours];
+    [self IFA_updateLayout];
 }
 
 - (UIView *)contentView {
     if (!_contentView) {
         _contentView = [UIView new];
+//        NSLog(@"[_contentView description] = %@", [_contentView description]);    //wip: clean up
         _contentView.translatesAutoresizingMaskIntoConstraints = NO;
         _contentView.backgroundColor = [UIColor clearColor];
     }
     return _contentView;
 }
 
-- (UIView *)frameView {
-    if (!_frameView) {
-        _frameView = [UIView new];
-        _frameView.translatesAutoresizingMaskIntoConstraints = NO;
-        CALayer *layer = _frameView.layer;
+- (UIView *)chromeView {
+    if (!_chromeView) {
+        _chromeView = [UIView new];
+//        NSLog(@"[_chromeView description] = %@", [_chromeView description]);    //wip: clean up
+        _chromeView.translatesAutoresizingMaskIntoConstraints = NO;
+        CALayer *layer = _chromeView.layer;
         layer.cornerRadius = 9.0;
         layer.masksToBounds = YES;
     }
-    return _frameView;
+    return _chromeView;
 }
 
 - (void)setCustomView:(UIView *)customView {
@@ -124,19 +173,6 @@
 
 #pragma mark - Overrides
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.frameViewLayoutFittingSize = UILayoutFittingCompressedSize;
-        [self IFA_addObservers];
-        [self IFA_configureViewHierarchy];
-        [self IFA_addImmutableLayoutConstraints];
-        [self IFA_updateColours];
-        [self IFA_addMotionEffects];
-    }
-    return self;
-}
-
 - (void)dealloc {
     [self IFA_removeObservers];
 }
@@ -144,7 +180,7 @@
 - (void)updateConstraints {
 
     UIView *contentView = self.contentView;
-    UIView *frameView = self.frameView;
+    UIView *chromeView = self.chromeView;
     UIActivityIndicatorView *activityIndicatorView = self.activityIndicatorView;
     UIProgressView *progressView = self.progressView;
     UIView *customView = self.customView;
@@ -155,14 +191,12 @@
         views[@"customView"] = customView;
     }
 
-    // Update label sizes
-    [textLabel sizeToFit];
-    [detailTextLabel sizeToFit];
-
     // Remove existing constraints
+    [contentView.superview removeConstraints:self.IFA_contentViewSizeConstraints];
     [contentView removeConstraints:self.IFA_contentHorizontalLayoutConstraints];
     [contentView removeConstraints:self.IFA_contentVerticalLayoutConstraints];
-    [frameView removeConstraints:self.IFA_frameViewSizeConstraints];
+    [chromeView.superview removeConstraints:self.IFA_chromeViewCentreConstraints];
+    [chromeView removeConstraints:self.IFA_chromeViewSizeConstraints];
 
     BOOL allContentItemsHidden =
             activityIndicatorView.hidden
@@ -176,31 +210,31 @@
         [self.IFA_contentHorizontalLayoutConstraints removeAllObjects];
         if (!textLabel.hidden) {
             [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[textLabel]-(>=8)-|"
-                                                                                                                     options:NSLayoutFormatAlignAllCenterY
+                                                                                                                     options:(NSLayoutFormatOptions) 0
                                                                                                                      metrics:nil
                                                                                                                        views:views]];
         }
         if (!activityIndicatorView.hidden) {
             [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[activityIndicatorView]-(>=8)-|"
-                                                                                                                     options:NSLayoutFormatAlignAllCenterY
+                                                                                                                     options:(NSLayoutFormatOptions) 0
                                                                                                                      metrics:nil
                                                                                                                        views:views]];
         }
         if (!progressView.hidden) {
-            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[progressView]-|"
-                                                                                                                     options:NSLayoutFormatAlignAllCenterY
+            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[progressView]-(>=8)-|"
+                                                                                                                     options:(NSLayoutFormatOptions) 0
                                                                                                                      metrics:nil
                                                                                                                        views:views]];
         }
         if (customView && !customView.hidden) {
             [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[customView]-(>=8)-|"
-                                                                                                                     options:NSLayoutFormatAlignAllCenterY
+                                                                                                                     options:(NSLayoutFormatOptions) 0
                                                                                                                      metrics:nil
                                                                                                                        views:views]];
         }
         if (!detailTextLabel.hidden) {
             [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[detailTextLabel]-(>=8)-|"
-                                                                                                                     options:NSLayoutFormatAlignAllCenterY
+                                                                                                                     options:(NSLayoutFormatOptions) 0
                                                                                                                      metrics:nil
                                                                                                                        views:views]];
         }
@@ -231,14 +265,20 @@
         }
         [contentVerticalLayoutConstraintsVisualFormat appendString:@"-|"];
         [self.IFA_contentVerticalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:contentVerticalLayoutConstraintsVisualFormat
-                                                                                                               options:NSLayoutFormatAlignAllCenterX
+                                                                                                               options:(NSLayoutFormatOptions) 0
                                                                                                                metrics:nil
                                                                                                                  views:views]];
         [contentView addConstraints:self.IFA_contentVerticalLayoutConstraints];
 
     }
 
-    // Frame view size constraints
+    // Content view size constraints
+    self.IFA_contentViewSizeConstraints = [self.contentView ifa_addLayoutConstraintsToFillSuperview];   //wip: review
+
+    // Chrome view centre constraints
+    self.IFA_chromeViewCentreConstraints = [self.chromeView ifa_addLayoutConstraintsToCenterInSuperview];   //wip: review
+
+    // Chrome view size constraints
     CGFloat referenceScreenWidth = 320;   //wip: hardcoded - maybe this should be exposed?
     if (self.bounds.size.width < referenceScreenWidth) {
         referenceScreenWidth = self.bounds.size.width;
@@ -247,18 +287,19 @@
     if (referenceScreenWidth <= horizontalMargin) {
         horizontalMargin = 0;
     }
-    CGFloat frameViewMaxWidth = referenceScreenWidth - horizontalMargin;
-    NSLayoutConstraint *frameViewMaxWidthConstraint = [NSLayoutConstraint constraintWithItem:frameView
+    CGFloat chromeViewMaxWidth = referenceScreenWidth - horizontalMargin;
+    NSLayoutConstraint *chromeViewMaxWidthConstraint = [NSLayoutConstraint constraintWithItem:chromeView
                                                                                    attribute:NSLayoutAttributeWidth
                                                                                    relatedBy:NSLayoutRelationLessThanOrEqual
                                                                                       toItem:nil
                                                                                    attribute:NSLayoutAttributeNotAnAttribute
                                                                                   multiplier:1
-                                                                                    constant:frameViewMaxWidth];
-    [frameView addConstraint:frameViewMaxWidthConstraint];
-    CGSize newFrameViewSize = [frameView systemLayoutSizeFittingSize:self.frameViewLayoutFittingSize];
-    [frameView removeConstraint:frameViewMaxWidthConstraint];
-    self.IFA_frameViewSizeConstraints = [frameView ifa_addLayoutConstraintsForSize:newFrameViewSize];
+                                                                                    constant:chromeViewMaxWidth];
+    [chromeView addConstraint:chromeViewMaxWidthConstraint];
+    CGSize newChromeViewSize = [chromeView systemLayoutSizeFittingSize:self.chromeViewLayoutFittingSize];
+//    NSLog(@"NSStringFromCGSize(newChromeViewSize) = %@", NSStringFromCGSize(newChromeViewSize));    //wip: clean up
+    [chromeView removeConstraint:chromeViewMaxWidthConstraint];
+    self.IFA_chromeViewSizeConstraints = [chromeView ifa_addLayoutConstraintsForSize:newChromeViewSize];
 
     [super updateConstraints];
 
@@ -266,6 +307,7 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change
                        context:(void *)context {
+
     if ([keyPath isEqualToString:@"text"] || [keyPath isEqualToString:@"hidden"]) {
         if ([keyPath isEqualToString:@"text"]) {
             UILabel *label = object;
@@ -273,6 +315,7 @@
         }
         [self IFA_updateLayout];
     }
+
 }
 
 #pragma mark - Private
@@ -303,54 +346,77 @@
     motionEffectY.minimumRelativeValue = @(-offset);
     UIMotionEffectGroup *group = [UIMotionEffectGroup new];
     group.motionEffects = @[motionEffectX, motionEffectY];
-    [self.frameView addMotionEffect:group];
+    [self.chromeView addMotionEffect:group];
 }
 
 - (void)IFA_configureViewHierarchy {
 
-    // Content views
+    // Content subviews
     [self.contentView addSubview:self.activityIndicatorView];
     [self.contentView addSubview:self.progressView];
     [self.contentView addSubview:self.textLabel];
     [self.contentView addSubview:self.detailTextLabel];
 
-    // Content container view
-    [self.frameView addSubview:self.contentView];
+    // Chrome subviews
+    [self IFA_updateChromeViewHierarchy];
 
-//    // Content container view
-//    [self.IFA_vibrancyEffectView.contentView addSubview:self.contentView];
-//    [self.contentView ifa_addLayoutConstraintsToFillSuperview];
-
-//    // Vibrancy effect view
-//    [self.IFA_blurEffectView.contentView addSubview:self.IFA_vibrancyEffectView];
-//    [self.IFA_vibrancyEffectView ifa_addLayoutConstraintsToFillSuperview];
-
-//    // Blur effect view
-//    [self.frameView addSubview:self.IFA_blurEffectView];
-//    [self.IFA_blurEffectView ifa_addLayoutConstraintsToFillSuperview];
-
-    // Frame view
-    [self addSubview:self.frameView];
+    // Chrome view
+    [self addSubview:self.chromeView];
 
 }
 
-- (void)IFA_addImmutableLayoutConstraints{
+- (void)IFA_updateChromeViewHierarchy {
 
-    // Content container view
-    [self.contentView ifa_addLayoutConstraintsToFillSuperview];
+    [self.IFA_vibrancyEffectView removeFromSuperview];
+    [self.IFA_blurEffectView removeFromSuperview];
+    [self.contentView removeFromSuperview];
 
-    // Frame view
-    [self.frameView ifa_addLayoutConstraintsToCenterInSuperview];
+    // Forces the blur effect view to be re-initialised with the current blur effect style (in case it has changed)
+    self.IFA_blurEffectView = nil;
+
+    switch (self.style) {
+
+        case IFAHudViewStylePlain:
+
+            // Content container view
+            [self.chromeView addSubview:self.contentView];
+
+            break;
+
+        case IFAHudViewStyleBlur:
+
+            // Content container view
+            [self.IFA_blurEffectView.contentView addSubview:self.contentView];
+
+            // Blur effect view
+            [self.chromeView addSubview:self.IFA_blurEffectView];
+            [self.IFA_blurEffectView ifa_addLayoutConstraintsToFillSuperview];  //wip: will this stay here
+
+            break;
+
+        case IFAHudViewStyleBlurAndVibrancy:
+
+            // Content container view
+            [self.IFA_vibrancyEffectView.contentView addSubview:self.contentView];
+
+            // Vibrancy effect view
+            [self.IFA_blurEffectView.contentView addSubview:self.IFA_vibrancyEffectView];
+            [self.IFA_vibrancyEffectView ifa_addLayoutConstraintsToFillSuperview];  //wip: will this stay here
+
+            // Blur effect view
+            [self.chromeView addSubview:self.IFA_blurEffectView];
+            [self.IFA_blurEffectView ifa_addLayoutConstraintsToFillSuperview];  //wip: will this stay here
+
+            break;
+
+    }
 
 }
 
 - (void)IFA_updateColours {
 
-    // Overlay
-    self.backgroundColor = self.overlayColour;    //wip: move to theme
-
-    // Frame foreground
-    UIColor *foregroundColour = self.frameForegroundColour;
+    // Chrome foreground
+    UIColor *foregroundColour = self.chromeForegroundColour;
     self.textLabel.textColor = foregroundColour;   //wip: move to theme?
     self.detailTextLabel.textColor = foregroundColour;   //wip: move to theme?
     self.activityIndicatorView.color = foregroundColour;  //wip: move to theme?
@@ -358,8 +424,11 @@
     self.progressView.trackTintColor = [UIColor lightGrayColor];    //wip: move to theme? (ALSO: VALUE HARDCODED)
     self.customView.tintColor = foregroundColour;   //wip: move to theme?
 
-    // Frame background
-    self.frameView.backgroundColor = self.frameBackgroundColour;    //wip: move to theme
+    // Chrome background
+    self.chromeView.backgroundColor = self.chromeBackgroundColour;    //wip: move to theme
+
+    // Overlay
+    self.backgroundColor = self.overlayColour;    //wip: move to theme
 
 }
 
@@ -400,6 +469,46 @@
     [self.textLabel removeObserver:self forKeyPath:@"hidden" context:nil];
     [self.detailTextLabel removeObserver:self forKeyPath:@"hidden" context:nil];
 
+}
+
+- (UIVisualEffectView *)IFA_blurEffectView {
+    if (!_IFA_blurEffectView) {
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:self.blurEffectStyle];
+        _IFA_blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        _IFA_blurEffectView.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _IFA_blurEffectView;
+}
+
+- (UIVisualEffectView *)IFA_vibrancyEffectView {
+    if (!_IFA_vibrancyEffectView) {
+        UIVibrancyEffect *vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:(UIBlurEffect *) self.IFA_blurEffectView.effect];
+        _IFA_vibrancyEffectView = [[UIVisualEffectView alloc] initWithEffect:vibrancyEffect];
+        _IFA_vibrancyEffectView.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _IFA_vibrancyEffectView;
+}
+
+- (UIColor *)IFA_defaultOverlayColour {
+    return [UIColor clearColor];
+}
+
+- (UIColor *)IFA_defaultChromeForegroundColour {
+    return [UIColor whiteColor];
+}
+
+- (UIColor *)IFA_defaultChromeBackgroundColour {
+    UIColor *color;
+    switch (self.style) {
+        case IFAHudViewStylePlain:
+            color = [[UIColor blackColor] colorWithAlphaComponent:0.75];
+            break;
+        case IFAHudViewStyleBlur:
+        case IFAHudViewStyleBlurAndVibrancy:
+            color = [UIColor clearColor];
+            break;
+    }
+    return color;
 }
 
 @end

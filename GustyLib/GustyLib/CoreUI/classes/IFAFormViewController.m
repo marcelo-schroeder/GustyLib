@@ -1857,7 +1857,8 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 //                    [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:@"%@ %@",
 //                                                                                                        self.title,
 //                                                                                                        l_isInserted ? @"created" : @"updated"]];
-                    IFAHud *hud = [[IFAHud alloc] initWithFrameViewLayoutFittingMode:IFAHudFrameViewLayoutFittingModeCompressed];
+                    IFAHud *hud = [[IFAHud alloc] initWithStyle:(IFAHudViewStylePlain)
+                                    chromeViewLayoutFittingMode:IFAHudChromeViewLayoutFittingModeCompressed];
 //                    hud.text = @"Testing text that is a little bit longer than usual...";
                     hud.text = @"Short";
                     hud.detailText = @"And this is the detail";

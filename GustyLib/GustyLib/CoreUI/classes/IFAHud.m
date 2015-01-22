@@ -3,14 +3,15 @@
 // Copyright (c) 2015 InfoAccent Pty Ltd. All rights reserved.
 //
 
+#import <GustyLib/IFAHud.h>
 #import "GustyLibCoreUI.h"
 
 
 //wip: memory profile this window thing
 @interface IFAHud ()
 @property(nonatomic, strong) UIWindow *IFA_window;
-@property(nonatomic, strong) IFAHudViewController *IFA_hudViewController;
-@property(nonatomic) IFAHudFrameViewLayoutFittingMode frameViewLayoutFittingMode;
+@property(nonatomic, strong) IFAHudViewController *hudViewController;
+@property(nonatomic) IFAHudChromeViewLayoutFittingMode chromeViewLayoutFittingMode;
 @end
 
 @implementation IFAHud {
@@ -19,14 +20,12 @@
 
 #pragma mark - Public
 
-- (instancetype)init {
-    return [self initWithFrameViewLayoutFittingMode:IFAHudFrameViewLayoutFittingModeCompressed];
-}
-
-- (instancetype)initWithFrameViewLayoutFittingMode:(IFAHudFrameViewLayoutFittingMode)a_frameViewLayoutFittingMode {
+- (instancetype)initWithStyle:(IFAHudViewStyle)a_style
+  chromeViewLayoutFittingMode:(IFAHudChromeViewLayoutFittingMode)a_chromeViewLayoutFittingMode {
     self = [super init];
     if (self) {
-        self.frameViewLayoutFittingMode = a_frameViewLayoutFittingMode;
+        self.hudViewController = [[IFAHudViewController alloc] initWithStyle:a_style];
+        self.chromeViewLayoutFittingMode = a_chromeViewLayoutFittingMode;
         self.visualIndicatorMode = IFAHudVisualIndicatorModeNone;
     }
     return self;
@@ -56,13 +55,13 @@
         }
     };
     if (a_presentingViewController) {
-        [a_presentingViewController presentViewController:self.IFA_hudViewController
+        [a_presentingViewController presentViewController:self.hudViewController
                                                  animated:a_animated
                                                completion:completion];
     } else {
         if (self.IFA_window.hidden) {
             [self.IFA_window makeKeyAndVisible];
-            [self.IFA_window.rootViewController presentViewController:self.IFA_hudViewController
+            [self.IFA_window.rootViewController presentViewController:self.hudViewController
                                                              animated:a_animated
                                                            completion:completion];
         }
@@ -95,20 +94,20 @@
 }
 
 - (void)setText:(NSString *)text {
-    self.IFA_hudViewController.hudView.textLabel.text = text;
+    self.hudViewController.hudView.textLabel.text = text;
 }
 
 - (NSString *)text {
-    return self.IFA_hudViewController.hudView.textLabel.text;
+    return self.hudViewController.hudView.textLabel.text;
 }
 
 
 - (void)setDetailText:(NSString *)detailText {
-    self.IFA_hudViewController.hudView.detailTextLabel.text = detailText;
+    self.hudViewController.hudView.detailTextLabel.text = detailText;
 }
 
 - (NSString *)detailText {
-    return self.IFA_hudViewController.hudView.detailTextLabel.text;
+    return self.hudViewController.hudView.detailTextLabel.text;
 }
 
 - (void)setTapActionBlock:(void (^)())tapActionBlock {
@@ -122,81 +121,92 @@
 }
 
 - (void)setProgress:(CGFloat)progress {
-    self.IFA_hudViewController.hudView.progressView.progress = progress;
+    self.hudViewController.hudView.progressView.progress = progress;
 }
 
 - (CGFloat)progress {
-    return self.IFA_hudViewController.hudView.progressView.progress;
+    return self.hudViewController.hudView.progressView.progress;
 }
 
 - (void)setVisualIndicatorMode:(IFAHudVisualIndicatorMode)visualIndicatorMode {
     _visualIndicatorMode = visualIndicatorMode;
     if (visualIndicatorMode == IFAHudVisualIndicatorModeProgressIndeterminate) {
-        [self.IFA_hudViewController.hudView.activityIndicatorView startAnimating];
+        [self.hudViewController.hudView.activityIndicatorView startAnimating];
     } else {
-        [self.IFA_hudViewController.hudView.activityIndicatorView stopAnimating];
+        [self.hudViewController.hudView.activityIndicatorView stopAnimating];
     }
-    self.IFA_hudViewController.hudView.progressView.hidden = visualIndicatorMode !=IFAHudVisualIndicatorModeProgressDeterminate;
+    self.hudViewController.hudView.progressView.hidden = visualIndicatorMode !=IFAHudVisualIndicatorModeProgressDeterminate;
     if (visualIndicatorMode == IFAHudVisualIndicatorModeSuccess || visualIndicatorMode == IFAHudVisualIndicatorModeError) {
         NSString *imageName = visualIndicatorMode == IFAHudVisualIndicatorModeSuccess ? @"IFA_Icon_HudSuccess" : @"IFA_Icon_HudError";
         UIImage *image = [[UIImage imageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-        self.IFA_hudViewController.hudView.customView = imageView;
+        self.hudViewController.hudView.customView = imageView;
     }
 }
 
-- (void)setFrameViewLayoutFittingMode:(IFAHudFrameViewLayoutFittingMode)frameViewLayoutFittingMode {
-    _frameViewLayoutFittingMode = frameViewLayoutFittingMode;
-    self.IFA_hudViewController.hudView.frameViewLayoutFittingSize = frameViewLayoutFittingMode == IFAHudFrameViewLayoutFittingModeExpanded ? UILayoutFittingExpandedSize : UILayoutFittingCompressedSize;
+- (void)setChromeViewLayoutFittingMode:(IFAHudChromeViewLayoutFittingMode)chromeViewLayoutFittingMode {
+    _chromeViewLayoutFittingMode = chromeViewLayoutFittingMode;
+    self.hudViewController.hudView.chromeViewLayoutFittingSize = chromeViewLayoutFittingMode == IFAHudChromeViewLayoutFittingModeExpanded ? UILayoutFittingExpandedSize : UILayoutFittingCompressedSize;
 }
 
 - (NSTimeInterval)presentationTransitionDuration {
-    return self.IFA_hudViewController.viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.presentationTransitionDuration;
+    return self.hudViewController.viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.presentationTransitionDuration;
 }
 
 - (void)setPresentationTransitionDuration:(NSTimeInterval)presentationTransitionDuration {
-    self.IFA_hudViewController.viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.presentationTransitionDuration = presentationTransitionDuration;
+    self.hudViewController.viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.presentationTransitionDuration = presentationTransitionDuration;
 }
 
 - (NSTimeInterval)dismissalTransitionDuration {
-    return self.IFA_hudViewController.viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.dismissalTransitionDuration;
+    return self.hudViewController.viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.dismissalTransitionDuration;
 }
 
 - (void)setDismissalTransitionDuration:(NSTimeInterval)dismissalTransitionDuration {
-    self.IFA_hudViewController.viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.dismissalTransitionDuration = dismissalTransitionDuration;
+    self.hudViewController.viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.dismissalTransitionDuration = dismissalTransitionDuration;
 }
 
 - (UIView *)customVisualIndicatorView {
-    return self.IFA_hudViewController.hudView.customView;
+    return self.hudViewController.hudView.customView;
 }
 
 - (void)setCustomVisualIndicatorView:(UIView *)customVisualIndicatorView {
     self.visualIndicatorMode = customVisualIndicatorView ? IFAHudVisualIndicatorModeCustom : IFAHudVisualIndicatorModeNone;
-    self.IFA_hudViewController.hudView.customView = customVisualIndicatorView;
+    self.hudViewController.hudView.customView = customVisualIndicatorView;
 }
 
-- (UIColor *)frameForegroundColour {
-    return self.IFA_hudViewController.hudView.frameForegroundColour;
+- (UIColor *)chromeForegroundColour {
+    return self.hudViewController.hudView.chromeForegroundColour;
 }
 
-- (void)setFrameForegroundColour:(UIColor *)frameForegroundColour {
-    self.IFA_hudViewController.hudView.frameForegroundColour = frameForegroundColour;
+- (void)setChromeForegroundColour:(UIColor *)chromeForegroundColour {
+    self.hudViewController.hudView.chromeForegroundColour = chromeForegroundColour;
 }
 
-- (UIColor *)frameBackgroundColour {
-    return self.IFA_hudViewController.hudView.frameBackgroundColour;
+- (UIColor *)chromeBackgroundColour {
+    return self.hudViewController.hudView.chromeBackgroundColour;
 }
 
-- (void)setFrameBackgroundColour:(UIColor *)frameBackgroundColour {
-    self.IFA_hudViewController.hudView.frameBackgroundColour = frameBackgroundColour;
+- (void)setChromeBackgroundColour:(UIColor *)chromeBackgroundColour {
+    self.hudViewController.hudView.chromeBackgroundColour = chromeBackgroundColour;
 }
 
 - (BOOL)shouldAnimateLayoutChanges {
-    return self.IFA_hudViewController.hudView.shouldAnimateLayoutChanges;
+    return self.hudViewController.hudView.shouldAnimateLayoutChanges;
 }
 
 - (void)setShouldAnimateLayoutChanges:(BOOL)shouldAnimateLayoutChanges {
-    self.IFA_hudViewController.hudView.shouldAnimateLayoutChanges = shouldAnimateLayoutChanges;
+    self.hudViewController.hudView.shouldAnimateLayoutChanges = shouldAnimateLayoutChanges;
+}
+
+- (IFAHudViewStyle)style {
+    return self.hudViewController.hudView.style;
+}
+
+#pragma mark - Overrides
+
+- (instancetype)init {
+    return [self initWithStyle:(IFAHudViewStylePlain)
+   chromeViewLayoutFittingMode:IFAHudChromeViewLayoutFittingModeCompressed];
 }
 
 #pragma mark - Private
@@ -211,16 +221,9 @@
     return _IFA_window;
 }
 
-- (IFAHudViewController *)IFA_hudViewController {
-    if (!_IFA_hudViewController) {
-        _IFA_hudViewController = [IFAHudViewController new];
-    }
-    return _IFA_hudViewController;
-}
-
 - (void)IFA_updateHudViewControllerTapActionBlock {
     __weak __typeof(self) l_weakSelf = self;
-    self.IFA_hudViewController.tapActionBlock = ^{
+    self.hudViewController.tapActionBlock = ^{
         if (l_weakSelf.tapActionBlock) {
             l_weakSelf.tapActionBlock();
         }

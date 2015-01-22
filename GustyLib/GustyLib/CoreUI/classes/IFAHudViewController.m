@@ -6,14 +6,11 @@
 #import "GustyLibCoreUI.h"
 
 //wip: does the dynamic font stuff work?
-//wip: test rotation again when some serious blurring is available (e.g. map view)
 //wip: I'm relying on the dimming plumming - I am going to use a dimmed bg? Clean up.
 //wip: does the motion stuff has to respect accessibility settings?
 @interface IFAHudViewController ()
 @property (nonatomic, strong) IFAHudView *hudView;
 @property(nonatomic, strong) IFAViewControllerTransitioningDelegate *viewControllerTransitioningDelegate;
-//@property(nonatomic, strong) UIVisualEffectView *IFA_blurEffectView;  //wip: clean up stuff related to visual effects (lots of comments)
-//@property(nonatomic, strong) UIVisualEffectView *IFA_vibrancyEffectView;
 @property (nonatomic, strong) UITapGestureRecognizer *IFA_tapGestureRecognizer;
 @end
 
@@ -23,27 +20,24 @@
 
 #pragma mark - Public
 
-- (IFAHudView *)hudView {
-    if (!_hudView) {
-        _hudView = [IFAHudView new];
-        _hudView.translatesAutoresizingMaskIntoConstraints = NO;
-    }
-    return _hudView;
-}
-
-#pragma mark - Overrides
-
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+- (instancetype)initWithStyle:(IFAHudViewStyle)a_style {
+    self = [super init];
     if (self) {
+
+        self.hudView = [[IFAHudView alloc] initWithStyle:a_style];
+        self.hudView.translatesAutoresizingMaskIntoConstraints = NO;
+
         self.modalPresentationStyle = UIModalPresentationCustom;
         self.transitioningDelegate = self.viewControllerTransitioningDelegate;
         [self.view addSubview:self.hudView];
         [self.hudView ifa_addLayoutConstraintsToFillSuperview];
-        [self.hudView.frameView addGestureRecognizer:self.IFA_tapGestureRecognizer];
+        [self.hudView.chromeView addGestureRecognizer:self.IFA_tapGestureRecognizer];
+
     }
     return self;
 }
+
+#pragma mark - Overrides
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -74,23 +68,5 @@
         self.tapActionBlock();
     }
 }
-
-//- (UIVisualEffectView *)IFA_blurEffectView {
-//    if (!_IFA_blurEffectView) {
-//        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-//        _IFA_blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-//        _IFA_blurEffectView.translatesAutoresizingMaskIntoConstraints = NO;
-//    }
-//    return _IFA_blurEffectView;
-//}
-
-//- (UIVisualEffectView *)IFA_vibrancyEffectView {
-//    if (!_IFA_vibrancyEffectView) {
-//        UIVibrancyEffect *vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:(UIBlurEffect *) self.IFA_blurEffectView.effect];
-//        _IFA_vibrancyEffectView = [[UIVisualEffectView alloc] initWithEffect:vibrancyEffect];
-//        _IFA_vibrancyEffectView.translatesAutoresizingMaskIntoConstraints = NO;
-//    }
-//    return _IFA_vibrancyEffectView;
-//}
 
 @end
