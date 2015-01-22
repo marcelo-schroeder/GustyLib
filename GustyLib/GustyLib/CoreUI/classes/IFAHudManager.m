@@ -3,18 +3,18 @@
 // Copyright (c) 2015 InfoAccent Pty Ltd. All rights reserved.
 //
 
-#import <GustyLib/IFAHud.h>
+#import "IFAHudManager.h"
 #import "GustyLibCoreUI.h"
 
 
 //wip: memory profile this window thing
-@interface IFAHud ()
+@interface IFAHudManager ()
 @property(nonatomic, strong) UIWindow *IFA_window;
 @property(nonatomic, strong) IFAHudViewController *hudViewController;
 @property(nonatomic) IFAHudChromeViewLayoutFittingMode chromeViewLayoutFittingMode;
 @end
 
-@implementation IFAHud {
+@implementation IFAHudManager {
 
 }
 

@@ -4,7 +4,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <GustyLib/IFAHud.h>
+#import "IFAHudManager.h"
 #import "IFAHudView.h"
 
 @class IFAHudViewController;
@@ -41,7 +41,7 @@ typedef NS_ENUM(NSUInteger, IFAHudChromeViewLayoutFittingMode) {
 // wip: add documentation
 // wip: add license
 // wip: rename to IFAHudManager
-@interface IFAHud : NSObject
+@interface IFAHudManager : NSObject
 
 @property(nonatomic, strong, readonly) IFAHudViewController *hudViewController;
 
