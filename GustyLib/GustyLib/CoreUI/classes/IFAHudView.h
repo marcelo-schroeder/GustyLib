@@ -36,13 +36,6 @@ typedef NS_ENUM(NSUInteger, IFAHudViewVisualIndicatorMode) {
 
 };
 
-typedef NS_ENUM(NSUInteger, IFAHudViewChromeViewLayoutFittingMode) {
-
-    IFAHudViewChromeViewLayoutFittingModeCompressed,
-    IFAHudViewChromeViewLayoutFittingModeExpanded,
-
-};
-
 //wip: add doc
 //wip: add lincense
 //wip: attribution to the flicker images used
@@ -56,20 +49,15 @@ typedef NS_ENUM(NSUInteger, IFAHudViewChromeViewLayoutFittingMode) {
 @property (nonatomic, strong, readonly) UILabel *detailTextLabel;
 @property (nonatomic, strong) UIView *customView;
 
+@property (nonatomic) IFAHudViewStyle style UI_APPEARANCE_SELECTOR;
+@property(nonatomic) CGSize chromeViewLayoutFittingSize UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor *overlayColour UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor *chromeForegroundColour UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor *chromeBackgroundColour UI_APPEARANCE_SELECTOR;
 @property (nonatomic) UIBlurEffectStyle blurEffectStyle UI_APPEARANCE_SELECTOR;
-
-@property(nonatomic) CGSize chromeViewLayoutFittingSize;
-
-@property(nonatomic) BOOL shouldAnimateLayoutChanges;
-
-@property (nonatomic, readonly) IFAHudViewStyle style;
+@property(nonatomic) BOOL shouldAnimateLayoutChanges UI_APPEARANCE_SELECTOR;
 
 @property (nonatomic, strong) void (^chromeTapActionBlock) ();
 @property (nonatomic, strong) void (^overlayTapActionBlock) ();
-
-- (instancetype)initWithStyle:(IFAHudViewStyle)a_style NS_DESIGNATED_INITIALIZER;
 
 @end

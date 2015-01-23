@@ -3,6 +3,7 @@
 // Copyright (c) 2015 InfoAccent Pty Ltd. All rights reserved.
 //
 
+#import <GustyLib/IFAHudView.h>
 #import "GustyLibCoreUI.h"
 
 //wip: does the dynamic font stuff work?
@@ -11,8 +12,6 @@
 @interface IFAHudViewController ()
 @property (nonatomic, strong) IFAHudView *hudView;
 @property(nonatomic, strong) IFAViewControllerTransitioningDelegate *viewControllerTransitioningDelegate;
-@property(nonatomic) IFAHudViewChromeViewLayoutFittingMode chromeViewLayoutFittingMode;
-@property (nonatomic) IFAHudViewStyle style;
 @end
 
 @implementation IFAHudViewController {
@@ -37,19 +36,9 @@
     return self;
 }
 
-- (instancetype)initWithStyle:(IFAHudViewStyle)a_style
-  chromeViewLayoutFittingMode:(IFAHudViewChromeViewLayoutFittingMode)a_chromeViewLayoutFittingMode {
-    self = [super init];
-    if (self) {
-        self.style = a_style;
-        self.chromeViewLayoutFittingMode = a_chromeViewLayoutFittingMode;
-    }
-    return self;
-}
-
 - (IFAHudView *)hudView {
     if (!_hudView) {
-        _hudView = [[IFAHudView alloc] initWithStyle:self.style];
+        _hudView = [IFAHudView new];
         _hudView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _hudView;
@@ -132,9 +121,20 @@
     }
 }
 
-- (void)setChromeViewLayoutFittingMode:(IFAHudViewChromeViewLayoutFittingMode)chromeViewLayoutFittingMode {
-    _chromeViewLayoutFittingMode = chromeViewLayoutFittingMode;
-    self.hudView.chromeViewLayoutFittingSize = chromeViewLayoutFittingMode == IFAHudViewChromeViewLayoutFittingModeExpanded ? UILayoutFittingExpandedSize : UILayoutFittingCompressedSize;
+- (IFAHudViewStyle)style {
+    return self.hudView.style;
+}
+
+- (void)setStyle:(IFAHudViewStyle)style {
+    self.hudView.style = style;
+}
+
+- (CGSize)chromeViewLayoutFittingSize {
+    return self.hudView.chromeViewLayoutFittingSize;
+}
+
+- (void)setChromeViewLayoutFittingSize:(CGSize)chromeViewLayoutFittingSize {
+    self.hudView.chromeViewLayoutFittingSize = chromeViewLayoutFittingSize;
 }
 
 - (NSTimeInterval)presentationTransitionDuration {
@@ -189,8 +189,6 @@
 #pragma mark - Overrides
 
 - (void)ifa_commonInit {
-    self.style = IFAHudViewStylePlain;
-    self.chromeViewLayoutFittingMode = IFAHudViewChromeViewLayoutFittingModeCompressed;
     self.visualIndicatorMode = IFAHudViewVisualIndicatorModeNone;
     self.shouldAllowUserInteractionPassthrough = NO;
     self.modalPresentationStyle = UIModalPresentationCustom;

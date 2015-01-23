@@ -3,6 +3,7 @@
 // Copyright (c) 2015 InfoAccent Pty Ltd. All rights reserved.
 //
 
+#import <GustyLib/IFAHudView.h>
 #import "GustyLib.h"
 
 //wip: test rotation again when some serious blurring is available (e.g. map view)
@@ -20,7 +21,6 @@
 @property(nonatomic, strong) NSArray *IFA_chromeViewSizeConstraints;
 @property(nonatomic, strong) UIVisualEffectView *IFA_blurEffectView;
 @property(nonatomic, strong) UIVisualEffectView *IFA_vibrancyEffectView;
-@property (nonatomic) IFAHudViewStyle style;
 @property(nonatomic, strong) NSArray *IFA_contentViewSizeConstraints;
 @property(nonatomic, strong) NSArray *IFA_chromeViewCentreConstraints;
 @property (nonatomic, strong) UITapGestureRecognizer *IFA_chromeTapGestureRecognizer;
@@ -35,14 +35,13 @@
 
 #pragma mark - Public
 
-- (instancetype)initWithStyle:(IFAHudViewStyle)a_style {
-    self = [super init];
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
     if (self) {
 
-        self.style = a_style;
-        self.chromeViewLayoutFittingSize = UILayoutFittingCompressedSize;
-
         // Set ivar's directly otherwise UIKit won't override via appearance API
+        _style = IFAHudViewStylePlain;
+        _chromeViewLayoutFittingSize = UILayoutFittingCompressedSize;
         _blurEffectStyle = UIBlurEffectStyleDark;
 
         [self IFA_addObservers];
@@ -139,9 +138,7 @@
 
 - (void)setBlurEffectStyle:(UIBlurEffectStyle)blurEffectStyle {
     _blurEffectStyle = blurEffectStyle;
-    [self IFA_updateChromeViewHierarchy];
-    [self IFA_updateColours];
-    [self IFA_updateLayout];
+    [self IFA_updateStyle];
 }
 
 - (UIView *)contentView {
@@ -492,6 +489,16 @@
     return _IFA_vibrancyEffectView;
 }
 
+- (void)setStyle:(IFAHudViewStyle)style {
+    _style = style;
+    [self IFA_updateStyle];
+}
+
+- (void)setChromeViewLayoutFittingSize:(CGSize)chromeViewLayoutFittingSize {
+    _chromeViewLayoutFittingSize = chromeViewLayoutFittingSize;
+    [self IFA_updateLayout];
+}
+
 - (UIColor *)IFA_defaultOverlayColour {
     return [UIColor clearColor];
 }
@@ -545,6 +552,12 @@
 - (void)IFA_addGestureRecognisers {
     [self.chromeView addGestureRecognizer:self.IFA_chromeTapGestureRecognizer];
     [self addGestureRecognizer:self.IFA_overlayTapGestureRecognizer];
+}
+
+- (void)IFA_updateStyle {
+    [self IFA_updateChromeViewHierarchy];
+    [self IFA_updateColours];
+    [self IFA_updateLayout];
 }
 
 @end

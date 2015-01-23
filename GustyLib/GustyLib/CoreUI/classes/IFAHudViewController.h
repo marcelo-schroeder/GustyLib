@@ -13,7 +13,8 @@
 @interface IFAHudViewController : IFAViewController
 
 @property (nonatomic, strong, readonly) IFAHudView *hudView;
-@property(nonatomic, readonly) IFAHudViewChromeViewLayoutFittingMode chromeViewLayoutFittingMode;
+@property (nonatomic) IFAHudViewStyle style;
+@property(nonatomic) CGSize chromeViewLayoutFittingSize;
 
 @property (nonatomic) IFAHudViewVisualIndicatorMode visualIndicatorMode;
 @property (nonatomic) CGFloat progress;
@@ -35,8 +36,6 @@
 
 @property(nonatomic) BOOL shouldAnimateLayoutChanges;
 
-@property (nonatomic, readonly) IFAHudViewStyle style;
-
 @property (nonatomic) NSTimeInterval autoDismissalDelay;
 
 /**
@@ -45,8 +44,5 @@
 @property(nonatomic) NSTimeInterval presentationTransitionDuration;
 
 @property(nonatomic, strong, readonly) IFAViewControllerTransitioningDelegate *viewControllerTransitioningDelegate;
-
-- (instancetype)initWithStyle:(IFAHudViewStyle)a_style
-  chromeViewLayoutFittingMode:(IFAHudViewChromeViewLayoutFittingMode)a_chromeViewLayoutFittingMode;
 
 @end
