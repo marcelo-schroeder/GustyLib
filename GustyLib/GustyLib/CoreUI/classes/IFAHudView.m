@@ -6,6 +6,7 @@
 #import <GustyLib/IFAHudView.h>
 #import "GustyLib.h"
 
+//wip: make the blur style the default style (tried it quickly and had some auto layout errors)
 //wip: test rotation again when some serious blurring is available (e.g. map view)
 //wip: clean up comments
 //wip: need to manage whether the background blocks user interaction or not (somehow I lost that ability)
