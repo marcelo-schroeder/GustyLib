@@ -175,7 +175,6 @@
 #import "IFATableViewHeaderFooterView.h"
 #import "IFASingleSelectionListViewControllerHeaderView.h"
 #import "IFAHudViewController.h"
-#import "IFAHudManager.h"
 #import "IFAHudView.h"
 #import "IFADimmedFadingOverlayPresentationController.h"
 #import "IFADimmedFadingOverlayViewControllerTransitioningDelegate.h"
