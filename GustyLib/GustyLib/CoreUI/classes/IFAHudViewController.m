@@ -27,7 +27,7 @@
 
         self.chromeViewLayoutFittingMode = a_chromeViewLayoutFittingMode;
         self.visualIndicatorMode = IFAHudViewVisualIndicatorModeNone;
-        self.shouldAllowUserInteractionPassthrough = YES;
+        self.shouldAllowUserInteractionPassthrough = NO;
 
         self.hudView = [[IFAHudView alloc] initWithStyle:a_style];
         self.hudView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -177,7 +177,6 @@
     return self.hudView.style;
 }
 
-
 #pragma mark - Overrides
 
 - (void)viewDidLoad {
@@ -214,7 +213,8 @@
             l_weakSelf.overlayTapActionBlock();
         }
         if (l_weakSelf.shouldDismissOnOverlayTap) {
-//            [l_weakSelf dismissWithPresentingViewController:nil animated:YES completion:nil]; //wip: replace with final code
+            [l_weakSelf.presentingViewController dismissViewControllerAnimated:YES
+                                                                    completion:nil];
         }
     };
 }
@@ -226,7 +226,8 @@
             l_weakSelf.chromeTapActionBlock();
         }
         if (l_weakSelf.shouldDismissOnChromeTap) {
-//            [l_weakSelf dismissWithPresentingViewController:nil animated:YES completion:nil]; //wip: replace with final code
+            [l_weakSelf.presentingViewController dismissViewControllerAnimated:YES
+                                                                    completion:nil];
         }
     };
 }
