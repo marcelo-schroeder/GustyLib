@@ -7,6 +7,7 @@
 #import "GustyLib.h"
 
 //wip: make the blur style the default style (tried it quickly and had some auto layout errors)
+//wip: after making the blur style the default style, change the demo app accordingly (e.g. the Blur & Vibrancy section should be named Styles and include the plain style in it)
 //wip: test rotation again when some serious blurring is available (e.g. map view)
 //wip: clean up comments
 //wip: need to manage whether the background blocks user interaction or not (somehow I lost that ability)
