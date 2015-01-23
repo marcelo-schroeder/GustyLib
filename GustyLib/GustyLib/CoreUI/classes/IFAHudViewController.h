@@ -13,9 +13,40 @@
 @interface IFAHudViewController : IFAViewController
 
 @property (nonatomic, strong, readonly) IFAHudView *hudView;
+@property(nonatomic, readonly) IFAHudViewChromeViewLayoutFittingMode chromeViewLayoutFittingMode;
+
+@property (nonatomic) IFAHudViewVisualIndicatorMode visualIndicatorMode;
+@property (nonatomic) CGFloat progress;
+
+@property (nonatomic, strong) NSString *text;
+@property (nonatomic, strong) NSString *detailText;
+@property (nonatomic, strong) UIView *customVisualIndicatorView;
+
+@property (nonatomic) BOOL shouldDismissOnChromeTap;
+@property (nonatomic, strong) void (^chromeTapActionBlock) ();
+
+@property (nonatomic) BOOL shouldDismissOnOverlayTap;
+@property (nonatomic, strong) void (^overlayTapActionBlock) ();
+
+@property (nonatomic) BOOL shouldAllowUserInteractionPassthrough;    //wip: implement this
+
+@property (nonatomic, strong) UIColor *chromeForegroundColour;
+@property (nonatomic, strong) UIColor *chromeBackgroundColour;
+
+@property(nonatomic) BOOL shouldAnimateLayoutChanges;
+
+@property (nonatomic, readonly) IFAHudViewStyle style;
+
+@property (nonatomic) NSTimeInterval autoDismissalDelay;
+
+/**
+* Duration (in seconds) of the presentation's transition animation.
+*/
+@property(nonatomic) NSTimeInterval presentationTransitionDuration;
 
 @property(nonatomic, strong, readonly) IFAViewControllerTransitioningDelegate *viewControllerTransitioningDelegate;
 
-- (instancetype)initWithStyle:(IFAHudViewStyle)a_style NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithStyle:(IFAHudViewStyle)a_style
+  chromeViewLayoutFittingMode:(IFAHudViewChromeViewLayoutFittingMode)a_chromeViewLayoutFittingMode NS_DESIGNATED_INITIALIZER;
 
 @end

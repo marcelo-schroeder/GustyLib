@@ -1857,31 +1857,31 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 //                    [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:@"%@ %@",
 //                                                                                                        self.title,
 //                                                                                                        l_isInserted ? @"created" : @"updated"]];
-                    IFAHudManager *hud = [[IFAHudManager alloc] initWithStyle:(IFAHudViewStylePlain)
-                                    chromeViewLayoutFittingMode:IFAHudChromeViewLayoutFittingModeCompressed];
+//                    IFAHudManager *hud = [[IFAHudManager alloc] initWithStyle:(IFAHudViewStylePlain)
+//                                    chromeViewLayoutFittingMode:IFAHudViewChromeViewLayoutFittingModeCompressed];
 //                    hud.text = @"Testing text that is a little bit longer than usual...";
-                    hud.text = @"Short";
-                    hud.detailText = @"And this is the detail";
-                    hud.visualIndicatorMode = IFAHudVisualIndicatorModeNone;
-                    hud.chromeTapActionBlock = ^{
-                        NSLog(@"hello");
-                    };
-                    hud.shouldDismissOnChromeTap = YES;
-                    [hud presentWithPresentingViewController:nil animated:YES autoDismissalDelay:0 completion:^{
-                        [IFAUtils dispatchAsyncMainThreadBlock:^{
-                                    hud.progress = 0.33;
-                                }
-                                                    afterDelay:1];
-                        [IFAUtils dispatchAsyncMainThreadBlock:^{
-                                    hud.progress = 0.66;
-                                }
-                                                    afterDelay:2];
-                        [IFAUtils dispatchAsyncMainThreadBlock:^{
-                                    hud.progress = 1;
-                                    [hud dismissWithPresentingViewController:nil animated:YES completion:nil];
-                                }
-                                                    afterDelay:3];
-                    }];
+//                    hud.text = @"Short";
+//                    hud.detailText = @"And this is the detail";
+//                    hud.visualIndicatorMode = IFAHudViewVisualIndicatorModeNone;
+//                    hud.chromeTapActionBlock = ^{
+//                        NSLog(@"hello");
+//                    };
+//                    hud.shouldDismissOnChromeTap = YES;
+//                    [hud presentWithPresentingViewController:nil animated:YES autoDismissalDelay:0 completion:^{
+//                        [IFAUtils dispatchAsyncMainThreadBlock:^{
+//                                    hud.progress = 0.33;
+//                                }
+//                                                    afterDelay:1];
+//                        [IFAUtils dispatchAsyncMainThreadBlock:^{
+//                                    hud.progress = 0.66;
+//                                }
+//                                                    afterDelay:2];
+//                        [IFAUtils dispatchAsyncMainThreadBlock:^{
+//                                    hud.progress = 1;
+//                                    [hud dismissWithPresentingViewController:nil animated:YES completion:nil];
+//                                }
+//                                                    afterDelay:3];
+//                    }];
 
                 }
 

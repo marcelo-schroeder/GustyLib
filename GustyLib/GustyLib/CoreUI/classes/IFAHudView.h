@@ -14,6 +14,35 @@ typedef NS_ENUM(NSUInteger, IFAHudViewStyle) {
 
 };
 
+typedef NS_ENUM(NSUInteger, IFAHudViewVisualIndicatorMode) {
+
+    /** No visual indicator is shown. */
+            IFAHudViewVisualIndicatorModeNone,
+
+    /** The view set in the 'customVisualIndicatorView' property is shown. */
+            IFAHudViewVisualIndicatorModeCustom,
+
+    /** Progress indicator is shown using a UIActivityIndicatorView.*/
+            IFAHudViewVisualIndicatorModeProgressIndeterminate,
+
+    /** Progress indicator is shown using a UIProgressView. */
+            IFAHudViewVisualIndicatorModeProgressDeterminate,
+
+    /** A check mark is shown. **/
+            IFAHudViewVisualIndicatorModeSuccess,
+
+    /** An "X" is shown. **/
+            IFAHudViewVisualIndicatorModeError,
+
+};
+
+typedef NS_ENUM(NSUInteger, IFAHudViewChromeViewLayoutFittingMode) {
+
+    IFAHudViewChromeViewLayoutFittingModeCompressed,
+    IFAHudViewChromeViewLayoutFittingModeExpanded,
+
+};
+
 //wip: add doc
 //wip: add lincense
 //wip: attribution to the flicker images used
