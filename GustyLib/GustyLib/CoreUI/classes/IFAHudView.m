@@ -212,31 +212,31 @@
         // Content horizontal layout constraints
         [self.IFA_contentHorizontalLayoutConstraints removeAllObjects];
         if (!textLabel.hidden) {
-            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[textLabel]-(>=8)-|"
+            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8@999)-[textLabel]-(>=8@999)-|"
                                                                                                                      options:(NSLayoutFormatOptions) 0
                                                                                                                      metrics:nil
                                                                                                                        views:views]];
         }
         if (!activityIndicatorView.hidden) {
-            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[activityIndicatorView]-(>=8)-|"
+            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8@999)-[activityIndicatorView]-(>=8@999)-|"
                                                                                                                      options:(NSLayoutFormatOptions) 0
                                                                                                                      metrics:nil
                                                                                                                        views:views]];
         }
         if (!progressView.hidden) {
-            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[progressView]-(>=8)-|"
+            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8@999)-[progressView]-(>=8@999)-|"
                                                                                                                      options:(NSLayoutFormatOptions) 0
                                                                                                                      metrics:nil
                                                                                                                        views:views]];
         }
         if (customView && !customView.hidden) {
-            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[customView]-(>=8)-|"
+            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8@999)-[customView]-(>=8@999)-|"
                                                                                                                      options:(NSLayoutFormatOptions) 0
                                                                                                                      metrics:nil
                                                                                                                        views:views]];
         }
         if (!detailTextLabel.hidden) {
-            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8)-[detailTextLabel]-(>=8)-|"
+            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8@999)-[detailTextLabel]-(>=8@999)-|"
                                                                                                                      options:(NSLayoutFormatOptions) 0
                                                                                                                      metrics:nil
                                                                                                                        views:views]];
