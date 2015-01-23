@@ -51,6 +51,9 @@
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext {
 
+    // User interaction
+    transitionContext.containerView.userInteractionEnabled = self.containerViewUserInteraction; //wip: is this needed?
+
     UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIView *fromView = fromViewController.view;
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
@@ -75,7 +78,12 @@
         }
         [transitionContext completeTransition:YES];
     };
-    [UIView animateWithDuration:duration animations:animations completion:completion];
+    //wip: review this change - added the user interaction below but couldn't get it to work - revert if still not working
+    [UIView animateWithDuration:duration
+                          delay:0
+                        options:UIViewAnimationOptionAllowUserInteraction
+                     animations:animations
+                     completion:completion];
 
 }
 

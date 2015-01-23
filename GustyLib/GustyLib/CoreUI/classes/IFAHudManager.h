@@ -60,7 +60,7 @@ typedef NS_ENUM(NSUInteger, IFAHudChromeViewLayoutFittingMode) {
 @property (nonatomic) BOOL shouldDismissOnOverlayTap;
 @property (nonatomic, strong) void (^overlayTapActionBlock) ();
 
-@property (nonatomic) BOOL shouldAllowOverlayUserInteractionPassthrough;    //wip: implement this
+@property (nonatomic) BOOL shouldAllowUserInteractionPassthrough;    //wip: implement this
 
 @property (nonatomic, strong) UIColor *chromeForegroundColour;
 @property (nonatomic, strong) UIColor *chromeBackgroundColour;

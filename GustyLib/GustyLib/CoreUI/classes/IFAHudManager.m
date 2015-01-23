@@ -27,6 +27,7 @@
         self.hudViewController = [[IFAHudViewController alloc] initWithStyle:a_style];
         self.chromeViewLayoutFittingMode = a_chromeViewLayoutFittingMode;
         self.visualIndicatorMode = IFAHudVisualIndicatorModeNone;
+        self.shouldAllowUserInteractionPassthrough = YES;
     }
     return self;
 }
@@ -107,23 +108,41 @@
     return self.hudViewController.hudView.detailTextLabel.text;
 }
 
+- (void)setShouldAllowUserInteractionPassthrough:(BOOL)shouldAllowUserInteractionPassthrough {
+    _shouldAllowUserInteractionPassthrough = shouldAllowUserInteractionPassthrough;
+    self.hudViewController.viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.containerViewUserInteraction = !_shouldAllowUserInteractionPassthrough;
+    self.IFA_window.userInteractionEnabled = !_shouldAllowUserInteractionPassthrough;
+}
+
 - (void)setOverlayTapActionBlock:(void (^)())overlayTapActionBlock {
     _overlayTapActionBlock = overlayTapActionBlock;
+    if (_overlayTapActionBlock) {
+        self.shouldAllowUserInteractionPassthrough = NO;
+    }
     [self IFA_updateHudViewControllerOverlayTapActionBlock];
 }
 
 - (void)setShouldDismissOnOverlayTap:(BOOL)shouldDismissOnOverlayTap {
     _shouldDismissOnOverlayTap = shouldDismissOnOverlayTap;
+    if (_shouldDismissOnOverlayTap) {
+        self.shouldAllowUserInteractionPassthrough = NO;
+    }
     [self IFA_updateHudViewControllerOverlayTapActionBlock];
 }
 
 - (void)setChromeTapActionBlock:(void (^)())chromeTapActionBlock {
     _chromeTapActionBlock = chromeTapActionBlock;
+    if (_chromeTapActionBlock) {
+        self.shouldAllowUserInteractionPassthrough = NO;
+    }
     [self IFA_updateHudViewControllerChromeTapActionBlock];
 }
 
 - (void)setShouldDismissOnChromeTap:(BOOL)shouldDismissOnChromeTap {
     _shouldDismissOnChromeTap = shouldDismissOnChromeTap;
+    if (_shouldDismissOnChromeTap) {
+        self.shouldAllowUserInteractionPassthrough = NO;
+    }
     [self IFA_updateHudViewControllerChromeTapActionBlock];
 }
 

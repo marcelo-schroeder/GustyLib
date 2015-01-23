@@ -37,11 +37,13 @@ typedef void (^IFAViewControllerAnimatedTransitioningCompletionBlock)(BOOL a_fin
 */
 @property(nonatomic) NSTimeInterval presentationTransitionDuration;
 
-
 /**
 * Duration (in seconds) of the dismissal's transition animation.
 */
 @property(nonatomic) NSTimeInterval dismissalTransitionDuration;
+
+//wip: add doc
+@property (nonatomic) BOOL containerViewUserInteraction;    //wip: is this really necessary?
 
 /**
 * Designated initializer.
