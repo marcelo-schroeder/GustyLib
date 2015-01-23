@@ -9,6 +9,7 @@
 //wip: does the dynamic font stuff work?
 //wip: I'm relying on the dimming plumming - I am going to use a dimmed bg? Clean up.
 //wip: does the motion stuff has to respect accessibility settings?
+//wip: don't forget todo's in the demo app project
 @interface IFAHudViewController ()
 @property (nonatomic, strong) IFAHudView *hudView;
 @property(nonatomic, strong) IFAViewControllerTransitioningDelegate *viewControllerTransitioningDelegate;
