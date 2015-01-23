@@ -12,6 +12,7 @@
 @property (nonatomic, strong) IFAHudView *hudView;
 @property(nonatomic, strong) IFAViewControllerTransitioningDelegate *viewControllerTransitioningDelegate;
 @property(nonatomic) IFAHudViewChromeViewLayoutFittingMode chromeViewLayoutFittingMode;
+@property (nonatomic) IFAHudViewStyle style;
 @end
 
 @implementation IFAHudViewController {
@@ -20,25 +21,38 @@
 
 #pragma mark - Public
 
+- (id)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder:coder];
+    if (self) {
+        [self ifa_commonInit];
+    }
+    return self;
+}
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        [self ifa_commonInit];
+    }
+    return self;
+}
+
 - (instancetype)initWithStyle:(IFAHudViewStyle)a_style
   chromeViewLayoutFittingMode:(IFAHudViewChromeViewLayoutFittingMode)a_chromeViewLayoutFittingMode {
     self = [super init];
     if (self) {
-
+        self.style = a_style;
         self.chromeViewLayoutFittingMode = a_chromeViewLayoutFittingMode;
-        self.visualIndicatorMode = IFAHudViewVisualIndicatorModeNone;
-        self.shouldAllowUserInteractionPassthrough = NO;
-
-        self.hudView = [[IFAHudView alloc] initWithStyle:a_style];
-        self.hudView.translatesAutoresizingMaskIntoConstraints = NO;
-
-        self.modalPresentationStyle = UIModalPresentationCustom;
-        self.transitioningDelegate = self.viewControllerTransitioningDelegate;
-        [self.view addSubview:self.hudView];
-        [self.hudView ifa_addLayoutConstraintsToFillSuperview];
-
     }
     return self;
+}
+
+- (IFAHudView *)hudView {
+    if (!_hudView) {
+        _hudView = [[IFAHudView alloc] initWithStyle:self.style];
+        _hudView.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _hudView;
 }
 
 - (void)setText:(NSString *)text {
@@ -48,7 +62,6 @@
 - (NSString *)text {
     return self.hudView.textLabel.text;
 }
-
 
 - (void)setDetailText:(NSString *)detailText {
     self.hudView.detailTextLabel.text = detailText;
@@ -173,15 +186,35 @@
     self.hudView.shouldAnimateLayoutChanges = shouldAnimateLayoutChanges;
 }
 
-- (IFAHudViewStyle)style {
-    return self.hudView.style;
-}
-
 #pragma mark - Overrides
 
+- (void)ifa_commonInit {
+    self.style = IFAHudViewStylePlain;
+    self.chromeViewLayoutFittingMode = IFAHudViewChromeViewLayoutFittingModeCompressed;
+    self.visualIndicatorMode = IFAHudViewVisualIndicatorModeNone;
+    self.shouldAllowUserInteractionPassthrough = NO;
+    self.modalPresentationStyle = UIModalPresentationCustom;
+    self.transitioningDelegate = self.viewControllerTransitioningDelegate;
+}
+
 - (void)viewDidLoad {
+
     [super viewDidLoad];
+
     self.view.backgroundColor = [UIColor clearColor];
+
+    // Add HUD view
+    [self.view addSubview:self.hudView];
+
+    // Add layout constraints
+    [self.hudView ifa_addLayoutConstraintsToFillSuperview];
+
+    // Make sure layout is up to date
+    [self.hudView layoutIfNeeded];
+
+    // Then update constraints so that content changes done so far are taken into consideration
+    [self.hudView setNeedsUpdateConstraints];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {

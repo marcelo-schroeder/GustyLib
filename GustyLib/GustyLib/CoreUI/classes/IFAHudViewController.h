@@ -47,6 +47,6 @@
 @property(nonatomic, strong, readonly) IFAViewControllerTransitioningDelegate *viewControllerTransitioningDelegate;
 
 - (instancetype)initWithStyle:(IFAHudViewStyle)a_style
-  chromeViewLayoutFittingMode:(IFAHudViewChromeViewLayoutFittingMode)a_chromeViewLayoutFittingMode NS_DESIGNATED_INITIALIZER;
+  chromeViewLayoutFittingMode:(IFAHudViewChromeViewLayoutFittingMode)a_chromeViewLayoutFittingMode;
 
 @end
