@@ -27,6 +27,8 @@
 @property(nonatomic, strong) NSArray *IFA_chromeViewCentreConstraints;
 @property (nonatomic, strong) UITapGestureRecognizer *IFA_chromeTapGestureRecognizer;
 @property (nonatomic, strong) UITapGestureRecognizer *IFA_overlayTapGestureRecognizer;
+@property(nonatomic, strong) NSArray *IFA_blurEffectViewSizeConstraints;
+@property(nonatomic, strong) NSArray *IFA_vibrancyEffectViewSizeConstraints;
 @end
 
 @implementation IFAHudView {
@@ -42,9 +44,10 @@
     if (self) {
 
         // Set ivar's directly otherwise UIKit won't override via appearance API
-        _style = IFAHudViewStylePlain;
-        _chromeViewLayoutFittingSize = UILayoutFittingCompressedSize;
+        _style = IFAHudViewStyleBlur;
         _blurEffectStyle = UIBlurEffectStyleDark;
+        _chromeViewLayoutFittingSize = UILayoutFittingCompressedSize;
+        _shouldAnimateLayoutChanges = YES;
 
         [self IFA_addObservers];
         [self IFA_configureViewHierarchy];
@@ -188,6 +191,8 @@
     UIView *customView = self.customView;
     UILabel *textLabel = self.textLabel;
     UILabel *detailTextLabel = self.detailTextLabel;
+    UIVisualEffectView *vibrancyEffectView = self.IFA_vibrancyEffectView;
+    UIVisualEffectView *blurEffectView = self.IFA_blurEffectView;
     NSMutableDictionary *views = [NSDictionaryOfVariableBindings(activityIndicatorView, progressView, textLabel, detailTextLabel) mutableCopy];
     if (customView) {
         views[@"customView"] = customView;
@@ -195,6 +200,8 @@
 
     // Remove existing constraints
     [contentView.superview removeConstraints:self.IFA_contentViewSizeConstraints];
+    [vibrancyEffectView.superview removeConstraints:self.IFA_vibrancyEffectViewSizeConstraints];
+    [blurEffectView.superview removeConstraints:self.IFA_blurEffectViewSizeConstraints];
     [contentView removeConstraints:self.IFA_contentHorizontalLayoutConstraints];
     [contentView removeConstraints:self.IFA_contentVerticalLayoutConstraints];
     [chromeView.superview removeConstraints:self.IFA_chromeViewCentreConstraints];
@@ -223,7 +230,7 @@
                                                                                                                        views:views]];
         }
         if (!progressView.hidden) {
-            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8@999)-[progressView]-(>=8@999)-|"
+            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(8@999)-[progressView]-(8@999)-|"
                                                                                                                      options:(NSLayoutFormatOptions) 0
                                                                                                                      metrics:nil
                                                                                                                        views:views]];
@@ -274,6 +281,17 @@
 
     }
 
+    // Vibrancy effect view size constraints
+    if (blurEffectView.superview) {
+        self.IFA_blurEffectViewSizeConstraints = [blurEffectView ifa_addLayoutConstraintsToFillSuperview];  //wip: will this stay here
+
+    }
+
+    // Blur effect view size constraints
+    if (vibrancyEffectView.superview) {
+        self.IFA_vibrancyEffectViewSizeConstraints = [vibrancyEffectView ifa_addLayoutConstraintsToFillSuperview];  //wip: will this stay here
+    }
+    
     // Content view size constraints
     self.IFA_contentViewSizeConstraints = [self.contentView ifa_addLayoutConstraintsToFillSuperview];   //wip: review
 
@@ -392,7 +410,6 @@
 
             // Blur effect view
             [self.chromeView addSubview:self.IFA_blurEffectView];
-            [self.IFA_blurEffectView ifa_addLayoutConstraintsToFillSuperview];  //wip: will this stay here
 
             break;
 
@@ -403,11 +420,9 @@
 
             // Vibrancy effect view
             [self.IFA_blurEffectView.contentView addSubview:self.IFA_vibrancyEffectView];
-            [self.IFA_vibrancyEffectView ifa_addLayoutConstraintsToFillSuperview];  //wip: will this stay here
 
             // Blur effect view
             [self.chromeView addSubview:self.IFA_blurEffectView];
-            [self.IFA_blurEffectView ifa_addLayoutConstraintsToFillSuperview];  //wip: will this stay here
 
             break;
 
