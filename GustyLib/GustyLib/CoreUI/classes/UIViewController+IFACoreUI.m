@@ -357,11 +357,13 @@ typedef enum {
             }
         }
     }
+#ifndef NS_BLOCK_ASSERTIONS
     if (l_topLevelContentViewController == a_viewController) {
         NSUInteger l_childManagedObjectContextCountExpected = a_viewController.IFA_childManagedObjectContextCountOnViewDidLoad;
         NSUInteger l_childManagedObjectContextCountActual = [IFAPersistenceManager sharedInstance].childManagedObjectContexts.count;
         NSAssert(l_childManagedObjectContextCountActual == l_childManagedObjectContextCountExpected, @"Number of child managed object context count mismatch! Expected: %lu | Actual: %lu", (unsigned long)l_childManagedObjectContextCountExpected, (unsigned long)l_childManagedObjectContextCountActual);
     }
+#endif
 }
 
 #pragma mark - Public
@@ -1337,12 +1339,14 @@ typedef enum {
 - (void)ifa_addNotificationObserverForName:(NSString *)a_name object:(id)a_obj queue:(NSOperationQueue *)a_queue
                                 usingBlock:(void (^)(NSNotification *a_note))a_block
                                removalTime:(IFAViewControllerNotificationObserverRemovalTime)a_removalTime {
+#ifndef NS_BLOCK_ASSERTIONS
     BOOL l_isObserverRemovalAutomationSupported =
-            [self isKindOfClass:[IFACollectionViewController class]]
-                    || [self isKindOfClass:[IFAPageViewController class]]
-                    || [self isKindOfClass:[IFATableViewController class]]
-                    || [self isKindOfClass:[IFAViewController class]];
+    [self isKindOfClass:[IFACollectionViewController class]]
+    || [self isKindOfClass:[IFAPageViewController class]]
+    || [self isKindOfClass:[IFATableViewController class]]
+    || [self isKindOfClass:[IFAViewController class]];
     NSAssert(l_isObserverRemovalAutomationSupported, @"Notification observer removal automation not supported by this class: %@", [self.class description]);
+#endif
     id l_observer = [[NSNotificationCenter defaultCenter] addObserverForName:a_name object:a_obj
                                                        queue:a_queue
                                                   usingBlock:a_block];
