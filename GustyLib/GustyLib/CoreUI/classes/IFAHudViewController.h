@@ -13,8 +13,6 @@
 @interface IFAHudViewController : IFAViewController
 
 @property (nonatomic, strong, readonly) IFAHudView *hudView;
-@property (nonatomic) IFAHudViewStyle style;
-@property(nonatomic) CGSize chromeViewLayoutFittingSize;
 
 @property (nonatomic) IFAHudViewVisualIndicatorMode visualIndicatorMode;
 @property (nonatomic) CGFloat progress;
@@ -30,11 +28,6 @@
 @property (nonatomic, strong) void (^overlayTapActionBlock) ();
 
 @property (nonatomic) BOOL shouldAllowUserInteractionPassthrough;    //wip: implement this
-
-@property (nonatomic, strong) UIColor *chromeForegroundColour;
-@property (nonatomic, strong) UIColor *chromeBackgroundColour;
-
-@property(nonatomic) BOOL shouldAnimateLayoutChanges;
 
 @property (nonatomic) NSTimeInterval autoDismissalDelay;
 

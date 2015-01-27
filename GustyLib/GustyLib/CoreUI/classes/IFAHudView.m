@@ -3,7 +3,6 @@
 // Copyright (c) 2015 InfoAccent Pty Ltd. All rights reserved.
 //
 
-#import <GustyLib/IFAHudView.h>
 #import "GustyLib.h"
 
 //wip: make the blur style the default style (tried it quickly and had some auto layout errors)
@@ -29,13 +28,17 @@
 @property (nonatomic, strong) UITapGestureRecognizer *IFA_overlayTapGestureRecognizer;
 @property(nonatomic, strong) NSArray *IFA_blurEffectViewSizeConstraints;
 @property(nonatomic, strong) NSArray *IFA_vibrancyEffectViewSizeConstraints;
-@property(nonatomic, strong) id <NSObject> contentSizeCategoryChangeObserver;
+@property(nonatomic, strong) id <NSObject> IFA_contentSizeCategoryChangeObserver;
 @end
 
 @implementation IFAHudView {
     UIColor *_overlayColour;
     UIColor *_chromeForegroundColour;
     UIColor *_chromeBackgroundColour;
+    NSString *_textLabelFontTextStyle;
+    NSString *_detailTextLabelFontTextStyle;
+    UIFont *_textLabelFont;
+    UIFont *_detailTextLabelFont;
 }
 
 #pragma mark - Public
@@ -48,7 +51,7 @@
         _style = IFAHudViewStyleBlur;
         _blurEffectStyle = UIBlurEffectStyleDark;
         _chromeViewLayoutFittingSize = UILayoutFittingCompressedSize;
-        _shouldAnimateLayoutChanges = YES;
+        _shouldAnimateLayoutChanges = NO;
 
         [self IFA_addObservers];
         [self IFA_configureViewHierarchy];
@@ -145,6 +148,50 @@
     [self IFA_updateStyle];
 }
 
+- (NSString *)textLabelFontTextStyle {
+    if (_textLabelFontTextStyle) {
+        return _textLabelFontTextStyle;
+    } else {
+        return self.IFA_defaultTextLabelFontTextStyle;
+    }
+}
+
+- (void)setTextLabelFontTextStyle:(NSString *)textLabelFontTextStyle {
+    _textLabelFontTextStyle = textLabelFontTextStyle;
+    [self IFA_updateLayout];
+}
+
+- (NSString *)detailTextLabelFontTextStyle {
+    if (_detailTextLabelFontTextStyle) {
+        return _detailTextLabelFontTextStyle;
+    } else {
+        return self.IFA_defaultDetailTextLabelFontTextStyle;
+    }
+}
+
+- (void)setDetailTextLabelFontTextStyle:(NSString *)detailTextLabelFontTextStyle {
+    _detailTextLabelFontTextStyle = detailTextLabelFontTextStyle;
+    [self IFA_updateLayout];
+}
+
+- (UIFont *)textLabelFont {
+    return _textLabelFont;
+}
+
+- (void)setTextLabelFont:(UIFont *)textLabelFont {
+    _textLabelFont = textLabelFont;
+    [self IFA_updateLayout];
+}
+
+- (UIFont *)detailTextLabelFont {
+    return _detailTextLabelFont;
+}
+
+- (void)setDetailTextLabelFont:(UIFont *)detailTextLabelFont {
+    _detailTextLabelFont = detailTextLabelFont;
+    [self IFA_updateLayout];
+}
+
 - (UIView *)contentView {
     if (!_contentView) {
         _contentView = [UIView new];
@@ -173,6 +220,20 @@
     _customView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:_customView];
     [self IFA_updateLayout];
+}
+
++ (void)resetAppearanceForHudView:(IFAHudView *)a_hudView {
+    a_hudView.style = IFAHudViewStyleBlur;
+    a_hudView.blurEffectStyle = UIBlurEffectStyleDark;
+    a_hudView.overlayColour = nil;
+    a_hudView.chromeForegroundColour = nil;
+    a_hudView.chromeBackgroundColour = nil;
+    a_hudView.chromeViewLayoutFittingSize = UILayoutFittingCompressedSize;
+    a_hudView.shouldAnimateLayoutChanges = NO;
+    a_hudView.textLabelFontTextStyle = nil;
+    a_hudView.detailTextLabelFontTextStyle = nil;
+    a_hudView.textLabelFont = nil;
+    a_hudView.detailTextLabelFont = nil;
 }
 
 #pragma mark - Overrides
@@ -433,6 +494,7 @@
 
     // Chrome foreground
     UIColor *foregroundColour = self.chromeForegroundColour;
+    NSLog(@"foregroundColour.ifa_hexString = %@", foregroundColour.ifa_hexString);  //wip: clean up
     self.textLabel.textColor = foregroundColour;   //wip: move to theme?
     self.detailTextLabel.textColor = foregroundColour;   //wip: move to theme?
     self.activityIndicatorView.color = foregroundColour;  //wip: move to theme?
@@ -449,8 +511,7 @@
 }
 
 - (void)IFA_updateLayout {
-    self.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];   //wip: move to theme?
-    self.detailTextLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];   //wip: move to theme?
+    [self IFA_updateFonts];
     [self setNeedsUpdateConstraints];
     if (self.shouldAnimateLayoutChanges) {
         [UIView animateWithDuration:0.1 animations:^{
@@ -459,6 +520,11 @@
     } else {
         [self layoutIfNeeded];
     }
+}
+
+- (void)IFA_updateFonts {
+    self.textLabel.font = self.textLabelFont ? : [UIFont preferredFontForTextStyle:self.textLabelFontTextStyle];   //wip: move to theme?
+    self.detailTextLabel.font = self.detailTextLabelFont ? : [UIFont preferredFontForTextStyle:self.detailTextLabelFontTextStyle];   //wip: move to theme?
 }
 
 - (void)IFA_addObservers {
@@ -475,7 +541,7 @@
 
     // Content size category change
     __weak __typeof(self) weakSelf = self;
-    self.contentSizeCategoryChangeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIContentSizeCategoryDidChangeNotification
+    self.IFA_contentSizeCategoryChangeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIContentSizeCategoryDidChangeNotification
                                                                                                object:nil
                                                                                                 queue:nil
                                                                                            usingBlock:^(NSNotification *note) {
@@ -497,7 +563,7 @@
     [self.detailTextLabel removeObserver:self forKeyPath:@"hidden" context:nil];
 
     // Content size category change
-    [[NSNotificationCenter defaultCenter] removeObserver:self.contentSizeCategoryChangeObserver];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.IFA_contentSizeCategoryChangeObserver];
 
 }
 
@@ -551,6 +617,14 @@
     return color;
 }
 
+- (NSString *)IFA_defaultTextLabelFontTextStyle {
+    return UIFontTextStyleHeadline;
+}
+
+- (NSString *)IFA_defaultDetailTextLabelFontTextStyle {
+    return UIFontTextStyleSubheadline;
+}
+
 - (UITapGestureRecognizer *)IFA_chromeTapGestureRecognizer {
     if (!_IFA_chromeTapGestureRecognizer) {
         _IFA_chromeTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -585,7 +659,7 @@
 }
 
 - (void)IFA_updateStyle {
-    [self IFA_updateChromeViewHierarchy];
+    [self IFA_configureViewHierarchy];
     [self IFA_updateColours];
     [self IFA_updateLayout];
 }

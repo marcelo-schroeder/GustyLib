@@ -3,7 +3,6 @@
 // Copyright (c) 2015 InfoAccent Pty Ltd. All rights reserved.
 //
 
-#import <GustyLib/IFAHudView.h>
 #import "GustyLibCoreUI.h"
 
 //wip: does the dynamic font stuff work?
@@ -122,22 +121,6 @@
     }
 }
 
-- (IFAHudViewStyle)style {
-    return self.hudView.style;
-}
-
-- (void)setStyle:(IFAHudViewStyle)style {
-    self.hudView.style = style;
-}
-
-- (CGSize)chromeViewLayoutFittingSize {
-    return self.hudView.chromeViewLayoutFittingSize;
-}
-
-- (void)setChromeViewLayoutFittingSize:(CGSize)chromeViewLayoutFittingSize {
-    self.hudView.chromeViewLayoutFittingSize = chromeViewLayoutFittingSize;
-}
-
 - (NSTimeInterval)presentationTransitionDuration {
     return self.viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.presentationTransitionDuration;
 }
@@ -161,30 +144,6 @@
 - (void)setCustomVisualIndicatorView:(UIView *)customVisualIndicatorView {
     self.visualIndicatorMode = customVisualIndicatorView ? IFAHudViewVisualIndicatorModeCustom : IFAHudViewVisualIndicatorModeNone;
     self.hudView.customView = customVisualIndicatorView;
-}
-
-- (UIColor *)chromeForegroundColour {
-    return self.hudView.chromeForegroundColour;
-}
-
-- (void)setChromeForegroundColour:(UIColor *)chromeForegroundColour {
-    self.hudView.chromeForegroundColour = chromeForegroundColour;
-}
-
-- (UIColor *)chromeBackgroundColour {
-    return self.hudView.chromeBackgroundColour;
-}
-
-- (void)setChromeBackgroundColour:(UIColor *)chromeBackgroundColour {
-    self.hudView.chromeBackgroundColour = chromeBackgroundColour;
-}
-
-- (BOOL)shouldAnimateLayoutChanges {
-    return self.hudView.shouldAnimateLayoutChanges;
-}
-
-- (void)setShouldAnimateLayoutChanges:(BOOL)shouldAnimateLayoutChanges {
-    self.hudView.shouldAnimateLayoutChanges = shouldAnimateLayoutChanges;
 }
 
 #pragma mark - Overrides

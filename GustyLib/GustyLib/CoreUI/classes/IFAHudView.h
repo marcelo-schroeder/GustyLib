@@ -56,8 +56,14 @@ typedef NS_ENUM(NSUInteger, IFAHudViewVisualIndicatorMode) {
 @property (nonatomic, strong) UIColor *chromeBackgroundColour UI_APPEARANCE_SELECTOR;
 @property (nonatomic) UIBlurEffectStyle blurEffectStyle UI_APPEARANCE_SELECTOR;
 @property(nonatomic) BOOL shouldAnimateLayoutChanges UI_APPEARANCE_SELECTOR;
+@property(nonatomic, strong) NSString *textLabelFontTextStyle UI_APPEARANCE_SELECTOR;
+@property(nonatomic, strong) NSString *detailTextLabelFontTextStyle UI_APPEARANCE_SELECTOR;
+@property(nonatomic, strong) UIFont *textLabelFont UI_APPEARANCE_SELECTOR;
+@property(nonatomic, strong) UIFont *detailTextLabelFont UI_APPEARANCE_SELECTOR;
 
 @property (nonatomic, strong) void (^chromeTapActionBlock) ();
 @property (nonatomic, strong) void (^overlayTapActionBlock) ();
+
++ (void)resetAppearanceForHudView:(IFAHudView *)a_hudView;
 
 @end
