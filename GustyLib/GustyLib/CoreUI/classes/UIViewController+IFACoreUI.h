@@ -275,10 +275,10 @@
 /**
 * Indicates the various times when notification observers should be removed at.
 */
-typedef enum{
+typedef NS_ENUM(NSUInteger, IFAViewControllerNotificationObserverRemovalTime) {
     IFAViewControllerNotificationObserverRemovalTimeNone,               // The observer will not be removed.
     IFAViewControllerNotificationObserverRemovalTimeDealloc,            // The observer will be removed when this object's dealloc method runs.
-} IFAViewControllerNotificationObserverRemovalTime;
+};
 
 /**
 * Convenience method for adding notification observers with automated removal.

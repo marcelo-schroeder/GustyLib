@@ -29,6 +29,7 @@
 @property (nonatomic, strong) UITapGestureRecognizer *IFA_overlayTapGestureRecognizer;
 @property(nonatomic, strong) NSArray *IFA_blurEffectViewSizeConstraints;
 @property(nonatomic, strong) NSArray *IFA_vibrancyEffectViewSizeConstraints;
+@property(nonatomic, strong) id <NSObject> contentSizeCategoryChangeObserver;
 @end
 
 @implementation IFAHudView {
@@ -67,7 +68,6 @@
         _textLabel.hidden = YES;
         _textLabel.textAlignment = NSTextAlignmentCenter;
         _textLabel.numberOfLines = 0;
-        _textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];   //wip: move to theme?
     }
     return _textLabel;
 }
@@ -79,7 +79,6 @@
         _detailTextLabel.hidden = YES;
         _detailTextLabel.textAlignment = NSTextAlignmentCenter;
         _detailTextLabel.numberOfLines = 0;
-        _detailTextLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];   //wip: move to theme?
     }
     return _detailTextLabel;
 }
@@ -450,6 +449,8 @@
 }
 
 - (void)IFA_updateLayout {
+    self.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];   //wip: move to theme?
+    self.detailTextLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];   //wip: move to theme?
     [self setNeedsUpdateConstraints];
     if (self.shouldAnimateLayoutChanges) {
         [UIView animateWithDuration:0.1 animations:^{
@@ -472,6 +473,15 @@
     [self.textLabel addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
     [self.detailTextLabel addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
 
+    // Content size category change
+    __weak __typeof(self) weakSelf = self;
+    self.contentSizeCategoryChangeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIContentSizeCategoryDidChangeNotification
+                                                                                               object:nil
+                                                                                                queue:nil
+                                                                                           usingBlock:^(NSNotification *note) {
+                                                                                               [weakSelf IFA_updateLayout];
+                                                                                           }];
+
 }
 
 - (void)IFA_removeObservers {
@@ -485,6 +495,9 @@
     [self.progressView removeObserver:self forKeyPath:@"hidden" context:nil];
     [self.textLabel removeObserver:self forKeyPath:@"hidden" context:nil];
     [self.detailTextLabel removeObserver:self forKeyPath:@"hidden" context:nil];
+
+    // Content size category change
+    [[NSNotificationCenter defaultCenter] removeObserver:self.contentSizeCategoryChangeObserver];
 
 }
 
