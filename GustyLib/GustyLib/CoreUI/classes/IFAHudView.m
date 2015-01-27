@@ -659,9 +659,49 @@
 }
 
 - (void)IFA_updateStyle {
+    [self IFA_tintColorBugWorkaround];
     [self IFA_configureViewHierarchy];
     [self IFA_updateColours];
     [self IFA_updateLayout];
+}
+
+/**
+* Workaround for what it seems to be a UIKit bug.
+* After adding a UILabel to a UIVisualEffectView with a vibrancy effect, it seems that UILabel's textColor property no longer takes precedence over the tintColor property.
+* So, the workaround here is re-init the affected parts of the view hierarchy in order to reset this condition. Ugly, but it gets over the issue.
+*/
+- (void)IFA_tintColorBugWorkaround {
+
+    if ((self.textLabel.superview || self.detailTextLabel.superview) && self.contentView.superview) {
+
+        // Remove affected views from their superviews
+        [self.textLabel removeFromSuperview];
+        [self.detailTextLabel removeFromSuperview];
+
+        // Remove observers to avoid memory leaks
+        [self IFA_removeObservers];
+
+        // Save label text
+        NSString *text = self.textLabel.text;
+        NSString *detailText = self.detailTextLabel.text;
+
+        // Clear pointers of affected views to force them to be re-initialised
+        self.textLabel = nil;
+        self.detailTextLabel = nil;
+
+        // Add new versions of affected views back into the view hierarchy
+        [self.contentView addSubview:self.textLabel];
+        [self.contentView addSubview:self.detailTextLabel];
+
+        // Re-add observers
+        [self IFA_addObservers];
+
+        // Restore label text
+        self.textLabel.text = text;
+        self.detailTextLabel.text = detailText;
+
+    }
+
 }
 
 @end
