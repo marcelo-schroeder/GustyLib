@@ -5,6 +5,12 @@
 
 #import "GustyLib.h"
 
+static const CGFloat k_defaultChromeHorizontalPadding = 10;
+
+static const CGFloat k_defaultChromeVerticalPadding = 10;
+
+static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
+
 //wip: make the blur style the default style (tried it quickly and had some auto layout errors)
 //wip: after making the blur style the default style, change the demo app accordingly (e.g. the Blur & Vibrancy section should be named Styles and include the plain style in it)
 //wip: test rotation again when some serious blurring is available (e.g. map view)
@@ -50,10 +56,13 @@
     if (self) {
 
         // Set ivar's directly otherwise UIKit won't override via appearance API
-        _style = IFAHudViewStyleBlur;
-        _blurEffectStyle = UIBlurEffectStyleDark;
-        _chromeViewLayoutFittingSize = UILayoutFittingCompressedSize;
-        _shouldAnimateLayoutChanges = NO;
+        _style = [self.class IFA_defaultStyle];
+        _blurEffectStyle = [self.class IFA_defaultBlurEffectStyle];
+        _chromeViewLayoutFittingSize = [self.class IFA_defaultChromeViewLayoutFittingSize];
+        _shouldAnimateLayoutChanges = [self.class IFA_defaultShouldAnimateLayoutChanges];
+        _chromeHorizontalPadding = [self.class IFA_defaultChromeHorizontalPadding];
+        _chromeVerticalPadding = [self.class IFA_defaultChromeVerticalPadding];
+        _chromeVerticalInteritemSpacing = [self.class IFA_defaultChromeVerticalInteritemSpacing];
 
         [self IFA_addObservers];
         [self IFA_configureViewHierarchy];
@@ -225,17 +234,20 @@
 }
 
 + (void)resetAppearanceForHudView:(IFAHudView *)a_hudView {
-    a_hudView.style = IFAHudViewStyleBlur;
-    a_hudView.blurEffectStyle = UIBlurEffectStyleDark;
+    a_hudView.style = [self IFA_defaultStyle];
+    a_hudView.blurEffectStyle = [self IFA_defaultBlurEffectStyle];
     a_hudView.overlayColour = nil;
     a_hudView.chromeForegroundColour = nil;
     a_hudView.chromeBackgroundColour = nil;
-    a_hudView.chromeViewLayoutFittingSize = UILayoutFittingCompressedSize;
-    a_hudView.shouldAnimateLayoutChanges = NO;
+    a_hudView.chromeViewLayoutFittingSize = [self.class IFA_defaultChromeViewLayoutFittingSize];
+    a_hudView.shouldAnimateLayoutChanges = [self.class IFA_defaultShouldAnimateLayoutChanges];
     a_hudView.textLabelFontTextStyle = nil;
     a_hudView.detailTextLabelFontTextStyle = nil;
     a_hudView.textLabelFont = nil;
     a_hudView.detailTextLabelFont = nil;
+    a_hudView.chromeHorizontalPadding = [self.class IFA_defaultChromeHorizontalPadding];
+    a_hudView.chromeVerticalPadding = [self.class IFA_defaultChromeVerticalPadding];
+    a_hudView.chromeVerticalInteritemSpacing = [self.class IFA_defaultChromeVerticalInteritemSpacing];
 }
 
 - (void)setStyle:(IFAHudViewStyle)style {
@@ -270,6 +282,21 @@
         [_IFA_contentSubviewName addObject:@"customView"];
     }
     return _IFA_contentSubviewName;
+}
+
+- (void)setChromeHorizontalPadding:(CGFloat)chromeHorizontalPadding {
+    _chromeHorizontalPadding = chromeHorizontalPadding;
+    [self IFA_updateLayout];
+}
+
+- (void)setChromeVerticalPadding:(CGFloat)chromeVerticalPadding {
+    _chromeVerticalPadding = chromeVerticalPadding;
+    [self IFA_updateLayout];
+}
+
+- (void)setChromeVerticalInteritemSpacing:(CGFloat)chromeVerticalInteritemSpacing {
+    _chromeVerticalInteritemSpacing = chromeVerticalInteritemSpacing;
+    [self IFA_updateLayout];
 }
 
 #pragma mark - Overrides
@@ -313,52 +340,53 @@
 
         // Content horizontal layout constraints
         [self.IFA_contentHorizontalLayoutConstraints removeAllObjects];
-        if (!textLabel.hidden) {
-            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8@999)-[textLabel]-(>=8@999)-|"
-                                                                                                                     options:(NSLayoutFormatOptions) 0
-                                                                                                                     metrics:nil
-                                                                                                                       views:views]];
-        }
-        if (!activityIndicatorView.hidden) {
-            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8@999)-[activityIndicatorView]-(>=8@999)-|"
-                                                                                                                     options:(NSLayoutFormatOptions) 0
-                                                                                                                     metrics:nil
-                                                                                                                       views:views]];
-        }
-        if (!progressView.hidden) {
-            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(8@999)-[progressView]-(8@999)-|"
-                                                                                                                     options:(NSLayoutFormatOptions) 0
-                                                                                                                     metrics:nil
-                                                                                                                       views:views]];
-        }
-        if (customView && !customView.hidden) {
-            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8@999)-[customView]-(>=8@999)-|"
-                                                                                                                     options:(NSLayoutFormatOptions) 0
-                                                                                                                     metrics:nil
-                                                                                                                       views:views]];
-        }
-        if (!detailTextLabel.hidden) {
-            [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=8@999)-[detailTextLabel]-(>=8@999)-|"
-                                                                                                                     options:(NSLayoutFormatOptions) 0
-                                                                                                                     metrics:nil
-                                                                                                                       views:views]];
-        }
-        [contentView addConstraints:self.IFA_contentHorizontalLayoutConstraints];
-
-        // Content vertical layout constraints
-        [self.IFA_contentVerticalLayoutConstraints removeAllObjects];
-        NSMutableString *contentVerticalLayoutConstraintsVisualFormat = [@"V:|" mutableCopy];
         for (id subviewIdObj in self.contentSubviewVerticalOrder) {
             IFAHudContentSubviewId subviewId = (IFAHudContentSubviewId) ((NSNumber *)subviewIdObj).unsignedIntegerValue;
             NSString *viewName = [self IFA_nameForContentSubviewId:subviewId];
             UIView *subview = views[viewName];
             if (subview && !subview.hidden) {
-                NSString *stringToAppendToVisualFormat = [NSString stringWithFormat:@"-[%@]", viewName];
+                NSString *paddingConstraintsVisualFormatRelation = subview==progressView ? @"" : @">=";
+                NSString *paddingConstraintsVisualFormatConstant = @(self.chromeHorizontalPadding).stringValue;
+                NSString *constraintsVisualFormat = [NSString stringWithFormat:@"H:|-(%@%@@999)-[%@]-(%@%@@999)-|",
+                                                                               paddingConstraintsVisualFormatRelation,
+                                                                               paddingConstraintsVisualFormatConstant,
+                                                                               viewName,
+                                                                               paddingConstraintsVisualFormatRelation,
+                                                                               paddingConstraintsVisualFormatConstant];
+                [self.IFA_contentHorizontalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:constraintsVisualFormat
+                                                                                                                         options:(NSLayoutFormatOptions) 0
+                                                                                                                         metrics:nil
+                                                                                                                           views:views]];
+            }
+        }
+        [contentView addConstraints:self.IFA_contentHorizontalLayoutConstraints];
+
+        // Content vertical layout constraints
+        [self.IFA_contentVerticalLayoutConstraints removeAllObjects];
+        NSString *paddingConstraintsVisualFormatConstant = @(self.chromeVerticalPadding).stringValue;
+        NSString *interitemSpacingConstraintsVisualFormatConstant = @(self.chromeVerticalInteritemSpacing).stringValue;
+        NSMutableString *contentVerticalLayoutConstraintsVisualFormat = [@"V:|" mutableCopy];
+        BOOL isTopSubview = YES;
+        for (id subviewIdObj in self.contentSubviewVerticalOrder) {
+            IFAHudContentSubviewId subviewId = (IFAHudContentSubviewId) ((NSNumber *)subviewIdObj).unsignedIntegerValue;
+            NSString *viewName = [self IFA_nameForContentSubviewId:subviewId];
+            UIView *subview = views[viewName];
+            if (subview && !subview.hidden) {
+                NSString *spacingConstraintConstant;
+                if (isTopSubview) {
+                    spacingConstraintConstant = paddingConstraintsVisualFormatConstant;
+                    isTopSubview = NO;
+                } else {
+                    spacingConstraintConstant = interitemSpacingConstraintsVisualFormatConstant;
+                }
+                NSString *stringToAppendToVisualFormat = [NSString stringWithFormat:@"-(%@)-[%@]",
+                                                                                    spacingConstraintConstant, viewName];
                 [contentVerticalLayoutConstraintsVisualFormat appendString:stringToAppendToVisualFormat];
                 [self.IFA_contentVerticalLayoutConstraints addObject:[subview ifa_addLayoutConstraintToCenterInSuperviewHorizontally]];
             }
         }
-        [contentVerticalLayoutConstraintsVisualFormat appendString:@"-|"];
+        NSString *stringToAppendToVisualFormat = [NSString stringWithFormat:@"-(%@)-|", paddingConstraintsVisualFormatConstant];
+        [contentVerticalLayoutConstraintsVisualFormat appendString:stringToAppendToVisualFormat];
         [self.IFA_contentVerticalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:contentVerticalLayoutConstraintsVisualFormat
                                                                                                                options:(NSLayoutFormatOptions) 0
                                                                                                                metrics:nil
@@ -609,6 +637,34 @@
         _IFA_vibrancyEffectView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _IFA_vibrancyEffectView;
+}
+
++ (IFAHudViewStyle)IFA_defaultStyle {
+    return IFAHudViewStyleBlur;
+}
+
++ (UIBlurEffectStyle)IFA_defaultBlurEffectStyle {
+    return UIBlurEffectStyleDark;
+}
+
++ (CGSize)IFA_defaultChromeViewLayoutFittingSize {
+    return UILayoutFittingCompressedSize;
+}
+
++ (BOOL)IFA_defaultShouldAnimateLayoutChanges {
+    return NO;
+}
+
++ (CGFloat)IFA_defaultChromeHorizontalPadding {
+    return k_defaultChromeHorizontalPadding;
+}
+
++ (CGFloat)IFA_defaultChromeVerticalPadding {
+    return k_defaultChromeVerticalPadding;
+}
+
++ (CGFloat)IFA_defaultChromeVerticalInteritemSpacing {
+    return k_defaultChromeVerticalInteritemSpacing;
 }
 
 - (UIColor *)IFA_defaultOverlayColour {

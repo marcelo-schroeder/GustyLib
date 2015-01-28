@@ -70,6 +70,9 @@ typedef NS_ENUM(NSUInteger, IFAHudContentSubviewId) {
 @property(nonatomic, strong) NSString *detailTextLabelFontTextStyle UI_APPEARANCE_SELECTOR;
 @property(nonatomic, strong) UIFont *textLabelFont UI_APPEARANCE_SELECTOR;
 @property(nonatomic, strong) UIFont *detailTextLabelFont UI_APPEARANCE_SELECTOR;
+@property (nonatomic) CGFloat chromeHorizontalPadding UI_APPEARANCE_SELECTOR;
+@property (nonatomic) CGFloat chromeVerticalPadding UI_APPEARANCE_SELECTOR;
+@property (nonatomic) CGFloat chromeVerticalInteritemSpacing UI_APPEARANCE_SELECTOR;
 
 @property (nonatomic, strong) void (^chromeTapActionBlock) ();
 @property (nonatomic, strong) void (^overlayTapActionBlock) ();
