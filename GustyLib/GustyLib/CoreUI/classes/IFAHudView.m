@@ -29,6 +29,8 @@
 @property(nonatomic, strong) NSArray *IFA_blurEffectViewSizeConstraints;
 @property(nonatomic, strong) NSArray *IFA_vibrancyEffectViewSizeConstraints;
 @property(nonatomic, strong) id <NSObject> IFA_contentSizeCategoryChangeObserver;
+@property (nonatomic, strong) NSMutableArray *contentSubviewVerticalOrder;
+@property (nonatomic, strong) NSMutableArray *IFA_contentSubviewName;
 @end
 
 @implementation IFAHudView {
@@ -218,7 +220,7 @@
     [_customView removeFromSuperview];
     _customView = customView;
     _customView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.contentView addSubview:_customView];
+    [self.contentView insertSubview:_customView belowSubview:self.detailTextLabel];
     [self IFA_updateLayout];
 }
 
@@ -234,6 +236,40 @@
     a_hudView.detailTextLabelFontTextStyle = nil;
     a_hudView.textLabelFont = nil;
     a_hudView.detailTextLabelFont = nil;
+}
+
+- (void)setStyle:(IFAHudViewStyle)style {
+    _style = style;
+    [self IFA_updateStyle];
+}
+
+- (void)setChromeViewLayoutFittingSize:(CGSize)chromeViewLayoutFittingSize {
+    _chromeViewLayoutFittingSize = chromeViewLayoutFittingSize;
+    [self IFA_updateLayout];
+}
+
+- (NSMutableArray *)contentSubviewVerticalOrder {
+    if (!_contentSubviewVerticalOrder) {
+        _contentSubviewVerticalOrder = [@[] mutableCopy];
+        [_contentSubviewVerticalOrder addObject:@(IFAHudContentSubviewIdTextLabel)];
+        [_contentSubviewVerticalOrder addObject:@(IFAHudContentSubviewIdActivityIndicatorView)];
+        [_contentSubviewVerticalOrder addObject:@(IFAHudContentSubviewIdProgressView)];
+        [_contentSubviewVerticalOrder addObject:@(IFAHudContentSubviewIdCustomView)];
+        [_contentSubviewVerticalOrder addObject:@(IFAHudContentSubviewIdDetailTextLabel)];
+    }
+    return _contentSubviewVerticalOrder;
+}
+
+- (NSMutableArray *)IFA_contentSubviewName {
+    if (!_IFA_contentSubviewName) {
+        _IFA_contentSubviewName = [@[] mutableCopy];
+        [_IFA_contentSubviewName addObject:@"textLabel"];
+        [_IFA_contentSubviewName addObject:@"detailTextLabel"];
+        [_IFA_contentSubviewName addObject:@"activityIndicatorView"];
+        [_IFA_contentSubviewName addObject:@"progressView"];
+        [_IFA_contentSubviewName addObject:@"customView"];
+    }
+    return _IFA_contentSubviewName;
 }
 
 #pragma mark - Overrides
@@ -312,25 +348,15 @@
         // Content vertical layout constraints
         [self.IFA_contentVerticalLayoutConstraints removeAllObjects];
         NSMutableString *contentVerticalLayoutConstraintsVisualFormat = [@"V:|" mutableCopy];
-        if (!textLabel.hidden) {
-            [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[textLabel]"];
-            [self.IFA_contentVerticalLayoutConstraints addObject:[textLabel ifa_addLayoutConstraintToCenterInSuperviewHorizontally]];
-        }
-        if (!activityIndicatorView.hidden) {
-            [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[activityIndicatorView]"];
-            [self.IFA_contentVerticalLayoutConstraints addObject:[activityIndicatorView ifa_addLayoutConstraintToCenterInSuperviewHorizontally]];
-        }
-        if (!progressView.hidden) {
-            [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[progressView]"];
-            [self.IFA_contentVerticalLayoutConstraints addObject:[progressView ifa_addLayoutConstraintToCenterInSuperviewHorizontally]];
-        }
-        if (customView && !customView.hidden) {
-            [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[customView]"];
-            [self.IFA_contentVerticalLayoutConstraints addObject:[customView ifa_addLayoutConstraintToCenterInSuperviewHorizontally]];
-        }
-        if (!detailTextLabel.hidden) {
-            [contentVerticalLayoutConstraintsVisualFormat appendString:@"-[detailTextLabel]"];
-            [self.IFA_contentVerticalLayoutConstraints addObject:[detailTextLabel ifa_addLayoutConstraintToCenterInSuperviewHorizontally]];
+        for (id subviewIdObj in self.contentSubviewVerticalOrder) {
+            IFAHudContentSubviewId subviewId = (IFAHudContentSubviewId) ((NSNumber *)subviewIdObj).unsignedIntegerValue;
+            NSString *viewName = [self IFA_nameForContentSubviewId:subviewId];
+            UIView *subview = views[viewName];
+            if (subview && !subview.hidden) {
+                NSString *stringToAppendToVisualFormat = [NSString stringWithFormat:@"-[%@]", viewName];
+                [contentVerticalLayoutConstraintsVisualFormat appendString:stringToAppendToVisualFormat];
+                [self.IFA_contentVerticalLayoutConstraints addObject:[subview ifa_addLayoutConstraintToCenterInSuperviewHorizontally]];
+            }
         }
         [contentVerticalLayoutConstraintsVisualFormat appendString:@"-|"];
         [self.IFA_contentVerticalLayoutConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:contentVerticalLayoutConstraintsVisualFormat
@@ -432,9 +458,9 @@
 - (void)IFA_configureViewHierarchy {
 
     // Content subviews
+    [self.contentView addSubview:self.textLabel];
     [self.contentView addSubview:self.activityIndicatorView];
     [self.contentView addSubview:self.progressView];
-    [self.contentView addSubview:self.textLabel];
     [self.contentView addSubview:self.detailTextLabel];
 
     // Chrome subviews
@@ -585,16 +611,6 @@
     return _IFA_vibrancyEffectView;
 }
 
-- (void)setStyle:(IFAHudViewStyle)style {
-    _style = style;
-    [self IFA_updateStyle];
-}
-
-- (void)setChromeViewLayoutFittingSize:(CGSize)chromeViewLayoutFittingSize {
-    _chromeViewLayoutFittingSize = chromeViewLayoutFittingSize;
-    [self IFA_updateLayout];
-}
-
 - (UIColor *)IFA_defaultOverlayColour {
     return [UIColor clearColor];
 }
@@ -702,6 +718,10 @@
 
     }
 
+}
+
+- (NSString *)IFA_nameForContentSubviewId:(IFAHudContentSubviewId)a_contentSubviewId {
+    return self.IFA_contentSubviewName[a_contentSubviewId];
 }
 
 @end

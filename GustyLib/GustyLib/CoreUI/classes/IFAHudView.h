@@ -36,6 +36,16 @@ typedef NS_ENUM(NSUInteger, IFAHudViewVisualIndicatorMode) {
 
 };
 
+typedef NS_ENUM(NSUInteger, IFAHudContentSubviewId) {
+
+    IFAHudContentSubviewIdTextLabel,
+    IFAHudContentSubviewIdDetailTextLabel,
+    IFAHudContentSubviewIdActivityIndicatorView,
+    IFAHudContentSubviewIdProgressView,
+    IFAHudContentSubviewIdCustomView,
+
+};
+
 //wip: add doc
 //wip: add lincense
 //wip: attribution to the flicker images used
@@ -63,6 +73,8 @@ typedef NS_ENUM(NSUInteger, IFAHudViewVisualIndicatorMode) {
 
 @property (nonatomic, strong) void (^chromeTapActionBlock) ();
 @property (nonatomic, strong) void (^overlayTapActionBlock) ();
+
+@property (nonatomic, strong, readonly) NSMutableArray *contentSubviewVerticalOrder;
 
 + (void)resetAppearanceForHudView:(IFAHudView *)a_hudView;
 
