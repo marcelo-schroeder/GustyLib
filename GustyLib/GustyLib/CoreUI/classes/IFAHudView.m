@@ -548,7 +548,6 @@ static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
 
     // Chrome foreground
     UIColor *foregroundColour = self.chromeForegroundColour;
-    NSLog(@"foregroundColour.ifa_hexString = %@", foregroundColour.ifa_hexString);  //wip: clean up
     self.textLabel.textColor = foregroundColour;   //wip: move to theme?
     self.detailTextLabel.textColor = foregroundColour;   //wip: move to theme?
     self.activityIndicatorView.color = foregroundColour;  //wip: move to theme?

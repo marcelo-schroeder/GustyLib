@@ -1840,7 +1840,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                 BOOL l_changesMade = NO;
                 if ([l_managedObject isInserted] || [l_managedObject isUpdated]) {
 
-//                    bool l_isInserted = [l_managedObject isInserted];
+                    bool l_isInserted = [l_managedObject isInserted];
 
                     [self updateBackingPreferences];
 
@@ -1853,35 +1853,9 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                     l_changesMade = YES;
                     self.IFA_changesMadeByThisViewController = YES;
 
-                    //wip: review this when the new HUD is ready
-//                    [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:@"%@ %@",
-//                                                                                                        self.title,
-//                                                                                                        l_isInserted ? @"created" : @"updated"]];
-//                    IFAHudManager *hud = [[IFAHudManager alloc] initWithStyle:(IFAHudViewStylePlain)
-//                                    chromeViewLayoutFittingMode:IFAHudViewChromeViewLayoutFittingModeCompressed];
-//                    hud.text = @"Testing text that is a little bit longer than usual...";
-//                    hud.text = @"Short";
-//                    hud.detailText = @"And this is the detail";
-//                    hud.visualIndicatorMode = IFAHudViewVisualIndicatorModeNone;
-//                    hud.chromeTapActionBlock = ^{
-//                        NSLog(@"hello");
-//                    };
-//                    hud.shouldDismissOnChromeTap = YES;
-//                    [hud presentWithPresentingViewController:nil animated:YES autoDismissalDelay:0 completion:^{
-//                        [IFAUtils dispatchAsyncMainThreadBlock:^{
-//                                    hud.progress = 0.33;
-//                                }
-//                                                    afterDelay:1];
-//                        [IFAUtils dispatchAsyncMainThreadBlock:^{
-//                                    hud.progress = 0.66;
-//                                }
-//                                                    afterDelay:2];
-//                        [IFAUtils dispatchAsyncMainThreadBlock:^{
-//                                    hud.progress = 1;
-//                                    [hud dismissWithPresentingViewController:nil animated:YES completion:nil];
-//                                }
-//                                                    afterDelay:3];
-//                    }];
+                    [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:@"%@ %@",
+                                                                                                        self.title,
+                                                                                                        l_isInserted ? @"created" : @"updated"]];
 
                 }
 

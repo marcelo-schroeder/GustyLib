@@ -1388,18 +1388,88 @@ typedef enum {
 
 - (void)ifa_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView
                shouldFillSuperview:(BOOL)a_shouldFillParentView {
+    [self ifa_addChildViewController:a_childViewController
+                          parentView:a_parentView
+                 shouldFillSuperview:a_shouldFillParentView
+                   animationDuration:0
+                          completion:nil];
+}
+
+- (void)ifa_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView
+               shouldFillSuperview:(BOOL)a_shouldFillParentView animationDuration:(NSTimeInterval)a_animationDuration
+                        completion:(void (^)(BOOL a_finished))a_completion {
+
+    BOOL animated = a_animationDuration > 0;
+    [a_childViewController beginAppearanceTransition:YES animated:animated];
+
+    void (^completion)(BOOL) = ^(BOOL finished) {
+        [a_childViewController endAppearanceTransition];
+        if (a_completion) {
+            a_completion(finished);
+        }
+    };
+
     [self addChildViewController:a_childViewController];
     [a_parentView addSubview:a_childViewController.view];
     if (a_shouldFillParentView) {
         [a_childViewController.view ifa_addLayoutConstraintsToFillSuperview];
     }
     [a_childViewController didMoveToParentViewController:self];
+
+    if (animated) {
+
+        a_childViewController.view.alpha = 0;
+        void (^animations)() = ^{
+            a_childViewController.view.alpha = 1;
+        };
+        [UIView animateWithDuration:a_animationDuration
+                         animations:animations
+                         completion:completion];
+
+    } else {
+
+        completion(YES);
+
+    }
+
 }
 
 - (void)ifa_removeFromParentViewController {
-    [self willMoveToParentViewController:nil];
-    [self.view removeFromSuperview];
-    [self removeFromParentViewController];
+    [self ifa_removeFromParentViewControllerWithAnimationDuration:0 completion:nil];
+}
+
+- (void)ifa_removeFromParentViewControllerWithAnimationDuration:(NSTimeInterval)a_animationDuration completion:(void (^)(BOOL a_finished))a_completion {
+
+    BOOL animated = a_animationDuration > 0;
+    [self beginAppearanceTransition:NO animated:animated];
+
+    __weak __typeof(self) weakSelf = self;
+
+    void (^completion)(BOOL) = ^(BOOL finished) {
+        [weakSelf willMoveToParentViewController:nil];
+        [weakSelf.view removeFromSuperview];
+        [weakSelf removeFromParentViewController];
+        [weakSelf endAppearanceTransition];
+        if (a_completion) {
+            a_completion(finished);
+        }
+    };
+
+    if (animated) {
+
+        void (^animations)() = ^{
+            weakSelf.view.alpha = 0;
+        };
+        [UIView animateWithDuration:a_animationDuration
+                         animations:animations
+                         completion:completion];
+
+    } else {
+
+        completion(YES);
+
+    }
+
 }
 
 -(void)ifa_onKeyboardNotification:(NSNotification*)a_notification {

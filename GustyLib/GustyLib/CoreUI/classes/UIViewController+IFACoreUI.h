@@ -68,13 +68,22 @@
 */
 - (void)ifa_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView;
 
+//wip: add doc
 - (void)ifa_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView
                shouldFillSuperview:(BOOL)a_shouldFillParentView;
+
+//wip: add doc
+- (void)ifa_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView
+               shouldFillSuperview:(BOOL)a_shouldFillParentView animationDuration:(NSTimeInterval)a_animationDuration
+                                                                       completion:(void (^)(BOOL a_finished))a_completion;
 
 /**
 * Removes this view controller from its parent.
 */
 - (void)ifa_removeFromParentViewController;
+
+//wip: add doc
+- (void)ifa_removeFromParentViewControllerWithAnimationDuration:(NSTimeInterval)a_animationDuration completion:(void (^)(BOOL a_finished))a_completion;
 
 + (instancetype)ifa_instantiateFromStoryboard;
 

@@ -5,13 +5,14 @@
 
 #import "GustyLibCoreUI.h"
 
+//wip: memory profiling again after the presentation implementation change
 //wip: does the dynamic font stuff work?
 //wip: I'm relying on the dimming plumming - I am going to use a dimmed bg? Clean up.
 //wip: does the motion stuff has to respect accessibility settings?
 //wip: don't forget todo's in the demo app project
 @interface IFAHudViewController ()
 @property (nonatomic, strong) IFAHudView *hudView;
-@property(nonatomic, strong) IFAViewControllerTransitioningDelegate *viewControllerTransitioningDelegate;
+@property(nonatomic, strong) UIWindow *IFA_window;
 @end
 
 @implementation IFAHudViewController {
@@ -62,7 +63,9 @@
 
 - (void)setShouldAllowUserInteractionPassthrough:(BOOL)shouldAllowUserInteractionPassthrough {
     _shouldAllowUserInteractionPassthrough = shouldAllowUserInteractionPassthrough;
-    self.viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.containerViewUserInteraction = !_shouldAllowUserInteractionPassthrough;  //wip: review this
+    BOOL userInteractionEnabled = !_shouldAllowUserInteractionPassthrough;
+    self.hudView.userInteractionEnabled = userInteractionEnabled;
+    self.IFA_window.userInteractionEnabled = userInteractionEnabled;
 }
 
 - (void)setOverlayTapActionBlock:(void (^)())overlayTapActionBlock {
@@ -121,22 +124,6 @@
     }
 }
 
-- (NSTimeInterval)presentationTransitionDuration {
-    return self.viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.presentationTransitionDuration;
-}
-
-- (void)setPresentationTransitionDuration:(NSTimeInterval)presentationTransitionDuration {
-    self.viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.presentationTransitionDuration = presentationTransitionDuration;
-}
-
-- (NSTimeInterval)dismissalTransitionDuration {
-    return self.viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.dismissalTransitionDuration;
-}
-
-- (void)setDismissalTransitionDuration:(NSTimeInterval)dismissalTransitionDuration {
-    self.viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.dismissalTransitionDuration = dismissalTransitionDuration;
-}
-
 - (UIView *)customVisualIndicatorView {
     return self.hudView.customView;
 }
@@ -148,13 +135,46 @@
     self.hudView.customView = customVisualIndicatorView;
 }
 
+- (void)presentHudViewControllerWithParentViewController:(UIViewController *)a_parentViewController
+                                              parentView:(UIView *)a_parentView animated:(BOOL)a_animated
+                                              completion:(void (^)(BOOL a_finished))a_completion {
+    //wip: need to handle scenario where the parent view controller and view are not provided
+    UIViewController *parentViewController;
+    if (a_parentViewController) {
+        parentViewController = a_parentViewController;
+    }
+    else {
+        [self.IFA_window makeKeyAndVisible];
+        parentViewController = self.IFA_window.rootViewController;
+    }
+    UIView *parentView = a_parentView ? : parentViewController.view;
+    [parentViewController ifa_addChildViewController:self
+                                          parentView:parentView
+                                 shouldFillSuperview:YES
+                                   animationDuration:a_animated ? self.presentationAnimationDuration : 0
+                                          completion:a_completion];
+}
+
+- (void)dismissHudViewControllerWithAnimated:(BOOL)a_animated completion:(void (^)(BOOL a_finished))a_completion {
+    void (^completion)(BOOL a_finished) = ^(BOOL a_finished) {
+        __weak __typeof(self) weakSelf = self;
+        if (a_completion) {
+            a_completion(a_finished);
+        }
+        [weakSelf.IFA_window resignKeyWindow];
+        weakSelf.IFA_window = nil;
+    };
+    [self ifa_removeFromParentViewControllerWithAnimationDuration:a_animated ? self.dismissalAnimationDuration : 0
+                                                       completion:completion];
+}
+
 #pragma mark - Overrides
 
 - (void)ifa_commonInit {
     self.visualIndicatorMode = IFAHudViewVisualIndicatorModeNone;
     self.shouldAllowUserInteractionPassthrough = NO;
-    self.modalPresentationStyle = UIModalPresentationCustom;
-    self.transitioningDelegate = self.viewControllerTransitioningDelegate;
+    self.presentationAnimationDuration = 0.3;
+    self.dismissalAnimationDuration = 1;
 }
 
 - (void)viewDidLoad {
@@ -182,47 +202,48 @@
     if (self.autoDismissalDelay) {
         __weak __typeof(self) weakSelf = self;
         [IFAUtils dispatchAsyncMainThreadBlock:^{
-            [weakSelf.presentingViewController dismissViewControllerAnimated:YES
-                                                                  completion:nil];
+            [weakSelf dismissHudViewControllerWithAnimated:YES
+                                                completion:nil];
         } afterDelay:self.autoDismissalDelay];
     }
 }
 
 #pragma mark - Private
 
-- (IFAViewControllerTransitioningDelegate *)viewControllerTransitioningDelegate {
-    if (!_viewControllerTransitioningDelegate) {
-        _viewControllerTransitioningDelegate = [IFAFadingOverlayViewControllerTransitioningDelegate new];
-        _viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.presentationTransitionDuration = 0.3;
-        _viewControllerTransitioningDelegate.viewControllerAnimatedTransitioning.dismissalTransitionDuration = 1;
-    }
-    return _viewControllerTransitioningDelegate;
-}
-
 - (void)IFA_updateHudViewControllerOverlayTapActionBlock {
-    __weak __typeof(self) l_weakSelf = self;
+    __weak __typeof(self) weakSelf = self;
     self.hudView.overlayTapActionBlock = ^{
-        if (l_weakSelf.overlayTapActionBlock) {
-            l_weakSelf.overlayTapActionBlock();
+        if (weakSelf.overlayTapActionBlock) {
+            weakSelf.overlayTapActionBlock();
         }
-        if (l_weakSelf.shouldDismissOnOverlayTap) {
-            [l_weakSelf.presentingViewController dismissViewControllerAnimated:YES
-                                                                    completion:nil];
+        if (weakSelf.shouldDismissOnOverlayTap) {
+            [weakSelf dismissHudViewControllerWithAnimated:YES
+                                                completion:nil];
         }
     };
 }
 
 - (void)IFA_updateHudViewControllerChromeTapActionBlock {
-    __weak __typeof(self) l_weakSelf = self;
+    __weak __typeof(self) weakSelf = self;
     self.hudView.chromeTapActionBlock = ^{
-        if (l_weakSelf.chromeTapActionBlock) {
-            l_weakSelf.chromeTapActionBlock();
+        if (weakSelf.chromeTapActionBlock) {
+            weakSelf.chromeTapActionBlock();
         }
-        if (l_weakSelf.shouldDismissOnChromeTap) {
-            [l_weakSelf.presentingViewController dismissViewControllerAnimated:YES
-                                                                    completion:nil];
+        if (weakSelf.shouldDismissOnChromeTap) {
+            [weakSelf dismissHudViewControllerWithAnimated:YES
+                                                completion:nil];
         }
     };
+}
+
+- (UIWindow *)IFA_window {
+    if (!_IFA_window) {
+        _IFA_window = [[UIWindow alloc] initWithFrame:[UIApplication sharedApplication].delegate.window.bounds];
+        _IFA_window.backgroundColor = [UIColor clearColor];
+        UIViewController *rootViewController = [UIViewController new];
+        _IFA_window.rootViewController = rootViewController;
+    }
+    return _IFA_window;
 }
 
 @end
