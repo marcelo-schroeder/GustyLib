@@ -142,7 +142,9 @@
 }
 
 - (void)setCustomVisualIndicatorView:(UIView *)customVisualIndicatorView {
-    self.visualIndicatorMode = customVisualIndicatorView ? IFAHudViewVisualIndicatorModeCustom : IFAHudViewVisualIndicatorModeNone;
+    if (customVisualIndicatorView) {
+        self.visualIndicatorMode = IFAHudViewVisualIndicatorModeCustom;
+    }
     self.hudView.customView = customVisualIndicatorView;
 }
 
