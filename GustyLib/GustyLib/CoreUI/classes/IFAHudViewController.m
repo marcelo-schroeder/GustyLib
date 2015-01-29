@@ -5,6 +5,7 @@
 
 #import "GustyLibCoreUI.h"
 
+//wip: fix performance issue (e.g. multiple HUD's on my iPhone 6 take forever to load)
 //wip: memory profiling again after the presentation implementation change
 //wip: does the dynamic font stuff work?
 //wip: I'm relying on the dimming plumming - I am going to use a dimmed bg? Clean up.
