@@ -11,11 +11,7 @@ static const CGFloat k_defaultChromeVerticalPadding = 10;
 
 static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
 
-//wip: make the blur style the default style (tried it quickly and had some auto layout errors)
-//wip: after making the blur style the default style, change the demo app accordingly (e.g. the Blur & Vibrancy section should be named Styles and include the plain style in it)
-//wip: test rotation again when some serious blurring is available (e.g. map view)
 //wip: clean up comments
-//wip: need to manage whether the background blocks user interaction or not (somehow I lost that ability)
 @interface IFAHudView ()
 @property(nonatomic, strong) UIView *chromeView;
 @property(nonatomic, strong) UIView *contentView;
@@ -69,7 +65,6 @@ static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
         [self IFA_addGestureRecognisers];
         [self IFA_updateColours];
         [self IFA_addMotionEffects];
-        [self IFA_updateLayout];    //wip: do I need this?
 
     }
     return self;
@@ -206,7 +201,6 @@ static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
 - (UIView *)contentView {
     if (!_contentView) {
         _contentView = [UIView new];
-//        NSLog(@"[_contentView description] = %@", [_contentView description]);    //wip: clean up
         _contentView.translatesAutoresizingMaskIntoConstraints = NO;
         _contentView.backgroundColor = [UIColor clearColor];
     }
@@ -216,7 +210,6 @@ static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
 - (UIView *)chromeView {
     if (!_chromeView) {
         _chromeView = [UIView new];
-//        NSLog(@"[_chromeView description] = %@", [_chromeView description]);    //wip: clean up
         _chromeView.translatesAutoresizingMaskIntoConstraints = NO;
         CALayer *layer = _chromeView.layer;
         layer.cornerRadius = 9.0;
@@ -231,6 +224,7 @@ static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
     _customView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView insertSubview:_customView belowSubview:self.detailTextLabel];
     [self IFA_updateLayout];
+    [self IFA_updateColours];
 }
 
 + (void)resetAppearanceForHudView:(IFAHudView *)a_hudView {
@@ -431,7 +425,6 @@ static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
                                                                                     constant:chromeViewMaxWidth];
     [chromeView addConstraint:chromeViewMaxWidthConstraint];
     CGSize newChromeViewSize = [chromeView systemLayoutSizeFittingSize:self.chromeViewLayoutFittingSize];
-//    NSLog(@"NSStringFromCGSize(newChromeViewSize) = %@", NSStringFromCGSize(newChromeViewSize));    //wip: clean up
     [chromeView removeConstraint:chromeViewMaxWidthConstraint];
     self.IFA_chromeViewSizeConstraints = [chromeView ifa_addLayoutConstraintsForSize:newChromeViewSize];
 
@@ -441,7 +434,6 @@ static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change
                        context:(void *)context {
-
     if ([keyPath isEqualToString:@"text"] || [keyPath isEqualToString:@"hidden"]) {
         if ([keyPath isEqualToString:@"text"]) {
             UILabel *label = object;
@@ -449,7 +441,6 @@ static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
         }
         [self IFA_updateLayout];
     }
-
 }
 
 #pragma mark - Private
@@ -566,12 +557,14 @@ static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
 - (void)IFA_updateLayout {
     [self IFA_updateFonts];
     [self setNeedsUpdateConstraints];
-    if (self.shouldAnimateLayoutChanges) {
-        [UIView animateWithDuration:0.1 animations:^{
+    if (self.shouldUpdateLayoutAutomaticallyOnContentChange) {  //wip: shouldn't other things be lazily done as well (e.g. update style)
+        if (self.shouldAnimateLayoutChanges) {
+            [UIView animateWithDuration:0.1 animations:^{
+                [self layoutIfNeeded];
+            }];
+        } else {
             [self layoutIfNeeded];
-        }];
-    } else {
-        [self layoutIfNeeded];
+        }
     }
 }
 
@@ -730,49 +723,9 @@ static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
 }
 
 - (void)IFA_updateStyle {
-    [self IFA_tintColorBugWorkaround];
-    [self IFA_configureViewHierarchy];
+    [self IFA_configureViewHierarchy];  //wip: shouldn't this method be called IFA_updateViewHierarchy?
     [self IFA_updateColours];
     [self IFA_updateLayout];
-}
-
-/**
-* Workaround for what it seems to be a UIKit bug.
-* After adding a UILabel to a UIVisualEffectView with a vibrancy effect, it seems that UILabel's textColor property no longer takes precedence over the tintColor property.
-* So, the workaround here is re-init the affected parts of the view hierarchy in order to reset this condition. Ugly, but it gets over the issue.
-*/
-- (void)IFA_tintColorBugWorkaround {
-
-    if ((self.textLabel.superview || self.detailTextLabel.superview) && self.contentView.superview) {
-
-        // Remove affected views from their superviews
-        [self.textLabel removeFromSuperview];
-        [self.detailTextLabel removeFromSuperview];
-
-        // Remove observers to avoid memory leaks
-        [self IFA_removeObservers];
-
-        // Save label text
-        NSString *text = self.textLabel.text;
-        NSString *detailText = self.detailTextLabel.text;
-
-        // Clear pointers of affected views to force them to be re-initialised
-        self.textLabel = nil;
-        self.detailTextLabel = nil;
-
-        // Add new versions of affected views back into the view hierarchy
-        [self.contentView addSubview:self.textLabel];
-        [self.contentView addSubview:self.detailTextLabel];
-
-        // Re-add observers
-        [self IFA_addObservers];
-
-        // Restore label text
-        self.textLabel.text = text;
-        self.detailTextLabel.text = detailText;
-
-    }
-
 }
 
 - (NSString *)IFA_nameForContentSubviewId:(IFAHudContentSubviewId)a_contentSubviewId {

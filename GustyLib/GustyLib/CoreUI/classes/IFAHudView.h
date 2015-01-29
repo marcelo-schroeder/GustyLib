@@ -79,6 +79,8 @@ typedef NS_ENUM(NSUInteger, IFAHudContentSubviewId) {
 
 @property (nonatomic, strong, readonly) NSMutableArray *contentSubviewVerticalOrder;
 
+@property (nonatomic) BOOL shouldUpdateLayoutAutomaticallyOnContentChange;
+
 + (void)resetAppearanceForHudView:(IFAHudView *)a_hudView;
 
 @end
