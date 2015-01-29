@@ -460,18 +460,22 @@ static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
 }
 
 - (void)IFA_addMotionEffects {
-    CGFloat offset = 20.0;
-    UIInterpolatingMotionEffect *motionEffectX = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x"
-                                                                                                 type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
-    motionEffectX.maximumRelativeValue = @(offset);
-    motionEffectX.minimumRelativeValue = @(-offset);
-    UIInterpolatingMotionEffect *motionEffectY = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y"
-                                                                                                 type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
-    motionEffectY.maximumRelativeValue = @(offset);
-    motionEffectY.minimumRelativeValue = @(-offset);
-    UIMotionEffectGroup *group = [UIMotionEffectGroup new];
-    group.motionEffects = @[motionEffectX, motionEffectY];
-    [self.chromeView addMotionEffect:group];
+
+    if (!UIAccessibilityIsReduceMotionEnabled()) {
+        CGFloat offset = 20.0;
+        UIInterpolatingMotionEffect *motionEffectX = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x"
+                                                                                                     type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+        motionEffectX.maximumRelativeValue = @(offset);
+        motionEffectX.minimumRelativeValue = @(-offset);
+        UIInterpolatingMotionEffect *motionEffectY = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y"
+                                                                                                     type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+        motionEffectY.maximumRelativeValue = @(offset);
+        motionEffectY.minimumRelativeValue = @(-offset);
+        UIMotionEffectGroup *group = [UIMotionEffectGroup new];
+        group.motionEffects = @[motionEffectX, motionEffectY];
+        [self.chromeView addMotionEffect:group];
+    }
+
 }
 
 - (void)IFA_configureViewHierarchy {
