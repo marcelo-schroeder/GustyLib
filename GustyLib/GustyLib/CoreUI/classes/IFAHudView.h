@@ -47,8 +47,7 @@ typedef NS_ENUM(NSUInteger, IFAHudContentSubviewId) {
 };
 
 //wip: add doc
-//wip: add lincense
-//wip: attribution to the flicker images used
+//wip: add license
 @interface IFAHudView : IFAView
 
 @property(nonatomic, strong, readonly) UIView *chromeView;

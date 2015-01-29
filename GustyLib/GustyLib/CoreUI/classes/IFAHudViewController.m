@@ -5,7 +5,6 @@
 
 #import "GustyLibCoreUI.h"
 
-//wip: does the motion stuff has to respect accessibility settings?
 //wip: don't forget todo's in the demo app project
 @interface IFAHudViewController ()
 @property (nonatomic, strong) IFAHudView *hudView;
