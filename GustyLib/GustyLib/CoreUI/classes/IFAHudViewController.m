@@ -134,7 +134,6 @@
 - (void)presentHudViewControllerWithParentViewController:(UIViewController *)a_parentViewController
                                               parentView:(UIView *)a_parentView animated:(BOOL)a_animated
                                               completion:(void (^)(BOOL a_finished))a_completion {
-    //wip: need to handle scenario where the parent view controller and view are not provided
     UIViewController *parentViewController;
     if (a_parentViewController) {
         parentViewController = a_parentViewController;
@@ -144,16 +143,28 @@
         parentViewController = self.IFA_window.rootViewController;
     }
     UIView *parentView = a_parentView ? : parentViewController.view;
+    __weak __typeof(self) weakSelf = self;
+    void (^completion)(BOOL a_finished) = ^(BOOL a_finished) {
+        if (a_completion) {
+            a_completion(a_finished);
+        }
+        if (weakSelf.autoDismissalDelay) {
+            [IFAUtils dispatchAsyncMainThreadBlock:^{
+                [weakSelf dismissHudViewControllerWithAnimated:a_animated
+                                                    completion:nil];
+            } afterDelay:weakSelf.autoDismissalDelay];
+        }
+    };
     [parentViewController ifa_addChildViewController:self
                                           parentView:parentView
                                  shouldFillSuperview:YES
                                    animationDuration:a_animated ? self.presentationAnimationDuration : 0
-                                          completion:a_completion];
+                                          completion:completion];
 }
 
 - (void)dismissHudViewControllerWithAnimated:(BOOL)a_animated completion:(void (^)(BOOL a_finished))a_completion {
+    __weak __typeof(self) weakSelf = self;
     void (^completion)(BOOL a_finished) = ^(BOOL a_finished) {
-        __weak __typeof(self) weakSelf = self;
         if (a_completion) {
             a_completion(a_finished);
         }
@@ -196,13 +207,6 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.hudView.shouldUpdateLayoutAutomaticallyOnContentChange = YES;
-    if (self.autoDismissalDelay) {
-        __weak __typeof(self) weakSelf = self;
-        [IFAUtils dispatchAsyncMainThreadBlock:^{
-            [weakSelf dismissHudViewControllerWithAnimated:YES
-                                                completion:nil];
-        } afterDelay:self.autoDismissalDelay];
-    }
 }
 
 #pragma mark - Private
