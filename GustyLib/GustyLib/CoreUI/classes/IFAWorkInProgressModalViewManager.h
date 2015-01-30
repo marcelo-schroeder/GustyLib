@@ -20,7 +20,6 @@
 
 @class IFAHudViewController;
 
-//wip: clean up commented code
 //wip: add doc
 @interface IFAWorkInProgressModalViewManager : NSObject
 

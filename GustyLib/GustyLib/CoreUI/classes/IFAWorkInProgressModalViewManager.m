@@ -24,10 +24,7 @@
 @property (nonatomic, strong) IFAHudViewController *hudViewController;
 @end
 
-//wip: clean up commented code
 @implementation IFAWorkInProgressModalViewManager
-
-#pragma mark - Private
 
 #pragma mark - Public
 

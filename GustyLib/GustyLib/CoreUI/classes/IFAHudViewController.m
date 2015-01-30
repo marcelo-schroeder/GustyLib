@@ -5,7 +5,6 @@
 
 #import "GustyLibCoreUI.h"
 
-//wip: TimeAssistant: still unbalanced transitions when running reports, and clean up... what else?
 //wip: don't forget todo's in the demo app project
 @interface IFAHudViewController ()
 @property (nonatomic, strong) IFAHudView *hudView;

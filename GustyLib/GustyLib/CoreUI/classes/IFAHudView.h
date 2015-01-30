@@ -73,7 +73,9 @@ typedef NS_ENUM(NSUInteger, IFAHudContentSubviewId) {
 @property (nonatomic) CGFloat chromeHorizontalPadding UI_APPEARANCE_SELECTOR;
 @property (nonatomic) CGFloat chromeVerticalPadding UI_APPEARANCE_SELECTOR;
 @property (nonatomic) CGFloat chromeVerticalInteritemSpacing UI_APPEARANCE_SELECTOR;
+@property (nonatomic) CGFloat chromeHorizontalMargin UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor *progressViewTrackTintColour UI_APPEARANCE_SELECTOR;
+@property (nonatomic) CGFloat chromeViewMaximumLayoutWidth UI_APPEARANCE_SELECTOR;
 
 @property (nonatomic, strong) void (^chromeTapActionBlock) ();
 @property (nonatomic, strong) void (^overlayTapActionBlock) ();

@@ -979,6 +979,8 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 }
 
 + (NSDictionary *)defaultAppearancePropertiesForHudView:(IFAHudView *)a_hudView {
+
+    // chromeBackgroundColour
     UIColor *chromeBackgroundColour;
     switch (a_hudView.style) {
         case IFAHudViewStylePlain:
@@ -989,6 +991,12 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
             chromeBackgroundColour = [UIColor clearColor];
             break;
     }
+
+    // chromeViewMaximumLayoutWidth
+    CGFloat smallestScreenDimension = fminf([IFAUIUtils screenBoundsSize].width, [IFAUIUtils screenBoundsSize].height);
+    CGFloat smallestScreenDimensionFactor = [IFAUIUtils isIPad] ? 0.5f : 1.0f;
+    CGFloat chromeViewMaximumLayoutWidth = smallestScreenDimension * smallestScreenDimensionFactor;
+
     return @{
             @"style" : @(IFAHudViewStyleBlur),
             @"blurEffectStyle" : @(UIBlurEffectStyleDark),
@@ -1003,7 +1011,10 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
             @"textLabelFontTextStyle" : UIFontTextStyleHeadline,
             @"detailTextLabelFontTextStyle" : UIFontTextStyleSubheadline,
             @"progressViewTrackTintColour" : [UIColor lightGrayColor],
+            @"chromeViewMaximumLayoutWidth" : @(chromeViewMaximumLayoutWidth),
+            @"chromeHorizontalMargin" : @(20),
     };
+
 }
 
 + (UIColor *)splitViewControllerDividerColour {

@@ -42,9 +42,6 @@ typedef void (^IFAViewControllerAnimatedTransitioningCompletionBlock)(BOOL a_fin
 */
 @property(nonatomic) NSTimeInterval dismissalTransitionDuration;
 
-//wip: add doc
-@property (nonatomic) BOOL containerViewUserInteraction;    //wip: is this really necessary?
-
 /**
 * Designated initializer.
 * @param a_beforeAnimationsBlock Block that runs before any transition animations.

@@ -53,6 +53,8 @@
         _chromeHorizontalPadding = [self IFA_defaultChromeHorizontalPadding];
         _chromeVerticalPadding = [self IFA_defaultChromeVerticalPadding];
         _chromeVerticalInteritemSpacing = [self IFA_defaultChromeVerticalInteritemSpacing];
+        _chromeViewMaximumLayoutWidth = [self IFA_defaultChromeViewMaximumLayoutWidth];
+        _chromeHorizontalMargin = [self IFA_defaultChromeHorizontalMargin];
 
         [self IFA_addObservers];
         [self IFA_updateViewHierarchy];
@@ -231,6 +233,11 @@
     [self IFA_updateLayout];
 }
 
+- (void)setChromeViewMaximumLayoutWidth:(CGFloat)chromeViewMaximumLayoutWidth {
+    _chromeViewMaximumLayoutWidth = chromeViewMaximumLayoutWidth;
+    [self IFA_updateLayout];
+}
+
 - (NSMutableArray *)contentSubviewVerticalOrder {
     if (!_contentSubviewVerticalOrder) {
         _contentSubviewVerticalOrder = [@[] mutableCopy];
@@ -257,6 +264,11 @@
 
 - (void)setChromeHorizontalPadding:(CGFloat)chromeHorizontalPadding {
     _chromeHorizontalPadding = chromeHorizontalPadding;
+    [self IFA_updateLayout];
+}
+
+- (void)setChromeHorizontalMargin:(CGFloat)chromeHorizontalMargin {
+    _chromeHorizontalMargin = chromeHorizontalMargin;
     [self IFA_updateLayout];
 }
 
@@ -397,11 +409,11 @@
     self.IFA_chromeViewCentreConstraints = [self.chromeView ifa_addLayoutConstraintsToCenterInSuperview];
 
     // Chrome view size constraints
-    CGFloat referenceScreenWidth = 320;   //wip: hardcoded - maybe this should be exposed?
+    CGFloat referenceScreenWidth = self.chromeViewMaximumLayoutWidth;
     if (self.bounds.size.width < referenceScreenWidth) {
         referenceScreenWidth = self.bounds.size.width;
     }
-    CGFloat horizontalMargin = 20 + 20;   //wip: hardcoded - maybe this should be exposed?
+    CGFloat horizontalMargin = self.chromeHorizontalMargin * 2;   //both left and right
     if (referenceScreenWidth <= horizontalMargin) {
         horizontalMargin = 0;
     }
@@ -645,6 +657,10 @@
     return ((NSNumber *) [self IFA_defaultValueForAppearancePropertyNamed:@"chromeHorizontalPadding"]).floatValue;
 }
 
+- (CGFloat)IFA_defaultChromeHorizontalMargin {
+    return ((NSNumber *) [self IFA_defaultValueForAppearancePropertyNamed:@"chromeHorizontalMargin"]).floatValue;
+}
+
 - (CGFloat)IFA_defaultChromeVerticalPadding {
     return ((NSNumber *) [self IFA_defaultValueForAppearancePropertyNamed:@"chromeVerticalPadding"]).floatValue;
 }
@@ -675,6 +691,10 @@
 
 - (UIColor *)IFA_defaultProgressViewTrackTintColour {
     return [self IFA_defaultValueForAppearancePropertyNamed:@"progressViewTrackTintColour"];
+}
+
+- (CGFloat)IFA_defaultChromeViewMaximumLayoutWidth {
+    return ((NSNumber *) [self IFA_defaultValueForAppearancePropertyNamed:@"chromeViewMaximumLayoutWidth"]).floatValue;
 }
 
 - (UITapGestureRecognizer *)IFA_chromeTapGestureRecognizer {
