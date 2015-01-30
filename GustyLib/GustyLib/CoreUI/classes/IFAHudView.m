@@ -55,7 +55,7 @@
         _chromeVerticalInteritemSpacing = [self IFA_defaultChromeVerticalInteritemSpacing];
 
         [self IFA_addObservers];
-        [self IFA_configureViewHierarchy];
+        [self IFA_updateViewHierarchy];
         [self IFA_addGestureRecognisers];
         [self IFA_updateColours];
         [self IFA_addMotionEffects];
@@ -468,7 +468,7 @@
 
 }
 
-- (void)IFA_configureViewHierarchy {
+- (void)IFA_updateViewHierarchy {
 
     // Content subviews
     [self.contentView addSubview:self.textLabel];
@@ -551,7 +551,7 @@
 - (void)IFA_updateLayout {
     [self IFA_updateFonts];
     [self setNeedsUpdateConstraints];
-    if (self.shouldUpdateLayoutAutomaticallyOnContentChange) {  //wip: shouldn't other things be lazily done as well (e.g. update style)
+    if (self.shouldUpdateLayoutAutomaticallyOnContentChange) {
         if (self.shouldAnimateLayoutChanges) {
             [UIView animateWithDuration:0.1 animations:^{
                 [self layoutIfNeeded];
@@ -711,7 +711,7 @@
 }
 
 - (void)IFA_updateStyle {
-    [self IFA_configureViewHierarchy];  //wip: shouldn't this method be called IFA_updateViewHierarchy?
+    [self IFA_updateViewHierarchy];
     [self IFA_updateColours];
     [self IFA_updateLayout];
 }
