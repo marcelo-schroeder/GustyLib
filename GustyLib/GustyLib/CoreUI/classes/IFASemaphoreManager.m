@@ -56,15 +56,14 @@ shouldShowModalProgressIndicator:(BOOL)a_shouldShowModalProgressIndicator
     if (l_semaphoreTimeout) {
         self.IFA_isWaitingForSemaphore = YES;
         if (a_shouldShowModalProgressIndicator) {
-            self.IFA_progressIndicatorManager.progressMessage = a_progressIndicatorMessage;
             self.IFA_progressIndicatorManager.cancelationCompletionBlock = ^{
-                [l_weakSelf.IFA_progressIndicatorManager removeView];
+                [l_weakSelf.IFA_progressIndicatorManager hideView];
                 l_weakSelf.IFA_isWaitingForSemaphore = NO;
                 if (a_userCancellationBlock) {
                     a_userCancellationBlock();
                 }
             };
-            [self.IFA_progressIndicatorManager showView];
+            [self.IFA_progressIndicatorManager showViewWithMessage:a_progressIndicatorMessage];
         }
     } else {
         dispatch_semaphore_signal(a_semaphore);
@@ -80,7 +79,7 @@ shouldShowModalProgressIndicator:(BOOL)a_shouldShowModalProgressIndicator
         [IFAUtils dispatchAsyncMainThreadBlock:^{
             if (l_weakSelf.IFA_isWaitingForSemaphore) {
                 if (a_shouldShowModalProgressIndicator) {
-                    [l_weakSelf.IFA_progressIndicatorManager removeView];
+                    [l_weakSelf.IFA_progressIndicatorManager hideView];
                 }
                 l_weakSelf.IFA_isWaitingForSemaphore = NO;
                 if (a_semaphoreWaitOverBlock) {

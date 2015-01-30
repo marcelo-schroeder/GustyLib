@@ -21,178 +21,94 @@
 #import "GustyLibCoreUI.h"
 
 @interface IFAWorkInProgressModalViewManager ()
-@property(nonatomic, weak) id IFA_cancellationCallbackReceiver;
-@property(nonatomic) SEL IFA_cancellationCallbackSelector;
-@property(nonatomic, strong) id IFA_cancellationCallbackArgument;
-@property(nonatomic, strong) NSString *IFA_message;
-@property(nonatomic, strong) IFA_MBProgressHUD *IFA_hud;
+@property (nonatomic, strong) IFAHudViewController *hudViewController;
 @end
 
+//wip: clean up commented code
 @implementation IFAWorkInProgressModalViewManager
 
 #pragma mark - Private
 
-- (void)onCancelTap:(id)aSender{
-    [self IFA_removeGestureRecogniser];
-    self.IFA_hud.mode = MBProgressHUDModeIndeterminate;
-    self.IFA_hud.labelText = @"Cancelling...";
-    self.IFA_hud.detailsLabelText = @"";
-    self.hasBeenCancelled = YES;
-    if (self.cancelationCompletionBlock) {
-        self.cancelationCompletionBlock();
-    }else{
-//    [v_cancellationCallbackReceiver performSelector:v_cancellationCallbackSelector withObject:nil];
-        objc_msgSend(self.IFA_cancellationCallbackReceiver, self.IFA_cancellationCallbackSelector, self.IFA_cancellationCallbackArgument);
-    }
-}
-
-- (void)IFA_removeGestureRecogniser {
-    if ([self.IFA_hud.userInteractionView.gestureRecognizers count]==1) {
-        [self.IFA_hud.userInteractionView removeGestureRecognizer:[self.IFA_hud.userInteractionView gestureRecognizers][0]];
-    }
-}
-
-- (id)initWithCancellationCallbackReceiver:(id)a_callbackReceiver 
-              cancellationCallbackSelector:(SEL)a_callbackSelector
-              cancellationCallbackArgument:(id)a_callbackArgument
-               cancellationCompletionBlock:(void (^)())a_cancellationCompletionBlock
-                                   message:(NSString *)a_message {
-    if((self=[super init])){
-        self.IFA_cancellationCallbackReceiver = a_callbackReceiver;
-        self.IFA_cancellationCallbackSelector = a_callbackSelector;
-        self.IFA_cancellationCallbackArgument = a_callbackArgument;
-        self.cancelationCompletionBlock = a_cancellationCompletionBlock;
-        self.progressMessage = a_message ? a_message : @"Work in progress...";
-    }
-    return self;
-}
-
 #pragma mark - Public
 
 -(void)setDeterminateProgress:(BOOL)determinateProgress {
-    self.IFA_hud.mode = determinateProgress ? MBProgressHUDModeDeterminate : MBProgressHUDModeIndeterminate;
+    self.hudViewController.visualIndicatorMode = determinateProgress ? IFAHudViewVisualIndicatorModeProgressDeterminate : IFAHudViewVisualIndicatorModeProgressIndeterminate;
 }
 
 -(BOOL)determinateProgress {
-    return self.IFA_hud.mode == MBProgressHUDModeDeterminate;
+    return self.hudViewController.visualIndicatorMode == IFAHudViewVisualIndicatorModeProgressDeterminate;
 }
 
--(void)setDeterminateProgressPercentage:(float)determinateProgressPercentage {
-    self.IFA_hud.progress = determinateProgressPercentage;
+-(void)setDeterminateProgressPercentage:(CGFloat)determinateProgressPercentage {
+    self.hudViewController.progress = determinateProgressPercentage;
 }
 
--(float)determinateProgressPercentage {
-    return self.IFA_hud.progress;
+-(CGFloat)determinateProgressPercentage {
+    return self.hudViewController.progress;
 }
 
--(void)setProgressMessage:(NSString *)progressMessage {
-    self.IFA_message = progressMessage;
-    if (self.IFA_hud) {
-        self.IFA_hud.labelText = self.IFA_message;
+- (void)setCancelationCompletionBlock:(void (^)())cancelationCompletionBlock {
+    _cancelationCompletionBlock = cancelationCompletionBlock;
+    if (self.cancelationCompletionBlock) {
+        self.hudViewController.detailText = @"Tap to cancel";
+        __weak __typeof(self) weakSelf = self;
+        self.hudViewController.chromeTapActionBlock = ^{
+            weakSelf.hasBeenCancelled = YES;
+            weakSelf.hudViewController.visualIndicatorMode = IFAHudViewVisualIndicatorModeProgressIndeterminate;
+            weakSelf.hudViewController.detailText = @"Cancelling...";
+            weakSelf.cancelationCompletionBlock();
+        };
+    } else {
+        self.hudViewController.detailText = nil;
+        self.hudViewController.chromeTapActionBlock = nil;
     }
 }
 
--(NSString *)progressMessage {
-    return self.IFA_message;
+- (NSString *)progressMessage {
+    return self.hudViewController.text;
 }
 
--(id)initWithMessage:(NSString*)a_message{
-    return [self initWithCancellationCallbackReceiver:nil cancellationCallbackSelector:NULL
-                         cancellationCallbackArgument:nil
-                                              message:a_message];
+- (void)setProgressMessage:(NSString *)progressMessage {
+    self.hudViewController.text = progressMessage;
 }
 
-- (id)initWithCancellationCallbackReceiver:(id)a_callbackReceiver cancellationCallbackSelector:(SEL)a_callbackSelector
-              cancellationCallbackArgument:(id)a_callbackArgument message:(NSString *)a_message {
-    return [self initWithCancellationCallbackReceiver:a_callbackReceiver
-                         cancellationCallbackSelector:a_callbackSelector
-                         cancellationCallbackArgument:a_callbackArgument
-                          cancellationCompletionBlock:nil
-                                              message:a_message];
+- (void)showViewWithMessage:(NSString *)a_message {
+    [self showViewWithMessage:a_message parentViewController:nil
+                   parentView:nil animated:YES];
 }
 
--(id)initWithCancellationCallbackReceiver:(id)a_callbackReceiver cancellationCallbackSelector:(SEL)a_callbackSelector{
-    return [self initWithCancellationCallbackReceiver:a_callbackReceiver cancellationCallbackSelector:a_callbackSelector
-                         cancellationCallbackArgument:nil
-                                              message:nil ];
+- (void)hideView {
+    [self hideViewAnimated:YES];
 }
 
--(id)initWithCancellationCallbackReceiver:(id)a_callbackReceiver cancellationCallbackSelector:(SEL)a_callbackSelector cancellationCallbackArgument:(id)a_callbackArgument{
-    return [self initWithCancellationCallbackReceiver:a_callbackReceiver cancellationCallbackSelector:a_callbackSelector
-                         cancellationCallbackArgument:a_callbackArgument
-                                              message:nil ];
-}
-
-- (id)initWithCancellationCompletionBlock:(void (^)())a_cancellationCompletionBlock {
-    return [self initWithCancellationCallbackReceiver:nil
-                         cancellationCallbackSelector:nil
-                         cancellationCallbackArgument:nil
-                          cancellationCompletionBlock:a_cancellationCompletionBlock
-                                              message:nil];
-}
-
-- (void)showView {
-    [self showViewWithAnimation:YES];
-}
-
-- (void)showViewWithAnimation:(BOOL)a_animate{
-    [self showViewForView:[UIApplication sharedApplication].delegate.window animate:a_animate];
-}
-    
-- (void)showViewForView:(UIView*)a_view{
-    [self showViewForView:a_view animate:YES];
-}
-
-- (void)showViewForView:(UIView *)a_view animate:(BOOL)a_animate{
-    [self showViewForView:a_view animate:a_animate
-    hudConfigurationBlock:nil];
-}
-
-- (void)showViewForView:(UIView *)a_view animate:(BOOL)a_animate hudConfigurationBlock:(void(^)(IFA_MBProgressHUD *))a_hudConfigurationBlock{
-
+- (void)showViewWithMessage:(NSString *)a_message
+       parentViewController:(UIViewController *)a_parentViewController
+                 parentView:(UIView *)a_parentView
+                   animated:(BOOL)a_animated {
     self.hasBeenCancelled = NO;
-
-    // Instantiate HUD
-    self.IFA_hud = [[IFA_MBProgressHUD alloc] initWithView:a_view];
-    
-    // Configure HUD
-    self.IFA_hud.opacity = 0.6;
-    self.IFA_hud.labelText = self.progressMessage;
-    self.IFA_hud.removeFromSuperViewOnHide = YES;
-    self.IFA_hud.animationType = MBProgressHUDAnimationFade;
-    self.IFA_hud.dimBackground = YES;
-    self.IFA_hud.mode = MBProgressHUDModeIndeterminate;
-    
-    // Allow cancellation if required
-    if (self.IFA_cancellationCallbackReceiver || self.cancelationCompletionBlock) {
-
-        // Set details label to indicate that cancellation is possible
-        self.IFA_hud.detailsLabelText = @"Tap to cancel";
-        
-        // Add tap gesture recogniser
-        UITapGestureRecognizer *l_recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onCancelTap:)];
-        [self.IFA_hud.userInteractionView addGestureRecognizer:l_recognizer];
-        
-    }
-
-    // Run HUD configuration block if required
-    if (a_hudConfigurationBlock) {
-        a_hudConfigurationBlock(self.IFA_hud);
-    }
-
-    // Show HUD
-    [a_view addSubview:self.IFA_hud];
-    [self.IFA_hud show:a_animate];
-    
+    self.hudViewController.text = a_message;
+    [self.hudViewController presentHudViewControllerWithParentViewController:a_parentViewController
+                                                                  parentView:a_parentView
+                                                                    animated:a_animated
+                                                                  completion:nil];
 }
 
-- (void)removeView {
-    [self removeViewWithAnimation:YES];
+- (void)hideViewAnimated:(BOOL)a_animated {
+    [self.hudViewController dismissHudViewControllerWithAnimated:a_animated
+                                                      completion:nil];
 }
 
-- (void)removeViewWithAnimation:(BOOL)a_animate{
-    [self.IFA_hud hide:a_animate];
-    [self IFA_removeGestureRecogniser];
+- (IFAHudViewController *)hudViewController {
+    if (!_hudViewController) {
+        _hudViewController = [IFAHudViewController new];
+        _hudViewController.visualIndicatorMode = IFAHudViewVisualIndicatorModeProgressIndeterminate;
+        //wip: set this stuff in the appearance theme
+        _hudViewController.hudView.style = IFAHudViewStylePlain;
+        _hudViewController.hudView.overlayColour = [[UIColor blackColor] colorWithAlphaComponent:0.6];
+        _hudViewController.hudView.chromeForegroundColour = [UIColor blackColor];
+        _hudViewController.hudView.chromeBackgroundColour = [[UIColor whiteColor] colorWithAlphaComponent:0.75];
+    }
+    return _hudViewController;
 }
 
 @end

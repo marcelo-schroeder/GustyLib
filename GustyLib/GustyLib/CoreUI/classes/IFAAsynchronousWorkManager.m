@@ -26,7 +26,7 @@
 @property (strong) NSOperationQueue *IFA_operationQueue;
 @property (strong) NSOperation *IFA_operation;
 @property (strong) IFAWorkInProgressModalViewManager *IFA_wipViewManager;
-@property (strong) IFA_MBProgressHUD *IFA_hud;
+@property (nonatomic, strong) IFAHudViewController *IFA_hudViewController;
 @property (strong) NSString *IFA_nonModalProgressIndicatorOwnerUuid;
 @property (strong) NSString *IFA_cancelAllBlocksRequestOwnerUuid;
 
@@ -45,9 +45,9 @@
 #pragma mark -
 #pragma mark Private
 
--(void)doneWithOperation{
+-(void)IFA_doneWithOperation {
     
-//    NSLog(@"doneWithOperation: %@", [self.IFA_operation description]);
+//    NSLog(@"IFA_doneWithOperation: %@", [self.IFA_operation description]);
     
     // Remove KVO observers
     [self.IFA_operation removeObserver:self forKeyPath:@"isFinished"];
@@ -61,7 +61,7 @@
     
     // Remove modal WIP view
     if (self.IFA_showProgressIndicator) {
-        [self.IFA_wipViewManager removeView];
+        [self.IFA_wipViewManager hideView];
     }
     
     // Execute completion block
@@ -71,56 +71,40 @@
 
 }
 
--(void)cancelAllSerialBlocks {
-    [self hideNonModalProgressIndicatorWithAnimation:NO];
-    self.areAllBlocksCancelled = YES;
-    self.IFA_cancelAllBlocksRequestOwnerUuid = nil;
-//    NSLog(@"   ###   areAllBlocksCancelled = YES");
-    __weak __typeof(self) l_weakSelf = self;
-    dispatch_async(self.IFA_mainSerialDispatchQueue, ^{
-        if (!l_weakSelf.IFA_cancelAllBlocksRequestOwnerUuid) {
-            l_weakSelf.areAllBlocksCancelled = NO;
-//            NSLog(@"   ###   areAllBlocksCancelled = NO");
-        }
-    });
-}
-
 -(void)IFA_dispatchConcurrentBlock:(dispatch_block_t)a_block priority:(long)a_priority{
     dispatch_async(dispatch_get_global_queue(a_priority, 0), a_block);
+}
+
+- (IFAHudViewController *)IFA_hudViewController {
+    if (!_IFA_hudViewController) {
+        _IFA_hudViewController = [IFAHudViewController new];
+        _IFA_hudViewController.visualIndicatorMode = IFAHudViewVisualIndicatorModeProgressIndeterminate;
+        _IFA_hudViewController.shouldAllowUserInteractionPassthrough = YES;
+    }
+    return _IFA_hudViewController;
 }
 
 #pragma mark -
 #pragma mark Public
 
--(void)showNonModalProgressIndicatorInView:(UIView*)a_view{
+-(void)showNonModalProgressIndicatorInViewController:(UIViewController *)a_viewController {
     @synchronized(self){
-//        NSLog(@"m_showNonModalProgressIndicatorForOwner in view: %@", [a_view description]);
-        if (!self.IFA_hud) {
-            self.IFA_hud = [[IFA_MBProgressHUD alloc] initWithView:a_view];
-            self.IFA_hud.opacity = 0.2;
-            self.IFA_hud.removeFromSuperViewOnHide = YES;
-            self.IFA_hud.animationType = MBProgressHUDAnimationFade;
-            self.IFA_hud.mode = MBProgressHUDModeIndeterminate;
-            self.IFA_hud.userInteractionEnabled = NO;
-            [a_view addSubview:self.IFA_hud];
-            [self.IFA_hud show:YES];
-//            NSLog(@"  @@@ PROGRESS INDICATOR SHOWN");
-        }
+        [self.IFA_hudViewController presentHudViewControllerWithParentViewController:a_viewController
+                                                                          parentView:nil
+                                                                            animated:YES
+                                                                          completion:nil];
     }
 }
 
 -(void)showNonModalProgressIndicator {
-    [self showNonModalProgressIndicatorInView:[IFAUIUtils nonModalHudContainerView]];
+    [self showNonModalProgressIndicatorInViewController:[IFAUIUtils nonModalHudContainerViewController]];
 }
 
 -(void)hideNonModalProgressIndicatorWithAnimation:(BOOL)a_animate{
     @synchronized(self){
-        //        NSLog(@"m_hideNonModalProgressIndicatorForOwner");
-        if (self.IFA_hud) {
-            [self.IFA_hud hide:a_animate];
-            self.IFA_hud = nil;
-            //            NSLog(@"  @@@ PROGRESS INDICATOR hidden");
-        }
+        [self.IFA_hudViewController dismissHudViewControllerWithAnimated:a_animate
+                                                              completion:nil];
+        self.IFA_hudViewController = nil;
     }
 }
 
@@ -161,15 +145,14 @@
             l_message = l_operation.progressMessage;
             l_allowCancellation = l_operation.allowCancellation;
         }
+        self.IFA_wipViewManager = [IFAWorkInProgressModalViewManager new];
         if (l_allowCancellation) {
-            self.IFA_wipViewManager = [[IFAWorkInProgressModalViewManager alloc] initWithCancellationCallbackReceiver:self
-                                                                                        cancellationCallbackSelector:@selector(cancelAllOperations)
-                                                                                        cancellationCallbackArgument:nil
-                                                                                                             message:l_message];
-        }else{
-            self.IFA_wipViewManager = [[IFAWorkInProgressModalViewManager alloc] initWithMessage:l_message];
+            __weak __typeof(self) weakSelf = self;
+            self.IFA_wipViewManager.cancelationCompletionBlock = ^{
+                [weakSelf cancelAllOperations];
+            };
         }
-        [self.IFA_wipViewManager showView];
+        [self.IFA_wipViewManager showViewWithMessage:l_message];
     }
     
     // Add operation to execution queue
@@ -196,20 +179,22 @@
     
 -(void)dispatchSerialBlock:(dispatch_block_t)a_block showProgressIndicator:(BOOL)a_showProgressIndicator
       cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks{
-    [self  dispatchSerialBlock:a_block
-progressIndicatorContainerView:a_showProgressIndicator ? [IFAUIUtils nonModalHudContainerView] : nil
-          cancelPreviousBlocks:a_cancelPreviousBlocks];
+    [self            dispatchSerialBlock:a_block
+progressIndicatorContainerViewController:a_showProgressIndicator ? [IFAUIUtils nonModalHudContainerViewController] : nil
+                    cancelPreviousBlocks:a_cancelPreviousBlocks];
 }
 
--(void)    dispatchSerialBlock:(dispatch_block_t)a_block
-progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks{
-    [self dispatchSerialBlock:a_block progressIndicatorContainerView:a_progressIndicatorContainerView
-         cancelPreviousBlocks:a_cancelPreviousBlocks usePrivateManagedObjectContext:YES];
+-(void)              dispatchSerialBlock:(dispatch_block_t)a_block
+progressIndicatorContainerViewController:(UIViewController *)a_progressIndicatorContainerViewController
+                    cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks{
+    [self            dispatchSerialBlock:a_block
+progressIndicatorContainerViewController:a_progressIndicatorContainerViewController
+                    cancelPreviousBlocks:a_cancelPreviousBlocks usePrivateManagedObjectContext:YES];
 }
 
--(void)    dispatchSerialBlock:(dispatch_block_t)a_block
-progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView
-          cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks usePrivateManagedObjectContext:(BOOL)a_usePrivateManagedObjectContext{
+-(void)              dispatchSerialBlock:(dispatch_block_t)a_block
+progressIndicatorContainerViewController:(UIViewController *)a_progressIndicatorContainerViewController
+                    cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks usePrivateManagedObjectContext:(BOOL)a_usePrivateManagedObjectContext{
     
     // Generate a UUID to identify this block
     NSString *l_blockUuid = [IFAUtils generateUuid];
@@ -221,10 +206,10 @@ progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView
     }
 
     // Hide progress indicator if required
-    if (a_progressIndicatorContainerView) {
+    if (a_progressIndicatorContainerViewController) {
         self.IFA_nonModalProgressIndicatorOwnerUuid = l_blockUuid;
 //        NSLog(@"self.IFA_nonModalProgressIndicatorOwnerUuid set to %@", self.IFA_nonModalProgressIndicatorOwnerUuid);
-        [self showNonModalProgressIndicatorInView:a_progressIndicatorContainerView];
+        [self showNonModalProgressIndicatorInViewController:a_progressIndicatorContainerViewController];
     }
     
     __weak __typeof(self) l_weakSelf = self;
@@ -258,7 +243,7 @@ progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView
 //        NSLog(@"inner block executed!");
 
         // Hide progress indicator if required
-        if (a_progressIndicatorContainerView && [l_weakSelf.IFA_nonModalProgressIndicatorOwnerUuid isEqualToString:l_blockUuid]) {
+        if (a_progressIndicatorContainerViewController && [l_weakSelf.IFA_nonModalProgressIndicatorOwnerUuid isEqualToString:l_blockUuid]) {
             [IFAUtils dispatchAsyncMainThreadBlock:^{
                 [l_weakSelf hideNonModalProgressIndicatorWithAnimation:YES];
             }];
@@ -275,7 +260,7 @@ progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView
 }
 
 -(void)dispatchSerialBlock:(dispatch_block_t)a_block usePrivateManagedObjectContext:(BOOL)a_usePrivateManagedObjectContext{
-    [self  dispatchSerialBlock:a_block progressIndicatorContainerView:nil cancelPreviousBlocks:NO
+    [self  dispatchSerialBlock:a_block progressIndicatorContainerViewController:nil cancelPreviousBlocks:NO
 usePrivateManagedObjectContext:a_usePrivateManagedObjectContext];
 }
 
@@ -283,27 +268,46 @@ usePrivateManagedObjectContext:a_usePrivateManagedObjectContext];
     [self IFA_dispatchConcurrentBlock:a_block priority:DISPATCH_QUEUE_PRIORITY_BACKGROUND];
 }
 
+-(void)cancelAllSerialBlocks {
+    [self hideNonModalProgressIndicatorWithAnimation:NO];
+    self.areAllBlocksCancelled = YES;
+    self.IFA_cancelAllBlocksRequestOwnerUuid = nil;
+//    NSLog(@"   ###   areAllBlocksCancelled = YES");
+    __weak __typeof(self) l_weakSelf = self;
+    dispatch_async(self.IFA_mainSerialDispatchQueue, ^{
+        if (!l_weakSelf.IFA_cancelAllBlocksRequestOwnerUuid) {
+            l_weakSelf.areAllBlocksCancelled = NO;
+//            NSLog(@"   ###   areAllBlocksCancelled = NO");
+        }
+    });
+}
+
 #pragma mark -
 #pragma mark KVO
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    if ([keyPath isEqualToString:@"isFinished"]) {
-        [self performSelectorOnMainThread:@selector(doneWithOperation) withObject:nil waitUntilDone:NO];
-    }else if ([keyPath isEqualToString:@"determinateProgress"]) {
-        BOOL l_determinateProgress = [[self.IFA_operation valueForKey:keyPath] boolValue];
-//        NSLog(@"l_determinateProgress: %u", l_determinateProgress);
-        self.IFA_wipViewManager.determinateProgress = l_determinateProgress;
-    }else if ([keyPath isEqualToString:@"determinateProgressPercentage"]) {
-        float l_determinateProgressPercentage = [[self.IFA_operation valueForKey:keyPath] floatValue];
-//        NSLog(@"l_determinateProgressPercentage: %f", l_determinateProgressPercentage);
-        self.IFA_wipViewManager.determinateProgressPercentage = l_determinateProgressPercentage;
-    }else if ([keyPath isEqualToString:@"progressMessage"]) {
-        NSString *l_progressMessage = [self.IFA_operation valueForKey:keyPath];
-//        NSLog(@"l_progressMessage: %@", l_progressMessage);
-        self.IFA_wipViewManager.progressMessage = l_progressMessage;
-    }else{
-        NSAssert(NO, @"Unexpected key path: %@", keyPath);
-    }
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change
+                       context:(void *)context {
+    // The assumption here is that these observations are being done on a thread other than the main thread,
+    // so dispatch UI work back to the main thread
+    [IFAUtils dispatchAsyncMainThreadBlock:^{
+        if ([keyPath isEqualToString:@"isFinished"]) {
+            [self IFA_doneWithOperation];
+        } else if ([keyPath isEqualToString:@"determinateProgress"]) {
+            BOOL l_determinateProgress = [[self.IFA_operation valueForKey:keyPath] boolValue];
+//            NSLog(@"l_determinateProgress: %u", l_determinateProgress);
+            self.IFA_wipViewManager.determinateProgress = l_determinateProgress;
+        } else if ([keyPath isEqualToString:@"determinateProgressPercentage"]) {
+            CGFloat l_determinateProgressPercentage = [[self.IFA_operation valueForKey:keyPath] floatValue];
+//            NSLog(@"l_determinateProgressPercentage: %f", l_determinateProgressPercentage);
+            self.IFA_wipViewManager.determinateProgressPercentage = l_determinateProgressPercentage;
+        } else if ([keyPath isEqualToString:@"progressMessage"]) {
+            NSString *l_progressMessage = [self.IFA_operation valueForKey:keyPath];
+//            NSLog(@"l_progressMessage: %@", l_progressMessage);
+            self.IFA_wipViewManager.progressMessage = l_progressMessage;
+        } else {
+            NSAssert(NO, @"Unexpected key path: %@", keyPath);
+        }
+    }];
 }
 
 #pragma mark - Singleton functions

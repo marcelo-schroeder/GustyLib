@@ -140,15 +140,16 @@
 
 -(void)IFA_hideProgressView {
     // Remove modal WIP view
-    [self.IFA_progressViewManager removeView];
+    [self.IFA_progressViewManager hideView];
 }
 
 - (IFAWorkInProgressModalViewManager *)IFA_progressViewManager {
     if (!_IFA_progressViewManager) {
-        _IFA_progressViewManager = [[IFAWorkInProgressModalViewManager alloc] initWithCancellationCallbackReceiver:self
-                                                                                    cancellationCallbackSelector:@selector(IFA_onUserLocationProgressViewCancelled)
-                                                                                    cancellationCallbackArgument:nil
-                                                                                                         message:@"Locating..."];
+        _IFA_progressViewManager = [IFAWorkInProgressModalViewManager new];
+        __weak __typeof(self) weakSelf = self;
+        _IFA_progressViewManager.cancelationCompletionBlock = ^{
+            [weakSelf IFA_onUserLocationProgressViewCancelled];
+        };
     }
     return _IFA_progressViewManager;
 }
@@ -181,7 +182,7 @@
             }
         } else {
             self.IFA_userLocationRequested = YES;
-            [self.IFA_progressViewManager showView];
+            [self.IFA_progressViewManager showViewWithMessage:@"Locating..."];
             self.mapView.showsUserLocation = YES;
         }
     }

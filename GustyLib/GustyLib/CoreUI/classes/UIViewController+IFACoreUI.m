@@ -1401,20 +1401,13 @@ typedef enum {
 
     BOOL animated = a_animationDuration > 0;
     [a_childViewController beginAppearanceTransition:YES animated:animated];
-
-    void (^completion)(BOOL) = ^(BOOL finished) {
-        [a_childViewController endAppearanceTransition];
-        if (a_completion) {
-            a_completion(finished);
-        }
-    };
-
     [self addChildViewController:a_childViewController];
     [a_parentView addSubview:a_childViewController.view];
     if (a_shouldFillParentView) {
         [a_childViewController.view ifa_addLayoutConstraintsToFillSuperview];
     }
     [a_childViewController didMoveToParentViewController:self];
+    [a_childViewController endAppearanceTransition];
 
     if (animated) {
 
@@ -1424,11 +1417,11 @@ typedef enum {
         };
         [UIView animateWithDuration:a_animationDuration
                          animations:animations
-                         completion:completion];
+                         completion:a_completion];
 
     } else {
 
-        completion(YES);
+        a_completion(YES);
 
     }
 

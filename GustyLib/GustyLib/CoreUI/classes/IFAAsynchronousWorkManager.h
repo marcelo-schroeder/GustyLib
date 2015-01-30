@@ -28,7 +28,7 @@ typedef void (^IFAAsynchronousWorkManagerOperationCompletionBlock)(NSOperation *
 
 + (IFAAsynchronousWorkManager *)sharedInstance;
 
--(void)showNonModalProgressIndicatorInView:(UIView*)a_view;
+-(void)showNonModalProgressIndicatorInViewController:(UIViewController *)a_viewController;
 -(void)showNonModalProgressIndicator;
 -(void)hideNonModalProgressIndicatorWithAnimation:(BOOL)a_animate;
 
@@ -49,11 +49,12 @@ typedef void (^IFAAsynchronousWorkManagerOperationCompletionBlock)(NSOperation *
 -(void)dispatchSerialBlock:(dispatch_block_t)a_block showProgressIndicator:(BOOL)a_showProgressIndicator;
 -(void)dispatchSerialBlock:(dispatch_block_t)a_block showProgressIndicator:(BOOL)a_showProgressIndicator
       cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks;
--(void)    dispatchSerialBlock:(dispatch_block_t)a_block
-progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks;
--(void)    dispatchSerialBlock:(dispatch_block_t)a_block
-progressIndicatorContainerView:(UIView *)a_progressIndicatorContainerView
-          cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks usePrivateManagedObjectContext:(BOOL)a_usePrivateManagedObjectContext;
+-(void)              dispatchSerialBlock:(dispatch_block_t)a_block
+progressIndicatorContainerViewController:(UIViewController *)a_progressIndicatorContainerViewController
+                    cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks;
+-(void)              dispatchSerialBlock:(dispatch_block_t)a_block
+progressIndicatorContainerViewController:(UIViewController *)a_progressIndicatorContainerViewController
+                    cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks usePrivateManagedObjectContext:(BOOL)a_usePrivateManagedObjectContext;
 -(void)dispatchSerialBlock:(dispatch_block_t)a_block usePrivateManagedObjectContext:(BOOL)a_usePrivateManagedObjectContext;
 -(void)cancelAllSerialBlocks;
 

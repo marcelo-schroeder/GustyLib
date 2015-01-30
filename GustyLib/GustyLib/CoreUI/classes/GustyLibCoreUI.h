@@ -32,8 +32,6 @@
 /*************/
 /* 3rd party */
 /*************/
-// IFA_MBProgressHUD
-#import "IFA_MBProgressHUD.h"
 // KNSemiModal
 #import "UIViewController+IFA_KNSemiModal.h"
 // IFA_ECSlidingViewController

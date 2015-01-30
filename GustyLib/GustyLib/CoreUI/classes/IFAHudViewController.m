@@ -5,6 +5,7 @@
 
 #import "GustyLibCoreUI.h"
 
+//wip: TimeAssistant: still unbalanced transitions when running reports, and clean up... what else?
 //wip: don't forget todo's in the demo app project
 @interface IFAHudViewController ()
 @property (nonatomic, strong) IFAHudView *hudView;
@@ -158,7 +159,7 @@
     [parentViewController ifa_addChildViewController:self
                                           parentView:parentView
                                  shouldFillSuperview:YES
-                                   animationDuration:a_animated ? self.presentationAnimationDuration : 0
+                                   animationDuration:a_animated && self.presentationAnimationDuration ? self.presentationAnimationDuration : 0
                                           completion:completion];
 }
 
@@ -171,7 +172,7 @@
         [weakSelf.IFA_window resignKeyWindow];
         weakSelf.IFA_window = nil;
     };
-    [self ifa_removeFromParentViewControllerWithAnimationDuration:a_animated ? self.dismissalAnimationDuration : 0
+    [self ifa_removeFromParentViewControllerWithAnimationDuration:a_animated && self.dismissalAnimationDuration ? self.dismissalAnimationDuration : 0
                                                        completion:completion];
 }
 

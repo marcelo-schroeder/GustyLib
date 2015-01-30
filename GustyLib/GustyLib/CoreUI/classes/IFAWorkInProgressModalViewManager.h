@@ -18,37 +18,30 @@
 //  limitations under the License.
 //
 
-@class IFA_MBProgressHUD;
+@class IFAHudViewController;
 
+//wip: clean up commented code
+//wip: add doc
 @interface IFAWorkInProgressModalViewManager : NSObject
 
 @property (nonatomic) BOOL determinateProgress;
-@property (nonatomic) float determinateProgressPercentage;
+@property (nonatomic) CGFloat determinateProgressPercentage;
 @property (nonatomic, strong) NSString *progressMessage;
 @property (nonatomic) BOOL hasBeenCancelled;
 
-@property(nonatomic, copy) void (^cancelationCompletionBlock)();
+@property (nonatomic, strong, readonly) IFAHudViewController *hudViewController;
 
--(id)initWithMessage:(NSString*)a_message;
--(id)initWithCancellationCallbackReceiver:(id)a_callbackReceiver cancellationCallbackSelector:(SEL)a_callbackSelector;
+@property(nonatomic, strong) void (^cancelationCompletionBlock)();
 
-- (id)initWithCancellationCallbackReceiver:(id)a_callbackReceiver cancellationCallbackSelector:(SEL)a_callbackSelector
-                                                                  cancellationCallbackArgument:(id)a_callbackArgument;
+- (void)showViewWithMessage:(NSString *)a_message;
 
-- (id)initWithCancellationCallbackReceiver:(id)a_callbackReceiver cancellationCallbackSelector:(SEL)a_callbackSelector
-              cancellationCallbackArgument:(id)a_callbackArgument message:(NSString *)a_message;
+- (void)showViewWithMessage:(NSString *)a_message
+       parentViewController:(UIViewController *)a_parentViewController
+                 parentView:(UIView *)a_parentView
+                   animated:(BOOL)a_animated;
 
-- (id)initWithCancellationCompletionBlock:(void (^)())a_cancellationCompletionBlock;
+- (void)hideView;
 
-- (void)showView;
-- (void)showViewWithAnimation:(BOOL)a_animate;
-- (void)showViewForView:(UIView*)a_view;
-- (void)showViewForView:(UIView *)a_view animate:(BOOL)a_animate;
-
-- (void)showViewForView:(UIView *)a_view animate:(BOOL)a_animate
-  hudConfigurationBlock:(void (^)(IFA_MBProgressHUD *))a_hudConfigurationBlock;
-
-- (void)removeView;
-- (void)removeViewWithAnimation:(BOOL)a_animate;
+- (void)hideViewAnimated:(BOOL)a_animated;
 
 @end

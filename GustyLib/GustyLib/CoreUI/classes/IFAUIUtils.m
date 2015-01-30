@@ -26,27 +26,15 @@ static UIImage *c_menuBarButtonItemImage = nil;
 
 #pragma mark - Private
 
-+(IFA_MBProgressHUD *)hudWithText:(NSString*)a_text animation:(MBProgressHUDAnimation)a_animationType inView:(UIView*)a_view{
-    IFA_MBProgressHUD *l_hud = [[IFA_MBProgressHUD alloc] initWithView:a_view];
-    l_hud.customView = nil;
-    l_hud.mode = MBProgressHUDModeCustomView;
-    l_hud.opacity = 0.6;
-    l_hud.userInteractionEnabled = NO;
-    l_hud.removeFromSuperViewOnHide = YES;
-    l_hud.animationType = a_animationType;
-    l_hud.labelText = a_text;
-    return l_hud;
-}
-
-+(IFA_MBProgressHUD *)showHudWithText:(NSString*)a_text animation:(MBProgressHUDAnimation)a_animationType inView:(UIView*)a_view animate:(BOOL)a_animated{
-    UIView *l_view = a_view;
-    if (!l_view) {
-        l_view = [IFAUIUtils nonModalHudContainerView];
-    }
-    IFA_MBProgressHUD *l_hud = [self hudWithText:a_text animation:a_animationType inView:l_view];
-    [l_view addSubview:l_hud];
-    [l_hud show:a_animated];
-    return l_hud;
++ (void)IFA_presentHudViewControllerWithText:(NSString *)a_text {
+    IFAHudViewController *hudViewController = [IFAHudViewController new];
+    hudViewController.text = a_text;
+    hudViewController.autoDismissalDelay = 1;
+    hudViewController.shouldAllowUserInteractionPassthrough = YES;
+    [hudViewController presentHudViewControllerWithParentViewController:nil
+                                                             parentView:nil
+                                                               animated:YES
+                                                             completion:nil];
 }
 
 +(void)IFA_traverseHierarchyForView:(UIView *)a_view withBlock:(void (^) (UIView *))a_block level:(NSUInteger)a_level{
@@ -99,7 +87,7 @@ static UIImage *c_menuBarButtonItemImage = nil;
     }else {
         
         // The check below is to avoid going deeper into Apple's private implementations and other class kinds that could cause issues
-        if ([a_view isKindOfClass:[UIDatePicker class]] || [a_view isKindOfClass:[UIPickerView class]] || [a_view isKindOfClass:[IFA_MBProgressHUD class]]) {
+        if ([a_view isKindOfClass:[UIDatePicker class]] || [a_view isKindOfClass:[UIPickerView class]] || [a_view isKindOfClass:[IFAHudView class]]) {
             return;
         }
         
@@ -438,44 +426,26 @@ static UIImage *c_menuBarButtonItemImage = nil;
     return aBoolean ? @"on" : @"off";
 }
 
-+(IFA_MBProgressHUD *)showHudWithText:(NSString*)a_text{
-    return [self showHudWithText:a_text inView:nil animated:YES];
-}
-
-+(IFA_MBProgressHUD *)showHudWithText:(NSString*)a_text inView:(UIView*)a_view animated:(BOOL)a_animated{
-    return [self showHudWithText:a_text animation:MBProgressHUDAnimationZoom inView:a_view animate:a_animated];
-}
-
-+(void)hideHud:(IFA_MBProgressHUD *)a_hud animated:(BOOL)a_animated{
-    [a_hud hide:a_animated];
-}
-
-+(void)hideHud:(IFA_MBProgressHUD *)a_hud{
-    [self hideHud:a_hud animated:YES];
-}
-
 + (void)showAndHideUserActionConfirmationHudWithText:(NSString*)a_text{
-    IFA_MBProgressHUD *l_hud = [self showHudWithText:a_text animation:MBProgressHUDAnimationFade inView:nil animate:YES];
-    l_hud.minShowTime = 1;
-    [self hideHud:l_hud];
+    [self IFA_presentHudViewControllerWithText:a_text];
 }
 
 + (void)showAndHideModeToggleConfirmationHudWithText:(NSString*)a_text on:(BOOL)a_on{
     NSString *l_text = [NSString stringWithFormat: @"%@ %@", a_text, [IFAUIUtils onOffStringValueForBoolean:a_on]];
-    [self showAndHideUserActionConfirmationHudWithText:l_text];
+    [self IFA_presentHudViewControllerWithText:l_text];
 }
 
-+(UIView*)nonModalHudContainerView{
-    UIView *l_view = nil;
++(UIViewController *)nonModalHudContainerViewController {
+    UIViewController *viewController = nil;
     UIWindow *l_window = [UIApplication sharedApplication].delegate.window;
     if ([l_window.rootViewController isKindOfClass:[UISplitViewController class]]) {
-        UISplitViewController *l_splitViewController = (UISplitViewController*) l_window.rootViewController;
+        UISplitViewController *l_splitViewController = (UISplitViewController *) l_window.rootViewController;
         UIViewController *l_detailViewController = (l_splitViewController.viewControllers)[1];
-        l_view = l_detailViewController.view;
-    }else{
-        l_view = l_window;
+        viewController = l_detailViewController;
+    } else {
+        viewController = l_window.rootViewController;
     };
-    return l_view;
+    return viewController;
 }
 
 +(void)traverseHierarchyForView:(UIView *)a_view withBlock:(void (^) (UIView*))a_block{
