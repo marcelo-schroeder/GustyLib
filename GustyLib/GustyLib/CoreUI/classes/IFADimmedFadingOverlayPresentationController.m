@@ -38,8 +38,7 @@ overlayViewForFadingOverlayPresentationController:(IFAFadingOverlayPresentationC
 - (UIView *)IFA_overlayView {
     if (!_IFA_overlayView) {
         _IFA_overlayView = [UIView new];
-        _IFA_overlayView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];  //wip: review this - will need to be able to toggle the dimmed bg on and off
-//        _IFA_overlayView.backgroundColor = [UIColor whiteColor];  //wip: test only
+        _IFA_overlayView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
     }
     return _IFA_overlayView;
 }

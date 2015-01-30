@@ -23,6 +23,7 @@
 @class IFANavigationItemTitleView;
 @class IFAColorScheme;
 @class IFAFormTableViewCell;
+@class IFAHudView;
 
 @interface IFADefaultAppearanceTheme : NSObject <IFAAppearanceTheme>
 
@@ -59,6 +60,9 @@
 * @returns Group style table view's background colour.
 */
 - (UIColor *)groupStyleTableViewBackgroundColour;
+
+//wip: doc
++ (NSDictionary *)defaultAppearancePropertiesForHudView:(IFAHudView *)a_hudView;
 
 + (UIColor *)splitViewControllerDividerColour;
 

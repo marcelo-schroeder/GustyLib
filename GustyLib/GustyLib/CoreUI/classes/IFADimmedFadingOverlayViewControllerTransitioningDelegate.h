@@ -7,6 +7,5 @@
 #import "IFAViewControllerTransitioningDelegate.h"
 
 //wip: add documentation
-//wip: update Evernote notes
 @interface IFADimmedFadingOverlayViewControllerTransitioningDelegate : IFAFadingOverlayViewControllerTransitioningDelegate
 @end

@@ -20,6 +20,7 @@
 
 #import "GustyLibCoreUI.h"
 #import "IFASingleSelectionListViewControllerHeaderView.h"
+#import "IFAHudView.h"
 
 #ifdef IFA_AVAILABLE_Help
 #import "GustyLibHelp.h"
@@ -975,6 +976,34 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     return [UIColor ifa_colorWithRed:239
                                green:239
                                 blue:244];
+}
+
++ (NSDictionary *)defaultAppearancePropertiesForHudView:(IFAHudView *)a_hudView {
+    UIColor *chromeBackgroundColour;
+    switch (a_hudView.style) {
+        case IFAHudViewStylePlain:
+            chromeBackgroundColour = [[UIColor blackColor] colorWithAlphaComponent:0.75];
+            break;
+        case IFAHudViewStyleBlur:
+        case IFAHudViewStyleBlurAndVibrancy:
+            chromeBackgroundColour = [UIColor clearColor];
+            break;
+    }
+    return @{
+            @"style" : @(IFAHudViewStyleBlur),
+            @"blurEffectStyle" : @(UIBlurEffectStyleDark),
+            @"chromeViewLayoutFittingSize" : [NSValue valueWithCGSize:UILayoutFittingCompressedSize],
+            @"shouldAnimateLayoutChanges" : @(NO),
+            @"chromeHorizontalPadding" : @(10),
+            @"chromeVerticalPadding" : @(10),
+            @"chromeVerticalInteritemSpacing" : @(8),
+            @"overlayColour" : [UIColor clearColor],
+            @"chromeForegroundColour" : [UIColor whiteColor],
+            @"chromeBackgroundColour" : chromeBackgroundColour,
+            @"textLabelFontTextStyle" : UIFontTextStyleHeadline,
+            @"detailTextLabelFontTextStyle" : UIFontTextStyleSubheadline,
+            @"progressViewTrackTintColour" : [UIColor lightGrayColor],
+    };
 }
 
 + (UIColor *)splitViewControllerDividerColour {

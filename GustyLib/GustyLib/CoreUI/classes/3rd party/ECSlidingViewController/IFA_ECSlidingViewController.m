@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 EdgeCase. All rights reserved.
 //
 
-#import "IFA_ECSlidingViewController.h"
+#import "GustyLibCoreUI.h"
 
 NSString *const ECSlidingViewUnderRightWillAppear = @"ECSlidingViewUnderRightWillAppear";
 NSString *const ECSlidingViewUnderLeftWillAppear  = @"ECSlidingViewUnderLeftWillAppear";

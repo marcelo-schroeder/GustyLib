@@ -8,7 +8,7 @@
 
 #import "GustyLibCoreUI.h"
 
-@interface IFA_SVWebViewController () <UIWebViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate>
+@interface IFA_SVWebViewController ()
 
 @property (nonatomic, strong, readonly) UIBarButtonItem *backBarButtonItem;
 @property (nonatomic, strong, readonly) UIBarButtonItem *forwardBarButtonItem;

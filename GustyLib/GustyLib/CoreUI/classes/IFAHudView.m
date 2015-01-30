@@ -3,15 +3,8 @@
 // Copyright (c) 2015 InfoAccent Pty Ltd. All rights reserved.
 //
 
-#import "GustyLib.h"
+#import "GustyLibCoreUI.h"
 
-static const CGFloat k_defaultChromeHorizontalPadding = 10;
-
-static const CGFloat k_defaultChromeVerticalPadding = 10;
-
-static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
-
-//wip: clean up comments
 @interface IFAHudView ()
 @property(nonatomic, strong) UIView *chromeView;
 @property(nonatomic, strong) UIView *contentView;
@@ -43,6 +36,7 @@ static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
     NSString *_detailTextLabelFontTextStyle;
     UIFont *_textLabelFont;
     UIFont *_detailTextLabelFont;
+    UIColor *_progressViewTrackTintColour;
 }
 
 #pragma mark - Public
@@ -52,13 +46,13 @@ static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
     if (self) {
 
         // Set ivar's directly otherwise UIKit won't override via appearance API
-        _style = [self.class IFA_defaultStyle];
-        _blurEffectStyle = [self.class IFA_defaultBlurEffectStyle];
-        _chromeViewLayoutFittingSize = [self.class IFA_defaultChromeViewLayoutFittingSize];
-        _shouldAnimateLayoutChanges = [self.class IFA_defaultShouldAnimateLayoutChanges];
-        _chromeHorizontalPadding = [self.class IFA_defaultChromeHorizontalPadding];
-        _chromeVerticalPadding = [self.class IFA_defaultChromeVerticalPadding];
-        _chromeVerticalInteritemSpacing = [self.class IFA_defaultChromeVerticalInteritemSpacing];
+        _style = [self IFA_defaultStyle];
+        _blurEffectStyle = [self IFA_defaultBlurEffectStyle];
+        _chromeViewLayoutFittingSize = [self IFA_defaultChromeViewLayoutFittingSize];
+        _shouldAnimateLayoutChanges = [self IFA_defaultShouldAnimateLayoutChanges];
+        _chromeHorizontalPadding = [self IFA_defaultChromeHorizontalPadding];
+        _chromeVerticalPadding = [self IFA_defaultChromeVerticalPadding];
+        _chromeVerticalInteritemSpacing = [self IFA_defaultChromeVerticalInteritemSpacing];
 
         [self IFA_addObservers];
         [self IFA_configureViewHierarchy];
@@ -227,23 +221,6 @@ static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
     [self IFA_updateColours];
 }
 
-+ (void)resetAppearanceForHudView:(IFAHudView *)a_hudView {
-    a_hudView.style = [self IFA_defaultStyle];
-    a_hudView.blurEffectStyle = [self IFA_defaultBlurEffectStyle];
-    a_hudView.overlayColour = nil;
-    a_hudView.chromeForegroundColour = nil;
-    a_hudView.chromeBackgroundColour = nil;
-    a_hudView.chromeViewLayoutFittingSize = [self.class IFA_defaultChromeViewLayoutFittingSize];
-    a_hudView.shouldAnimateLayoutChanges = [self.class IFA_defaultShouldAnimateLayoutChanges];
-    a_hudView.textLabelFontTextStyle = nil;
-    a_hudView.detailTextLabelFontTextStyle = nil;
-    a_hudView.textLabelFont = nil;
-    a_hudView.detailTextLabelFont = nil;
-    a_hudView.chromeHorizontalPadding = [self.class IFA_defaultChromeHorizontalPadding];
-    a_hudView.chromeVerticalPadding = [self.class IFA_defaultChromeVerticalPadding];
-    a_hudView.chromeVerticalInteritemSpacing = [self.class IFA_defaultChromeVerticalInteritemSpacing];
-}
-
 - (void)setStyle:(IFAHudViewStyle)style {
     _style = style;
     [self IFA_updateStyle];
@@ -291,6 +268,19 @@ static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
 - (void)setChromeVerticalInteritemSpacing:(CGFloat)chromeVerticalInteritemSpacing {
     _chromeVerticalInteritemSpacing = chromeVerticalInteritemSpacing;
     [self IFA_updateLayout];
+}
+
+- (void)setProgressViewTrackTintColour:(UIColor *)progressViewTrackTintColour {
+    _progressViewTrackTintColour = progressViewTrackTintColour;
+    [self IFA_updateColours];
+}
+
+- (UIColor *)progressViewTrackTintColour {
+    if (_progressViewTrackTintColour) {
+        return _progressViewTrackTintColour;
+    } else {
+        return self.IFA_defaultProgressViewTrackTintColour;
+    }
 }
 
 #pragma mark - Overrides
@@ -391,20 +381,20 @@ static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
 
     // Vibrancy effect view size constraints
     if (blurEffectView.superview) {
-        self.IFA_blurEffectViewSizeConstraints = [blurEffectView ifa_addLayoutConstraintsToFillSuperview];  //wip: will this stay here
+        self.IFA_blurEffectViewSizeConstraints = [blurEffectView ifa_addLayoutConstraintsToFillSuperview];
 
     }
 
     // Blur effect view size constraints
     if (vibrancyEffectView.superview) {
-        self.IFA_vibrancyEffectViewSizeConstraints = [vibrancyEffectView ifa_addLayoutConstraintsToFillSuperview];  //wip: will this stay here
+        self.IFA_vibrancyEffectViewSizeConstraints = [vibrancyEffectView ifa_addLayoutConstraintsToFillSuperview];
     }
     
     // Content view size constraints
-    self.IFA_contentViewSizeConstraints = [self.contentView ifa_addLayoutConstraintsToFillSuperview];   //wip: review
+    self.IFA_contentViewSizeConstraints = [self.contentView ifa_addLayoutConstraintsToFillSuperview];
 
     // Chrome view centre constraints
-    self.IFA_chromeViewCentreConstraints = [self.chromeView ifa_addLayoutConstraintsToCenterInSuperview];   //wip: review
+    self.IFA_chromeViewCentreConstraints = [self.chromeView ifa_addLayoutConstraintsToCenterInSuperview];
 
     // Chrome view size constraints
     CGFloat referenceScreenWidth = 320;   //wip: hardcoded - maybe this should be exposed?
@@ -543,18 +533,18 @@ static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
 
     // Chrome foreground
     UIColor *foregroundColour = self.chromeForegroundColour;
-    self.textLabel.textColor = foregroundColour;   //wip: move to theme?
-    self.detailTextLabel.textColor = foregroundColour;   //wip: move to theme?
-    self.activityIndicatorView.color = foregroundColour;  //wip: move to theme?
-    self.progressView.progressTintColor = foregroundColour;   //wip: move to theme?
-    self.progressView.trackTintColor = [UIColor lightGrayColor];    //wip: move to theme? (ALSO: VALUE HARDCODED)
-    self.customView.tintColor = foregroundColour;   //wip: move to theme?
+    self.textLabel.textColor = foregroundColour;
+    self.detailTextLabel.textColor = foregroundColour;
+    self.activityIndicatorView.color = foregroundColour;
+    self.progressView.progressTintColor = foregroundColour;
+    self.progressView.trackTintColor = self.progressViewTrackTintColour;
+    self.customView.tintColor = foregroundColour;
 
     // Chrome background
-    self.chromeView.backgroundColor = self.chromeBackgroundColour;    //wip: move to theme
+    self.chromeView.backgroundColor = self.chromeBackgroundColour;
 
     // Overlay
-    self.backgroundColor = self.overlayColour;    //wip: move to theme
+    self.backgroundColor = self.overlayColour;
 
 }
 
@@ -573,8 +563,8 @@ static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
 }
 
 - (void)IFA_updateFonts {
-    self.textLabel.font = self.textLabelFont ? : [UIFont preferredFontForTextStyle:self.textLabelFontTextStyle];   //wip: move to theme?
-    self.detailTextLabel.font = self.detailTextLabelFont ? : [UIFont preferredFontForTextStyle:self.detailTextLabelFontTextStyle];   //wip: move to theme?
+    self.textLabel.font = self.textLabelFont ? : [UIFont preferredFontForTextStyle:self.textLabelFontTextStyle];
+    self.detailTextLabel.font = self.detailTextLabelFont ? : [UIFont preferredFontForTextStyle:self.detailTextLabelFontTextStyle];
 }
 
 - (void)IFA_addObservers {
@@ -635,62 +625,56 @@ static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
     return _IFA_vibrancyEffectView;
 }
 
-+ (IFAHudViewStyle)IFA_defaultStyle {
-    return IFAHudViewStyleBlur;
+- (IFAHudViewStyle)IFA_defaultStyle {
+    return (IFAHudViewStyle) ((NSNumber *) [self IFA_defaultValueForAppearancePropertyNamed:@"style"]).unsignedIntegerValue;
 }
 
-+ (UIBlurEffectStyle)IFA_defaultBlurEffectStyle {
-    return UIBlurEffectStyleDark;
+- (UIBlurEffectStyle)IFA_defaultBlurEffectStyle {
+    return (UIBlurEffectStyle) ((NSNumber *) [self IFA_defaultValueForAppearancePropertyNamed:@"blurEffectStyle"]).unsignedIntegerValue;
 }
 
-+ (CGSize)IFA_defaultChromeViewLayoutFittingSize {
-    return UILayoutFittingCompressedSize;
+- (CGSize)IFA_defaultChromeViewLayoutFittingSize {
+    return ((NSValue *) [self IFA_defaultValueForAppearancePropertyNamed:@"chromeViewLayoutFittingSize"]).CGSizeValue;
 }
 
-+ (BOOL)IFA_defaultShouldAnimateLayoutChanges {
-    return NO;
+- (BOOL)IFA_defaultShouldAnimateLayoutChanges {
+    return ((NSNumber *) [self IFA_defaultValueForAppearancePropertyNamed:@"shouldAnimateLayoutChanges"]).boolValue;
 }
 
-+ (CGFloat)IFA_defaultChromeHorizontalPadding {
-    return k_defaultChromeHorizontalPadding;
+- (CGFloat)IFA_defaultChromeHorizontalPadding {
+    return ((NSNumber *) [self IFA_defaultValueForAppearancePropertyNamed:@"chromeHorizontalPadding"]).floatValue;
 }
 
-+ (CGFloat)IFA_defaultChromeVerticalPadding {
-    return k_defaultChromeVerticalPadding;
+- (CGFloat)IFA_defaultChromeVerticalPadding {
+    return ((NSNumber *) [self IFA_defaultValueForAppearancePropertyNamed:@"chromeVerticalPadding"]).floatValue;
 }
 
-+ (CGFloat)IFA_defaultChromeVerticalInteritemSpacing {
-    return k_defaultChromeVerticalInteritemSpacing;
+- (CGFloat)IFA_defaultChromeVerticalInteritemSpacing {
+    return ((NSNumber *) [self IFA_defaultValueForAppearancePropertyNamed:@"chromeVerticalInteritemSpacing"]).floatValue;
 }
 
 - (UIColor *)IFA_defaultOverlayColour {
-    return [UIColor clearColor];
+    return [self IFA_defaultValueForAppearancePropertyNamed:@"overlayColour"];
 }
 
 - (UIColor *)IFA_defaultChromeForegroundColour {
-    return [UIColor whiteColor];
+    return [self IFA_defaultValueForAppearancePropertyNamed:@"chromeForegroundColour"];
 }
 
 - (UIColor *)IFA_defaultChromeBackgroundColour {
-    UIColor *color;
-    switch (self.style) {
-        case IFAHudViewStylePlain:
-            color = [[UIColor blackColor] colorWithAlphaComponent:0.75];
-            break;
-        case IFAHudViewStyleBlur:
-        case IFAHudViewStyleBlurAndVibrancy:
-            color = [UIColor clearColor];
-            break;
-    }
-    return color;
+    return [self IFA_defaultValueForAppearancePropertyNamed:@"chromeBackgroundColour"];
 }
 
 - (NSString *)IFA_defaultTextLabelFontTextStyle {
-    return UIFontTextStyleHeadline;
+    return [self IFA_defaultValueForAppearancePropertyNamed:@"textLabelFontTextStyle"];
 }
 
 - (NSString *)IFA_defaultDetailTextLabelFontTextStyle {
-    return UIFontTextStyleSubheadline;
+    return [self IFA_defaultValueForAppearancePropertyNamed:@"detailTextLabelFontTextStyle"];
+}
+
+- (UIColor *)IFA_defaultProgressViewTrackTintColour {
+    return [self IFA_defaultValueForAppearancePropertyNamed:@"progressViewTrackTintColour"];
 }
 
 - (UITapGestureRecognizer *)IFA_chromeTapGestureRecognizer {
@@ -734,6 +718,14 @@ static const CGFloat k_defaultChromeVerticalInteritemSpacing = 8;
 
 - (NSString *)IFA_nameForContentSubviewId:(IFAHudContentSubviewId)a_contentSubviewId {
     return self.IFA_contentSubviewName[a_contentSubviewId];
+}
+
+- (id)IFA_defaultValueForAppearancePropertyNamed:(NSString *)a_propertyName {
+    return self.IFA_defaultAppearanceProperties[a_propertyName];
+}
+
+- (NSDictionary *)IFA_defaultAppearanceProperties {
+    return [IFADefaultAppearanceTheme defaultAppearancePropertiesForHudView:self];
 }
 
 @end

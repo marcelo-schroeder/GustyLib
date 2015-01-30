@@ -48,6 +48,7 @@ typedef NS_ENUM(NSUInteger, IFAHudContentSubviewId) {
 
 //wip: add doc
 //wip: add license
+//wip: use the new enum macro everywhere so that they can be used from Swift
 @interface IFAHudView : IFAView
 
 @property(nonatomic, strong, readonly) UIView *chromeView;
@@ -72,6 +73,7 @@ typedef NS_ENUM(NSUInteger, IFAHudContentSubviewId) {
 @property (nonatomic) CGFloat chromeHorizontalPadding UI_APPEARANCE_SELECTOR;
 @property (nonatomic) CGFloat chromeVerticalPadding UI_APPEARANCE_SELECTOR;
 @property (nonatomic) CGFloat chromeVerticalInteritemSpacing UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *progressViewTrackTintColour UI_APPEARANCE_SELECTOR;
 
 @property (nonatomic, strong) void (^chromeTapActionBlock) ();
 @property (nonatomic, strong) void (^overlayTapActionBlock) ();
@@ -80,6 +82,5 @@ typedef NS_ENUM(NSUInteger, IFAHudContentSubviewId) {
 
 @property (nonatomic) BOOL shouldUpdateLayoutAutomaticallyOnContentChange;
 
-+ (void)resetAppearanceForHudView:(IFAHudView *)a_hudView;
-
+- (UIColor *)IFA_defaultProgressViewTrackTintColour;
 @end

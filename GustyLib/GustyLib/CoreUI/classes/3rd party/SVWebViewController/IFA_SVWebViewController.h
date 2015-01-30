@@ -8,8 +8,9 @@
 
 #import "IFAViewController.h"
 #import "IFA_SVModalWebViewController.h"
+#import "MessageUI/MessageUI.h"
 
-@interface IFA_SVWebViewController : IFAViewController <UIWebViewDelegate>
+@interface IFA_SVWebViewController : IFAViewController <UIWebViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate>
 
 @property (nonatomic) BOOL iphoneUiForAllIdioms;
 @property (nonatomic, strong) UIWebView *mainWebView;
