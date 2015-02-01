@@ -57,17 +57,19 @@
     return self.hudView.detailTextLabel.text;
 }
 
-- (void)setShouldAllowUserInteractionPassthrough:(BOOL)shouldAllowUserInteractionPassthrough {
-    _shouldAllowUserInteractionPassthrough = shouldAllowUserInteractionPassthrough;
-    BOOL userInteractionEnabled = !_shouldAllowUserInteractionPassthrough;
-    self.hudView.userInteractionEnabled = userInteractionEnabled;
-    self.IFA_window.userInteractionEnabled = userInteractionEnabled;
+- (BOOL)modal {
+    return self.hudView.modal;
+}
+
+- (void)setModal:(BOOL)modal {
+    self.hudView.modal = modal;
+    self.IFA_window.userInteractionEnabled = modal;
 }
 
 - (void)setOverlayTapActionBlock:(void (^)())overlayTapActionBlock {
     _overlayTapActionBlock = overlayTapActionBlock;
     if (_overlayTapActionBlock) {
-        self.shouldAllowUserInteractionPassthrough = NO;
+        self.modal = YES;
     }
     [self IFA_updateHudViewControllerOverlayTapActionBlock];
 }
@@ -75,7 +77,7 @@
 - (void)setShouldDismissOnOverlayTap:(BOOL)shouldDismissOnOverlayTap {
     _shouldDismissOnOverlayTap = shouldDismissOnOverlayTap;
     if (_shouldDismissOnOverlayTap) {
-        self.shouldAllowUserInteractionPassthrough = NO;
+        self.modal = YES;
     }
     [self IFA_updateHudViewControllerOverlayTapActionBlock];
 }
@@ -83,7 +85,7 @@
 - (void)setChromeTapActionBlock:(void (^)())chromeTapActionBlock {
     _chromeTapActionBlock = chromeTapActionBlock;
     if (_chromeTapActionBlock) {
-        self.shouldAllowUserInteractionPassthrough = NO;
+        self.modal = YES;
     }
     [self IFA_updateHudViewControllerChromeTapActionBlock];
 }
@@ -91,7 +93,7 @@
 - (void)setShouldDismissOnChromeTap:(BOOL)shouldDismissOnChromeTap {
     _shouldDismissOnChromeTap = shouldDismissOnChromeTap;
     if (_shouldDismissOnChromeTap) {
-        self.shouldAllowUserInteractionPassthrough = NO;
+        self.modal = YES;
     }
     [self IFA_updateHudViewControllerChromeTapActionBlock];
 }
@@ -179,7 +181,7 @@
 
 - (void)ifa_commonInit {
     self.visualIndicatorMode = IFAHudViewVisualIndicatorModeNone;
-    self.shouldAllowUserInteractionPassthrough = NO;
+    self.modal = YES;
     self.presentationAnimationDuration = 0.3;
     self.dismissalAnimationDuration = 1;
 }

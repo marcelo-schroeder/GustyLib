@@ -30,7 +30,7 @@ static UIImage *c_menuBarButtonItemImage = nil;
     IFAHudViewController *hudViewController = [IFAHudViewController new];
     hudViewController.text = a_text;
     hudViewController.autoDismissalDelay = 1;
-    hudViewController.shouldAllowUserInteractionPassthrough = YES;
+    hudViewController.modal = NO;
     [hudViewController presentHudViewControllerWithParentViewController:nil
                                                              parentView:nil
                                                                animated:YES

@@ -79,7 +79,7 @@
     if (!_IFA_hudViewController) {
         _IFA_hudViewController = [IFAHudViewController new];
         _IFA_hudViewController.visualIndicatorMode = IFAHudViewVisualIndicatorModeProgressIndeterminate;
-        _IFA_hudViewController.shouldAllowUserInteractionPassthrough = YES;
+        _IFA_hudViewController.modal = NO;
     }
     return _IFA_hudViewController;
 }

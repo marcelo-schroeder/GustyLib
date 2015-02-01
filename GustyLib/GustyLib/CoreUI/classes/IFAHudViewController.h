@@ -27,7 +27,7 @@
 @property (nonatomic) BOOL shouldDismissOnOverlayTap;
 @property (nonatomic, strong) void (^overlayTapActionBlock) ();
 
-@property (nonatomic) BOOL shouldAllowUserInteractionPassthrough;
+@property (nonatomic) BOOL modal;
 
 @property (nonatomic) NSTimeInterval autoDismissalDelay;
 

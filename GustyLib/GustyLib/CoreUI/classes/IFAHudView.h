@@ -59,12 +59,24 @@ typedef NS_ENUM(NSUInteger, IFAHudContentSubviewId) {
 @property (nonatomic, strong, readonly) UILabel *detailTextLabel;
 @property (nonatomic, strong) UIView *customView;
 
-@property (nonatomic) IFAHudViewStyle style UI_APPEARANCE_SELECTOR;
+@property (nonatomic) BOOL modal;
+
+//wip: move nonModal/Modal to front
+@property (nonatomic) IFAHudViewStyle nonModalStyle UI_APPEARANCE_SELECTOR;
+@property (nonatomic) UIBlurEffectStyle nonModalBlurEffectStyle UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *nonModalOverlayColour UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *nonModalChromeForegroundColour UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *nonModalChromeBackgroundColour UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *nonModalProgressViewTrackTintColour UI_APPEARANCE_SELECTOR;
+
+@property (nonatomic) IFAHudViewStyle modalStyle UI_APPEARANCE_SELECTOR;
+@property (nonatomic) UIBlurEffectStyle modalBlurEffectStyle UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *modalOverlayColour UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *modalChromeForegroundColour UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *modalChromeBackgroundColour UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *modalProgressViewTrackTintColour UI_APPEARANCE_SELECTOR;
+
 @property(nonatomic) CGSize chromeViewLayoutFittingSize UI_APPEARANCE_SELECTOR;
-@property (nonatomic, strong) UIColor *overlayColour UI_APPEARANCE_SELECTOR;
-@property (nonatomic, strong) UIColor *chromeForegroundColour UI_APPEARANCE_SELECTOR;
-@property (nonatomic, strong) UIColor *chromeBackgroundColour UI_APPEARANCE_SELECTOR;
-@property (nonatomic) UIBlurEffectStyle blurEffectStyle UI_APPEARANCE_SELECTOR;
 @property(nonatomic) BOOL shouldAnimateLayoutChanges UI_APPEARANCE_SELECTOR;
 @property(nonatomic, strong) NSString *textLabelFontTextStyle UI_APPEARANCE_SELECTOR;
 @property(nonatomic, strong) NSString *detailTextLabelFontTextStyle UI_APPEARANCE_SELECTOR;
@@ -74,7 +86,6 @@ typedef NS_ENUM(NSUInteger, IFAHudContentSubviewId) {
 @property (nonatomic) CGFloat chromeVerticalPadding UI_APPEARANCE_SELECTOR;
 @property (nonatomic) CGFloat chromeVerticalInteritemSpacing UI_APPEARANCE_SELECTOR;
 @property (nonatomic) CGFloat chromeHorizontalMargin UI_APPEARANCE_SELECTOR;
-@property (nonatomic, strong) UIColor *progressViewTrackTintColour UI_APPEARANCE_SELECTOR;
 @property (nonatomic) CGFloat chromeViewMaximumLayoutWidth UI_APPEARANCE_SELECTOR;
 
 @property (nonatomic, strong) void (^chromeTapActionBlock) ();
@@ -84,5 +95,10 @@ typedef NS_ENUM(NSUInteger, IFAHudContentSubviewId) {
 
 @property (nonatomic) BOOL shouldUpdateLayoutAutomaticallyOnContentChange;
 
-- (UIColor *)IFA_defaultProgressViewTrackTintColour;
+@property (nonatomic, readonly) IFAHudViewStyle style;
+@property (nonatomic, strong, readonly) UIColor *overlayColour;
+@property (nonatomic, strong, readonly) UIColor *chromeForegroundColour;
+@property (nonatomic, strong, readonly) UIColor *chromeBackgroundColour;
+@property (nonatomic, strong, readonly) UIColor *progressViewTrackTintColour;
+
 @end

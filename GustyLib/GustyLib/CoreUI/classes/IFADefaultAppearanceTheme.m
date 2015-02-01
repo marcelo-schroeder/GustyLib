@@ -978,19 +978,8 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
                                 blue:244];
 }
 
+//wip: call the setAppearanceForView....? (so that the client can customise it?)
 + (NSDictionary *)defaultAppearancePropertiesForHudView:(IFAHudView *)a_hudView {
-
-    // chromeBackgroundColour
-    UIColor *chromeBackgroundColour;
-    switch (a_hudView.style) {
-        case IFAHudViewStylePlain:
-            chromeBackgroundColour = [[UIColor blackColor] colorWithAlphaComponent:0.75];
-            break;
-        case IFAHudViewStyleBlur:
-        case IFAHudViewStyleBlurAndVibrancy:
-            chromeBackgroundColour = [UIColor clearColor];
-            break;
-    }
 
     // chromeViewMaximumLayoutWidth
     CGFloat smallestScreenDimension = fminf([IFAUIUtils screenBoundsSize].width, [IFAUIUtils screenBoundsSize].height);
@@ -998,19 +987,25 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     CGFloat chromeViewMaximumLayoutWidth = smallestScreenDimension * smallestScreenDimensionFactor;
 
     return @{
-            @"style" : @(IFAHudViewStyleBlur),
-            @"blurEffectStyle" : @(UIBlurEffectStyleDark),
+            @"nonModalStyle" : @(IFAHudViewStyleBlur),
+            @"modalStyle" : @(IFAHudViewStylePlain),
+            @"nonModalBlurEffectStyle" : @(UIBlurEffectStyleDark),
+            @"modalBlurEffectStyle" : @(UIBlurEffectStyleDark),
             @"chromeViewLayoutFittingSize" : [NSValue valueWithCGSize:UILayoutFittingCompressedSize],
             @"shouldAnimateLayoutChanges" : @(NO),
             @"chromeHorizontalPadding" : @(10),
             @"chromeVerticalPadding" : @(10),
             @"chromeVerticalInteritemSpacing" : @(8),
-            @"overlayColour" : [UIColor clearColor],
-            @"chromeForegroundColour" : [UIColor whiteColor],
-            @"chromeBackgroundColour" : chromeBackgroundColour,
+            @"nonModalOverlayColour" : [UIColor clearColor],
+            @"nonModalChromeForegroundColour" : [UIColor whiteColor],
+            @"nonModalChromeBackgroundColour" : [UIColor clearColor],
+            @"nonModalProgressViewTrackTintColour" : [UIColor lightGrayColor],
+            @"modalOverlayColour" : [[UIColor blackColor] colorWithAlphaComponent:0.6],
+            @"modalChromeForegroundColour" : [UIColor blackColor],
+            @"modalChromeBackgroundColour" : [[UIColor whiteColor] colorWithAlphaComponent:0.9],
+            @"modalProgressViewTrackTintColour" : [UIColor lightGrayColor],
             @"textLabelFontTextStyle" : UIFontTextStyleHeadline,
             @"detailTextLabelFontTextStyle" : UIFontTextStyleSubheadline,
-            @"progressViewTrackTintColour" : [UIColor lightGrayColor],
             @"chromeViewMaximumLayoutWidth" : @(chromeViewMaximumLayoutWidth),
             @"chromeHorizontalMargin" : @(20),
     };

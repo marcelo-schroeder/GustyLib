@@ -99,11 +99,20 @@
     if (!_hudViewController) {
         _hudViewController = [IFAHudViewController new];
         _hudViewController.visualIndicatorMode = IFAHudViewVisualIndicatorModeProgressIndeterminate;
-        //wip: set this stuff in the appearance theme
-        _hudViewController.hudView.style = IFAHudViewStylePlain;
-        _hudViewController.hudView.overlayColour = [[UIColor blackColor] colorWithAlphaComponent:0.6];
-        _hudViewController.hudView.chromeForegroundColour = [UIColor blackColor];
-        _hudViewController.hudView.chromeBackgroundColour = [[UIColor whiteColor] colorWithAlphaComponent:0.75];
+        //wip: set this stuff in the appearance theme - see notes below
+        // OPTION 1
+        // - Introduce the modal mode and associated modal colours
+        // OPTION 2
+        // - subclass IFAHudView and name it IFAModalHudView
+        // - create the defaultAppearancePropertiesForHudView method (currently in default theme) in the protocol and make it an instance method instead of a class method
+        // - in the defaultAppearancePropertiesForHudView in the default theme, handle the customisation of the IFAModalHudView class according to the code below
+        // - subclass IFAHudViewController and name the new class IFAModalHudViewController
+        // - in the new class, hudView should return an instance of IFAModalHudView (carefull to move the translatesAutoresizingMaskIntoConstraints current in the getter in IFAHudViewController)
+        // - instantiate the new class in the init above
+//        _hudViewController.hudView.style = IFAHudViewStylePlain;
+//        _hudViewController.hudView.nonModalOverlayColour = [[UIColor blackColor] colorWithAlphaComponent:0.6];
+//        _hudViewController.hudView.nonModalChromeForegroundColour = [UIColor blackColor];
+//        _hudViewController.hudView.nonModalChromeBackgroundColour = [[UIColor whiteColor] colorWithAlphaComponent:0.75];
     }
     return _hudViewController;
 }

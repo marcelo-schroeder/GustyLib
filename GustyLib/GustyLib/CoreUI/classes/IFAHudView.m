@@ -29,14 +29,18 @@
 @end
 
 @implementation IFAHudView {
-    UIColor *_overlayColour;
-    UIColor *_chromeForegroundColour;
-    UIColor *_chromeBackgroundColour;
+    UIColor *_nonModalOverlayColour;
+    UIColor *_nonModalChromeForegroundColour;
+    UIColor *_nonModalChromeBackgroundColour;
+    UIColor *_nonModalProgressViewTrackTintColour;
+    UIColor *_modalOverlayColour;
+    UIColor *_modalChromeForegroundColour;
+    UIColor *_modalChromeBackgroundColour;
+    UIColor *_modalProgressViewTrackTintColour;
     NSString *_textLabelFontTextStyle;
     NSString *_detailTextLabelFontTextStyle;
     UIFont *_textLabelFont;
     UIFont *_detailTextLabelFont;
-    UIColor *_progressViewTrackTintColour;
 }
 
 #pragma mark - Public
@@ -46,8 +50,10 @@
     if (self) {
 
         // Set ivar's directly otherwise UIKit won't override via appearance API
-        _style = [self IFA_defaultStyle];
-        _blurEffectStyle = [self IFA_defaultBlurEffectStyle];
+        _modalStyle = [self IFA_defaultStyleModal];
+        _nonModalStyle = [self IFA_defaultStyleNonModal];
+        _modalBlurEffectStyle = [self IFA_defaultBlurEffectStyleModal];
+        _nonModalBlurEffectStyle = [self IFA_defaultBlurEffectStyleNonModal];
         _chromeViewLayoutFittingSize = [self IFA_defaultChromeViewLayoutFittingSize];
         _shouldAnimateLayoutChanges = [self IFA_defaultShouldAnimateLayoutChanges];
         _chromeHorizontalPadding = [self IFA_defaultChromeHorizontalPadding];
@@ -55,6 +61,8 @@
         _chromeVerticalInteritemSpacing = [self IFA_defaultChromeVerticalInteritemSpacing];
         _chromeViewMaximumLayoutWidth = [self IFA_defaultChromeViewMaximumLayoutWidth];
         _chromeHorizontalMargin = [self IFA_defaultChromeHorizontalMargin];
+
+        self.modal = YES;
 
         [self IFA_addObservers];
         [self IFA_updateViewHierarchy];
@@ -106,47 +114,117 @@
     return _progressView;
 }
 
-- (void)setOverlayColour:(UIColor *)overlayColour {
-    _overlayColour = overlayColour;
+- (void)setNonModalOverlayColour:(UIColor *)nonModalOverlayColour {
+    _nonModalOverlayColour = nonModalOverlayColour;
     [self IFA_updateColours];
 }
 
-- (UIColor *)overlayColour {
-    if (_overlayColour) {
-        return _overlayColour;
+- (UIColor *)nonModalOverlayColour {
+    if (_nonModalOverlayColour) {
+        return _nonModalOverlayColour;
     } else {
-        return self.IFA_defaultOverlayColour;
+        return self.IFA_defaultOverlayColourNonModal;
     }
 }
 
-- (void)setChromeForegroundColour:(UIColor *)chromeForegroundColour {
-    _chromeForegroundColour = chromeForegroundColour;
+- (void)setNonModalChromeForegroundColour:(UIColor *)nonModalChromeForegroundColour {
+    _nonModalChromeForegroundColour = nonModalChromeForegroundColour;
     [self IFA_updateColours];
 }
 
-- (UIColor *)chromeForegroundColour {
-    if (_chromeForegroundColour) {
-        return _chromeForegroundColour;
+- (UIColor *)nonModalChromeForegroundColour {
+    if (_nonModalChromeForegroundColour) {
+        return _nonModalChromeForegroundColour;
     } else {
-        return self.IFA_defaultChromeForegroundColour;
+        return self.IFA_defaultChromeForegroundColourNonModal;
     }
 }
 
-- (void)setChromeBackgroundColour:(UIColor *)chromeBackgroundColour {
-    _chromeBackgroundColour = chromeBackgroundColour;
+- (void)setNonModalChromeBackgroundColour:(UIColor *)nonModalChromeBackgroundColour {
+    _nonModalChromeBackgroundColour = nonModalChromeBackgroundColour;
     [self IFA_updateColours];
 }
 
-- (UIColor *)chromeBackgroundColour {
-    if (_chromeBackgroundColour) {
-        return _chromeBackgroundColour;
+- (UIColor *)nonModalChromeBackgroundColour {
+    if (_nonModalChromeBackgroundColour) {
+        return _nonModalChromeBackgroundColour;
     } else {
-        return self.IFA_defaultChromeBackgroundColour;
+        return self.IFA_defaultChromeBackgroundColourNonModal;
     }
 }
 
-- (void)setBlurEffectStyle:(UIBlurEffectStyle)blurEffectStyle {
-    _blurEffectStyle = blurEffectStyle;
+- (void)setNonModalProgressViewTrackTintColour:(UIColor *)nonModalProgressViewTrackTintColour {
+    _nonModalProgressViewTrackTintColour = nonModalProgressViewTrackTintColour;
+    [self IFA_updateColours];
+}
+
+- (UIColor *)nonModalProgressViewTrackTintColour {
+    if (_nonModalProgressViewTrackTintColour) {
+        return _nonModalProgressViewTrackTintColour;
+    } else {
+        return self.IFA_defaultProgressViewTrackTintColourNonModal;
+    }
+}
+
+- (void)setModalOverlayColour:(UIColor *)modalOverlayColour {
+    _modalOverlayColour = modalOverlayColour;
+    [self IFA_updateColours];
+}
+
+- (UIColor *)modalOverlayColour {
+    if (_modalOverlayColour) {
+        return _modalOverlayColour;
+    } else {
+        return self.IFA_defaultOverlayColourModal;
+    }
+}
+
+- (void)setModalChromeForegroundColour:(UIColor *)modalChromeForegroundColour {
+    _modalChromeForegroundColour = modalChromeForegroundColour;
+    [self IFA_updateColours];
+}
+
+- (UIColor *)modalChromeForegroundColour {
+    if (_modalChromeForegroundColour) {
+        return _modalChromeForegroundColour;
+    } else {
+        return self.IFA_defaultChromeForegroundColourModal;
+    }
+}
+
+- (void)setModalChromeBackgroundColour:(UIColor *)modalChromeBackgroundColour {
+    _modalChromeBackgroundColour = modalChromeBackgroundColour;
+    [self IFA_updateColours];
+}
+
+- (UIColor *)modalChromeBackgroundColour {
+    if (_modalChromeBackgroundColour) {
+        return _modalChromeBackgroundColour;
+    } else {
+        return self.IFA_defaultChromeBackgroundColourModal;
+    }
+}
+
+- (void)setModalProgressViewTrackTintColour:(UIColor *)modalProgressViewTrackTintColour {
+    _modalProgressViewTrackTintColour = modalProgressViewTrackTintColour;
+    [self IFA_updateColours];
+}
+
+- (UIColor *)modalProgressViewTrackTintColour {
+    if (_modalProgressViewTrackTintColour) {
+        return _modalProgressViewTrackTintColour;
+    } else {
+        return self.IFA_defaultProgressViewTrackTintColourModal;
+    }
+}
+
+- (void)setNonModalBlurEffectStyle:(UIBlurEffectStyle)nonModalBlurEffectStyle {
+    _nonModalBlurEffectStyle = nonModalBlurEffectStyle;
+    [self IFA_updateStyle];
+}
+
+- (void)setModalBlurEffectStyle:(UIBlurEffectStyle)modalBlurEffectStyle {
+    _modalBlurEffectStyle = modalBlurEffectStyle;
     [self IFA_updateStyle];
 }
 
@@ -223,8 +301,23 @@
     [self IFA_updateColours];
 }
 
-- (void)setStyle:(IFAHudViewStyle)style {
-    _style = style;
+- (BOOL)modal {
+    return self.userInteractionEnabled;
+}
+
+- (void)setModal:(BOOL)modal {
+    self.userInteractionEnabled = modal;
+    [self IFA_updateColours];
+    [self IFA_updateStyle];
+}
+
+- (void)setModalStyle:(IFAHudViewStyle)modalStyle {
+    _modalStyle = modalStyle;
+    [self IFA_updateStyle];
+}
+
+- (void)setNonModalStyle:(IFAHudViewStyle)nonModalStyle {
+    _nonModalStyle = nonModalStyle;
     [self IFA_updateStyle];
 }
 
@@ -249,6 +342,31 @@
     }
     return _contentSubviewVerticalOrder;
 }
+
+- (IFAHudViewStyle)style {
+    return self.modal ? self.modalStyle : self.nonModalStyle;
+}
+
+- (UIBlurEffectStyle)blurEffectStyle {
+    return self.modal ? self.modalBlurEffectStyle : self.nonModalBlurEffectStyle;
+}
+
+- (UIColor *)overlayColour {
+    return self.modal ? self.modalOverlayColour : self.nonModalOverlayColour;
+}
+
+- (UIColor *)chromeForegroundColour {
+    return self.modal ? self.modalChromeForegroundColour : self.nonModalChromeForegroundColour;
+}
+
+- (UIColor *)chromeBackgroundColour {
+    return self.modal ? self.modalChromeBackgroundColour : self.nonModalChromeBackgroundColour;
+}
+
+- (UIColor *)progressViewTrackTintColour {
+    return self.modal ? self.modalProgressViewTrackTintColour : self.nonModalProgressViewTrackTintColour;
+}
+
 
 - (NSMutableArray *)IFA_contentSubviewName {
     if (!_IFA_contentSubviewName) {
@@ -280,19 +398,6 @@
 - (void)setChromeVerticalInteritemSpacing:(CGFloat)chromeVerticalInteritemSpacing {
     _chromeVerticalInteritemSpacing = chromeVerticalInteritemSpacing;
     [self IFA_updateLayout];
-}
-
-- (void)setProgressViewTrackTintColour:(UIColor *)progressViewTrackTintColour {
-    _progressViewTrackTintColour = progressViewTrackTintColour;
-    [self IFA_updateColours];
-}
-
-- (UIColor *)progressViewTrackTintColour {
-    if (_progressViewTrackTintColour) {
-        return _progressViewTrackTintColour;
-    } else {
-        return self.IFA_defaultProgressViewTrackTintColour;
-    }
 }
 
 #pragma mark - Overrides
@@ -549,7 +654,6 @@
     self.detailTextLabel.textColor = foregroundColour;
     self.activityIndicatorView.color = foregroundColour;
     self.progressView.progressTintColor = foregroundColour;
-    self.progressView.trackTintColor = self.progressViewTrackTintColour;
     self.customView.tintColor = foregroundColour;
 
     // Chrome background
@@ -557,6 +661,9 @@
 
     // Overlay
     self.backgroundColor = self.overlayColour;
+
+    // Progress view track
+    self.progressView.trackTintColor = self.progressViewTrackTintColour;
 
 }
 
@@ -637,12 +744,20 @@
     return _IFA_vibrancyEffectView;
 }
 
-- (IFAHudViewStyle)IFA_defaultStyle {
-    return (IFAHudViewStyle) ((NSNumber *) [self IFA_defaultValueForAppearancePropertyNamed:@"style"]).unsignedIntegerValue;
+- (IFAHudViewStyle)IFA_defaultStyleModal {
+    return (IFAHudViewStyle) ((NSNumber *) [self IFA_defaultValueForAppearancePropertyNamed:@"modalStyle"]).unsignedIntegerValue;
 }
 
-- (UIBlurEffectStyle)IFA_defaultBlurEffectStyle {
-    return (UIBlurEffectStyle) ((NSNumber *) [self IFA_defaultValueForAppearancePropertyNamed:@"blurEffectStyle"]).unsignedIntegerValue;
+- (IFAHudViewStyle)IFA_defaultStyleNonModal {
+    return (IFAHudViewStyle) ((NSNumber *) [self IFA_defaultValueForAppearancePropertyNamed:@"nonModalStyle"]).unsignedIntegerValue;
+}
+
+- (UIBlurEffectStyle)IFA_defaultBlurEffectStyleModal {
+    return (UIBlurEffectStyle) ((NSNumber *) [self IFA_defaultValueForAppearancePropertyNamed:@"modalBlurEffectStyle"]).unsignedIntegerValue;
+}
+
+- (UIBlurEffectStyle)IFA_defaultBlurEffectStyleNonModal {
+    return (UIBlurEffectStyle) ((NSNumber *) [self IFA_defaultValueForAppearancePropertyNamed:@"nonModalBlurEffectStyle"]).unsignedIntegerValue;
 }
 
 - (CGSize)IFA_defaultChromeViewLayoutFittingSize {
@@ -669,16 +784,36 @@
     return ((NSNumber *) [self IFA_defaultValueForAppearancePropertyNamed:@"chromeVerticalInteritemSpacing"]).floatValue;
 }
 
-- (UIColor *)IFA_defaultOverlayColour {
-    return [self IFA_defaultValueForAppearancePropertyNamed:@"overlayColour"];
+- (UIColor *)IFA_defaultOverlayColourNonModal {
+    return [self IFA_defaultValueForAppearancePropertyNamed:@"nonModalOverlayColour"];
 }
 
-- (UIColor *)IFA_defaultChromeForegroundColour {
-    return [self IFA_defaultValueForAppearancePropertyNamed:@"chromeForegroundColour"];
+- (UIColor *)IFA_defaultChromeForegroundColourNonModal {
+    return [self IFA_defaultValueForAppearancePropertyNamed:@"nonModalChromeForegroundColour"];
 }
 
-- (UIColor *)IFA_defaultChromeBackgroundColour {
-    return [self IFA_defaultValueForAppearancePropertyNamed:@"chromeBackgroundColour"];
+- (UIColor *)IFA_defaultChromeBackgroundColourNonModal {
+    return [self IFA_defaultValueForAppearancePropertyNamed:@"nonModalChromeBackgroundColour"];
+}
+
+- (UIColor *)IFA_defaultProgressViewTrackTintColourNonModal {
+    return [self IFA_defaultValueForAppearancePropertyNamed:@"nonModalProgressViewTrackTintColour"];
+}
+
+- (UIColor *)IFA_defaultOverlayColourModal {
+    return [self IFA_defaultValueForAppearancePropertyNamed:@"modalOverlayColour"];
+}
+
+- (UIColor *)IFA_defaultChromeForegroundColourModal {
+    return [self IFA_defaultValueForAppearancePropertyNamed:@"modalChromeForegroundColour"];
+}
+
+- (UIColor *)IFA_defaultChromeBackgroundColourModal {
+    return [self IFA_defaultValueForAppearancePropertyNamed:@"modalChromeBackgroundColour"];
+}
+
+- (UIColor *)IFA_defaultProgressViewTrackTintColourModal {
+    return [self IFA_defaultValueForAppearancePropertyNamed:@"modalProgressViewTrackTintColour"];
 }
 
 - (NSString *)IFA_defaultTextLabelFontTextStyle {
@@ -687,10 +822,6 @@
 
 - (NSString *)IFA_defaultDetailTextLabelFontTextStyle {
     return [self IFA_defaultValueForAppearancePropertyNamed:@"detailTextLabelFontTextStyle"];
-}
-
-- (UIColor *)IFA_defaultProgressViewTrackTintColour {
-    return [self IFA_defaultValueForAppearancePropertyNamed:@"progressViewTrackTintColour"];
 }
 
 - (CGFloat)IFA_defaultChromeViewMaximumLayoutWidth {
