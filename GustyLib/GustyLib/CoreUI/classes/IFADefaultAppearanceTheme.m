@@ -986,6 +986,14 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
     CGFloat smallestScreenDimensionFactor = [IFAUIUtils isIPad] ? 0.5f : 1.0f;
     CGFloat chromeViewMaximumLayoutWidth = smallestScreenDimension * smallestScreenDimensionFactor;
 
+    // nonModalChromeBackgroundColour
+    UIColor *nonModalChromeBackgroundColour;
+    if ([UIVisualEffectView class]) {   // iOS 8 backwards compatibility
+        nonModalChromeBackgroundColour = [UIColor clearColor];
+    } else {
+        nonModalChromeBackgroundColour = [[UIColor blackColor] colorWithAlphaComponent:0.75];
+    }
+
     return @{
             @"nonModalStyle" : @(IFAHudViewStyleBlur),
             @"modalStyle" : @(IFAHudViewStylePlain),
@@ -998,9 +1006,9 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
             @"chromeVerticalInteritemSpacing" : @(8),
             @"nonModalOverlayColour" : [UIColor clearColor],
             @"nonModalChromeForegroundColour" : [UIColor whiteColor],
-            @"nonModalChromeBackgroundColour" : [UIColor clearColor],
+            @"nonModalChromeBackgroundColour" : nonModalChromeBackgroundColour,
             @"nonModalProgressViewTrackTintColour" : [UIColor lightGrayColor],
-            @"modalOverlayColour" : [[UIColor blackColor] colorWithAlphaComponent:0.6],
+            @"modalOverlayColour" : [[UIColor blackColor] colorWithAlphaComponent:0.5],
             @"modalChromeForegroundColour" : [UIColor blackColor],
             @"modalChromeBackgroundColour" : [[UIColor whiteColor] colorWithAlphaComponent:0.9],
             @"modalProgressViewTrackTintColour" : [UIColor lightGrayColor],

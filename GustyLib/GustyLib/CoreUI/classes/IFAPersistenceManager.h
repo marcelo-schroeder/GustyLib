@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#import <CoreData/CoreData.h>
+
 @class IFAEntityConfig;
 @class NSPersistentStore;
 @class NSManagedObject;

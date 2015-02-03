@@ -44,23 +44,6 @@
     return self.hudViewController.progress;
 }
 
-- (void)setCancelationCompletionBlock:(void (^)())cancelationCompletionBlock {
-    _cancelationCompletionBlock = cancelationCompletionBlock;
-    if (self.cancelationCompletionBlock) {
-        self.hudViewController.detailText = @"Tap to cancel";
-        __weak __typeof(self) weakSelf = self;
-        self.hudViewController.chromeTapActionBlock = ^{
-            weakSelf.hasBeenCancelled = YES;
-            weakSelf.hudViewController.visualIndicatorMode = IFAHudViewVisualIndicatorModeProgressIndeterminate;
-            weakSelf.hudViewController.detailText = @"Cancelling...";
-            weakSelf.cancelationCompletionBlock();
-        };
-    } else {
-        self.hudViewController.detailText = nil;
-        self.hudViewController.chromeTapActionBlock = nil;
-    }
-}
-
 - (NSString *)progressMessage {
     return self.hudViewController.text;
 }
@@ -84,6 +67,19 @@
                    animated:(BOOL)a_animated {
     self.hasBeenCancelled = NO;
     self.hudViewController.text = a_message;
+    if (self.cancelationCompletionBlock) {
+        self.hudViewController.detailText = @"Tap to cancel";
+        __weak __typeof(self) weakSelf = self;
+        self.hudViewController.chromeTapActionBlock = ^{
+            weakSelf.hasBeenCancelled = YES;
+            weakSelf.hudViewController.visualIndicatorMode = IFAHudViewVisualIndicatorModeProgressIndeterminate;
+            weakSelf.hudViewController.detailText = @"Cancelling...";
+            weakSelf.cancelationCompletionBlock();
+        };
+    } else {
+        self.hudViewController.detailText = nil;
+        self.hudViewController.chromeTapActionBlock = ^{};
+    }
     [self.hudViewController presentHudViewControllerWithParentViewController:a_parentViewController
                                                                   parentView:a_parentView
                                                                     animated:a_animated

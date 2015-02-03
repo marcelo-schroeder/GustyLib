@@ -30,7 +30,7 @@
 
 @property (nonatomic, strong, readonly) IFAHudViewController *hudViewController;
 
-@property(nonatomic, strong) void (^cancelationCompletionBlock)();
+@property(nonatomic, strong) void (^cancelationCompletionBlock)();      //wip: cancellation spelled incorrectly?
 
 - (void)showViewWithMessage:(NSString *)a_message;
 

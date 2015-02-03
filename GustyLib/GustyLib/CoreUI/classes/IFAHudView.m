@@ -423,13 +423,27 @@
     }
 
     // Remove existing constraints
-    [contentView.superview removeConstraints:self.IFA_contentViewSizeConstraints];
-    [vibrancyEffectView.superview removeConstraints:self.IFA_vibrancyEffectViewSizeConstraints];
-    [blurEffectView.superview removeConstraints:self.IFA_blurEffectViewSizeConstraints];
-    [contentView removeConstraints:self.IFA_contentHorizontalLayoutConstraints];
-    [contentView removeConstraints:self.IFA_contentVerticalLayoutConstraints];
-    [chromeView.superview removeConstraints:self.IFA_chromeViewCentreConstraints];
-    [chromeView removeConstraints:self.IFA_chromeViewSizeConstraints];
+    if (self.IFA_contentViewSizeConstraints) {
+        [contentView.superview removeConstraints:self.IFA_contentViewSizeConstraints];
+    }
+    if (self.IFA_vibrancyEffectViewSizeConstraints) {
+        [vibrancyEffectView.superview removeConstraints:self.IFA_vibrancyEffectViewSizeConstraints];
+    }
+    if (self.IFA_blurEffectViewSizeConstraints) {
+        [blurEffectView.superview removeConstraints:self.IFA_blurEffectViewSizeConstraints];
+    }
+    if (self.IFA_contentHorizontalLayoutConstraints) {
+        [contentView removeConstraints:self.IFA_contentHorizontalLayoutConstraints];
+    }
+    if (self.IFA_contentVerticalLayoutConstraints) {
+        [contentView removeConstraints:self.IFA_contentVerticalLayoutConstraints];
+    }
+    if (self.IFA_chromeViewCentreConstraints) {
+        [chromeView.superview removeConstraints:self.IFA_chromeViewCentreConstraints];
+    }
+    if (self.IFA_chromeViewSizeConstraints) {
+        [chromeView removeConstraints:self.IFA_chromeViewSizeConstraints];
+    }
 
     BOOL allContentItemsHidden =
             activityIndicatorView.hidden
@@ -542,11 +556,14 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change
                        context:(void *)context {
     if ([keyPath isEqualToString:@"text"] || [keyPath isEqualToString:@"hidden"]) {
-        if ([keyPath isEqualToString:@"text"]) {
-            UILabel *label = object;
-            label.hidden = change[NSKeyValueChangeNewKey]==[NSNull null];
-        }
-        [self IFA_updateLayout];
+        __weak __typeof(self) weakSelf = self;
+        [IFAUtils dispatchAsyncMainThreadBlock:^{   // Had to schedule it for later as I was having issues with the activity indicator view
+            if ([keyPath isEqualToString:@"text"]) {
+                UILabel *label = object;
+                label.hidden = change[NSKeyValueChangeNewKey]==[NSNull null];
+            }
+            [weakSelf IFA_updateLayout];
+        }];
     }
 }
 
@@ -568,7 +585,12 @@
 
 - (void)IFA_addMotionEffects {
 
-    if (!UIAccessibilityIsReduceMotionEnabled()) {
+    BOOL shouldAddMotionEffects = YES;
+    //wip: test this check in both ios7 and ios 8
+    if (&UIAccessibilityIsReduceMotionEnabled != NULL && UIAccessibilityIsReduceMotionEnabled()) {  // iOS 8 backwards compatibility
+        shouldAddMotionEffects = NO;
+    }
+    if (shouldAddMotionEffects) {
         CGFloat offset = 20.0;
         UIInterpolatingMotionEffect *motionEffectX = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x"
                                                                                                      type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
@@ -610,7 +632,8 @@
     // Forces the blur effect view to be re-initialised with the current blur effect style (in case it has changed)
     self.IFA_blurEffectView = nil;
 
-    switch (self.style) {
+    IFAHudViewStyle style = [UIVisualEffectView class] ? self.style : IFAHudViewStylePlain; // iOS 8 backwards compatibility
+    switch (style) {
 
         case IFAHudViewStylePlain:
 

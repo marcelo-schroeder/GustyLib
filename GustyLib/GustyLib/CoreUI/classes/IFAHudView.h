@@ -61,7 +61,6 @@ typedef NS_ENUM(NSUInteger, IFAHudContentSubviewId) {
 
 @property (nonatomic) BOOL modal;
 
-//wip: move nonModal/Modal to front
 @property (nonatomic) IFAHudViewStyle nonModalStyle UI_APPEARANCE_SELECTOR;
 @property (nonatomic) UIBlurEffectStyle nonModalBlurEffectStyle UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor *nonModalOverlayColour UI_APPEARANCE_SELECTOR;

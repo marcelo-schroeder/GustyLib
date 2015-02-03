@@ -1421,7 +1421,9 @@ typedef enum {
 
     } else {
 
-        a_completion(YES);
+        if (a_completion) {
+            a_completion(YES);
+        }
 
     }
 
