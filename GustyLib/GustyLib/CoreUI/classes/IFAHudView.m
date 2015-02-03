@@ -101,6 +101,7 @@
         _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         _activityIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
         _activityIndicatorView.hidden = YES;
+        _activityIndicatorView.hidesWhenStopped = NO;
     }
     return _activityIndicatorView;
 }
@@ -555,15 +556,11 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change
                        context:(void *)context {
-    if ([keyPath isEqualToString:@"text"] || [keyPath isEqualToString:@"hidden"]) {
-        __weak __typeof(self) weakSelf = self;
-        [IFAUtils dispatchAsyncMainThreadBlock:^{   // Had to schedule it for later as I was having issues with the activity indicator view
-            if ([keyPath isEqualToString:@"text"]) {
-                UILabel *label = object;
-                label.hidden = change[NSKeyValueChangeNewKey]==[NSNull null];
-            }
-            [weakSelf IFA_updateLayout];
-        }];
+    if ([keyPath isEqualToString:@"text"]) {
+        UILabel *label = object;
+        label.hidden = change[NSKeyValueChangeNewKey] == [NSNull null]; // This should trigger another call to this method as "hidden" is also being observed
+    } else if ([keyPath isEqualToString:@"hidden"]) {
+        [self IFA_updateLayout];
     }
 }
 

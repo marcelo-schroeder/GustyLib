@@ -110,7 +110,9 @@
     _visualIndicatorMode = visualIndicatorMode;
     if (visualIndicatorMode == IFAHudViewVisualIndicatorModeProgressIndeterminate) {
         [self.hudView.activityIndicatorView startAnimating];
+        self.hudView.activityIndicatorView.hidden = NO;
     } else {
+        self.hudView.activityIndicatorView.hidden = YES;
         [self.hudView.activityIndicatorView stopAnimating];
     }
     self.hudView.progressView.hidden = visualIndicatorMode !=IFAHudViewVisualIndicatorModeProgressDeterminate;
@@ -209,6 +211,11 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.hudView.shouldUpdateLayoutAutomaticallyOnContentChange = YES;
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    self.hudView.shouldUpdateLayoutAutomaticallyOnContentChange = NO;
 }
 
 #pragma mark - Private
