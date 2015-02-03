@@ -17,6 +17,7 @@
 
 #import "IFAPassthroughView.h"
 #import "NSObject+IFACategory.h"
+#import "IFAApplicationDelegate.h"
 
 @interface IFAPassthroughView ()
 
@@ -77,6 +78,12 @@
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     if (self.IFA_excludeMyself) {
         return nil;
+    } else {
+        CGRect keyboardFrame = [IFAApplicationDelegate sharedInstance].keyboardFrame;
+        CGPoint pointInGlobalCoordinateSystem = [self convertPoint:point toView:nil];
+        if (CGRectContainsPoint(keyboardFrame, pointInGlobalCoordinateSystem)) {
+            return [super hitTest:point withEvent:event];
+        }
     }
     UIView *l_topLevelView = self.window;
     UIView *l_view = [self hitTestChildrenOfView:l_topLevelView point:point withEvent:event];
