@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
     s.homepage          = 'https://bitbucket.org/marcelo_schroeder/gustylib'
     s.license           = 'Apache-2.0'
     s.author            = { 'Marcelo Schroeder' => 'marcelo.schroeder@infoaccent.com' }
-    s.platform          = :ios, '7.0'
+    s.platform          = :ios, '8.0'
     s.requires_arc      = true
     s.source            = { :git => 'https://bitbucket.org/marcelo_schroeder/gustylib.git', :tag => '0.1.14' }
     s.default_subspec   = 'CoreUI'

@@ -612,8 +612,8 @@
 		49F663C04D7F52027D9418E9 /* HCFloatReturnGetter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HCFloatReturnGetter.h; path = Source/Core/Helpers/ReturnValueGetters/HCFloatReturnGetter.h; sourceTree = "<group>"; };
 		4A9CEDDB506A603FD848D24D /* DTSQLiteDatabase.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DTSQLiteDatabase.m; path = Core/Source/DTSQLite/DTSQLiteDatabase.m; sourceTree = "<group>"; };
 		4B27C683AAE850640FFA6643 /* OCMock.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMock.h; path = Source/OCMock/OCMock.h; sourceTree = "<group>"; };
-		4B4DDCE81559E6F410FAD59F /* mztools.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = mztools.c; path = Core/Source/Externals/minizip/mztools.c; sourceTree = "<group>"; };
-		4BB6963DB5CE237F5C24AEED /* zip.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = zip.c; path = Core/Source/Externals/minizip/zip.c; sourceTree = "<group>"; };
+		4B4DDCE81559E6F410FAD59F /* mztools.c */ = {isa = PBXFileReference; includeInIndex = 1; name = mztools.c; path = Core/Source/Externals/minizip/mztools.c; sourceTree = "<group>"; };
+		4BB6963DB5CE237F5C24AEED /* zip.c */ = {isa = PBXFileReference; includeInIndex = 1; name = zip.c; path = Core/Source/Externals/minizip/zip.c; sourceTree = "<group>"; };
 		4C10EA8A92510AEA7A137E3F /* NSFileWrapper+DTCopying.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSFileWrapper+DTCopying.h"; path = "Core/Source/NSFileWrapper+DTCopying.h"; sourceTree = "<group>"; };
 		4C4440153BFB0429468506FF /* Pods-Google-Mobile-Ads-SDK-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Google-Mobile-Ads-SDK-Private.xcconfig"; sourceTree = "<group>"; };
 		4C516F94F9B16B140498D946 /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGoogleAdMobAds.a; path = "GoogleMobileAdsSdkiOS-6.9.2/libGoogleAdMobAds.a"; sourceTree = "<group>"; };
@@ -713,7 +713,7 @@
 		8665B2429096824860F2F8FE /* zip.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = zip.h; path = Core/Source/Externals/minizip/zip.h; sourceTree = "<group>"; };
 		869862E1FF887A2A09D271B4 /* Pods-OCMock-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-OCMock-dummy.m"; sourceTree = "<group>"; };
 		876F1858E3C98F6E0CAFE2FB /* DTProgressHUD.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DTProgressHUD.h; path = Core/Source/iOS/DTProgressHUD/DTProgressHUD.h; sourceTree = "<group>"; };
-		87BAAD6E761A1E25E7A0046E /* ioapi.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = ioapi.c; path = Core/Source/Externals/minizip/ioapi.c; sourceTree = "<group>"; };
+		87BAAD6E761A1E25E7A0046E /* ioapi.c */ = {isa = PBXFileReference; includeInIndex = 1; name = ioapi.c; path = Core/Source/Externals/minizip/ioapi.c; sourceTree = "<group>"; };
 		88322EFFF4D321DF5B3B3A20 /* HCDescribedAs.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HCDescribedAs.m; path = Source/Library/Decorator/HCDescribedAs.m; sourceTree = "<group>"; };
 		8859386DDC17BB873BF5A34C /* DTFolderMonitor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DTFolderMonitor.m; path = Core/Source/DTFolderMonitor.m; sourceTree = "<group>"; };
 		8A22599354C1F074CC164D01 /* NSDate+InternetDateTime.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSDate+InternetDateTime.h"; path = "Classes/NSDate+InternetDateTime.h"; sourceTree = "<group>"; };
@@ -858,7 +858,7 @@
 		E9213F2689CF9317439BCF33 /* HCIsDictionaryContainingValue.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HCIsDictionaryContainingValue.h; path = Source/Library/Collection/HCIsDictionaryContainingValue.h; sourceTree = "<group>"; };
 		E93156BACBD03778A8B88E2E /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-acknowledgements.plist"; sourceTree = "<group>"; };
 		EBF7B5E165F10E2EED306A93 /* HCBaseDescription.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HCBaseDescription.h; path = Source/Core/HCBaseDescription.h; sourceTree = "<group>"; };
-		ED4F0FDD162AE30061DBEE8E /* unzip.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = unzip.c; path = Core/Source/Externals/minizip/unzip.c; sourceTree = "<group>"; };
+		ED4F0FDD162AE30061DBEE8E /* unzip.c */ = {isa = PBXFileReference; includeInIndex = 1; name = unzip.c; path = Core/Source/Externals/minizip/unzip.c; sourceTree = "<group>"; };
 		EDD54C3926BC40F749842816 /* DTAsyncFileDeleter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DTAsyncFileDeleter.h; path = Core/Source/DTAsyncFileDeleter.h; sourceTree = "<group>"; };
 		EE75283BAA24431080563C51 /* HCShortReturnGetter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HCShortReturnGetter.m; path = Source/Core/Helpers/ReturnValueGetters/HCShortReturnGetter.m; sourceTree = "<group>"; };
 		EF9E6880E55839143AE1FE26 /* HCLongReturnGetter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HCLongReturnGetter.h; path = Source/Core/Helpers/ReturnValueGetters/HCLongReturnGetter.h; sourceTree = "<group>"; };
@@ -1041,6 +1041,7 @@
 				19C524AD63045EB7203934B9 /* OCProtocolMockObject.m */,
 				CCF79C4DE97A8BFA4F41AAB0 /* Support Files */,
 			);
+			name = OCMock;
 			path = OCMock;
 			sourceTree = "<group>";
 		};
@@ -1259,6 +1260,7 @@
 				51119BDEC5E66CE8A40DA203 /* OCHamcrest.h */,
 				E113E03985C4DCB637D41938 /* Support Files */,
 			);
+			name = OCHamcrest;
 			path = OCHamcrest;
 			sourceTree = "<group>";
 		};
@@ -1270,6 +1272,7 @@
 				CDFCF40FDA133070DF197BC6 /* NSString+HTML */,
 				BF00FDACC81668070D50B079 /* Support Files */,
 			);
+			name = MWFeedParser;
 			path = MWFeedParser;
 			sourceTree = "<group>";
 		};
@@ -1338,6 +1341,7 @@
 				3D47F06FF9574F8943283697 /* Frameworks */,
 				B4904F2F23EC8A9954A0FD82 /* Support Files */,
 			);
+			name = "Google-Mobile-Ads-SDK";
 			path = "Google-Mobile-Ads-SDK";
 			sourceTree = "<group>";
 		};
@@ -1412,6 +1416,7 @@
 				91C19275815A50F0E36508F0 /* FlurrySDK */,
 				FAADB442E86A1B65033E7254 /* Support Files */,
 			);
+			name = FlurrySDK;
 			path = FlurrySDK;
 			sourceTree = "<group>";
 		};
@@ -1442,6 +1447,7 @@
 				9228E8B0A89DDE83E8738EE0 /* UIKit */,
 				B60A50B7BE186595BCA2DABD /* UIKit_BlocksAdditions */,
 			);
+			name = DTFoundation;
 			path = DTFoundation;
 			sourceTree = "<group>";
 		};
@@ -1572,6 +1578,7 @@
 				E3A54D8C88DF8F4837C5C071 /* ODRefreshControl.m */,
 				B26A3DE8658DB7582A349A06 /* Support Files */,
 			);
+			name = ODRefreshControl;
 			path = ODRefreshControl;
 			sourceTree = "<group>";
 		};
@@ -1594,6 +1601,7 @@
 				E652B30F56A5D87B6974BBC2 /* XCTestCase+IFACategory.m */,
 				3DF2DD24F2FC45C57AE2B763 /* Support Files */,
 			);
+			name = IFATestingSupport;
 			path = IFATestingSupport;
 			sourceTree = "<group>";
 		};
@@ -2172,6 +2180,8 @@
 			mainGroup = FBC45CCE44368D0DA9FCFFA3;
 			productRefGroup = 82B0C7CAC365ADAC4EBFAB4C /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+			);
 			projectRoot = "";
 			targets = (
 				056CE590520ACB9AEC5AE146 /* Pods */,
@@ -2648,7 +2658,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
@@ -2897,14 +2907,16 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"RELEASE=1",
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				STRIP_INSTALLED_PRODUCT = NO;
 				VALIDATE_PRODUCT = YES;
 			};
