@@ -583,7 +583,6 @@
 - (void)IFA_addMotionEffects {
 
     BOOL shouldAddMotionEffects = YES;
-    //wip: test this check in both ios7 and ios 8
     if (&UIAccessibilityIsReduceMotionEnabled != NULL && UIAccessibilityIsReduceMotionEnabled()) {  // iOS 8 backwards compatibility
         shouldAddMotionEffects = NO;
     }

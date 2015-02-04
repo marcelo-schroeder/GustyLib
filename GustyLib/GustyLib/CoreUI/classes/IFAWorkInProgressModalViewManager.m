@@ -67,14 +67,14 @@
                    animated:(BOOL)a_animated {
     self.hasBeenCancelled = NO;
     self.hudViewController.text = a_message;
-    if (self.cancelationCompletionBlock) {
+    if (self.cancellationCompletionBlock) {
         self.hudViewController.detailText = @"Tap to cancel";
         __weak __typeof(self) weakSelf = self;
         self.hudViewController.chromeTapActionBlock = ^{
             weakSelf.hasBeenCancelled = YES;
             weakSelf.hudViewController.visualIndicatorMode = IFAHudViewVisualIndicatorModeProgressIndeterminate;
             weakSelf.hudViewController.detailText = @"Cancelling...";
-            weakSelf.cancelationCompletionBlock();
+            weakSelf.cancellationCompletionBlock();
         };
     } else {
         self.hudViewController.detailText = nil;

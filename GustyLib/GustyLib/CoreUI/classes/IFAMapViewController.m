@@ -147,7 +147,7 @@
     if (!_IFA_progressViewManager) {
         _IFA_progressViewManager = [IFAWorkInProgressModalViewManager new];
         __weak __typeof(self) weakSelf = self;
-        _IFA_progressViewManager.cancelationCompletionBlock = ^{
+        _IFA_progressViewManager.cancellationCompletionBlock = ^{
             [weakSelf IFA_onUserLocationProgressViewCancelled];
         };
     }

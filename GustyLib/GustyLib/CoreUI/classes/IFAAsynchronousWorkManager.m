@@ -148,7 +148,7 @@
         self.IFA_wipViewManager = [IFAWorkInProgressModalViewManager new];
         if (l_allowCancellation) {
             __weak __typeof(self) weakSelf = self;
-            self.IFA_wipViewManager.cancelationCompletionBlock = ^{
+            self.IFA_wipViewManager.cancellationCompletionBlock = ^{
                 [weakSelf cancelAllOperations];
             };
         }

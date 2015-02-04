@@ -978,7 +978,6 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
                                 blue:244];
 }
 
-//wip: call the setAppearanceForView....? (so that the client can customise it?)
 + (NSDictionary *)defaultAppearancePropertiesForHudView:(IFAHudView *)a_hudView {
 
     // chromeViewMaximumLayoutWidth

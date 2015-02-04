@@ -56,7 +56,7 @@ shouldShowModalProgressIndicator:(BOOL)a_shouldShowModalProgressIndicator
     if (l_semaphoreTimeout) {
         self.IFA_isWaitingForSemaphore = YES;
         if (a_shouldShowModalProgressIndicator) {
-            self.IFA_progressIndicatorManager.cancelationCompletionBlock = ^{
+            self.IFA_progressIndicatorManager.cancellationCompletionBlock = ^{
                 [l_weakSelf.IFA_progressIndicatorManager hideView];
                 l_weakSelf.IFA_isWaitingForSemaphore = NO;
                 if (a_userCancellationBlock) {

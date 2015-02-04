@@ -5,7 +5,6 @@
 
 #import "GustyLibCoreUI.h"
 
-//wip: don't forget todo's in the demo app project
 @interface IFAHudViewController ()
 @property (nonatomic, strong) IFAHudView *hudView;
 @property(nonatomic, strong) UIWindow *IFA_window;
