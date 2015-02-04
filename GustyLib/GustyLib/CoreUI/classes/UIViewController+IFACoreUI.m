@@ -248,7 +248,7 @@ typedef NS_ENUM(NSUInteger, IFANavigationBarButtonItemsSide) {
         NSNumber *l_spaceWidth;
         if (i == 0) {
             BOOL l_isNavigationBarRightItemsCase = a_barType == IFABarButtonItemSpacingBarTypeNavigationBar && a_side == IFANavigationBarButtonItemsSideRight;
-            IFABarButtonItemPositionType l_position = l_isNavigationBarRightItemsCase ? IFABarButtonItemSpacingPositionRight : IFABarButtonItemSpacingPositionLeft;
+            IFABarButtonItemSpacingPosition l_position = l_isNavigationBarRightItemsCase ? IFABarButtonItemSpacingPositionRight : IFABarButtonItemSpacingPositionLeft;
             l_spaceWidth = [l_appearanceTheme spaceBarButtonItemWidthForPosition:l_position
                                                                          barType:a_barType viewController:self items:@[l_items[i]]];
         } else {

@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-typedef NS_ENUM(NSUInteger, IFABarButtonItemPositionType) { //wip: fix naming here
+typedef NS_ENUM(NSUInteger, IFABarButtonItemSpacingPosition) {
     IFABarButtonItemSpacingPositionLeft,
     IFABarButtonItemSpacingPositionMiddle,
     IFABarButtonItemSpacingPositionRight,
@@ -113,7 +113,7 @@ typedef NS_ENUM(NSUInteger, IFABarButtonItemSpacingBarType) {
 * @param a_items Items for which the spacing will be provided. If a_position is IFABarButtonItemSpacingPositionMiddle then 2 items are returned in the array, otherwise only 1 item is returned..
 * @returns Width (float wrapped by an NSNumber instance) of the space to be provided. Return nil if bar button item spacing automation is not required.
 */
-- (NSNumber *)spaceBarButtonItemWidthForPosition:(IFABarButtonItemPositionType)a_position
+- (NSNumber *)spaceBarButtonItemWidthForPosition:(IFABarButtonItemSpacingPosition)a_position
                                          barType:(IFABarButtonItemSpacingBarType)a_barType
                                   viewController:(UIViewController *)a_viewController items:(NSArray *)a_items;
 

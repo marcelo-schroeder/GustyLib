@@ -48,7 +48,6 @@ typedef NS_ENUM(NSUInteger, IFAHudContentSubviewId) {
 
 //wip: add doc
 //wip: add license
-//wip: use the new enum macro everywhere so that they can be used from Swift
 @interface IFAHudView : IFAView
 
 @property(nonatomic, strong, readonly) UIView *chromeView;
