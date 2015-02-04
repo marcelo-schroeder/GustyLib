@@ -18,16 +18,16 @@
 //  limitations under the License.
 //
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, IFABarButtonItemPositionType) { //wip: fix naming here
     IFABarButtonItemSpacingPositionLeft,
     IFABarButtonItemSpacingPositionMiddle,
     IFABarButtonItemSpacingPositionRight,
-} IFABarButtonItemPositionType;
+};
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, IFABarButtonItemSpacingBarType) {
     IFABarButtonItemSpacingBarTypeNavigationBar,
     IFABarButtonItemSpacingBarTypeToolbar,
-} IFABarButtonItemSpacingBarType;
+};
 
 @class IFATableViewController;
 @class IFACollectionViewCell;

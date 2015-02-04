@@ -204,7 +204,7 @@
                 l_blurredSnapshotImage = [l_snapshotImage ifa_imageWithBlurEffect:IFABlurEffectDark];
                 break;
             default:
-                NSAssert(NO, @"Unexpected blur effect: %u", self.blurEffect);
+                NSAssert(NO, @"Unexpected blur effect: %lu", self.blurEffect);
                 break;
         }
     }

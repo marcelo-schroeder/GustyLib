@@ -34,10 +34,10 @@
 * IFAListViewControllerFetchingStrategyFetchedResultsController: Uses an NSFetchedResultsController to fetch data. Consult the IFAFetchedResultsTableViewController API documentation for further details.
 * IFAListViewControllerFetchingStrategyFindEntities: Calls the "findEntities" method to fetch data.
 */
-typedef enum{
+typedef NS_ENUM(NSUInteger, IFAListViewControllerFetchingStrategy){
     IFAListViewControllerFetchingStrategyFetchedResultsController,
     IFAListViewControllerFetchingStrategyFindEntities,
-}IFAListViewControllerFetchingStrategy;
+};
 
 @interface IFAListViewController : IFAFetchedResultsTableViewController <IFAFetchedResultsTableViewControllerDataSource, IFAViewControllerDelegate
 #ifdef IFA_AVAILABLE_Help

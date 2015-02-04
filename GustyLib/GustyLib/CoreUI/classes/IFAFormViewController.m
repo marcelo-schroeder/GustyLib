@@ -334,7 +334,7 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
                 // None;
                 break;
             default:
-                NSAssert(NO, @"Unexpected editor type: %u", a_editorType);
+                NSAssert(NO, @"Unexpected editor type: %lu", a_editorType);
         }
     }
     return l_accessoryType;
@@ -599,7 +599,7 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
         }
 
         default:
-            NSAssert(NO, @"Unexpected field type: %u", l_fieldType);
+            NSAssert(NO, @"Unexpected field type: %lu", l_fieldType);
             break;
     }
 

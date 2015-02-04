@@ -55,11 +55,11 @@
 * For all styles, the width is obtained from the view controller's preferredContentSize property.
 * For the IFAMasterDetailViewControllerPaneLayoutStylePopover style, the height is obtained from the view controller's preferredContentSize property. For all other styles, the height will match that of the superview.
 */
-typedef enum {
+typedef NS_ENUM(NSUInteger, IFAMasterDetailViewControllerPaneLayoutStyle) {
     IFAMasterDetailViewControllerPaneLayoutStyleDocked,     // The pane is always visible.
     IFAMasterDetailViewControllerPaneLayoutStyleSliding,    // WORK IN PROGRESS! - The pane is not visible when the parent view is first presented and it slides into view when presented.
     IFAMasterDetailViewControllerPaneLayoutStylePopover,    // The pane is not visible when the parent view is first presented and it is shown in a popover when presented.
-} IFAMasterDetailViewControllerPaneLayoutStyle;
+};
 
 /**
 * Determines pane layout style for the master view.

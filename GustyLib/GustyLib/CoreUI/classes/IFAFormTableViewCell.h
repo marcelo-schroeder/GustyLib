@@ -20,12 +20,12 @@
 
 #import "IFATableViewCell.h"
 
-typedef enum{
+typedef NS_ENUM(NSUInteger, IFAFormTableViewCellAccessoryType){
     IFAFormTableViewCellAccessoryTypeNone,
     IFAFormTableViewCellAccessoryTypeDisclosureIndicatorRight,
     IFAFormTableViewCellAccessoryTypeDisclosureIndicatorDown,
     IFAFormTableViewCellAccessoryTypeDisclosureIndicatorInfo,
-}IFAFormTableViewCellAccessoryType;
+};
 
 @class IFAFormViewController;
 @class IFAFormTableViewCellContentView;

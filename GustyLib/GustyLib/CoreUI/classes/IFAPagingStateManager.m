@@ -56,7 +56,7 @@
             l_pageSize = IFAPagingPageSizeAll;
             break;
         default:
-            NSAssert(NO, @"Unexpected event: %u", a_event);
+            NSAssert(NO, @"Unexpected event: %lu", a_event);
     }
     IFAPagingCriteria *l_pagingCriteria = [[IFAPagingCriteria alloc] initWithPageIndex:l_pageIndex
                                                                             pageSize:l_pageSize];

@@ -25,13 +25,13 @@
 
 static NSString *const IFAEntityConfigPropertyNameDeleteButton = @"IFAEntityConfig.propertyName.deleteButton";
 
-typedef enum{
+typedef NS_ENUM(NSUInteger, IFAEntityConfigFieldType){
     IFAEntityConfigFieldTypeProperty,       // type = "property"
     IFAEntityConfigFieldTypeForm,           // type = "form"
     IFAEntityConfigFieldTypeViewController, // type = "viewController"
     IFAEntityConfigFieldTypeButton,         // type = "button"
     IFAEntityConfigFieldTypeCustom,         // type = "custom"
-}IFAEntityConfigFieldType;
+};
 
 @interface IFAEntityConfig : NSObject
 

@@ -20,18 +20,18 @@
 
 #import <UIKit/UIKit.h>
 
-typedef enum{
+typedef NS_ENUM(NSUInteger, IFASeparatorImageType){
     IFASeparatorImageTypeHorizontalTop,
     IFASeparatorImageTypeVerticalLeft,
     IFASeparatorImageTypeHorizontalBottom,
     IFASeparatorImageTypeVerticalRight,
-}IFASeparatorImageType;
+};
 
-typedef enum{
+typedef NS_ENUM(NSUInteger, IFABlurEffect){
     IFABlurEffectLight,
     IFABlurEffectExtraLight,
     IFABlurEffectDark,
-}IFABlurEffect;
+};
 
 @interface UIImage (IFACoreUI)
 

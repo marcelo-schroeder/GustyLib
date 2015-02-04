@@ -91,7 +91,7 @@ enum {
 
 /* typedefs */
 
-typedef enum{
+typedef NS_ENUM(NSUInteger, IFABarButtonItemType){
     IFABarButtonItemTypeAdd,
     IFABarButtonItemTypeDelete,
     IFABarButtonItemTypeSelectNone,
@@ -111,9 +111,9 @@ typedef enum{
     IFABarButtonItemTypeInfo,
     IFABarButtonItemTypeUserLocation,
     IFABarButtonItemTypeList,
-}IFABarButtonItemType;
+};
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, IFAEditorType) {
 
     IFAEditorTypeText,
     IFAEditorTypeDatePicker,
@@ -127,21 +127,21 @@ typedef enum {
     IFAEditorTypeFullDateAndTime,
     IFAEditorTypeNotApplicable,
 
-} IFAEditorType;
+};
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, IFADataType) {
 
     IFADataTypeTimeInterval,
     
-} IFADataType;
+};
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, IFAScrollPage) {
     IFAScrollPageLeftFar,
     IFAScrollPageLeftNear,
     IFAScrollPageCentre,
     IFAScrollPageRightNear,
     IFAScrollPageRightFar,
     IFAScrollPageInit,
-} IFAScrollPage;
+};
 
 @end

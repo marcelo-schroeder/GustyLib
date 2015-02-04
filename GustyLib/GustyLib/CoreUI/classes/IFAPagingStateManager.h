@@ -19,11 +19,11 @@
 
 @class IFAPagingCriteria;
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, IFAPagingStateManagerEvent) {
     IFAPagingStateManagerEventShowFirstPage,
     IFAPagingStateManagerEventShowNextPage,
     IFAPagingStateManagerEventShowAll,
-} IFAPagingStateManagerEvent;
+};
 
 static const NSUInteger IFAPagingPageIndexFirst = 0;
 static const NSUInteger IFAPagingPageSizeAll = 0;

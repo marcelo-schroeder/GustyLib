@@ -20,12 +20,12 @@
 
 #import "IFAView.h"
 
-typedef enum  {
+typedef NS_ENUM(NSUInteger, IFATableViewCellSelectedBackgroundStyle)  {
     IFATableViewCellSelectedBackgroundStyleTop,
     IFATableViewCellSelectedBackgroundStyleMiddle,
     IFATableViewCellSelectedBackgroundStyleBottom,
     IFATableViewCellSelectedBackgroundStyleSingle
-} IFATableViewCellSelectedBackgroundStyle;
+};
 
 @interface IFATableCellSelectedBackgroundView : UIView
 

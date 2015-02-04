@@ -68,11 +68,11 @@ static char c_previousVisibleViewControllerKey;
 
 @implementation UIViewController (IFACoreUI)
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, IFANavigationBarButtonItemsSide) {
     IFANavigationBarButtonItemsSideLeft,
     IFANavigationBarButtonItemsSideRight,
     IFANavigationBarButtonItemsSideNotApplicable,
-} IFANavigationBarButtonItemsSide;
+};
 
 #pragma mark - Private
 

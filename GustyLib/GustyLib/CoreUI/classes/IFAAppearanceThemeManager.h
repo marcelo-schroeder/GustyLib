@@ -20,15 +20,6 @@
 
 #import <Foundation/Foundation.h>
 
-/*
-typedef enum {
-	
-	SM_UI_RELOAD_TRANSITION_ANIMATION_PUSH,
-	SM_UI_RELOAD_TRANSITION_ANIMATION_POP,
-    
-} SMUiReloadTransitionAnimation;
-*/
-
 @protocol IFAAppearanceTheme;
 
 @class IFAColorScheme;

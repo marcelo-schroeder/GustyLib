@@ -38,9 +38,9 @@
 
 #pragma mark - Private
 
-typedef enum{
+typedef NS_ENUM(NSUInteger, IFAThemeColour){
     IFAThemeColourInlineHelpText,
-}IFAThemeColour;
+};
 
 - (UIColor *)IFA_themeColour:(IFAThemeColour)a_themeColour {
     UIColor *colour = nil;
@@ -49,7 +49,7 @@ typedef enum{
             colour = [UIColor ifa_grayColorWithRGB:142];
             break;
         default:
-            NSAssert(NO, @"Unexpected theme colour: %u", a_themeColour);
+            NSAssert(NO, @"Unexpected theme colour: %lu", a_themeColour);
     }
     return colour;
 }

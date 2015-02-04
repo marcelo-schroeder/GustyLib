@@ -20,11 +20,11 @@
 
 @protocol IFASlidingFrostedGlassViewControllerDelegate;
 
-typedef enum{
+typedef NS_ENUM(NSUInteger, IFASlidingFrostedGlassViewControllerBlurEffect){
     IFASlidingFrostedGlassViewControllerBlurEffectLight,
     IFASlidingFrostedGlassViewControllerBlurEffectExtraLight,
     IFASlidingFrostedGlassViewControllerBlurEffectDark,
-} IFASlidingFrostedGlassViewControllerBlurEffect;
+};
 
 typedef UIImage *(^IFASlidingFrostedGlassViewControllerSnapshotEffectBlock)(UIImage *);
 

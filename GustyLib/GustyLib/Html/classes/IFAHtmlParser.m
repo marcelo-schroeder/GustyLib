@@ -17,10 +17,10 @@
 
 #import "GustyLibHtml.h"
 
-typedef enum{
+typedef NS_ENUM(NSUInteger, IFAHtmlParserEvent){
     IFAHtmlParserEventElementStarted,
     IFAHtmlParserEventElementEnded,
-} IFAHtmlParserEvent;
+};
 
 static NSString *const k_lineBreak = @"\n";
 

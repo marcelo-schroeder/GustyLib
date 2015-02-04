@@ -20,10 +20,10 @@
 
 @protocol IFAFormInputAccessoryViewDataSource;
 
-typedef enum{
+typedef NS_ENUM(NSUInteger, IFAFormInputAccessoryViewDirection){
     IFAFormInputAccessoryViewDirectionPrevious,
     IFAFormInputAccessoryViewDirectionNext,
-} IFAFormInputAccessoryViewDirection;
+};
 
 /**
 * Input accessory view that manages a toolbar containing buttons (i.e. previous and next) for navigating through input fields that accept keyboard input in a form view.
