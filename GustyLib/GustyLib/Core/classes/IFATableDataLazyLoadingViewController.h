@@ -15,10 +15,18 @@
 //  limitations under the License.
 //
 
-#import "IFATableViewLazyDataLoadingManager.h"
+#import <Foundation/Foundation.h>
+#import "IFAViewController.h"
 
+//wip: add doc
+@interface IFATableDataLazyLoadingViewController : IFAViewController
+@property (nonatomic, strong, readonly) UIActivityIndicatorView *activityIndicatorView;
+@property (nonatomic) UIEdgeInsets *viewInsets;
+- (void)scrollViewDidScroll:(UIScrollView *)a_scrollView;
+- (void)didLoadData;
+@end
 
-@implementation IFATableViewLazyDataLoadingManager {
-
-}
+@protocol IFATableViewLazyDataLoadingManager <NSObject>
+@required
+- (void)tableViewLazyDataLoadingManagerDidRequestData:(IFATableDataLazyLoadingViewController *)a_tableViewLazyDataLoadingManager;
 @end
