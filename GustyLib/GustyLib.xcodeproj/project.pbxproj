@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		F767CF101A8403FD0098BD60 /* GustyLibDoc */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = F767CF131A8403FD0098BD60 /* Build configuration list for PBXAggregateTarget "GustyLibDoc" */;
+			buildPhases = (
+				F767CF141A84040E0098BD60 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = GustyLibDoc;
+			productName = GustyLibDoc;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		1073800E6272830317775D61 /* IFAEntityConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 10738E93F21BF564C6C975FB /* IFAEntityConfig.m */; };
 		107380450A6A5C19D0B52099 /* IFAMasterDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 107389F5AF995FE83A5EDB5B /* IFAMasterDetailViewController.m */; };
@@ -1550,6 +1564,11 @@
 				CLASSPREFIX = IFA;
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "InfoAccent Pty Ltd";
+				TargetAttributes = {
+					F767CF101A8403FD0098BD60 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
 			};
 			buildConfigurationList = F7D4D82E18EA00E600ABF401 /* Build configuration list for PBXProject "GustyLib" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1565,6 +1584,7 @@
 			targets = (
 				F7D4D83218EA00E600ABF401 /* GustyLib */,
 				F7D4D84218EA00E600ABF401 /* GustyLibTests */,
+				F767CF101A8403FD0098BD60 /* GustyLibDoc */,
 			);
 		};
 /* End PBXProject section */
@@ -1619,6 +1639,19 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		F767CF141A84040E0098BD60 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#appledoc Xcode script\n# Start constants\ncompany=\"InfoAccent\";\ncompanyID=\"com.infoaccent\";\ncompanyURL=\"http://au.linkedin.com/in/mschroeder/en\";\ntarget=\"iphoneos\";\noutputPath=\"~/appledoc/${PROJECT_NAME}\";\n# End constants\n/usr/local/bin/appledoc \\\n--project-name \"${PROJECT_NAME}\" \\\n--project-company \"${company}\" \\\n--company-id \"${companyID}\" \\\n--docset-atom-filename \"${company}.atom\" \\\n--docset-feed-url \"${companyURL}/${company}/%DOCSETATOMFILENAME\" \\\n--docset-package-url \"${companyURL}/${company}/%DOCSETPACKAGEFILENAME\" \\\n--docset-fallback-url \"${companyURL}/${company}\" \\\n--output \"${outputPath}\" \\\n--publish-docset \\\n--docset-platform-family \"${target}\" \\\n--logformat xcode \\\n--keep-intermediate-files \\\n--no-repeat-first-par \\\n--exit-threshold 2 \\\n--explicit-crossref \\\n--warn-invalid-crossref \\\n\"${PROJECT_DIR}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1834,6 +1867,20 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		F767CF111A8403FD0098BD60 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F767CF121A8403FD0098BD60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		F7D4D85418EA00E600ABF401 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1973,6 +2020,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F767CF131A8403FD0098BD60 /* Build configuration list for PBXAggregateTarget "GustyLibDoc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F767CF111A8403FD0098BD60 /* Debug */,
+				F767CF121A8403FD0098BD60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		F7D4D82E18EA00E600ABF401 /* Build configuration list for PBXProject "GustyLib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
