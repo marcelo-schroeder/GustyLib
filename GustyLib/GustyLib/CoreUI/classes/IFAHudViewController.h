@@ -21,21 +21,64 @@
 
 @class IFAHudView;
 
-//wip: add documentation
+//wip: add doc
+//wip: fix issues found when building documentation with appledoc
+/**
+* HUD (Heads Up Display) style view controller. It uses <IFAHudView> as the underlying HUD view.
+*
+* All HUD properties can be set here with the exception of appearance related properties, which must be set in the <hudView> property instance directly.
+*/
 @interface IFAHudViewController : IFAViewController
 
+/**
+* The underlying HUD view.
+*/
 @property (nonatomic, strong, readonly) IFAHudView *hudView;
 
+/**
+* Visual indicator mode.
+* Default: IFAHudViewVisualIndicatorModeNone.
+* See <IFAHudViewVisualIndicatorMode> for possible values.
+*/
 @property (nonatomic) IFAHudViewVisualIndicatorMode visualIndicatorMode;
+
+/**
+* Used to keep of track of progress when <visualIndicatorMode> is set to IFAHudViewVisualIndicatorModeProgressDeterminate.
+* The minimum value accepted is 0.0 (i.e. 0%) and maximum value is 1.0 (i.e. 100%).
+*/
 @property (nonatomic) CGFloat progress;
 
+/**
+* Text to be displayed in the main HUD's label view.
+*/
 @property (nonatomic, strong) NSString *text;
+
+/**
+* Text to be displayed in the HUD's secondary label view.
+*/
 @property (nonatomic, strong) NSString *detailText;
+
+/**
+* Custom view used when <visualIndicatorMode> is set to IFAHudViewVisualIndicatorModeCustom.
+*/
 @property (nonatomic, strong) UIView *customVisualIndicatorView;
 
+/**
+* Indicates whether the view controller should be dismissed or not when the user taps the HUD's chrome view.
+* Default: NO.
+*
+* Setting this to YES, automatically sets the <modal> property to YES, which enables user interactivity in the HUD.
+*/
 @property (nonatomic) BOOL shouldDismissOnChromeTap;
 @property (nonatomic, strong) void (^chromeTapActionBlock) ();
 
+
+/**
+* Indicates whether the view controller should be dismissed or not when the user taps the HUD's overlay view.
+* Default: NO.
+*
+* Setting this to YES, automatically sets the <modal> property to YES, which enables user interactivity in the HUD.
+*/
 @property (nonatomic) BOOL shouldDismissOnOverlayTap;
 @property (nonatomic, strong) void (^overlayTapActionBlock) ();
 

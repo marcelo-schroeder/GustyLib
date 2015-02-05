@@ -26,6 +26,9 @@ typedef NS_ENUM(NSUInteger, IFAHudViewStyle) {
 
 };
 
+/**
+* Testing enum documentation.
+*/
 typedef NS_ENUM(NSUInteger, IFAHudViewVisualIndicatorMode) {
 
     /** No visual indicator is shown. */
@@ -59,6 +62,10 @@ typedef NS_ENUM(NSUInteger, IFAHudContentSubviewId) {
 };
 
 //wip: add doc
+/**
+* HUD (Heads Up Display) style view.
+* Created to collaborate with IFAHudViewController. TEST
+*/
 @interface IFAHudView : IFAView
 
 @property(nonatomic, strong, readonly) UIView *chromeView;
