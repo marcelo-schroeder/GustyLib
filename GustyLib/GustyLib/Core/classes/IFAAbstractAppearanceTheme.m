@@ -18,6 +18,7 @@
 //  limitations under the License.
 //
 
+#import <GustyLib/IFALazyTableDataLoadingViewController.h>
 #import "IFACommon.h"
 
 #ifdef IFA_AVAILABLE_Help
@@ -262,6 +263,11 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
 
         IFAMasterDetailViewController *l_viewController = (IFAMasterDetailViewController *) a_viewController;
         l_viewController.separatorView.backgroundColor = [self.class splitViewControllerDividerColour];
+
+    }else if([a_viewController isKindOfClass:[IFALazyTableDataLoadingViewController class]]) {
+
+        IFALazyTableDataLoadingViewController *l_viewController = (IFALazyTableDataLoadingViewController *) a_viewController;
+        l_viewController.activityIndicatorView.color = [UIColor blackColor];
 
     }
 }
