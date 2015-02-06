@@ -23,6 +23,7 @@
 @class IFAPagingStateManager;
 
 //wip: add doc
+//wip: need to take into consideration the increased status bar height when in the "in-call" state (iPhone)
 @interface IFALazyTableDataLoadingViewController : IFAViewController
 @property (nonatomic, strong, readonly) UIActivityIndicatorView *activityIndicatorView;
 @property (nonatomic) UIEdgeInsets viewInsets;
