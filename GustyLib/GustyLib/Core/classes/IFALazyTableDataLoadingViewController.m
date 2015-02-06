@@ -71,7 +71,7 @@
         l_newContentInsets.bottom -= self.IFA_additionalContentBottomInset;
         weakSelf.IFA_sourceTableView.contentInset = l_newContentInsets;
     } completion:^(BOOL finished) {
-        self.IFA_hasDataLoadBeenRequested = NO;
+        weakSelf.IFA_hasDataLoadBeenRequested = NO;
     }];
 }
 
