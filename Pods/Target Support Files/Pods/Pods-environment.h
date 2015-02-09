@@ -1,0 +1,158 @@
+
+// To check if a library is compiled with CocoaPods you
+// can use the `COCOAPODS` macro definition which is
+// defined in the xcconfigs so it is available in
+// headers also when they are imported in the client
+// project.
+
+
+// DTFoundation
+#define COCOAPODS_POD_AVAILABLE_DTFoundation
+#define COCOAPODS_VERSION_MAJOR_DTFoundation 1
+#define COCOAPODS_VERSION_MINOR_DTFoundation 6
+#define COCOAPODS_VERSION_PATCH_DTFoundation 2
+
+// DTFoundation/Core
+#define COCOAPODS_POD_AVAILABLE_DTFoundation_Core
+#define COCOAPODS_VERSION_MAJOR_DTFoundation_Core 1
+#define COCOAPODS_VERSION_MINOR_DTFoundation_Core 6
+#define COCOAPODS_VERSION_PATCH_DTFoundation_Core 2
+
+// DTFoundation/DTASN1
+#define COCOAPODS_POD_AVAILABLE_DTFoundation_DTASN1
+#define COCOAPODS_VERSION_MAJOR_DTFoundation_DTASN1 1
+#define COCOAPODS_VERSION_MINOR_DTFoundation_DTASN1 6
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTASN1 2
+
+// DTFoundation/DTAWS
+#define COCOAPODS_POD_AVAILABLE_DTFoundation_DTAWS
+#define COCOAPODS_VERSION_MAJOR_DTFoundation_DTAWS 1
+#define COCOAPODS_VERSION_MINOR_DTFoundation_DTAWS 6
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTAWS 2
+
+// DTFoundation/DTHTMLParser
+#define COCOAPODS_POD_AVAILABLE_DTFoundation_DTHTMLParser
+#define COCOAPODS_VERSION_MAJOR_DTFoundation_DTHTMLParser 1
+#define COCOAPODS_VERSION_MINOR_DTFoundation_DTHTMLParser 6
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTHTMLParser 2
+
+// DTFoundation/DTReachability
+#define COCOAPODS_POD_AVAILABLE_DTFoundation_DTReachability
+#define COCOAPODS_VERSION_MAJOR_DTFoundation_DTReachability 1
+#define COCOAPODS_VERSION_MINOR_DTFoundation_DTReachability 6
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTReachability 2
+
+// DTFoundation/DTSQLite
+#define COCOAPODS_POD_AVAILABLE_DTFoundation_DTSQLite
+#define COCOAPODS_VERSION_MAJOR_DTFoundation_DTSQLite 1
+#define COCOAPODS_VERSION_MINOR_DTFoundation_DTSQLite 6
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTSQLite 2
+
+// DTFoundation/DTSidePanel
+#define COCOAPODS_POD_AVAILABLE_DTFoundation_DTSidePanel
+#define COCOAPODS_VERSION_MAJOR_DTFoundation_DTSidePanel 1
+#define COCOAPODS_VERSION_MINOR_DTFoundation_DTSidePanel 6
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTSidePanel 2
+
+// DTFoundation/DTUTI
+#define COCOAPODS_POD_AVAILABLE_DTFoundation_DTUTI
+#define COCOAPODS_VERSION_MAJOR_DTFoundation_DTUTI 1
+#define COCOAPODS_VERSION_MINOR_DTFoundation_DTUTI 6
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTUTI 2
+
+// DTFoundation/DTZipArchive
+#define COCOAPODS_POD_AVAILABLE_DTFoundation_DTZipArchive
+#define COCOAPODS_VERSION_MAJOR_DTFoundation_DTZipArchive 1
+#define COCOAPODS_VERSION_MINOR_DTFoundation_DTZipArchive 6
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTZipArchive 2
+
+// DTFoundation/DTZipArchive/Minizip
+#define COCOAPODS_POD_AVAILABLE_DTFoundation_DTZipArchive_Minizip
+#define COCOAPODS_VERSION_MAJOR_DTFoundation_DTZipArchive_Minizip 1
+#define COCOAPODS_VERSION_MINOR_DTFoundation_DTZipArchive_Minizip 6
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTZipArchive_Minizip 2
+
+// DTFoundation/UIKit
+#define COCOAPODS_POD_AVAILABLE_DTFoundation_UIKit
+#define COCOAPODS_VERSION_MAJOR_DTFoundation_UIKit 1
+#define COCOAPODS_VERSION_MINOR_DTFoundation_UIKit 6
+#define COCOAPODS_VERSION_PATCH_DTFoundation_UIKit 2
+
+// DTFoundation/UIKit_BlocksAdditions
+#define COCOAPODS_POD_AVAILABLE_DTFoundation_UIKit_BlocksAdditions
+#define COCOAPODS_VERSION_MAJOR_DTFoundation_UIKit_BlocksAdditions 1
+#define COCOAPODS_VERSION_MINOR_DTFoundation_UIKit_BlocksAdditions 6
+#define COCOAPODS_VERSION_PATCH_DTFoundation_UIKit_BlocksAdditions 2
+
+// FlurrySDK
+#define COCOAPODS_POD_AVAILABLE_FlurrySDK
+#define COCOAPODS_VERSION_MAJOR_FlurrySDK 5
+#define COCOAPODS_VERSION_MINOR_FlurrySDK 4
+#define COCOAPODS_VERSION_PATCH_FlurrySDK 0
+
+// FlurrySDK/FlurrySDK
+#define COCOAPODS_POD_AVAILABLE_FlurrySDK_FlurrySDK
+#define COCOAPODS_VERSION_MAJOR_FlurrySDK_FlurrySDK 5
+#define COCOAPODS_VERSION_MINOR_FlurrySDK_FlurrySDK 4
+#define COCOAPODS_VERSION_PATCH_FlurrySDK_FlurrySDK 0
+
+// Google-Mobile-Ads-SDK
+#define COCOAPODS_POD_AVAILABLE_Google_Mobile_Ads_SDK
+#define COCOAPODS_VERSION_MAJOR_Google_Mobile_Ads_SDK 6
+#define COCOAPODS_VERSION_MINOR_Google_Mobile_Ads_SDK 12
+#define COCOAPODS_VERSION_PATCH_Google_Mobile_Ads_SDK 2
+
+// IFATestingSupport
+#define COCOAPODS_POD_AVAILABLE_IFATestingSupport
+#define COCOAPODS_VERSION_MAJOR_IFATestingSupport 0
+#define COCOAPODS_VERSION_MINOR_IFATestingSupport 1
+#define COCOAPODS_VERSION_PATCH_IFATestingSupport 1
+
+// MTStatusBarOverlay
+#define COCOAPODS_POD_AVAILABLE_MTStatusBarOverlay
+#define COCOAPODS_VERSION_MAJOR_MTStatusBarOverlay 0
+#define COCOAPODS_VERSION_MINOR_MTStatusBarOverlay 9
+#define COCOAPODS_VERSION_PATCH_MTStatusBarOverlay 1
+
+// MWFeedParser
+#define COCOAPODS_POD_AVAILABLE_MWFeedParser
+#define COCOAPODS_VERSION_MAJOR_MWFeedParser 1
+#define COCOAPODS_VERSION_MINOR_MWFeedParser 0
+#define COCOAPODS_VERSION_PATCH_MWFeedParser 1
+
+// MWFeedParser/FeedParser
+#define COCOAPODS_POD_AVAILABLE_MWFeedParser_FeedParser
+#define COCOAPODS_VERSION_MAJOR_MWFeedParser_FeedParser 1
+#define COCOAPODS_VERSION_MINOR_MWFeedParser_FeedParser 0
+#define COCOAPODS_VERSION_PATCH_MWFeedParser_FeedParser 1
+
+// MWFeedParser/NSDate+InternetDateTime
+#define COCOAPODS_POD_AVAILABLE_MWFeedParser_NSDate_InternetDateTime
+#define COCOAPODS_VERSION_MAJOR_MWFeedParser_NSDate_InternetDateTime 1
+#define COCOAPODS_VERSION_MINOR_MWFeedParser_NSDate_InternetDateTime 0
+#define COCOAPODS_VERSION_PATCH_MWFeedParser_NSDate_InternetDateTime 1
+
+// MWFeedParser/NSString+HTML
+#define COCOAPODS_POD_AVAILABLE_MWFeedParser_NSString_HTML
+#define COCOAPODS_VERSION_MAJOR_MWFeedParser_NSString_HTML 1
+#define COCOAPODS_VERSION_MINOR_MWFeedParser_NSString_HTML 0
+#define COCOAPODS_VERSION_PATCH_MWFeedParser_NSString_HTML 1
+
+// OCHamcrest
+#define COCOAPODS_POD_AVAILABLE_OCHamcrest
+#define COCOAPODS_VERSION_MAJOR_OCHamcrest 4
+#define COCOAPODS_VERSION_MINOR_OCHamcrest 1
+#define COCOAPODS_VERSION_PATCH_OCHamcrest 1
+
+// OCMock
+#define COCOAPODS_POD_AVAILABLE_OCMock
+#define COCOAPODS_VERSION_MAJOR_OCMock 2
+#define COCOAPODS_VERSION_MINOR_OCMock 2
+#define COCOAPODS_VERSION_PATCH_OCMock 4
+
+// ODRefreshControl
+#define COCOAPODS_POD_AVAILABLE_ODRefreshControl
+#define COCOAPODS_VERSION_MAJOR_ODRefreshControl 1
+#define COCOAPODS_VERSION_MINOR_ODRefreshControl 1
+#define COCOAPODS_VERSION_PATCH_ODRefreshControl 0
+

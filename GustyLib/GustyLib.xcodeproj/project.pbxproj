@@ -540,7 +540,7 @@
 		10738FDD421BBF85DDD55C81 /* IFAAssertionUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAAssertionUtils.h; sourceTree = "<group>"; };
 		10738FFCB3C185973FCED6BE /* NSFileManager+IFACategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+IFACategory.m"; sourceTree = "<group>"; };
 		10738FFE191581B09F31132F /* IFAOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAOperation.m; sourceTree = "<group>"; };
-		A03BC960480144A4ABDD6917 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		9356CB63510DFF4F8166723E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		F72E8FA1194E446C00CFB3B1 /* IFAHtmlDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAHtmlDocument.h; sourceTree = "<group>"; };
 		F72E8FA2194E446C00CFB3B1 /* IFAHtmlDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAHtmlDocument.m; sourceTree = "<group>"; };
 		F72E8FA3194E446C00CFB3B1 /* IFAHtmlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAHtmlParser.h; sourceTree = "<group>"; };
@@ -575,6 +575,7 @@
 		F7D4D85018EA00E600ABF401 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F7D4DBED18EA11E100ABF401 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		FF387BE31CA84C679F50890D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		FFD2C1C9BB581778C7962570 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1095,6 +1096,15 @@
 			path = GoogleMobileAdsSupport;
 			sourceTree = "<group>";
 		};
+		4EEA6F8FD011DFD70CB0F887 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FFD2C1C9BB581778C7962570 /* Pods.debug.xcconfig */,
+				9356CB63510DFF4F8166723E /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		F72E8F9F194E446C00CFB3B1 /* Html */ = {
 			isa = PBXGroup;
 			children = (
@@ -1209,9 +1219,9 @@
 				F7D4D84C18EA00E600ABF401 /* GustyLibTests */,
 				F7D4D83518EA00E600ABF401 /* Frameworks */,
 				F7D4D83418EA00E600ABF401 /* Products */,
-				A03BC960480144A4ABDD6917 /* Pods.xcconfig */,
 				F7446BD119085FA9008345FA /* GustyLib.podspec */,
 				10738CF5078176436AA71336 /* LICENSE */,
+				4EEA6F8FD011DFD70CB0F887 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1374,7 +1384,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6A9527B91A1D4E51A9C8D223 /* Check Pods Manifest.lock */ = {
@@ -1658,7 +1668,7 @@
 		};
 		F7D4D85718EA00E600ABF401 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A03BC960480144A4ABDD6917 /* Pods.xcconfig */;
+			baseConfigurationReference = FFD2C1C9BB581778C7962570 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/GustyLib.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1671,7 +1681,7 @@
 		};
 		F7D4D85818EA00E600ABF401 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A03BC960480144A4ABDD6917 /* Pods.xcconfig */;
+			baseConfigurationReference = 9356CB63510DFF4F8166723E /* Pods.release.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/GustyLib.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1684,7 +1694,7 @@
 		};
 		F7D4D85A18EA00E600ABF401 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A03BC960480144A4ABDD6917 /* Pods.xcconfig */;
+			baseConfigurationReference = FFD2C1C9BB581778C7962570 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -1705,7 +1715,7 @@
 		};
 		F7D4D85B18EA00E600ABF401 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A03BC960480144A4ABDD6917 /* Pods.xcconfig */;
+			baseConfigurationReference = 9356CB63510DFF4F8166723E /* Pods.release.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
