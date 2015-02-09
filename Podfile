@@ -8,7 +8,7 @@ pod 'MTStatusBarOverlay', '0.9.1'
 pod 'ODRefreshControl', '1.1.0'
 
 # GoogleMobileAdsSupport dependencies
-pod 'Google-Mobile-Ads-SDK, '6.9.2'
+pod 'Google-Mobile-Ads-SDK'
 
 # FlurrySupport dependencies
 pod 'FlurrySDK'
