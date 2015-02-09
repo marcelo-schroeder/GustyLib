@@ -148,6 +148,7 @@
 #import "IFATextViewController.h"
 #import "IFAMasterDetailViewController.h"
 #import "IFAInternalWebBrowserViewController.h"
+#import "IFALazyTableDataLoadingViewController.h"
 
 // Categories
 #import "NSObject+IFACategory.h"
