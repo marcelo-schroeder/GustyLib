@@ -18,7 +18,6 @@
 //  limitations under the License.
 //
 
-#import <GustyLib/IFALazyTableDataLoadingViewController.h>
 #import "IFACommon.h"
 
 #ifdef IFA_AVAILABLE_Help

@@ -543,7 +543,8 @@
 		10738FDD421BBF85DDD55C81 /* IFAAssertionUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAAssertionUtils.h; sourceTree = "<group>"; };
 		10738FFCB3C185973FCED6BE /* NSFileManager+IFACategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+IFACategory.m"; sourceTree = "<group>"; };
 		10738FFE191581B09F31132F /* IFAOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAOperation.m; sourceTree = "<group>"; };
-		A03BC960480144A4ABDD6917 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		8EDDE7F5E9D9417D7638D37C /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		E5168A39BB09CBC903367B14 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		F72E8FA1194E446C00CFB3B1 /* IFAHtmlDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAHtmlDocument.h; sourceTree = "<group>"; };
 		F72E8FA2194E446C00CFB3B1 /* IFAHtmlDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAHtmlDocument.m; sourceTree = "<group>"; };
 		F72E8FA3194E446C00CFB3B1 /* IFAHtmlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAHtmlParser.h; sourceTree = "<group>"; };
@@ -607,6 +608,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		08EA2FC3C35991F9E5D8E1DA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8EDDE7F5E9D9417D7638D37C /* Pods.debug.xcconfig */,
+				E5168A39BB09CBC903367B14 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		1073814F32D92A23CF0F11C2 /* classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -1214,9 +1224,9 @@
 				F7D4D84C18EA00E600ABF401 /* GustyLibTests */,
 				F7D4D83518EA00E600ABF401 /* Frameworks */,
 				F7D4D83418EA00E600ABF401 /* Products */,
-				A03BC960480144A4ABDD6917 /* Pods.xcconfig */,
 				F7446BD119085FA9008345FA /* GustyLib.podspec */,
 				10738CF5078176436AA71336 /* LICENSE */,
+				08EA2FC3C35991F9E5D8E1DA /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1379,7 +1389,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6A9527B91A1D4E51A9C8D223 /* Check Pods Manifest.lock */ = {
@@ -1664,7 +1674,7 @@
 		};
 		F7D4D85718EA00E600ABF401 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A03BC960480144A4ABDD6917 /* Pods.xcconfig */;
+			baseConfigurationReference = 8EDDE7F5E9D9417D7638D37C /* Pods.debug.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/GustyLib.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1677,7 +1687,7 @@
 		};
 		F7D4D85818EA00E600ABF401 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A03BC960480144A4ABDD6917 /* Pods.xcconfig */;
+			baseConfigurationReference = E5168A39BB09CBC903367B14 /* Pods.release.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/GustyLib.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1690,7 +1700,7 @@
 		};
 		F7D4D85A18EA00E600ABF401 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A03BC960480144A4ABDD6917 /* Pods.xcconfig */;
+			baseConfigurationReference = 8EDDE7F5E9D9417D7638D37C /* Pods.debug.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -1711,7 +1721,7 @@
 		};
 		F7D4D85B18EA00E600ABF401 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A03BC960480144A4ABDD6917 /* Pods.xcconfig */;
+			baseConfigurationReference = E5168A39BB09CBC903367B14 /* Pods.release.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
