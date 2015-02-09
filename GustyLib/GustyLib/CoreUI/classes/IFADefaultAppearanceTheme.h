@@ -61,7 +61,11 @@
 */
 - (UIColor *)groupStyleTableViewBackgroundColour;
 
-//wip: doc
+/**
+* Determines the default values for <IFAHudView>'s appearance properties.
+* @param a_hudView HUD view instance to return the appearance property default values for.
+* @returns Dictionary containing <IFAHudView> property names as keys and their corresponding values as values.
+*/
 + (NSDictionary *)defaultAppearancePropertiesForHudView:(IFAHudView *)a_hudView;
 
 + (UIColor *)splitViewControllerDividerColour;

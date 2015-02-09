@@ -21,12 +21,11 @@
 
 @class IFAHudView;
 
-//wip: add doc
 //wip: fix issues found when building documentation with appledoc
 /**
 * HUD (Heads Up Display) style view controller. It uses <IFAHudView> as the underlying HUD view.
 *
-* All HUD properties can be set here with the exception of appearance related properties, which must be set in the <hudView> property instance directly.
+* Most HUD properties can be set here with the exception of appearance related properties, which must be set in the <hudView> property instance directly (or via UIKit's appearance API).
 *
 * Message <presentHudViewControllerWithParentViewController:parentView:animated:completion:> to present the view controller, and
 * <dismissHudViewControllerWithAnimated:completion:> to dismiss it.
