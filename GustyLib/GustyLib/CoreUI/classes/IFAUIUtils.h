@@ -84,9 +84,23 @@ static const CGFloat IFAMaximumImageSizeInPixels =  5 * 1024 * 1024;
 + (NSString*)stringValueForBoolean:(BOOL)aBoolean;
 + (NSString*)onOffStringValueForBoolean:(BOOL)aBoolean;
 
-//wip: add doc
+/**
+* Presents a user action confirmation message using an instance of the <IFAHudViewController>, and dismisses it after a short while.
+* @param a_text Text message to by displayed by the HUD.
+*/
 + (void)showAndHideUserActionConfirmationHudWithText:(NSString*)a_text;
+
+/**
+* Presents a message confirming the user has toggled an app mode on or off.
+* This method uses an instance of the <IFAHudViewController>, and dismisses it after a short while.
+* @param a_text Text message to by displayed by the HUD. This should indicate the mode that has been switched on or off.
+* @param a_on Indicates whether the mode has been switched on or off.
+*/
 + (void)showAndHideModeToggleConfirmationHudWithText:(NSString*)a_text on:(BOOL)a_on;
+
+/**
+* @returns Top level UIViewController instance to be used as the parent view controller for non-modal presentations of the <IFAHudViewController>.
+*/
 +(UIViewController *)nonModalHudContainerViewController;
 
 +(void)traverseHierarchyForView:(UIView *)a_view withBlock:(void (^) (UIView*))a_block;

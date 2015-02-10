@@ -122,7 +122,7 @@
 @property(nonatomic) NSTimeInterval dismissalAnimationDuration;
 
 /**
-* Present the HUD view controller.
+* Presents the HUD view controller.
 *
 * @param a_parentViewController Parent view controller to which the receiver will be added as a child view controller.
 * If nil, a dedicated UIWindow instance with a UIViewController instance as its root view controller will be created.
@@ -139,7 +139,7 @@
                                               parentView:(UIView *)a_parentView animated:(BOOL)a_animated completion:(void (^)(BOOL a_finished))a_completion;
 
 /**
-* Dismiss the HUD view controller.
+* Dismisses the HUD view controller.
 *
 * @param a_animated Indicates whether the dismissal transition will be animated or not. The <dismissalAnimationDuration> property determines the duration of the animation.
 *
