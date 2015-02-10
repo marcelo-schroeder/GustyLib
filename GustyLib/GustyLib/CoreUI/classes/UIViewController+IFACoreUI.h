@@ -61,28 +61,62 @@
 
 /**
 * Adds a child view controller to self.
+
+* The presentation transition is not animated.
 * It also adds auto layout constraints so that the child view controller's view has the same size as the parent view.
+* The implementation of this method conforms to the view controller containment patterns.
 *
 * @param a_childViewController Child view controller to add to self.
 * @param a_parentView Parent view to add the child view controller's view as a subview of.
 */
 - (void)ifa_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView;
 
-//wip: add doc
-- (void)ifa_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView
+/**
+* Adds a child view controller to self.
+
+* The presentation transition is not animated.
+* The implementation of this method conforms to the view controller containment patterns.
+*
+* @param a_childViewController Child view controller to add to self.
+* @param a_parentView Parent view to add the child view controller's view as a subview of.
+* @param a_shouldFillParentView Indicates whether auto layout constraints should be added so that the child view controller's view has the same size as the parent view.
+* @param a_animationDuration Duration of the presentation transition animation (in seconds). If set to 0, then no animation is used.
+* @param a_completion Block to execute after the presentation transition has completed.
+*/
+- (void)ifa_addChildViewController:(UIViewController *)a_childViewController
+                        parentView:(UIView *)a_parentView
                shouldFillSuperview:(BOOL)a_shouldFillParentView;
 
-//wip: add doc
-- (void)ifa_addChildViewController:(UIViewController *)a_childViewController parentView:(UIView *)a_parentView
-               shouldFillSuperview:(BOOL)a_shouldFillParentView animationDuration:(NSTimeInterval)a_animationDuration
-                                                                       completion:(void (^)(BOOL a_finished))a_completion;
+/**
+* Adds a child view controller to self.
+
+* The implementation of this method conforms to the view controller containment patterns.
+*
+* @param a_childViewController Child view controller to add to self.
+* @param a_parentView Parent view to add the child view controller's view as a subview of.
+* @param a_shouldFillParentView Indicates whether auto layout constraints should be added so that the child view controller's view has the same size as the parent view.
+* @param a_animationDuration Duration of the presentation transition animation (in seconds). If set to 0, then no animation is used.
+* @param a_completion Block to execute after the presentation transition has completed.
+*/
+- (void)ifa_addChildViewController:(UIViewController *)a_childViewController
+                        parentView:(UIView *)a_parentView
+               shouldFillSuperview:(BOOL)a_shouldFillParentView
+                 animationDuration:(NSTimeInterval)a_animationDuration
+                        completion:(void (^)(BOOL a_finished))a_completion;
 
 /**
 * Removes this view controller from its parent.
+*
+* The dismissal transition is not animated.
 */
 - (void)ifa_removeFromParentViewController;
 
-//wip: add doc
+/**
+* Removes this view controller from its parent.
+*
+* @param a_animationDuration Duration of the dismissal transition animation (in seconds). If set to 0, then no animation is used.
+* @param a_completion Block to execute after the dismissal transition has completed.
+*/
 - (void)ifa_removeFromParentViewControllerWithAnimationDuration:(NSTimeInterval)a_animationDuration completion:(void (^)(BOOL a_finished))a_completion;
 
 + (instancetype)ifa_instantiateFromStoryboard;
