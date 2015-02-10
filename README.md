@@ -1,4 +1,4 @@
-# GustyLib #
+![logo](http://marcelo-schroeder.github.io/GustyLib-logo.png)
 
 A Cocoa Touch static library to help you develop high quality iOS apps faster.
 
