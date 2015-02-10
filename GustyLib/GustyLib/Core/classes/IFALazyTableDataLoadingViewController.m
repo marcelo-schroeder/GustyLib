@@ -23,7 +23,6 @@
 @property(nonatomic) CGFloat IFA_additionalContentBottomInset;
 @end
 
-//wip: add doc
 @implementation IFALazyTableDataLoadingViewController {
 
 }
