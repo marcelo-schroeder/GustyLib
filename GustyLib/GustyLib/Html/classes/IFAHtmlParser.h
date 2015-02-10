@@ -132,7 +132,6 @@ typedef void (^IFAHtmlParserEndElementBlock)(IFAHtmlElementParsingContext *a_par
 *            @"color" : @"sienna",
 *            @"margin-left" : @"20px"
 *    };
-
 * ...this inline CSS style attribute value will be returned: "color:sienna;margin-left:20px;"
 *
 * @param a_attributes Dictionary of key/value CSS attributes.

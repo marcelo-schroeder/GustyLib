@@ -21,7 +21,6 @@
 
 @class IFAHudView;
 
-//wip: fix issues found when building documentation with appledoc
 /**
 * HUD (Heads Up Display) style view controller. It uses <IFAHudView> as the underlying HUD view.
 *

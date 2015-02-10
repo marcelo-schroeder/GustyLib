@@ -361,7 +361,7 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
     return [self editorTypeForIndexPath:a_indexPath]== IFAEditorTypeForm;
 }
 
-/**
+/*
 * Checks the read only attribute at the entity config level.
 */
 -(BOOL)IFA_isReadOnlyForIndexPath:(NSIndexPath*)anIndexPath{
@@ -481,7 +481,7 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
     return self.readOnlyMode && self.showEditButton;
 }
 
-/**
+/*
 * @returns YES if the field has received focus and no more handling is required (e.g. keyboard focus).
 */
 - (BOOL)IFA_transitionToEditModeWithSelectedRowAtIndexPath:(NSIndexPath *)a_indexPath {
@@ -629,7 +629,7 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
     return self.shouldShowDeleteButton ? [self.tableView.dataSource numberOfSectionsInTableView:self.tableView] - 1 : NSNotFound;
 }
 
-/**
+/*
 * This bug causes incorrect table view bottom content inset when keyboard is showing.
 * The fix here is an improvement on this idea: http://stackoverflow.com/questions/22051373/scroll-area-incorrect-when-editing-uitextfield-on-uitableviewcontroller
 */

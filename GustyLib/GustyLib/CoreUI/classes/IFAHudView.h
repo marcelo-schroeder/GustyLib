@@ -29,16 +29,16 @@ typedef NS_ENUM(NSUInteger, IFAHudViewStyle) {
     /**
     * Blur style.
     * A UIVisualEffectView instance with a blur effect is used as the content container view.
-    * If <[IFAHudView modal]> is YES, then <[IFAHudView modalBlurEffectStyle]> property determines the blur effect used.
-    * If <[IFAHudView modal]> is NO, then <[IFAHudView nonModalBlurEffectStyle]> property determines the blur effect used.
+    * If <[IFAHudView modal]> is YES, then [IFAHudView modalBlurEffectStyle] property determines the blur effect used.
+    * If <[IFAHudView modal]> is NO, then [IFAHudView nonModalBlurEffectStyle] property determines the blur effect used.
     */
     IFAHudViewStyleBlur,
 
     /**
     * Blur style.
     * A UIVisualEffectView instance with a vibrancy effect, wrapped by a UIVisualEffectView instance with a blur effect, is used as the content container view.
-    * If <[IFAHudView modal]> is YES, then <[IFAHudView modalBlurEffectStyle]> property determines the blur effect used.
-    * If <[IFAHudView modal]> is NO, then <[IFAHudView nonModalBlurEffectStyle]> property determines the blur effect used.
+    * If <[IFAHudView modal]> is YES, then [IFAHudView modalBlurEffectStyle] property determines the blur effect used.
+    * If <[IFAHudView modal]> is NO, then [IFAHudView nonModalBlurEffectStyle] property determines the blur effect used.
     */
     IFAHudViewStyleBlurAndVibrancy,
 
@@ -52,7 +52,7 @@ typedef NS_ENUM(NSUInteger, IFAHudViewVisualIndicatorMode) {
     /** No visual indicator is shown. */
             IFAHudViewVisualIndicatorModeNone,
 
-    /** The view set in the <[IFAHudView customVisualIndicatorView]> property is shown. */
+    /** The view set in the <[IFAHudView customView]> property is shown. */
             IFAHudViewVisualIndicatorModeCustom,
 
     /** Progress indicator is shown using a UIActivityIndicatorView.*/

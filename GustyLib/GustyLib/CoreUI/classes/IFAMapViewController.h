@@ -64,6 +64,8 @@
 /**
 * Called after the initial user location request has been completed.
 * This method is called only once in the lifetime of a_mapViewController.
+* @param a_mapViewController Sender.
+* @param a_success Indicates whether the user location request has been successful or not.
 */
 - (void)mapViewController:(IFAMapViewController *)a_mapViewController didCompleteInitialUserLocationRequestWithSuccess:(BOOL)a_success;
 

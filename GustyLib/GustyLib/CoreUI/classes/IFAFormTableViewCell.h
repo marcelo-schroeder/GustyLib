@@ -64,6 +64,8 @@ typedef NS_ENUM(NSUInteger, IFAFormTableViewCellAccessoryType){
 /**
 * Use this method to set the text for the left and right labels.
 * It will manage the preferred max layout width for the labels based on the content.
+* @param a_leftLabelText Left label text.
+* @param a_rightLabelText Right label text.
 */
 - (void)setLeftLabelText:(NSString *)a_leftLabelText rightLabelText:(NSString *)a_rightLabelText;
 @end

@@ -211,7 +211,6 @@ static char c_semiModalViewControllerDelegateKey;
 }
 
 //-(void)handleWillAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
-////    NSLog(@"handleWillAnimateRotationToInterfaceOrientation: %u", toInterfaceOrientation);
 //    UIView * target = [self parentTarget];
 //    UIView * overlay = [target.subviews objectAtIndex:target.subviews.count-2];
 //    UIView * ss = [overlay.subviews objectAtIndex:0];

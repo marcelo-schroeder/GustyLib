@@ -455,7 +455,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     return a_array;
 }
 
-/**
+/*
  Find all instances of a given entity (non-system) sorted according to configuration
  */
 - (NSMutableArray *) findAllForNonSystemEntity:(NSString *)entityName includePendingChanges:(BOOL)a_includePendingChanges includeSubentities:(BOOL)a_includeSubentities{
@@ -466,7 +466,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     return l_array;
 }
 
-/**
+/*
  Find all instances of a given system entity sorted according to configuration.
  */
 - (NSMutableArray *) findAllForSystemEntity:(NSString *)entityName{
@@ -585,7 +585,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 	}
 }
 
-/**
+/*
  Delete a managed object.
  */
 - (BOOL)deleteObject:(NSManagedObject *)aManagedObject validationAlertPresenter:(UIViewController *)a_validationAlertPresenter {
@@ -613,7 +613,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     
 }
 
-/**
+/*
  Delete a managed object and save.
  */
 - (BOOL)deleteAndSaveObject:(NSManagedObject *)aManagedObject validationAlertPresenter:(UIViewController *)a_validationAlertPresenter{
@@ -660,14 +660,14 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 	[[self currentManagedObjectContext] rollback];
 }
 
-/**
+/*
  Undo persistence changes
  */
 //- (void) undo{
 //	[[self m_managedObjectContext] undo];
 //}
 
-/**
+/*
  Return new managed object instance
  */
 - (NSManagedObject *)instantiate:(NSString *)entityName{
@@ -683,7 +683,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     return [self findAllForEntity:entityName includePendingChanges:NO];
 }
 
-/**
+/*
  Find all instances of a given entity sorted according to configuration.
  This method will figure out whether the entity is a system entity or not and dispatch to the appropriate implementation.
  */

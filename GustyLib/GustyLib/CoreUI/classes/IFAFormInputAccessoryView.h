@@ -49,7 +49,7 @@ typedef NS_ENUM(NSUInteger, IFAFormInputAccessoryViewDirection){
 * Call this method to notify that a given index path contains an input field that has now become the keyboard focus (i.e. user has manually tapped on an input field).
 * This method will allow the receiver to update its internal state with the most up to date information.
 * This method is normally called from UITextFieldDelegate's implementation of the textFieldDidBeginEditing: method.
-* @param Index path that contains the input field which has become the keyboard focus.
+* @param a_indexPath Index path that contains the input field which has become the keyboard focus.
 */
 - (void)notifyOfCurrentInputFieldIndexPath:(NSIndexPath *)a_indexPath;
 
@@ -70,7 +70,7 @@ typedef NS_ENUM(NSUInteger, IFAFormInputAccessoryViewDirection){
 * The current first responder is obtained by calling the formInputAccessoryView:responderForKeyboardInputFocusAtIndexPath: delegate method.
 * If it is not possible to resign the first responder, then the input focus will not change.
 * The above means that this method works well in conjunction with any validations already implemented by the responders.
-* @param Index path of the cell to point the input focus at.
+* @param a_indexPath Index path of the cell to point the input focus at.
 */
 - (void)moveInputFocusToIndexPath:(NSIndexPath *)a_indexPath;
 

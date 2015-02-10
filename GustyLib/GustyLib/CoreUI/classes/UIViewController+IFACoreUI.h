@@ -61,7 +61,7 @@
 
 /**
 * Adds a child view controller to self.
-
+*
 * The presentation transition is not animated.
 * It also adds auto layout constraints so that the child view controller's view has the same size as the parent view.
 * The implementation of this method conforms to the view controller containment patterns.
@@ -73,15 +73,13 @@
 
 /**
 * Adds a child view controller to self.
-
+*
 * The presentation transition is not animated.
 * The implementation of this method conforms to the view controller containment patterns.
 *
 * @param a_childViewController Child view controller to add to self.
 * @param a_parentView Parent view to add the child view controller's view as a subview of.
 * @param a_shouldFillParentView Indicates whether auto layout constraints should be added so that the child view controller's view has the same size as the parent view.
-* @param a_animationDuration Duration of the presentation transition animation (in seconds). If set to 0, then no animation is used.
-* @param a_completion Block to execute after the presentation transition has completed.
 */
 - (void)ifa_addChildViewController:(UIViewController *)a_childViewController
                         parentView:(UIView *)a_parentView
@@ -89,7 +87,7 @@
 
 /**
 * Adds a child view controller to self.
-
+*
 * The implementation of this method conforms to the view controller containment patterns.
 *
 * @param a_childViewController Child view controller to add to self.
@@ -178,7 +176,7 @@
 * It animates transitions by default and it shows two buttons: a destructive action button with the title provided and a "Cancel" button.
 * @param a_title The title of the alert. Use this string to get the user’s attention and communicate the reason for the alert.
 * @param a_message Descriptive text that provides additional details about the reason for the alert.
-* @param destructiveActionButtonTitle Title for the destructive action button.
+* @param a_destructiveActionButtonTitle Title for the destructive action button.
 * @param a_destructiveActionBlock Block to be executed when the destructive action button is tapped.
 * @param a_cancelBlock Block to be executed when the cancel button is tapped.
 */

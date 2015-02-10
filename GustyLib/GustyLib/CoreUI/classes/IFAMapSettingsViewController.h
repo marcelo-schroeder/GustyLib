@@ -35,6 +35,7 @@
 
 /**
 * Action handler for the map type segmented control. It is automatically connected by Interface Builder.
+* @param sender Target of the user action.
 */
 - (IBAction)onMapTypeSegmentedControlValueChanged:(UISegmentedControl *)sender;
 

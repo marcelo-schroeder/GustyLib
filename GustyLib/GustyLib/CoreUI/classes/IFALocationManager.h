@@ -43,14 +43,14 @@ performLocationServicesChecksWithAlertPresenterViewController:(UIViewController 
 
 /**
 * Shows an alert with a standard message for when the user's location cannot be obtained.
-* @param a_alertPresenterViewController View controller to be used for presenting any alerts from.
+* @param a_presenterViewController View controller to be used for presenting any alerts from.
 */
 + (void)showLocationServicesAlertWithPresenterViewController:(UIViewController *)a_presenterViewController;
 
 /**
 * Shows an alert with a standard message for when the user's location cannot be obtained. The suffix for the message can be provided.
-* @param a_messageSuffix String to be appended to the standard message.
-* @param a_alertPresenterViewController View controller to be used for presenting any alerts from.
+* @param a_message String to be appended to the standard message.
+* @param a_presenterViewController View controller to be used for presenting any alerts from.
 */
 + (void)showLocationServicesAlertWithMessage:(NSString *)a_message
                      presenterViewController:(UIViewController *)a_presenterViewController;

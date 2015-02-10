@@ -76,7 +76,7 @@
     self.entities = [[self findEntities] mutableCopy];
 }
 
-/**
+/*
 * Paging container coordination is only relevant to asynchronous fetches with the "findEntities" fetching strategy.
 */
 - (void)IFA_refreshAndReloadDataWithPagingContainerCoordination:(BOOL)a_withPagingContainerCoordination {
