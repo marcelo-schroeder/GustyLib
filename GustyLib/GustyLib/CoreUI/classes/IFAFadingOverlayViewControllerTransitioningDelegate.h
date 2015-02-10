@@ -18,7 +18,9 @@
 #import <Foundation/Foundation.h>
 #import "IFAViewControllerTransitioningDelegate.h"
 
-//wip: add documentation
+/**
+* View controller transitioning delegate that provides a fading transition.
+*/
 @interface IFAFadingOverlayViewControllerTransitioningDelegate : IFAViewControllerTransitioningDelegate
 
 

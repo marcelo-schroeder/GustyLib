@@ -18,6 +18,9 @@
 #import <Foundation/Foundation.h>
 #import "IFAFadingOverlayPresentationController.h"
 
-//wip: add documentation
+/**
+* Presentation controller that presents content on top of a dimmed presenting view controller.
+* A fading animation is used for transitions. The animation runs alongside the transition coordinator's animation.
+*/
 @interface IFADimmedFadingOverlayPresentationController : IFAFadingOverlayPresentationController <IFAFadingOverlayPresentationControllerDataSource>
 @end
