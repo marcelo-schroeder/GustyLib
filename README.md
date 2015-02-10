@@ -1,4 +1,4 @@
-![logo](http://marcelo-schroeder.github.io/GustyLib-logo.png)
+<img src="http://marcelo-schroeder.github.io/GustyLib-logo.png" alt="GustyLib logo" width="300" height="auto">
 
 A Cocoa Touch static library to help you develop high quality iOS apps faster.
 
