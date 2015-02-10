@@ -56,7 +56,7 @@
             [self IFA_refreshAndReloadDataWithFindEntitiesSynchronously];
             break;
         default:
-            NSAssert(NO, @"Unexpected fetching strategy: %lu", self.fetchingStrategy);
+            NSAssert(NO, @"Unexpected fetching strategy: %lu", (unsigned long)self.fetchingStrategy);
             break;
     }
     if (self.pagingContainerViewController || self.objects.count > 0) {

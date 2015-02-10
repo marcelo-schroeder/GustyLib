@@ -322,7 +322,7 @@ static UIImage *c_menuBarButtonItemImage = nil;
                                                             action:a_action];
             break;
 		default:
-			NSAssert(NO, @"Unexpected button item code: %lu", a_type);
+			NSAssert(NO, @"Unexpected button item code: %lu", (unsigned long)a_type);
 			break;
 	}
     barButtonItem.ifa_type = a_type;

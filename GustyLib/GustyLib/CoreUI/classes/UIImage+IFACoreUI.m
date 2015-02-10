@@ -215,7 +215,7 @@
             l_imageName = @"IFA_1PixelLineVerticalRight";
             break;
         default:
-            NSAssert(NO, @"Unexpected separator image type: %lu", a_separatorImageType);
+            NSAssert(NO, @"Unexpected separator image type: %lu", (unsigned long)a_separatorImageType);
     }
     return [self IFA_separatorImageNamed:l_imageName];
 }

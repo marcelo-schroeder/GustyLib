@@ -313,7 +313,7 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
     // when
     BOOL l_result = [IFAHtmlParser isElementClosedForStringRepresentation:l_htmlString];
     // then
-    assertThatBool(l_result, is(equalToBool(YES)));
+    assertThatBool(l_result, isTrue());
 }
 
 - (void)testIsElementClosedForStringRepresentationWithOpeningClosingTagsAndSpaces{
@@ -322,7 +322,7 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
     // when
     BOOL l_result = [IFAHtmlParser isElementClosedForStringRepresentation:l_htmlString];
     // then
-    assertThatBool(l_result, is(equalToBool(YES)));
+    assertThatBool(l_result, isTrue());
 }
 
 - (void)testIsElementClosedForStringRepresentationWithOpeningTagThatIsSelfClosed{
@@ -331,7 +331,7 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
     // when
     BOOL l_result = [IFAHtmlParser isElementClosedForStringRepresentation:l_htmlString];
     // then
-    assertThatBool(l_result, is(equalToBool(YES)));
+    assertThatBool(l_result, isTrue());
 }
 
 - (void)testIsElementClosedForStringRepresentationWithOpeningTagOnly{
@@ -340,7 +340,7 @@ typedef void (^IFAHtmlParserTestsElementBlock)(NSUInteger a_index, NSString *a_n
     // when
     BOOL l_result = [IFAHtmlParser isElementClosedForStringRepresentation:l_htmlString];
     // then
-    assertThatBool(l_result, is(equalToBool(NO)));
+    assertThatBool(l_result, isFalse());
 }
 
 - (void)testActiveInlineStyleAttributes {

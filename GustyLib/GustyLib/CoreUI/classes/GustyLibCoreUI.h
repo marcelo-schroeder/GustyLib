@@ -182,5 +182,4 @@
 #import "NSURL+IFACoreUI.h"
 #import "IFAOperation.h"
 #import "NSAttributedString+IFACoreUI.h"
-
-
+#import "IFALazyTableDataLoadingViewController.h"

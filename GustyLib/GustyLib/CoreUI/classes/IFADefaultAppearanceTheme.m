@@ -49,7 +49,7 @@ typedef NS_ENUM(NSUInteger, IFAThemeColour){
             colour = [UIColor ifa_grayColorWithRGB:142];
             break;
         default:
-            NSAssert(NO, @"Unexpected theme colour: %lu", a_themeColour);
+            NSAssert(NO, @"Unexpected theme colour: %lu", (unsigned long)a_themeColour);
     }
     return colour;
 }
@@ -324,6 +324,11 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
         a_viewController.automaticallyAdjustsScrollViewInsets = NO;
         a_viewController.view.backgroundColor = [UIColor clearColor];
 #endif
+
+    }else if([a_viewController isKindOfClass:[IFALazyTableDataLoadingViewController class]]) {
+
+        IFALazyTableDataLoadingViewController *l_viewController = (IFALazyTableDataLoadingViewController *) a_viewController;
+        l_viewController.activityIndicatorView.color = [UIColor blackColor];
 
     }
 

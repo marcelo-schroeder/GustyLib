@@ -1,13 +1,13 @@
 Pod::Spec.new do |s|
     s.name                  = 'GustyLib'
-    s.version           = '0.1.14'
+    s.version           = '0.1.15'
     s.summary           = 'A Cocoa Touch static library to help you develop high quality iOS apps faster.'
     s.homepage          = 'https://bitbucket.org/marcelo_schroeder/gustylib'
     s.license           = 'Apache-2.0'
     s.author            = { 'Marcelo Schroeder' => 'marcelo.schroeder@infoaccent.com' }
     s.platform          = :ios, '8.0'
     s.requires_arc      = true
-    s.source            = { :git => 'https://bitbucket.org/marcelo_schroeder/gustylib.git', :tag => '0.1.14' }
+    s.source            = { :git => 'https://bitbucket.org/marcelo_schroeder/gustylib.git', :tag => '0.1.15' }
     s.default_subspec   = 'CoreUI'
     s.subspec 'Foundation' do |ss|
         ss.source_files  = 'GustyLib/GustyLib/Foundation/classes/**/*.{h,m}'
@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
         ss.resource      = 'GustyLib/GustyLib/GoogleMobileAdsSupport/resources/**/*.*'
         ss.xcconfig      = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'IFA_AVAILABLE_GoogleMobileAdsSupport=1' }
         ss.dependency 'GustyLib/CoreUI'
-        ss.dependency 'Google-Mobile-Ads-SDK'
+        ss.dependency 'Google-Mobile-Ads-SDK', '~> 6'
     end
     s.subspec 'FlurrySupport' do |ss|
         ss.source_files  = 'GustyLib/GustyLib/FlurrySupport/classes/**/*.{h,m}'

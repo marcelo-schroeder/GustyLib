@@ -304,7 +304,7 @@ static NSArray *c_pageDataLoadingOrder = nil;
             break;
             
         default:
-            NSAssert(NO, @"Unexpected selected page: %lu", a_selectedPage);
+            NSAssert(NO, @"Unexpected selected page: %lu", (unsigned long)a_selectedPage);
             break;
             
     }
