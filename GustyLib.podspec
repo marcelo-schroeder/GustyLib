@@ -11,7 +11,6 @@ Pod::Spec.new do |s|
     s.default_subspec   = 'CoreUI'
     s.subspec 'Foundation' do |ss|
         ss.source_files  = 'GustyLib/GustyLib/Foundation/classes/**/*.{h,m}'
-        ss.resource      = 'GustyLib/GustyLib/Foundation/resources/**/*.*'
     end
     s.subspec 'CoreUI' do |ss|
         ss.source_files  = 'GustyLib/GustyLib/CoreUI/classes/**/*.{h,m}'
@@ -21,14 +20,12 @@ Pod::Spec.new do |s|
     end
     s.subspec 'GoogleMobileAdsSupport' do |ss|
         ss.source_files  = 'GustyLib/GustyLib/GoogleMobileAdsSupport/classes/**/*.{h,m}'
-        ss.resource      = 'GustyLib/GustyLib/GoogleMobileAdsSupport/resources/**/*.*'
         ss.xcconfig      = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'IFA_AVAILABLE_GoogleMobileAdsSupport=1' }
         ss.dependency 'GustyLib/CoreUI'
         ss.dependency 'Google-Mobile-Ads-SDK', '~> 6'
     end
     s.subspec 'FlurrySupport' do |ss|
         ss.source_files  = 'GustyLib/GustyLib/FlurrySupport/classes/**/*.{h,m}'
-        ss.resource      = 'GustyLib/GustyLib/FlurrySupport/resources/**/*.*'
         ss.xcconfig      = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'IFA_AVAILABLE_FlurrySupport=1' }
         ss.dependency 'GustyLib/CoreUI'
         ss.dependency 'FlurrySDK'

@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import "GustyLibCoreUI.h"
+#import "GustyLibFoundation.h"
 
 
 @implementation IFAAssertionUtils
