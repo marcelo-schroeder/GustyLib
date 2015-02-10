@@ -1,6 +1,6 @@
 <img src="http://marcelo-schroeder.github.io/GustyLib-logo.png" alt="GustyLib logo" width="300" height="auto">
 
-A Cocoa Touch static library to help you develop high quality iOS apps faster. The latest version supports iOS 8 or greater.
+A Cocoa Touch static library to help you develop high quality iOS apps faster. GustyLib 1.0.0 or greater supports iOS 8 or greater.
 
 This library has been used in a few projects for my clients.
 
