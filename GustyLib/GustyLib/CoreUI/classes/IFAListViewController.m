@@ -492,8 +492,13 @@
 
 }
 
-- (void)showCreateManagedObjectForm{
-    [self showEditFormForManagedObject:nil];
+- (void)showCreateManagedObjectForm {
+    // The check below prevents the "Add" button from capturing taps multiple times while a view controller's pop transition
+    // is in place as a result of the user tapping the back button on a view controller that had been previously been pushed.
+    // Without this check, the app would crash as a result of inconsistent state.
+    if (!self.ifa_isReturningVisibleViewController) {
+        [self showEditFormForManagedObject:nil];
+    }
 }
 
 - (NSManagedObject*)newManagedobject{
