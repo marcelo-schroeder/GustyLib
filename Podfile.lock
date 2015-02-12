@@ -43,7 +43,7 @@ PODS:
     - FlurrySDK/FlurrySDK (= 5.4.0)
   - FlurrySDK/FlurrySDK (5.4.0)
   - Google-Mobile-Ads-SDK (6.12.2)
-  - IFATestingSupport (0.1.3):
+  - IFATestingSupport (1.0.0):
     - OCHamcrest
     - OCMock (= 2.2.4)
   - MWFeedParser (1.0.1):
@@ -63,27 +63,17 @@ DEPENDENCIES:
   - DTFoundation (= 1.7.2)
   - FlurrySDK
   - Google-Mobile-Ads-SDK (~> 6)
-  - IFATestingSupport (from `https://bitbucket.org/marcelo_schroeder/ifatestingsupport.git`, branch `development`)
+  - IFATestingSupport
   - MWFeedParser (= 1.0.1)
   - OCHamcrest (~> 4)
   - OCMock (~> 2)
   - ODRefreshControl (= 1.1.0)
 
-EXTERNAL SOURCES:
-  IFATestingSupport:
-    :branch: development
-    :git: https://bitbucket.org/marcelo_schroeder/ifatestingsupport.git
-
-CHECKOUT OPTIONS:
-  IFATestingSupport:
-    :commit: f7559cb2b68eba284f46ae231962ab36b4b3a6a4
-    :git: https://bitbucket.org/marcelo_schroeder/ifatestingsupport.git
-
 SPEC CHECKSUMS:
   DTFoundation: 126729614911ae7dbab3dcc1c078f189943bee66
   FlurrySDK: bed9e5598353f867508d164795a451e3ada92cb6
   Google-Mobile-Ads-SDK: 9761186eb5dc5e1493e71dcce2b525159f763d42
-  IFATestingSupport: 11a09064bc35a1a32d762ed8df1e4c75e353020b
+  IFATestingSupport: 93e010deba5c4ce11f21ef3b2c22bf5f0190e233
   MWFeedParser: 003cbf5398e99a7f2057fbe9583054fd1b84be72
   OCHamcrest: af1c7c5ea345de69ea6c9c2958f65f3044e5c420
   OCMock: 6db79185520e24f9f299548f2b8b07e41d881bd5

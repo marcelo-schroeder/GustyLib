@@ -116,9 +116,9 @@
 
 // IFATestingSupport
 #define COCOAPODS_POD_AVAILABLE_IFATestingSupport
-#define COCOAPODS_VERSION_MAJOR_IFATestingSupport 0
-#define COCOAPODS_VERSION_MINOR_IFATestingSupport 1
-#define COCOAPODS_VERSION_PATCH_IFATestingSupport 3
+#define COCOAPODS_VERSION_MAJOR_IFATestingSupport 1
+#define COCOAPODS_VERSION_MINOR_IFATestingSupport 0
+#define COCOAPODS_VERSION_PATCH_IFATestingSupport 0
 
 // MWFeedParser
 #define COCOAPODS_POD_AVAILABLE_MWFeedParser
