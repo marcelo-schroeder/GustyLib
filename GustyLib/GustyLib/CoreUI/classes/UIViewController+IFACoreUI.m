@@ -1533,8 +1533,8 @@ typedef NS_ENUM(NSUInteger, IFANavigationBarButtonItemsSide) {
     for (UIAlertAction *action in a_actions) {
         [alertController addAction:action];
     }
-    [self presentViewController:alertController
-                       animated:YES completion:a_completion];
+    UIViewController *presenterViewController = self.parentViewController ? : self;
+    [presenterViewController presentViewController:alertController animated:YES completion:a_completion];
 }
 
 - (void)ifa_presentAlertControllerWithTitle:(NSString *)a_title message:(NSString *)a_message {
