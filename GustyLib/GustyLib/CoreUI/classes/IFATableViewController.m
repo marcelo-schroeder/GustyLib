@@ -366,6 +366,10 @@
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
 
     if (!self.skipEditingUiStateChange) { // Avoids unnecessary UI state change in Create mode
+
+        // Reset cell height cache as cell content view width may change due to addition/removal of cell accessory views
+        [self.IFA_cellHeightCacheByIndexPath removeAllObjects];
+
         [super setEditing:editing animated:animated];
         [self ifa_setEditing:editing animated:animated];
 //        [super m_updateEditButtonItemAccessibilityLabel];
@@ -404,12 +408,9 @@
     }
 
     if (self.shouldReloadTableViewDataAfterQuittingEditing && !editing) {
-        [IFAUtils dispatchAsyncMainThreadBlock:^{
-            [UIView transitionWithView:self.view duration:IFAAnimationDuration
-                               options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-                        [self.tableView reloadData];
-                    }       completion:NULL];
-        }                           afterDelay:IFAAnimationDuration];
+        // Make sure cell heights are recalculated
+        [self.tableView beginUpdates];
+        [self.tableView endUpdates];
     }
 
 }
