@@ -138,11 +138,4 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController;
 */
 - (void)formViewController:(IFAFormViewController *)a_formViewController didTapButtonNamed:(NSString *)a_buttonName;
 
-/**
-* This method is called when the user wants to quit edit mode and also wants to discard any changes.
-* Any changes will be automatically rolled back at the database level. This method is called just before the roll back.
-* This gives the receiver a chance to do some required clean up such as remove observers that might be inadvertently informed of changes caused by the roll back.
-*/
-- (void)formViewControllerWillDiscardChanges:(IFAFormViewController *)a_formViewController;
-
 @end
