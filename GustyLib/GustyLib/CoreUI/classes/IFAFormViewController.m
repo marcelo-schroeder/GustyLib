@@ -147,13 +147,16 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 }
 
 - (void)IFA_rollbackAndRestoreNonEditingState {
+    if ([self.formViewControllerDelegate respondsToSelector:@selector(formViewControllerWillDiscardChanges:)]) {
+        [self.formViewControllerDelegate formViewControllerWillDiscardChanges:self];
+    }
     [[IFAPersistenceManager sharedInstance] rollback];
     NSAssert(!self.IFA_rollbackPerformed, @"Incorrect value for self.IFA_rollbackPerformed: %u", self.IFA_rollbackPerformed);
     NSAssert(!self.IFA_preparingForDismissalAfterRollback, @"Incorrect value for self.IFA_preparingForDismissalAfterRollback: %u", self.IFA_preparingForDismissalAfterRollback);
     self.IFA_rollbackPerformed = YES;
     if (self.IFA_readOnlyModeSuspendedForEditing && !self.contextSwitchRequestPending) {
         [self setEditing:NO animated:YES];
-    }else{
+    } else {
         self.IFA_preparingForDismissalAfterRollback = YES;
         [self setEditing:NO animated:YES];
         self.IFA_preparingForDismissalAfterRollback = NO;
