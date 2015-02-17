@@ -1016,13 +1016,14 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     return l_objects;
 }
 
-- (void)configureWithDatabaseResourceName:(NSString*)a_databaseFileName managedObjectModelResourceName:(NSString*)a_managedObjectModelResourceName{
+- (void)configureWithDatabaseResourceName:(NSString*)a_databaseResourceName managedObjectModelResourceName:(NSString*)a_managedObjectModelResourceName{
 
     // SQLite or InMemory store type?
     NSURL *storeUrl;
     NSString *persistentStoreType;
-    if (a_databaseFileName) {
-        storeUrl = [NSURL fileURLWithPath:[[self applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite", a_databaseFileName]]];
+    if (a_databaseResourceName) {
+        storeUrl = [NSURL fileURLWithPath:[[self applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite",
+                                                                                                                                          a_databaseResourceName]]];
         persistentStoreType = NSSQLiteStoreType;
     } else {
         storeUrl = nil;
