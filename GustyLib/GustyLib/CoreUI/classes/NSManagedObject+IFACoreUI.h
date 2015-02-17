@@ -31,7 +31,7 @@
 - (BOOL)ifa_deleteAndSaveWithValidationAlertPresenter:(UIViewController *)a_validationAlertPresenter;
 - (BOOL)ifa_hasValueChangedForKey:(NSString*)a_key;
 
-+ (NSManagedObject*)ifa_instantiate;
++ (instancetype)ifa_instantiate;
 + (NSMutableArray *)ifa_findAll;
 + (void)ifa_deleteAllWithValidationAlertPresenter:(UIViewController *)a_validationAlertPresenter;
 + (void)ifa_deleteAllAndSaveWithValidationAlertPresenter:(UIViewController *)a_validationAlertPresenter;

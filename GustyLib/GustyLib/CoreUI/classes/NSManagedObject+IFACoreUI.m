@@ -97,7 +97,7 @@
     return [self validationPredicateParameterProperty:a_propertyName string:@"SELF <= "];
 }
 
-+ (NSManagedObject*)ifa_instantiate {
++ (instancetype)ifa_instantiate {
 	return [[IFAPersistenceManager sharedInstance] instantiate:[self description]];
 }
 
