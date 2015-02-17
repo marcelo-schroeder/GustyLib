@@ -33,7 +33,6 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 @property (strong) NSManagedObjectContext *privateQueueManagedObjectContext;
 //@property BOOL p_isPrivateQueueManagedObjectContextStale;
 @property (strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property (strong) NSURL *IFA_storeUrl;
 @property (strong) NSMutableDictionary *IFA_managedObjectChangedValuesDictionary;
 @property (strong) NSMutableDictionary *IFA_managedObjectCommittedValuesDictionary;
 @property (strong) IFAEntityConfig *entityConfig;
@@ -936,7 +935,9 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 }
 
 - (NSPersistentStore*) persistentStore{
-	return [self.persistentStoreCoordinator persistentStoreForURL:self.IFA_storeUrl];
+    NSArray *persistentStores = self.persistentStoreCoordinator.persistentStores;
+    NSAssert(persistentStores.count==1, @"Unexpected persistent store count: %lu", (unsigned long)persistentStores.count);
+    return persistentStores[0];
 }
 
 - (BOOL)isSystemEntityForEntity:(NSString*)anEntityName{
@@ -1016,25 +1017,30 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 }
 
 - (void)configureWithDatabaseResourceName:(NSString*)a_databaseFileName managedObjectModelResourceName:(NSString*)a_managedObjectModelResourceName{
-    
+
+    // SQLite or InMemory store type?
+    NSURL *storeUrl;
+    NSString *persistentStoreType;
+    if (a_databaseFileName) {
+        storeUrl = [NSURL fileURLWithPath:[[self applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite", a_databaseFileName]]];
+        persistentStoreType = NSSQLiteStoreType;
+    } else {
+        storeUrl = nil;
+        persistentStoreType = NSInMemoryStoreType;
+    }
+
     // Configure managedObjectModel
     NSString *path = [[NSBundle mainBundle] pathForResource:a_managedObjectModelResourceName ofType:@"momd"];
     NSURL *momURL = [NSURL fileURLWithPath:path];
     self.managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];
-    
-    self.IFA_storeUrl = [NSURL fileURLWithPath:[[self applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite", a_databaseFileName]]];
-    
-    //	#ifdef DEBUG
-    //	[self resetTestDatabase:IFA_storeUrl];
-    //	#endif
-    
+
     // Configure persistentStoreCoordinator
     NSError *error;
     self.persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
     NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @(YES),
                              NSInferMappingModelAutomaticallyOption: @(YES)};
-    if (![self.persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil
-                                                                 URL:self.IFA_storeUrl options:options error:&error]) {
+    if (![self.persistentStoreCoordinator addPersistentStoreWithType:persistentStoreType configuration:nil
+                                                                 URL:storeUrl options:options error:&error]) {
         [IFAUIUtils handleUnrecoverableError:error];
     }    
     
