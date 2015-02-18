@@ -18,13 +18,19 @@
 //  limitations under the License.
 //
 
-#import "IFASystemEntity.h"
-
+#import "GustyLibCoreUI.h"
 
 @implementation IFASystemEntity
 @dynamic systemEntityId;
 @dynamic name;
 @dynamic systemUseOnly;
 @dynamic index;
+
+#pragma mark - Public
+
++ (instancetype)findBySystemEntityId:(NSUInteger)a_systemEntityId {
+    return (IFASystemEntity *) [[IFAPersistenceManager sharedInstance] findSystemEntityById:a_systemEntityId
+                                                                                     entity:[self description]];
+}
 
 @end

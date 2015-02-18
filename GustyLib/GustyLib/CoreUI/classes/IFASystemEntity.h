@@ -30,4 +30,11 @@
 @property (nonatomic, strong) NSNumber * systemUseOnly;
 @property (nonatomic, strong) NSNumber * index;
 
+/**
+* Finds an instance of this class (or subclass) by system entity ID.
+* param a_systemEntityId System entity ID to match.
+* returns An instance of this class (or subclass) matching the provided system entity ID.
+*/
++ (instancetype)findBySystemEntityId:(NSUInteger)a_systemEntityId;
+
 @end
