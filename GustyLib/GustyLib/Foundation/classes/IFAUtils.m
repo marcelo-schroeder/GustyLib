@@ -247,4 +247,11 @@
     return l_encodedString;
 }
 
++ (BOOL)isRunningsTests {
+    NSDictionary *environment = [[NSProcessInfo processInfo] environment];
+    NSString *injectBundle = environment[@"XCInjectBundle"];
+    NSString *pathExtension = [injectBundle pathExtension];
+    return [pathExtension isEqualToString:@"octest"] || [pathExtension isEqualToString:@"xctest"];
+}
+
 @end
