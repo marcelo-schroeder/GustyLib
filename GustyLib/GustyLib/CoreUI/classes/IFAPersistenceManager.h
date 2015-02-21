@@ -137,8 +137,8 @@
 /**
 * Configure the persistence manager instance, including the Core Data stack.
 *
-* This method can configure either a SQLite store or an in memory store. The type of store will depend on the [a_databaseResourceName] parameter.
-* After completion, the following properties will have been set: [managedObjectModel], [persistentStoreCoordinator], [managedObjectContext], [privateQueueManagedObjectContext] and [entityConfig].
+* This method can configure either a SQLite store or an in memory store. The type of store will depend on the a_databaseResourceName parameter.
+* After completion, the following properties will have been set: managedObjectModel, persistentStoreCoordinator, managedObjectContext, privateQueueManagedObjectContext and entityConfig.
 *
 * @param a_databaseResourceName Name of the SQLite database file for a SQLite store, without the ".sqlite" file suffix. If nil, an in-memory store will be created instead.
 * @param a_managedObjectModelResourceName Name of Core Data data model resource, without the ".momd" suffix.
