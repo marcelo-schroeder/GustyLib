@@ -20,16 +20,61 @@
 
 #import "GustyLibCoreUI.h"
 
-@implementation IFAOperation
+@interface IFAOperation ()
+@end
 
+@implementation IFAOperation
 
 #pragma mark - Overrides
 
 -(id)init{
     if (self=[super init]) {
-        self.allowCancellation = YES;
+        self.allowsCancellation = YES;
+        [self IFA_addObservers];
     }
     return self;
+}
+
+- (void)dealloc {
+    [self IFA_removeObservers];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change
+                       context:(void *)context {
+    id newValue = change[@"new"];
+    // The assumption here is that these observations are being done on a thread other than the main thread,
+    // so dispatch UI work back to the main thread
+    [IFAUtils dispatchAsyncMainThreadBlock:^{
+        if ([keyPath isEqualToString:@"determinateProgress"]) {
+            BOOL determinateProgress = [newValue boolValue];
+//            NSLog(@"determinateProgress: %u", determinateProgress);
+            self.workInProgressModalViewManager.determinateProgress = determinateProgress;
+        } else if ([keyPath isEqualToString:@"determinateProgressPercentage"]) {
+            CGFloat determinateProgressPercentage = [newValue floatValue];
+//            NSLog(@"determinateProgressPercentage: %f", determinateProgressPercentage);
+            self.workInProgressModalViewManager.determinateProgressPercentage = determinateProgressPercentage;
+        } else if ([keyPath isEqualToString:@"progressMessage"]) {
+            NSString *progressMessage = newValue;
+//            NSLog(@"progressMessage: %@", progressMessage);
+            self.workInProgressModalViewManager.progressMessage = progressMessage;
+        } else {
+            NSAssert(NO, @"Unexpected key path: %@", keyPath);
+        }
+    }];
+}
+
+#pragma mark - Private
+
+- (void)IFA_addObservers {
+    [self addObserver:self forKeyPath:@"determinateProgress" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"determinateProgressPercentage" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"progressMessage" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)IFA_removeObservers {
+    [self removeObserver:self forKeyPath:@"determinateProgress"];
+    [self removeObserver:self forKeyPath:@"determinateProgressPercentage"];
+    [self removeObserver:self forKeyPath:@"progressMessage"];
 }
 
 @end

@@ -20,6 +20,12 @@
 
 typedef void (^IFAAsynchronousWorkManagerOperationCompletionBlock)(NSOperation *a_completedOperation);
 
+/**
+* This class manages asynchronous work in the form of operations or blocks sent to serial queues.
+* There is also the option to show progress information on the UI.
+* A shared instance can be used via the <sharedInstance> method, or independent instances can be created to isolate work.
+* Each instance will create its own operation queue (for work based on NSOperation instances) and serial dispatch queue (for work based on dispatch blocks).
+*/
 @interface IFAAsynchronousWorkManager : NSObject
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
@@ -32,17 +38,43 @@ typedef void (^IFAAsynchronousWorkManagerOperationCompletionBlock)(NSOperation *
 -(void)showNonModalProgressIndicator;
 -(void)hideNonModalProgressIndicatorWithAnimation:(BOOL)a_animate;
 
-/* the methods below are based on NSOperation */
+/** @name Methods based on NSOperation */
 
+/**
+* Dispatch an operation to the receiver's operation queue.
+*
+* By default, this method will display progress information on the UI.
+* @param a_operation Operation to be dispatched.
+*/
 -(void)dispatchOperation:(NSOperation*)a_operation;
 
-- (void)dispatchOperation:(NSOperation *)a_operation completionBlock:(IFAAsynchronousWorkManagerOperationCompletionBlock)a_completionBlock;
-
-- (void)dispatchOperation:(NSOperation *)a_operation showProgressIndicator:(BOOL)a_showProgressIndicator
+/**
+* Dispatch an operation to the receiver's operation queue.
+*
+* By default, this method will display progress information on the UI.
+* @param a_operation Operation to be dispatched.
+* @param a_completionBlock Block to execute when the operation finishes. The operation instance is available as block parameter.
+*/
+- (void)dispatchOperation:(NSOperation *)a_operation
           completionBlock:(IFAAsynchronousWorkManagerOperationCompletionBlock)a_completionBlock;
+
+
+/**
+* Dispatch an operation to the receiver's operation queue.
+* @param a_operation Operation to be dispatched.
+* @param a_showProgressIndicator Indicates whether progress information should be shown on the UI.
+* @param a_completionBlock Block to execute when the operation finishes. The operation instance is available as block parameter.
+*/
+- (void)dispatchOperation:(NSOperation *)a_operation
+    showProgressIndicator:(BOOL)a_showProgressIndicator
+          completionBlock:(IFAAsynchronousWorkManagerOperationCompletionBlock)a_completionBlock;
+
+/**
+* Cancel all operations one receiver's operation queue.
+*/
 -(void)cancelAllOperations;
 
-/* the methods below are based on GCD serial dispatch queues */
+/** @name Methods based on GCD serial dispatch queues */
 
 -(void)dispatchSerialBlock:(dispatch_block_t)a_block;
 -(void)dispatchSerialBlock:(dispatch_block_t)a_block cancelPreviousBlocks:(BOOL)a_cancelPreviousBlocks;

@@ -24,7 +24,6 @@
 }
 
 @property (strong) NSOperationQueue *IFA_operationQueue;
-@property (strong) NSOperation *IFA_operation;
 @property (strong) IFAWorkInProgressModalViewManager *IFA_wipViewManager;
 @property (nonatomic, strong) IFAHudViewController *IFA_hudViewController;
 @property (strong) NSString *IFA_nonModalProgressIndicatorOwnerUuid;
@@ -34,8 +33,6 @@
 @property dispatch_queue_t IFA_mainSerialDispatchQueue;
 @property BOOL areAllBlocksCancelled;
 
-@property (strong) IFAAsynchronousWorkManagerOperationCompletionBlock IFA_operationCompletionBlock;
-
 @end
 
 @implementation IFAAsynchronousWorkManager {
@@ -44,32 +41,6 @@
 
 #pragma mark -
 #pragma mark Private
-
--(void)IFA_doneWithOperation {
-    
-//    NSLog(@"IFA_doneWithOperation: %@", [self.IFA_operation description]);
-    
-    // Remove KVO observers
-    [self.IFA_operation removeObserver:self forKeyPath:@"isFinished"];
-    if (self.IFA_showProgressIndicator) {
-        if ([self.IFA_operation isKindOfClass:[IFAOperation class]]) {
-            [self.IFA_operation removeObserver:self forKeyPath:@"determinateProgress"];
-            [self.IFA_operation removeObserver:self forKeyPath:@"determinateProgressPercentage"];
-            [self.IFA_operation removeObserver:self forKeyPath:@"progressMessage"];
-        }
-    }
-    
-    // Remove modal WIP view
-    if (self.IFA_showProgressIndicator) {
-        [self.IFA_wipViewManager hideView];
-    }
-    
-    // Execute completion block
-    if (self.IFA_operationCompletionBlock) {
-        self.IFA_operationCompletionBlock(self.IFA_operation);
-    }
-
-}
 
 -(void)IFA_dispatchConcurrentBlock:(dispatch_block_t)a_block priority:(long)a_priority{
     dispatch_async(dispatch_get_global_queue(a_priority, 0), a_block);
@@ -112,40 +83,31 @@
     [self dispatchOperation:a_operation showProgressIndicator:YES completionBlock:nil];
 }
 
-- (void)dispatchOperation:(NSOperation *)a_operation completionBlock:(void (^)(NSOperation *a_completedOperation))a_completionBlock {
-    [self dispatchOperation:a_operation showProgressIndicator:YES completionBlock:a_completionBlock];
+- (void)dispatchOperation:(NSOperation *)a_operation
+          completionBlock:(IFAAsynchronousWorkManagerOperationCompletionBlock)a_completionBlock {
+    [self dispatchOperation:a_operation
+      showProgressIndicator:YES
+            completionBlock:a_completionBlock];
 }
 
-- (void)dispatchOperation:(NSOperation *)a_operation showProgressIndicator:(BOOL)a_showProgressIndicator
-          completionBlock:(void (^)(NSOperation *a_completedOperation))a_completionBlock {
+- (void)dispatchOperation:(NSOperation *)a_operation
+    showProgressIndicator:(BOOL)a_showProgressIndicator
+          completionBlock:(IFAAsynchronousWorkManagerOperationCompletionBlock)a_completionBlock {
     
     // Store arguments
-    self.IFA_operation = a_operation;
     self.IFA_showProgressIndicator = a_showProgressIndicator;
-    self.IFA_operationCompletionBlock = a_completionBlock;
-
-    // Add observer for when operation is finished
-    [self.IFA_operation addObserver:self forKeyPath:@"isFinished" options:0 context:nil];
-    
-    // Add observers for tracking progress
-    if (self.IFA_showProgressIndicator) {
-        if ([self.IFA_operation isKindOfClass:[IFAOperation class]]) {
-            [self.IFA_operation addObserver:self forKeyPath:@"determinateProgress" options:0 context:nil];
-            [self.IFA_operation addObserver:self forKeyPath:@"determinateProgressPercentage" options:0 context:nil];
-            [self.IFA_operation addObserver:self forKeyPath:@"progressMessage" options:0 context:nil];
-        }
-    }
 
     // Show "work in progress" modal view
     if (self.IFA_showProgressIndicator) {
+        self.IFA_wipViewManager = [IFAWorkInProgressModalViewManager new];
         NSString *l_message = nil;
         BOOL l_allowCancellation = NO;
-        if ([self.IFA_operation isKindOfClass:[IFAOperation class]]) {
+        if ([a_operation isKindOfClass:[IFAOperation class]]) {
             IFAOperation *l_operation = ((IFAOperation *)a_operation);
+            l_operation.workInProgressModalViewManager = self.IFA_wipViewManager;
             l_message = l_operation.progressMessage;
-            l_allowCancellation = l_operation.allowCancellation;
+            l_allowCancellation = l_operation.allowsCancellation;
         }
-        self.IFA_wipViewManager = [IFAWorkInProgressModalViewManager new];
         if (l_allowCancellation) {
             __weak __typeof(self) weakSelf = self;
             self.IFA_wipViewManager.cancellationCompletionBlock = ^{
@@ -154,9 +116,34 @@
         }
         [self.IFA_wipViewManager showViewWithMessage:l_message];
     }
-    
+
+    // Completion block
+    __weak __typeof(self) weakSelf = self;
+    __block NSOperation *operation = a_operation;   // This operation instance will be captured by the completion block but it will be released at the end of it
+    a_operation.completionBlock = ^{
+
+        NSLog(@"IFA_doneWithOperation: %@", [operation description]);   //wip: comment it out
+
+        [IFAUtils dispatchAsyncMainThreadBlock:^{
+
+            // Remove modal WIP view
+            if (weakSelf.IFA_showProgressIndicator) {
+                [weakSelf.IFA_wipViewManager hideView];
+            }
+
+            if (a_completionBlock) {
+                a_completionBlock(operation);
+            }
+
+            // Release the operation captured
+            operation = nil;
+
+        }];
+
+    };
+
     // Add operation to execution queue
-    [self.IFA_operationQueue addOperation:self.IFA_operation];
+    [self.IFA_operationQueue addOperation:a_operation];
 
 }
 
@@ -280,34 +267,6 @@ usePrivateManagedObjectContext:a_usePrivateManagedObjectContext];
 //            NSLog(@"   ###   areAllBlocksCancelled = NO");
         }
     });
-}
-
-#pragma mark -
-#pragma mark KVO
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change
-                       context:(void *)context {
-    // The assumption here is that these observations are being done on a thread other than the main thread,
-    // so dispatch UI work back to the main thread
-    [IFAUtils dispatchAsyncMainThreadBlock:^{
-        if ([keyPath isEqualToString:@"isFinished"]) {
-            [self IFA_doneWithOperation];
-        } else if ([keyPath isEqualToString:@"determinateProgress"]) {
-            BOOL l_determinateProgress = [[self.IFA_operation valueForKey:keyPath] boolValue];
-//            NSLog(@"l_determinateProgress: %u", l_determinateProgress);
-            self.IFA_wipViewManager.determinateProgress = l_determinateProgress;
-        } else if ([keyPath isEqualToString:@"determinateProgressPercentage"]) {
-            CGFloat l_determinateProgressPercentage = [[self.IFA_operation valueForKey:keyPath] floatValue];
-//            NSLog(@"l_determinateProgressPercentage: %f", l_determinateProgressPercentage);
-            self.IFA_wipViewManager.determinateProgressPercentage = l_determinateProgressPercentage;
-        } else if ([keyPath isEqualToString:@"progressMessage"]) {
-            NSString *l_progressMessage = [self.IFA_operation valueForKey:keyPath];
-//            NSLog(@"l_progressMessage: %@", l_progressMessage);
-            self.IFA_wipViewManager.progressMessage = l_progressMessage;
-        } else {
-            NSAssert(NO, @"Unexpected key path: %@", keyPath);
-        }
-    }];
 }
 
 #pragma mark - Singleton functions
