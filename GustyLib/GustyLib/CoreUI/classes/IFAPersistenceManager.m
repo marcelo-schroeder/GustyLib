@@ -596,7 +596,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
         [aManagedObject ifa_willDelete];
         //        NSLog(@"Done");
 		
-		NSManagedObjectContext *moc = [aManagedObject managedObjectContext];
+		NSManagedObjectContext *moc = self.currentManagedObjectContext;
 		[moc deleteObject:aManagedObject];
         
         // Run post-delete method
@@ -624,7 +624,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
         [aManagedObject ifa_willDelete];
         //        NSLog(@"Done");
 		
-		NSManagedObjectContext *moc = [aManagedObject managedObjectContext];
+		NSManagedObjectContext *moc = self.currentManagedObjectContext;
 		[moc deleteObject:aManagedObject];
 		NSError *error;
 		if([moc save:&error]){
@@ -672,7 +672,9 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 - (NSManagedObject *)instantiate:(NSString *)entityName{
     NSManagedObject *l_mo = [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:[self currentManagedObjectContext]];
     NSError *l_error;
-    if(![[[IFAPersistenceManager sharedInstance] currentManagedObjectContext] obtainPermanentIDsForObjects:@[l_mo] error:&l_error]){
+    NSManagedObjectContext *l_moc = [[IFAPersistenceManager sharedInstance] currentManagedObjectContext];
+    if(![l_moc obtainPermanentIDsForObjects:@[l_mo]
+                                      error:&l_error]){
         [IFAUIUtils handleUnrecoverableError:l_error];
     };
 	return l_mo;
