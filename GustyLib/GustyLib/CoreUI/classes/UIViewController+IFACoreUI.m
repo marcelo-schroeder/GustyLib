@@ -1400,14 +1400,12 @@ typedef NS_ENUM(NSUInteger, IFANavigationBarButtonItemsSide) {
                         completion:(void (^)(BOOL a_finished))a_completion {
 
     BOOL animated = a_animationDuration > 0;
-    [a_childViewController beginAppearanceTransition:YES animated:animated];
     [self addChildViewController:a_childViewController];
     [a_parentView addSubview:a_childViewController.view];
     if (a_shouldFillParentView) {
         [a_childViewController.view ifa_addLayoutConstraintsToFillSuperview];
     }
     [a_childViewController didMoveToParentViewController:self];
-    [a_childViewController endAppearanceTransition];
 
     if (animated) {
 
@@ -1436,7 +1434,6 @@ typedef NS_ENUM(NSUInteger, IFANavigationBarButtonItemsSide) {
 - (void)ifa_removeFromParentViewControllerWithAnimationDuration:(NSTimeInterval)a_animationDuration completion:(void (^)(BOOL a_finished))a_completion {
 
     BOOL animated = a_animationDuration > 0;
-    [self beginAppearanceTransition:NO animated:animated];
 
     __weak __typeof(self) weakSelf = self;
 
@@ -1444,7 +1441,6 @@ typedef NS_ENUM(NSUInteger, IFANavigationBarButtonItemsSide) {
         [weakSelf willMoveToParentViewController:nil];
         [weakSelf.view removeFromSuperview];
         [weakSelf removeFromParentViewController];
-        [weakSelf endAppearanceTransition];
         if (a_completion) {
             a_completion(finished);
         }
