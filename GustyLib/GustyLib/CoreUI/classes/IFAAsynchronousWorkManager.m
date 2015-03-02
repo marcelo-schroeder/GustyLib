@@ -122,7 +122,7 @@
     __block NSOperation *operation = a_operation;   // This operation instance will be captured by the completion block but it will be released at the end of it
     a_operation.completionBlock = ^{
 
-        NSLog(@"IFA_doneWithOperation: %@", [operation description]);   //wip: comment it out
+//        NSLog(@"IFA_doneWithOperation: %@", [operation description]);
 
         [IFAUtils dispatchAsyncMainThreadBlock:^{
 

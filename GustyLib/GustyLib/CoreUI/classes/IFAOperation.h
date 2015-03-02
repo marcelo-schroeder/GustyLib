@@ -18,8 +18,6 @@
 //  limitations under the License.
 //
 
-//wip: doc
-
 @class IFAWorkInProgressModalViewManager;
 
 /**
