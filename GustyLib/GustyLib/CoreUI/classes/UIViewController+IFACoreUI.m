@@ -1355,8 +1355,14 @@ typedef NS_ENUM(NSUInteger, IFANavigationBarButtonItemsSide) {
     }
 }
 
-- (BOOL)ifa_isVisibleTopViewController {
-    return self.navigationController.topViewController==self && self.navigationController.viewControllers[0]==self;
+- (BOOL)ifa_isVisibleTopChildViewController {
+    return self.navigationController.topViewController == self
+            && self.navigationController.viewControllers[0] == self
+            &&
+            (
+                    self.navigationController.tabBarController == nil
+                            || self.navigationController.tabBarController.selectedViewController == self.navigationController
+            );
 }
 
 - (UIPopoverArrowDirection)ifa_permittedPopoverArrowDirectionForViewController:(UIViewController *)a_viewController {

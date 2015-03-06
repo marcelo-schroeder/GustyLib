@@ -337,7 +337,7 @@ typedef NS_ENUM(NSUInteger, IFAViewControllerNotificationObserverRemovalTime) {
                                 usingBlock:(void (^)(NSNotification *a_note))a_block
                                removalTime:(IFAViewControllerNotificationObserverRemovalTime)a_removalTime;
 
-- (BOOL)ifa_isVisibleTopViewController;
+- (BOOL)ifa_isVisibleTopChildViewController;
 
 @end
 
