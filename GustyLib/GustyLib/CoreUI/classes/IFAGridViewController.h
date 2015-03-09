@@ -58,16 +58,31 @@
 
 @optional
 
-// Used to set the collection view's content inset
+/**
+* Used to set the collection view's content inset.
+*/
 - (UIEdgeInsets)contentInset;
 
-// Used to set the collection view's section inset
+/**
+* Used to set the collection view's section inset.
+*/
 - (UIEdgeInsets)sectionInset;
 
-// Used in size calculations only to reserve space for bars, revealing collection items partially, inter page spacing, etc
+/**
+* Used in size calculations only to reserve space for bars, revealing collection items partially, inter page spacing, etc.
+*/
 - (UIEdgeInsets)reservedEdgeSpace;
 
+/**
+* Indicates whether the last column's width should be incremented so that the full width available is used.
+* The default is NO.
+*/
 - (BOOL)shouldAdjustLastColumnWidth;
+
+/**
+* Indicates whether the last row's height should be incremented so that the full height available is used.
+* The default is NO.
+*/
 - (BOOL)shouldAdjustLastRowHeight;
 
 /**
@@ -92,8 +107,11 @@
 
 @optional
 
-// Called at various life cycle phases when the view layout needs to be updated (if required)
-// Extra configuration can be done here
+/**
+* Called at various life cycle phases when the view layout needs to be updated (if required).
+* Extra configuration can be done here.
+* @param a_collectionViewFlowLayout Layout instance just updated. This instance can be used for additional configuration.
+*/
 - (void)didUpdateCollectionViewFlowLayout:(UICollectionViewFlowLayout *)a_collectionViewFlowLayout;
 
 @end
