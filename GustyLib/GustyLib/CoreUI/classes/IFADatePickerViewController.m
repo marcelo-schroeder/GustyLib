@@ -369,8 +369,12 @@ useButtonForDismissal:(BOOL)a_useButtonForDismissal presenter:(id <IFAPresenter>
     
     if (self.datePickerMode ==UIDatePickerModeCountDownTimer) {
 
-        self.IFA_datePicker.countDownDuration = self.IFA_countDownDuration;
-    
+        // Workaround for UIKit bug introduced in iOS 7: had to dispatch the code below to the main thread asynchronously as a workaround.
+        // Workaround inspired by this: http://stackoverflow.com/questions/20181980/uidatepicker-bug-uicontroleventvaluechanged-after-hitting-minimum-internal
+        [IFAUtils dispatchAsyncMainThreadBlock:^{
+            self.IFA_datePicker.countDownDuration = self.IFA_countDownDuration;
+        }];
+
     }else {
 
         if (self.IFA_seconds) {
