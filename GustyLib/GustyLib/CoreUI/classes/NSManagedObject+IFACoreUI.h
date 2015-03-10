@@ -33,6 +33,7 @@
 
 + (instancetype)ifa_instantiate;
 + (NSMutableArray *)ifa_findAll;
++ (NSMutableArray *)ifa_findAllIncludingPendingChanges:(BOOL)a_includePendingChanges;
 + (void)ifa_deleteAllWithValidationAlertPresenter:(UIViewController *)a_validationAlertPresenter;
 + (void)ifa_deleteAllAndSaveWithValidationAlertPresenter:(UIViewController *)a_validationAlertPresenter;
 

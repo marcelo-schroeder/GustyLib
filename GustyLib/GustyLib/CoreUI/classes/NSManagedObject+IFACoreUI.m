@@ -105,6 +105,10 @@
     return [[IFAPersistenceManager sharedInstance] findAllForEntity:[self ifa_entityName]];
 }
 
++ (NSMutableArray *)ifa_findAllIncludingPendingChanges:(BOOL)a_includePendingChanges {
+    return [[IFAPersistenceManager sharedInstance] findAllForEntity:[self ifa_entityName] includePendingChanges:a_includePendingChanges];
+}
+
 + (void)ifa_deleteAllWithValidationAlertPresenter:(UIViewController *)a_validationAlertPresenter {
     for (NSManagedObject *l_mo in [[IFAPersistenceManager sharedInstance] findAllForEntity:[self ifa_entityName]]) {
         [l_mo ifa_deleteWithValidationAlertPresenter:a_validationAlertPresenter];

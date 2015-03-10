@@ -468,9 +468,12 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 /*
  Find all instances of a given system entity sorted according to configuration.
  */
-- (NSMutableArray *) findAllForSystemEntity:(NSString *)entityName{
-    NSFetchRequest* request = [self findAllFetchRequest:entityName includePendingChanges:NO];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"systemUseOnly == %@", @0]; 
+- (NSMutableArray *)findAllForSystemEntity:(NSString *)entityName
+                     includePendingChanges:(BOOL)a_includePendingChanges
+                        includeSubentities:(BOOL)a_includeSubentities {
+    NSFetchRequest *request = [self findAllFetchRequest:entityName includePendingChanges:a_includePendingChanges];
+    request.includesSubentities = a_includeSubentities;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"systemUseOnly == %@", @0];
     [request setPredicate:predicate];
     return [self inMemorySortList:[self executeFetchRequestMutable:request] forEntity:entityName];
 }
@@ -694,7 +697,9 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 - (NSMutableArray *) findAllForEntity:(NSString *)entityName includePendingChanges:(BOOL)a_includePendingChanges includeSubentities:(BOOL)a_includeSubentities{
 	if ([self isSystemEntityForEntity:entityName]) {
 		//NSLog(@"system entity: %@", ifa_entityName);
-		return [self findAllForSystemEntity:entityName];
+		return [self findAllForSystemEntity:entityName
+                      includePendingChanges:a_includePendingChanges
+                         includeSubentities:a_includeSubentities];
 	}else {
 		//NSLog(@"ANY entity: %@", ifa_entityName);
 		return [self findAllForNonSystemEntity:entityName includePendingChanges:a_includePendingChanges includeSubentities:a_includeSubentities];
