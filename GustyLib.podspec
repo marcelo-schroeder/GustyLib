@@ -1,13 +1,13 @@
 Pod::Spec.new do |s|
     s.name                  = 'GustyLib'
-    s.version           = '1.0.0'
+    s.version           = '1.0.1'
     s.summary           = 'A Cocoa Touch static library to help you develop high quality iOS apps faster.'
     s.homepage          = 'https://github.com/marcelo-schroeder/GustyLib'
     s.license           = 'Apache-2.0'
     s.author            = { 'Marcelo Schroeder' => 'marcelo.schroeder@infoaccent.com' }
     s.platform          = :ios, '8.0'
     s.requires_arc      = true
-    s.source            = { :git => 'https://github.com/marcelo-schroeder/GustyLib.git', :tag => 'v1.0.0' }
+    s.source            = { :git => 'https://github.com/marcelo-schroeder/GustyLib.git', :tag => 'v1.0.1' }
     s.default_subspec   = 'CoreUI'
     s.subspec 'Foundation' do |ss|
         ss.source_files  = 'GustyLib/GustyLib/Foundation/classes/**/*.{h,m}'
