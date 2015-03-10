@@ -63,21 +63,17 @@ DEPENDENCIES:
   - DTFoundation (= 1.7.2)
   - FlurrySDK
   - Google-Mobile-Ads-SDK (~> 6)
-  - IFATestingSupport (from `/Users/mschroeder/myfiles/projects/Xcode6/IFATestingSupport/IFATestingSupport_development`)
+  - IFATestingSupport
   - MWFeedParser (= 1.0.1)
   - OCHamcrest
   - OCMock
   - ODRefreshControl (= 1.1.0)
 
-EXTERNAL SOURCES:
-  IFATestingSupport:
-    :path: /Users/mschroeder/myfiles/projects/Xcode6/IFATestingSupport/IFATestingSupport_development
-
 SPEC CHECKSUMS:
   DTFoundation: 126729614911ae7dbab3dcc1c078f189943bee66
   FlurrySDK: bed9e5598353f867508d164795a451e3ada92cb6
   Google-Mobile-Ads-SDK: 9761186eb5dc5e1493e71dcce2b525159f763d42
-  IFATestingSupport: a06fa9ad33049236d930d406146a06f15fc3f514
+  IFATestingSupport: 4dd0e73c2da5c7d6b9acaa905225fdbe8affe24b
   MWFeedParser: 003cbf5398e99a7f2057fbe9583054fd1b84be72
   OCHamcrest: af1c7c5ea345de69ea6c9c2958f65f3044e5c420
   OCMock: ecdd510b73ef397f2f97274785c1e87fd147c49f
