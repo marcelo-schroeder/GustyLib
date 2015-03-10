@@ -17,7 +17,6 @@ pod 'DTFoundation', '1.7.2'
 pod 'MWFeedParser', '1.0.1'
 
 # Tests dependencies
-#todo: release IFATestingSupport 1.0.1 officially
 pod 'IFATestingSupport'
 #pod 'IFATestingSupport', :git => 'https://github.com/marcelo-schroeder/IFATestingSupport.git', :tag => 'v0.1.1'
 # pod 'IFATestingSupport', :git => 'https://github.com/marcelo-schroeder/IFATestingSupport.git', :branch => 'development'
