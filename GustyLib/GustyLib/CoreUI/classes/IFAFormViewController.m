@@ -63,28 +63,6 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
 #pragma mark - Private
 
-// Private initialiser
-- (id)initWithObject:(NSObject *)a_object readOnlyMode:(BOOL)a_readOnlyMode createMode:(BOOL)a_createMode
-              inForm:(NSString *)a_formName parentFormViewController:(IFAFormViewController *)a_parentFormViewController
-      showEditButton:(BOOL)a_showEditButton {
-
-    //    NSLog(@"hello from init - form");
-
-    if ((self = [super initWithStyle:UITableViewStyleGrouped])) {
-
-		self.readOnlyMode = a_readOnlyMode;
-		self.createMode = a_createMode;
-		self.object = a_object;
-		self.formName = a_formName;
-		self.parentFormViewController = a_parentFormViewController;
-        self.showEditButton = a_showEditButton;
-
-    }
-
-	return self;
-
-}
-
 - (IFAFormTableViewCell *)IFA_cellForTableView:(UITableView *)a_tableView
                                      indexPath:(NSIndexPath *)a_indexPath
                                      className:(NSString *)a_className {
@@ -752,6 +730,27 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 }
 
 #pragma mark - Public
+
+- (id)initWithObject:(NSObject *)a_object readOnlyMode:(BOOL)a_readOnlyMode createMode:(BOOL)a_createMode
+              inForm:(NSString *)a_formName parentFormViewController:(IFAFormViewController *)a_parentFormViewController
+      showEditButton:(BOOL)a_showEditButton {
+
+    //    NSLog(@"hello from init - form");
+
+    if ((self = [super initWithStyle:UITableViewStyleGrouped])) {
+
+        self.readOnlyMode = a_readOnlyMode;
+        self.createMode = a_createMode;
+        self.object = a_object;
+        self.formName = a_formName;
+        self.parentFormViewController = a_parentFormViewController;
+        self.showEditButton = a_showEditButton;
+
+    }
+
+    return self;
+
+}
 
 - (id)initWithCoder:(NSCoder *)coder
 {

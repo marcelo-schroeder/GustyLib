@@ -66,6 +66,14 @@
 */
 - (void)clearSectionFooterHelpTextForPropertyNamed:(NSString *)a_propertyName;
 
+/* Non-coder based common initialiser */
+- (id)initWithObject:(NSObject *)a_object
+            readOnlyMode:(BOOL)a_readOnlyMode
+              createMode:(BOOL)a_createMode
+                  inForm:(NSString *)a_formName
+parentFormViewController:(IFAFormViewController *)a_parentFormViewController
+          showEditButton:(BOOL)a_showEditButton;
+
 /* Submission forms */
 - (id)initWithObject:(NSObject *)a_object;
 - (id)    initWithObject:(NSObject *)a_object inForm:(NSString *)a_formName
