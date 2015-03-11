@@ -138,4 +138,17 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController;
 */
 - (void)formViewController:(IFAFormViewController *)a_formViewController didTapButtonNamed:(NSString *)a_buttonName;
 
+/**
+* This method is called when the has tapped on a field that requires presenting a view controller for viewing or editing.
+* It gives an opportunity to modify the of the view controller about to be presented or even provide a different view controller instance.
+* @param a_formViewController Form view controller presenting the field editor view controller.
+* @param a_fieldEditorViewController Field editor view controller to be presented.
+* @param a_indexPath Index path corresponding to the selected field.
+* @param a_propertyName Name of the property corresponding to the field selected.
+*/
+- (UIViewController *)formViewController:(IFAFormViewController *)a_formViewController
+    willPresentFieldEditorViewController:(UIViewController *)a_fieldEditorViewController
+                            forIndexPath:(NSIndexPath *)a_indexPath
+                            propertyName:(NSString *)a_propertyName;
+
 @end

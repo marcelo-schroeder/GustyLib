@@ -1398,10 +1398,17 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
     if ([self accessoryTypeForIndexPath:indexPath] != IFAFormTableViewCellAccessoryTypeNone) {
 
+        NSString *propertyName = [self nameForIndexPath:indexPath];
         if ([self IFA_isFormEditorTypeForIndexPath:indexPath]) {
 
             // Push appropriate editor view controller
             UIViewController *l_viewController = [self IFA_editorViewControllerForIndexPath:indexPath];
+            if ([self.formViewControllerDelegate respondsToSelector:@selector(formViewController:willPresentFieldEditorViewController:forIndexPath:propertyName:)]) {
+                l_viewController = [self.formViewControllerDelegate formViewController:self
+                                                  willPresentFieldEditorViewController:l_viewController
+                                                                          forIndexPath:indexPath
+                                                                          propertyName:propertyName];
+            }
             [self.navigationController pushViewController:l_viewController animated:YES];
 
         } else {
@@ -1426,6 +1433,12 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                 [tableView deselectRowAtIndexPath:indexPath animated:YES];
             }
 
+            if ([self.formViewControllerDelegate respondsToSelector:@selector(formViewController:willPresentFieldEditorViewController:forIndexPath:propertyName:)]) {
+                l_viewController = [self.formViewControllerDelegate formViewController:self
+                                                  willPresentFieldEditorViewController:l_viewController
+                                                                          forIndexPath:indexPath
+                                                                          propertyName:propertyName];
+            }
             [self ifa_presentModalSelectionViewController:l_viewController fromRect:l_fromPopoverRect
                                                    inView:self.tableView];
 
