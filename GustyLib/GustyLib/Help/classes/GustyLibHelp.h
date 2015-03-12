@@ -28,3 +28,4 @@
 #import "IFAHelpContentViewController.h"
 #import "IFAHelpViewController.h"
 #import "IFAHelpTarget.h"
+#import "IFAHelpConstants.h"

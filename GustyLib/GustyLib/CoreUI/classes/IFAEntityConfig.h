@@ -89,7 +89,10 @@ typedef NS_ENUM(NSUInteger, IFAEntityConfigFieldType){
 - (NSArray*)formSectionsForObject:(NSObject*)a_object inForm:(NSString*)a_formName createMode:(BOOL)a_createMode;
 - (NSUInteger)formSectionsCountForObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;
 - (NSUInteger)fieldCountCountForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject*)anObject inForm:(NSString*)aFormName createMode:(BOOL)aCreateMode;
-- (NSString *)headerForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject *)anObject inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode;
+- (NSString *)headerForSectionIndex:(NSInteger)a_sectionIndex
+                           inObject:(NSObject *)a_object
+                             inForm:(NSString *)a_formName
+                         createMode:(BOOL)a_createMode;
 - (NSString *)footerForSectionIndex:(NSInteger)a_sectionIndex inObject:(NSObject *)a_object inForm:(NSString *)a_formName
                                                                                         createMode:(BOOL)a_createMode;
 

@@ -52,8 +52,8 @@
 -(BOOL)shouldEnableHelpForViewController:(UIViewController*)a_viewController;
 
 /**
-* Help text for section obtained from GustyLibHelp.strings.
-* GustyLibHelp.strings entry key format:
+* Help text for section obtained from GustyLibHelpLocalizable.strings.
+* GustyLibHelpLocalizable.strings entry key format:
 *   entities.<entityName>.forms.<formName>.sections.<sectionName>.modes.(any|create).description
 * @param a_sectionName Name of the section the help is for.
 * @param a_formName Name of the form the help is for.
@@ -67,10 +67,10 @@
                       entityNamed:(NSString *)a_entityName;
 
 /**
-* Help text for property obtained from GustyLibHelp.strings.
-* GustyLibHelp.strings entry key format at property level:
+* Help text for property obtained from GustyLibHelpLocalizable.strings.
+* GustyLibHelpLocalizable.strings entry key format at property level:
 *   entities.<entityName>.properties.<propertyName>.description
-* GustyLibHelp.strings entry key format at property value level:
+* GustyLibHelpLocalizable.strings entry key format at property value level:
 *   entities.<entityName>.properties.<propertyName>.values.<value>.description
 * @param a_propertyName Name of the property to get the help text for.
 * @param a_entityName Name of entity the property belongs to.
@@ -82,8 +82,8 @@
                             value:(NSString *)a_value;
 
 /**
-* Help text for empty list obtained from GustyLibHelp.strings.
-* GustyLibHelp.strings entry key format:
+* Help text for empty list obtained from GustyLibHelpLocalizable.strings.
+* GustyLibHelpLocalizable.strings entry key format:
 *   entities.<entityName>.list.placeholder.description
 * @param a_entityName Name of the persistent entity the help text is for.
 * @returns Empty list help in plain text format.
@@ -91,9 +91,9 @@
 - (NSString *)emptyListHelpForEntityName:(NSString *)a_entityName;
 
 /**
-* Help text for view controllers obtained from GustyLibHelp.strings.
+* Help text for view controllers obtained from GustyLibHelpLocalizable.strings.
 * This help text is presented in the modal view shown when tapping the help button.
-* GustyLibHelp.strings entry key format:
+* GustyLibHelpLocalizable.strings entry key format:
 *   entities.<entityName>.description
 * @param a_viewController View controller the help text is for.
 * @returns View controller help in HTML format.
@@ -101,7 +101,7 @@
 - (NSString *)helpForViewController:(UIViewController *)a_viewController;
 
 /**
-* Provides the key prefix used for persistent entity related entries in GustyLibHelp.strings.
+* Provides the key prefix used for persistent entity related entries in GustyLibHelpLocalizable.strings.
 * @param a_entityName Name of the entity to provide the help target ID for.
 * @returns Help target ID for the given entity name.
 */

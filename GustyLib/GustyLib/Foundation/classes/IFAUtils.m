@@ -254,4 +254,15 @@
     return [pathExtension isEqualToString:@"octest"] || [pathExtension isEqualToString:@"xctest"];
 }
 
++ (NSString *)localisableStringsFileNameForModuleNamed:(NSString *)a_moduleName {
+    return [NSString stringWithFormat:@"GustyLib%@Localizable", a_moduleName];
+}
+
++ (NSString *)localisedStringForKey:(NSString *)a_key
+                        moduleNamed:(NSString *)a_moduleName {
+    NSString *table = [IFAUtils localisableStringsFileNameForModuleNamed:a_moduleName];
+    NSString *string = NSLocalizedStringFromTable(a_key, table, nil);
+    return string;
+}
+
 @end

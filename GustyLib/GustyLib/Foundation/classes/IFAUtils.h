@@ -73,4 +73,19 @@
 */
 + (BOOL)isRunningsTests;
 
+/**
+* Generates the .strings file name for a given GustyLib module.
+* @param a_moduleName Name of the module the .strings file belongs to. Examples: CoreUI and Help.
+* @return .strings file name for the given module name. The name returned excludes the ".strings" suffix.
+*/
++ (NSString *)localisableStringsFileNameForModuleNamed:(NSString *)a_moduleName;
+
+/**
+* Localised string for a given key and module.
+* @param a_key Key associated with the localised string.
+* @param a_moduleName Module name the localisation refers to (i.e. used to locate the module specific .strings file). Examples of module names: CoreUI and Help.
+* @returns Localised string.
+*/
++ (NSString *)localisedStringForKey:(NSString *)a_key
+                        moduleNamed:(NSString *)a_moduleName;
 @end

@@ -22,6 +22,8 @@
 
 }
 
+extern NSString* const IFAModuleNameCoreUI;
+
 extern CGFloat const IFAMinimumTapAreaDimension;
 
 /**

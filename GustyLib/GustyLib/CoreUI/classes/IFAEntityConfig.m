@@ -103,6 +103,22 @@
     return [[self entityConfigDictionary] valueForKey:anEntityName];
 }
 
+- (NSString *)localisedStringForKey:(NSString *)a_key {
+    NSString *module = IFAModuleNameCoreUI;
+    NSString *string = [IFAUtils localisedStringForKey:a_key
+                                           moduleNamed:module];
+    return string;
+}
+
+- (NSDictionary *)formSectionDictionaryAtIndex:(NSInteger)a_sectionIndex
+                                      inObject:(NSObject *)a_object
+                                   inFormNamed:(NSString *)a_formName
+                                    createMode:(BOOL)a_createMode {
+    NSArray *formSections = [self formSectionsForObject:a_object inForm:a_formName createMode:a_createMode];
+    NSDictionary *formSection = formSections[(NSUInteger) a_sectionIndex];
+    return formSection;
+}
+
 #pragma mark - Public
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext*)aManagedObjectContext{
@@ -258,7 +274,13 @@
 }
 
 - (NSString*)listLabelForEntity:(NSString*)anEntityName{
-	return [[[self entityConfigDictionary] valueForKey:anEntityName] valueForKey:@"listLabel"];
+    NSString *key = [NSString stringWithFormat:@"entities.%@.listLabel", anEntityName];
+    NSString *string = [self localisedStringForKey:key];
+    if ([string isEqualToString:key]) {
+        return [[[self entityConfigDictionary] valueForKey:anEntityName] valueForKey:@"listLabel"];
+    } else {
+        return string;
+    }
 }
 
 - (Class)formViewControllerClassForEntity:(NSString*)anEntityName{
@@ -298,7 +320,13 @@
 }
 
 - (NSString*)labelForEntity:(NSString*)anEntityName{
-	return [[[self entityConfigDictionary] valueForKey:anEntityName] valueForKey:@"label"];
+    NSString *key = [NSString stringWithFormat:@"entities.%@.label", anEntityName];
+    NSString *string = [self localisedStringForKey:key];
+    if ([string isEqualToString:key]) {
+        return [[[self entityConfigDictionary] valueForKey:anEntityName] valueForKey:@"label"];
+    } else {
+        return string;
+    }
 }
 
 - (NSString*)indefiniteArticleForEntity:(NSString*)anEntityName{
@@ -406,18 +434,34 @@
     return fields.count;
 }
 
-- (NSString *)headerForSectionIndex:(NSInteger)aSectionIndex inObject:(NSObject *)anObject inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode {
-    NSArray *formSections = [self formSectionsForObject:anObject inForm:aFormName createMode:aCreateMode];
-    NSDictionary *formSection = formSections[(NSUInteger) aSectionIndex];
-    return formSection[@"sectionHeader"];
+- (NSString *)headerForSectionIndex:(NSInteger)a_sectionIndex
+                           inObject:(NSObject *)a_object
+                             inForm:(NSString *)a_formName
+                         createMode:(BOOL)a_createMode {
+    NSDictionary *formSection = [self formSectionDictionaryAtIndex:a_sectionIndex
+                                                          inObject:a_object
+                                                       inFormNamed:a_formName
+                                                        createMode:a_createMode];
+    NSString *key = [NSString stringWithFormat:@"entities.%@.forms.%@.sections.%@.sectionHeader",
+                                               [a_object.class ifa_entityName],
+                                               a_formName,
+                                               formSection[@"name"]];
+    NSString *string = [self localisedStringForKey:key];
+    if ([string isEqualToString:key]) {
+        return formSection[@"sectionHeader"];
+    } else {
+        return string;
+    }
 }
 
 - (NSString *)footerForSectionIndex:(NSInteger)a_sectionIndex
                            inObject:(NSObject *)a_object
                              inForm:(NSString *)a_formName
                          createMode:(BOOL)a_createMode {
-    NSArray *formSections = [self formSectionsForObject:a_object inForm:a_formName createMode:a_createMode];
-    NSDictionary *formSection = formSections[(NSUInteger) a_sectionIndex];
+    NSDictionary *formSection = [self formSectionDictionaryAtIndex:a_sectionIndex
+                                                          inObject:a_object
+                                                       inFormNamed:a_formName
+                                                        createMode:a_createMode];
 #ifdef IFA_AVAILABLE_Help
     NSString *help = nil;
     NSUInteger fieldCount = [self fieldCountCountForSectionIndex:a_sectionIndex
@@ -466,7 +510,16 @@
         return help;
     } else {
 #endif
+    NSString *key = [NSString stringWithFormat:@"entities.%@.forms.%@.sections.%@.sectionFooter",
+                                               [a_object.class ifa_entityName],
+                                               a_formName,
+                                               formSection[@"name"]];
+    NSString *string = [self localisedStringForKey:key];
+    if ([string isEqualToString:key]) {
         return formSection[@"sectionFooter"];
+    } else {
+        return string;
+    }
 #ifdef IFA_AVAILABLE_Help
     }
 #endif

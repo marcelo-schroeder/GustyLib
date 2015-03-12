@@ -1,6 +1,6 @@
 //
-// Created by Marcelo Schroeder on 29/09/2014.
-// Copyright (c) 2014 InfoAccent Pty Ltd. All rights reserved.
+// Created by Marcelo Schroeder on 12/03/15.
+// Copyright (c) 2015 InfoAccent Pty Ltd. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -17,19 +17,9 @@
 
 #import <Foundation/Foundation.h>
 
-/**
-* This protocol declares an object as having help.
-* Help text is obtained from GustyLibHelpLocalizable.strings.
-*/
-@protocol IFAHelpTarget <NSObject>
 
-@required
+@interface IFAHelpConstants : NSObject
 
-/**
-* @return ID linking this object to an entry in GustyLibHelpLocalizable.strings.
-* The entry in GustyLibHelpLocalizable.strings will have this key format:
-*   <helpTargetId>.description
-*/
-- (NSString *)helpTargetId;
+extern NSString* const IFAModuleNameHelp;
 
 @end
