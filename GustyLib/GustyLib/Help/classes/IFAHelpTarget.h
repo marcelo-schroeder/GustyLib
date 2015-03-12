@@ -19,15 +19,15 @@
 
 /**
 * This protocol declares an object as having help.
-* Help text is obtained from Help.strings.
+* Help text is obtained from GustyLibHelp.strings.
 */
 @protocol IFAHelpTarget <NSObject>
 
 @required
 
 /**
-* @return ID linking this object to an entry in Help.strings.
-* The entry in Help.strings will have this key format:
+* @return ID linking this object to an entry in GustyLibHelp.strings.
+* The entry in GustyLibHelp.strings will have this key format:
 *   <helpTargetId>.description
 */
 - (NSString *)helpTargetId;
