@@ -131,7 +131,7 @@
 #pragma mark - Private
 
 -(NSString*)IFA_helpStringForKeyPath:(NSString*)a_keyPath{
-    NSString *l_string = [[NSBundle mainBundle] localizedStringForKey:a_keyPath value:nil table:@"Help"];
+    NSString *l_string = [[NSBundle mainBundle] localizedStringForKey:a_keyPath value:nil table:@"GustyLibHelp"];
     return [l_string isEqualToString:a_keyPath] ? nil : l_string;
 }
 
