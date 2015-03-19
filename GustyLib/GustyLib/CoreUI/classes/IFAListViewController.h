@@ -176,4 +176,11 @@ typedef NS_ENUM(NSUInteger, IFAListViewControllerFetchingStrategy){
 */
 - (NSString *)noDataPlaceholderDescriptionForListViewController:(IFAListViewController *)a_listViewController;
 
+/**
+* Implement this method to indicate whether the view controller should refresh and reload backing data when any external changes to the main parent managed object context are detected.
+* @param a_listViewController The sender.
+* @returns YES if the view controller should refresh and reload backing data when any external changes to the main parent managed object context are detected, otherwise NO.
+*/
+- (BOOL)shouldRefreshAndReloadDataWhenDataBecomesStaleAndViewIsVisibleForListViewController:(IFAListViewController *)a_listViewController;
+
 @end

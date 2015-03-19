@@ -1,9 +1,6 @@
 //
-//  IFAManagedFormViewController.h
-//  Gusty
-//
-//  Created by Marcelo Schroeder on 27/02/12.
-//  Copyright (c) 2012 InfoAccent Pty Limited. All rights reserved.
+// Created by Marcelo Schroeder on 18/03/15.
+// Copyright (c) 2015 InfoAccent Pty Ltd. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -18,10 +15,20 @@
 //  limitations under the License.
 //
 
-#import "IFAFormViewController.h"
+#import "IFACommonTests.h"
+#import "IFACoreUITestCase.h"
+#import "GustyLibCoreUI.h"
 
-@interface IFAManagedFormViewController : IFAFormViewController
 
-@property (nonatomic, strong) NSManagedObject *managedObject;
+@implementation IFACoreUITestCase {
+
+}
+
+#pragma mark - Public
+
+- (void)createInMemoryTestDatabase {
+    [[IFAPersistenceManager sharedInstance] configureWithDatabaseResourceName:nil
+                                               managedObjectModelResourceName:@"GustyLibCoreUITestsModel"];
+}
 
 @end

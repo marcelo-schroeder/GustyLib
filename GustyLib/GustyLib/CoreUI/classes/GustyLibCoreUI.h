@@ -18,6 +18,7 @@
 //  limitations under the License.
 //
 
+//wip: i18n
 // Apple Frameworks
 #import <CoreData/CoreData.h>
 #import <CoreText/CoreText.h>
@@ -93,7 +94,6 @@
 #import "IFAInternalWebBrowserViewController.h"
 #import "IFAListViewController.h"
 #import "IFALongTextEditorViewController.h"
-#import "IFAManagedFormViewController.h"
 #import "IFAMapAnnotation.h"
 #import "IFAMasterDetailViewController.h"
 #import "IFAMenuViewController.h"
@@ -182,3 +182,4 @@
 #import "IFAOperation.h"
 #import "NSAttributedString+IFACoreUI.h"
 #import "IFALazyTableDataLoadingViewController.h"
+#import "IFAPersistenceChangeDetector.h"

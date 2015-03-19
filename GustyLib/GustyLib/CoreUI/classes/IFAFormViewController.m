@@ -40,9 +40,9 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 @property(nonatomic) BOOL IFA_changesMadeByThisViewController;
 @property(nonatomic) BOOL IFA_saveButtonTapped;
 @property(nonatomic) BOOL IFA_preparingForDismissalAfterRollback;
-@property(nonatomic) BOOL IFA_isManagedObject;
 @property(nonatomic) BOOL IFA_createModeAutoFieldEditDone;
 @property(nonatomic, strong) IFAFormInputAccessoryView *formInputAccessoryView;
+@property (nonatomic) IFAPersistenceChangeDetector *IFA_persistenceChangeDetector;
 
 /* Public as readonly */
 @property(nonatomic, strong) NSMutableDictionary *switchControlTagToPropertyName;
@@ -126,6 +126,9 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 
 - (void)IFA_rollbackAndRestoreNonEditingState {
     [[IFAPersistenceManager sharedInstance] rollback];
+    if (self.IFA_shouldUsePersistenceChangeDetector) {
+        [self.IFA_persistenceChangeDetector reset];
+    }
     NSAssert(!self.IFA_rollbackPerformed, @"Incorrect value for self.IFA_rollbackPerformed: %u", self.IFA_rollbackPerformed);
     NSAssert(!self.IFA_preparingForDismissalAfterRollback, @"Incorrect value for self.IFA_preparingForDismissalAfterRollback: %u", self.IFA_preparingForDismissalAfterRollback);
     self.IFA_rollbackPerformed = YES;
@@ -729,6 +732,97 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
     a_sectionFooterView.label.text = a_labelText;
 }
 
+- (IFAPersistenceChangeDetector *)IFA_persistenceChangeDetector {
+    if (!_IFA_persistenceChangeDetector) {
+        _IFA_persistenceChangeDetector = [IFAPersistenceChangeDetector new];
+    }
+    return _IFA_persistenceChangeDetector;
+}
+
+- (BOOL)IFA_shouldUsePersistenceChangeDetector {
+    return self.shouldHandleExternalChangesAutomatically && self.IFA_isManagedObject && !self.isSubForm && self.showEditButton;
+}
+
+- (BOOL)IFA_shouldPreventSavingDueToExternalChangesForManagedObject:(NSManagedObject *)a_managedObject
+                                          persistenceChangeDetector:(IFAPersistenceChangeDetector *)a_persistenceChangeDetector {
+    if (self.IFA_shouldUsePersistenceChangeDetector) {
+        __weak __typeof(self) weakSelf = self;
+        if ([a_persistenceChangeDetector changedForManagedObject:a_managedObject]) {
+            // Handle the external change asynchronously to make sure that everything that has to be done in this run loop is done prior
+            [IFAUtils dispatchAsyncMainThreadBlock:^{
+                NSString *objectLabel = [[IFAPersistenceManager sharedInstance].entityConfig labelForObject:a_managedObject];
+                NSString *title = [NSString stringWithFormat:NSLocalizedString(@"%@ modified externally", @"ENTITY_LABEL modified externally"),
+                                                             objectLabel];
+                NSString *message = NSLocalizedString(@"Editing will be cancelled and changes discarded.", nil);
+                void (^actionBlock)() = ^{
+                    [weakSelf IFA_quitEditingForced:YES];
+                };
+                [self ifa_presentAlertControllerWithTitle:title
+                                                  message:message
+                                              actionBlock:actionBlock];
+            }];
+            return YES;
+        } else {
+            // Reset is done after managed object context save (i.e. that's why it's being done async here)
+            [IFAUtils dispatchAsyncMainThreadBlock:^{
+                [weakSelf.IFA_persistenceChangeDetector reset];
+            }];
+        }
+    }
+    return NO;
+}
+
+- (void)IFA_quitEditingForced:(BOOL)a_forced {
+    if (self.editing) {
+        if (!a_forced && self.IFA_isManagedObject && ([IFAPersistenceManager sharedInstance].isCurrentManagedObjectDirty || self.IFA_textFieldTextChanged)) {
+            __weak __typeof(self) l_weakSelf = self;
+            void (^destructiveActionBlock)() = ^{
+                [l_weakSelf IFA_rollbackAndRestoreNonEditingState];
+            };
+            void (^cancelBlock)() = ^{
+                // Notify that any pending context switch has been denied
+                [l_weakSelf replyToContextSwitchRequestWithGranted:NO];
+            };
+            [self ifa_presentAlertControllerWithTitle:nil
+                                              message:@"Are you sure you want to discard your changes?"
+                         destructiveActionButtonTitle:@"Discard changes"
+                               destructiveActionBlock:destructiveActionBlock
+                                          cancelBlock:cancelBlock];
+        } else {
+            [self IFA_rollbackAndRestoreNonEditingState];
+        }
+    }
+}
+
+- (BOOL)IFA_isManagedObject {
+    return [self.object isKindOfClass:NSManagedObject.class];
+}
+
+/*
+* This allows the form to be "locked" when the managed object state could lead to data inconsistency if changed (e.g. due to external change)
+*/
+- (BOOL)IFA_lockFormIfRequired {
+    NSString *promptMessage = nil;
+    BOOL shouldLockForm = [self IFA_shouldLockFormWithPromptMessage:&promptMessage];
+    if (shouldLockForm) {
+        [self ifa_removeRightBarButtonItem:self.editButtonItem];
+        self.showEditButton = NO;
+        self.navigationItem.prompt = promptMessage;
+    }
+    return shouldLockForm;
+}
+
+- (BOOL)IFA_shouldLockFormWithPromptMessage:(NSString **)a_promptMessage {
+    if (self.IFA_isManagedObject
+            && (self.IFA_isReadOnlyWithEditButtonCase || self.IFA_readOnlyModeSuspendedForEditing)
+            && [self.formViewControllerDelegate respondsToSelector:@selector(formViewController:shouldLockFormWithPromptMessage:)]) {
+        return [self.formViewControllerDelegate formViewController:self
+                                   shouldLockFormWithPromptMessage:a_promptMessage];
+    } else {
+        return NO;
+    }
+}
+
 #pragma mark - Public
 
 - (id)initWithObject:(NSObject *)a_object readOnlyMode:(BOOL)a_readOnlyMode createMode:(BOOL)a_createMode
@@ -1171,6 +1265,14 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     return title;
 }
 
+-(void)setManagedObject:(NSManagedObject*)a_managedObject{
+    self.object = a_managedObject;
+}
+
+-(NSManagedObject*)managedObject {
+    return self.IFA_isManagedObject ? (NSManagedObject*)self.object : nil;
+}
+
 #pragma mark -
 #pragma mark UITableViewDataSource
 
@@ -1327,7 +1429,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                                                                                                                                                inForm:self.formName
                                                                                                                                            createMode:self.createMode];
             Class l_viewControllerClass = NSClassFromString(l_viewControllerClassName);
-            UIViewController *l_viewController = [l_viewControllerClass new];
+            UIViewController *l_viewController = (UIViewController *) [l_viewControllerClass new];
             if (!l_viewController.title) {
                 l_viewController.title = [l_entityConfig labelForViewControllerFieldTypeAtIndexPath:indexPath
                                                                                            inObject:self.object
@@ -1364,8 +1466,15 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                     if (l_weakSelf.IFA_readOnlyModeSuspendedForEditing) {
                         [l_weakSelf IFA_popChildManagedObjectContext];
                     }
-                    NSManagedObject *l_managedObject = (NSManagedObject *) self.object;
-                    if (![[IFAPersistenceManager sharedInstance] deleteAndSaveObject:l_managedObject validationAlertPresenter:self]) {
+                    NSManagedObject *l_managedObject = (NSManagedObject *) l_weakSelf.object;
+
+                    // Handle external changes if required
+                    if ([self IFA_shouldPreventSavingDueToExternalChangesForManagedObject:l_managedObject
+                                                                persistenceChangeDetector:self.IFA_persistenceChangeDetector]) {
+                        return;
+                    }
+
+                    if (![[IFAPersistenceManager sharedInstance] deleteAndSaveObject:l_managedObject validationAlertPresenter:l_weakSelf]) {
                         return;
                     }
                     l_weakSelf.IFA_changesMadeByThisViewController = YES;
@@ -1543,8 +1652,6 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     [super viewDidLoad];
 
     self.IFA_initialChildManagedObjectContextCountForAssertion = [IFAPersistenceManager sharedInstance].childManagedObjectContexts.count;
-    
-    self.IFA_isManagedObject = [self.object isKindOfClass:NSManagedObject.class];
 
     // Set managed object default values based on backing preferences
     IFAEntityConfig *l_entityConfig = [IFAPersistenceManager sharedInstance].entityConfig;
@@ -1569,11 +1676,13 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
     self.IFA_uiControlsWithTargets = [NSMutableArray new];
 
-    BOOL hasNavigationBarSubmitButton = [l_entityConfig hasNavigationBarSubmitButtonForForm:self.formName
-                                                                                   inEntity:self.object.ifa_entityName];
-    if ( ((!self.readOnlyMode && !self.isSubForm) || self.IFA_isReadOnlyWithEditButtonCase) && (self.IFA_isManagedObject || hasNavigationBarSubmitButton)) {
-        self.editButtonItem.tag = IFABarItemTagEditButton;
-        [self ifa_addRightBarButtonItem:self.editButtonItem];
+    if (![self IFA_lockFormIfRequired]) {
+        BOOL hasNavigationBarSubmitButton = [l_entityConfig hasNavigationBarSubmitButtonForForm:self.formName
+                                                                                       inEntity:self.object.ifa_entityName];
+        if ( ((!self.readOnlyMode && !self.isSubForm) || self.IFA_isReadOnlyWithEditButtonCase) && (self.IFA_isManagedObject || hasNavigationBarSubmitButton)) {
+            self.editButtonItem.tag = IFABarItemTagEditButton;
+            [self ifa_addRightBarButtonItem:self.editButtonItem];
+        }
     }
 
     //	self.tableView.allowsSelection = NO;
@@ -1619,6 +1728,11 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
     if(self.createMode){
         self.editing = YES;
+    }
+
+    if (self.IFA_shouldUsePersistenceChangeDetector) {
+        // Enable persistence change detector
+        self.IFA_persistenceChangeDetector.enabled = YES;
     }
 
 //    NSTimeInterval interval2 = [NSDate date].timeIntervalSinceReferenceDate;
@@ -1731,25 +1845,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 }
 
 - (void)quitEditing {
-    if (self.editing) {
-        if (self.IFA_isManagedObject && ([IFAPersistenceManager sharedInstance].isCurrentManagedObjectDirty || self.IFA_textFieldTextChanged)) {
-            __weak __typeof(self) l_weakSelf = self;
-            void (^destructiveActionBlock)() = ^{
-                [l_weakSelf IFA_rollbackAndRestoreNonEditingState];
-            };
-            void (^cancelBlock)() = ^{
-                // Notify that any pending context switch has been denied
-                [l_weakSelf replyToContextSwitchRequestWithGranted:NO];
-            };
-            [self ifa_presentAlertControllerWithTitle:nil
-                                              message:@"Are you sure you want to discard your changes?"
-                         destructiveActionButtonTitle:@"Discard changes"
-                               destructiveActionBlock:destructiveActionBlock
-                                          cancelBlock:cancelBlock];
-        } else {
-            [self IFA_rollbackAndRestoreNonEditingState];
-        }
-    }
+    [self IFA_quitEditingForced:NO];
 }
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
@@ -1812,9 +1908,10 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
     IFAPersistenceManager *l_persistenceManager = [IFAPersistenceManager sharedInstance];
 
-    if(editing){
+    if(editing) {
 
-        [super setEditing:editing animated:animated];
+        [super setEditing:editing
+                 animated:animated];
 
         if (!self.isSubForm) {
             if (self.IFA_isReadOnlyWithEditButtonCase) {
@@ -1827,7 +1924,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                 self.editButtonItem.title = [l_persistenceManager.entityConfig navigationBarSubmitButtonLabelForForm:self.formName
                                                                                                             inEntity:[self.object ifa_entityName]];
 //                self.editButtonItem.accessibilityLabel = self.editButtonItem.title;
-            }else{
+            } else {
                 self.editButtonItem.title = IFAButtonLabelSave;
 //                self.editButtonItem.accessibilityLabel = @"Save Button";
                 self.doneButtonSaves = YES;
@@ -1856,18 +1953,26 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
                     [self updateBackingPreferences];
 
+                    // Handle external changes if required
+                    if ([self IFA_shouldPreventSavingDueToExternalChangesForManagedObject:l_managedObject
+                                                                persistenceChangeDetector:self.IFA_persistenceChangeDetector]) {
+                        return;
+                    }
+
                     // Persist changes
                     if (![l_persistenceManager saveObject:l_managedObject validationAlertPresenter:self]) {
                         // If validation error occurs then simply redisplay screen (at this point, the error has already been handled from a UI POV)
                         return;
                     }
-
                     l_changesMade = YES;
                     self.IFA_changesMadeByThisViewController = YES;
 
-                    [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:@"%@ %@",
-                                                                                                        self.title,
-                                                                                                        l_isInserted ? @"created" : @"updated"]];
+                    NSString *hudText = [NSString stringWithFormat:@"%@ %@",
+                                                                   self.title,
+                                                                   l_isInserted ? @"created" : @"updated"];
+                    [IFAUIUtils showAndHideUserActionConfirmationHudWithText:hudText
+                                                         visualIndicatorMode:IFAHudViewVisualIndicatorModeSuccess
+                                                            autoDismissDelay:1];
 
                 }
 
@@ -1899,6 +2004,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
             if (!self.skipEditingUiStateChange) {
 //                self.editButtonItem.accessibilityLabel = self.editButtonItem.title;
                 [self IFA_updateLeftBarButtonItemsStates];
+                [self IFA_lockFormIfRequired];
             }
 
             if (!l_contextSwitchRequestPending) {    // Make sure this controller has not already been popped by a context switch request somewhere else
@@ -1930,7 +2036,8 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 }
 
 - (void)ifa_notifySessionCompletion {
-    [self ifa_notifySessionCompletionWithChangesMade:self.IFA_changesMadeByThisViewController data:self.object];
+    [self ifa_notifySessionCompletionWithChangesMade:self.IFA_changesMadeByThisViewController
+                                                data:self.object];
 }
 
 - (BOOL)automaticallyHandleContextSwitchingBasedOnEditingState {

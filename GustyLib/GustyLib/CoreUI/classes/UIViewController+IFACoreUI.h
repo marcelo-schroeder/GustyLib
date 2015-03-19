@@ -159,6 +159,17 @@
                                     message:(NSString *)a_message;
 
 /**
+* Presents an instance of a UIAlertController with title and message provided.
+* It animates transitions by default and it shows a single button to dismiss the alert: "Continue".
+* @param a_title The title of the alert. Use this string to get the user’s attention and communicate the reason for the alert.
+* @param a_message Descriptive text that provides additional details about the reason for the alert.
+* @param a_actionBlock Block to be executed when the action button is tapped.
+*/
+- (void)ifa_presentAlertControllerWithTitle:(NSString *)a_title
+                                    message:(NSString *)a_message
+                                actionBlock:(void (^)())a_actionBlock;
+
+/**
 * Presents an instance of a UIAlertController according to the specifications provided.
 * It animates transitions by default and it shows two buttons: an action button with the title provided and a "Cancel" button.
 * @param a_title The title of the alert. Use this string to get the user’s attention and communicate the reason for the alert.

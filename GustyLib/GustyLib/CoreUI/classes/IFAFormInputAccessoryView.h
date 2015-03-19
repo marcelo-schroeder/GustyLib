@@ -80,6 +80,8 @@ typedef NS_ENUM(NSUInteger, IFAFormInputAccessoryViewDirection){
 
 /**
 * This method allows the caller to update the UI state of the navigation buttons.
+* @param a_formInputAccessoryView The sender.
+* @param a_indexPath Input field's index path.
 * @return YES if the given index path has an input field that can receive keyboard focus.
 */
 - (BOOL)    formInputAccessoryView:(IFAFormInputAccessoryView *)a_formInputAccessoryView
@@ -87,6 +89,8 @@ canReceiveKeyboardInputAtIndexPath:(NSIndexPath *)a_indexPath;
 
 /**
 * This allows the caller to move the keyboard focus to the specified responder.
+* @param a_formInputAccessoryView The sender.
+* @param a_indexPath Index path to received keyboard input focus.
 * @return An instance that will become the first responder to gain keyboard input focus.
 */
 - (UIResponder *)  formInputAccessoryView:(IFAFormInputAccessoryView *)a_formInputAccessoryView

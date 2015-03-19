@@ -32,14 +32,23 @@
 
 @protocol IFAFormViewControllerDelegate;
 @class IFAFormSectionHeaderFooterView;
+@class IFAPersistenceChangeDetector;
 
+/**
+* This view controller delivers a fully fledged form that allows viewing and editing of the object instance pointed by <object>.
+* It implements two-way binding between view and model (<object>) by using GustyLib's persistent entity configuration system.
+* This class optionally collaborates with a <IFAFormViewControllerDelegate> instance set in the <formViewControllerDelegate> property.
+*/
 @interface IFAFormViewController : IFATableViewController <UIActionSheetDelegate, IFAFormInputAccessoryViewDataSource, IFAViewControllerDelegate
 #ifdef IFA_AVAILABLE_Help
         , IFAHelpTarget
 #endif
         >
-
+/**
+* Object instance for which the form is displaying details.
+*/
 @property (nonatomic, strong) NSObject *object;
+
 @property (nonatomic, strong) NSString *formName;
 @property (nonatomic, weak, readonly) IFAFormViewController *parentFormViewController;
 @property (nonatomic) BOOL textFieldCommitSuspended;
@@ -51,7 +60,26 @@
 @property(nonatomic, strong, readonly) NSMutableDictionary *propertyNameToIndexPath;
 @property(nonatomic, strong, readonly) IFAFormInputAccessoryView *formInputAccessoryView;
 
+/**
+* Optional delegate for this class.
+*/
 @property (nonatomic, weak) id<IFAFormViewControllerDelegate> formViewControllerDelegate;
+
+/**
+* Indicates whether the form view controller should automatically track and handle external changes to the instance pointed by the <managedObject> property.
+* An external change is detected when an external update or a delete is performed on the <managedObject> instance.
+* Default value: NO.
+*
+* External changes are constantly tracked and then checked at the time the user taps the "Save" button or deletes the object.
+* If external changes exist, the form will inform the user that editing will be cancelled and any changes done locally will be discarded.
+*/
+@property (nonatomic) BOOL shouldHandleExternalChangesAutomatically;
+
+/**
+* Managed object instance for which the form is displaying details.
+* This matches the instance returned by <object>, but it is nil when <object> is not a subclass of NSManagedObject.
+*/
+@property (nonatomic) NSManagedObject *managedObject;
 
 - (IFAEntityConfigFieldType)fieldTypeForIndexPath:(NSIndexPath *)a_indexPath;
 
@@ -158,5 +186,18 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController;
     willPresentFieldEditorViewController:(UIViewController *)a_fieldEditorViewController
                             forIndexPath:(NSIndexPath *)a_indexPath
                             propertyName:(NSString *)a_propertyName;
+
+/**
+* This method allows for "pessimistic locking" of the form and can be used to, for instance, prevent changes to an object that could lead to data inconsistency due to external changes.
+* It is called once before the form gets displayed for the first time and every time the user leaves editing mode either by cancelling it, saving changes or deleting the object.
+*
+* The form is locked by setting it to read-only mode and removing the "Edit" button from the navigation bar.
+* A navigation bar prompt message can optionally be displayed.
+* @param a_formViewController The sender.
+* @param a_promptMessagePointer Optional pointer to set to a prompt message to be displayed on the navigation bar to help the user understand why the form is locked.
+* @returns YES if the form should be locked, otherwise NO.
+*/
+- (BOOL)     formViewController:(IFAFormViewController *)a_formViewController
+shouldLockFormWithPromptMessage:(NSString **)a_promptMessagePointer;
 
 @end

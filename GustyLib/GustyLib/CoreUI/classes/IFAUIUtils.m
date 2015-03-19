@@ -26,11 +26,14 @@ static UIImage *c_menuBarButtonItemImage = nil;
 
 #pragma mark - Private
 
-+ (void)IFA_presentHudViewControllerWithText:(NSString *)a_text {
++ (void)IFA_presentHudViewControllerWithText:(NSString *)a_text
+                         visualIndicatorMode:(IFAHudViewVisualIndicatorMode)a_visualIndicatorMode
+                            autoDismissDelay:(NSTimeInterval)a_autoDismissDelay {
     IFAHudViewController *hudViewController = [IFAHudViewController new];
     hudViewController.text = a_text;
-    hudViewController.autoDismissalDelay = 1;
+    hudViewController.autoDismissalDelay = a_autoDismissDelay;
     hudViewController.modal = NO;
+    hudViewController.visualIndicatorMode = a_visualIndicatorMode;
     [hudViewController presentHudViewControllerWithParentViewController:nil
                                                              parentView:nil
                                                                animated:YES
@@ -427,12 +430,24 @@ static UIImage *c_menuBarButtonItemImage = nil;
 }
 
 + (void)showAndHideUserActionConfirmationHudWithText:(NSString*)a_text{
-    [self IFA_presentHudViewControllerWithText:a_text];
+    [self showAndHideUserActionConfirmationHudWithText:a_text
+                                   visualIndicatorMode:IFAHudViewVisualIndicatorModeNone
+                                      autoDismissDelay:1];
+}
+
++ (void)showAndHideUserActionConfirmationHudWithText:(NSString *)a_text
+                                 visualIndicatorMode:(IFAHudViewVisualIndicatorMode)a_visualIndicatorMode
+                                    autoDismissDelay:(NSTimeInterval)a_autoDismissDelay {
+    [self IFA_presentHudViewControllerWithText:a_text
+                           visualIndicatorMode:a_visualIndicatorMode
+                              autoDismissDelay:a_autoDismissDelay];
 }
 
 + (void)showAndHideModeToggleConfirmationHudWithText:(NSString*)a_text on:(BOOL)a_on{
     NSString *l_text = [NSString stringWithFormat: @"%@ %@", a_text, [IFAUIUtils onOffStringValueForBoolean:a_on]];
-    [self IFA_presentHudViewControllerWithText:l_text];
+    [self IFA_presentHudViewControllerWithText:l_text
+                           visualIndicatorMode:IFAHudViewVisualIndicatorModeNone
+                              autoDismissDelay:1];
 }
 
 +(UIViewController *)nonModalHudContainerViewController {
@@ -542,6 +557,7 @@ static UIImage *c_menuBarButtonItemImage = nil;
     return UIEdgeInsetsMake(0, 15, 0, 0);
 }
 
+//wip: i18n
 + (void)showServerErrorAlertViewForNetworkReachable:(BOOL)a_networkReachable
                                   alertViewDelegate:(id <UIAlertViewDelegate>)a_alertViewDelegate {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;

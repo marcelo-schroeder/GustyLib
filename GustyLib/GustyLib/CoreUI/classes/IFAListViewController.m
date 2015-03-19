@@ -38,6 +38,7 @@
 @property(nonatomic, strong) UIImageView *noDataPlaceholderAddHintImageView;
 @property(nonatomic, strong) UILabel *noDataPlaceholderAddHintSuffixLabel;
 @property(nonatomic, strong) UILabel *noDataPlaceholderDescriptionLabel;
+@property(nonatomic) BOOL observingStaleData;
 @end
 
 @implementation IFAListViewController {
@@ -637,6 +638,15 @@
         [self willRefreshAndReloadData];
     }
 
+    // Add observers
+    if (!self.observingStaleData) {
+        [self addObserver:self
+               forKeyPath:@"staleData"
+                  options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+                  context:nil];
+        self.observingStaleData = YES;
+    }
+
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -652,10 +662,31 @@
 
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+
+    [super viewDidDisappear:animated];
+
+    // Remove observers
+    if (self.observingStaleData) {
+        [self removeObserver:self
+                  forKeyPath:@"staleData"
+                     context:nil];
+        self.observingStaleData = NO;
+    }
+
+}
+
 -(void)dealloc{
+    // Remove observers
     if (self.shouldObservePersistenceChanges) {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationPersistentEntityChange
                                                       object:nil];
+    }
+    if (self.observingStaleData) {
+        [self removeObserver:self
+                  forKeyPath:@"staleData"
+                     context:nil];
+        self.observingStaleData = NO;
     }
 }
 
@@ -667,6 +698,26 @@
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     [super controllerDidChangeContent:controller];
     [self showEmptyListPlaceholder];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change
+                       context:(void *)context {
+    if (object==self && [keyPath isEqualToString:@"staleData"]) {
+        if ([self.listViewControllerDataSource respondsToSelector:@selector(shouldRefreshAndReloadDataWhenDataBecomesStaleAndViewIsVisibleForListViewController:)]) {
+            NSNumber *oldValue = change[NSKeyValueChangeOldKey];
+            NSNumber *newValue = change[NSKeyValueChangeNewKey];
+            if (!oldValue.boolValue && newValue.boolValue) {
+                BOOL shouldRefreshAndReloadData = [self.listViewControllerDataSource shouldRefreshAndReloadDataWhenDataBecomesStaleAndViewIsVisibleForListViewController:self];
+                [IFAUtils dispatchAsyncMainThreadBlock:^{
+                    if (shouldRefreshAndReloadData) {
+                        [self refreshAndReloadData];
+                    } else {
+                        self.staleData = NO;
+                    }
+                }];
+            }
+        }
+    }
 }
 
 #pragma mark - IFAPresenter
@@ -705,7 +756,7 @@
 
     }
 
-    if (!self.fetchedResultsController && a_changesMade) {
+    if (!self.fetchedResultsController && (a_changesMade || self.staleData)) {
         if (self.pagingContainerViewController) {
 //            NSLog(@"  => calling refreshAndReloadChildData on container FOR SESSION COMPLETE...");
             [self.pagingContainerViewController refreshAndReloadChildData];

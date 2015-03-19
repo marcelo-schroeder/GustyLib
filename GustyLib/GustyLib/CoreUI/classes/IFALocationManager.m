@@ -17,6 +17,7 @@
 
 #import "GustyLibCoreUI.h"
 
+//wip: i18n for messages
 static NSString *const k_alertMessageLocationServicesDisabledOverall = @"Location Services are currently disabled. Please enable them in the Privacy section in the Settings app.";
 static NSString *const k_alertMessageLocationServicesDisabledForThisApp = @"Location Services are currently disabled for this app. Please enable them in the Privacy section of the app Settings pane. To access the Settings pane tap Settings below.";
 static NSString *const k_alertMessageLocationServicesRestricted = @"Your device is not authorised to use Location Services.";

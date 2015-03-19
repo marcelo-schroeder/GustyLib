@@ -229,6 +229,11 @@
     self.hudView.shouldUpdateLayoutAutomaticallyOnContentChange = NO;
 }
 
+- (BOOL)ifa_manageToolbar {
+    // Do not interfere with the Timers view controller toolbar
+    return NO;
+}
+
 #pragma mark - Private
 
 - (void)IFA_updateHudViewControllerOverlayTapActionBlock {

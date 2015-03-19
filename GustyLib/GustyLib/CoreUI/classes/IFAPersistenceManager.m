@@ -83,25 +83,28 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     
 //    NSLog(@" ");
 //    NSLog(@"### onNotification: %@", [aNotification name]);
-    
+
+    NSManagedObjectContext *savedManagedObjectContext = aNotification.object;
+    if (savedManagedObjectContext != self.managedObjectContext) {
+        // If saved MOC is not the same as the main MOC, then ignore notification
+        return;
+    }
+
     if ([[aNotification name] isEqual:NSManagedObjectContextWillSaveNotification]) {
         self.IFA_managedObjectChangedValuesDictionary = [[NSMutableDictionary alloc] init];
         self.IFA_managedObjectCommittedValuesDictionary = [[NSMutableDictionary alloc] init];
         for (NSManagedObject *l_managedObject in [self.managedObjectContext updatedObjects]) {
-            [self.IFA_managedObjectChangedValuesDictionary setObject:[l_managedObject changedValues]
-                                                              forKey:l_managedObject.ifa_stringId];
+            self.IFA_managedObjectChangedValuesDictionary[l_managedObject.ifa_stringId] = l_managedObject.changedValues;
             // The self.savesInMainThreadOnly check below is to avoid core data errors such as "statement is still active" and "no database channel is available"
             // If updates are done in threads other than the main thread, then the original properties will not be available in the notification sent by this method
             NSDictionary *l_committedValuesDictionary = self.savesInMainThreadOnly ? [l_managedObject committedValuesForKeys:nil] : @{};
-            [self.IFA_managedObjectCommittedValuesDictionary setObject:l_committedValuesDictionary
-                                                                forKey:l_managedObject.ifa_stringId];
+            self.IFA_managedObjectCommittedValuesDictionary[l_managedObject.ifa_stringId] = l_committedValuesDictionary;
         }
         for (NSManagedObject *l_managedObject in [self.managedObjectContext deletedObjects]) {
             // The self.savesInMainThreadOnly check below is to avoid core data errors such as "statement is still active" and "no database channel is available"
             // If updates are done in threads other than the main thread, then the original properties will not be available in the notification sent by this method
             NSDictionary *l_committedValuesDictionary = self.savesInMainThreadOnly ? [l_managedObject committedValuesForKeys:nil] : @{};
-            [self.IFA_managedObjectCommittedValuesDictionary setObject:l_committedValuesDictionary
-                                                                forKey:l_managedObject.ifa_stringId];
+            self.IFA_managedObjectCommittedValuesDictionary[l_managedObject.ifa_stringId] = l_committedValuesDictionary;
         }
 //        NSLog(@"self.IFA_managedObjectChangedValuesDictionary: %@", [self.IFA_managedObjectChangedValuesDictionary description]);
 //        NSLog(@"self.IFA_managedObjectCommittedValuesDictionary: %@", [self.IFA_managedObjectCommittedValuesDictionary description]);
@@ -126,10 +129,8 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
             NSString *l_entityName = [l_managedObject ifa_entityName];
             NSMutableDictionary *l_userInfoDict = [self userInfoForEntityName:l_entityName entityUserInfo:l_entityUserInfoDict];
             [((NSMutableSet*) [l_userInfoDict valueForKey:IFAKeyUpdatedObjects]) addObject:l_managedObject];
-            [((NSMutableDictionary *) [l_userInfoDict valueForKey:IFAKeyUpdatedProperties]) setObject:[self.IFA_managedObjectChangedValuesDictionary objectForKey:l_managedObject.ifa_stringId]
-                                                                                               forKey:l_managedObject.ifa_stringId];
-            [((NSMutableDictionary *) [l_userInfoDict valueForKey:IFAKeyOriginalProperties]) setObject:[self.IFA_managedObjectCommittedValuesDictionary objectForKey:l_managedObject.ifa_stringId]
-                                                                                                forKey:l_managedObject.ifa_stringId];
+            ((NSMutableDictionary *) [l_userInfoDict valueForKey:IFAKeyUpdatedProperties])[l_managedObject.ifa_stringId] = self.IFA_managedObjectChangedValuesDictionary[l_managedObject.ifa_stringId];
+            ((NSMutableDictionary *) [l_userInfoDict valueForKey:IFAKeyOriginalProperties])[l_managedObject.ifa_stringId] = self.IFA_managedObjectCommittedValuesDictionary[l_managedObject.ifa_stringId];
 
         }
 
@@ -141,8 +142,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
             NSString *l_entityName = [l_managedObject ifa_entityName];
             NSMutableDictionary *l_userInfoDict = [self userInfoForEntityName:l_entityName entityUserInfo:l_entityUserInfoDict];
             [((NSMutableSet*) [l_userInfoDict valueForKey:IFAKeyDeletedObjects]) addObject:l_managedObject];
-            [((NSMutableDictionary *) [l_userInfoDict valueForKey:IFAKeyOriginalProperties]) setObject:[self.IFA_managedObjectCommittedValuesDictionary objectForKey:l_managedObject.ifa_stringId]
-                                                                                                forKey:l_managedObject.ifa_stringId];
+            ((NSMutableDictionary *) [l_userInfoDict valueForKey:IFAKeyOriginalProperties])[l_managedObject.ifa_stringId] = self.IFA_managedObjectCommittedValuesDictionary[l_managedObject.ifa_stringId];
             //            NSLog(@"l_userInfoDict: %@", [l_userInfoDict description]);
 
         }
@@ -157,7 +157,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
             BOOL l_causeDataToGoStaleForEntity = NO;
             
             // Check deleted objects
-            for (NSManagedObject *l_managedObject in [l_userInfoDict objectForKey:IFAKeyDeletedObjects]) {
+            for (NSManagedObject *l_managedObject in l_userInfoDict[IFAKeyDeletedObjects]) {
                 l_causeDataToGoStaleForEntity = [self.entityConfig shouldTriggerChangeNotificationForManagedObject:l_managedObject];
                 if (l_causeDataToGoStaleForEntity) {
 //                    NSLog(@"  shouldTriggerChangeNotification due to deleted object: %@", [l_managedObject description]);
@@ -169,7 +169,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
             if (!l_causeDataToGoStaleForEntity) {
                 
                 // Check inserted objects
-                for (NSManagedObject *l_managedObject in [l_userInfoDict objectForKey:IFAKeyInsertedObjects]) {
+                for (NSManagedObject *l_managedObject in l_userInfoDict[IFAKeyInsertedObjects]) {
                     l_causeDataToGoStaleForEntity = [self.entityConfig shouldTriggerChangeNotificationForManagedObject:l_managedObject];
                     if (l_causeDataToGoStaleForEntity) {
 //                        NSLog(@"  shouldTriggerChangeNotification due to inserted object: %@", [l_managedObject description]);
@@ -181,11 +181,11 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
                 if (!l_causeDataToGoStaleForEntity) {
                     
                     // Check updated objects
-                    NSDictionary *l_updatedPropertiesDict = [l_userInfoDict objectForKey:IFAKeyUpdatedProperties];
+                    NSDictionary *l_updatedPropertiesDict = l_userInfoDict[IFAKeyUpdatedProperties];
 //                    NSLog(@"  l_updatedPropertiesDict: %@", [l_updatedPropertiesDict description]);
-                    for (NSManagedObject *l_managedObject in [l_userInfoDict objectForKey:IFAKeyUpdatedObjects]) {
+                    for (NSManagedObject *l_managedObject in l_userInfoDict[IFAKeyUpdatedObjects]) {
 //                        NSLog(@"    l_managedObject: %@", [l_managedObject description]);
-                        for (NSString *l_propertyName in [[l_updatedPropertiesDict objectForKey:l_managedObject.ifa_stringId] allKeys]) {
+                        for (NSString *l_propertyName in [l_updatedPropertiesDict[l_managedObject.ifa_stringId] allKeys]) {
 //                            NSLog(@"      l_propertyName: %@", l_propertyName);
                             l_causeDataToGoStaleForEntity = [self.entityConfig shouldTriggerChangeNotificationForProperty:l_propertyName inManagedObject:l_managedObject];
                             if (l_causeDataToGoStaleForEntity) {
@@ -1042,7 +1042,8 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     }
 
     // Configure managedObjectModel
-    NSString *path = [[NSBundle mainBundle] pathForResource:a_managedObjectModelResourceName ofType:@"momd"];
+    NSString *path = [[NSBundle bundleForClass:[self class]]
+            pathForResource:a_managedObjectModelResourceName ofType:@"momd"];
     NSURL *momURL = [NSURL fileURLWithPath:path];
     self.managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];
 

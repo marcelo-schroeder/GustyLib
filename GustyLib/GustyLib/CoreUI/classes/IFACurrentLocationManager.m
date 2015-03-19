@@ -35,23 +35,23 @@
 #pragma mark - Overrides
 
 - (id)init {
-    self = [super init];
-    if (self) {
-        [self IFA_initialiseUnderlyingLocationManager:[CLLocationManager new]];
-    }
-    return self;
+    return [self initWithUnderlyingLocationManager:[CLLocationManager new]];
 }
 
 #pragma mark - Private
 
-- (void)IFA_initialiseUnderlyingLocationManager:(CLLocationManager *)a_locationManager {
-    self.underlyingLocationManager = a_locationManager;
-    self.underlyingLocationManager.delegate = self;
+- (id)initWithUnderlyingLocationManager:(CLLocationManager *)a_underlyingLocationManager {
+    self = [super init];
+    if (self) {
+        self.underlyingLocationManager = a_underlyingLocationManager;
+        self.underlyingLocationManager.delegate = self;
+    }
+    return self;
 }
 
 - (void)IFA_handleCurrentLocationErrorWithAlert:(BOOL)a_shouldShowAlert {
     if (a_shouldShowAlert) {
-        [IFALocationManager showLocationServicesAlertWithPresenterViewController:self.alertPresenterViewController];
+        [IFALocationManager handleLocationFailureWithAlertPresenterViewController:self.alertPresenterViewController];
     }
     self.IFA_completionBlock(nil);
 }
@@ -59,7 +59,11 @@
 -(void)IFA_locationUpdatingTimedOut {
 //    NSLog(@"timeout called");
     if(self.IFA_lastLocationReceived){
-        self.IFA_completionBlock(self.IFA_lastLocationReceived);
+        [self IFA_handleLocationEventWithBlock:^{
+            if (self.IFA_completionBlock) {
+                self.IFA_completionBlock(self.IFA_lastLocationReceived);
+            }
+        }];
     }else{
         [self locationManager:nil didFailWithError:nil];
     }
@@ -82,27 +86,45 @@
     return l_validLocation;
 }
 
+- (void)IFA_handleLocationEventWithBlock:(void(^)())a_block {
+//    NSLog(@"  IFA_handleLocationEventWithBlock");
+    if (self.IFA_pendingCurrentLocationRequest) {
+        self.IFA_pendingCurrentLocationRequest = NO;
+        [self.underlyingLocationManager stopUpdatingLocation];
+        [self.IFA_timer invalidate];
+        if (a_block) {
+            a_block();
+        }
+//        NSLog(@"    HANDLED");
+    } else {
+//        NSLog(@"    NOT handled");
+    }
+}
+
 #pragma mark - Public
 
-- (void)currentLocationWithCompletionBlock:(CurrentLocationBlock)a_completionBlock {
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCUnusedMethodInspection"
+- (void)currentLocationWithCompletionBlock:(IFACurrentLocationManagedCompletionBlock)a_completionBlock {
     [self currentLocationWithHorizontalAccuracy:IFADefaultCurrentLocationHorizontalAccuracyThreshold
                            locationAgeThreshold:IFADefaultCurrentLocationAgeThreshold
                 locationUpdatesTimeoutThreshold:IFADefaultCurrentLocationUpdatesTimeoutThreshold
                                 completionBlock:a_completionBlock];
 }
+#pragma clang diagnostic pop
 
-- (void)currentLocationWithHorizontalAccuracy:(CLLocationAccuracy)horizontalAccuracy
-                         locationAgeThreshold:(NSTimeInterval)locationAgeThreshold
-              locationUpdatesTimeoutThreshold:(NSTimeInterval)locationUpdatesTimeoutThreshold
-                              completionBlock:(CurrentLocationBlock)a_completionBlock {
+- (void)currentLocationWithHorizontalAccuracy:(CLLocationAccuracy)a_horizontalAccuracy
+                         locationAgeThreshold:(NSTimeInterval)a_locationAgeThreshold
+              locationUpdatesTimeoutThreshold:(NSTimeInterval)a_locationUpdatesTimeoutThreshold
+                              completionBlock:(IFACurrentLocationManagedCompletionBlock)a_completionBlock {
 
     self.IFA_completionBlock = a_completionBlock;
-    if ([IFALocationManager performLocationServicesChecksWithAlertPresenterViewController:nil]) {
+    if ([IFALocationManager performLocationServicesChecksWithAlertPresenterViewController:self.alertPresenterViewController]) {
         self.IFA_pendingCurrentLocationRequest = YES;
-        self.IFA_horizontalAccuracy = horizontalAccuracy;
-        self.IFA_locationAgeThreshold = locationAgeThreshold;
+        self.IFA_horizontalAccuracy = a_horizontalAccuracy;
+        self.IFA_locationAgeThreshold = a_locationAgeThreshold;
         self.IFA_lastLocationReceived = nil;
-        self.IFA_timer = [NSTimer scheduledTimerWithTimeInterval:locationUpdatesTimeoutThreshold
+        self.IFA_timer = [NSTimer scheduledTimerWithTimeInterval:a_locationUpdatesTimeoutThreshold
                                                         target:self
                                                       selector:@selector(IFA_locationUpdatingTimedOut)
                                                       userInfo:nil
@@ -113,33 +135,33 @@
     }
 }
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCUnusedMethodInspection"
+- (void)cancelRequestWithCompletionBlock:(void (^)())a_completionBlock {
+//    NSLog(@"cancelRequestWithCompletionBlock");
+    [self IFA_handleLocationEventWithBlock:a_completionBlock];
+}
+#pragma clang diagnostic pop
+
 #pragma mark - CLLocationManagerDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-
+//    NSLog(@"IFACurrentLocationManager - didUpdateLocations");
     CLLocation *l_validMostRecentLocation = [self IFA_retrieveValidLocationIfAvailable:locations];
-
-    if (self.IFA_pendingCurrentLocationRequest && l_validMostRecentLocation) {
-        [self.underlyingLocationManager stopUpdatingLocation];
-        [self.IFA_timer invalidate];
-        self.IFA_pendingCurrentLocationRequest = NO;
-        self.IFA_completionBlock(l_validMostRecentLocation);
-    }else{
-//        NSLog(@"didUpdateLocations: NOT handling");
+    if (l_validMostRecentLocation) {
+        [self IFA_handleLocationEventWithBlock:^{
+            if (self.IFA_completionBlock) {
+                self.IFA_completionBlock(l_validMostRecentLocation);
+            }
+        }];
     }
 }
 
-
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    [self.underlyingLocationManager stopUpdatingLocation];
-    [self.IFA_timer invalidate];
-    if (self.IFA_pendingCurrentLocationRequest) {
-//        NSLog(@"didFailWithError: handling");
-        self.IFA_pendingCurrentLocationRequest = NO;
+//    NSLog(@"IFACurrentLocationManager - didFailWithError");
+    [self IFA_handleLocationEventWithBlock:^{
         [self IFA_handleCurrentLocationErrorWithAlert:YES];
-    }else{
-//        NSLog(@"didFailWithError: NOT handling");
-    }
+    }];
 }
 
 @end

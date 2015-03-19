@@ -21,10 +21,20 @@ static CLLocationAccuracy const IFADefaultCurrentLocationHorizontalAccuracyThres
 static NSTimeInterval  const IFADefaultCurrentLocationAgeThreshold = 60.0; //seconds
 static NSTimeInterval  const IFADefaultCurrentLocationUpdatesTimeoutThreshold = 10.0; //seconds
 
-typedef void (^CurrentLocationBlock)(CLLocation *a_location);
+/**
+* Completion block for current location requests.
+* @param a_location Device's current location. If the location cannot be obtained, nil will be returned.
+*/
+typedef void (^IFACurrentLocationManagedCompletionBlock)(CLLocation *a_location);
 
+/**
+* Utility class with the sole purpose of providing the device's current location.
+*/
 @interface IFACurrentLocationManager : NSObject <CLLocationManagerDelegate>
 
+/**
+* Underlying CLLocationManager instance used for current location requests.
+*/
 @property (nonatomic, strong, readonly) CLLocationManager *underlyingLocationManager;
 
 /**
@@ -33,11 +43,34 @@ typedef void (^CurrentLocationBlock)(CLLocation *a_location);
 */
 @property (nonatomic, weak) UIViewController *alertPresenterViewController;
 
-- (void)currentLocationWithCompletionBlock:(CurrentLocationBlock)a_completionBlock;
+/**
+* Requests the device's current location and returns it asynchronously.
+*
+* This is a convenience method that uses the following defaults:
+*
+* - Horizontal accuracy <= 1,000 m
+* - Location age <= 60 sec
+* - Location updates timeout = 10 sec
+*
+* @param a_completionBlock Completion block containing the location in the a_location block parameter. If the location cannot be obtained, nil will be returned.
+*/
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCUnusedMethodInspection"
+- (void)currentLocationWithCompletionBlock:(IFACurrentLocationManagedCompletionBlock)a_completionBlock;
+#pragma clang diagnostic pop
 
-- (void)currentLocationWithHorizontalAccuracy:(CLLocationAccuracy)horizontalAccuracy
-                         locationAgeThreshold:(NSTimeInterval)locationAgeThreshold
-              locationUpdatesTimeoutThreshold:(NSTimeInterval)locationUpdatesTimeoutThreshold
-                              completionBlock:(CurrentLocationBlock)a_completionBlock;
+/**
+* Requests the device's current location and returns it asynchronously.
+* @param a_horizontalAccuracy Maximum horizontal accuracy level accepted for the location fix in meters.
+* @param a_locationAgeThreshold Maximum age (in seconds) accepted for the location fix.
+* @param a_locationUpdatesTimeoutThreshold Timeout in seconds for the location request. If the request times out, then the location returned will be nil.
+* @param a_completionBlock Completion block containing the location in the a_location block parameter. If the location cannot be obtained, nil will be returned.
+*/
+- (void)currentLocationWithHorizontalAccuracy:(CLLocationAccuracy)a_horizontalAccuracy
+                         locationAgeThreshold:(NSTimeInterval)a_locationAgeThreshold
+              locationUpdatesTimeoutThreshold:(NSTimeInterval)a_locationUpdatesTimeoutThreshold
+                              completionBlock:(IFACurrentLocationManagedCompletionBlock)a_completionBlock;
+
+- (void)cancelRequestWithCompletionBlock:(void (^)())a_completionBlock;
 
 @end

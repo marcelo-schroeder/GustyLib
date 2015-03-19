@@ -1033,7 +1033,6 @@ typedef NS_ENUM(NSUInteger, IFANavigationBarButtonItemsSide) {
                                            queue:nil
                                       usingBlock:^(NSNotification *a_note) {
                                           NSString *contentSizeCategory = a_note.userInfo[UIContentSizeCategoryNewValueKey];
-//                                          NSLog(@"UIContentSizeCategoryDidChangeNotification: %@", contentSizeCategory);
                                           [l_weakSelf.ifa_delegate viewController:l_weakSelf
                                                      didChangeContentSizeCategory:contentSizeCategory];
                                       }
@@ -1357,7 +1356,6 @@ typedef NS_ENUM(NSUInteger, IFANavigationBarButtonItemsSide) {
 
 - (BOOL)ifa_isVisibleTopChildViewController {
     return self.navigationController.topViewController == self
-            && self.navigationController.viewControllers[0] == self
             &&
             (
                     self.navigationController.tabBarController == nil
@@ -1540,9 +1538,22 @@ typedef NS_ENUM(NSUInteger, IFANavigationBarButtonItemsSide) {
 }
 
 - (void)ifa_presentAlertControllerWithTitle:(NSString *)a_title message:(NSString *)a_message {
+    [self ifa_presentAlertControllerWithTitle:a_title
+                                      message:a_message
+                                  actionBlock:nil];
+}
+
+- (void)ifa_presentAlertControllerWithTitle:(NSString *)a_title
+                                    message:(NSString *)a_message
+                                actionBlock:(void (^)())a_actionBlock {
+    void (^handler)(UIAlertAction *) = ^(UIAlertAction *action) {
+        if (a_actionBlock) {
+            a_actionBlock();
+        }
+    };
     UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"Continue"
                                                              style:UIAlertActionStyleDefault
-                                                           handler:nil];
+                                                           handler:handler];
     [self ifa_presentAlertControllerWithTitle:a_title message:a_message
                                         style:UIAlertControllerStyleAlert actions:@[continueAction]
                                    completion:nil];

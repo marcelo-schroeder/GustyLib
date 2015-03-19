@@ -1,9 +1,6 @@
 //
-//  IFAManagedFormViewController.m
-//  Gusty
-//
-//  Created by Marcelo Schroeder on 27/02/12.
-//  Copyright (c) 2012 InfoAccent Pty Limited. All rights reserved.
+// Created by Marcelo Schroeder on 18/03/15.
+// Copyright (c) 2015 InfoAccent Pty Ltd. All rights reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -18,18 +15,8 @@
 //  limitations under the License.
 //
 
-#import "GustyLibCoreUI.h"
+#import "IFACommonTests.h"
 
-@implementation IFAManagedFormViewController
-
-#pragma mark - Public
-
--(void)setManagedObject:(NSManagedObject*)a_managedObject{
-    self.object = a_managedObject;
-}
-
--(NSManagedObject*)managedObject {
-    return (NSManagedObject*)self.object;
-}
-
+@interface IFACoreUITestCase : XCTestCase
+- (void)createInMemoryTestDatabase;
 @end

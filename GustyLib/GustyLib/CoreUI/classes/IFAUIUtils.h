@@ -18,6 +18,7 @@
 //  limitations under the License.
 //
 
+#import "IFAHudView.h"
 #import "IFACoreUiConstants.h"
 
 // Size limit for UIWebView to be able to display images in iOS 7 and above.
@@ -89,6 +90,10 @@ static const CGFloat IFAMaximumImageSizeInPixels =  5 * 1024 * 1024;
 * @param a_text Text message to by displayed by the HUD.
 */
 + (void)showAndHideUserActionConfirmationHudWithText:(NSString*)a_text;
+
++ (void)showAndHideUserActionConfirmationHudWithText:(NSString *)a_text
+                                 visualIndicatorMode:(IFAHudViewVisualIndicatorMode)a_visualIndicatorMode
+                                    autoDismissDelay:(NSTimeInterval)a_autoDismissDelay;
 
 /**
 * Presents a message confirming the user has toggled an app mode on or off.
