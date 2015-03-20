@@ -18,7 +18,6 @@
 //  limitations under the License.
 //
 
-//wip: i18n
 // Apple Frameworks
 #import <CoreData/CoreData.h>
 #import <CoreText/CoreText.h>

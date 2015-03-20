@@ -560,7 +560,6 @@ static UIImage *c_menuBarButtonItemImage = nil;
     return UIEdgeInsetsMake(0, 15, 0, 0);
 }
 
-//wip: i18n
 + (void)showServerErrorAlertViewForNetworkReachable:(BOOL)a_networkReachable
                                   alertViewDelegate:(id <UIAlertViewDelegate>)a_alertViewDelegate {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
