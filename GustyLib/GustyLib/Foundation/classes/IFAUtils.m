@@ -109,7 +109,7 @@
     NSString *l_appName = [self appName];
     NSString *l_edition = [IFAUtils appEdition];
     if (l_edition) {
-        return [NSString stringWithFormat:NSLocalizedString(@"%@ %@", @"<APP_NAME> <EDITION>"), l_appName, l_edition];
+        return [NSString stringWithFormat:@"%@ %@", l_appName, l_edition];
     }else{
         return l_appName;
     }
@@ -120,7 +120,7 @@
 }
 
 +(NSString*)appFullName{
-    return [NSString stringWithFormat:NSLocalizedString(@"%@ %@", @"<APP_NAME_AND_EDITION> <APP_VERSION_AND_BUILD_NUMBER>"), [self appNameAndEdition], [IFAUtils appVersionAndBuildNumber]];
+    return [NSString stringWithFormat:@"%@ %@", [self appNameAndEdition], [IFAUtils appVersionAndBuildNumber]];
 }
 
 +(NSString*)generateUuid{

@@ -1569,7 +1569,7 @@ typedef NS_ENUM(NSUInteger, IFANavigationBarButtonItemsSide) {
                                                                a_actionBlock();
                                                            }
                                                        }];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel")
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
                                                            style:UIAlertActionStyleCancel
                                                          handler:nil];
     [self ifa_presentAlertControllerWithTitle:a_title message:a_message

@@ -683,11 +683,11 @@ static UIImage *c_menuBarButtonItemImage = nil;
 }
 
 + (NSString *)saveButtonTitle {
-    return NSLocalizedString(@"Save", @"'Save' button title");
+    return NSLocalizedString(@"Save", nil);
 }
 
 + (NSString *)cancelButtonTitle {
-    return NSLocalizedString(@"Cancel", @"'Cancel' button title");
+    return NSLocalizedString(@"Cancel", nil);
 }
 
 @end
