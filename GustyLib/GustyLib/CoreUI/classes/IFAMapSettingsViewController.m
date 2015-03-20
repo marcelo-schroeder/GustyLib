@@ -41,12 +41,14 @@
 
 #pragma mark - Overrides
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.mapTypeSegmentedControl setTitle:NSLocalizedString(@"Standard", nil)
+                         forSegmentAtIndex:[self IFA_segmentIndexFromMapType:MKMapTypeStandard]];
+    [self.mapTypeSegmentedControl setTitle:NSLocalizedString(@"Hybrid", nil)
+                         forSegmentAtIndex:[self IFA_segmentIndexFromMapType:MKMapTypeHybrid]];
+    [self.mapTypeSegmentedControl setTitle:NSLocalizedString(@"Satellite", nil)
+                         forSegmentAtIndex:[self IFA_segmentIndexFromMapType:MKMapTypeSatellite]];
     [self IFA_configureView];
 }
 
@@ -56,8 +58,8 @@
 
 #pragma mark - Private
 
-- (NSInteger)IFA_segmentIndexFromMapType:(MKMapType)a_mapType{
-    NSInteger l_segmentIndex;
+- (NSUInteger)IFA_segmentIndexFromMapType:(MKMapType)a_mapType{
+    NSUInteger l_segmentIndex;
     switch (a_mapType){
         case MKMapTypeStandard:
             l_segmentIndex = 0;
