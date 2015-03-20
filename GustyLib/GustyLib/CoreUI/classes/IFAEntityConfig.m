@@ -104,10 +104,7 @@
 }
 
 - (NSString *)localisedStringForKey:(NSString *)a_key {
-    NSString *module = IFAModuleNameCoreUI;
-    NSString *string = [IFAUtils localisedStringForKey:a_key
-                                           moduleNamed:module];
-    return string;
+    return NSLocalizedStringFromTable(a_key, @"GustyLibEntityConfigLocalizable", nil);
 }
 
 - (NSDictionary *)formSectionDictionaryAtIndex:(NSInteger)a_sectionIndex

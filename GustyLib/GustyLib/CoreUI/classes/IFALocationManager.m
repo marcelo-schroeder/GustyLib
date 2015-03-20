@@ -39,7 +39,7 @@
                           showSettingsOption:(BOOL)a_shouldShowSettingsOption
                      presenterViewController:(UIViewController *)a_presenterViewController {
     NSString *message = a_message;
-    NSString *title = NSLocalizedString(@"Unable to obtain your location", nil);
+    NSString *title = NSLocalizedStringFromTable(@"Unable to obtain your location", @"GustyLibLocalizable", nil);
     NSMutableArray *l_alertActions = [NSMutableArray new];
     if (a_shouldShowSettingsOption) {
         [l_alertActions addObject:[UIAlertAction actionWithTitle:@"Cancel"
@@ -48,11 +48,11 @@
         void (^settingsHandlerBlock)(UIAlertAction *) = ^(UIAlertAction *action) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
         };
-        [l_alertActions addObject:[UIAlertAction actionWithTitle:NSLocalizedString(@"Settings", nil)
+        [l_alertActions addObject:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"Settings", @"GustyLibLocalizable", nil)
                                                            style:UIAlertActionStyleDefault
                                                          handler:settingsHandlerBlock]];
     } else {
-        [l_alertActions addObject:[UIAlertAction actionWithTitle:NSLocalizedString(@"Continue", nil)
+        [l_alertActions addObject:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"Continue", @"GustyLibLocalizable", nil)
                                                            style:UIAlertActionStyleDefault
                                                          handler:nil]];
     }
@@ -97,7 +97,7 @@
 
 + (void)handleLocationFailureWithAlertPresenterViewController:(UIViewController *)a_alertPresenterViewController {
     if ([self performLocationServicesChecksWithAlertPresenterViewController:a_alertPresenterViewController]) {
-        NSString *message = NSLocalizedString(@"Please check if your device has Internet connectivity.", nil);
+        NSString *message = NSLocalizedStringFromTable(@"Please check if your device has Internet connectivity.", @"GustyLibLocalizable", nil);
         [self showLocationServicesAlertWithMessage:message
                            presenterViewController:a_alertPresenterViewController];
     }
@@ -106,7 +106,7 @@
 + (BOOL)
 performLocationServicesChecksWithAlertPresenterViewController:(UIViewController *)a_alertPresenterViewController {
     if (![CLLocationManager locationServicesEnabled]) {
-        NSString *message = NSLocalizedString(@"Location Services are currently disabled. Please enable them in the Privacy section in the Settings app.", nil);
+        NSString *message = NSLocalizedStringFromTable(@"Location Services are currently disabled. Please enable them in the Privacy section in the Settings app.", @"GustyLibLocalizable", nil);
         [self showLocationServicesAlertWithMessage:message
                            presenterViewController:a_alertPresenterViewController];
         return NO;
@@ -119,14 +119,14 @@ performLocationServicesChecksWithAlertPresenterViewController:(UIViewController 
             return YES;
         case kCLAuthorizationStatusRestricted:
         {
-            NSString *message = NSLocalizedString(@"Your device is not authorised to use Location Services.", nil);
+            NSString *message = NSLocalizedStringFromTable(@"Your device is not authorised to use Location Services.", @"GustyLibLocalizable", nil);
             [self showLocationServicesAlertWithMessage:message
                                presenterViewController:a_alertPresenterViewController];
             return NO;
         }
         case kCLAuthorizationStatusDenied:
         {
-            NSString *message = NSLocalizedString(@"Location Services are currently disabled for this app. Please enable them in the Privacy section of the app Settings pane. To access the Settings pane tap Settings below.", nil);
+            NSString *message = NSLocalizedStringFromTable(@"Location Services are currently disabled for this app. Please enable them in the Privacy section of the app Settings pane. To access the Settings pane tap Settings below.", @"GustyLibLocalizable", nil);
             [self showLocationServicesAlertWithMessage:message showSettingsOption:YES
                                presenterViewController:a_alertPresenterViewController];
             return NO;

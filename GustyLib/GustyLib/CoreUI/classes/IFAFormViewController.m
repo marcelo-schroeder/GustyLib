@@ -545,10 +545,10 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
                                                                                                                                 cell:l_cell];
             }
             if (l_isDeleteButton) {
-                NSString *l_text = NSLocalizedString(@"Delete", nil);
+                NSString *l_text = NSLocalizedStringFromTable(@"Delete", @"GustyLibLocalizable", nil);
                 NSString *l_entityLabel = [self.object.ifa_entityLabel lowercaseString];
                 if (l_entityLabel) {
-                    l_text= [NSString stringWithFormat:NSLocalizedString(@"Delete %@", @"Delete <ENTITY_NAME>"), l_entityLabel];
+                    l_text= [NSString stringWithFormat:NSLocalizedStringFromTable(@"Delete %@", @"GustyLibLocalizable", @"Delete <ENTITY_NAME>"), l_entityLabel];
                 }
                 l_cell.centeredLabel.text = l_text;
             }else{
@@ -751,9 +751,9 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
             // Handle the external change asynchronously to make sure that everything that has to be done in this run loop is done prior
             [IFAUtils dispatchAsyncMainThreadBlock:^{
                 NSString *objectLabel = [[IFAPersistenceManager sharedInstance].entityConfig labelForObject:a_managedObject];
-                NSString *title = [NSString stringWithFormat:NSLocalizedString(@"%@ modified externally", @"ENTITY_LABEL modified externally"),
+                NSString *title = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@ modified externally", @"GustyLibLocalizable", @"ENTITY_LABEL modified externally"),
                                                              objectLabel];
-                NSString *message = NSLocalizedString(@"Editing will be cancelled and changes discarded.", nil);
+                NSString *message = NSLocalizedStringFromTable(@"Editing will be cancelled and changes discarded.", @"GustyLibLocalizable", nil);
                 void (^actionBlock)() = ^{
                     [weakSelf IFA_quitEditingForced:YES];
                 };
@@ -784,8 +784,8 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
                 [l_weakSelf replyToContextSwitchRequestWithGranted:NO];
             };
             [self ifa_presentAlertControllerWithTitle:nil
-                                              message:NSLocalizedString(@"Are you sure you want to discard your changes?", nil)
-                         destructiveActionButtonTitle:NSLocalizedString(@"Discard changes", nil)
+                                              message:NSLocalizedStringFromTable(@"Are you sure you want to discard your changes?", @"GustyLibLocalizable", nil)
+                         destructiveActionButtonTitle:NSLocalizedStringFromTable(@"Discard changes", @"GustyLibLocalizable", nil)
                                destructiveActionBlock:destructiveActionBlock
                                           cancelBlock:cancelBlock];
         } else {
@@ -937,7 +937,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                 IFAFormTextFieldTableViewCell *l_cell = (IFAFormTextFieldTableViewCell *) a_cell;
                 if (self.IFA_isManagedObject) {
                     NSPropertyDescription *propertyDescription = [self.object ifa_descriptionForProperty:a_cell.propertyName];
-                    l_cell.textField.placeholder = propertyDescription.isOptional ? NSLocalizedString(@"Optional", nil) : NSLocalizedString(@"Required", nil);
+                    l_cell.textField.placeholder = propertyDescription.isOptional ? NSLocalizedStringFromTable(@"Optional", @"GustyLibLocalizable", nil) : NSLocalizedStringFromTable(@"Required", @"GustyLibLocalizable", nil);
                 }
                 [l_cell reloadData];
 
@@ -1458,8 +1458,8 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
             IFAFormTableViewCell *l_cell = (IFAFormTableViewCell *) [tableView cellForRowAtIndexPath:indexPath];
             if ([l_cell.propertyName isEqualToString:IFAEntityConfigPropertyNameDeleteButton]) {
                 NSString *l_entityName = [[self.object ifa_entityLabel] lowercaseString];
-                NSString *l_message = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to delete the %@?", @"Are you sure you want to delete the <ENTITY_NAME>?"), l_entityName];
-                NSString *l_destructiveActionButtonTitle = [NSString stringWithFormat:NSLocalizedString(@"Delete %@", @"Delete <ENTITY_NAME>"), l_entityName];
+                NSString *l_message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Are you sure you want to delete the %@?", @"GustyLibLocalizable", @"Are you sure you want to delete the <ENTITY_NAME>?"), l_entityName];
+                NSString *l_destructiveActionButtonTitle = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Delete %@", @"GustyLibLocalizable", @"Delete <ENTITY_NAME>"), l_entityName];
                 __weak __typeof(self) l_weakSelf = self;
                 void (^destructiveActionBlock)() = ^{
                     NSAssert([l_weakSelf.object isKindOfClass:NSManagedObject.class], @"Selection list editor type not yet implemented for non-NSManagedObject instances");
@@ -1479,7 +1479,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                     }
                     l_weakSelf.IFA_changesMadeByThisViewController = YES;
                     [l_weakSelf ifa_notifySessionCompletion];
-                    [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:NSLocalizedString(@"%@ deleted", @"<ENTITY_NAME> deleted"),
+                    [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:NSLocalizedStringFromTable(@"%@ deleted", @"GustyLibLocalizable", @"<ENTITY_NAME> deleted"),
                                                                                                         l_weakSelf.title]];
                 };
                 [self ifa_presentAlertControllerWithTitle:nil
@@ -1967,9 +1967,10 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                     l_changesMade = YES;
                     self.IFA_changesMadeByThisViewController = YES;
 
-                    NSString *hudText = [NSString stringWithFormat:NSLocalizedString(@"%@ %@", @"<ENTITY_NAME> <CREATED_OR_UPDATED>"),
+                    NSString *hudTextFormat = NSLocalizedStringWithDefaultValue(@"ActionPerformedOnObject", @"GustyLibLocalizable", [NSBundle bundleForClass:[self class]], @"%@ %@", @"Example: <Project> <updated>");
+                    NSString *hudText = [NSString stringWithFormat:hudTextFormat,
                                                                    self.title,
-                                                                   l_isInserted ? NSLocalizedString(@"created", nil) : NSLocalizedString(@"updated", nil)];
+                                    l_isInserted ? NSLocalizedStringFromTable(@"created", @"GustyLibLocalizable", nil) : NSLocalizedStringFromTable(@"updated", @"GustyLibLocalizable", nil)];
                     [IFAUIUtils showAndHideUserActionConfirmationHudWithText:hudText
                                                          visualIndicatorMode:IFAHudViewVisualIndicatorModeSuccess
                                                             autoDismissDelay:1];

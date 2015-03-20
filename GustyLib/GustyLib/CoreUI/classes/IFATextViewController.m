@@ -146,8 +146,8 @@
             [l_weakSelf IFA_quitEditing];
         };
         [self ifa_presentAlertControllerWithTitle:nil
-                                          message:NSLocalizedString(@"Are you sure you want to discard your changes?", nil)
-                     destructiveActionButtonTitle:NSLocalizedString(@"Discard changes", nil)
+                                          message:NSLocalizedStringFromTable(@"Are you sure you want to discard your changes?", @"GustyLibLocalizable", nil)
+                     destructiveActionButtonTitle:NSLocalizedStringFromTable(@"Discard changes", @"GustyLibLocalizable", nil)
                            destructiveActionBlock:destructiveActionBlock
                                       cancelBlock:nil];
 

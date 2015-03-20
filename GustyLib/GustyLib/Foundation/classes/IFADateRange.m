@@ -154,14 +154,14 @@
             switch (aFormat) {
                 case IFADurationFormatFull:
                     if (days>0) {
-                        l_durationString = [NSString stringWithFormat:NSLocalizedString(@"%@d %@:%@:%@", @"<NUMBER_OF_DAYS>d <HOURS>:<MINUTES>:<SECONDS>"), l_formattedDays, l_formattedHours, l_formattedMinutes, l_formattedSeconds];
+                        l_durationString = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@d %@:%@:%@", @"GustyLibLocalizable", @"<NUMBER_OF_DAYS>d <HOURS>:<MINUTES>:<SECONDS>"), l_formattedDays, l_formattedHours, l_formattedMinutes, l_formattedSeconds];
                         break;
                     }
                 case IFADurationFormatHoursMinutesSeconds:
-                    l_durationString = [NSString stringWithFormat:NSLocalizedString(@"%@:%@:%@", @"<HOURS>:<MINUTES>:<SECONDS>"), l_formattedHours, l_formattedMinutes, l_formattedSeconds];
+                    l_durationString = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@:%@:%@", @"GustyLibLocalizable", @"<HOURS>:<MINUTES>:<SECONDS>"), l_formattedHours, l_formattedMinutes, l_formattedSeconds];
                     break;
                 case IFADurationFormatHoursMinutes:
-                    l_durationString = [NSString stringWithFormat:NSLocalizedString(@"%@:%@", @"<HOURS>:<MINUTES>"), l_formattedHours, l_formattedMinutes];
+                    l_durationString = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@:%@", @"GustyLibLocalizable", @"<HOURS>:<MINUTES>"), l_formattedHours, l_formattedMinutes];
                     break;
                 default:
                     NSAssert1(NO, @"Unexpected duration format: %ld", (long)aFormat);
@@ -182,9 +182,9 @@
             if (showDay) {
                 NSString *l_stringFormat = nil;
                 if (l_longFormat) {
-                    l_stringFormat = days==1?NSLocalizedString(@"%ld day", nil):NSLocalizedString(@"%ld days", nil);
+                    l_stringFormat = days==1?NSLocalizedStringFromTable(@"%ld day", @"GustyLibLocalizable", nil):NSLocalizedStringFromTable(@"%ld days", @"GustyLibLocalizable", nil);
                 }else{
-                    l_stringFormat = NSLocalizedString(@"%ldd", @"<NUMBER_OF_DAYS>d");
+                    l_stringFormat = NSLocalizedStringFromTable(@"%ldd", @"GustyLibLocalizable", @"<NUMBER_OF_DAYS>d");
                 }
                 [duration appendFormat:l_stringFormat, days];
                 l_mostSignificantShown = YES;
@@ -195,7 +195,7 @@
                 }
                 NSString *l_stringFormat = nil;
                 if (l_longFormat) {
-                    l_stringFormat = hours==1?NSLocalizedString(@"%ld hour", nil):NSLocalizedString(@"%ld hours", nil);
+                    l_stringFormat = hours==1?NSLocalizedStringFromTable(@"%ld hour", @"GustyLibLocalizable", nil):NSLocalizedStringFromTable(@"%ld hours", @"GustyLibLocalizable", nil);
                 }else{
                     l_stringFormat = @"%ld";
                 }
@@ -208,7 +208,7 @@
                 }
                 NSString *l_stringFormat = nil;
                 if (l_longFormat) {
-                    l_stringFormat = minutes==1?NSLocalizedString(@"%ld minute", nil):NSLocalizedString(@"%ld minutes", nil);
+                    l_stringFormat = minutes==1?NSLocalizedStringFromTable(@"%ld minute", @"GustyLibLocalizable", nil):NSLocalizedStringFromTable(@"%ld minutes", @"GustyLibLocalizable", nil);
                 }else{
                     l_stringFormat = @"%ld";
                 }
@@ -221,7 +221,7 @@
                 }
                 NSString *l_stringFormat = nil;
                 if (l_longFormat) {
-                    l_stringFormat = seconds==1?NSLocalizedString(@"%ld second", nil):NSLocalizedString(@"%ld seconds", nil);
+                    l_stringFormat = seconds==1?NSLocalizedStringFromTable(@"%ld second", @"GustyLibLocalizable", nil):NSLocalizedStringFromTable(@"%ld seconds", @"GustyLibLocalizable", nil);
                 }else{
                     l_stringFormat = @"%ld";
                 }
@@ -281,7 +281,7 @@
 
 + (NSString*)decimalHoursStringForStartDate:(NSDate*)aStartDate endDate:(NSDate*)anEndDate calendar:(NSCalendar*)a_calendar{
     NSDecimalNumber *decimalHours = [self decimalHoursForStartDate:aStartDate endDate:anEndDate calendar:a_calendar];
-    NSString *l_format = NSLocalizedString(@"%@ h", @"<NUMBER_OF_HOURS> h");
+    NSString *l_format = NSLocalizedStringFromTable(@"%@ h", @"GustyLibLocalizable", @"<NUMBER_OF_HOURS> h");
     return [NSString stringWithFormat:l_format, [self formattedDecimalHours:decimalHours]];
 }
 

@@ -66,8 +66,8 @@
         }else {
             NSString *l_propertyLabel = [[IFAPersistenceManager sharedInstance].entityConfig labelForProperty:self.propertyName
                                                                                                      inObject:self.object];
-            NSString *alertTitle = NSLocalizedString(@"Validation Error", nil);
-            NSString *alertMessage = [NSString stringWithFormat:NSLocalizedString(@"Invalid number entered for %@.", @"Invalid number entered for <FIELD_NAME>."), l_propertyLabel];
+            NSString *alertTitle = NSLocalizedStringFromTable(@"Validation Error", @"GustyLibLocalizable", nil);
+            NSString *alertMessage = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Invalid number entered for %@.", @"GustyLibLocalizable", @"Invalid number entered for <FIELD_NAME>."), l_propertyLabel];
             [self.formViewController ifa_presentAlertControllerWithTitle:alertTitle message:alertMessage];
             return NO;
         }

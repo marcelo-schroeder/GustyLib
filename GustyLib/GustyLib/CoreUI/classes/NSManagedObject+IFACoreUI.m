@@ -53,9 +53,9 @@
 	for (int i = 0; i < [aKeyArray count]; i++) {
 		if (i>0) {
 			if (i==([aKeyArray count]-1)) {
-				[label appendString:NSLocalizedString(@" and ", @"final separator in a list of names")];
+				[label appendString:NSLocalizedStringFromTable(@" and ", @"GustyLibLocalizable", @"final separator in a list of names")];
 			}else {
-				[label appendString:NSLocalizedString(@", ", @"separator in a list of names")];
+				[label appendString:NSLocalizedStringFromTable(@", ", @"GustyLibLocalizable", @"separator in a list of names")];
 			}
 
 		}

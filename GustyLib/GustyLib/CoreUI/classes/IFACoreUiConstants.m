@@ -22,8 +22,6 @@
 
 @implementation IFACoreUiConstants
 
-NSString* const IFAModuleNameCoreUI = @"CoreUI";
-
 CGFloat const IFAMinimumTapAreaDimension = 44;
 CGFloat const IFATableViewEditingCellXOffset = 38;
 CGFloat const IFATableViewCellContentViewRightOffsetWhenStandardAccessoryIsVisible = -33;

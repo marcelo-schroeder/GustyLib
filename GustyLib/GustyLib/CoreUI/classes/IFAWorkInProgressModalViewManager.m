@@ -68,12 +68,12 @@
     self.hasBeenCancelled = NO;
     self.hudViewController.text = a_message;
     if (self.cancellationCompletionBlock) {
-        self.hudViewController.detailText = NSLocalizedString(@"Tap to cancel", nil);
+        self.hudViewController.detailText = NSLocalizedStringFromTable(@"Tap to cancel", @"GustyLibLocalizable", nil);
         __weak __typeof(self) weakSelf = self;
         self.hudViewController.chromeTapActionBlock = ^{
             weakSelf.hasBeenCancelled = YES;
             weakSelf.hudViewController.visualIndicatorMode = IFAHudViewVisualIndicatorModeProgressIndeterminate;
-            weakSelf.hudViewController.detailText = NSLocalizedString(@"Cancelling...", nil);
+            weakSelf.hudViewController.detailText = NSLocalizedStringFromTable(@"Cancelling...", @"GustyLibLocalizable", nil);
             weakSelf.cancellationCompletionBlock();
         };
     } else {

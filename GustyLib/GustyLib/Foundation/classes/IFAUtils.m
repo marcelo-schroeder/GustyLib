@@ -58,7 +58,7 @@
 + (void) logBooleanWithLabel:(NSString*)a_label value:(BOOL)a_value{
 	NSMutableString *l_label = [NSMutableString stringWithString:a_label];
 	[l_label appendString:@": %@"];
-	NSLog(l_label, a_value ? NSLocalizedString(@"YES", nil) : NSLocalizedString(@"NO", nil));
+	NSLog(l_label, a_value ? NSLocalizedStringFromTable(@"YES", @"GustyLibLocalizable", nil) : NSLocalizedStringFromTable(@"NO", @"GustyLibLocalizable", nil));
 }
 
 +(void)dispatchAsyncMainThreadBlock:(dispatch_block_t)a_block{
@@ -116,7 +116,7 @@
 }
 
 +(NSString*)appVersionAndBuildNumber{
-    return [NSString stringWithFormat:NSLocalizedString(@"%@ (build %@)", @"<APP_VERSION> (build <BUILD_NUMBER>)"), [self appVersion], [IFAUtils appBuildNumber]];
+    return [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@ (build %@)", @"GustyLibLocalizable", @"<APP_VERSION> (build <BUILD_NUMBER>)"), [self appVersion], [IFAUtils appBuildNumber]];
 }
 
 +(NSString*)appFullName{
@@ -252,17 +252,6 @@
     NSString *injectBundle = environment[@"XCInjectBundle"];
     NSString *pathExtension = [injectBundle pathExtension];
     return [pathExtension isEqualToString:@"octest"] || [pathExtension isEqualToString:@"xctest"];
-}
-
-+ (NSString *)localisableStringsFileNameForModuleNamed:(NSString *)a_moduleName {
-    return [NSString stringWithFormat:@"GustyLib%@Localizable", a_moduleName];
-}
-
-+ (NSString *)localisedStringForKey:(NSString *)a_key
-                        moduleNamed:(NSString *)a_moduleName {
-    NSString *table = [IFAUtils localisableStringsFileNameForModuleNamed:a_moduleName];
-    NSString *string = NSLocalizedStringFromTable(a_key, table, nil);
-    return string;
 }
 
 @end

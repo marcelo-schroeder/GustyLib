@@ -37,13 +37,13 @@
 }
 
 - (void)IFA_onReportBugButtonTap {
-    NSString *l_body = [NSString stringWithFormat:NSLocalizedString(@"Hi there,\n\nPlease fix the following bug I have found in %@:", @"Hi there, Please fix the following bug I have found in <APP_NAME>:"), [IFAUtils appFullName]];
-    [self.IFA_emailManager composeEmailWithSubject:NSLocalizedString(@"Bug Report", nil) recipient:[self IFA_supportEmailAddress] body:l_body];
+    NSString *l_body = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Hi there,\n\nPlease fix the following bug I have found in %@:", @"GustyLibLocalizable", @"Hi there, Please fix the following bug I have found in <APP_NAME>:"), [IFAUtils appFullName]];
+    [self.IFA_emailManager composeEmailWithSubject:NSLocalizedStringFromTable(@"Bug Report", @"GustyLibLocalizable", nil) recipient:[self IFA_supportEmailAddress] body:l_body];
 }
 
 - (void)IFA_onProvideFeedbackButtonTap {
-    NSString *l_body = [NSString stringWithFormat:NSLocalizedString(@"Hi there,\n\nI have the following feedback to provide for %@:", @"Hi there, I have the following feedback to provide for <APP_NAME>:"), [IFAUtils appFullName]];
-    [self.IFA_emailManager composeEmailWithSubject:NSLocalizedString(@"Feedback", nil) recipient:[self IFA_supportEmailAddress] body:l_body];
+    NSString *l_body = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Hi there,\n\nI have the following feedback to provide for %@:", @"GustyLibLocalizable", @"Hi there, I have the following feedback to provide for <APP_NAME>:"), [IFAUtils appFullName]];
+    [self.IFA_emailManager composeEmailWithSubject:NSLocalizedStringFromTable(@"Feedback", @"GustyLibLocalizable", nil) recipient:[self IFA_supportEmailAddress] body:l_body];
 }
 
 - (void)IFA_onForceCrashButtonTap {

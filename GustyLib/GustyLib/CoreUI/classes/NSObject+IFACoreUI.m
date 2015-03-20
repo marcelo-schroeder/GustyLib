@@ -177,7 +177,7 @@
 }
 
 + (NSString*)ifa_displayValueForNil {
-    return [NSString stringWithFormat:NSLocalizedString(@"(no %@)", @"(no <ENTITY_NAME>)"), [[[IFAPersistenceManager sharedInstance].entityConfig labelForEntity:[self ifa_entityName]] lowercaseString]];
+    return [NSString stringWithFormat:NSLocalizedStringFromTable(@"(no %@)", @"GustyLibLocalizable", @"(no <ENTITY_NAME>)"), [[[IFAPersistenceManager sharedInstance].entityConfig labelForEntity:[self ifa_entityName]] lowercaseString]];
 }
 
 @end

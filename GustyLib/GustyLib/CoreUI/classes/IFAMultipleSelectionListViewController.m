@@ -437,15 +437,15 @@ static const NSUInteger k_sectionSelectedObjects = 0;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-	return section==k_sectionSelectedObjects ? NSLocalizedString(@"Selected", nil) : NSLocalizedString(@"Available for selection", nil);
+	return section==k_sectionSelectedObjects ? NSLocalizedStringFromTable(@"Selected", @"GustyLibLocalizable", nil) : NSLocalizedStringFromTable(@"Available for selection", @"GustyLibLocalizable", nil);
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
 	if (section == k_sectionSelectedObjects) {
-		return [self.IFA_selectedDestinationEntities count] ? nil : NSLocalizedString(@"No selected entries", nil);
+		return [self.IFA_selectedDestinationEntities count] ? nil : NSLocalizedStringFromTable(@"No selected entries", @"GustyLibLocalizable", nil);
 	}
 	else {
-		return [self.IFA_unselectedDestinationEntities count] ? nil : NSLocalizedString(@"No entries available for selection", nil);
+		return [self.IFA_unselectedDestinationEntities count] ? nil : NSLocalizedStringFromTable(@"No entries available for selection", @"GustyLibLocalizable", nil);
 	}
 }
 
