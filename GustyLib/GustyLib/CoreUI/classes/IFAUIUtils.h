@@ -169,4 +169,14 @@ static const CGFloat IFAMaximumImageSizeInPixels =  5 * 1024 * 1024;
 + (NSError*) newErrorContainerWithError:(NSError*)anError;
 + (void) addError:(NSError*)anError toContainer:(NSError*)anErrorContainer;
 
+/**
+* @return Localised title for a "Save" button.
+*/
++ (NSString *)saveButtonTitle;
+
+/**
+* @return Localised title for a "Cancel" button.
+*/
++ (NSString *)cancelButtonTitle;
+
 @end

@@ -41,11 +41,14 @@ typedef NS_ENUM(NSUInteger, IFALocationAuthorizationType){
 + (BOOL)
 performLocationServicesChecksWithAlertPresenterViewController:(UIViewController *)a_alertPresenterViewController;
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCUnusedMethodInspection"
 /**
 * Shows an alert with a standard message for when the user's location cannot be obtained.
 * @param a_presenterViewController View controller to be used for presenting any alerts from.
 */
 + (void)showLocationServicesAlertWithPresenterViewController:(UIViewController *)a_presenterViewController;
+#pragma clang diagnostic pop
 
 /**
 * Shows an alert with a standard message for when the user's location cannot be obtained. The suffix for the message can be provided.

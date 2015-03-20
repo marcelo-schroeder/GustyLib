@@ -1551,7 +1551,7 @@ typedef NS_ENUM(NSUInteger, IFANavigationBarButtonItemsSide) {
             a_actionBlock();
         }
     };
-    UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"Continue"
+    UIAlertAction *continueAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Continue", nil)
                                                              style:UIAlertActionStyleDefault
                                                            handler:handler];
     [self ifa_presentAlertControllerWithTitle:a_title message:a_message
@@ -1569,7 +1569,7 @@ typedef NS_ENUM(NSUInteger, IFANavigationBarButtonItemsSide) {
                                                                a_actionBlock();
                                                            }
                                                        }];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel")
                                                            style:UIAlertActionStyleCancel
                                                          handler:nil];
     [self ifa_presentAlertControllerWithTitle:a_title message:a_message
@@ -1594,7 +1594,7 @@ typedef NS_ENUM(NSUInteger, IFANavigationBarButtonItemsSide) {
             a_cancelBlock();
         }
     };
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
                                                            style:UIAlertActionStyleCancel
                                                          handler:cancelActionHandler];
     [self ifa_presentAlertControllerWithTitle:a_title message:a_message

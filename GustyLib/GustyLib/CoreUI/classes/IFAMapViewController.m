@@ -182,7 +182,7 @@
             }
         } else {
             self.IFA_userLocationRequested = YES;
-            [self.IFA_progressViewManager showViewWithMessage:@"Locating..."];
+            [self.IFA_progressViewManager showViewWithMessage:NSLocalizedString(@"Locating...", nil)];
             self.mapView.showsUserLocation = YES;
         }
     }

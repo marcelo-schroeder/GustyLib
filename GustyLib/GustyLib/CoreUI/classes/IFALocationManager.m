@@ -17,14 +17,6 @@
 
 #import "GustyLibCoreUI.h"
 
-//wip: i18n for messages
-static NSString *const k_alertMessageLocationServicesDisabledOverall = @"Location Services are currently disabled. Please enable them in the Privacy section in the Settings app.";
-static NSString *const k_alertMessageLocationServicesDisabledForThisApp = @"Location Services are currently disabled for this app. Please enable them in the Privacy section of the app Settings pane. To access the Settings pane tap Settings below.";
-static NSString *const k_alertMessageLocationServicesRestricted = @"Your device is not authorised to use Location Services.";
-static NSString *const k_alertMessageLocationServicesNoConnectivity = @"Please check if your device has Internet connectivity.";
-
-static NSString *const k_alertTitle = @"Unable to obtain your location";
-
 @interface IFALocationManager ()
 @property(nonatomic, strong) CLLocationManager *underlyingLocationManager;
 @end
@@ -47,7 +39,7 @@ static NSString *const k_alertTitle = @"Unable to obtain your location";
                           showSettingsOption:(BOOL)a_shouldShowSettingsOption
                      presenterViewController:(UIViewController *)a_presenterViewController {
     NSString *message = a_message;
-    NSString *title = k_alertTitle;
+    NSString *title = NSLocalizedString(@"Unable to obtain your location", nil);
     NSMutableArray *l_alertActions = [NSMutableArray new];
     if (a_shouldShowSettingsOption) {
         [l_alertActions addObject:[UIAlertAction actionWithTitle:@"Cancel"
@@ -56,11 +48,11 @@ static NSString *const k_alertTitle = @"Unable to obtain your location";
         void (^settingsHandlerBlock)(UIAlertAction *) = ^(UIAlertAction *action) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
         };
-        [l_alertActions addObject:[UIAlertAction actionWithTitle:@"Settings"
+        [l_alertActions addObject:[UIAlertAction actionWithTitle:NSLocalizedString(@"Settings", nil)
                                                            style:UIAlertActionStyleDefault
                                                          handler:settingsHandlerBlock]];
     } else {
-        [l_alertActions addObject:[UIAlertAction actionWithTitle:@"Continue"
+        [l_alertActions addObject:[UIAlertAction actionWithTitle:NSLocalizedString(@"Continue", nil)
                                                            style:UIAlertActionStyleDefault
                                                          handler:nil]];
     }
@@ -87,9 +79,12 @@ static NSString *const k_alertTitle = @"Unable to obtain your location";
                        presenterViewController:a_presenterViewController];
 }
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCUnusedMethodInspection"
 + (void)showLocationServicesAlertWithPresenterViewController:(UIViewController *)a_presenterViewController {
     [self showLocationServicesAlertWithMessage:@"" presenterViewController:a_presenterViewController];
 }
+#pragma clang diagnostic pop
 
 + (instancetype)sharedInstance {
     static dispatch_once_t c_dispatchOncePredicate;
@@ -102,7 +97,8 @@ static NSString *const k_alertTitle = @"Unable to obtain your location";
 
 + (void)handleLocationFailureWithAlertPresenterViewController:(UIViewController *)a_alertPresenterViewController {
     if ([self performLocationServicesChecksWithAlertPresenterViewController:a_alertPresenterViewController]) {
-        [self showLocationServicesAlertWithMessage:k_alertMessageLocationServicesNoConnectivity
+        NSString *message = NSLocalizedString(@"Please check if your device has Internet connectivity.", nil);
+        [self showLocationServicesAlertWithMessage:message
                            presenterViewController:a_alertPresenterViewController];
     }
 }
@@ -110,7 +106,8 @@ static NSString *const k_alertTitle = @"Unable to obtain your location";
 + (BOOL)
 performLocationServicesChecksWithAlertPresenterViewController:(UIViewController *)a_alertPresenterViewController {
     if (![CLLocationManager locationServicesEnabled]) {
-        [self showLocationServicesAlertWithMessage:k_alertMessageLocationServicesDisabledOverall
+        NSString *message = NSLocalizedString(@"Location Services are currently disabled. Please enable them in the Privacy section in the Settings app.", nil);
+        [self showLocationServicesAlertWithMessage:message
                            presenterViewController:a_alertPresenterViewController];
         return NO;
     }
@@ -122,14 +119,14 @@ performLocationServicesChecksWithAlertPresenterViewController:(UIViewController 
             return YES;
         case kCLAuthorizationStatusRestricted:
         {
-            NSString *message = k_alertMessageLocationServicesRestricted;
+            NSString *message = NSLocalizedString(@"Your device is not authorised to use Location Services.", nil);
             [self showLocationServicesAlertWithMessage:message
                                presenterViewController:a_alertPresenterViewController];
             return NO;
         }
         case kCLAuthorizationStatusDenied:
         {
-            NSString *message = k_alertMessageLocationServicesDisabledForThisApp;
+            NSString *message = NSLocalizedString(@"Location Services are currently disabled for this app. Please enable them in the Privacy section of the app Settings pane. To access the Settings pane tap Settings below.", nil);
             [self showLocationServicesAlertWithMessage:message showSettingsOption:YES
                                presenterViewController:a_alertPresenterViewController];
             return NO;

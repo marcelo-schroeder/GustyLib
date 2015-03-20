@@ -29,7 +29,7 @@
 #pragma mark - Overrides
 
 -(NSString *)activityTitle{
-    return @"Web Browser";
+    return NSLocalizedString(@"Web Browser", nil);
 }
 
 -(UIImage *)activityImage{

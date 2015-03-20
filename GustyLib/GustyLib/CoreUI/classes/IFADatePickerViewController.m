@@ -139,7 +139,7 @@
         [l_toolbarItems addObject:selectTodayButton];
     }
     if (l_showResetCountDownButton) {
-        UIBarButtonItem *l_resetCountDownButton = [[UIBarButtonItem alloc] initWithTitle:@"Set To Zero"
+        UIBarButtonItem *l_resetCountDownButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Set To Zero", nil)
                                                                                    style:UIBarButtonItemStylePlain
                                                                                   target:a_target
                                                                                   action:@selector(IFA_onResetCountDownButtonTap:)];
@@ -151,7 +151,7 @@
                                                                    target:nil
                                                                    action:nil];
         if (l_showClearDateButton) {
-            UIBarButtonItem *clearDateButton = [[UIBarButtonItem alloc] initWithTitle:@"Clear Date"
+            UIBarButtonItem *clearDateButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Clear Date", nil)
                                                                                 style:UIBarButtonItemStylePlain
                                                                                target:a_target
                                                                                action:@selector(IFA_onClearDateButtonTap:)];
@@ -159,7 +159,7 @@
             [l_toolbarItems addObjectsFromArray:@[flexibleSpace, clearDateButton]];
         }
         if (l_showSelectDistantPastButton) {
-            UIBarButtonItem *l_selectDistantPastButton = [[UIBarButtonItem alloc] initWithTitle:@"Distant Past"
+            UIBarButtonItem *l_selectDistantPastButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Distant Past", nil)
                                                                                           style:UIBarButtonItemStylePlain
                                                                                          target:a_target
                                                                                          action:@selector(IFA_onSelectDistantPastButtonTap:)];
@@ -167,7 +167,7 @@
             [l_toolbarItems addObjectsFromArray:@[flexibleSpace, l_selectDistantPastButton]];
         }
         if (l_showSelectDistantFutureButton) {
-            UIBarButtonItem *l_selectDistantFutureButton = [[UIBarButtonItem alloc] initWithTitle:@"Distant Future"
+            UIBarButtonItem *l_selectDistantFutureButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Distant Future", nil)
                                                                                             style:UIBarButtonItemStylePlain
                                                                                            target:a_target
                                                                                            action:@selector(IFA_onSelectDistantFutureButtonTap:)];

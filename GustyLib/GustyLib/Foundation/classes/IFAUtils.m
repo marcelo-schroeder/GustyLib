@@ -58,7 +58,7 @@
 + (void) logBooleanWithLabel:(NSString*)a_label value:(BOOL)a_value{
 	NSMutableString *l_label = [NSMutableString stringWithString:a_label];
 	[l_label appendString:@": %@"];
-	NSLog(l_label, a_value?@"YES":@"NO");
+	NSLog(l_label, a_value ? NSLocalizedString(@"YES", nil) : NSLocalizedString(@"NO", nil));
 }
 
 +(void)dispatchAsyncMainThreadBlock:(dispatch_block_t)a_block{
@@ -109,18 +109,18 @@
     NSString *l_appName = [self appName];
     NSString *l_edition = [IFAUtils appEdition];
     if (l_edition) {
-        return [NSString stringWithFormat:@"%@ %@", l_appName, l_edition];
+        return [NSString stringWithFormat:NSLocalizedString(@"%@ %@", @"<APP_NAME> <EDITION>"), l_appName, l_edition];
     }else{
         return l_appName;
     }
 }
 
 +(NSString*)appVersionAndBuildNumber{
-    return [NSString stringWithFormat:@"%@ (build %@)", [self appVersion], [IFAUtils appBuildNumber]];
+    return [NSString stringWithFormat:NSLocalizedString(@"%@ (build %@)", @"<APP_VERSION> (build <BUILD_NUMBER>)"), [self appVersion], [IFAUtils appBuildNumber]];
 }
 
 +(NSString*)appFullName{
-    return [NSString stringWithFormat:@"%@ %@", [self appNameAndEdition], [IFAUtils appVersionAndBuildNumber]];
+    return [NSString stringWithFormat:NSLocalizedString(@"%@ %@", @"<APP_NAME_AND_EDITION> <APP_VERSION_AND_BUILD_NUMBER>"), [self appNameAndEdition], [IFAUtils appVersionAndBuildNumber]];
 }
 
 +(NSString*)generateUuid{

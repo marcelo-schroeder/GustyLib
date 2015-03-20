@@ -251,16 +251,13 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 		if (count==1) {	// it it finds only 1 it's ok because it's the managed object itself
 			continue;
 		}else{
-			NSMutableString *label = [NSMutableString string];
-			if ([keysAndValues count]>1) {
-				[label appendString:@"This combination of "];
-			}
-			NSString *labelForKeys = [aManagedObject ifa_labelForKeys:[keysAndValues allKeys]];
-			if ([keysAndValues count]>1) {
-				labelForKeys = [labelForKeys lowercaseString];
-			}
-			[label appendString:labelForKeys];
-			NSString *errorMessage = [NSString stringWithFormat:@"%@ already exists.\n", label];
+            NSString *errorMessage;
+            NSString *labelForKeys = [aManagedObject ifa_labelForKeys:[keysAndValues allKeys]];
+            if ([keysAndValues count]>1) {
+                errorMessage = [NSString stringWithFormat:NSLocalizedString(@"This combination of %@ already exists.\n", @"This combination of <FIELD_NAMES> already exists."), [labelForKeys lowercaseString]];
+            } else {
+                errorMessage = [NSString stringWithFormat:NSLocalizedString(@"%@ already exists.\n", @"<FIELD_NAME> already exists."), labelForKeys];
+            }
 			NSError *detailError = [self newErrorWithCode:IFAErrorPersistenceDuplicateKey
 											  errorMessage:errorMessage];
 			if (ok) {
@@ -337,14 +334,14 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
                                 if (![message ifa_isEmpty]) {
                                     [message appendString:@"\n"];
                                 }
-                                [message appendFormat:@"%@ is required.", l_propertyLabel];
+                                [message appendFormat:NSLocalizedString(@"%@ is required.", @"<FIELD_NAME> is required."), l_propertyLabel];
                                 break;
                             case NSValidationNumberTooSmallError:
                             case NSValidationNumberTooLargeError:
                                 if (![message ifa_isEmpty]) {
                                     [message appendString:@"\n"];
                                 }
-                                [message appendFormat:@"%@ is outside allowed range.", l_propertyLabel];
+                                [message appendFormat:NSLocalizedString(@"%@ is outside allowed range.", @"<FIELD_NAME> is outside allowed range."), l_propertyLabel];
                                 break;
                             case NSValidationRelationshipDeniedDeleteError:
                                 [l_deleteDeniedPropertyLabels addObject:l_propertyLabel];
@@ -373,13 +370,13 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
         if (![message ifa_isEmpty]) {
             [message appendString:@"\n"];
         }
-        [message appendString:@"One or more associations exist with the following entities: "];
+        [message appendString:NSLocalizedString(@"One or more associations exist with the following entities: ", nil)];
         for (NSUInteger i=0; i<[l_deleteDeniedPropertyLabels count]; i++) {
             if (i>0) {
                 if (i+1==[l_deleteDeniedPropertyLabels count]) {
-                    [message appendString:@" and "];
+                    [message appendString:NSLocalizedString(@" and ", @"final separator in a list of names")];
                 }else{
-                    [message appendString:@", "];
+                    [message appendString:NSLocalizedString(@", ", @"separator in a list of names")];
                 }
             }
             [message appendString:l_deleteDeniedPropertyLabels[i]];
@@ -392,7 +389,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 - (void)handleCoreDataError:(NSError *)a_errorContainer withManagedObject:(NSManagedObject *)a_managedObject
                  alertTitle:(NSString *)a_alertTitle alertPresenter:(UIViewController *)a_alertPresenter{
 //    NSLog(@"Handling core data error: %@", [anErrorContainer description]);
-    NSString *title = a_alertTitle ? a_alertTitle : @"Validation Error";
+    NSString *title = a_alertTitle ? a_alertTitle : NSLocalizedString(@"Validation Error", nil);
 	NSString *message = [self getMessageForErrorContainer:a_errorContainer withManagedObject:a_managedObject];
     [a_alertPresenter ifa_presentAlertControllerWithTitle:title message:message];
 }
@@ -430,7 +427,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
         
     }
 
-	[self handleCoreDataError:l_errorContainer withManagedObject:aManagedObject alertTitle:@"Deletion Not Allowed" alertPresenter:a_alertPresenter];
+	[self handleCoreDataError:l_errorContainer withManagedObject:aManagedObject alertTitle:NSLocalizedString(@"Deletion Not Allowed", nil) alertPresenter:a_alertPresenter];
 	return NO;
 
 }

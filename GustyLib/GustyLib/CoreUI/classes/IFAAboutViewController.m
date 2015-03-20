@@ -56,13 +56,13 @@
 #pragma mark - Public
 
 - (IBAction)bugReportButtonTap:(id)sender{
-    NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nPlease fix the following bug I have found in %@:", [IFAUtils appFullName]];
-    [self.IFA_emailManager composeEmailWithSubject:@"Bug Report" recipient:[self IFA_bugReportEmailAddress] body:l_body];
+    NSString *l_body = [NSString stringWithFormat:NSLocalizedString(@"Hi there,\n\nPlease fix the following bug I have found in %@:", @"Hi there, Please fix the following bug I have found in <APP_NAME>:"), [IFAUtils appFullName]];
+    [self.IFA_emailManager composeEmailWithSubject:NSLocalizedString(@"Bug Report", nil) recipient:[self IFA_bugReportEmailAddress] body:l_body];
 }
 
 - (IBAction)feedbackButtonTap:(id)sender{
-    NSString *l_body = [NSString stringWithFormat:@"Hi there,\n\nI have the following feedback to provide for %@:", [IFAUtils appFullName]];
-    [self.IFA_emailManager composeEmailWithSubject:@"Feedback" recipient:[self IFA_feedbackEmailAddress] body:l_body];
+    NSString *l_body = [NSString stringWithFormat:NSLocalizedString(@"Hi there,\n\nI have the following feedback to provide for %@:", @"Hi there, I have the following feedback to provide for <APP_NAME>:"), [IFAUtils appFullName]];
+    [self.IFA_emailManager composeEmailWithSubject:NSLocalizedString(@"Feedback", nil) recipient:[self IFA_feedbackEmailAddress] body:l_body];
 }
 
 - (IBAction)forceCrashButtonTap:(id)sender {
@@ -71,7 +71,7 @@
 
 - (IBAction)thirdPartyCreditsButtonTap:(id)sender {
     UIViewController *l_viewController = [[IFAThirdPartyCodeCreditsViewController alloc] init];
-    l_viewController.title = @"Third Party Credits";
+    l_viewController.title = NSLocalizedString(@"Third Party Credits", nil);
     [self ifa_presentModalViewController:l_viewController
                        presentationStyle:UIModalPresentationCurrentContext
                          transitionStyle:UIModalTransitionStyleCoverVertical

@@ -533,7 +533,7 @@
         _noDataPlaceholderAddHintPrefixLabel = [UILabel new];
 //        _noDataPlaceholderAddHintPrefixLabel.backgroundColor = [UIColor orangeColor];
         _noDataPlaceholderAddHintPrefixLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _noDataPlaceholderAddHintPrefixLabel.text = @"Tap ";
+        _noDataPlaceholderAddHintPrefixLabel.text = NSLocalizedString(@"Tap ", nil);
     }
     return _noDataPlaceholderAddHintPrefixLabel;
 }
@@ -543,7 +543,7 @@
         _noDataPlaceholderAddHintSuffixLabel = [UILabel new];
 //        _noDataPlaceholderAddHintSuffixLabel.backgroundColor = [UIColor orangeColor];
         _noDataPlaceholderAddHintSuffixLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        NSString *l_textTemplate = @" to add %@ %@";
+        NSString *l_textTemplate = NSLocalizedString(@" to add %@ %@", nil);
         NSString *l_indefiniteArticle = [[IFAPersistenceManager sharedInstance].entityConfig indefiniteArticleForEntity:self.entityName];
         NSString *l_entityName = [[IFAPersistenceManager sharedInstance].entityConfig labelForEntity:self.entityName].lowercaseString;
         _noDataPlaceholderAddHintSuffixLabel.text = [NSString stringWithFormat:l_textTemplate, l_indefiniteArticle, l_entityName];

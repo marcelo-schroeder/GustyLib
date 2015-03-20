@@ -32,9 +32,6 @@ CGFloat const IFATableViewCellSeparatorDefaultInsetLeft = 15;
 CGFloat const IFAIPhoneStatusBarDoubleHeight = 40;
 NSTimeInterval const IFAAnimationDuration = 0.5;
 
-NSString* const IFAButtonLabelSave = @"Save";
-NSString* const IFAButtonLabelCancel = @"Cancel";
-
 NSString* const IFACacheKeyEntityConfigDictionary = @"ifa.entityConfigDictionary";
 NSString* const IFACacheKeyMenuViewControllersDictionary = @"ifa.menuViewControllersDictionary";
 

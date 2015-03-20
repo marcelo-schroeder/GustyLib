@@ -32,9 +32,7 @@
 #pragma mark - Overrides
 
 -(void)viewWillAppear:(BOOL)animated{
-    
-    NSLog(@"viewWillAppear for %@", [self description]);
-    
+
     [super viewWillAppear:animated];
     
     self.childViewDidAppearCount = 0;

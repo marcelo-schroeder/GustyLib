@@ -53,9 +53,9 @@
 	for (int i = 0; i < [aKeyArray count]; i++) {
 		if (i>0) {
 			if (i==([aKeyArray count]-1)) {
-				[label appendString:@" and "];
+				[label appendString:NSLocalizedString(@" and ", @"final separator in a list of names")];
 			}else {
-				[label appendString:@", "];
+				[label appendString:NSLocalizedString(@", ", @"separator in a list of names")];
 			}
 
 		}

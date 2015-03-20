@@ -41,9 +41,6 @@ extern CGFloat const IFATableViewCellSeparatorDefaultInsetLeft;
 extern CGFloat const IFAIPhoneStatusBarDoubleHeight;
 extern NSTimeInterval const IFAAnimationDuration;
 
-extern NSString* const IFAButtonLabelSave;
-extern NSString* const IFAButtonLabelCancel;
-
 extern NSString* const IFACacheKeyEntityConfigDictionary;
 extern NSString* const IFACacheKeyMenuViewControllersDictionary;
 

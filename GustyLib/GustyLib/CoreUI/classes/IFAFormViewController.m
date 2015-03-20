@@ -545,10 +545,10 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
                                                                                                                                 cell:l_cell];
             }
             if (l_isDeleteButton) {
-                NSString *l_text = @"Delete";
+                NSString *l_text = NSLocalizedString(@"Delete", nil);
                 NSString *l_entityLabel = [self.object.ifa_entityLabel lowercaseString];
                 if (l_entityLabel) {
-                    l_text= [NSString stringWithFormat:@"Delete %@", l_entityLabel];
+                    l_text= [NSString stringWithFormat:NSLocalizedString(@"Delete %@", @"Delete <ENTITY_NAME>"), l_entityLabel];
                 }
                 l_cell.centeredLabel.text = l_text;
             }else{
@@ -784,8 +784,8 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
                 [l_weakSelf replyToContextSwitchRequestWithGranted:NO];
             };
             [self ifa_presentAlertControllerWithTitle:nil
-                                              message:@"Are you sure you want to discard your changes?"
-                         destructiveActionButtonTitle:@"Discard changes"
+                                              message:NSLocalizedString(@"Are you sure you want to discard your changes?", nil)
+                         destructiveActionButtonTitle:NSLocalizedString(@"Discard changes", nil)
                                destructiveActionBlock:destructiveActionBlock
                                           cancelBlock:cancelBlock];
         } else {
@@ -937,7 +937,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                 IFAFormTextFieldTableViewCell *l_cell = (IFAFormTextFieldTableViewCell *) a_cell;
                 if (self.IFA_isManagedObject) {
                     NSPropertyDescription *propertyDescription = [self.object ifa_descriptionForProperty:a_cell.propertyName];
-                    l_cell.textField.placeholder = propertyDescription.isOptional ? @"Optional" : @"Required";
+                    l_cell.textField.placeholder = propertyDescription.isOptional ? NSLocalizedString(@"Optional", nil) : NSLocalizedString(@"Required", nil);
                 }
                 [l_cell reloadData];
 
@@ -1458,8 +1458,8 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
             IFAFormTableViewCell *l_cell = (IFAFormTableViewCell *) [tableView cellForRowAtIndexPath:indexPath];
             if ([l_cell.propertyName isEqualToString:IFAEntityConfigPropertyNameDeleteButton]) {
                 NSString *l_entityName = [[self.object ifa_entityLabel] lowercaseString];
-                NSString *l_message = [NSString stringWithFormat:@"Are you sure you want to delete the %@?", l_entityName];
-                NSString *l_destructiveActionButtonTitle = [NSString stringWithFormat:@"Delete %@", l_entityName];
+                NSString *l_message = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to delete the %@?", @"Are you sure you want to delete the <ENTITY_NAME>?"), l_entityName];
+                NSString *l_destructiveActionButtonTitle = [NSString stringWithFormat:NSLocalizedString(@"Delete %@", @"Delete <ENTITY_NAME>"), l_entityName];
                 __weak __typeof(self) l_weakSelf = self;
                 void (^destructiveActionBlock)() = ^{
                     NSAssert([l_weakSelf.object isKindOfClass:NSManagedObject.class], @"Selection list editor type not yet implemented for non-NSManagedObject instances");
@@ -1479,7 +1479,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                     }
                     l_weakSelf.IFA_changesMadeByThisViewController = YES;
                     [l_weakSelf ifa_notifySessionCompletion];
-                    [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:@"%@ deleted",
+                    [IFAUIUtils showAndHideUserActionConfirmationHudWithText:[NSString stringWithFormat:NSLocalizedString(@"%@ deleted", @"<ENTITY_NAME> deleted"),
                                                                                                         l_weakSelf.title]];
                 };
                 [self ifa_presentAlertControllerWithTitle:nil
@@ -1925,7 +1925,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                                                                                                             inEntity:[self.object ifa_entityName]];
 //                self.editButtonItem.accessibilityLabel = self.editButtonItem.title;
             } else {
-                self.editButtonItem.title = IFAButtonLabelSave;
+                self.editButtonItem.title = [IFAUIUtils saveButtonTitle];
 //                self.editButtonItem.accessibilityLabel = @"Save Button";
                 self.doneButtonSaves = YES;
             }
@@ -1967,9 +1967,9 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                     l_changesMade = YES;
                     self.IFA_changesMadeByThisViewController = YES;
 
-                    NSString *hudText = [NSString stringWithFormat:@"%@ %@",
+                    NSString *hudText = [NSString stringWithFormat:NSLocalizedString(@"%@ %@", @"<ENTITY_NAME> <CREATED_OR_UPDATED>"),
                                                                    self.title,
-                                                                   l_isInserted ? @"created" : @"updated"];
+                                                                   l_isInserted ? NSLocalizedString(@"created", nil) : NSLocalizedString(@"updated", nil)];
                     [IFAUIUtils showAndHideUserActionConfirmationHudWithText:hudText
                                                          visualIndicatorMode:IFAHudViewVisualIndicatorModeSuccess
                                                             autoDismissDelay:1];

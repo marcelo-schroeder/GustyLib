@@ -102,15 +102,15 @@
                         otherButtonTitles:nil]; 
 
         if((self.availableActions & SVWebViewControllerAvailableActionsCopyLink) == SVWebViewControllerAvailableActionsCopyLink)
-            [pageActionSheet addButtonWithTitle:NSLocalizedString(@"Copy link", @"")];
+            [pageActionSheet addButtonWithTitle:NSLocalizedString(@"Copy link", nil)];
         
         if((self.availableActions & SVWebViewControllerAvailableActionsOpenInSafari) == SVWebViewControllerAvailableActionsOpenInSafari)
-            [pageActionSheet addButtonWithTitle:NSLocalizedString(@"Open in Safari", @"")];
+            [pageActionSheet addButtonWithTitle:NSLocalizedString(@"Open in Safari", nil)];
         
         if([MFMailComposeViewController canSendMail] && (self.availableActions & SVWebViewControllerAvailableActionsMailLink) == SVWebViewControllerAvailableActionsMailLink)
-            [pageActionSheet addButtonWithTitle:NSLocalizedString(@"Mail link to this page", @"")];
+            [pageActionSheet addButtonWithTitle:NSLocalizedString(@"Mail link to this page", nil)];
         
-        [pageActionSheet addButtonWithTitle:NSLocalizedString(@"Cancel", @"")];
+        [pageActionSheet addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
         pageActionSheet.cancelButtonIndex = [self.pageActionSheet numberOfButtons]-1;
     }
     
@@ -336,15 +336,15 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 	NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
     
-	if([title isEqualToString:NSLocalizedString(@"Open in Safari", @"")])
+	if([title isEqualToString:NSLocalizedString(@"Open in Safari", nil)])
         [[UIApplication sharedApplication] openURL:self.mainWebView.request.URL];
     
-    if([title isEqualToString:NSLocalizedString(@"Copy Link", @"")]) {
+    if([title isEqualToString:NSLocalizedString(@"Copy Link", nil)]) {
         UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
         pasteboard.string = self.mainWebView.request.URL.absoluteString;
     }
     
-    else if([title isEqualToString:NSLocalizedString(@"Mail Link to this Page", @"")]) {
+    else if([title isEqualToString:NSLocalizedString(@"Mail Link to this Page", nil)]) {
         
 		MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
         
