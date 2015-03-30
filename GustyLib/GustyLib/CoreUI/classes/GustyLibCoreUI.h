@@ -114,7 +114,6 @@
 #import "IFASegmentedControl.h"
 #import "IFASegmentedControlTableViewCell.h"
 #import "IFASelectionManager.h"
-#import "IFASelectionManagerDelegate.h"
 #import "IFASemaphoreManager.h"
 #import "IFASingleSelectionListViewController.h"
 #import "IFASingleSelectionManager.h"

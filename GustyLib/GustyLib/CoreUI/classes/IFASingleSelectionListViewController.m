@@ -95,7 +95,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
 	BOOL selected = [[self.IFA_selectionManager selectedIndexPath] isEqual:indexPath];
-	return [self decorateSelectionForCell:cell selected:selected targetObject:[self.IFA_selectionManager selectedObject]];
+	return [self selectionManager:self.IFA_selectionManager
+      didRequestDecorationForCell:cell
+                         selected:selected
+                           object:[self.IFA_selectionManager selectedObject]];
 }
 
 #pragma mark - UITableViewDelegate
@@ -105,26 +108,33 @@
 }
 
 #pragma mark -
-#pragma mark IFASingleSelectionManagerDelegate
+#pragma mark IFASelectionManagerDelegate
 
-- (UITableViewCell*)decorateSelectionForCell:(UITableViewCell*)aCell selected:(BOOL)aSelectedFlag targetObject:(id)aTargetObject{
-    aCell.accessoryView = nil;  // Reset the accessory view
-	if (aSelectedFlag) {
+- (UITableViewCell *)selectionManager:(IFASelectionManager *)a_selectionManager
+          didRequestDecorationForCell:(UITableViewCell *)a_cell
+                             selected:(BOOL)a_selected
+                               object:(id)a_object {
+    a_cell.accessoryView = nil;  // Reset the accessory view
+	if (a_selected) {
         UIImage *l_imageNormal = self.selectedIconImageNormal ? self.selectedIconImageNormal : [UIImage imageNamed:[[IFAUtils infoPList] valueForKey:@"IFAThemeSingleSelectionListCheckmarkImageNameNormal"]];
         if (l_imageNormal) {
             UIImage *l_imageHighlighted = self.selectedIconImageHighlighted ? self.selectedIconImageHighlighted : [UIImage imageNamed:[[IFAUtils infoPList] valueForKey:@"IFAThemeSingleSelectionListCheckmarkImageNameHighlighted"]];
-            aCell.accessoryView = [[UIImageView alloc] initWithImage:l_imageNormal highlightedImage:l_imageHighlighted];
+            a_cell.accessoryView = [[UIImageView alloc] initWithImage:l_imageNormal highlightedImage:l_imageHighlighted];
         }else{
-            aCell.accessoryType = UITableViewCellAccessoryCheckmark;
+            a_cell.accessoryType = UITableViewCellAccessoryCheckmark;
         }
 	}else {
-		aCell.accessoryType = UITableViewCellAccessoryNone;
+		a_cell.accessoryType = UITableViewCellAccessoryNone;
 	}
-	return aCell;
+	return a_cell;
 }
 
-- (void)onSelection:(id)aSelectedObject deselectedObject:(id)aDeselectedObject indexPath:(NSIndexPath*)anIndexPath userInfo:(NSDictionary *)aUserInfo{
-    [self.tableView reloadRowsAtIndexPaths:@[anIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+- (void)selectionManager:(IFASelectionManager *)a_selectionManager
+         didSelectObject:(id)a_selectedObject
+        deselectedObject:(id)a_deselectedObject
+               indexPath:(NSIndexPath *)a_indexPath
+                userInfo:(NSDictionary *)a_userInfo {
+    [self.tableView reloadRowsAtIndexPaths:@[a_indexPath] withRowAnimation:UITableViewRowAnimationNone];
 	[self updateUiState];
     [self done];
 }
@@ -136,8 +146,9 @@
          formViewController:(IFAFormViewController *)a_formViewController {
     if ((self = [super initWithManagedObject:a_managedObject propertyName:a_propertyName
                           formViewController:a_formViewController])){
-		self.IFA_selectionManager = [[IFASingleSelectionManager alloc] initWithSelectionManagerDelegate:self
+		self.IFA_selectionManager = [[IFASingleSelectionManager alloc] initWithSelectionManagerDataSource:self
                                                                                  selectedObject:[self.managedObject valueForKey:self.propertyName]];
+        self.IFA_selectionManager.delegate = self;
     }
 	return self;
 }

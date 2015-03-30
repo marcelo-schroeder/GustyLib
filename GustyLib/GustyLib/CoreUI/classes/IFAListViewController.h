@@ -19,6 +19,7 @@
 //
 
 #import "IFAFetchedResultsTableViewController.h"
+#import "IFASelectionManager.h"
 
 #ifdef IFA_AVAILABLE_Help
 #import "IFAHelpTarget.h"
@@ -39,7 +40,7 @@ typedef NS_ENUM(NSUInteger, IFAListViewControllerFetchingStrategy){
     IFAListViewControllerFetchingStrategyFindEntities,
 };
 
-@interface IFAListViewController : IFAFetchedResultsTableViewController <IFAFetchedResultsTableViewControllerDataSource, IFAViewControllerDelegate
+@interface IFAListViewController : IFAFetchedResultsTableViewController <IFAFetchedResultsTableViewControllerDataSource, IFAViewControllerDelegate, IFASelectionManagerDataSource
 #ifdef IFA_AVAILABLE_Help
         , IFAHelpTarget
 #endif
@@ -140,11 +141,6 @@ typedef NS_ENUM(NSUInteger, IFAListViewControllerFetchingStrategy){
 - (BOOL)shouldShowEmptyListPlaceholder;
 
 - (void)showEmptyListPlaceholder;
-
-// IFASelectionManagerDelegate
-- (NSObject*)selectionManagerObjectForIndexPath:(NSIndexPath*)a_indexPath;
-- (NSIndexPath*)selectionManagerIndexPathForObject:(NSObject*)a_object;
-- (UITableView*)selectionTableView;
 
 - (IFAFormViewController *)formViewControllerForManagedObject:(NSManagedObject *)aManagedObject createMode:(BOOL)aCreateMode;
 - (NSManagedObject*)newManagedobject;

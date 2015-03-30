@@ -24,17 +24,13 @@
 @implementation IFASingleSelectionManager
 
 #pragma mark - Public
-	
-- (id)initWithSelectionManagerDelegate:(id<IFASelectionManagerDelegate>)aDelegate selectedObject:(id)aSelectedObject{
-    NSMutableArray *l_selectedObjects = [NSMutableArray array];
-    if (aSelectedObject) {
-        [l_selectedObjects addObject:aSelectedObject];
-    }
-	return [super initWithSelectionManagerDelegate:aDelegate selectedObjects:l_selectedObjects];
-}
 
-- (id)initWithSelectionManagerDelegate:(id<IFASelectionManagerDelegate>)aDelegate{
-    return [super initWithSelectionManagerDelegate:aDelegate];
+- (id)initWithSelectionManagerDataSource:(id<IFASelectionManagerDataSource>)a_dataSource selectedObject:(id)a_selectedObject{
+    NSMutableArray *l_selectedObjects = [NSMutableArray array];
+    if (a_selectedObject) {
+        [l_selectedObjects addObject:a_selectedObject];
+    }
+	return [super initWithSelectionManagerDataSource:a_dataSource selectedObjects:l_selectedObjects];
 }
 
 - (id)selectedObject{
@@ -42,7 +38,7 @@
         return nil;
     }else{
         NSAssert([self.selectedObjects count]==1, @"Unexpected array size: %lu, array: %@", (unsigned long)[self.selectedObjects count], [self.selectedObjects description]);
-        return [self.selectedObjects objectAtIndex:0];
+        return self.selectedObjects[0];
     }
 }
 
@@ -59,7 +55,7 @@
         return nil;
     }else{
         NSAssert([self.selectedIndexPaths count]==1, @"Unexpected array size: %lu", (unsigned long)[self.selectedIndexPaths count]);
-        return [self.selectedIndexPaths objectAtIndex:0];
+        return self.selectedIndexPaths[0];
     }
 }
 

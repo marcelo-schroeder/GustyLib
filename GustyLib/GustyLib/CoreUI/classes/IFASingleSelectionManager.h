@@ -18,14 +18,28 @@
 //  limitations under the License.
 //
 
+/**
+* This class manages the state of single object selection, and it offers optional integration with a table view controller for managing associated view state.
+*/
 @interface IFASingleSelectionManager : IFASelectionManager {
 
 }
 
+/**
+* Currently selected object.
+*/
 @property (nonatomic, strong) id selectedObject;
+
+/**
+* Currently selected index path.
+*/
 @property (nonatomic, readonly) NSIndexPath *selectedIndexPath;
 
-- (id)initWithSelectionManagerDelegate:(id<IFASelectionManagerDelegate>)aDelegate selectedObject:(id)aSelectedObject;
-- (id)initWithSelectionManagerDelegate:(id<IFASelectionManagerDelegate>)aDelegate;
+/**
+* Convenience initialiser.
+* @param a_dataSource The selection manager's data source (required).
+* @param a_selectedObject Any previously selected object (optional).
+*/
+- (id)initWithSelectionManagerDataSource:(id<IFASelectionManagerDataSource>)a_dataSource selectedObject:(id)a_selectedObject;
 
 @end

@@ -812,17 +812,19 @@
     return cell;
 }
 
-#pragma mark - IFASelectionManagerDelegate
+#pragma mark - IFASelectionManagerDataSource
 
-- (NSObject*)selectionManagerObjectForIndexPath:(NSIndexPath*)a_indexPath{
+- (NSObject *)selectionManager:(IFASelectionManager *)a_selectionManager
+             objectAtIndexPath:(NSIndexPath *)a_indexPath {
     return [self objectForIndexPath:a_indexPath];
 }
 
-- (NSIndexPath*)selectionManagerIndexPathForObject:(NSObject*)a_object{
+- (NSIndexPath *)selectionManager:(IFASelectionManager *)a_selectionManager
+               indexPathForObject:(NSObject *)a_object {
     return [self indexPathForObject:a_object];
 }
 
-- (UITableView*)selectionTableView{
+- (UITableView *)tableViewForSelectionManager:(IFASelectionManager *)a_selectionManager {
 	return self.tableView;
 }
 
