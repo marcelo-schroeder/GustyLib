@@ -50,6 +50,11 @@
 @property (nonatomic, strong) UIBarButtonItem *IFA_modalDismissalDoneBarButtonItem;
 
 /**
+* Indicates whether the session completion has been notified or not.
+*/
+@property (nonatomic, readonly) BOOL ifa_sessionCompletionNotified;
+
+/**
 * IMPORTANT: there is currently a potential issue if enabling this property. Refer to API documentation for the shouldDismissKeyboardOnNonTextInputInteractions property in IFAPassthroughView.h
 */
 @property (nonatomic) BOOL ifa_shouldUseKeyboardPassthroughView;

@@ -51,6 +51,7 @@ static char c_hasViewAppearedKey;
 static char c_modalDismissalDoneBarButtonItemKey;
 static char c_toolbarUpdatedBeforeViewAppearedKey;
 static char c_previousVisibleViewControllerKey;
+static char c_sessionCompletionNotifiedKey;
 
 @interface UIViewController (IFACategory_Private)
 
@@ -63,6 +64,7 @@ static char c_previousVisibleViewControllerKey;
 @property (nonatomic) NSUInteger IFA_childManagedObjectContextCountOnViewDidLoad;   // Used for assertion only
 @property (nonatomic) BOOL ifa_hasViewAppeared;
 @property (nonatomic) BOOL IFA_toolbarUpdatedBeforeViewAppeared;
+@property (nonatomic) BOOL ifa_sessionCompletionNotified;
 
 @end
 
@@ -501,6 +503,14 @@ typedef NS_ENUM(NSUInteger, IFANavigationBarButtonItemsSide) {
     objc_setAssociatedObject(self, &c_toolbarUpdatedBeforeViewAppearedKey, @(a_toolbarUpdatedBeforeViewAppeared), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+-(BOOL)ifa_sessionCompletionNotified {
+    return ((NSNumber*)objc_getAssociatedObject(self, &c_sessionCompletionNotifiedKey)).boolValue;
+}
+
+-(void)setIfa_sessionCompletionNotified:(BOOL)a_sessionCompletionNotified{
+    objc_setAssociatedObject(self, &c_sessionCompletionNotifiedKey, @(a_sessionCompletionNotified), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 -(NSUInteger)IFA_childManagedObjectContextCountOnViewDidLoad {
     return ((NSNumber*)objc_getAssociatedObject(self, &c_childManagedObjectContextCountOnViewDidLoadKey)).unsignedIntegerValue;
 }
@@ -842,6 +852,7 @@ typedef NS_ENUM(NSUInteger, IFANavigationBarButtonItemsSide) {
 - (void)ifa_notifySessionCompletionWithChangesMade:(BOOL)a_changesMade data:(id)a_data animated:(BOOL)a_animated{
     [self.ifa_presenter sessionDidCompleteForViewController:self changesMade:a_changesMade data:a_data
                                      shouldAnimateDismissal:a_animated];
+    self.ifa_sessionCompletionNotified = YES;
     if([self.ifa_presenter isKindOfClass:[UIViewController class]]){
         [self IFA_assertManagedObjectContextCountForViewController:(UIViewController *)self.ifa_presenter];
     }

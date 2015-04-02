@@ -703,16 +703,20 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change
                        context:(void *)context {
     if (object==self && [keyPath isEqualToString:@"staleData"]) {
-        if ([self.listViewControllerDataSource respondsToSelector:@selector(shouldRefreshAndReloadDataWhenDataBecomesStaleAndViewIsVisibleForListViewController:)]) {
+        if (!self.shouldIgnoreStaleDataChanges && [self.listViewControllerDataSource respondsToSelector:@selector(shouldRefreshAndReloadDataWhenDataBecomesStaleAndViewIsVisibleForListViewController:)]) {
             NSNumber *oldValue = change[NSKeyValueChangeOldKey];
             NSNumber *newValue = change[NSKeyValueChangeNewKey];
             if (!oldValue.boolValue && newValue.boolValue) {
                 BOOL shouldRefreshAndReloadData = [self.listViewControllerDataSource shouldRefreshAndReloadDataWhenDataBecomesStaleAndViewIsVisibleForListViewController:self];
                 [IFAUtils dispatchAsyncMainThreadBlock:^{
                     if (shouldRefreshAndReloadData) {
-                        [self refreshAndReloadData];
-                    } else {
-                        self.staleData = NO;
+                        if (self.pagingContainerViewController) {
+                            if (self.selectedViewControllerInPagingContainer) {
+                                [self.pagingContainerViewController refreshAndReloadChildData];
+                            }
+                        } else {
+                            [self refreshAndReloadData];
+                        }
                     }
                 }];
             }

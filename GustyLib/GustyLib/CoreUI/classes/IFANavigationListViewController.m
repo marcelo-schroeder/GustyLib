@@ -73,9 +73,12 @@
         
         // Persist deletion
 		NSManagedObject	*mo = (NSManagedObject*) [self objectForIndexPath:indexPath];
+        self.shouldIgnoreStaleDataChanges = YES;
 		if (![[IFAPersistenceManager sharedInstance] deleteAndSaveObject:mo validationAlertPresenter:self]) {
+            self.shouldIgnoreStaleDataChanges = NO;
 			return;
 		}
+        self.shouldIgnoreStaleDataChanges = NO;
 
         if (!self.fetchedResultsController) {
 
@@ -139,7 +142,9 @@
         [fromManagedObject setValue:@(seq) forKey:@"seq"];
         
         // Save changes
+        self.shouldIgnoreStaleDataChanges = YES;
         [[IFAPersistenceManager sharedInstance] saveObject:fromManagedObject validationAlertPresenter:self];
+        self.shouldIgnoreStaleDataChanges = NO;
 
         if (!self.fetchedResultsController) {
 

@@ -29,7 +29,8 @@
 
 @protocol IFAFetchedResultsTableViewControllerDataSource <NSObject>
 @optional
-/**
+
+/*
 * Provides a NSFetchedResultsController instance to this view controller.
 * Default NSFetchedResultsControllerDelegate functionality will be automatically provided (the NSFetchedResultsControllerDelegate will be set to self).
 */

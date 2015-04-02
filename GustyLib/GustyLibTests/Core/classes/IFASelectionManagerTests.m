@@ -22,7 +22,15 @@
 @implementation IFASelectionManagerTests{
 }
 
-- (void)testSingleSelectionSelection {
+- (void)testSingleSelectionSelectionViaIndexPath {
+    [self testSingleSelectionSelectionWithObject:NO];
+}
+
+- (void)testSingleSelectionSelectionViaObject {
+    [self testSingleSelectionSelectionWithObject:YES];
+}
+
+- (void)testSingleSelectionSelectionWithObject:(BOOL)a_withObject {
     // given
     NSUInteger indexToSelect = 2;
     NSIndexPath *indexPathToSelect = [NSIndexPath indexPathForRow:indexToSelect
@@ -42,8 +50,13 @@
                                                 animated:YES]);
     OCMExpect([self.tableViewMock cellForRowAtIndexPath:indexPathToSelect]).andReturn(self.tableViewCellMock1);
     // when
-    [self.selectionManager handleSelectionForIndexPath:indexPathToSelect
-                                              userInfo:userInfo];
+    if (a_withObject) {
+        [self.selectionManager handleSelectionForObject:objectToSelect
+                                               userInfo:userInfo];
+    } else {
+        [self.selectionManager handleSelectionForIndexPath:indexPathToSelect
+                                                  userInfo:userInfo];
+    }
     // then
     OCMVerifyAll(self.selectionManagerDelegateMock);
     OCMVerifyAll(self.tableViewMock);
@@ -65,7 +78,15 @@
     assertThat(selectionManager.selectedIndexPaths, containsInAnyOrder(indexPathToSelect, nil));
 }
 
-- (void)testSingleSelectionDeselection {
+- (void)testSingleSelectionDeselectionViaIndexPath {
+    [self testSingleSelectionDeselectionWithObject:NO];
+}
+
+- (void)testSingleSelectionDeselectionViaObject {
+    [self testSingleSelectionDeselectionWithObject:YES];
+}
+
+- (void)testSingleSelectionDeselectionWithObject:(BOOL)a_withObject{
     // given
     NSUInteger indexToDeselect = 2;
     NSIndexPath *indexPathToDeselect = [NSIndexPath indexPathForRow:indexToDeselect
@@ -85,7 +106,11 @@
                                                 animated:YES]);
     OCMExpect([self.tableViewMock cellForRowAtIndexPath:indexPathToDeselect]).andReturn(self.tableViewCellMock1);
     // when
-    [self.selectionManager handleSelectionForIndexPath:indexPathToDeselect];
+    if (a_withObject) {
+        [self.selectionManager handleSelectionForObject:objectToDeselect];
+    } else {
+        [self.selectionManager handleSelectionForIndexPath:indexPathToDeselect];
+    }
     // then
     OCMVerifyAll(self.selectionManagerDelegateMock);
     OCMVerifyAll(self.tableViewMock);
@@ -93,10 +118,19 @@
     assertThatUnsignedInteger(self.selectionManager.selectedIndexPaths.count, is(equalToUnsignedInteger(0)));
 }
 
-- (void)testSingleSelectionDeselectionDisallowingDeselection {
+- (void)testSingleSelectionDeselectionDisallowingDeselectionViaIndexPath {
+    [self testSingleSelectionDeselectionDisallowingDeselectionWithObject:NO];
+}
+
+- (void)testSingleSelectionDeselectionDisallowingDeselectionViaObject {
+    [self testSingleSelectionDeselectionDisallowingDeselectionWithObject:YES];
+}
+
+- (void)testSingleSelectionDeselectionDisallowingDeselectionWithObject:(BOOL)a_withObject {
     // given
     self.selectionManager.disallowDeselection = YES;
     NSUInteger indexToDeselect = 2;
+    id objectToDeselect = self.objects[indexToDeselect];
     NSIndexPath *indexPathToDeselect = [NSIndexPath indexPathForRow:indexToDeselect
                                                           inSection:0];
     [self.selectionManager handleSelectionForIndexPath:indexPathToDeselect];
@@ -112,19 +146,31 @@
     OCMExpect([self.tableViewMock deselectRowAtIndexPath:indexPathToDeselect
                                                 animated:YES]);
     // when
-    [self.selectionManager handleSelectionForIndexPath:indexPathToDeselect];
+    if (a_withObject) {
+        [self.selectionManager handleSelectionForObject:objectToDeselect];
+    } else {
+        [self.selectionManager handleSelectionForIndexPath:indexPathToDeselect];
+    }
     // then
     OCMVerifyAll(self.selectionManagerDelegateMock);
     OCMVerifyAll(self.tableViewMock);
-    assertThat(self.selectionManager.selectedObjects, containsInAnyOrder(self.objects[indexToDeselect], nil));
+    assertThat(self.selectionManager.selectedObjects, containsInAnyOrder(objectToDeselect, nil));
     assertThat(self.selectionManager.selectedIndexPaths, containsInAnyOrder(indexPathToDeselect, nil));
 }
 
-- (void)testSingleSelectionSelectionWithPreviousSelection {
+- (void)testSingleSelectionSelectionWithPreviousSelectionViaIndexPath {
+    [self testSingleSelectionSelectionWithPreviousSelectionWithObject:NO];
+}
+
+- (void)testSingleSelectionSelectionWithPreviousSelectionViaObject {
+    [self testSingleSelectionSelectionWithPreviousSelectionWithObject:YES];
+}
+
+- (void)testSingleSelectionSelectionWithPreviousSelectionWithObject:(BOOL)a_withObject {
     // given
     NSUInteger previouslySelectedIndex = 4;
     NSIndexPath *previouslySelectedIndexPath = [NSIndexPath indexPathForRow:previouslySelectedIndex
-                                                                          inSection:0];
+                                                                  inSection:0];
     id previouslySelectedObject = self.objects[previouslySelectedIndex];
     [self.selectionManager handleSelectionForIndexPath:previouslySelectedIndexPath];
     NSUInteger indexToSelect = 2;
@@ -149,7 +195,11 @@
     OCMExpect([self.tableViewMock cellForRowAtIndexPath:previouslySelectedIndexPath]).andReturn(self.tableViewCellMock1);
     OCMExpect([self.tableViewMock cellForRowAtIndexPath:indexPathToSelect]).andReturn(self.tableViewCellMock2);
     // when
-    [self.selectionManager handleSelectionForIndexPath:indexPathToSelect];
+    if (a_withObject) {
+        [self.selectionManager handleSelectionForObject:objectToSelect];
+    } else {
+        [self.selectionManager handleSelectionForIndexPath:indexPathToSelect];
+    }
     // then
     OCMVerifyAll(self.selectionManagerDelegateMock);
     OCMVerifyAll(self.tableViewMock);
@@ -157,7 +207,15 @@
     assertThat(self.selectionManager.selectedIndexPaths, containsInAnyOrder(indexPathToSelect, nil));
 }
 
-- (void)testMultipleSelectionSelection {
+- (void)testMultipleSelectionSelectionViaIndexPath {
+    [self testMultipleSelectionSelectionWithObject:NO];
+}
+
+- (void)testMultipleSelectionSelectionViaObject {
+    [self testMultipleSelectionSelectionWithObject:YES];
+}
+
+- (void)testMultipleSelectionSelectionWithObject:(BOOL)a_withObject {
     // given
     self.selectionManager.allowMultipleSelection = YES;
     NSUInteger indexToSelect1 = 2;
@@ -193,8 +251,13 @@
                                                 animated:YES]);
     OCMExpect([self.tableViewMock cellForRowAtIndexPath:indexPathToSelect2]).andReturn(self.tableViewCellMock2);
     // when
-    [self.selectionManager handleSelectionForIndexPath:indexPathToSelect1];
-    [self.selectionManager handleSelectionForIndexPath:indexPathToSelect2];
+    if (a_withObject) {
+        [self.selectionManager handleSelectionForObject:objectToSelect1];
+        [self.selectionManager handleSelectionForObject:objectToSelect2];
+    } else {
+        [self.selectionManager handleSelectionForIndexPath:indexPathToSelect1];
+        [self.selectionManager handleSelectionForIndexPath:indexPathToSelect2];
+    }
     // then
     OCMVerifyAll(self.selectionManagerDelegateMock);
     OCMVerifyAll(self.tableViewMock);
@@ -221,7 +284,15 @@
     assertThat(selectionManager.selectedIndexPaths, containsInAnyOrder(indexPathToSelect1, indexPathToSelect2, nil));
 }
 
-- (void)testMultipleSelectionDeselection {
+- (void)testMultipleSelectionDeselectionViaIndexPath {
+    [self testMultipleSelectionDeselectionWithObject:NO];
+}
+
+- (void)testMultipleSelectionDeselectionViaObject {
+    [self testMultipleSelectionDeselectionWithObject:YES];
+}
+
+- (void)testMultipleSelectionDeselectionWithObject:(BOOL)a_withObject {
     // given
     self.selectionManager.allowMultipleSelection = YES;
     NSUInteger previouslySelectedIndex = 2;
@@ -246,7 +317,11 @@
                                                 animated:YES]);
     OCMExpect([self.tableViewMock cellForRowAtIndexPath:indexPathToDeselect]).andReturn(self.tableViewCellMock1);
     // when
-    [self.selectionManager handleSelectionForIndexPath:indexPathToDeselect];
+    if (a_withObject) {
+        [self.selectionManager handleSelectionForObject:objectToDeselect];
+    } else {
+        [self.selectionManager handleSelectionForIndexPath:indexPathToDeselect];
+    }
     // then
     OCMVerifyAll(self.selectionManagerDelegateMock);
     OCMVerifyAll(self.tableViewMock);

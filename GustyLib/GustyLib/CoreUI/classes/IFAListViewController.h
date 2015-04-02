@@ -84,13 +84,20 @@ typedef NS_ENUM(NSUInteger, IFAListViewControllerFetchingStrategy){
 @property BOOL staleData;
 
 /**
+* Set this property to YES to cause changes to the <staleData> property to be ignored for the purpose of automatically refreshing and reloading table data.
+
+* This is useful in cases where Core Data object changes made by a given instance of this class will cause the <staleData> property to be set to YES but a data refresh and reload is not desirable.
+*/
+@property(nonatomic) BOOL shouldIgnoreStaleDataChanges;
+
+/**
 * Used to determine the persistent object fetching strategy.
 * The default is IFAListViewControllerFetchingStrategyFetchedResultsController unless the "listGroupedBy" entity config property for the entity specified by the "entityName" property is not nil. In that case, the strategy will be set to IFAListViewControllerFetchingStrategyFindEntities automatically.
 */
 @property (nonatomic) IFAListViewControllerFetchingStrategy fetchingStrategy;
 
 /* "findEntities" fetching strategy specific properties */
-@property (nonatomic, strong) NSMutableArray *entities; // Determines the persistent entity to be used to populate the list view.
+@property (nonatomic, strong) NSMutableArray *entities;
 @property (nonatomic, strong) NSMutableArray *sectionHeaderTitles;
 @property (nonatomic, strong) NSMutableArray *sectionsWithRows;
 

@@ -43,37 +43,58 @@
 	return self;
 }
 
+- (void)handleSelectionForObject:(id)a_object {
+    [self handleSelectionForObject:a_object
+                          userInfo:nil];
+}
+
+- (void)handleSelectionForObject:(id)a_object
+                        userInfo:(NSDictionary *)a_userInfo {
+    NSIndexPath *indexPath = [self.dataSource selectionManager:self
+                                                  indexPathForObject:a_object];
+    [self handleSelectionForObject:a_object
+                       atIndexPath:indexPath
+                          userInfo:a_userInfo];
+}
+
 - (void)handleSelectionForIndexPath:(NSIndexPath*)a_indexPath{
     [self handleSelectionForIndexPath:a_indexPath userInfo:nil];
 }
 
 - (void)handleSelectionForIndexPath:(NSIndexPath*)a_indexPath userInfo:(NSDictionary*)a_userInfo{
-    
-//    NSLog(@"handleSelectionForIndexPath: %@", [a_indexPath description]);
-//    NSLog(@"self.selectedIndexPaths: %@", [self.selectedIndexPaths description]);
-    
+    id object = [self.dataSource selectionManager:self
+                                        objectAtIndexPath:a_indexPath];
+    [self handleSelectionForObject:object
+                       atIndexPath:a_indexPath
+                          userInfo:a_userInfo];
+}
+
+- (void)handleSelectionForObject:(id)a_object
+                     atIndexPath:(NSIndexPath *)a_indexPath
+                        userInfo:(NSDictionary *)a_userInfo {
+
     NSIndexPath *l_previousSelectedIndexPath = nil;
-	id l_previousSelectedObject = nil;
-	id l_selectedObject = nil;
+    id l_previousSelectedObject = nil;
+    id l_selectedObject = nil;
     if (self.allowMultipleSelection) {
-        id l_targetObject = [self.dataSource selectionManager:self
-                                            objectAtIndexPath:a_indexPath];
-        if ([self.selectedObjects containsObject:l_targetObject]) {
+        if ([self.selectedObjects containsObject:a_object]) {
             l_previousSelectedIndexPath = a_indexPath;
-            l_previousSelectedObject = l_targetObject;
+            l_previousSelectedObject = a_object;
         }else{
-            l_selectedObject = l_targetObject;
+            l_selectedObject = a_object;
         }
     }else{
-        if ([self.selectedIndexPaths count]>0) {
-            l_previousSelectedIndexPath = self.selectedIndexPaths[0];
+        if ([self.selectedObjects count]>0) {
             l_previousSelectedObject = self.selectedObjects[0];
+            if ([self.dataSource respondsToSelector:@selector(selectionManager:indexPathForObject:)]) {
+                l_previousSelectedIndexPath = [self.dataSource selectionManager:self
+                                                             indexPathForObject:l_previousSelectedObject];
+            }
         }
-        if ([self.selectedIndexPaths count]==0 || ![l_previousSelectedIndexPath isEqual:a_indexPath]) {
-            l_selectedObject = [self.dataSource selectionManager:self
-                                               objectAtIndexPath:a_indexPath];
+        if ([self.selectedObjects count]==0 || ![l_previousSelectedObject isEqual:a_object]) {
+            l_selectedObject = a_object;
         }
-        if (self.disallowDeselection && l_previousSelectedIndexPath && [l_previousSelectedIndexPath compare:a_indexPath] == NSOrderedSame) {
+        if (self.disallowDeselection && l_previousSelectedObject && [l_previousSelectedObject isEqual:a_object]) {
             if ([self.delegate respondsToSelector:@selector(selectionManager:didSelectObject:deselectedObject:indexPath:userInfo:)]) {
                 // Run delegate's handler
                 [self.delegate selectionManager:self
@@ -94,7 +115,7 @@
 //    NSLog(@"l_selectedObject: %@", [l_selectedObject description]);
 
     // Old cell
-	if (l_previousSelectedObject) {
+    if (l_previousSelectedObject) {
 //        NSLog(@"l_previousSelectedIndex: %u", l_previousSelectedIndex);
         if ([self.dataSource respondsToSelector:@selector(tableViewForSelectionManager:)] && [self.delegate respondsToSelector:@selector(selectionManager:didRequestDecorationForCell:selected:object:)]) {
             NSIndexPath *oldIndexPath = l_previousSelectedIndexPath;
@@ -107,8 +128,8 @@
         }
 	}
 
-	// New cell
-	if (l_selectedObject) {
+    // New cell
+    if (l_selectedObject) {
         if ([self.dataSource respondsToSelector:@selector(tableViewForSelectionManager:)] && [self.delegate respondsToSelector:@selector(selectionManager:didRequestDecorationForCell:selected:object:)]) {
             UITableViewCell *newCell = [[self.dataSource tableViewForSelectionManager:self] cellForRowAtIndexPath:a_indexPath];
             [self.delegate selectionManager:self
@@ -116,8 +137,7 @@
                                    selected:YES
                                      object:l_selectedObject];
         }
-        [self.selectedObjects addObject:[self.dataSource selectionManager:self
-                                                        objectAtIndexPath:a_indexPath]];
+        [self.selectedObjects addObject:a_object];
 	}
 
     // Remove previous selection
@@ -145,8 +165,9 @@
 }
 
 - (void)deselectAllWithUserInfo:(NSDictionary *)a_userInfo{
-    for (NSIndexPath *l_selectedIndexPath in self.selectedIndexPaths) {
-		[self handleSelectionForIndexPath:l_selectedIndexPath userInfo:a_userInfo];
+    for (id selectedObject in [self.selectedObjects copy]) {
+        [self handleSelectionForObject:selectedObject
+                              userInfo:a_userInfo];
     }
 }
 

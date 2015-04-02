@@ -33,6 +33,7 @@
 
 /**
 * Currently selected index paths.
+* Requires the implementation of <[IFASelectionManagerDataSource selectionManager:indexPathForObject:]>
 */
 @property (weak, nonatomic, readonly) NSArray *selectedIndexPaths;
 
@@ -57,6 +58,19 @@
 * Selection manager's delegate (optional).
 */
 @property(nonatomic, weak) id <IFASelectionManagerDelegate> delegate;
+
+/**
+* Call this method to request handling of selection on the UI.
+* @param a_object Selected object.
+*/
+- (void)handleSelectionForObject:(id)a_object;
+
+/**
+* Call this method to request handling of selection on the UI and optionally pass a user info dictionary.
+* @param a_object Selected object.
+* @param a_userInfo Optional user info dictionary to be passed back in delegate call backs.
+*/
+- (void)handleSelectionForObject:(id)a_object userInfo:(NSDictionary*)a_userInfo;
 
 /**
 * Call this method to request handling of selection on the UI.
@@ -109,9 +123,10 @@
 
 @protocol IFASelectionManagerDataSource <NSObject>
 
-@required
+@optional
 
 /**
+* Implement this method if <[IFASelectionManager handleSelectionForIndexPath:]> or <[IFASelectionManager handleSelectionForIndexPath:userInfo:]> will be used.
 * @param a_selectionManager The sender.
 * @param a_indexPath Index path of the object being requested by the selection manager.
 * @returns The object at the index path provided.
@@ -120,14 +135,14 @@
              objectAtIndexPath:(NSIndexPath *)a_indexPath;
 
 /**
+* Implement this method if <[IFASelectionManager handleSelectionForObject:]> or <[IFASelectionManager handleSelectionForObject:userInfo:]> will be used and table view state must be kept in sync.
+* This method is required if <[IFASelectionManager selectedIndexPaths]> will be used.
 * @param a_selectionManager The sender.
 * @param a_object The object associated with the index path being requested by the selection manager.
 * @returns Index path associated with the object provided.
 */
 - (NSIndexPath *)selectionManager:(IFASelectionManager *)a_selectionManager
                indexPathForObject:(NSObject *)a_object;
-
-@optional
 
 /**
 * Implementing this method allows the selection manager to automatically deselect the table view associated with a user selection or deselection action.

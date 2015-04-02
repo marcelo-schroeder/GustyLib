@@ -462,6 +462,10 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
     return self.readOnlyMode && self.showEditButton;
 }
 
+- (BOOL)IFA_isEditModeOnlyCase {
+    return !self.createMode && !self.readOnlyMode && self.showEditButton;
+}
+
 /*
 * @returns YES if the field has received focus and no more handling is required (e.g. keyboard focus).
 */
@@ -1837,9 +1841,11 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidEndEditingNotification object:nil];
 
-    BOOL l_hasBeenPoppedByNavigationController = self.isMovingFromParentViewController;
-    if (l_hasBeenPoppedByNavigationController) {
-        [self ifa_notifySessionCompletion];
+    if (!self.ifa_sessionCompletionNotified) {
+        BOOL l_hasBeenPoppedByNavigationController = self.isMovingFromParentViewController;
+        if (l_hasBeenPoppedByNavigationController) {
+            [self ifa_notifySessionCompletion];
+        }
     }
 
 }
@@ -1918,6 +1924,8 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
                 self.readOnlyMode = NO;
                 self.IFA_readOnlyModeSuspendedForEditing = YES;
                 [self IFA_pushChildManagedObjectContext];
+            } else if (self.IFA_isEditModeOnlyCase) {
+                [self IFA_pushChildManagedObjectContext];
             }
             if ([l_persistenceManager.entityConfig hasNavigationBarSubmitButtonForForm:self.formName
                                                                               inEntity:[self.object ifa_entityName]]) {
@@ -1977,7 +1985,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
                 }
 
-                if (self.IFA_readOnlyModeSuspendedForEditing) {
+                if (self.IFA_readOnlyModeSuspendedForEditing || self.IFA_isEditModeOnlyCase) {
                     if (l_changesMade) {
                         [l_persistenceManager saveMainManagedObjectContext];
                     }

@@ -367,9 +367,6 @@
 
     if (!self.skipEditingUiStateChange) { // Avoids unnecessary UI state change in Create mode
 
-        // Reset cell height cache as cell content view width may change due to addition/removal of cell accessory views
-        [self.IFA_cellHeightCacheByIndexPath removeAllObjects];
-
         [super setEditing:editing animated:animated];
         [self ifa_setEditing:editing animated:animated];
 //        [super m_updateEditButtonItemAccessibilityLabel];
