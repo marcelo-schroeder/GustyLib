@@ -158,13 +158,29 @@
 @optional
 
 /**
-* Called by the selection manager to indicate that a selection or deselection action has been performed.
+* Called by the selection manager to indicate that a selection and/or deselection action is about to be performed.
 *
 * This call allows the delegate to keep other associated state in sync with selection and deselection actions.
 * @param a_selectionManager The sender.
 * @param a_selectedObject The selected object, or nil if no object has been selected.
 * @param a_deselectedObject The deselected object, or nil if no object has been deselected.
-* @param a_indexPath The index path associated with the user action.
+* @param a_indexPath The index path associated with the user action if available, otherwise nil.
+* @param a_userInfo A dictionary optionally provided when <[IFASelectionManager handleSelectionForIndexPath:userInfo:]> was called.
+*/
+- (void)selectionManager:(IFASelectionManager *)a_selectionManager
+        willSelectObject:(id)a_selectedObject
+          deselectObject:(id)a_deselectedObject
+               indexPath:(NSIndexPath *)a_indexPath
+                userInfo:(NSDictionary *)a_userInfo;
+
+/**
+* Called by the selection manager to indicate that a selection and/or deselection action has been performed.
+*
+* This call allows the delegate to keep other associated state in sync with selection and deselection actions.
+* @param a_selectionManager The sender.
+* @param a_selectedObject The selected object, or nil if no object has been selected.
+* @param a_deselectedObject The deselected object, or nil if no object has been deselected.
+* @param a_indexPath The index path associated with the user action if available, otherwise nil.
 * @param a_userInfo A dictionary optionally provided when <[IFASelectionManager handleSelectionForIndexPath:userInfo:]> was called.
 */
 - (void)selectionManager:(IFASelectionManager *)a_selectionManager

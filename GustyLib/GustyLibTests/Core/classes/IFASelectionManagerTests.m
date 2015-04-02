@@ -19,7 +19,7 @@
 @property(nonatomic, strong) id tableViewCellMock2;
 @end
 
-@implementation IFASelectionManagerTests{
+@implementation IFASelectionManagerTests {
 }
 
 - (void)testSingleSelectionSelectionViaIndexPath {
@@ -36,7 +36,12 @@
     NSIndexPath *indexPathToSelect = [NSIndexPath indexPathForRow:indexToSelect
                                                         inSection:0];
     id objectToSelect = self.objects[indexToSelect];
-    NSDictionary *userInfo = @{@"key":@"value"};
+    NSDictionary *userInfo = @{@"key" : @"value"};
+    OCMExpect([self.selectionManagerDelegateMock selectionManager:self.selectionManager
+                                                 willSelectObject:objectToSelect
+                                                   deselectObject:[OCMArg isNil]
+                                                        indexPath:indexPathToSelect
+                                                         userInfo:userInfo]);
     OCMExpect([self.selectionManagerDelegateMock selectionManager:self.selectionManager
                                                   didSelectObject:objectToSelect
                                                  deselectedObject:[OCMArg isNil]
@@ -86,13 +91,18 @@
     [self testSingleSelectionDeselectionWithObject:YES];
 }
 
-- (void)testSingleSelectionDeselectionWithObject:(BOOL)a_withObject{
+- (void)testSingleSelectionDeselectionWithObject:(BOOL)a_withObject {
     // given
     NSUInteger indexToDeselect = 2;
     NSIndexPath *indexPathToDeselect = [NSIndexPath indexPathForRow:indexToDeselect
                                                           inSection:0];
     [self.selectionManager handleSelectionForIndexPath:indexPathToDeselect];
     id objectToDeselect = self.objects[indexToDeselect];
+    OCMExpect([self.selectionManagerDelegateMock selectionManager:self.selectionManager
+                                                 willSelectObject:[OCMArg isNil]
+                                                   deselectObject:objectToDeselect
+                                                        indexPath:indexPathToDeselect
+                                                         userInfo:[OCMArg isNil]]);
     OCMExpect([self.selectionManagerDelegateMock selectionManager:self.selectionManager
                                                   didSelectObject:[OCMArg isNil]
                                                  deselectedObject:objectToDeselect
@@ -134,6 +144,11 @@
     NSIndexPath *indexPathToDeselect = [NSIndexPath indexPathForRow:indexToDeselect
                                                           inSection:0];
     [self.selectionManager handleSelectionForIndexPath:indexPathToDeselect];
+    OCMExpect([self.selectionManagerDelegateMock selectionManager:self.selectionManager
+                                                 willSelectObject:[OCMArg isNil]
+                                                   deselectObject:[OCMArg isNil]
+                                                        indexPath:indexPathToDeselect
+                                                         userInfo:[OCMArg isNil]]);
     OCMExpect([self.selectionManagerDelegateMock selectionManager:self.selectionManager
                                                   didSelectObject:[OCMArg isNil]
                                                  deselectedObject:[OCMArg isNil]
@@ -177,6 +192,11 @@
     NSIndexPath *indexPathToSelect = [NSIndexPath indexPathForRow:indexToSelect
                                                         inSection:0];
     id objectToSelect = self.objects[indexToSelect];
+    OCMExpect([self.selectionManagerDelegateMock selectionManager:self.selectionManager
+                                                 willSelectObject:objectToSelect
+                                                   deselectObject:previouslySelectedObject
+                                                        indexPath:indexPathToSelect
+                                                         userInfo:[OCMArg isNil]]);
     OCMExpect([self.selectionManagerDelegateMock selectionManager:self.selectionManager
                                                   didSelectObject:objectToSelect
                                                  deselectedObject:previouslySelectedObject
@@ -223,6 +243,11 @@
                                                          inSection:0];
     id objectToSelect1 = self.objects[indexToSelect1];
     OCMExpect([self.selectionManagerDelegateMock selectionManager:self.selectionManager
+                                                 willSelectObject:objectToSelect1
+                                                   deselectObject:[OCMArg isNil]
+                                                        indexPath:indexPathToSelect1
+                                                         userInfo:[OCMArg isNil]]);
+    OCMExpect([self.selectionManagerDelegateMock selectionManager:self.selectionManager
                                                   didSelectObject:objectToSelect1
                                                  deselectedObject:[OCMArg isNil]
                                                         indexPath:indexPathToSelect1
@@ -238,6 +263,11 @@
     NSIndexPath *indexPathToSelect2 = [NSIndexPath indexPathForRow:indexToSelect2
                                                          inSection:0];
     id objectToSelect2 = self.objects[indexToSelect2];
+    OCMExpect([self.selectionManagerDelegateMock selectionManager:self.selectionManager
+                                                 willSelectObject:objectToSelect2
+                                                   deselectObject:[OCMArg isNil]
+                                                        indexPath:indexPathToSelect2
+                                                         userInfo:[OCMArg isNil]]);
     OCMExpect([self.selectionManagerDelegateMock selectionManager:self.selectionManager
                                                   didSelectObject:objectToSelect2
                                                  deselectedObject:[OCMArg isNil]
@@ -305,6 +335,11 @@
     [self.selectionManager handleSelectionForIndexPath:indexPathToDeselect];
     id objectToDeselect = self.objects[indexToDeselect];
     OCMExpect([self.selectionManagerDelegateMock selectionManager:self.selectionManager
+                                                 willSelectObject:[OCMArg isNil]
+                                                   deselectObject:objectToDeselect
+                                                        indexPath:indexPathToDeselect
+                                                         userInfo:[OCMArg isNil]]);
+    OCMExpect([self.selectionManagerDelegateMock selectionManager:self.selectionManager
                                                   didSelectObject:[OCMArg isNil]
                                                  deselectedObject:objectToDeselect
                                                         indexPath:indexPathToDeselect
@@ -325,19 +360,24 @@
     // then
     OCMVerifyAll(self.selectionManagerDelegateMock);
     OCMVerifyAll(self.tableViewMock);
-    assertThat(self.selectionManager.selectedObjects, containsInAnyOrder(self.objects[previouslySelectedIndex],nil));
+    assertThat(self.selectionManager.selectedObjects, containsInAnyOrder(self.objects[previouslySelectedIndex], nil));
     assertThat(self.selectionManager.selectedIndexPaths, containsInAnyOrder(previouslySelectedIndexPath, nil));
 }
 
 - (void)testDeselectAll {
     // given
     self.selectionManager.allowMultipleSelection = YES;
-    NSDictionary *userInfo = @{@"key":@"value"};
+    NSDictionary *userInfo = @{@"key" : @"value"};
     NSUInteger index1 = 2;
     NSIndexPath *indexPath1 = [NSIndexPath indexPathForRow:index1
-                                                         inSection:0];
+                                                 inSection:0];
     id object1 = self.objects[index1];
     [self.selectionManager handleSelectionForIndexPath:indexPath1];
+    OCMExpect([self.selectionManagerDelegateMock selectionManager:self.selectionManager
+                                                 willSelectObject:[OCMArg isNil]
+                                                   deselectObject:object1
+                                                        indexPath:indexPath1
+                                                         userInfo:userInfo]);
     OCMExpect([self.selectionManagerDelegateMock selectionManager:self.selectionManager
                                                   didSelectObject:[OCMArg isNil]
                                                  deselectedObject:object1
@@ -352,9 +392,14 @@
     OCMExpect([self.tableViewMock cellForRowAtIndexPath:indexPath1]).andReturn(self.tableViewCellMock1);
     NSUInteger index2 = 4;
     NSIndexPath *indexPath2 = [NSIndexPath indexPathForRow:index2
-                                                         inSection:0];
+                                                 inSection:0];
     id object2 = self.objects[index2];
     [self.selectionManager handleSelectionForIndexPath:indexPath2];
+    OCMExpect([self.selectionManagerDelegateMock selectionManager:self.selectionManager
+                                                 willSelectObject:[OCMArg isNil]
+                                                   deselectObject:object2
+                                                        indexPath:indexPath2
+                                                         userInfo:userInfo]);
     OCMExpect([self.selectionManagerDelegateMock selectionManager:self.selectionManager
                                                   didSelectObject:[OCMArg isNil]
                                                  deselectedObject:object2
@@ -385,13 +430,13 @@
     [self.selectionManager handleSelectionForIndexPath:previouslySelectedIndexPath];
     NSUInteger indexToDelete = 4;
     NSIndexPath *indexPathToDelete = [NSIndexPath indexPathForRow:indexToDelete
-                                                          inSection:0];
+                                                        inSection:0];
     [self.selectionManager handleSelectionForIndexPath:indexPathToDelete];
     id objectToDelete = self.objects[indexToDelete];
     // when
     [self.selectionManager notifyDeletionForObject:objectToDelete];
     // then
-    assertThat(self.selectionManager.selectedObjects, containsInAnyOrder(self.objects[previouslySelectedIndex],nil));
+    assertThat(self.selectionManager.selectedObjects, containsInAnyOrder(self.objects[previouslySelectedIndex], nil));
     assertThat(self.selectionManager.selectedIndexPaths, containsInAnyOrder(previouslySelectedIndexPath, nil));
 }
 

@@ -50,8 +50,11 @@
 
 - (void)handleSelectionForObject:(id)a_object
                         userInfo:(NSDictionary *)a_userInfo {
-    NSIndexPath *indexPath = [self.dataSource selectionManager:self
-                                                  indexPathForObject:a_object];
+    NSIndexPath *indexPath = nil;
+    if ([self.dataSource respondsToSelector:@selector(selectionManager:indexPathForObject:)]) {
+        indexPath= [self.dataSource selectionManager:self
+                                  indexPathForObject:a_object];
+    }
     [self handleSelectionForObject:a_object
                        atIndexPath:indexPath
                           userInfo:a_userInfo];
@@ -95,39 +98,43 @@
             l_selectedObject = a_object;
         }
         if (self.disallowDeselection && l_previousSelectedObject && [l_previousSelectedObject isEqual:a_object]) {
-            if ([self.delegate respondsToSelector:@selector(selectionManager:didSelectObject:deselectedObject:indexPath:userInfo:)]) {
-                // Run delegate's handler
-                [self.delegate selectionManager:self
-                                didSelectObject:nil
-                               deselectedObject:nil
-                                      indexPath:a_indexPath
-                                       userInfo:a_userInfo];
-            }
-            if ([self.dataSource respondsToSelector:@selector(tableViewForSelectionManager:)]) {
-                // Deselect row (UITableView's default visual indication only)
-                [[self.dataSource tableViewForSelectionManager:self] deselectRowAtIndexPath:a_indexPath
-                                                                                  animated:YES];
-            }
+            [self performSelectionStateChangeWithSelectedObject_selectedObject:nil
+                                                              deselectedObject:nil
+                                                                     indexPath:a_indexPath
+                                                                      userInfo:a_userInfo
+                                                              stateChangeBlock:nil];
             return;
         }
     }
-//    NSLog(@"l_previousSelectedObject: %@", [l_previousSelectedObject description]);
-//    NSLog(@"l_selectedObject: %@", [l_selectedObject description]);
+
+    void (^selectionStateChangeBlock)() = ^{
+
+        // Add new selection
+        if (l_selectedObject) {
+            [self.selectedObjects addObject:a_object];
+        }
+
+        // Remove previous selection
+        [self.selectedObjects removeObject:l_previousSelectedObject];
+
+    };
+    [self performSelectionStateChangeWithSelectedObject_selectedObject:l_selectedObject
+                                                      deselectedObject:l_previousSelectedObject
+                                                             indexPath:a_indexPath
+                                                              userInfo:a_userInfo
+                                                      stateChangeBlock:selectionStateChangeBlock];
 
     // Old cell
     if (l_previousSelectedObject) {
-//        NSLog(@"l_previousSelectedIndex: %u", l_previousSelectedIndex);
         if ([self.dataSource respondsToSelector:@selector(tableViewForSelectionManager:)] && [self.delegate respondsToSelector:@selector(selectionManager:didRequestDecorationForCell:selected:object:)]) {
             NSIndexPath *oldIndexPath = l_previousSelectedIndexPath;
-            //        NSLog(@"oldIndexPath: %u", oldIndexPath.row);
             UITableViewCell *oldCell = [[self.dataSource tableViewForSelectionManager:self] cellForRowAtIndexPath:oldIndexPath];
             [self.delegate selectionManager:self
                 didRequestDecorationForCell:oldCell
                                    selected:NO
                                      object:l_previousSelectedObject];
         }
-	}
-
+    }
     // New cell
     if (l_selectedObject) {
         if ([self.dataSource respondsToSelector:@selector(tableViewForSelectionManager:)] && [self.delegate respondsToSelector:@selector(selectionManager:didRequestDecorationForCell:selected:object:)]) {
@@ -137,25 +144,6 @@
                                    selected:YES
                                      object:l_selectedObject];
         }
-        [self.selectedObjects addObject:a_object];
-	}
-
-    // Remove previous selection
-    [self.selectedObjects removeObject:l_previousSelectedObject];
-
-    if ([self.delegate respondsToSelector:@selector(selectionManager:didSelectObject:deselectedObject:indexPath:userInfo:)]) {
-        // Run delegate's handler
-        [self.delegate selectionManager:self
-                        didSelectObject:l_selectedObject
-                       deselectedObject:l_previousSelectedObject
-                              indexPath:a_indexPath
-                               userInfo:a_userInfo];
-    }
-
-    if ([self.dataSource respondsToSelector:@selector(tableViewForSelectionManager:)]) {
-        // Deselect row (UITableView's default visual indication only)
-        [[self.dataSource tableViewForSelectionManager:self] deselectRowAtIndexPath:a_indexPath
-                                                                          animated:YES];
     }
 
 }
@@ -192,7 +180,43 @@
 }
 #pragma clang diagnostic pop
 
-#pragma mark - Overrides
+#pragma mark - Private
 
+- (void)performSelectionStateChangeWithSelectedObject_selectedObject:(id)a_selectedObject
+                                                    deselectedObject:(id)a_deselectedObject
+                                                           indexPath:(NSIndexPath *)a_indexPath
+                                                            userInfo:(NSDictionary *)a_userInfo
+                                                    stateChangeBlock:(void (^)())a_stateChangeBlock {
+
+    // Notify delegate before state change
+    if ([self.delegate respondsToSelector:@selector(selectionManager:willSelectObject:deselectObject:indexPath:userInfo:)]) {
+        [self.delegate selectionManager:self
+                       willSelectObject:a_selectedObject
+                         deselectObject:a_deselectedObject
+                              indexPath:a_indexPath
+                               userInfo:a_userInfo];
+    }
+
+    // Perform selection state change
+    if (a_stateChangeBlock) {
+        a_stateChangeBlock();
+    }
+    
+    // Notify delegate after state change
+    if ([self.delegate respondsToSelector:@selector(selectionManager:didSelectObject:deselectedObject:indexPath:userInfo:)]) {
+        [self.delegate selectionManager:self
+                        didSelectObject:a_selectedObject
+                       deselectedObject:a_deselectedObject
+                              indexPath:a_indexPath
+                               userInfo:a_userInfo];
+    }
+
+    // Deselect row (UITableView's default visual indication only)
+    if ([self.dataSource respondsToSelector:@selector(tableViewForSelectionManager:)]) {
+        [[self.dataSource tableViewForSelectionManager:self] deselectRowAtIndexPath:a_indexPath
+                                                                           animated:YES];
+    }
+
+}
 
 @end
