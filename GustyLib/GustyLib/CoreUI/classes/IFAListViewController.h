@@ -181,6 +181,8 @@ typedef NS_ENUM(NSUInteger, IFAListViewControllerFetchingStrategy){
 
 /**
 * Implement this method to indicate whether the view controller should refresh and reload backing data when any external changes to the main parent managed object context are detected.
+*
+* The <staleData> property will be set to NO after handling a change to YES when this method is implemented and the view controller is visible. This behaviour allows the next change to be detected correctly (not applicable when the view controller's pagingContainerViewController property is not nil).
 * @param a_listViewController The sender.
 * @returns YES if the view controller should refresh and reload backing data when any external changes to the main parent managed object context are detected, otherwise NO.
 */
