@@ -57,6 +57,7 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
 //@property(nonatomic) NSTimeInterval totalDuration;
 @property(nonatomic, strong) NSMutableDictionary *IFA_cachedSectionHeaderHeightsBySection;
 @property(nonatomic, strong) NSMutableDictionary *IFA_cachedSectionFooterHeightsBySection;
+@property(nonatomic) NSTimeInterval IFA_editingStateChangeTableViewDataReloadDelay;
 @end
 
 @implementation IFAFormViewController
@@ -979,37 +980,21 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
 - (void)onSwitchAction:(UISwitch*)a_switch {
 
-//    NSLog(@"onSwitchAction with tag: %u", a_switch.tag);
-    NSString *l_propertyName = (self.switchControlTagToPropertyName)[@(a_switch.tag)];
-//    NSLog(@"  property name: %@", l_propertyName);
-    [self.object ifa_setValue:@((a_switch.on)) forProperty:l_propertyName];
-    NSArray *l_dependentPropertyNames = [[IFAPersistenceManager sharedInstance].entityConfig dependentsForProperty:l_propertyName
-                                                                                                          inObject:self.object];
-//    NSLog(@"  dependents: %@", l_dependentPropertyNames);
-    NSMutableArray *l_indexPathsToReload = [[NSMutableArray alloc] init];
-    for (NSString *l_dependentPropertyName in l_dependentPropertyNames) {
-//        NSLog(@"    l_dependentPropertyName: %@", l_dependentPropertyName);
-        NSIndexPath *l_indexPath = (self.propertyNameToIndexPath)[l_dependentPropertyName];
-//        NSLog(@"    l_indexPath: %@", [l_indexPath description]);
-        if (l_indexPath) {
-            [l_indexPathsToReload addObject:l_indexPath];
-        }
+    if (!self.isSubForm && !self.editing) {
+        self.IFA_editingStateChangeTableViewDataReloadDelay = IFAAnimationDuration; // Add delay to allow for the switch animation to complete
+        [self setEditing:YES animated:NO];
     }
+
+    NSString *l_propertyName = (self.switchControlTagToPropertyName)[@(a_switch.tag)];
+    [self.object ifa_setValue:@((a_switch.on)) forProperty:l_propertyName];
 
     __weak __typeof(self) l_weakSelf = self;
     [IFAUtils dispatchAsyncMainThreadBlock:^{
 
-        if (!l_weakSelf.isSubForm && !l_weakSelf.editing) {
-            [l_weakSelf setEditing:YES animated:YES];
-        }
+        // Clear help text in case it needs to be updated
+        [l_weakSelf clearSectionFooterHelpTextForPropertyNamed:l_propertyName];
 
-//        NSLog(@"  About to reload: %@", [l_indexPathsToReload description]);
-        if (l_indexPathsToReload.count) {
-            [l_weakSelf.tableView reloadRowsAtIndexPaths:l_indexPathsToReload withRowAnimation:UITableViewRowAnimationFade];
-        }
-
-        // Reload section in case help for the property needs to be updated
-        [self clearSectionFooterHelpTextForPropertyNamed:l_propertyName];
+        // Reload table view data to reflect UI changes
         [l_weakSelf.tableView reloadData];
 
     } afterDelay:IFAAnimationDuration]; // Add delay to allow for the switch animation to complete
@@ -2033,10 +2018,28 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
 
     }
 
-    [UIView transitionWithView:self.view duration:IFAAnimationDuration
-                       options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-        [self.tableView reloadData];
-    } completion:NULL];
+    // Reload table view data to update form state
+    void (^tableViewDataReloadBlock)() = ^{
+        if (animated) {
+            [UIView transitionWithView:self.view
+                              duration:IFAAnimationDuration
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:^{
+                                [self.tableView reloadData];
+                            }
+                            completion:NULL];
+        } else {
+            [self.tableView reloadData];
+        }
+    };
+    if (self.IFA_editingStateChangeTableViewDataReloadDelay) {
+        [IFAUtils dispatchAsyncMainThreadBlock:^{
+            tableViewDataReloadBlock();
+        } afterDelay:self.IFA_editingStateChangeTableViewDataReloadDelay];
+    } else {
+        tableViewDataReloadBlock();
+    };
+    self.IFA_editingStateChangeTableViewDataReloadDelay = 0;
 
 }
 
