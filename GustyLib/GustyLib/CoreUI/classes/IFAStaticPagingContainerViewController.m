@@ -22,8 +22,6 @@
 
 @interface IFAStaticPagingContainerViewController ()
 
-@property (nonatomic) NSUInteger newChildViewControllerCount;
-
 @end
 
 @implementation IFAStaticPagingContainerViewController
