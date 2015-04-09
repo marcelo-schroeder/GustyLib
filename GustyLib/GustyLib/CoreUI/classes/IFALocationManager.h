@@ -68,4 +68,12 @@ performLocationServicesChecksWithAlertPresenterViewController:(UIViewController 
 */
 + (void)handleLocationFailureWithAlertPresenterViewController:(UIViewController *)a_alertPresenterViewController;
 
+/**
+* Calculates the distance (in metres) between two coordinates.
+* @param a_coordinate1 First coordinate.
+* @param a_coordinate2 Second coordinate.
+* @returns Distance (in metres) between the provided pair of coordinates.
+*/
++ (CLLocationDistance)distanceBetweenCoordinate:(CLLocationCoordinate2D)a_coordinate1 andCoordinate:(CLLocationCoordinate2D)a_coordinate2;
+
 @end

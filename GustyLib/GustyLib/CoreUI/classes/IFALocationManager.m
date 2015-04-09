@@ -103,6 +103,13 @@
     }
 }
 
++ (CLLocationDistance)distanceBetweenCoordinate:(CLLocationCoordinate2D)a_coordinate1
+                                  andCoordinate:(CLLocationCoordinate2D)a_coordinate2 {
+    MKMapPoint mapPoint1 = MKMapPointForCoordinate(a_coordinate1);
+    MKMapPoint mapPoint2 = MKMapPointForCoordinate(a_coordinate2);
+    return MKMetersBetweenMapPoints(mapPoint1, mapPoint2);
+}
+
 + (BOOL)
 performLocationServicesChecksWithAlertPresenterViewController:(UIViewController *)a_alertPresenterViewController {
     if (![CLLocationManager locationServicesEnabled]) {

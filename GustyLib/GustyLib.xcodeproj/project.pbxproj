@@ -205,6 +205,7 @@
 		F72E8FB2194E447A00CFB3B1 /* HtmlParser_testdata2.html in Resources */ = {isa = PBXBuildFile; fileRef = F72E8FAE194E447A00CFB3B1 /* HtmlParser_testdata2.html */; };
 		F72E8FB3194E447A00CFB3B1 /* HtmlParser_testdata3.html in Resources */ = {isa = PBXBuildFile; fileRef = F72E8FAF194E447A00CFB3B1 /* HtmlParser_testdata3.html */; };
 		F72E90281952F03100CFB3B1 /* IFAHelpManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F72E90211952F03100CFB3B1 /* IFAHelpManager.m */; };
+		F759E0581AD672B600B20D3B /* IFALocationManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F759E0571AD672B600B20D3B /* IFALocationManagerTests.m */; };
 		F766D33E18ECA71000B3B590 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F766D33D18ECA71000B3B590 /* CoreLocation.framework */; };
 		F766D33F18ECA7D700B3B590 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D4DBED18EA11E100ABF401 /* MapKit.framework */; };
 		F766D34118ECADCE00B3B590 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F766D34018ECADCE00B3B590 /* GLKit.framework */; };
@@ -683,6 +684,7 @@
 		F74C16E619BD6F4800B9B367 /* IFA_Icon_List.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IFA_Icon_List.png; sourceTree = "<group>"; };
 		F74C16E719BD6F4800B9B367 /* IFA_Icon_List@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IFA_Icon_List@2x.png"; sourceTree = "<group>"; };
 		F74EB00219DCC57000C6EE9A /* IFAFormSectionFooterContentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IFAFormSectionFooterContentView.xib; sourceTree = "<group>"; };
+		F759E0571AD672B600B20D3B /* IFALocationManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFALocationManagerTests.m; sourceTree = "<group>"; };
 		F763F0FA1A6DFED60047E10B /* IFA_Icon_HudSuccess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IFA_Icon_HudSuccess.png; sourceTree = "<group>"; };
 		F763F0FB1A6DFED60047E10B /* IFA_Icon_HudSuccess@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IFA_Icon_HudSuccess@2x.png"; sourceTree = "<group>"; };
 		F763F0FC1A6DFFDF0047E10B /* IFA_Icon_HudError.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IFA_Icon_HudError.png; sourceTree = "<group>"; };
@@ -783,6 +785,7 @@
 				F7FF00EC1ABB68E900A0886D /* IFACurrentLocationManagerTests.m */,
 				F7B5A7211AC8CA0B00E47858 /* IFASelectionManagerTests.m */,
 				F7B5A7231AC914FD00E47858 /* IFASingleSelectionManagerTests.m */,
+				F759E0571AD672B600B20D3B /* IFALocationManagerTests.m */,
 			);
 			path = classes;
 			sourceTree = "<group>";
@@ -1896,6 +1899,7 @@
 				F7B5A7241AC914FD00E47858 /* IFASingleSelectionManagerTests.m in Sources */,
 				F7FF00ED1ABB68E900A0886D /* IFACurrentLocationManagerTests.m in Sources */,
 				107380FFC03ED3C26B866D85 /* TempTest.m in Sources */,
+				F759E0581AD672B600B20D3B /* IFALocationManagerTests.m in Sources */,
 				F7FF00EB1AB8F81E00A0886D /* TestCoreDataEntity2.m in Sources */,
 				10738C94729D3ADC20E0D179 /* NSDictionaryTests.m in Sources */,
 				F7B5A7221AC8CA0B00E47858 /* IFASelectionManagerTests.m in Sources */,
