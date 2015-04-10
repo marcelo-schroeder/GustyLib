@@ -817,6 +817,10 @@ static NSString *const k_sectionHeaderFooterReuseId = @"sectionHeaderFooter";
     return shouldLockForm;
 }
 
+- (BOOL)IFA_isFormLocked {
+    return self.readOnlyMode && !self.showEditButton;
+}
+
 - (BOOL)IFA_shouldLockFormWithPromptMessage:(NSString **)a_promptMessage {
     if (self.IFA_isManagedObject
             && (self.IFA_isReadOnlyWithEditButtonCase || self.IFA_readOnlyModeSuspendedForEditing)
@@ -923,6 +927,7 @@ parentFormViewController:(IFAFormViewController *)a_parentFormViewController {
         if ([a_cell isMemberOfClass:[IFASwitchTableViewCell class]]) {
 
             IFASwitchTableViewCell *l_cell = (IFASwitchTableViewCell *) a_cell;
+            l_cell.switchControl.enabled = ![self IFA_isFormLocked];
             l_cell.switchControl.on = [(NSNumber *) l_value boolValue];
             [a_cell setLeftLabelText:leftLabelText rightLabelText:nil];
 

@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#import "IFAFormTableViewCell.h"
+
 @interface IFASwitchTableViewCell : IFAFormTableViewCell {
     
 }
