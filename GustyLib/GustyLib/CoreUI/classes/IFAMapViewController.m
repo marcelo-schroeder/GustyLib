@@ -127,6 +127,9 @@
     [self IFA_locateUserWithCompletionBlock:^(BOOL a_success) {
         if (a_success) {
             [self.mapView showAnnotations:@[self.mapView.userLocation] animated:YES];
+            if ([self.mapViewControllerDelegate respondsToSelector:@selector(mapViewControllerDidCompleteUserRequestToShowCurrentLocation:)]) {
+                [self.mapViewControllerDelegate mapViewControllerDidCompleteUserRequestToShowCurrentLocation:self];
+            }
         }
     }];
 }

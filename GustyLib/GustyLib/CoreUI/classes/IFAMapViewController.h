@@ -69,4 +69,10 @@
 */
 - (void)mapViewController:(IFAMapViewController *)a_mapViewController didCompleteInitialUserLocationRequestWithSuccess:(BOOL)a_success;
 
+/**
+* Called after showing the current location as a result of the user tapping the current location button.
+* @param a_mapViewController Sender.
+*/
+- (void)mapViewControllerDidCompleteUserRequestToShowCurrentLocation:(IFAMapViewController *)a_mapViewController;
+
 @end
