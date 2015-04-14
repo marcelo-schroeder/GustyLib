@@ -1367,6 +1367,7 @@ typedef NS_ENUM(NSUInteger, IFANavigationBarButtonItemsSide) {
 
 - (BOOL)ifa_isVisibleTopChildViewController {
     return self.navigationController.topViewController == self
+            && !self.navigationController.topViewController.presentedViewController
             &&
             (
                     self.navigationController.tabBarController == nil

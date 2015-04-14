@@ -94,8 +94,10 @@
 
 - (void)ifa_onApplicationDidBecomeActiveNotification:(NSNotification *)aNotification {
     [super ifa_onApplicationDidBecomeActiveNotification:aNotification];
-    // Give a chance for the app to locate the user in case privacy settings have been changed while the app was in the background
-    [self IFA_locateUserWithCompletionBlock:nil];
+    if (self.ifa_isVisibleTopChildViewController) {
+        // Give a chance for the app to locate the user in case privacy settings have been changed while the app was in the background
+        [self IFA_locateUserWithCompletionBlock:nil];
+    }
 }
 
 #pragma mark - MKMapViewDelegate
