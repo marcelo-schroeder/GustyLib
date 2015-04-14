@@ -68,7 +68,7 @@
 
 -(void)viewDidAppear:(BOOL)animated{
 
-    if (!self.ifa_hasViewAppeared) {
+    if (!self.ifa_isReturningVisibleViewController) {
         [self IFA_locateUserWithCompletionBlock:nil];
     }
 
