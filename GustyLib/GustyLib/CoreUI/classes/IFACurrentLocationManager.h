@@ -25,7 +25,7 @@ static NSTimeInterval  const IFADefaultCurrentLocationUpdatesTimeoutThreshold = 
 * Completion block for current location requests.
 * @param a_location Device's current location. If the location cannot be obtained, nil will be returned.
 */
-typedef void (^IFACurrentLocationManagedCompletionBlock)(CLLocation *a_location);
+typedef void (^IFACurrentLocationManagerCompletionBlock)(CLLocation *a_location);
 
 /**
 * Utility class with the sole purpose of providing the device's current location.
@@ -56,7 +56,7 @@ typedef void (^IFACurrentLocationManagedCompletionBlock)(CLLocation *a_location)
 */
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCUnusedMethodInspection"
-- (void)currentLocationWithCompletionBlock:(IFACurrentLocationManagedCompletionBlock)a_completionBlock;
+- (void)currentLocationWithCompletionBlock:(IFACurrentLocationManagerCompletionBlock)a_completionBlock;
 #pragma clang diagnostic pop
 
 /**
@@ -69,7 +69,7 @@ typedef void (^IFACurrentLocationManagedCompletionBlock)(CLLocation *a_location)
 - (void)currentLocationWithHorizontalAccuracy:(CLLocationAccuracy)a_horizontalAccuracy
                          locationAgeThreshold:(NSTimeInterval)a_locationAgeThreshold
               locationUpdatesTimeoutThreshold:(NSTimeInterval)a_locationUpdatesTimeoutThreshold
-                              completionBlock:(IFACurrentLocationManagedCompletionBlock)a_completionBlock;
+                              completionBlock:(IFACurrentLocationManagerCompletionBlock)a_completionBlock;
 
 - (void)cancelRequestWithCompletionBlock:(void (^)())a_completionBlock;
 

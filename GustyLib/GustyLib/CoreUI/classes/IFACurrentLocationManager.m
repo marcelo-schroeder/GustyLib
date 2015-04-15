@@ -105,7 +105,7 @@
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCUnusedMethodInspection"
-- (void)currentLocationWithCompletionBlock:(IFACurrentLocationManagedCompletionBlock)a_completionBlock {
+- (void)currentLocationWithCompletionBlock:(IFACurrentLocationManagerCompletionBlock)a_completionBlock {
     [self currentLocationWithHorizontalAccuracy:IFADefaultCurrentLocationHorizontalAccuracyThreshold
                            locationAgeThreshold:IFADefaultCurrentLocationAgeThreshold
                 locationUpdatesTimeoutThreshold:IFADefaultCurrentLocationUpdatesTimeoutThreshold
@@ -116,7 +116,7 @@
 - (void)currentLocationWithHorizontalAccuracy:(CLLocationAccuracy)a_horizontalAccuracy
                          locationAgeThreshold:(NSTimeInterval)a_locationAgeThreshold
               locationUpdatesTimeoutThreshold:(NSTimeInterval)a_locationUpdatesTimeoutThreshold
-                              completionBlock:(IFACurrentLocationManagedCompletionBlock)a_completionBlock {
+                              completionBlock:(IFACurrentLocationManagerCompletionBlock)a_completionBlock {
 
     self.IFA_completionBlock = a_completionBlock;
     if ([IFALocationManager performLocationServicesChecksWithAlertPresenterViewController:self.alertPresenterViewController]) {
