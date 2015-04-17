@@ -26,6 +26,7 @@
 @property(nonatomic) NSTimeInterval IFA_locationAgeThreshold;
 @property(nonatomic, strong) CLLocation *IFA_lastLocationReceived;
 @property(nonatomic, strong) NSTimer *IFA_timer;
+@property(nonatomic, strong) void (^pendingCurrentLocationBasedBlock)(CLAuthorizationStatus);
 @end
 
 @implementation IFACurrentLocationManager {
@@ -38,16 +39,11 @@
     return [self initWithUnderlyingLocationManager:[CLLocationManager new]];
 }
 
-#pragma mark - Private
-
-- (id)initWithUnderlyingLocationManager:(CLLocationManager *)a_underlyingLocationManager {
-    self = [super init];
-    if (self) {
-        self.underlyingLocationManager = a_underlyingLocationManager;
-        self.underlyingLocationManager.delegate = self;
-    }
-    return self;
+- (void)dealloc {
+    [self IFA_removeObservers];
 }
+
+#pragma mark - Private
 
 - (void)IFA_handleCurrentLocationErrorWithAlert:(BOOL)a_shouldShowAlert {
     if (a_shouldShowAlert) {
@@ -101,7 +97,36 @@
     }
 }
 
+- (void)IFA_addObservers {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(IFA_onLocationAuthorizationStatusChange:)
+                                                 name:IFANotificationLocationAuthorizationStatusChange
+                                               object:nil];
+}
+
+- (void)IFA_removeObservers {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:IFANotificationLocationAuthorizationStatusChange object:nil];
+}
+
+-(void)IFA_onLocationAuthorizationStatusChange:(NSNotification*)a_notification {
+    if (self.pendingCurrentLocationBasedBlock) {
+        CLAuthorizationStatus status = (CLAuthorizationStatus) ((NSNumber *) a_notification.userInfo[LocationManagerLocationAuthorizationStatusChangeNotificationUserInfoKeyStatus]).unsignedIntegerValue;
+        self.pendingCurrentLocationBasedBlock(status);
+        self.pendingCurrentLocationBasedBlock = nil;
+    }
+}
+
 #pragma mark - Public
+
+- (id)initWithUnderlyingLocationManager:(CLLocationManager *)a_underlyingLocationManager {
+    self = [super init];
+    if (self) {
+        self.underlyingLocationManager = a_underlyingLocationManager;
+        self.underlyingLocationManager.delegate = self;
+        [self IFA_addObservers];
+    }
+    return self;
+}
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCUnusedMethodInspection"
@@ -138,10 +163,29 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCUnusedMethodInspection"
 - (void)cancelRequestWithCompletionBlock:(void (^)())a_completionBlock {
-//    NSLog(@"cancelRequestWithCompletionBlock");
     [self IFA_handleLocationEventWithBlock:a_completionBlock];
 }
 #pragma clang diagnostic pop
+
+- (void)   withAuthorizationType:(IFALocationAuthorizationType)a_locationAuthorizationType
+executeCurrentLocationBasedBlock:(void (^)(CLAuthorizationStatus))a_block {
+    CLAuthorizationStatus authorizationStatus = [CLLocationManager authorizationStatus];
+    if (authorizationStatus == kCLAuthorizationStatusNotDetermined) {
+        self.pendingCurrentLocationBasedBlock = a_block;
+        CLLocationManager *locationManager = self.underlyingLocationManager;
+        switch (a_locationAuthorizationType) {
+            case IFALocationAuthorizationTypeAlways:
+                [locationManager requestAlwaysAuthorization];
+                break;
+            case IFALocationAuthorizationTypeWhenInUse:
+                [locationManager requestWhenInUseAuthorization];
+                break;
+        }
+    } else {
+        self.pendingCurrentLocationBasedBlock = nil;
+        a_block(authorizationStatus);
+    }
+}
 
 #pragma mark - CLLocationManagerDelegate
 

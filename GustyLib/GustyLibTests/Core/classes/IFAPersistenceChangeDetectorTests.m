@@ -294,4 +294,9 @@
     self.persistenceChangeDetector = [IFAPersistenceChangeDetector new];
 }
 
+- (void)tearDown {
+    [super tearDown];
+    self.persistenceChangeDetector = nil;
+}
+
 @end

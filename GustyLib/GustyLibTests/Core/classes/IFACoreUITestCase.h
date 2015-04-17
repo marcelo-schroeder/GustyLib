@@ -18,5 +18,8 @@
 #import "IFACommonTests.h"
 
 @interface IFACoreUITestCase : XCTestCase
+@property (nonatomic, strong) id asynchronousWorkManagerMock;
+@property(nonatomic, strong) id dispatchQueueManagerPartialMock;
+@property(nonatomic, strong) id dispatchQueueManagerClassMock;
 - (void)createInMemoryTestDatabase;
 @end

@@ -19,7 +19,8 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "IFACoreUITestCase.h"
 
-@interface TempTest : XCTestCase
+@interface TempTest : IFACoreUITestCase
 
 @end

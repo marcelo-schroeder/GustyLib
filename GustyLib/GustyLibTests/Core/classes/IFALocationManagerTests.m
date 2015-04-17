@@ -7,8 +7,9 @@
 
 #import "IFACommonTests.h"
 #import "GustyLibCoreUI.h"
+#import "IFACoreUITestCase.h"
 
-@interface IFALocationManagerTests : XCTestCase 
+@interface IFALocationManagerTests : IFACoreUITestCase
 @end
 
 @implementation IFALocationManagerTests{

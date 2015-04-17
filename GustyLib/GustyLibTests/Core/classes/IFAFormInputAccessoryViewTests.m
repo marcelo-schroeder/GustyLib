@@ -19,6 +19,7 @@
 
 #import "IFACommonTests.h"
 #import "GustyLibCoreUI.h"
+#import "IFACoreUITestCase.h"
 
 @interface IFAFormInputAccessoryView (Tests)
 @property (strong, nonatomic) NSIndexPath *IFA_currentInputFieldIndexPath;
@@ -27,7 +28,7 @@
 - (NSIndexPath *)IFA_indexPathForDirection:(IFAFormInputAccessoryViewDirection)a_direction;
 @end
 
-@interface IFAFormInputAccessoryViewTests : XCTestCase
+@interface IFAFormInputAccessoryViewTests : IFACoreUITestCase
 @property(nonatomic, strong) IFAFormInputAccessoryView *p_view;
 @property(nonatomic, strong) id p_mockTableView;
 @property(nonatomic, strong) id p_mockTableViewDataSource;

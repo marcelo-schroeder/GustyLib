@@ -19,7 +19,8 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "IFACoreUITestCase.h"
 
-@interface IFAColorSchemeTest : XCTestCase
+@interface IFAColorSchemeTest : IFACoreUITestCase
 
 @end

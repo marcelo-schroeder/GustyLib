@@ -16,6 +16,7 @@
 //
 
 #import <CoreLocation/CoreLocation.h>
+#import "IFALocationManager.h"
 
 static CLLocationAccuracy const IFADefaultCurrentLocationHorizontalAccuracyThreshold = 1000.0; //metres
 static NSTimeInterval  const IFADefaultCurrentLocationAgeThreshold = 60.0; //seconds
@@ -42,6 +43,12 @@ typedef void (^IFACurrentLocationManagerCompletionBlock)(CLLocation *a_location)
 * Optional.
 */
 @property (nonatomic, weak) UIViewController *alertPresenterViewController;
+
+/**
+* Designated initializer.
+* @param a_underlyingLocationManager Underlying location manager to be used.
+*/
+- (id)initWithUnderlyingLocationManager:(CLLocationManager *)a_underlyingLocationManager NS_DESIGNATED_INITIALIZER;
 
 /**
 * Requests the device's current location and returns it asynchronously.
@@ -71,6 +78,21 @@ typedef void (^IFACurrentLocationManagerCompletionBlock)(CLLocation *a_location)
               locationUpdatesTimeoutThreshold:(NSTimeInterval)a_locationUpdatesTimeoutThreshold
                               completionBlock:(IFACurrentLocationManagerCompletionBlock)a_completionBlock;
 
+/**
+* Cancel a current location request in progress.
+* @param a_completionBlock Block to be executed after the current location request has been cancelled.
+*/
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCUnusedMethodInspection"
 - (void)cancelRequestWithCompletionBlock:(void (^)())a_completionBlock;
+#pragma clang diagnostic pop
+
+/**
+* Executes a block that depends on the device's current location and displays the desired authorization prompt when the current authorization status is undetermined.
+* @param a_locationAuthorizationType The type of location authorization required.
+* @param a_block The block to be executed after the authorization status is determined.
+*/
+- (void)   withAuthorizationType:(IFALocationAuthorizationType)a_locationAuthorizationType
+executeCurrentLocationBasedBlock:(void (^)(CLAuthorizationStatus))a_block;
 
 @end

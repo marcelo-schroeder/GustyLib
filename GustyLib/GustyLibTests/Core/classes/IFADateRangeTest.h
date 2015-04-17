@@ -19,8 +19,9 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "IFACoreUITestCase.h"
 
-@interface IFADateRangeTest : XCTestCase {
+@interface IFADateRangeTest : IFACoreUITestCase {
 
 }
 

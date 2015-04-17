@@ -19,8 +19,9 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "IFACoreUITestCase.h"
 
-@interface NSDateTest : XCTestCase {
+@interface NSDateTest : IFACoreUITestCase {
 
 }
 

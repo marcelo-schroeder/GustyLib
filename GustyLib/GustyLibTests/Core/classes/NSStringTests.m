@@ -19,8 +19,9 @@
 
 #import "IFACommonTests.h"
 #import "GustyLib.h"
+#import "IFACoreUITestCase.h"
 
-@interface NSStringTests : XCTestCase
+@interface NSStringTests : IFACoreUITestCase
 @end
 
 @implementation NSStringTests{

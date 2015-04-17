@@ -23,6 +23,8 @@ typedef NS_ENUM(NSUInteger, IFALocationAuthorizationType){
     IFALocationAuthorizationTypeWhenInUse,  // Permission to use location services while the app is in the foreground.
 };
 
+static NSString *const LocationManagerLocationAuthorizationStatusChangeNotificationUserInfoKeyStatus = @"status";
+
 /**
 * Convenience wrapper around CLLocationManager. Once instantiated, it also becomes the delegate for CLLocationManager;
 * As a convenience, the IFANotificationLocationAuthorizationStatusChange notification will be sent out so that the app can track location authorization status changes.
@@ -40,6 +42,8 @@ typedef NS_ENUM(NSUInteger, IFALocationAuthorizationType){
 */
 + (BOOL)
 performLocationServicesChecksWithAlertPresenterViewController:(UIViewController *)a_alertPresenterViewController;
+
++ (void)sendLocationAuthorizationStatusChangeNotificationWithStatus:(CLAuthorizationStatus)a_status;
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCUnusedMethodInspection"

@@ -145,16 +145,19 @@ performLocationServicesChecksWithAlertPresenterViewController:(UIViewController 
 
 }
 
-#pragma mark - CLLocationManagerDelegate
-
--(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
-//    NSLog(@"didChangeAuthorizationStatus: %u", status);
++ (void)sendLocationAuthorizationStatusChangeNotificationWithStatus:(CLAuthorizationStatus)a_status {
     NSNotification *notification = [NSNotification notificationWithName:IFANotificationLocationAuthorizationStatusChange
-                                                                 object:nil userInfo:@{@"status" : @(status)}];
+                                                                 object:nil userInfo:@{LocationManagerLocationAuthorizationStatusChangeNotificationUserInfoKeyStatus : @(a_status)}];
     [[NSNotificationQueue defaultQueue] enqueueNotification:notification
                                                postingStyle:NSPostASAP
                                                coalesceMask:NSNotificationNoCoalescing
                                                    forModes:nil];
+}
+
+#pragma mark - CLLocationManagerDelegate
+
+-(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
+    [self.class sendLocationAuthorizationStatusChangeNotificationWithStatus:status];
 }
 
 @end

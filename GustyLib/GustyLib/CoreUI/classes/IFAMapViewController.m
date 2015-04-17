@@ -24,6 +24,7 @@
 @property(nonatomic) BOOL IFA_initialUserLocationRequestCompleted;
 @property(nonatomic) BOOL IFA_userLocationRequested;
 @property(nonatomic, strong) void (^IFA_userLocationRequestCompletionBlock)(BOOL a_success);
+@property (nonatomic) IFACurrentLocationManager *currentLocationManager;
 @end
 
 @implementation IFAMapViewController {
@@ -176,15 +177,11 @@
     } else {
         self.IFA_userLocationRequestCompletionBlock = a_completionBlock;
         if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
-            CLLocationManager *locationManager = [IFALocationManager sharedInstance].underlyingLocationManager;
-            switch (self.locationAuthorizationType) {
-                case IFALocationAuthorizationTypeAlways:
-                    [locationManager requestAlwaysAuthorization];
-                    break;
-                case IFALocationAuthorizationTypeWhenInUse:
-                    [locationManager requestWhenInUseAuthorization];
-                    break;
-            }
+            void (^currentLocationBasedBlock)(CLAuthorizationStatus) = ^(CLAuthorizationStatus status) {
+                // Does nothing as the status change is being handled somewhere else
+            };
+            [self.currentLocationManager withAuthorizationType:self.locationAuthorizationType
+                              executeCurrentLocationBasedBlock:currentLocationBasedBlock];
         } else {
             self.IFA_userLocationRequested = YES;
             [self.IFA_progressViewManager showViewWithMessage:NSLocalizedStringFromTable(@"Locating...", @"GustyLibLocalizable", nil)];
@@ -216,6 +213,13 @@
         }
         self.IFA_initialUserLocationRequestCompleted = YES;
     }
+}
+
+- (IFACurrentLocationManager *)currentLocationManager {
+    if (!_currentLocationManager) {
+        _currentLocationManager = [IFACurrentLocationManager new];
+    }
+    return _currentLocationManager;
 }
 
 @end
