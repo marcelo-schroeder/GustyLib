@@ -165,6 +165,16 @@
 
 /**
 * Presents an instance of a UIAlertController with title and message provided.
+* It animates transitions by default and it shows a "Settings" button and a "Cancel" button.
+* The "Settings" button opens the app specific Settings pane.
+* @param a_title The title of the alert. Use this string to get the user’s attention and communicate the reason for the alert.
+* @param a_message Descriptive text that provides additional details about the reason for the alert.
+*/
+- (void)ifa_presentSettingsAlertControllerWithTitle:(NSString *)a_title
+                                            message:(NSString *)a_message;
+
+/**
+* Presents an instance of a UIAlertController with title and message provided.
 * It animates transitions by default and it shows a single button to dismiss the alert: "Continue".
 * @param a_title The title of the alert. Use this string to get the user’s attention and communicate the reason for the alert.
 * @param a_message Descriptive text that provides additional details about the reason for the alert.

@@ -181,3 +181,4 @@
 #import "NSAttributedString+IFACoreUI.h"
 #import "IFALazyTableDataLoadingViewController.h"
 #import "IFAPersistenceChangeDetector.h"
+#import "IFAUserNotificationSettingsManager.h"

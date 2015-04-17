@@ -1555,6 +1555,24 @@ typedef NS_ENUM(NSUInteger, IFANavigationBarButtonItemsSide) {
                                   actionBlock:nil];
 }
 
+- (void)ifa_presentSettingsAlertControllerWithTitle:(NSString *)a_title message:(NSString *)a_message {
+    NSMutableArray *l_alertActions = [NSMutableArray new];
+    [l_alertActions addObject:[UIAlertAction actionWithTitle:@"Cancel"
+                                                       style:UIAlertActionStyleCancel
+                                                     handler:nil]];
+    void (^settingsHandlerBlock)(UIAlertAction *) = ^(UIAlertAction *action) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+    };
+    [l_alertActions addObject:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"Settings", @"GustyLibLocalizable", nil)
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:settingsHandlerBlock]];
+    [self ifa_presentAlertControllerWithTitle:a_title
+                                      message:a_message
+                                        style:UIAlertControllerStyleAlert
+                                      actions:l_alertActions
+                                   completion:nil];
+}
+
 - (void)ifa_presentAlertControllerWithTitle:(NSString *)a_title
                                     message:(NSString *)a_message
                                 actionBlock:(void (^)())a_actionBlock {

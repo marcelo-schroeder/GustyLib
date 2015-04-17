@@ -113,7 +113,7 @@
 + (BOOL)
 performLocationServicesChecksWithAlertPresenterViewController:(UIViewController *)a_alertPresenterViewController {
     if (![CLLocationManager locationServicesEnabled]) {
-        NSString *message = NSLocalizedStringFromTable(@"Location Services are currently disabled. Please enable them in the Privacy section in the Settings app.", @"GustyLibLocalizable", nil);
+        NSString *message = NSLocalizedStringFromTable(@"Location Services are currently disabled. Please enable them in the Privacy section of the Settings app.", @"GustyLibLocalizable", nil);
         [self showLocationServicesAlertWithMessage:message
                            presenterViewController:a_alertPresenterViewController];
         return NO;
@@ -133,7 +133,7 @@ performLocationServicesChecksWithAlertPresenterViewController:(UIViewController 
         }
         case kCLAuthorizationStatusDenied:
         {
-            NSString *message = NSLocalizedStringFromTable(@"Location Services are currently disabled for this app. Please enable them in the Privacy section of the app Settings pane. To access the Settings pane tap Settings below.", @"GustyLibLocalizable", nil);
+            NSString *message = NSLocalizedStringFromTable(@"Location access is currently disabled for this app. Please enable it in the Location section of Settings. Tap the Settings button below to open Settings.", @"GustyLibLocalizable", nil);
             [self showLocationServicesAlertWithMessage:message showSettingsOption:YES
                                presenterViewController:a_alertPresenterViewController];
             return NO;

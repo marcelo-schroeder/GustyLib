@@ -228,4 +228,9 @@
 	[[IFADynamicCache sharedInstance] removeAllObjects];
 }
 
+- (void)                application:(UIApplication *)application
+didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+    [[IFAUserNotificationSettingsManager sharedInstance] notifyRegistrationOfUserNotificationSettings:notificationSettings];
+}
+
 @end
