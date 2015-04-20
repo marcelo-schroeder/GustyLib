@@ -230,7 +230,7 @@
 }
 
 - (BOOL)ifa_manageToolbar {
-    // Do not interfere with the Timers view controller toolbar
+    // Do not interfere with toolbar management
     return NO;
 }
 
