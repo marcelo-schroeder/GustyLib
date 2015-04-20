@@ -113,7 +113,8 @@ static const NSUInteger k_sectionSelectedObjects = 0;
 		// Re-order array with inserted objects
 		if(!self.IFA_isJoinEntity){
 			// Re-order array of selected managed objects
-			NSArray *l_sortDescriptors = [[IFAPersistenceManager sharedInstance] listSortDescriptorsForEntity:self.IFA_destinationEntityName];
+			NSArray *l_sortDescriptors = [[IFAPersistenceManager sharedInstance] listSortDescriptorsForEntity:self.IFA_destinationEntityName
+                                                                                            usedForRelationship:YES];
 			NSArray *sortedArray = [self.IFA_selectedDestinationEntities sortedArrayUsingDescriptors:l_sortDescriptors];
 			NSMutableArray *l_newSelectedDestinationEntities = [NSMutableArray arrayWithArray:sortedArray];
 			self.IFA_selectedDestinationEntities = l_newSelectedDestinationEntities;
@@ -125,7 +126,8 @@ static const NSUInteger k_sectionSelectedObjects = 0;
 		[self.IFA_selectedDestinationEntities removeObjectsInArray:a_managedObjects];
 
 		// Re-order array with inserted objects
-		NSArray *l_sortDescriptors = [[IFAPersistenceManager sharedInstance] listSortDescriptorsForEntity:self.IFA_destinationEntityName];
+		NSArray *l_sortDescriptors = [[IFAPersistenceManager sharedInstance] listSortDescriptorsForEntity:self.IFA_destinationEntityName
+                                                                                        usedForRelationship:YES];
 		NSArray *sortedArray = [self.IFA_unselectedDestinationEntities sortedArrayUsingDescriptors:l_sortDescriptors];
 		NSMutableArray *l_newUnselectedDestinationEntities = [NSMutableArray arrayWithArray:sortedArray];
 		self.IFA_unselectedDestinationEntities = l_newUnselectedDestinationEntities;
@@ -276,14 +278,15 @@ static const NSUInteger k_sectionSelectedObjects = 0;
 		}
 
 		// Retrieve destination entity instances
-		self.IFA_destinationEntities = [[IFAPersistenceManager sharedInstance] findAllForEntity:self.IFA_destinationEntityName];
+		self.IFA_destinationEntities = [[IFAPersistenceManager sharedInstance] findAllForEntity:self.IFA_destinationEntityName includePendingChanges:NO includeSubentities:YES usedForRelationship:YES];
 
 		// All destination entity instances become unselected instances to start with
 		self.IFA_unselectedDestinationEntities = [NSMutableArray arrayWithArray:self.IFA_destinationEntities];
 		self.IFA_selectedDestinationEntities = [NSMutableArray array];
 
 		// Now load the selected entity instances
-		NSArray *l_sortDescriptors = [[IFAPersistenceManager sharedInstance] listSortDescriptorsForEntity:self.entityName];
+		NSArray *l_sortDescriptors = [[IFAPersistenceManager sharedInstance] listSortDescriptorsForEntity:self.entityName
+                                                                                        usedForRelationship:YES];
 		self.IFA_originalSortedEntities = [NSMutableArray arrayWithArray:[[((NSSet*) [self.managedObject valueForKey:self.propertyName]) allObjects] sortedArrayUsingDescriptors:l_sortDescriptors]];
 		for (NSManagedObject *l_managedObject in self.IFA_originalSortedEntities) {
 			@autoreleasepool {

@@ -845,7 +845,8 @@ fetchedResultsControllerForFetchedResultsTableViewController:(IFAFetchedResultsT
     if (self.fetchingStrategy == IFAListViewControllerFetchingStrategyFetchedResultsController) {
         IFAPersistenceManager *l_persistentManager = [IFAPersistenceManager sharedInstance];
         NSFetchRequest *l_fetchRequest = [l_persistentManager findAllFetchRequest:self.entityName
-                                                            includePendingChanges:NO];
+                                                            includePendingChanges:NO
+                                                                usedForRelationship:NO];
         l_controller = [[NSFetchedResultsController alloc]
                 initWithFetchRequest:l_fetchRequest
                 managedObjectContext:l_persistentManager.currentManagedObjectContext

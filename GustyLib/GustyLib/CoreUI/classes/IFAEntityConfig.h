@@ -112,8 +112,11 @@ typedef NS_ENUM(NSUInteger, IFAEntityConfigFieldType){
 - (BOOL)isToManyRelationshipForProperty:(NSString*)aPropertyName inManagedObject:(NSManagedObject*)aManagedObject;
 - (BOOL)isToManyRelationshipForProperty:(NSString*)aPropertyName inEntity:(NSString*)anEntityName;
 
-- (NSArray*)listSortPropertiesForEntity:(NSString*)anEntityName;
-- (BOOL)isInMemoryListSortForEntity:(NSString*)anEntityName;
+- (NSArray *)listSortPropertiesForEntity:(NSString *)a_entityName
+                       usedForRelationship:(BOOL)a_usedForRelationship;
+
+- (BOOL)isInMemoryListSortForEntity:(NSString *)a_entityName
+                  usedForRelationship:(BOOL)a_usedForRelationship;
 
 - (NSArray*)uniqueKeysForManagedObject:(NSManagedObject*)aManagedObject;
 

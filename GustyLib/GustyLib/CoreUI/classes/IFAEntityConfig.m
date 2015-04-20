@@ -557,12 +557,26 @@
 	}
 }
 
-- (NSArray*)listSortPropertiesForEntity:(NSString*)anEntityName{
-	return [[[self entityConfigDictionary] valueForKey:anEntityName] valueForKey:@"listSortProperties"];
+- (NSArray *)listSortPropertiesForEntity:(NSString *)a_entityName
+                       usedForRelationship:(BOOL)a_usedForRelationship {
+    if (a_usedForRelationship) {
+        id value = [[[self entityConfigDictionary] valueForKey:a_entityName] valueForKey:@"relationshipListSortProperties"];
+        if (value) {
+            return value;
+        }
+    }
+    return [[[self entityConfigDictionary] valueForKey:a_entityName] valueForKey:@"listSortProperties"];
 }
 
-- (BOOL)isInMemoryListSortForEntity:(NSString*)anEntityName{
-    return [[[[self entityConfigDictionary] valueForKey:anEntityName] valueForKey:@"listSortInMemory"] boolValue];
+- (BOOL)isInMemoryListSortForEntity:(NSString *)a_entityName
+                  usedForRelationship:(BOOL)a_usedForRelationship {
+    if (a_usedForRelationship) {
+        id value = [[[self entityConfigDictionary] valueForKey:a_entityName] valueForKey:@"relationshipListSortInMemory"];
+        if (value) {
+            return [value boolValue];
+        }
+    }
+    return [[[[self entityConfigDictionary] valueForKey:a_entityName] valueForKey:@"listSortInMemory"] boolValue];
 }
 
 - (NSArray*)uniqueKeysForManagedObject:(NSManagedObject*)aManagedObject{

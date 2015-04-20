@@ -436,16 +436,22 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 }
 
--(BOOL)isInMemoryListSortForEntity:(NSString*)a_entityName{
-    BOOL l_isInMemory = [self.entityConfig isInMemoryListSortForEntity:a_entityName];
+- (BOOL)isInMemoryListSortForEntity:(NSString *)a_entityName
+                usedForRelationship:(BOOL)a_usedForRelationship {
+    BOOL l_isInMemory = [self.entityConfig isInMemoryListSortForEntity:a_entityName
+                                                     usedForRelationship:a_usedForRelationship];
 //    NSLog(@"isInMemoryListSortForEntity %@: %u", a_entityName, l_isInMemory);
     return l_isInMemory;
 }
 
--(NSMutableArray*)inMemorySortList:(NSMutableArray*)a_array forEntity:(NSString*)a_entityName{
-    if ([self isInMemoryListSortForEntity:a_entityName]) {
+- (NSMutableArray *)inMemorySortList:(NSMutableArray *)a_array
+                           forEntity:(NSString *)a_entityName
+                   usedForRelationship:(BOOL)a_usedForRelationship {
+    if ([self isInMemoryListSortForEntity:a_entityName
+                      usedForRelationship:a_usedForRelationship]) {
 //        NSLog(@"in memory sorting: %@", [a_array description]);
-        [a_array sortUsingDescriptors:[self listSortDescriptorsForEntity:a_entityName]];
+        [a_array sortUsingDescriptors:[self listSortDescriptorsForEntity:a_entityName
+                                                       usedForRelationship:a_usedForRelationship]];
 //        NSLog(@"SORTED: %@", [a_array description]);
     }
     return a_array;
@@ -454,10 +460,17 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 /*
  Find all instances of a given entity (non-system) sorted according to configuration
  */
-- (NSMutableArray *) findAllForNonSystemEntity:(NSString *)entityName includePendingChanges:(BOOL)a_includePendingChanges includeSubentities:(BOOL)a_includeSubentities{
-    NSFetchRequest *l_fetchRequest = [self findAllFetchRequest:entityName includePendingChanges:a_includePendingChanges];
+- (NSMutableArray *)findAllForNonSystemEntity:(NSString *)entityName
+                        includePendingChanges:(BOOL)a_includePendingChanges
+                           includeSubentities:(BOOL)a_includeSubentities
+                          usedForRelationship:(BOOL)a_usedForRelationship {
+    NSFetchRequest *l_fetchRequest = [self findAllFetchRequest:entityName
+                                         includePendingChanges:a_includePendingChanges
+                                             usedForRelationship:a_usedForRelationship];
     l_fetchRequest.includesSubentities = a_includeSubentities;
-    NSMutableArray *l_array = [self inMemorySortList:[self executeFetchRequestMutable:l_fetchRequest] forEntity:entityName];
+    NSMutableArray *l_array = [self inMemorySortList:[self executeFetchRequestMutable:l_fetchRequest]
+                                           forEntity:entityName
+                                   usedForRelationship:a_usedForRelationship];
 //    NSLog(@"findAllForNonSystemEntity for %@: %@", ifa_entityName, [l_array description]);
     return l_array;
 }
@@ -467,12 +480,17 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
  */
 - (NSMutableArray *)findAllForSystemEntity:(NSString *)entityName
                      includePendingChanges:(BOOL)a_includePendingChanges
-                        includeSubentities:(BOOL)a_includeSubentities {
-    NSFetchRequest *request = [self findAllFetchRequest:entityName includePendingChanges:a_includePendingChanges];
+                        includeSubentities:(BOOL)a_includeSubentities
+                       usedForRelationship:(BOOL)a_usedForRelationship {
+    NSFetchRequest *request = [self findAllFetchRequest:entityName
+                                  includePendingChanges:a_includePendingChanges
+                                      usedForRelationship:a_usedForRelationship];
     request.includesSubentities = a_includeSubentities;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"systemUseOnly == %@", @0];
     [request setPredicate:predicate];
-    return [self inMemorySortList:[self executeFetchRequestMutable:request] forEntity:entityName];
+    return [self inMemorySortList:[self executeFetchRequestMutable:request]
+                        forEntity:entityName
+                usedForRelationship:a_usedForRelationship];
 }
 
 -(NSPredicate*)predicateForKeysAndValues:(NSDictionary*)aDictionary{
@@ -691,15 +709,27 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 - (NSMutableArray *) findAllForEntity:(NSString *)entityName includePendingChanges:(BOOL)a_includePendingChanges{
     return [self findAllForEntity:entityName includePendingChanges:a_includePendingChanges includeSubentities:YES];
 }
-- (NSMutableArray *) findAllForEntity:(NSString *)entityName includePendingChanges:(BOOL)a_includePendingChanges includeSubentities:(BOOL)a_includeSubentities{
+
+- (NSMutableArray *) findAllForEntity:(NSString *)entityName includePendingChanges:(BOOL)a_includePendingChanges includeSubentities:(BOOL)a_includeSubentities {
+    return [self findAllForEntity:entityName
+            includePendingChanges:a_includePendingChanges
+               includeSubentities:a_includeSubentities
+              usedForRelationship:NO];
+}
+
+- (NSMutableArray *) findAllForEntity:(NSString *)entityName includePendingChanges:(BOOL)a_includePendingChanges includeSubentities:(BOOL)a_includeSubentities usedForRelationship:(BOOL)a_usedForRelationship{
 	if ([self isSystemEntityForEntity:entityName]) {
 		//NSLog(@"system entity: %@", ifa_entityName);
 		return [self findAllForSystemEntity:entityName
                       includePendingChanges:a_includePendingChanges
-                         includeSubentities:a_includeSubentities];
+                         includeSubentities:a_includeSubentities
+                        usedForRelationship:a_usedForRelationship];
 	}else {
 		//NSLog(@"ANY entity: %@", ifa_entityName);
-		return [self findAllForNonSystemEntity:entityName includePendingChanges:a_includePendingChanges includeSubentities:a_includeSubentities];
+		return [self findAllForNonSystemEntity:entityName
+                         includePendingChanges:a_includePendingChanges
+                            includeSubentities:a_includeSubentities
+                           usedForRelationship:a_usedForRelationship];
 	}
 
 }
@@ -948,22 +978,30 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
 	return [anEntityName hasPrefix:@"S_"];
 }
 
-- (NSArray*)listSortDescriptorsForEntity:(NSString*)anEntityName{
+- (NSArray *)listSortDescriptorsForEntity:(NSString *)a_entityName {
+    return [self listSortDescriptorsForEntity:a_entityName
+                          usedForRelationship:NO];
+}
+
+- (NSArray *)listSortDescriptorsForEntity:(NSString *)a_entityName
+                        usedForRelationship:(BOOL)a_usedForRelationship {
 	NSMutableArray *sortDescriptors = [NSMutableArray array];
 	NSSortDescriptor *sortDescriptor;
-    if ([self.entityConfig listReorderAllowedForEntity:anEntityName]) {
+    if (!a_usedForRelationship && [self.entityConfig listReorderAllowedForEntity:a_entityName]) {
 		// The list's sort order is controlled by the user (if provided, entity config's listSortProperties is ignored)
 		sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"seq" ascending:YES];
 		[sortDescriptors addObject:sortDescriptor];
 	}else {
-        NSArray *listSortProperties = [self.entityConfig listSortPropertiesForEntity:anEntityName];
+        NSArray *listSortProperties = [self.entityConfig listSortPropertiesForEntity:a_entityName
+                                                                   usedForRelationship:a_usedForRelationship];
         if (listSortProperties.count) {
             // The list's sort order is dictated by the configuration
             for(NSDictionary* sortItem in listSortProperties){
                 NSString *keyPath = [sortItem objectForKey:@"name"];
                 //            NSLog(@"keyPath: %@", keyPath);
                 BOOL ascending = [[sortItem objectForKey:@"ascending"] boolValue];
-                Class l_propertyClass = [IFAUtils classForPropertyNamed:keyPath inClassNamed:anEntityName];
+                Class l_propertyClass = [IFAUtils classForPropertyNamed:keyPath
+                                                           inClassNamed:a_entityName];
                 //            NSLog(@"l_propertyClass: %@", [l_propertyClass description]);
                 if ([l_propertyClass isSubclassOfClass:[NSString class]]) {
                     sortDescriptor = [[NSSortDescriptor alloc] initWithKey:keyPath ascending:ascending selector:NSSelectorFromString(@"localizedCaseInsensitiveCompare:")];
@@ -974,7 +1012,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
                 }
                 [sortDescriptors addObject:sortDescriptor];
             }
-        } else if ([self isSystemEntityForEntity:anEntityName]) {
+        } else if ([self isSystemEntityForEntity:a_entityName]) {
             // Falls back to the default sort order for system entities
             sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
             [sortDescriptors addObject:sortDescriptor];
@@ -1216,13 +1254,24 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     return l_managedObjectContext;
 }
 
-- (NSFetchRequest*) findAllFetchRequest:(NSString *)entityName includePendingChanges:(BOOL)a_includePendingChanges{
+- (NSFetchRequest *)findAllFetchRequest:(NSString *)entityName
+                  includePendingChanges:(BOOL)a_includePendingChanges {
+    return [self findAllFetchRequest:entityName
+               includePendingChanges:a_includePendingChanges
+                 usedForRelationship:NO];
+}
+
+- (NSFetchRequest *)findAllFetchRequest:(NSString *)entityName
+                  includePendingChanges:(BOOL)a_includePendingChanges
+                      usedForRelationship:(BOOL)a_usedForRelationship {
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:entityName inManagedObjectContext:[self currentManagedObjectContext]];
 	NSFetchRequest *request = [[NSFetchRequest alloc] init];
     request.includesPendingChanges = a_includePendingChanges;
 	[request setEntity:entityDescription];
-    if (![self isInMemoryListSortForEntity:entityName]) {
-        NSArray *l_sortDescriptors = [self listSortDescriptorsForEntity:entityName];
+    if (![self isInMemoryListSortForEntity:entityName
+                       usedForRelationship:a_usedForRelationship]) {
+        NSArray *l_sortDescriptors = [self listSortDescriptorsForEntity:entityName
+                                                      usedForRelationship:a_usedForRelationship];
         //        NSLog(@"findAllFetchRequest sortDescriptors: %@", [l_sortDescriptors description]);
         [request setSortDescriptors:l_sortDescriptors];
     }

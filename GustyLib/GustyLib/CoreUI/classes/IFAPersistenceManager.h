@@ -56,9 +56,21 @@
 - (BOOL)validateForSave:(NSManagedObject *)aManagedObject validationAlertPresenter:(UIViewController *)a_validationAlertPresenter;
 
 - (NSManagedObject *)instantiate:(NSString *)entityName;
-- (NSMutableArray *) findAllForEntity:(NSString *)entityName;
-- (NSMutableArray *) findAllForEntity:(NSString *)entityName includePendingChanges:(BOOL)a_includePendingChanges;
-- (NSMutableArray *) findAllForEntity:(NSString *)entityName includePendingChanges:(BOOL)a_includePendingChanges includeSubentities:(BOOL)a_includeSubentities;
+
+- (NSMutableArray *)findAllForEntity:(NSString *)entityName;
+
+- (NSMutableArray *)findAllForEntity:(NSString *)entityName
+               includePendingChanges:(BOOL)a_includePendingChanges;
+
+- (NSMutableArray *)findAllForEntity:(NSString *)entityName
+               includePendingChanges:(BOOL)a_includePendingChanges
+                  includeSubentities:(BOOL)a_includeSubentities;
+
+- (NSMutableArray *)findAllForEntity:(NSString *)entityName
+               includePendingChanges:(BOOL)a_includePendingChanges
+                  includeSubentities:(BOOL)a_includeSubentities
+                 usedForRelationship:(BOOL)a_usedForRelationship;
+
 - (void) deleteAllForEntityAndSave:(NSString *)entityName validationAlertPresenter:(UIViewController *)a_validationAlertPresenter;
 - (NSManagedObject *) findSystemEntityById:(NSUInteger)anId entity:(NSString *)anEntityName;
 - (NSManagedObject *) findByName:(NSString*)aName entity:(NSString *)anEntityName;
@@ -121,7 +133,10 @@
 - (id) metadataValueForKey:(NSString *)aKey;
 - (void) setMetadataValue:(id)aValue forKey:(NSString *)aKey;
 
-- (NSArray*)listSortDescriptorsForEntity:(NSString*)anEntityName;
+- (NSArray *)listSortDescriptorsForEntity:(NSString *)a_entityName;
+
+- (NSArray *)listSortDescriptorsForEntity:(NSString *)a_entityName
+                        usedForRelationship:(BOOL)a_usedForRelationship;
 
 - (void)performBlock:(void (^)())a_block;
 - (void)performBlockAndWait:(void (^)())a_block;
@@ -153,7 +168,13 @@
 
 -(NSManagedObjectContext*)currentManagedObjectContext;
 
-- (NSFetchRequest*) findAllFetchRequest:(NSString *)entityName includePendingChanges:(BOOL)a_includePendingChanges;
+- (NSFetchRequest *)findAllFetchRequest:(NSString *)entityName
+                  includePendingChanges:(BOOL)a_includePendingChanges;
+
+- (NSFetchRequest *)findAllFetchRequest:(NSString *)entityName
+                  includePendingChanges:(BOOL)a_includePendingChanges
+                      usedForRelationship:(BOOL)a_usedForRelationship;
+
 - (NSArray*) executeFetchRequest:(NSFetchRequest*)aFetchRequest;
 - (NSMutableArray*) executeFetchRequestMutable:(NSFetchRequest*)aFetchRequest;
 

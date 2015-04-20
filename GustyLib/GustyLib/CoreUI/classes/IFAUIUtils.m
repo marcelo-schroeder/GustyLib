@@ -401,7 +401,8 @@ static UIImage *c_menuBarButtonItemImage = nil;
 			return @"";
 		}else {
 			NSString *l_entityName = [((NSManagedObject *) [anObject anyObject]) ifa_entityName];
-			NSArray *sortDescriptors = [[IFAPersistenceManager sharedInstance] listSortDescriptorsForEntity:l_entityName];
+			NSArray *sortDescriptors = [[IFAPersistenceManager sharedInstance] listSortDescriptorsForEntity:l_entityName
+                                                                                          usedForRelationship:YES];
 			NSArray *sortedArray = [[anObject allObjects] sortedArrayUsingDescriptors:sortDescriptors];
 			NSMutableString *l_string = [NSMutableString string];
 			BOOL l_firstTime = YES;
