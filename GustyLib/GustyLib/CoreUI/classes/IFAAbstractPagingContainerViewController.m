@@ -118,26 +118,26 @@
 }
 
 -(void)refreshAndReloadChildData {
-    //    NSLog(@"refreshAndReloadChildData - START");
+//    NSLog(@"refreshAndReloadChildData - START");
     BOOL l_firstChildViewController = YES;
     for (NSNumber *l_pageIndex in [self dataLoadPageIndexes]) {
         NSUInteger i = [l_pageIndex unsignedIntegerValue];
         UIViewController *l_viewController = (self.childViewControllers)[i];
         if ([l_viewController isKindOfClass:[IFAListViewController class]]) {
             IFAListViewController *l_childListViewController = (IFAListViewController *)l_viewController;
-            //            NSLog(@"  l_pageIndex: %u, child: %@, staleData: %u", i, [l_childViewController description], l_childViewController.staleData);
+//            NSLog(@"  l_pageIndex: %lu, child: %@, staleData: %lu", (unsigned long) i, [l_childListViewController description], (unsigned long) l_childListViewController.staleData);
             if (l_childListViewController.staleData) {
                 BOOL l_shouldShowProgressIndicator = l_firstChildViewController && l_childListViewController==self.selectedViewController;
-                //                NSLog(@"    l_shouldShowProgressIndicator: %u", l_shouldShowProgressIndicator);
-                //                NSLog(@"    l_childViewController.pagingContainerChildRefreshAndReloadDataAsynchronousBlock: %@", [l_childViewController.pagingContainerChildRefreshAndReloadDataAsynchronousBlock description]);
+//                NSLog(@"    l_shouldShowProgressIndicator: %u", l_shouldShowProgressIndicator);
+//                NSLog(@"    l_childViewController.pagingContainerChildRefreshAndReloadDataAsynchronousBlock: %@", [l_childListViewController.pagingContainerChildRefreshAndReloadDataAsynchronousBlock description]);
                 [self.ifa_asynchronousWorkManager dispatchSerialBlock:l_childListViewController.pagingContainerChildRefreshAndReloadDataAsynchronousBlock
                                                 showProgressIndicator:l_shouldShowProgressIndicator
                                                  cancelPreviousBlocks:l_firstChildViewController];
                 l_firstChildViewController = NO;
             }
         }
-    }    
-    //    NSLog(@"refreshAndReloadChildData - END");
+    }
+//    NSLog(@"refreshAndReloadChildData - END");
 }
 
 //-(IFATableViewController*)p_mainChildViewController{

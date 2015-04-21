@@ -148,8 +148,8 @@
 
         self.pagingContainerChildRefreshAndReloadDataAsynchronousBlock = l_block;
         self.pagingContainerViewController.childViewDidAppearCount++;
-//        NSLog(@"  self.pagingContainerViewController.newChildViewControllerCount: %u", self.pagingContainerViewController.newChildViewControllerCount);
-//        NSLog(@"  self.pagingContainerViewController.childViewDidAppearCount: %u", self.pagingContainerViewController.childViewDidAppearCount);
+//        NSLog(@"  self.pagingContainerViewController.newChildViewControllerCount: %lu", (unsigned long)self.pagingContainerViewController.newChildViewControllerCount);
+//        NSLog(@"  self.pagingContainerViewController.childViewDidAppearCount: %lu", (unsigned long)self.pagingContainerViewController.childViewDidAppearCount);
         if (self.pagingContainerViewController.newChildViewControllerCount == self.pagingContainerViewController.childViewDidAppearCount) {
 //            NSLog(@"  => calling refreshAndReloadChildData on container...");
             [self.pagingContainerViewController refreshAndReloadChildData];
