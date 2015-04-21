@@ -43,48 +43,12 @@
     return l_canGrantNow;
 }
 
+- (void)willCommitContextSwitchForViewController:(UIViewController *)a_viewController {
+    [self IFA_willSwitchContextFromViewController:self.IFA_currentViewController];
+}
+
 - (void)didCommitContextSwitchForViewController:(UIViewController *)a_viewController {
-
-    if (self.IFA_currentViewController) {
-
-        UIViewController *l_contentViewController = nil;
-
-        if ([self.IFA_currentViewController isKindOfClass:[UINavigationController class]]) {
-
-            // If the current view controller is a navigation controller then make sure to pop to its root view controller
-            //  in order to minimise memory requirements and avoid complications with entities being changed somewhere else (for now)
-            UINavigationController *l_navigationController = (UINavigationController *) self.IFA_currentViewController;
-            [l_navigationController popToRootViewControllerAnimated:NO];
-
-            UIViewController *l_topViewController = l_navigationController.topViewController;
-            if ([l_topViewController isKindOfClass:[IFAAbstractPagingContainerViewController class]]) {
-                IFAAbstractPagingContainerViewController *l_pagingContainerViewController = (IFAAbstractPagingContainerViewController *) l_topViewController;
-                l_contentViewController = l_pagingContainerViewController.selectedViewController;
-            } else {
-                l_contentViewController = l_topViewController;
-            }
-
-        } else {
-            l_contentViewController = (UITableViewController *) self.IFA_currentViewController;
-        }
-
-        if ([l_contentViewController isKindOfClass:[UITableViewController class]]) {
-
-            UITableViewController *l_tableViewController = (UITableViewController *) l_contentViewController;
-
-            // Deselect any previously selected table view row to avoid unnecessary "deselection animation"
-            UITableView *l_tableView = l_tableViewController.tableView;
-            NSIndexPath *l_selectedIndexPath = l_tableView.indexPathForSelectedRow;
-            if (l_selectedIndexPath) {
-                [l_tableView deselectRowAtIndexPath:l_selectedIndexPath animated:NO];
-            }
-
-        }
-
-    }
-
     self.IFA_currentViewController = a_viewController;
-
 }
 
 #pragma mark - Overrides
@@ -123,6 +87,50 @@ didReceiveContextSwitchRequestReplyForObject:a_notification.object
     [self.delegate   contextSwitchingManager:self
 didReceiveContextSwitchRequestReplyForObject:a_notification.object
                                      granted:NO];
+}
+
+- (void)IFA_willSwitchContextFromViewController:(UIViewController *)a_viewController {
+
+//    NSLog(@"IFA_willSwitchContextFromViewController: %@", a_viewController);
+
+    if (a_viewController) {
+
+        UIViewController *l_contentViewController = nil;
+
+        if ([a_viewController isKindOfClass:[UINavigationController class]]) {
+
+            // If the current view controller is a navigation controller then make sure to pop to its root view controller
+            //  in order to minimise memory requirements and avoid complications with entities being changed somewhere else (for now)
+            UINavigationController *l_navigationController = (UINavigationController *) a_viewController;
+            [l_navigationController popToRootViewControllerAnimated:NO];
+
+            UIViewController *l_topViewController = l_navigationController.topViewController;
+            if ([l_topViewController isKindOfClass:[IFAAbstractPagingContainerViewController class]]) {
+                IFAAbstractPagingContainerViewController *l_pagingContainerViewController = (IFAAbstractPagingContainerViewController *) l_topViewController;
+                l_contentViewController = l_pagingContainerViewController.selectedViewController;
+            } else {
+                l_contentViewController = l_topViewController;
+            }
+
+        } else {
+            l_contentViewController = (UITableViewController *) a_viewController;
+        }
+
+        if ([l_contentViewController isKindOfClass:[UITableViewController class]]) {
+
+            UITableViewController *l_tableViewController = (UITableViewController *) l_contentViewController;
+
+            // Deselect any previously selected table view row to avoid unnecessary "deselection animation"
+            UITableView *l_tableView = l_tableViewController.tableView;
+            NSIndexPath *l_selectedIndexPath = l_tableView.indexPathForSelectedRow;
+            if (l_selectedIndexPath) {
+                [l_tableView deselectRowAtIndexPath:l_selectedIndexPath animated:NO];
+            }
+
+        }
+
+    }
+
 }
 
 @end

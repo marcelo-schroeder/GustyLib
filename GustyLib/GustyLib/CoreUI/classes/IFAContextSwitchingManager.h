@@ -37,8 +37,14 @@
 - (BOOL)requestContextSwitchForObject:(id)a_object;
 
 /**
+* Call this method to notify the receiver that a context switch request is about to be committed.
+* This is important so that any clean up can be performed when the focus does move away from the currently selected view controller.
+* @param a_viewController View controller who will become the selected top level controller.
+*/
+- (void)willCommitContextSwitchForViewController:(UIViewController *)a_viewController;
+
+/**
 * Call this method to keep the receiver informed of the currently selected view controller.
-* This is important to that any clean up can be performed when the focus moves away from the currently selected view controller.
 * @param a_viewController Currently selected top level view controller.
 */
 - (void)didCommitContextSwitchForViewController:(UIViewController *)a_viewController;

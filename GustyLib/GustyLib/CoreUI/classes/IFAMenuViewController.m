@@ -97,8 +97,13 @@
 -(void)commitSelectionForIndexPath:(NSIndexPath*)a_indexPath{
     
     //    NSLog(@"commitSelectionForIndexPath: %@", [a_indexPath description]);
-    
+
     UIViewController *l_viewController = [self viewControllerForIndexPath:a_indexPath];
+
+    if (self.splitViewController || self.slidingViewController) {
+        [self.IFA_contextSwitchingManager willCommitContextSwitchForViewController:l_viewController];
+    }
+
     if (self.splitViewController) {
         self.splitViewController.viewControllers = @[(self.splitViewController.viewControllers)[0], l_viewController];
     }else if(self.slidingViewController){

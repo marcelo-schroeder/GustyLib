@@ -38,15 +38,20 @@
 
 -(void)IFA_selectViewController:(UIViewController*)a_viewController{
 //    NSLog(@"going to select tab view controller...");
+    [self.IFA_contextSwitchingManager willCommitContextSwitchForViewController:a_viewController];
     self.selectedViewController = a_viewController;
-    [self tabBarController:self didSelectViewController:self.selectedViewController];
+    [self.IFA_contextSwitchingManager didCommitContextSwitchForViewController:a_viewController];
 //    NSLog(@"tab view controller selected");
 }
 
 #pragma mark - UITabBarControllerDelegate
 
 -(BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController{
-    return [self.IFA_contextSwitchingManager requestContextSwitchForObject:viewController];
+    BOOL contextSwitchRequestGrantedNow = [self.IFA_contextSwitchingManager requestContextSwitchForObject:viewController];
+    if (contextSwitchRequestGrantedNow) {
+        [self.IFA_contextSwitchingManager willCommitContextSwitchForViewController:viewController];
+    }
+    return contextSwitchRequestGrantedNow;
 }
 
 -(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
