@@ -159,7 +159,8 @@
 
 //        NSLog(@"block dispatched for %@", [self description]);
 
-        [self.ifa_asynchronousWorkManager dispatchSerialBlock:l_block progressIndicatorContainerViewController:self
+        [self.ifa_asynchronousWorkManager dispatchSerialBlock:l_block
+                                        showProgressIndicator:YES
                                          cancelPreviousBlocks:YES];
 
     }
