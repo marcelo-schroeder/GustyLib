@@ -21,6 +21,7 @@
 //wip: manage framework versioning
 //wip: am I going to need to my own umbrella headers since Cocoapods is generating one automatically??
 //wip: document framework support and restrictions on GitHub
+//wip: document how to use it as framework in app extensions
 
 // Foundation
 #import "GustyLibFoundation.h"
