@@ -30,7 +30,7 @@
 
 - (id)ifa_propertyValueForIndexPath:(NSIndexPath *)anIndexPath inForm:(NSString *)aFormName createMode:(BOOL)aCreateMode{
     //	return [self performSelector:NSSelectorFromString([self propertyNameForIndexPath:anIndexPath inForm:aFormName])];
-	return objc_msgSend(self, NSSelectorFromString([self ifa_propertyNameForIndexPath:anIndexPath inForm:aFormName
+	return ((id (*)(id, SEL))objc_msgSend)(self, NSSelectorFromString([self ifa_propertyNameForIndexPath:anIndexPath inForm:aFormName
                                                                            createMode:aCreateMode]));
 }
 
@@ -107,19 +107,19 @@
 - (NSString*)ifa_displayValue {
 	SEL selector = NSSelectorFromString(@"name");
 	if ([self respondsToSelector:selector]) {
-		return objc_msgSend(self, selector);
+		return ((id (*)(id, SEL))objc_msgSend)(self, selector);
 	}else{
         selector = NSSelectorFromString(@"title");
         if ([self respondsToSelector:selector]) {
-            return objc_msgSend(self, selector);
+            return ((id (*)(id, SEL))objc_msgSend)(self, selector);
         }else{
             selector = NSSelectorFromString(@"p_name");
             if ([self respondsToSelector:selector]) {
-                return objc_msgSend(self, selector);
+                return ((id (*)(id, SEL))objc_msgSend)(self, selector);
             }else{
                 NSSelectorFromString(@"p_title");
                 if ([self respondsToSelector:selector]) {
-                    return objc_msgSend(self, selector);
+                    return ((id (*)(id, SEL))objc_msgSend)(self, selector);
                 }else{
                     NSAssert(NO, @"Object does not respond to any of the expected selectors");
                     return @"***UNKNOWN***";

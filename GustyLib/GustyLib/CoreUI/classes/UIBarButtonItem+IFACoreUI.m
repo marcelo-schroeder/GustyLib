@@ -42,7 +42,7 @@ static char c_typeKey;
 }
 
 -(void)IFA_onButtonAction {
-    objc_msgSend(self.target, self.action, self);
+    ((void (*)(id, SEL, id))objc_msgSend)(self.target, self.action, self);
 }
 
 #pragma mark - Public
