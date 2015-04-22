@@ -39,7 +39,6 @@
 // IFA_SVWebViewController
 #import "IFA_SVWebViewController.h"
 // ODRefreshControl
-//wip: review this
 #import <ODRefreshControl/ODRefreshControl.h>
 // GrowingTextView
 #import "IFA_HPGrowingTextView.h"

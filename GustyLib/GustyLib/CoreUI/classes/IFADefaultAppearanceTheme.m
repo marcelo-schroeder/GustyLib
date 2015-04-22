@@ -951,7 +951,7 @@ IFA_tableViewCellSelectedBackgroundStyleForIndexPath:(NSIndexPath *)a_indexPath
             break;
     }
     a_cell.customAccessoryButton.hidden = !l_shouldUseButton;
-    UIImage *l_image = l_imageName ? [self.class ifa_classBundleImageNamed:l_imageName] : nil;
+    UIImage *l_image = l_imageName ? [[IFAUIUtils class] ifa_classBundleImageNamed:l_imageName] : nil;
 //    if (l_image && l_shouldTintImage) {
 //        UIColor *l_overlayColor = self.IFA_defaultTintColor;
 //        l_image = [l_image ifa_imageWithOverlayColor:l_overlayColor];

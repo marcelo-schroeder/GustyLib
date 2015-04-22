@@ -24,6 +24,5 @@
 // GustyLib
 #import "GustyLibCoreUI.h"
 
-#import "IFAHtmlDocument.h"
 #import "IFAHtmlParser.h"
 #import "IFAWebViewController.h"

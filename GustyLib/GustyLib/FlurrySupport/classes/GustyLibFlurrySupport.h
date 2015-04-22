@@ -19,7 +19,7 @@
 //
 
 // 3rd Party
-#import "Flurry.h"
+#import <FlurrySDK/Flurry.h>
 
 // GustyLib
 #import "GustyLibCoreUI.h"

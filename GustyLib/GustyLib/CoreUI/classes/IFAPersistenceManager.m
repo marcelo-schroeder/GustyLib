@@ -1077,7 +1077,7 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     }
 
     // Configure managedObjectModel
-    NSString *path = [[NSBundle bundleForClass:[self class]]
+    NSString *path = [[NSBundle mainBundle]
             pathForResource:a_managedObjectModelResourceName ofType:@"momd"];
     NSURL *momURL = [NSURL fileURLWithPath:path];
     self.managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];

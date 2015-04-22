@@ -43,6 +43,5 @@ Pod::Spec.new do |s|
         ss.resource      = 'GustyLib/GustyLib/Help/resources/**/*.*'
         ss.xcconfig      = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'IFA_AVAILABLE_Help=1' }
         ss.dependency 'GustyLib/CoreUI'
-        ss.dependency 'GustyLib/Html'
     end
 end
