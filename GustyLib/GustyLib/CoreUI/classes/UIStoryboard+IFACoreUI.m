@@ -15,7 +15,7 @@
 //  limitations under the License.
 //
 
-#import "UIStoryboard+IFACoreUI.h"
+#import "GustyLibCoreUI.h"
 
 
 @implementation UIStoryboard (IFACoreUI)
@@ -24,7 +24,7 @@
 
 + (UIStoryboard *)ifa_storyboardNamed:(NSString *)a_storyboardName {
     return [UIStoryboard storyboardWithName:a_storyboardName
-                                     bundle:nil];
+                                     bundle:[self ifa_classBundle]];
 }
 
 + (id)ifa_instantiateInitialViewControllerFromStoryboardNamed:(NSString *)a_storyboardName{

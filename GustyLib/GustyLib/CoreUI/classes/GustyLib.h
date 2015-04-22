@@ -18,6 +18,9 @@
 //  limitations under the License.
 //
 
+//wip: manage framework versioning
+//wip: am I going to need to my own umbrella headers since Cocoapods is generating one automatically??
+
 // Foundation
 #import "GustyLibFoundation.h"
 

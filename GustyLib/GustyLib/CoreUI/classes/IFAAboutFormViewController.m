@@ -76,7 +76,7 @@
         self.IFA_emailManager = [[IFAEmailManager alloc] initWithParentViewController:self];
         
         // Configure custom view
-        [[NSBundle mainBundle] loadNibNamed:@"IFAAboutCustomView" owner:self options:nil];
+        [[self.class ifa_classBundle] loadNibNamed:@"IFAAboutCustomView" owner:self options:nil];
         self.appNameLabel.text = [IFAUtils appName];
         self.copyrightNoticeLabel.text = [IFAUtils infoPList][@"IFACopyrightNotice"];
         

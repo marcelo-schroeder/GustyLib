@@ -49,4 +49,11 @@
 
 + (NSString*)ifa_displayValueForNil;
 
+/**
+* Convenience method to return an image from the receiver's class bundle.
+* @param a_imageName Name of the image to be returned.
+* @returns Image from the receiver's class bundle.
+*/
++ (UIImage *)ifa_classBundleImageNamed:(NSString *)a_imageName;
+
 @end

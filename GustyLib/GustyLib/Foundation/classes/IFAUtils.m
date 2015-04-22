@@ -27,14 +27,14 @@
 #pragma mark - Private
 
 +(NSString*)IFA_pListPathForName:(NSString *)a_name bundle:(NSBundle*)a_bundle{
-    NSBundle *l_bundle = a_bundle ? a_bundle : [NSBundle mainBundle];
+    NSBundle *l_bundle = a_bundle ? a_bundle : [self ifa_classBundle];
     return [l_bundle pathForResource:a_name ofType:@"plist"];
 }
 
 #pragma mark - Public
 
 + (NSArray*) getPlistAsArray:(NSString *)pListName{
-	return [self getPlistAsArray:pListName bundle:nil];
+	return [self getPlistAsArray:pListName bundle:[self ifa_classBundle]];
 }
 
 + (NSArray*) getPlistAsArray:(NSString *)pListName bundle:(NSBundle*)a_bundle{
@@ -43,7 +43,7 @@
 }
 
 + (NSDictionary*) getPlistAsDictionary:(NSString *)pListName{
-    return [self getPlistAsDictionary:pListName bundle:nil];
+    return [self getPlistAsDictionary:pListName bundle:[self ifa_classBundle]];
 }
 
 + (NSDictionary*) getPlistAsDictionary:(NSString *)pListName bundle:(NSBundle*)a_bundle{
@@ -82,7 +82,7 @@
 }
 
 +(NSDictionary*)infoPList{
-    return [self infoPListForBundle:nil];
+    return [self infoPListForBundle:[self ifa_classBundle]];
 }
 
 +(NSDictionary*)infoPListForBundle:(NSBundle*)a_bundle{
@@ -137,7 +137,7 @@
 }
 
 +(NSString*)stringFromResource:(NSString *)a_resourceName type:(NSString*)a_resourceType{
-    NSString *l_filePath = [[NSBundle mainBundle] pathForResource:a_resourceName ofType:a_resourceType];
+    NSString *l_filePath = [[self ifa_classBundle] pathForResource:a_resourceName ofType:a_resourceType];
     NSString *l_string = nil;
     if (l_filePath) {  
         l_string = [NSString stringWithContentsOfFile:l_filePath encoding:NSASCIIStringEncoding error:NULL];
@@ -188,7 +188,7 @@
 
 +(BOOL)isProductionAps {
 
-	NSString * provisioning = [[NSBundle mainBundle] pathForResource:@"embedded.mobileprovision" ofType:nil];
+	NSString * provisioning = [[self ifa_classBundle] pathForResource:@"embedded.mobileprovision" ofType:nil];
 	if(!provisioning)
 		return YES;	//AppStore
     

@@ -129,7 +129,7 @@
     self.hudView.progressView.hidden = visualIndicatorMode !=IFAHudViewVisualIndicatorModeProgressDeterminate;
     if (visualIndicatorMode == IFAHudViewVisualIndicatorModeSuccess || visualIndicatorMode == IFAHudViewVisualIndicatorModeError) {
         NSString *imageName = visualIndicatorMode == IFAHudViewVisualIndicatorModeSuccess ? @"IFA_Icon_HudSuccess" : @"IFA_Icon_HudError";
-        UIImage *image = [[UIImage imageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIImage *image = [[self.class ifa_classBundleImageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
         self.hudView.customView = imageView;
     }

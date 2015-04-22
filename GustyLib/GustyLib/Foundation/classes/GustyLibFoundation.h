@@ -37,3 +37,4 @@
 #import "NSFileManager+IFAFoundation.h"
 #import "NSNumberFormatter+IFAFoundation.h"
 #import "NSString+IFAFoundation.h"
+#import "NSObject+IFAFoundation.h"

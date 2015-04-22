@@ -42,7 +42,7 @@
         self.propertyName = a_propertyName;
         self.indexPath = a_indexPath;
         self.formViewController = a_formViewController;
-        [[NSBundle mainBundle] loadNibNamed:@"IFAFormTableViewCellContentView" owner:self options:nil];
+        [[self.class ifa_classBundle] loadNibNamed:@"IFAFormTableViewCellContentView" owner:self options:nil];
         self.IFA_originalLeftAndRightLabelsSpacingConstraintConstant = self.leftAndRightLabelsSpacingConstraint.constant;
         self.centeredLabel.hidden = YES;
         [self.contentView addSubview:self.customContentView];
