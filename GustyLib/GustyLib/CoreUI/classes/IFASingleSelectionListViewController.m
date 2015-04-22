@@ -51,7 +51,7 @@
 
 - (IFASingleSelectionListViewControllerHeaderView *)customHeaderView {
     if (!_customHeaderView) {
-        [[self.class ifa_classBundle] loadNibNamed:@"IFASingleSelectionListViewControllerHeaderView" owner:self options:nil];
+        [[NSBundle bundleForClass:[IFAUIUtils class]] loadNibNamed:@"IFASingleSelectionListViewControllerHeaderView" owner:self options:nil];
         NSString *text;
         if (self.disallowDeselection) {
             text = NSLocalizedStringFromTable(@"Tap any entry below to select it", @"GustyLibLocalizable", nil);

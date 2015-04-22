@@ -33,7 +33,7 @@
 }
 
 -(UIImage *)activityImage{
-    return [self.class ifa_classBundleImageNamed:@"internalWebBrowserActivity"];
+    return [[IFAUIUtils class] ifa_classBundleImageNamed:@"internalWebBrowserActivity"];
 }
 
 -(BOOL)canPerformWithActivityItems:(NSArray *)activityItems{

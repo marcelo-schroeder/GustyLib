@@ -79,8 +79,9 @@
 }
 
 - (void)IFA_configureContentView {
-    [[self.class ifa_classBundle] loadNibNamed:@"CommentSubmissionFormView" owner:self
-                                options:nil];
+    [[NSBundle bundleForClass:[IFAUIUtils class]] loadNibNamed:@"CommentSubmissionFormView"
+                                                         owner:self
+                                                       options:nil];
 /*
     {
         // DEV ONLY - START

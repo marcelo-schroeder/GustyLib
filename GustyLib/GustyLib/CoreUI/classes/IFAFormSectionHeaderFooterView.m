@@ -27,7 +27,7 @@
 - (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithReuseIdentifier:reuseIdentifier];
     if (self) {
-        [[self.class ifa_classBundle] loadNibNamed:@"IFAFormSectionFooterContentView" owner:self options:nil];
+        [[NSBundle bundleForClass:[IFAUIUtils class]] loadNibNamed:@"IFAFormSectionFooterContentView" owner:self options:nil];
         [self.ifa_appearanceTheme setAppearanceForView:self];
         self.customContentView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.contentView addSubview:self.customContentView];
