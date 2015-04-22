@@ -157,8 +157,11 @@
 *
 * @param a_databaseResourceName Name of the SQLite database file for a SQLite store, without the ".sqlite" file suffix. If nil, an in-memory store will be created instead.
 * @param a_managedObjectModelResourceName Name of Core Data data model resource, without the ".momd" suffix.
+* @param a_managedObjectModelResourceBundle Bundle for the data model resource. If nil, main bundle will be used.
 */
-- (void)configureWithDatabaseResourceName:(NSString*)a_databaseResourceName managedObjectModelResourceName:(NSString*)a_managedObjectModelResourceName;
+- (void)configureWithDatabaseResourceName:(NSString *)a_databaseResourceName
+           managedObjectModelResourceName:(NSString *)a_managedObjectModelResourceName
+         managedObjectModelResourceBundle:(NSBundle *)a_managedObjectModelResourceBundle;
 
 - (void)manageDatabaseVersioningChangeWithBlock:(void (^)(NSUInteger a_oldSystemEntitiesVersion, NSUInteger a_newSystemEntitiesVersion))a_block;
 

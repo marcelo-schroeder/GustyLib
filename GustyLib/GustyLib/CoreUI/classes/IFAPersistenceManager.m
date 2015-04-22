@@ -1062,7 +1062,9 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     return l_objects;
 }
 
-- (void)configureWithDatabaseResourceName:(NSString*)a_databaseResourceName managedObjectModelResourceName:(NSString*)a_managedObjectModelResourceName{
+- (void)configureWithDatabaseResourceName:(NSString *)a_databaseResourceName
+           managedObjectModelResourceName:(NSString *)a_managedObjectModelResourceName
+         managedObjectModelResourceBundle:(NSBundle *)a_managedObjectModelResourceBundle {
 
     // SQLite or InMemory store type?
     NSURL *storeUrl;
@@ -1077,7 +1079,8 @@ static NSString *METADATA_KEY_SYSTEM_DB_TABLES_VERSION = @"systemDbTablesVersion
     }
 
     // Configure managedObjectModel
-    NSString *path = [[NSBundle mainBundle]
+    NSBundle *bundle = a_managedObjectModelResourceBundle?:[NSBundle mainBundle];
+    NSString *path = [bundle
             pathForResource:a_managedObjectModelResourceName ofType:@"momd"];
     NSURL *momURL = [NSURL fileURLWithPath:path];
     self.managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];
