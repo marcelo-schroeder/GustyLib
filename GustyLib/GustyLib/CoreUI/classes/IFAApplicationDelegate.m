@@ -104,7 +104,7 @@
 }
 
 -(UIStoryboard*)storyboard {
-    return [UIStoryboard storyboardWithName:[self storyboardName] bundle:[self.class ifa_classBundle]];
+    return [UIStoryboard storyboardWithName:[self storyboardName] bundle:nil];
 }
 
 -(UIViewController*)initialViewController {

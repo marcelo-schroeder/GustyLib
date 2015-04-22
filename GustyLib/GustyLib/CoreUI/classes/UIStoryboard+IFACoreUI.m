@@ -24,7 +24,7 @@
 
 + (UIStoryboard *)ifa_storyboardNamed:(NSString *)a_storyboardName {
     return [UIStoryboard storyboardWithName:a_storyboardName
-                                     bundle:[self ifa_classBundle]];
+                                     bundle:nil];
 }
 
 + (id)ifa_instantiateInitialViewControllerFromStoryboardNamed:(NSString *)a_storyboardName{

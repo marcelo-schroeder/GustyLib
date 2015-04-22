@@ -165,7 +165,7 @@
     if ([a_themeName isEqualToString:@""]) {
         return nil;
     }else{
-        NSString *l_bundlePath = [[self ifa_classBundle] pathForResource:a_themeName ofType:@"bundle"];
+        NSString *l_bundlePath = [[NSBundle mainBundle] pathForResource:a_themeName ofType:@"bundle"];
         NSBundle *l_bundle = [NSBundle bundleWithPath:l_bundlePath];
         //    NSLog(@"l_bundle: %@", [l_bundle description]);
         return l_bundle;
