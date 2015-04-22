@@ -15,7 +15,7 @@
 //  limitations under the License.
 //
 
-#import "IFAAbstractWebBrowserActivity.h"
+#import "GustyLibCoreUI.h"
 
 
 @interface IFAAbstractWebBrowserActivity ()
@@ -33,7 +33,7 @@
 }
 
 -(UIImage *)activityImage{
-    return [UIImage imageNamed:@"internalWebBrowserActivity"];
+    return [self.class ifa_classBundleImageNamed:@"internalWebBrowserActivity"];
 }
 
 -(BOOL)canPerformWithActivityItems:(NSArray *)activityItems{

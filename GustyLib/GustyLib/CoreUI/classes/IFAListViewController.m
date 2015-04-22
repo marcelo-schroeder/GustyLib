@@ -557,7 +557,7 @@
         _noDataPlaceholderAddHintImageView = [UIImageView new];
 //        _noDataPlaceholderAddHintImageView.backgroundColor = [UIColor blueColor];
         _noDataPlaceholderAddHintImageView.translatesAutoresizingMaskIntoConstraints = NO;
-        _noDataPlaceholderAddHintImageView.image = [UIImage imageNamed:@"IFA_Icon_Add"];
+        _noDataPlaceholderAddHintImageView.image = [self.class ifa_classBundleImageNamed:@"IFA_Icon_Add"];
     }
     return _noDataPlaceholderAddHintImageView;
 }

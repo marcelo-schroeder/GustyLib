@@ -374,7 +374,7 @@
 #pragma mark - Private
 
 + (UIImage *)IFA_separatorImageNamed:(NSString *)a_imageName {
-    return [[UIImage imageNamed:a_imageName] ifa_imageWithOverlayColor:[UITableViewCell ifa_defaultSeparatorColor]];
+    return [[self.class ifa_classBundleImageNamed:a_imageName] ifa_imageWithOverlayColor:[UITableViewCell ifa_defaultSeparatorColor]];
 }
 
 - (UIImage *)IFA_applyLightBlurEffectWithRadius:(CGFloat)a_radius {

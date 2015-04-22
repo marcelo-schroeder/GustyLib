@@ -228,7 +228,7 @@ static UIImage *c_menuBarButtonItemImage = nil;
 //			barButtonItem.accessibilityLabel = @"Done Button";
 			break;
 		case IFABarButtonItemTypeDelete:
-			barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IFA_Icon_Delete.png"]
+			barButtonItem = [[UIBarButtonItem alloc] initWithImage:[self ifa_classBundleImageNamed:@"IFA_Icon_Delete.png"]
                                                              style:UIBarButtonItemStylePlain target:a_target
                                                             action:a_action];
 //			barButtonItem.accessibilityLabel = @"Delete Button";
@@ -268,13 +268,13 @@ static UIImage *c_menuBarButtonItemImage = nil;
 			break;
 		}
 		case IFABarButtonItemTypePreviousPage:
-			barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IFA_Icon_Previous"]
+			barButtonItem = [[UIBarButtonItem alloc] initWithImage:[self ifa_classBundleImageNamed:@"IFA_Icon_Previous"]
                                                              style:UIBarButtonItemStylePlain target:a_target
                                                             action:a_action];
 //			barButtonItem.accessibilityLabel = @"Previous Page Button";
 			break;
 		case IFABarButtonItemTypeNextPage:
-			barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IFA_Icon_Next"]
+			barButtonItem = [[UIBarButtonItem alloc] initWithImage:[self ifa_classBundleImageNamed:@"IFA_Icon_Next"]
                                                              style:UIBarButtonItemStylePlain target:a_target
                                                             action:a_action];
 //			barButtonItem.accessibilityLabel = @"Next Page Button";
@@ -310,17 +310,17 @@ static UIImage *c_menuBarButtonItemImage = nil;
 //			barButtonItem.accessibilityLabel = @"Back Button";
 			break;
         case IFABarButtonItemTypeInfo:
-            barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IFA_Icon_Info"]
+            barButtonItem = [[UIBarButtonItem alloc] initWithImage:[self ifa_classBundleImageNamed:@"IFA_Icon_Info"]
                                                              style:UIBarButtonItemStylePlain target:a_target
                                                             action:a_action];
             break;
         case IFABarButtonItemTypeUserLocation:
-            barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IFA_Icon_UserLocation"]
+            barButtonItem = [[UIBarButtonItem alloc] initWithImage:[self ifa_classBundleImageNamed:@"IFA_Icon_UserLocation"]
                                                              style:UIBarButtonItemStylePlain target:a_target
                                                             action:a_action];
             break;
         case IFABarButtonItemTypeList:
-            barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IFA_Icon_List"]
+            barButtonItem = [[UIBarButtonItem alloc] initWithImage:[self ifa_classBundleImageNamed:@"IFA_Icon_List"]
                                                              style:UIBarButtonItemStylePlain target:a_target
                                                             action:a_action];
             break;
@@ -508,7 +508,7 @@ static UIImage *c_menuBarButtonItemImage = nil;
 
 +(UIImage*)menuBarButtonItemImage {
     if (!c_menuBarButtonItemImage) {
-        return [UIImage imageNamed:[self menuBarButtonItemImageName]];
+        return [self.class ifa_classBundleImageNamed:[self menuBarButtonItemImageName]];
     }
     return c_menuBarButtonItemImage;
 }
