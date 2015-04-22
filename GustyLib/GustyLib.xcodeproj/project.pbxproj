@@ -228,7 +228,7 @@
 		F7FF00E81AB8F81E00A0886D /* TestCoreDataEntity3.m in Sources */ = {isa = PBXBuildFile; fileRef = F7FF00E71AB8F81E00A0886D /* TestCoreDataEntity3.m */; };
 		F7FF00EB1AB8F81E00A0886D /* TestCoreDataEntity2.m in Sources */ = {isa = PBXBuildFile; fileRef = F7FF00EA1AB8F81E00A0886D /* TestCoreDataEntity2.m */; };
 		F7FF00ED1ABB68E900A0886D /* IFACurrentLocationManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F7FF00EC1ABB68E900A0886D /* IFACurrentLocationManagerTests.m */; };
-		F7FF4AEF1AE76F9800D33ACE /* IFAHtmlDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F7FF4AEE1AE76F9800D33ACE /* IFAHtmlDocument.m */; };
+		F7FF4AF21AE787B700D33ACE /* IFAHtmlDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F7FF4AF11AE787B700D33ACE /* IFAHtmlDocument.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -675,7 +675,6 @@
 		F72150EE19BD2DD700AE2C33 /* IFAMapSettingsViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = IFAMapSettingsViewController.storyboard; sourceTree = "<group>"; };
 		F72E8FA3194E446C00CFB3B1 /* IFAHtmlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAHtmlParser.h; sourceTree = "<group>"; };
 		F72E8FA4194E446C00CFB3B1 /* IFAHtmlParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAHtmlParser.m; sourceTree = "<group>"; };
-		F72E8FA6194E446C00CFB3B1 /* IFAHtmlTemplate.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = IFAHtmlTemplate.txt; sourceTree = "<group>"; };
 		F72E8FAB194E447A00CFB3B1 /* IFAHtmlParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAHtmlParserTests.m; sourceTree = "<group>"; };
 		F72E8FAD194E447A00CFB3B1 /* HtmlParser_testdata1.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = HtmlParser_testdata1.html; sourceTree = "<group>"; };
 		F72E8FAE194E447A00CFB3B1 /* HtmlParser_testdata2.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = HtmlParser_testdata2.html; sourceTree = "<group>"; };
@@ -731,8 +730,9 @@
 		F7FF00E91AB8F81E00A0886D /* TestCoreDataEntity2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestCoreDataEntity2.h; sourceTree = "<group>"; };
 		F7FF00EA1AB8F81E00A0886D /* TestCoreDataEntity2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestCoreDataEntity2.m; sourceTree = "<group>"; };
 		F7FF00EC1ABB68E900A0886D /* IFACurrentLocationManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFACurrentLocationManagerTests.m; sourceTree = "<group>"; };
-		F7FF4AED1AE76F9800D33ACE /* IFAHtmlDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAHtmlDocument.h; sourceTree = "<group>"; };
-		F7FF4AEE1AE76F9800D33ACE /* IFAHtmlDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAHtmlDocument.m; sourceTree = "<group>"; };
+		F7FF4AF01AE787B700D33ACE /* IFAHtmlDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAHtmlDocument.h; sourceTree = "<group>"; };
+		F7FF4AF11AE787B700D33ACE /* IFAHtmlDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAHtmlDocument.m; sourceTree = "<group>"; };
+		F7FF4AF31AE7883600D33ACE /* IFAHtmlTemplate.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = IFAHtmlTemplate.txt; sourceTree = "<group>"; };
 		FF387BE31CA84C679F50890D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -803,6 +803,8 @@
 			isa = PBXGroup;
 			children = (
 				10738588DCC2724325274180 /* 3rd party */,
+				F7FF4AF01AE787B700D33ACE /* IFAHtmlDocument.h */,
+				F7FF4AF11AE787B700D33ACE /* IFAHtmlDocument.m */,
 				F76A08391A89BA3000B66605 /* IFALazyTableDataLoadingViewController.h */,
 				F76A083A1A89BA3000B66605 /* IFALazyTableDataLoadingViewController.m */,
 				107383726939C74A325E8D3A /* GustyLib.h */,
@@ -1229,6 +1231,7 @@
 		107387D3DE249EFAD8310F53 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				F7FF4AF41AE7883E00D33ACE /* templates */,
 				F72150EF19BD2DE100AE2C33 /* storyboards */,
 				F72150D919AE7BD100AE2C33 /* xibs */,
 				1073870820544C0D59EC4B47 /* IFAEntityConfig.plist */,
@@ -1286,8 +1289,6 @@
 		10738B7E385AD671B4C83DA4 /* classes */ = {
 			isa = PBXGroup;
 			children = (
-				F7FF4AED1AE76F9800D33ACE /* IFAHtmlDocument.h */,
-				F7FF4AEE1AE76F9800D33ACE /* IFAHtmlDocument.m */,
 				F7944FF51A68F8FD00E059A3 /* GustyLibFoundation.h */,
 				10738496691D8D5E5FDD5AA1 /* IFAFoundationConstants.m */,
 				107381E29678DCD65749992D /* IFAFoundationConstants.h */,
@@ -1400,7 +1401,6 @@
 			isa = PBXGroup;
 			children = (
 				F72E8FA0194E446C00CFB3B1 /* classes */,
-				F72E8FA5194E446C00CFB3B1 /* resources */,
 			);
 			path = Html;
 			sourceTree = "<group>";
@@ -1415,14 +1415,6 @@
 				10738AEAEB515C41A96B3FA2 /* GustyLibHtml.h */,
 			);
 			path = classes;
-			sourceTree = "<group>";
-		};
-		F72E8FA5194E446C00CFB3B1 /* resources */ = {
-			isa = PBXGroup;
-			children = (
-				F72E8FA6194E446C00CFB3B1 /* IFAHtmlTemplate.txt */,
-			);
-			path = resources;
 			sourceTree = "<group>";
 		};
 		F72E8FA9194E447A00CFB3B1 /* Html */ = {
@@ -1576,6 +1568,14 @@
 				F7FF00CE1AB8F2DF00A0886D /* GustyLibCoreUITestsModel.xcdatamodeld */,
 			);
 			path = resources;
+			sourceTree = "<group>";
+		};
+		F7FF4AF41AE7883E00D33ACE /* templates */ = {
+			isa = PBXGroup;
+			children = (
+				F7FF4AF31AE7883600D33ACE /* IFAHtmlTemplate.txt */,
+			);
+			name = templates;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1771,7 +1771,7 @@
 				107382071EA8E8A609DFF7A9 /* IFANavigationItemTitleView.m in Sources */,
 				10738D5569CFC6EA8042CBC9 /* IFANavigationListViewController.m in Sources */,
 				10738767D1356687678E98B8 /* IFAOperation.m in Sources */,
-				F7FF4AEF1AE76F9800D33ACE /* IFAHtmlDocument.m in Sources */,
+				F7FF4AF21AE787B700D33ACE /* IFAHtmlDocument.m in Sources */,
 				10738BCD7A519C1CCF47645F /* IFAPageViewController.m in Sources */,
 				107389DCFCA0D84560B2292E /* IFAPagingStateManager.m in Sources */,
 				10738DEC22B97F58E9719973 /* IFAPassthroughView.m in Sources */,

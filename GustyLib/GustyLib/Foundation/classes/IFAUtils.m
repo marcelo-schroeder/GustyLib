@@ -136,8 +136,18 @@
     NSAssert(NO, @"Forced crash!");
 }
 
-+(NSString*)stringFromResource:(NSString *)a_resourceName type:(NSString*)a_resourceType{
-    NSString *l_filePath = [[NSBundle mainBundle] pathForResource:a_resourceName ofType:a_resourceType];
++ (NSString *)stringFromResource:(NSString *)a_resourceName
+                            type:(NSString *)a_resourceType {
+    return [self stringFromResource:a_resourceName
+                               type:a_resourceType
+                           inBundle:nil];
+}
+
++ (NSString *)stringFromResource:(NSString *)a_resourceName
+                            type:(NSString *)a_resourceType
+                        inBundle:(NSBundle *)a_bundle {
+    NSBundle *bundle = a_bundle?:[NSBundle mainBundle];
+    NSString *l_filePath = [bundle pathForResource:a_resourceName ofType:a_resourceType];
     NSString *l_string = nil;
     if (l_filePath) {  
         l_string = [NSString stringWithContentsOfFile:l_filePath encoding:NSASCIIStringEncoding error:NULL];

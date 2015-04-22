@@ -22,8 +22,10 @@
 
 @interface IFAHtmlDocument : NSObject
 
-@property (nonatomic, strong) NSString *htmlTemplateStringResourceName;
-@property (nonatomic, strong) NSString *htmlStyleStringResourceName;
+@property (nonatomic, strong, readonly) NSString *htmlTemplateStringResourceName;
+@property (nonatomic, strong, readonly) NSBundle *htmlTemplateStringResourceBundle;
+@property (nonatomic, strong, readonly) NSString *htmlStyleStringResourceName;
+@property (nonatomic, strong, readonly) NSBundle *htmlStyleStringResourceBundle;
 
 @property (nonatomic, strong) NSString *htmlTemplateString;
 @property (nonatomic, strong) NSString *htmlMetaString;
@@ -33,9 +35,19 @@
 
 @property (nonatomic, strong) NSArray *htmlStyleStringFormatArguments;
 
--(id)initWithHtmlStyleResourceName:(NSString*)a_htmlStyleResourceName;
--(id)initWithHtmlTemplateResourceName:(NSString*)a_htmlTemplateResourceName htmlStyleResourceName:(NSString*)a_htmlStyleResourceName;
--(id)initWithHtmlTemplateResourceName:(NSString*)a_htmlTemplateResourceName htmlStyleResourceName:(NSString*)a_htmlStyleResourceName htmlBody:(NSString*)a_htmlBody;
+- (id)initWithHtmlStyleResourceName:(NSString *)a_htmlStyleResourceName
+            htmlStyleResourceBundle:(NSBundle *)a_htmlStyleResourceBundle;
+
+- (id)initWithHtmlTemplateResourceName:(NSString *)a_htmlTemplateResourceName
+            htmlTemplateResourceBundle:(NSBundle *)a_htmlTemplateResourceBundle
+                 htmlStyleResourceName:(NSString *)a_htmlStyleResourceName
+               htmlStyleResourceBundle:(NSBundle *)a_htmlStyleResourceBundle;
+
+- (id)initWithHtmlTemplateResourceName:(NSString *)a_htmlTemplateResourceName
+            htmlTemplateResourceBundle:(NSBundle *)a_htmlTemplateResourceBundle
+                 htmlStyleResourceName:(NSString *)a_htmlStyleResourceName
+               htmlStyleResourceBundle:(NSBundle *)a_htmlStyleResourceBundle
+                              htmlBody:(NSString *)a_htmlBody NS_DESIGNATED_INITIALIZER;
 
 + (NSArray *)classNamesFromClassAttributeValue:(NSString *)a_classAttributeValue;
 

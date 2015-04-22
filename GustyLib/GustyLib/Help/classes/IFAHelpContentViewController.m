@@ -105,10 +105,13 @@
 - (IFAHtmlDocument *)IFA_htmlDocument {
     if (!_IFA_htmlDocument) {
         NSString *l_htmlStyleResourceName = [[IFAUtils infoPList] valueForKey:@"IFAHelpViewControllerWebViewCss"];
+        NSBundle *styleResourceBundle = nil;
         if (!l_htmlStyleResourceName) {
             l_htmlStyleResourceName = @"IFAHelpViewControllerWebView.css";
+            styleResourceBundle = [NSBundle bundleForClass:[IFAUIUtils class]];
         }
-        _IFA_htmlDocument = [[IFAHtmlDocument alloc] initWithHtmlStyleResourceName:l_htmlStyleResourceName];
+        _IFA_htmlDocument = [[IFAHtmlDocument alloc] initWithHtmlStyleResourceName:l_htmlStyleResourceName
+                                                           htmlStyleResourceBundle:styleResourceBundle];
         _IFA_htmlDocument.htmlMetaString = @"";
         UIFont *bodyFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
         UIFont *SubHeadlineFont = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];

@@ -182,3 +182,4 @@
 #import "IFALazyTableDataLoadingViewController.h"
 #import "IFAPersistenceChangeDetector.h"
 #import "IFAUserNotificationSettingsManager.h"
+#import "IFAHtmlDocument.h"

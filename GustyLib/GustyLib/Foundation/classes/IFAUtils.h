@@ -42,7 +42,14 @@
 +(NSString*)appFullName;
 +(NSString*)generateUuid;
 +(void)forceCrash;
-+(NSString*)stringFromResource:(NSString *)a_resourceName type:(NSString*)a_resourceType;
+
++ (NSString *)stringFromResource:(NSString *)a_resourceName
+                            type:(NSString *)a_resourceType;
+
++ (NSString *)stringFromResource:(NSString *)a_resourceName
+                            type:(NSString *)a_resourceType
+                        inBundle:(NSBundle *)a_bundle;
+
 +(NSArray*)toArrayIfRequiredFromObject:(id)a_object;
 +(BOOL)deviceSupportsVibration;
 +(BOOL)nilOrEmptyForString:(NSString*)a_string;
